@@ -5,7 +5,7 @@
  * @package plugins.dropFolder
  * @subpackage api.objects
  */
-class KalturaDropFolderFileResource extends KalturaDataCenterContentResource 
+class BorhanDropFolderFileResource extends BorhanDataCenterContentResource 
 {
 	/**
 	 * Id of the drop folder file object
@@ -30,11 +30,11 @@ class KalturaDropFolderFileResource extends KalturaDataCenterContentResource
 	{
 		$dropFolderFile = DropFolderFilePeer::retrieveByPK($this->dropFolderFileId);
 		if(!$dropFolderFile)
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $this->dropFolderFileId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $this->dropFolderFileId);
 		
 		$dropFolder = DropFolderPeer::retrieveByPK($dropFolderFile->getDropFolderId());
 		if(!$dropFolder)
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $dropFolderFile->getDropFolderId());
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $dropFolderFile->getDropFolderId());
 			
 		return $dropFolder->getDc();
 	}
@@ -46,11 +46,11 @@ class KalturaDropFolderFileResource extends KalturaDataCenterContentResource
     	
     	$dropFolderFile = DropFolderFilePeer::retrieveByPK($this->dropFolderFileId);
     	if(!$dropFolderFile)
-    		throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $this->dropFolderFileId);
+    		throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $this->dropFolderFileId);
     		
     	$dropFolder = DropFolderPeer::retrieveByPK($dropFolderFile->getDropFolderId());
     	if(!$dropFolder)
-    		throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $dropFolderFile->getDropFolderId());
+    		throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $dropFolderFile->getDropFolderId());
     	
     	if ($dropFolder->getType() == DropFolderType::LOCAL)
 		{
@@ -62,7 +62,7 @@ class KalturaDropFolderFileResource extends KalturaDataCenterContentResource
         		$dropFolderFile->setErrorDescription(DropFolderPlugin::ERROR_READING_FILE_MESSAGE.$filePath);
         		$dropFolderFile->save();
         		
-        		throw new KalturaAPIException(KalturaErrors::FILE_DOESNT_EXIST, $filePath);
+        		throw new BorhanAPIException(BorhanErrors::FILE_DOESNT_EXIST, $filePath);
         	}
 		}
 	}
@@ -76,12 +76,12 @@ class KalturaDropFolderFileResource extends KalturaDataCenterContentResource
 
 		$dropFolderFile = DropFolderFilePeer::retrieveByPK($this->dropFolderFileId);
 		if(!$dropFolderFile) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $this->dropFolderFileId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $this->dropFolderFileId);
 		}
 			
 		$dropFolder = DropFolderPeer::retrieveByPK($dropFolderFile->getDropFolderId());
 		if(!$dropFolder) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $dropFolderFile->getDropFolderId());
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $dropFolderFile->getDropFolderId());
 		}
 		
 		$object_to_fill->setDropFolderFileId($dropFolderFile->getId());
@@ -114,13 +114,13 @@ class KalturaDropFolderFileResource extends KalturaDataCenterContentResource
 		$dropFolderFile = DropFolderFilePeer::retrieveByPK($this->dropFolderFileId);
 	
 		if (is_null($dropFolderFile))
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $this->dropFolderFileId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $this->dropFolderFileId);
 		
 		if ($dropFolderFile->getStatus() != DropFolderFileStatus::DOWNLOADING)
 		{
 			$dropFolder = DropFolderPeer::retrieveByPK($dropFolderFile->getDropFolderId());
 			if(!$dropFolder) {
-				throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $dropFolderFile->getDropFolderId());
+				throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $dropFolderFile->getDropFolderId());
 			}
 			if($dropFolder->getFileDeletePolicy() == DropFolderFileDeletePolicy::AUTO_DELETE && $dropFolder->getAutoFileDeleteDays() == 0)
     			$dropFolderFile->setStatus(DropFolderFileStatus::PURGED);

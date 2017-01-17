@@ -46,13 +46,13 @@ class IdeticDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineSubmit::submit()
 	 */
-	public function submit(KalturaDistributionSubmitJobData $data)
+	public function submit(BorhanDistributionSubmitJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaIdeticDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaIdeticDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanIdeticDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanIdeticDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaIdeticDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaIdeticDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanIdeticDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanIdeticDistributionJobProviderData");
 		
 		$data->remoteId = $this->handleSend($data);
 		
@@ -61,12 +61,12 @@ class IdeticDistributionEngine extends DistributionEngine implements
 
 	/**
 	 * @param string $path
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaIdeticDistributionProfile $distributionProfile
-	 * @param KalturaIdeticDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanIdeticDistributionProfile $distributionProfile
+	 * @param BorhanIdeticDistributionJobProviderData $providerData
 	 * @throws Exception
 	 */
-	public function handleDelete(KalturaDistributionJobData $data, KalturaIdeticDistributionProfile $distributionProfile, KalturaIdeticDistributionJobProviderData $providerData)
+	public function handleDelete(BorhanDistributionJobData $data, BorhanIdeticDistributionProfile $distributionProfile, BorhanIdeticDistributionJobProviderData $providerData)
 	{
 		$domain = $distributionProfile->domain;
 		$username = $distributionProfile->username;
@@ -101,10 +101,10 @@ class IdeticDistributionEngine extends DistributionEngine implements
 	
 	/**
 	 * @param string $path
-	 * @param KalturaDistributionJobData $data
+	 * @param BorhanDistributionJobData $data
 	 * @throws Exception
 	 */
-	public function handleSend(KalturaDistributionJobData $data)
+	public function handleSend(BorhanDistributionJobData $data)
 	{
 		$distributionProfile = $data->distributionProfile;
 		$providerData = $data->providerData;
@@ -112,7 +112,7 @@ class IdeticDistributionEngine extends DistributionEngine implements
 		
 		$this->fieldValues = unserialize($providerData->fieldValues);
 		if (!$this->fieldValues) {
-			KalturaLog::err("fieldValues array is empty or null");
+			BorhanLog::err("fieldValues array is empty or null");
 			throw new Exception("fieldValues array is empty or null");		
 		}		
 		$domain = $distributionProfile->domain;
@@ -142,7 +142,7 @@ class IdeticDistributionEngine extends DistributionEngine implements
 		$destFile = "{$path}/{$fileName}";
 			
 		file_put_contents($srcFile, $feedHelper->getXmlString());
-		KalturaLog::info("XML written to file [$srcFile]");
+		BorhanLog::info("XML written to file [$srcFile]");
 		
 		$engineOptions = isset(KBatchBase::$taskConfig->engineOptions) ? KBatchBase::$taskConfig->engineOptions->toArray() : array();
 		$fileTransferMgr = kFileTransferMgr::getInstance(kFileTransferMgrType::FTP, $engineOptions);
@@ -162,21 +162,21 @@ class IdeticDistributionEngine extends DistributionEngine implements
 	 */
 	protected function insertToXml(IdeticDistributionFeedHelper $feedHelper)
 	{
-		$feedHelper->setTitle($this->getValueForField(KalturaIdeticDistributionField::SHORT_TITLE));
-		$feedHelper->setShortTitle($this->getValueForField(KalturaIdeticDistributionField::TITLE));
-		$feedHelper->setKeyword($this->getValueForField(KalturaIdeticDistributionField::KEYWORD));
-		$feedHelper->setSynopsis($this->getValueForField(KalturaIdeticDistributionField::SYNOPSIS));
-		$feedHelper->setGenre($this->getValueForField(KalturaIdeticDistributionField::GENRE));
-		$feedHelper->setSlot($this->getValueForField(KalturaIdeticDistributionField::SLOT));
-		$feedHelper->setFolder($this->getValueForField(KalturaIdeticDistributionField::FOLDER));
+		$feedHelper->setTitle($this->getValueForField(BorhanIdeticDistributionField::SHORT_TITLE));
+		$feedHelper->setShortTitle($this->getValueForField(BorhanIdeticDistributionField::TITLE));
+		$feedHelper->setKeyword($this->getValueForField(BorhanIdeticDistributionField::KEYWORD));
+		$feedHelper->setSynopsis($this->getValueForField(BorhanIdeticDistributionField::SYNOPSIS));
+		$feedHelper->setGenre($this->getValueForField(BorhanIdeticDistributionField::GENRE));
+		$feedHelper->setSlot($this->getValueForField(BorhanIdeticDistributionField::SLOT));
+		$feedHelper->setFolder($this->getValueForField(BorhanIdeticDistributionField::FOLDER));
 		
-		$startTime = $this->getValueForField(KalturaIdeticDistributionField::START_OF_AVAILABILITY);
+		$startTime = $this->getValueForField(BorhanIdeticDistributionField::START_OF_AVAILABILITY);
 		if (is_null($startTime)) {
 		    $startTime = time() - 24*60*60;  // yesterday, to make the video public by default
 		}
 		$feedHelper->setStartTime(date('c', intval($startTime)));
 		
-		$endTime = $this->getValueForField(KalturaIdeticDistributionField::END_OF_AVAILABILITY);
+		$endTime = $this->getValueForField(BorhanIdeticDistributionField::END_OF_AVAILABILITY);
 		if ($endTime && intval($endTime)) {
             $feedHelper->setEndTime(date('c', $endTime));
 		}
@@ -199,7 +199,7 @@ class IdeticDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseSubmit::closeSubmit()
 	 */
-	public function closeSubmit(KalturaDistributionSubmitJobData $data)
+	public function closeSubmit(BorhanDistributionSubmitJobData $data)
 	{
 		$publishState = $this->fetchStatus($data);
 		switch($publishState)
@@ -211,20 +211,20 @@ class IdeticDistributionEngine extends DistributionEngine implements
 				return false;
 				
 			default:
-				KalturaLog::err("Unknown publishState [$publishState]");
+				BorhanLog::err("Unknown publishState [$publishState]");
 				throw new Exception("IDETIC error: $publishState");
 				return false;
 		}
 	}
 
 	/**
-	 * @param KalturaDistributionSubmitJobData $data
+	 * @param BorhanDistributionSubmitJobData $data
 	 * @return string status
 	 */
-	public function fetchStatus(KalturaDistributionSubmitJobData $data)
+	public function fetchStatus(BorhanDistributionSubmitJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaIdeticDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaIdeticDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanIdeticDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanIdeticDistributionProfile");
 	
 		$fileArray = $this->fetchFilesList($data, $data->distributionProfile);
 		
@@ -245,17 +245,17 @@ class IdeticDistributionEngine extends DistributionEngine implements
 	}
 
 	/**
-	 * @param KalturaDistributionSubmitJobData $data
+	 * @param BorhanDistributionSubmitJobData $data
 	 * @throws Exception
 	 * @return DOMDocument
 	 */
-	public function fetchFilesList(KalturaDistributionSubmitJobData $data, KalturaIdeticDistributionProfile $distributionProfile)
+	public function fetchFilesList(BorhanDistributionSubmitJobData $data, BorhanIdeticDistributionProfile $distributionProfile)
 	{
 		$domain = $distributionProfile->domain;
 		$username = $distributionProfile->username;
 		$password = $distributionProfile->password;
 		
-		KalturaLog::info("Listing content for [$this->path]");
+		BorhanLog::info("Listing content for [$this->path]");
 		
 		$engineOptions = isset(KBatchBase::$taskConfig->engineOptions) ? KBatchBase::$taskConfig->engineOptions->toArray() : array();
 		$fileTransferMgr = kFileTransferMgr::getInstance(kFileTransferMgrType::FTP, $engineOptions);
@@ -269,13 +269,13 @@ class IdeticDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineDelete::delete()
 	 */
-	public function delete(KalturaDistributionDeleteJobData $data)
+	public function delete(BorhanDistributionDeleteJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaIdeticDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaIdeticDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanIdeticDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanIdeticDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaIdeticDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaIdeticDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanIdeticDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanIdeticDistributionJobProviderData");
 			
 		$this->handleDelete($data, $data->distributionProfile, $data->providerData);
 		
@@ -285,7 +285,7 @@ class IdeticDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseDelete::closeDelete()
 	 */
-	public function closeDelete(KalturaDistributionDeleteJobData $data)
+	public function closeDelete(BorhanDistributionDeleteJobData $data)
 	{
 		$publishState = $this->fetchStatus($data);
 		switch($publishState)
@@ -297,7 +297,7 @@ class IdeticDistributionEngine extends DistributionEngine implements
 				return false;
 				
 			default:
-				KalturaLog::err("Unknown publishState [$publishState]");
+				BorhanLog::err("Unknown publishState [$publishState]");
 				throw new Exception("IDETIC error: $publishState");
 				return false;
 		}
@@ -306,7 +306,7 @@ class IdeticDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseUpdate::closeUpdate()
 	 */
-	public function closeUpdate(KalturaDistributionUpdateJobData $data)
+	public function closeUpdate(BorhanDistributionUpdateJobData $data)
 	{
 		$publishState = $this->fetchStatus($data);
 		switch($publishState)
@@ -318,7 +318,7 @@ class IdeticDistributionEngine extends DistributionEngine implements
 				return false;
 				
 			default:
-				KalturaLog::err("Unknown publishState [$publishState]");
+				BorhanLog::err("Unknown publishState [$publishState]");
 				throw new Exception("IDETIC error: $publishState");
 				return false;
 		}
@@ -327,10 +327,10 @@ class IdeticDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineReport::fetchReport()
 	 */
-	public function fetchReport(KalturaDistributionFetchReportJobData $data)
+	public function fetchReport(BorhanDistributionFetchReportJobData $data)
 	{
-/*		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaIdeticDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaIdeticDistributionProfile");
+/*		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanIdeticDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanIdeticDistributionProfile");
 	
 		$xml = $this->fetchXML($data, $data->distributionProfile);
 			
@@ -384,7 +384,7 @@ class IdeticDistributionEngine extends DistributionEngine implements
 					break;
 					
 				default:
-					KalturaLog::err("Unknown counterType [{$typeAttr->value}]");
+					BorhanLog::err("Unknown counterType [{$typeAttr->value}]");
 					break;
 			}
 		}
@@ -395,13 +395,13 @@ class IdeticDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineUpdate::update()
 	 */
-	public function update(KalturaDistributionUpdateJobData $data)
+	public function update(BorhanDistributionUpdateJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaIdeticDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaIdeticDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanIdeticDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanIdeticDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaIdeticDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaIdeticDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanIdeticDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanIdeticDistributionJobProviderData");
 		
 		$this->handleSend($data);
 		
@@ -410,10 +410,10 @@ class IdeticDistributionEngine extends DistributionEngine implements
 	
 	/**
 	 * 
-	 * @param KalturaYouTubeDistributionProfile $distributionProfile
+	 * @param BorhanYouTubeDistributionProfile $distributionProfile
 	 * @return sftpMgr
 	 */
-	protected function getSFTPManager(KalturaYouTubeDistributionProfile $distributionProfile)
+	protected function getSFTPManager(BorhanYouTubeDistributionProfile $distributionProfile)
 	{
 		$serverUrl = $distributionProfile->sftpHost;
 		$loginName = $distributionProfile->sftpLogin;
@@ -450,24 +450,24 @@ class IdeticDistributionEngine extends DistributionEngine implements
 	}
 	
 /**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaYouTubeDistributionProfile $distributionProfile
-	 * @param KalturaYouTubeDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanYouTubeDistributionProfile $distributionProfile
+	 * @param BorhanYouTubeDistributionJobProviderData $providerData
 	 * @return Status XML or FALSE when status is not available yet
 	 */
-	protected function fetchStatusXml(KalturaDistributionJobData $data, KalturaYouTubeDistributionProfile $distributionProfile, KalturaYouTubeDistributionJobProviderData $providerData)
+	protected function fetchStatusXml(BorhanDistributionJobData $data, BorhanYouTubeDistributionProfile $distributionProfile, BorhanYouTubeDistributionJobProviderData $providerData)
 	{
 		$statusFilePath = $providerData->sftpDirectory . '/' . 'status-' . $providerData->sftpMetadataFilename;
 		$sftpManager = $this->getSFTPManager($distributionProfile);
 		$statusXml = null;
 		try 
 		{
-			KalturaLog::info('Trying to get the following status file: ['.$statusFilePath.']');
+			BorhanLog::info('Trying to get the following status file: ['.$statusFilePath.']');
 			$statusXml = $sftpManager->getFile($statusFilePath);
 		}
 		catch(kFileTransferMgrException $ex) // file is still missing
 		{
-			KalturaLog::info('File doesn\'t exist yet, retry later');
+			BorhanLog::info('File doesn\'t exist yet, retry later');
 			return false;
 		}
 		

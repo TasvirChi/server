@@ -2,9 +2,9 @@
 /**
  * @package api
  * @subpackage enum
- * @deprecated use KalturaRule instead
+ * @deprecated use BorhanRule instead
  */
-class KalturaLimitFlavorsRestrictionType extends KalturaEnum implements accessControlListRestrictionType
+class BorhanLimitFlavorsRestrictionType extends BorhanEnum implements accessControlListRestrictionType
 {
 	// see interface "accessControlListRestrictionType" for values
 }

@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaControlPanelCommandBaseFilter extends KalturaFilter
+abstract class BorhanControlPanelCommandBaseFilter extends BorhanFilter
 {
 	static private $map_between_objects = array
 	(
@@ -65,7 +65,7 @@ abstract class KalturaControlPanelCommandBaseFilter extends KalturaFilter
 	public $createdByIdEqual;
 
 	/**
-	 * @var KalturaControlPanelCommandType
+	 * @var BorhanControlPanelCommandType
 	 */
 	public $typeEqual;
 
@@ -75,7 +75,7 @@ abstract class KalturaControlPanelCommandBaseFilter extends KalturaFilter
 	public $typeIn;
 
 	/**
-	 * @var KalturaControlPanelCommandTargetType
+	 * @var BorhanControlPanelCommandTargetType
 	 */
 	public $targetTypeEqual;
 
@@ -85,7 +85,7 @@ abstract class KalturaControlPanelCommandBaseFilter extends KalturaFilter
 	public $targetTypeIn;
 
 	/**
-	 * @var KalturaControlPanelCommandStatus
+	 * @var BorhanControlPanelCommandStatus
 	 */
 	public $statusEqual;
 

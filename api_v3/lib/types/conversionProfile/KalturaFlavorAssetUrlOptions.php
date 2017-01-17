@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaFlavorAssetUrlOptions extends KalturaObject
+class BorhanFlavorAssetUrlOptions extends BorhanObject
 {
 	/**
 	 * The name of the downloaded file

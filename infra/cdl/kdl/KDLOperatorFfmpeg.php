@@ -412,7 +412,7 @@ bad  mencoder32 ~/Media/Canon.Rotated.0_qaqsufbl.avi -of lavf -lavfopts format=m
 	 */
 	public static function AdjustCmdlineWithWatermarkData($cmdLine, $wmData, $wmFilePath, $wmImgIdx)
 	{
-		KalturaLog::log("cmdLine($cmdLine),wmFilePath($wmFilePath), wmImgIdx($wmImgIdx),wmData:".json_encode($wmData));
+		BorhanLog::log("cmdLine($cmdLine),wmFilePath($wmFilePath), wmImgIdx($wmImgIdx),wmData:".json_encode($wmData));
 			/*
 			 * evaluate WM scale and margins, if any
 			 */
@@ -423,7 +423,7 @@ bad  mencoder32 ~/Media/Canon.Rotated.0_qaqsufbl.avi -of lavf -lavfopts format=m
 			$wmData->margins = explode("x",$wmData->margins);
 		}
 	
-		KalturaLog::log("Updated Watermark data:\n".print_r($wmData,1));
+		BorhanLog::log("Updated Watermark data:\n".print_r($wmData,1));
 
 			/*
 			 * Evaluate WM scaling params and scale it accordingly
@@ -463,7 +463,7 @@ bad  mencoder32 ~/Media/Canon.Rotated.0_qaqsufbl.avi -of lavf -lavfopts format=m
 				array(KDLCmdlinePlaceholders::WaterMarkFileName."_$wmImgIdx",KDLCmdlinePlaceholders::WaterMarkWidth."_$wmImgIdx",KDLCmdlinePlaceholders::WaterMarkHeight."_$wmImgIdx"), 
 				array($wmFilePath, $wid, $hgt),
 				$cmdLine);
-		KalturaLog::log("After:cmdline($cmdLine)");
+		BorhanLog::log("After:cmdline($cmdLine)");
 		return $cmdLine;
 	}
 	
@@ -556,7 +556,7 @@ bad  mencoder32 ~/Media/Canon.Rotated.0_qaqsufbl.avi -of lavf -lavfopts format=m
 	 */
 	public static function SplitCommandLineForVideoPiping($cmdLine, $pipeStr)
 	{
-		KalturaLog::log("Before:cmdLine($cmdLine)");
+		BorhanLog::log("Before:cmdLine($cmdLine)");
 		$cmdLineArr = explode(' ', $cmdLine);
 	
 		$ffmpegBin = $cmdLineArr[0];
@@ -619,11 +619,11 @@ bad  mencoder32 ~/Media/Canon.Rotated.0_qaqsufbl.avi -of lavf -lavfopts format=m
 			else
 				$pipeStr.= " -i $srcFile -map 0:v -map 1:a";
 		}
-		KalturaLog::log("Fixed part:$pipeStr");
+		BorhanLog::log("Fixed part:$pipeStr");
 		$cmdLineArr[$keySrc].= " $pipeStr";
 		$cmdLine = implode(" ", $cmdLineArr);
 		$cmdLine = str_replace (KDLCmdlinePlaceholders::BinaryName,$ffmpegBin,$cmdLine);
-		KalturaLog::log("After:cmdLine($cmdLine)");
+		BorhanLog::log("After:cmdLine($cmdLine)");
 		return $cmdLine;
 	}
 }

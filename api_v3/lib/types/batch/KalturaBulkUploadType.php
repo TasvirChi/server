@@ -8,7 +8,7 @@
  * @subpackage enum
  *
  */
-class KalturaBulkUploadType extends KalturaDynamicEnum implements BulkUploadType
+class BorhanBulkUploadType extends BorhanDynamicEnum implements BulkUploadType
 {
 	public static function getEnumClass()
 	{

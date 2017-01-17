@@ -3,7 +3,7 @@
  * @package plugins.annotation
  * @subpackage api.objects
  */
-class KalturaAnnotation extends KalturaCuePoint
+class BorhanAnnotation extends BorhanCuePoint
 {
 	/**
 	 * @var string
@@ -59,14 +59,14 @@ class KalturaAnnotation extends KalturaCuePoint
 	
 	/**
 	 * Is the annotation public.
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 * @filter eq
 	 */
 	public $isPublic;
 	
 	/**
 	 * Should the cue point get indexed on the entry.
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $searchableOnEntry;
 	
@@ -91,7 +91,7 @@ class KalturaAnnotation extends KalturaCuePoint
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaCuePoint::getMapBetweenObjects()
+	 * @see BorhanCuePoint::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -99,7 +99,7 @@ class KalturaAnnotation extends KalturaCuePoint
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toInsertableObject()
+	 * @see BorhanObject::toInsertableObject()
 	 */
 	public function toInsertableObject($object_to_fill = null, $props_to_skip = array())
 	{
@@ -110,7 +110,7 @@ class KalturaAnnotation extends KalturaCuePoint
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaCuePoint::validateForInsert()
+	 * @see BorhanCuePoint::validateForInsert()
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{
@@ -131,7 +131,7 @@ class KalturaAnnotation extends KalturaCuePoint
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaCuePoint::validateForUpdate()
+	 * @see BorhanCuePoint::validateForUpdate()
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = array())
 	{

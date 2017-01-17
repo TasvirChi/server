@@ -13,7 +13,7 @@
 	<multirequest>
 		<!-- New Item Pending Moderation -->
 		<request service="eventNotificationTemplate" action="add" plugin="eventNotification" partnerId="0">
-			<template objectType="KalturaEmailNotificationTemplate">
+			<template objectType="BorhanEmailNotificationTemplate">
 				<name>New Caption Asset Added To Entry</name>
 				<systemName>New_Caption_Asset_Added_To_Entry</systemName>
 				<description>Email notification template to be sent when a new caption asset is added to an entry.</description>
@@ -25,98 +25,98 @@
 				<body><![CDATA[ Hi,<br><p>A new caption file was added to an entry.</p>Entry ID: {entry_id}<br>Entry Name: {entry_name}<br>Caption file name: {file_name}<br>Caption file language: {language}]]></body>
 				<fromEmail>{from_email}</fromEmail>
 				<fromName>{from_name}</fromName>
-				<to objectType="KalturaEmailNotificationStaticRecipientProvider">
+				<to objectType="BorhanEmailNotificationStaticRecipientProvider">
 					<emailRecipients objectType="array">
-						<item objectType = "KalturaEmailNotificationRecipient">
-							<email objectType="KalturaStringValue">
+						<item objectType = "BorhanEmailNotificationRecipient">
+							<email objectType="BorhanStringValue">
 								<value>{owner_email}</value>
 							</email>
-							<name objectType="KalturaStringValue">
+							<name objectType="BorhanStringValue">
 								<value>{owner_name}</value>
 							</name>
 						</item>
 					</emailRecipients>
 				</to>
-				<cc objectType="KalturaEmailNotificationStaticRecipientProvider">
+				<cc objectType="BorhanEmailNotificationStaticRecipientProvider">
 					<emailRecipients objectType="array">
-						<item objectType = "KalturaEmailNotificationRecipient">
-							<email objectType="KalturaStringValue">
+						<item objectType = "BorhanEmailNotificationRecipient">
+							<email objectType="BorhanStringValue">
 								<value>{user_email}</value>
 							</email>
-							<name objectType="KalturaStringValue">
+							<name objectType="BorhanStringValue">
 								<value>{user_name}</value>
 							</name>
 						</item>
 					</emailRecipients>
 				</cc>
 				<contentParameters objectType="array">
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>from_email</key>
 						<description>Server configuration: partner_notification_email</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>kConf::get("partner_notification_email")</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>from_name</key>
 						<description>Server configuration: partner_notification_name</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>kConf::get("partner_notification_name")</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>entry_id</key>
 						<description>Entry Id</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>!is_null(entryPeer::retrieveByPk($scope->getEvent()->getObject()->getEntryId())) ? $scope->getEvent()->getObject()->getEntryId() : ''</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>entry_name</key>
 						<description>Entry name</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>!is_null(entryPeer::retrieveByPk($scope->getEvent()->getObject()->getEntryId())) ? entryPeer::retrieveByPk($scope->getEvent()->getObject()->getEntryId())->getName() : ''</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>file_name</key>
 						<description>File name</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>!is_null($scope->getEvent()->getObject()->getLabel()) ? $scope->getEvent()->getObject()->getLabel() : ''</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>language</key>
 						<description>Language</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>$scope->getEvent()->getObject()->getLanguage()</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>owner_name</key>
 						<description>Owner name</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>!is_null(PartnerPeer::retrieveByPk($scope->getEvent()->getObject()->getPartnerId())) ? PartnerPeer::retrieveByPk($scope->getEvent()->getObject()->getPartnerId())->getPartnerName() : ''</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>owner_email</key>
 						<description>Owner email</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>!is_null(PartnerPeer::retrieveByPk($scope->getEvent()->getObject()->getPartnerId())) ? PartnerPeer::retrieveByPk($scope->getEvent()->getObject()->getPartnerId())->getAdminEmail() : ''</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>user_name</key>
 						<description>User name</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>!is_null(entryPeer::retrieveByPk($scope->getEvent()->getObject()->getEntryId())) ? entryPeer::retrieveByPk($scope->getEvent()->getObject()->getEntryId())->getkuser()->getFirstName().' '.entryPeer::retrieveByPk($scope->getEvent()->getObject()->getEntryId())->getkuser()->getLastName() : ''</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>user_email</key>
 						<description>User email</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>!is_null(entryPeer::retrieveByPk($scope->getEvent()->getObject()->getEntryId())) ? entryPeer::retrieveByPk($scope->getEvent()->getObject()->getEntryId())->getkuser()->getEmail() : ''</code>
 						</value>
 					</item>

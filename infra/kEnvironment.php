@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Manages Kaltura environment relative configurations
+ * Manages Borhan environment relative configurations
  * @package infra
  * @subpackage Configuration
  */

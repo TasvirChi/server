@@ -18,7 +18,7 @@ class Form_TroubleshootConfig extends Zend_Form_SubForm
 		$titleElement->setDecorators(array('ViewHelper', array('Label', array('placement' => 'append')), array('HtmlTag',  array('tag' => 'b'))));
 		$this->addElement($titleElement);
 
-		$status = new Kaltura_Form_Element_EnumSelect('status', array('enum' => 'Kaltura_Client_DropFolder_Enum_DropFolderStatus'));
+		$status = new Borhan_Form_Element_EnumSelect('status', array('enum' => 'Borhan_Client_DropFolder_Enum_DropFolderStatus'));
 		$status->setLabel('Status:');
 		$status->setAttrib('readonly', true);
 		$status->setAttrib('disabled', 'disabled');
@@ -68,7 +68,7 @@ class Form_TroubleshootConfig extends Zend_Form_SubForm
 			$formattedDate = 'N/A';
 		$lastAccessedAtElm->setValue($formattedDate);
 
-		if($object->status !== Kaltura_Client_DropFolder_Enum_DropFolderStatus::ERROR)
+		if($object->status !== Borhan_Client_DropFolder_Enum_DropFolderStatus::ERROR)
 		{
 			$descElm = $this->getElement('errorDescription');
 			$descElm->setAttrib('style', 'display:none');

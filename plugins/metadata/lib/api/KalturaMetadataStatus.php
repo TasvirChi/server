@@ -3,7 +3,7 @@
  * @package plugins.metadata
  * @subpackage api.enum
  */
-class KalturaMetadataStatus extends KalturaEnum 
+class BorhanMetadataStatus extends BorhanEnum 
 {
 	const VALID = 1;
 	const INVALID = 2;

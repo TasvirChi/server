@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaIpAddressCondition extends KalturaMatchCondition
+class BorhanIpAddressCondition extends BorhanMatchCondition
 {
 	/**
 	 * allow internal ips
@@ -39,7 +39,7 @@ class KalturaIpAddressCondition extends KalturaMatchCondition
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

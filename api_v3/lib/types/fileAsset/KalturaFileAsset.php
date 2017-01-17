@@ -3,7 +3,7 @@
  * @package api
  * @subpackage api.objects
  */
-class KalturaFileAsset extends KalturaObject implements IRelatedFilterable 
+class BorhanFileAsset extends BorhanObject implements IRelatedFilterable 
 {
 	/**
 	 * @var int
@@ -23,7 +23,7 @@ class KalturaFileAsset extends KalturaObject implements IRelatedFilterable
 	
 	/**
 	 * 
-	 * @var KalturaFileAssetObjectType
+	 * @var BorhanFileAssetObjectType
 	 * @filter eq
 	 * @insertonly
 	 */
@@ -88,7 +88,7 @@ class KalturaFileAsset extends KalturaObject implements IRelatedFilterable
 	
 	/**
 	 * 
-	 * @var KalturaFileAssetStatus
+	 * @var BorhanFileAssetStatus
 	 * @filter eq,in
 	 * @readonly
 	 */
@@ -110,7 +110,7 @@ class KalturaFileAsset extends KalturaObject implements IRelatedFilterable
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -134,7 +134,7 @@ class KalturaFileAsset extends KalturaObject implements IRelatedFilterable
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($dbFileAsset = null, $propsToSkip = array())
 	{
@@ -145,7 +145,7 @@ class KalturaFileAsset extends KalturaObject implements IRelatedFilterable
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert($propertiesToSkip)
+	 * @see BorhanObject::validateForInsert($propertiesToSkip)
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{
@@ -154,10 +154,10 @@ class KalturaFileAsset extends KalturaObject implements IRelatedFilterable
 		
 		switch($this->fileAssetObjectType)
 		{
-			case KalturaFileAssetObjectType::UI_CONF:
+			case BorhanFileAssetObjectType::UI_CONF:
 				$uiConf = uiConfPeer::retrieveByPK($this->objectId);
 				if(!$uiConf)
-					throw new KalturaAPIException(APIErrors::INVALID_UI_CONF_ID, $this->objectId);
+					throw new BorhanAPIException(APIErrors::INVALID_UI_CONF_ID, $this->objectId);
 					 
 				break;
 		}

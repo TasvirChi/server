@@ -18,7 +18,7 @@ class kQuiz {
 
 	/**
 	 * Array of key value ui related objects
-	 * @var KalturaKeyValueArray
+	 * @var BorhanKeyValueArray
 	 */
 	protected $uiAttributes;
 
@@ -68,7 +68,7 @@ class kQuiz {
 	}
 
 	/**
-	 * @return KalturaKeyValueArray
+	 * @return BorhanKeyValueArray
 	 */
 	public function getUiAttributes()
 	{
@@ -76,7 +76,7 @@ class kQuiz {
 	}
 
 	/**
-	 * @param KalturaKeyValueArray $uiAttributes
+	 * @param BorhanKeyValueArray $uiAttributes
 	 */
 	public function setUiAttributes($uiAttributes)
 	{

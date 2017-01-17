@@ -7,7 +7,7 @@ class DeliveryProfileLivePackagerHls extends DeliveryProfileLiveAppleHttp {
 		$httpUrl = $this->getLivePackagerUrl($serverNode, PlaybackProtocol::HLS);
 		$httpUrl .= "master.m3u8";
 		
-		KalturaLog::debug("Live Stream url [$httpUrl]");
+		BorhanLog::debug("Live Stream url [$httpUrl]");
 		return $httpUrl;
 	}
 	

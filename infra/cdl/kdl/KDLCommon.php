@@ -146,7 +146,7 @@
 	}
 
 	class KDLTranscoders {
-		const KALTURA 		= "kaltura.com";
+		const BORHAN 		= "borhan.com";
 		const FFMPEG 		= "ffmpeg";
 		const MENCODER 		= "mencoder";
 		const ON2 			= "cli_encode";

@@ -55,7 +55,7 @@ class MultiCentersRabbitMQProvider extends QueueProvider
 			}
 			catch(Exception $e)
 			{
-				KalturaLog::err($e);
+				BorhanLog::err($e);
 			}
 		}
 	}
@@ -75,7 +75,7 @@ class MultiCentersRabbitMQProvider extends QueueProvider
 			}
 			catch(Exception $e)
 			{
-				KalturaLog::err($e);
+				BorhanLog::err($e);
 			}
 		}
 	}

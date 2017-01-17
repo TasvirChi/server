@@ -3,7 +3,7 @@
  * @package plugins.systemPartner
  * @subpackage api.objects
  */
-class KalturaSystemPartnerUsageItem extends KalturaObject
+class BorhanSystemPartnerUsageItem extends BorhanObject
 {
 	/**
 	 * Partner ID
@@ -22,7 +22,7 @@ class KalturaSystemPartnerUsageItem extends KalturaObject
 	/**
 	 * Partner status
 	 * 
-	 * @var KalturaPartnerStatus
+	 * @var BorhanPartnerStatus
 	 */
 	public $partnerStatus;
 	
@@ -154,13 +154,13 @@ class KalturaSystemPartnerUsageItem extends KalturaObject
 	 * Enter description here...
 	 * @param string $header - comma separated fields names	
 	 * @param string $str - comma separated fields
-	 * @return KalturaSystemPartnerUsageItem
+	 * @return BorhanSystemPartnerUsageItem
 	 */
 	public static function fromString ( $header , $arr )
 	{
 		if ( ! $arr ) return null ;
 		
-		$item = new KalturaSystemPartnerUsageItem();
+		$item = new BorhanSystemPartnerUsageItem();
 		
 		$item->partnerStatus 	        = @$arr[0];
         $item->partnerId  		        = @$arr[1];
@@ -189,7 +189,7 @@ class KalturaSystemPartnerUsageItem extends KalturaObject
 	
 	public static function fromPartner(Partner $partner)
 	{
-		$item = new KalturaSystemPartnerUsageItem();
+		$item = new BorhanSystemPartnerUsageItem();
 		if ($partner)
 		{
 			$item->partnerStatus 	= $partner->getStatus();

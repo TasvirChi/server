@@ -4,7 +4,7 @@
  * @subpackage objects
  * @abstract
  */
-abstract class KalturaDataCenterContentResource extends KalturaContentResource 
+abstract class BorhanDataCenterContentResource extends BorhanContentResource 
 {
 	public function getDc()
 	{
@@ -12,7 +12,7 @@ abstract class KalturaDataCenterContentResource extends KalturaContentResource
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUsage($sourceObject, $propertiesToSkip)
+	 * @see BorhanObject::validateForUsage($sourceObject, $propertiesToSkip)
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -26,6 +26,6 @@ abstract class KalturaDataCenterContentResource extends KalturaContentResource
 		if($remoteDCHost)
 			kFileUtils::dumpApiRequest($remoteDCHost);
 			
-		throw new KalturaAPIException(KalturaErrors::REMOTE_DC_NOT_FOUND, $dc);
+		throw new BorhanAPIException(BorhanErrors::REMOTE_DC_NOT_FOUND, $dc);
 	}
 }

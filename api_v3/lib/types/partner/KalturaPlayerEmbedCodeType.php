@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaPlayerEmbedCodeType extends KalturaObject
+class BorhanPlayerEmbedCodeType extends BorhanObject
 {
 	/**
 	 * @var string
@@ -32,7 +32,7 @@ class KalturaPlayerEmbedCodeType extends KalturaObject
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{

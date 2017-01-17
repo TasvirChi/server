@@ -3,10 +3,10 @@
  * @package api
  * @subpackage filters
  */
-class KalturaUiConfFilter extends KalturaUiConfBaseFilter
+class BorhanUiConfFilter extends BorhanUiConfBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{

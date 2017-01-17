@@ -1,5 +1,5 @@
 <?php
-class kalturaRssRenderer
+class borhanRssRenderer
 {
 	const TYPE_YAHOO = 1;
 	const TYPE_TABOOLA = 2;
@@ -12,9 +12,9 @@ class kalturaRssRenderer
 	public function startMrss ( )
 	{
 		if ( $this->type == self::TYPE_YAHOO )
-			return '<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:kaltura="http://kaltura.com/playlist/1.0" >';
+			return '<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:borhan="http://borhan.com/playlist/1.0" >';
 		if ( $this->type == self::TYPE_TABOOLA )
-			return '<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:kaltura="http://kaltura.com/playlist/1.0" xmlns:tv="http://taboola.com/schema/taboolavideo/1.0">';
+			return '<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:borhan="http://borhan.com/playlist/1.0" xmlns:tv="http://taboola.com/schema/taboolavideo/1.0">';
 			
 	}
 
@@ -52,39 +52,39 @@ class kalturaRssRenderer
 		
 		$entry_id = $entry->getId();
 		
-		$kaltura_elements =
-			"<kaltura:entryId>" . $entry->getId() . "</kaltura:entryId>";
+		$borhan_elements =
+			"<borhan:entryId>" . $entry->getId() . "</borhan:entryId>";
 		
 		if (isset(kCurrentContext::$partner_id) &&
 			!PermissionPeer::isValidForPartner(PermissionName::FEATURE_HIDE_SENSITIVE_DATA_IN_RSS_FEED, kCurrentContext::$partner_id))
 		{
-			$kaltura_elements .=
-				"<kaltura:views>" . ($entry->getViews() ? $entry->getViews() : "0"). "</kaltura:views>" .  
-				"<kaltura:plays>" . ($entry->getPlays() ? $entry->getPlays() : "0"). "</kaltura:plays>" .
-				"<kaltura:userScreenName>" . kString::xmlEncode ($entry->getUserScreenName()) . "</kaltura:userScreenName>" . 
-				"<kaltura:puserId>" . $entry->getPuserId() . "</kaltura:puserId>" .
-				"<kaltura:userLandingPage>" . $entry->getUserLandingPage() . "</kaltura:userLandingPage>";
+			$borhan_elements .=
+				"<borhan:views>" . ($entry->getViews() ? $entry->getViews() : "0"). "</borhan:views>" .  
+				"<borhan:plays>" . ($entry->getPlays() ? $entry->getPlays() : "0"). "</borhan:plays>" .
+				"<borhan:userScreenName>" . kString::xmlEncode ($entry->getUserScreenName()) . "</borhan:userScreenName>" . 
+				"<borhan:puserId>" . $entry->getPuserId() . "</borhan:puserId>" .
+				"<borhan:userLandingPage>" . $entry->getUserLandingPage() . "</borhan:userLandingPage>";
 		}
 		else
 		{
-			$kaltura_elements .=
-				"<kaltura:views>0</kaltura:views>" .  
-				"<kaltura:plays>0</kaltura:plays>" .
-				"<kaltura:userScreenName></kaltura:userScreenName>" . 
-				"<kaltura:puserId></kaltura:puserId>" .
-				"<kaltura:userLandingPage></kaltura:userLandingPage>";
+			$borhan_elements .=
+				"<borhan:views>0</borhan:views>" .  
+				"<borhan:plays>0</borhan:plays>" .
+				"<borhan:userScreenName></borhan:userScreenName>" . 
+				"<borhan:puserId></borhan:puserId>" .
+				"<borhan:userLandingPage></borhan:userLandingPage>";
 		}
 		
-		$kaltura_elements .=
-			"<kaltura:partnerLandingPage>" . $entry->getPartnerLandingPage() . "</kaltura:partnerLandingPage>" .
-			"<kaltura:tags>" . kString::xmlEncode ($entry->getTags()) . "</kaltura:tags>" .
-			"<kaltura:adminTags>" . kString::xmlEncode ($entry->getAdminTags()) . "</kaltura:adminTags>" .
-			"<kaltura:votes>" . ($entry->getVotes() ? $entry->getVotes() : "0") . "</kaltura:votes>" .
-			"<kaltura:rank>" . ($entry->getRank() ? $entry->getRank() : "0") . "</kaltura:rank>" .	
-			"<kaltura:createdAt>" . $entry->getCreatedAt() . "</kaltura:createdAt>" .
-			"<kaltura:createdAtInt>" . $entry->getCreatedAt(null) . "</kaltura:createdAtInt>" .
-			"<kaltura:sourceLink>" . $entry->getSourceLink() . "</kaltura:sourceLink>" .
-			"<kaltura:credit>" . $entry->getCredit() . "</kaltura:credit>" ;
+		$borhan_elements .=
+			"<borhan:partnerLandingPage>" . $entry->getPartnerLandingPage() . "</borhan:partnerLandingPage>" .
+			"<borhan:tags>" . kString::xmlEncode ($entry->getTags()) . "</borhan:tags>" .
+			"<borhan:adminTags>" . kString::xmlEncode ($entry->getAdminTags()) . "</borhan:adminTags>" .
+			"<borhan:votes>" . ($entry->getVotes() ? $entry->getVotes() : "0") . "</borhan:votes>" .
+			"<borhan:rank>" . ($entry->getRank() ? $entry->getRank() : "0") . "</borhan:rank>" .	
+			"<borhan:createdAt>" . $entry->getCreatedAt() . "</borhan:createdAt>" .
+			"<borhan:createdAtInt>" . $entry->getCreatedAt(null) . "</borhan:createdAtInt>" .
+			"<borhan:sourceLink>" . $entry->getSourceLink() . "</borhan:sourceLink>" .
+			"<borhan:credit>" . $entry->getCredit() . "</borhan:credit>" ;
 		
 		
 		if ( $this->type == self::TYPE_TABOOLA )
@@ -103,7 +103,7 @@ class kalturaRssRenderer
 		// for now the partner_id & entry_id are set in the guid elementy of the item..
 		// TODO - move the partner_id to be part of the primary key of the entry so entry will not appear in wrong partners
 		 $mrss = '<item>' . 
-		 	'<description>Kaltura Item</description>' . 
+		 	'<description>Borhan Item</description>' . 
 		 	'<guid isPermaLink="false">' . $entry->getPartnerId() . "|" . $entry_id . '</guid>' . 
 		 	'<link>' . $entry->getPartnerLandingPage()  . '</link>'.
 		 	'<pubDate>' . $entry->getCreatedAt() . '</pubDate>' . 
@@ -126,8 +126,8 @@ class kalturaRssRenderer
                	'<media:description>'. kString::xmlEncode ( $entry->getDescription() ) . '</media:description>'.
                	'<media:keywords>' . kString::xmlEncode ( $entry->getSearchText() ) . '</media:keywords>' .
                	'<media:thumbnail url="'. $entry->getThumbnailUrl() . '/width/640/height/480"/>' . 
-               '<media:credit role="kaltura partner">' . $entry->getPartnerId() . '</media:credit>' .
-		 		$kaltura_elements . 
+               '<media:credit role="borhan partner">' . $entry->getPartnerId() . '</media:credit>' .
+		 		$borhan_elements . 
                	$taboola_elements .
                '</item>';
 		 
@@ -163,11 +163,11 @@ class kalturaRssRenderer
 //print_r ( $list );		
 		$str = $this->startMrss() ;
 		$str .= "<channel>";
-		$str .= "<description>Kaltura's mRss" . 
+		$str .= "<description>Borhan's mRss" . 
 			( $page ? ", page: {$page}" : "" ) . 
 			( $result_count ? ", results: {$result_count}" : ""  ). 
 			"</description>" .
-			"<title>Kaltura's mRss</title>" .
+			"<title>Borhan's mRss</title>" .
 			"<link>" . kString::xmlEncode ( $_SERVER["REQUEST_URI"] ) . "</link>"	;
 		
 		$str .= $this->recursiveRenderMrssFeed ( $list , 3 );

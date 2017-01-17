@@ -99,16 +99,16 @@ class kSchedulingICalEvent extends kSchedulingICalComponent
 	 */
 	public function toObject()
 	{
-		$type = $this->getKalturaType();
+		$type = $this->getBorhanType();
 		$event = null;
 		switch ($type)
 		{
-			case KalturaScheduleEventType::RECORD:
-				$event = new KalturaRecordScheduleEvent();
+			case BorhanScheduleEventType::RECORD:
+				$event = new BorhanRecordScheduleEvent();
 				break;
 
-			case KalturaScheduleEventType::LIVE_STREAM:
-				$event = new KalturaLiveStreamScheduleEvent();
+			case BorhanScheduleEventType::LIVE_STREAM:
+				$event = new BorhanLiveStreamScheduleEvent();
 				break;
 
 			default:
@@ -144,9 +144,9 @@ class kSchedulingICalEvent extends kSchedulingICalComponent
 		}
 
 		$classificationTypes = array(
-			'PUBLIC' => KalturaScheduleEventClassificationType::PUBLIC_EVENT,
-			'PRIVATE' => KalturaScheduleEventClassificationType::PRIVATE_EVENT,
-			'CONFIDENTIAL' => KalturaScheduleEventClassificationType::CONFIDENTIAL_EVENT
+			'PUBLIC' => BorhanScheduleEventClassificationType::PUBLIC_EVENT,
+			'PRIVATE' => BorhanScheduleEventClassificationType::PRIVATE_EVENT,
+			'CONFIDENTIAL' => BorhanScheduleEventClassificationType::CONFIDENTIAL_EVENT
 		);
 
 		$classificationType = $this->getField('class');
@@ -156,32 +156,32 @@ class kSchedulingICalEvent extends kSchedulingICalComponent
 		$rule = $this->getRule();
 		if ($rule)
 		{
-			$event->recurrenceType = KalturaScheduleEventRecurrenceType::RECURRING;
+			$event->recurrenceType = BorhanScheduleEventRecurrenceType::RECURRING;
 			$event->recurrence = $rule->toObject();
 		} else
 		{
-			$event->recurrenceType = KalturaScheduleEventRecurrenceType::NONE;
+			$event->recurrenceType = BorhanScheduleEventRecurrenceType::NONE;
 		}
 
-		$event->parentId = $this->getField('x-kaltura-parent-id');
-		$event->tags = $this->getField('x-kaltura-tags');
-		$event->ownerId = $this->getField('x-kaltura-owner-id');
+		$event->parentId = $this->getField('x-borhan-parent-id');
+		$event->tags = $this->getField('x-borhan-tags');
+		$event->ownerId = $this->getField('x-borhan-owner-id');
 
-		if ($event instanceof KalturaEntryScheduleEvent)
+		if ($event instanceof BorhanEntryScheduleEvent)
 		{
-			$event->templateEntryId = $this->getField('x-kaltura-template-entry-id');
-			$event->entryIds = $this->getField('x-kaltura-entry-ids');
-			$event->categoryIds = $this->getField('x-kaltura-category-ids');
+			$event->templateEntryId = $this->getField('x-borhan-template-entry-id');
+			$event->entryIds = $this->getField('x-borhan-entry-ids');
+			$event->categoryIds = $this->getField('x-borhan-category-ids');
 		}
 
 		return $event;
 	}
 
 	/**
-	 * @param KalturaScheduleEvent $event
+	 * @param BorhanScheduleEvent $event
 	 * @return kSchedulingICalEvent
 	 */
-	public static function fromObject(KalturaScheduleEvent $event)
+	public static function fromObject(BorhanScheduleEvent $event)
 	{
 		$object = new kSchedulingICalEvent();
 		$resourceIds = array();
@@ -209,9 +209,9 @@ class kSchedulingICalEvent extends kSchedulingICalComponent
 		}
 
 		$classificationTypes = array(
-			KalturaScheduleEventClassificationType::PUBLIC_EVENT => 'PUBLIC',
-			KalturaScheduleEventClassificationType::PRIVATE_EVENT => 'PRIVATE',
-			KalturaScheduleEventClassificationType::CONFIDENTIAL_EVENT => 'CONFIDENTIAL'
+			BorhanScheduleEventClassificationType::PUBLIC_EVENT => 'PUBLIC',
+			BorhanScheduleEventClassificationType::PRIVATE_EVENT => 'PRIVATE',
+			BorhanScheduleEventClassificationType::CONFIDENTIAL_EVENT => 'CONFIDENTIAL'
 		);
 
 		if ($event->classificationType && isset($classificationTypes[$event->classificationType]))
@@ -224,11 +224,11 @@ class kSchedulingICalEvent extends kSchedulingICalComponent
 		}
 
 		$object->setField('dtstamp', kSchedulingICal::formatDate($event->updatedAt));
-		$object->setField('x-kaltura-id', $event->id);
-		$object->setField('x-kaltura-type', $event->getScheduleEventType());
-		$object->setField('x-kaltura-partner-id', $event->partnerId);
-		$object->setField('x-kaltura-status', $event->status);
-		$object->setField('x-kaltura-owner-id', $event->ownerId);
+		$object->setField('x-borhan-id', $event->id);
+		$object->setField('x-borhan-type', $event->getScheduleEventType());
+		$object->setField('x-borhan-partner-id', $event->partnerId);
+		$object->setField('x-borhan-status', $event->status);
+		$object->setField('x-borhan-owner-id', $event->ownerId);
 
 
 		$resources = ScheduleEventResourcePeer::retrieveByEventId($event->id);
@@ -243,9 +243,9 @@ class kSchedulingICalEvent extends kSchedulingICalComponent
 			$parent = ScheduleEventPeer::retrieveByPK($event->parentId);
 			if ($parent)
 			{
-				$object->setField('x-kaltura-parent-id', $event->parentId);
+				$object->setField('x-borhan-parent-id', $event->parentId);
 				if ($parent->getReferenceId())
-					$object->setField('x-kaltura-parent-uid', $parent->getReferenceId());
+					$object->setField('x-borhan-parent-uid', $parent->getReferenceId());
 
 				if (!count($resourceIds))
 				{
@@ -259,26 +259,26 @@ class kSchedulingICalEvent extends kSchedulingICalComponent
 			}
 		}
 
-		$resourceIds = array_diff($resourceIds, array(0)); //resource 0 should not be exported outside of kaltura BE.
+		$resourceIds = array_diff($resourceIds, array(0)); //resource 0 should not be exported outside of borhan BE.
 		if (count($resourceIds))
-			$object->setField('x-kaltura-resource-ids', implode(',', $resourceIds));
+			$object->setField('x-borhan-resource-ids', implode(',', $resourceIds));
 
 		if ($event->tags)
-			$object->setField('x-kaltura-tags', $event->tags);
+			$object->setField('x-borhan-tags', $event->tags);
 
-		if ($event instanceof KalturaEntryScheduleEvent)
+		if ($event instanceof BorhanEntryScheduleEvent)
 		{
 			if ($event->templateEntryId)
-				$object->setField('x-kaltura-template-entry-id', $event->templateEntryId);
+				$object->setField('x-borhan-template-entry-id', $event->templateEntryId);
 
 			if ($event->entryIds)
-				$object->setField('x-kaltura-entry-ids', $event->entryIds);
+				$object->setField('x-borhan-entry-ids', $event->entryIds);
 
 			if ($event->categoryIds)
 			{
-				$object->setField('x-kaltura-category-ids', $event->categoryIds);
+				$object->setField('x-borhan-category-ids', $event->categoryIds);
 
-				// hack, to be removed after x-kaltura-category-ids will be fully supported by other partners
+				// hack, to be removed after x-borhan-category-ids will be fully supported by other partners
 				$pks = explode(',', $event->categoryIds);
 				$categories = categoryPeer::retrieveByPKs($pks);
 				$fullIds = array();

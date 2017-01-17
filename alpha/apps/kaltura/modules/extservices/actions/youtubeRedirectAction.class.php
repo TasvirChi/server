@@ -3,7 +3,7 @@
  * @package    Core
  * @subpackage externalServices
  */
-class youtubeRedirectAction extends kalturaAction
+class youtubeRedirectAction extends borhanAction
 {
 	public function execute()
 	{
@@ -41,14 +41,14 @@ class youtubeRedirectAction extends kalturaAction
 			}
 			else
 			{
-				KalturaLog::log ("youtubeRedirectAction $retries $url $content");
+				BorhanLog::log ("youtubeRedirectAction $retries $url $content");
 			}
 		}
 		
 		if ($sourceUrl)
 		{
 			if (!$retries)
-				KalturaLog::log ("youtubeRedirectAction retry successful $url");
+				BorhanLog::log ("youtubeRedirectAction retry successful $url");
 		}
 		else
 			die;

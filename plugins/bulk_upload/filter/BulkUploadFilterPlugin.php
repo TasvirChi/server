@@ -2,7 +2,7 @@
 /**
  * @package plugins.bulkUploadFilter
  */
-class BulkUploadFilterPlugin extends KalturaPlugin implements IKalturaBulkUpload, IKalturaPending
+class BulkUploadFilterPlugin extends BorhanPlugin implements IBorhanBulkUpload, IBorhanPending
 {
 	const PLUGIN_NAME = 'bulkUploadFilter';
 	
@@ -16,11 +16,11 @@ class BulkUploadFilterPlugin extends KalturaPlugin implements IKalturaBulkUpload
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$drmDependency = new KalturaDependency(BulkUploadPlugin::PLUGIN_NAME);
+		$drmDependency = new BorhanDependency(BulkUploadPlugin::PLUGIN_NAME);
 		
 		return array($drmDependency);
 	}
@@ -52,25 +52,25 @@ class BulkUploadFilterPlugin extends KalturaPlugin implements IKalturaBulkUpload
 			return new kBulkUploadFilterJobData();
 		
 		 //Gets the right job for the engine
-		if($baseClass == 'KalturaBulkUploadJobData' && (!$enumValue || $enumValue == self::getBulkUploadTypeCoreValue(BulkUploadFilterType::FILTER)))
-			return new KalturaBulkUploadFilterJobData();
+		if($baseClass == 'BorhanBulkUploadJobData' && (!$enumValue || $enumValue == self::getBulkUploadTypeCoreValue(BulkUploadFilterType::FILTER)))
+			return new BorhanBulkUploadFilterJobData();
 			
 		 //Gets the service data for the engine
-//		if($baseClass == 'KalturaBulkServiceData' && (!$enumValue || $enumValue == self::getBulkUploadTypeCoreValue(BulkUploadFilterType::FILTER)))
-//			return new KalturaBulkServiceFilterData();
+//		if($baseClass == 'BorhanBulkServiceData' && (!$enumValue || $enumValue == self::getBulkUploadTypeCoreValue(BulkUploadFilterType::FILTER)))
+//			return new BorhanBulkServiceFilterData();
 			
 		
 		//Gets the engine (only for clients)
-		if($baseClass == 'KBulkUploadEngine' && class_exists('KalturaClient') && (!$enumValue || $enumValue == KalturaBulkUploadType::FILTER))
+		if($baseClass == 'KBulkUploadEngine' && class_exists('BorhanClient') && (!$enumValue || $enumValue == BorhanBulkUploadType::FILTER))
 		{
 			list($job) = $constructorArgs;
-			/* @var $job KalturaBatchJob */
+			/* @var $job BorhanBatchJob */
 			switch ($job->data->bulkUploadObjectType)
 			{
-			    case KalturaBulkUploadObjectType::CATEGORY_ENTRY:
+			    case BorhanBulkUploadObjectType::CATEGORY_ENTRY:
 			        return new BulkUploadCategoryEntryEngineFilter($job);
 			    default:
-			        throw new KalturaException("Bulk upload object type [{$job->data->bulkUploadObjectType}] not found", KalturaBatchJobAppErrors::ENGINE_NOT_FOUND);
+			        throw new BorhanException("Bulk upload object type [{$job->data->bulkUploadObjectType}] not found", BorhanBatchJobAppErrors::ENGINE_NOT_FOUND);
 			        break;
 			}
 			
@@ -80,7 +80,7 @@ class BulkUploadFilterPlugin extends KalturaPlugin implements IKalturaBulkUpload
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
@@ -154,7 +154,7 @@ class BulkUploadFilterPlugin extends KalturaPlugin implements IKalturaBulkUpload
 	 */
 	public static function getBulkUploadTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('BulkUploadType', $value);
 	}
 	
@@ -163,6 +163,6 @@ class BulkUploadFilterPlugin extends KalturaPlugin implements IKalturaBulkUpload
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 }

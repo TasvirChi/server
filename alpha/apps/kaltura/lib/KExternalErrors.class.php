@@ -124,22 +124,22 @@ class KExternalErrors
 		if($message)
 			$description .= ", $message";
 			
-		if (class_exists('KalturaLog'))
-			KalturaLog::err("exiting on error $errorCode - $description");
+		if (class_exists('BorhanLog'))
+			BorhanLog::err("exiting on error $errorCode - $description");
 		
 		$headers = array();
 		if(self::$responseCode)
 			$headers[] = self::$errorCodeMap[self::$responseCode];
 		
-		$headers[] = "X-Kaltura-App: exiting on error $errorCode - $description";
+		$headers[] = "X-Borhan-App: exiting on error $errorCode - $description";
 		
 		foreach ($headers as $header)
 		{
 			header($header);
 		}
-		header("X-Kaltura:error-$errorCode");
+		header("X-Borhan:error-$errorCode");
 		
-		$headers[] = "X-Kaltura:cached-error-$errorCode";
+		$headers[] = "X-Borhan:cached-error-$errorCode";
 		
 		self::terminateDispatch();
 		
@@ -167,8 +167,8 @@ class KExternalErrors
 	
 	public static function dieGracefully($message = null)
 	{
-		if (class_exists('KalturaLog') && !is_null($message)) 
-			KalturaLog::err($message);
+		if (class_exists('BorhanLog') && !is_null($message)) 
+			BorhanLog::err($message);
 		
 		self::terminateDispatch();
 		die();
@@ -176,8 +176,8 @@ class KExternalErrors
 	
 	public static function terminateDispatch() 
 	{
-		if (class_exists('KalturaLog') && isset($GLOBALS["start"])) 
-			KalturaLog::debug("Dispatch took - " . (microtime(true) - $GLOBALS["start"]) . " seconds, memory: ".memory_get_peak_usage(true));
+		if (class_exists('BorhanLog') && isset($GLOBALS["start"])) 
+			BorhanLog::debug("Dispatch took - " . (microtime(true) - $GLOBALS["start"]) . " seconds, memory: ".memory_get_peak_usage(true));
 	}
 	
 	public static function setResponseErrorCode($errorCode)

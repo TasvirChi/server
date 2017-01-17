@@ -125,9 +125,9 @@ class requestUtils extends infraRequestUtils
 		if ( $include_host )
 		{
 			$url = self::getHost();
-			$url = preg_replace('/www\d\.kaltura\.com/', "www.kaltura.com", $url);
-			$url = preg_replace('/kaldev\d\.kaltura\.com/', "kaldev.kaltura.com", $url);
-			$url = preg_replace('/sandbox\d\.kaltura\.com/', "sandbox.kaltura.com", $url);
+			$url = preg_replace('/www\d\.borhan\.com/', "www.borhan.com", $url);
+			$url = preg_replace('/kaldev\d\.borhan\.com/', "kaldev.borhan.com", $url);
+			$url = preg_replace('/sandbox\d\.borhan\.com/', "sandbox.borhan.com", $url);
 		}
 
 		$request_url = self::requestUri();
@@ -264,11 +264,11 @@ class requestUtils extends infraRequestUtils
 		
 		if ( $domainId == 'localhost')
 			$domainId = 2;
-		elseif ($domainId ==  'kaldev.kaltura.com')
+		elseif ($domainId ==  'kaldev.borhan.com')
 			$domainId = 0;
-		elseif ($domainId ==  'sandbox.kaltura.com')
+		elseif ($domainId ==  'sandbox.borhan.com')
 			$domainId = 3;
-		elseif ($domainId ==  'www.kaltura.com')
+		elseif ($domainId ==  'www.borhan.com')
 			$domainId = 1;
 			
 		return $domainId;

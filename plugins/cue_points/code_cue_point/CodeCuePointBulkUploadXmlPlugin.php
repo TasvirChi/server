@@ -3,7 +3,7 @@
  * Enable code cue point ingestion from XML bulk upload
  * @package plugins.codeCuePoint
  */
-class CodeCuePointBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPending, IKalturaSchemaContributor
+class CodeCuePointBulkUploadXmlPlugin extends BorhanPlugin implements IBorhanPending, IBorhanSchemaContributor
 {
 	const PLUGIN_NAME = 'codeCuePointBulkUploadXml';
 	const BULK_UPLOAD_XML_PLUGIN_NAME = 'bulkUploadXml';
@@ -13,21 +13,21 @@ class CodeCuePointBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaP
 	const BULK_UPLOAD_XML_VERSION_BUILD = 0;
 
 	/* (non-PHPdoc)
-	 * @see KalturaPlugin::getInstance()
+	 * @see BorhanPlugin::getInstance()
 	 */
 	public function getInstance($interface)
 	{
 		if($this instanceof $interface)
 			return $this;
 			
-		if($interface == 'IKalturaBulkUploadXmlHandler')
+		if($interface == 'IBorhanBulkUploadXmlHandler')
 			return CodeCuePointBulkUploadXmlHandler::get();
 			
 		return null;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -35,23 +35,23 @@ class CodeCuePointBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaP
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$bulkUploadXmlVersion = new KalturaVersion(
+		$bulkUploadXmlVersion = new BorhanVersion(
 			self::BULK_UPLOAD_XML_VERSION_MAJOR,
 			self::BULK_UPLOAD_XML_VERSION_MINOR,
 			self::BULK_UPLOAD_XML_VERSION_BUILD);
 			
-		$bulkUploadXmlDependency = new KalturaDependency(self::BULK_UPLOAD_XML_PLUGIN_NAME, $bulkUploadXmlVersion);
-		$codeCuePointDependency = new KalturaDependency(CodeCuePointPlugin::getPluginName());
+		$bulkUploadXmlDependency = new BorhanDependency(self::BULK_UPLOAD_XML_PLUGIN_NAME, $bulkUploadXmlVersion);
+		$codeCuePointDependency = new BorhanDependency(CodeCuePointPlugin::getPluginName());
 		
 		return array($bulkUploadXmlDependency, $codeCuePointDependency);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSchemaContributor::contributeToSchema()
+	 * @see IBorhanSchemaContributor::contributeToSchema()
 	 */
 	public static function contributeToSchema($type)
 	{

@@ -57,7 +57,7 @@ class ScheduleEventPeer extends BaseScheduleEventPeer implements IRelatedObjectP
 			if(isset(self::$class_types_cache[$assetType]))
 				return self::$class_types_cache[$assetType];
 				
-			$extendedCls = KalturaPluginManager::getObjectClass(parent::OM_CLASS, $assetType);
+			$extendedCls = BorhanPluginManager::getObjectClass(parent::OM_CLASS, $assetType);
 			if($extendedCls)
 			{
 				self::$class_types_cache[$assetType] = $extendedCls;
@@ -76,7 +76,7 @@ class ScheduleEventPeer extends BaseScheduleEventPeer implements IRelatedObjectP
 	{
 		$c = clone $criteria;
 		
-		if($c instanceof KalturaCriteria)
+		if($c instanceof BorhanCriteria)
 		{
 			$c->applyFilters();
 			$criteria->setRecordsCount($c->getRecordsCount());
@@ -214,7 +214,7 @@ class ScheduleEventPeer extends BaseScheduleEventPeer implements IRelatedObjectP
 	 */
 	public static function retrieveByTemplateEntryId($templateEntryId)
 	{
-		$c = KalturaCriteria::create(ScheduleEventPeer::OM_CLASS);
+		$c = BorhanCriteria::create(ScheduleEventPeer::OM_CLASS);
 		$filter = new ScheduleEventFilter();
 		$filter->setTemplateEntryIdEqual($templateEntryId);
 		$filter->attachToCriteria($c);
@@ -230,7 +230,7 @@ class ScheduleEventPeer extends BaseScheduleEventPeer implements IRelatedObjectP
 	 */
 	public static function retrieveEventsByResourceIdsAndDateWindow($resourceIds, $startDate, $endDate)
 	{
-		$c = KalturaCriteria::create(ScheduleEventPeer::OM_CLASS);
+		$c = BorhanCriteria::create(ScheduleEventPeer::OM_CLASS);
 		$c->addAnd(ScheduleEventPeer::START_DATE, $endDate, Criteria::LESS_THAN);
 		$c->addAnd(ScheduleEventPeer::END_DATE, $startDate, Criteria::GREATER_THAN);
 

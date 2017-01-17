@@ -3,7 +3,7 @@
 /**
  * Auto-generated enum class
 */
-class KalturaDataEntryCompareAttribute extends KalturaBaseEntryCompareAttribute
+class BorhanDataEntryCompareAttribute extends BorhanBaseEntryCompareAttribute
 {
 }
 

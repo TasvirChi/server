@@ -3,7 +3,7 @@
  * @package plugins.scheduledTask
  * @subpackage model.enum
  */
-class ScheduledTaskBatchJobObjectType implements IKalturaPluginEnum, BatchJobObjectType
+class ScheduledTaskBatchJobObjectType implements IBorhanPluginEnum, BatchJobObjectType
 {
 	const SCHEDULED_TASK_PROFILE		= "ScheduledTaskProfile";
 

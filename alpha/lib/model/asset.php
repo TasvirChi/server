@@ -444,7 +444,7 @@ class asset extends Baseasset implements ISyncableFile, IRelatedObject
 		$v = trim($v);
 		if (preg_match('/[\s\t\n\r]/', $v)){
 			preg_match('/\w*/', $v, $v);
-			KalturaLog::err("File extension cannot contain spaces, saving only ".$v[0]);
+			BorhanLog::err("File extension cannot contain spaces, saving only ".$v[0]);
 			parent::setFileExt($v[0]);
 		}
 		else{
@@ -461,7 +461,7 @@ class asset extends Baseasset implements ISyncableFile, IRelatedObject
 			$existingObject = assetPeer::retrieveByIdNoFilter($id);
 			
 			if ($existingObject)
-				KalturaLog::log(__METHOD__ . ": id [$id] already exists");
+				BorhanLog::log(__METHOD__ . ": id [$id] already exists");
 			else
 				return $id;
 		}
@@ -534,14 +534,14 @@ class asset extends Baseasset implements ISyncableFile, IRelatedObject
 					break;
 				}
 			
-			case StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_ONLY:
+			case StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_ONLY:
 				$fileSync = kFileSyncUtils::getReadyInternalFileSyncForKey($syncKey);
 				if(!$fileSync)
 				    throw new kCoreException("File sync not found: $syncKey", kCoreException::FILE_NOT_FOUND);
 				
 				break;
 			
-			case StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_FIRST:
+			case StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_FIRST:
 				$fileSync = kFileSyncUtils::getReadyInternalFileSyncForKey($syncKey);
 				if($fileSync)
 					break;

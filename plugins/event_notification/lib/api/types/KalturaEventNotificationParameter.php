@@ -3,7 +3,7 @@
  * @package plugins.eventNotification
  * @subpackage api.objects
  */
-class KalturaEventNotificationParameter extends KalturaObject
+class BorhanEventNotificationParameter extends BorhanObject
 {
 	/**
 	 * The key in the subject and body to be replaced with the dynamic value
@@ -18,7 +18,7 @@ class KalturaEventNotificationParameter extends KalturaObject
 	
 	/**
 	 * The dynamic value to be placed in the final output
-	 * @var KalturaStringValue
+	 * @var BorhanStringValue
 	 */
 	public $value;
 	
@@ -35,7 +35,7 @@ class KalturaEventNotificationParameter extends KalturaObject
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{
@@ -46,31 +46,31 @@ class KalturaEventNotificationParameter extends KalturaObject
 	}
 	 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject()
+	 * @see BorhanObject::fromObject()
 	 */
-	public function doFromObject($dbObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($dbObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		/* @var $dbObject kEventValueCondition */
 		parent::doFromObject($dbObject, $responseProfile);
 		
 		$valueType = get_class($dbObject->getValue());
-		KalturaLog::debug("Loading KalturaStringValue from type [$valueType]");
+		BorhanLog::debug("Loading BorhanStringValue from type [$valueType]");
 		switch ($valueType)
 		{
 			case 'kMetadataField':
-				$this->value = new KalturaMetadataField();
+				$this->value = new BorhanMetadataField();
 				break;
 				
 			case 'kStringValue':
-				$this->value = new KalturaStringValue();
+				$this->value = new BorhanStringValue();
 				break;
 				
 			case 'kEvalStringField':
-				$this->value = new KalturaEvalStringField();
+				$this->value = new BorhanEvalStringField();
 				break;
 				
 			default:
-				$this->value = KalturaPluginManager::loadObject('KalturaStringValue', $valueType);
+				$this->value = BorhanPluginManager::loadObject('BorhanStringValue', $valueType);
 				break;
 		}
 		

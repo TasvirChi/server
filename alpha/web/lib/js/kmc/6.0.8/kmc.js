@@ -1,8 +1,8 @@
-/*! KMC - v6.0.8 - 2013-08-21
-* https://github.com/kaltura/KMC_V2
+/*! BMC - v6.0.8 - 2013-08-21
+* https://github.com/borhan/BMC_V2
 * Copyright (c) 2013 Ran Yefet; Licensed GNU */
-/*! Kaltura Embed Code Generator - v1.0.6 - 2013-02-28
-* https://github.com/kaltura/EmbedCodeGenerator
+/*! Borhan Embed Code Generator - v1.0.6 - 2013-02-28
+* https://github.com/borhan/EmbedCodeGenerator
 * Copyright (c) 2013 Ran Yefet; Licensed MIT */
 
 // lib/handlebars/base.js
@@ -321,12 +321,12 @@ Handlebars.registerHelper('elAttributes', function( attributes ) {
 	}
 	return str;
 });
-// Include kaltura links
-Handlebars.registerHelper('kalturaLinks', function() {
-	if( ! this.includeKalturaLinks ) {
+// Include borhan links
+Handlebars.registerHelper('borhanLinks', function() {
+	if( ! this.includeBorhanLinks ) {
 		return '';
 	}
-	var template = Handlebars.templates['kaltura_links'];
+	var template = Handlebars.templates['borhan_links'];
 	return template();
 });
 
@@ -336,7 +336,7 @@ Handlebars.registerHelper('seoMetadata', function() {
 });
 
 })(this, this.Handlebars);
-(function(){var a=Handlebars.template,b=Handlebars.templates=Handlebars.templates||{};b.auto=a(function(a,b,c,d,e){function p(a,b){var d="",e,f;d+='<div id="',i=c.playerId,e=i||a.playerId,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"playerId",{hash:{}})),d+=o(e)+'"',i=c.attributes,e=i||a.attributes,i=c.elAttributes,f=i||a.elAttributes,typeof f===l?e=f.call(a,e,{hash:{}}):f===n?e=m.call(a,"elAttributes",e,{hash:{}}):e=f;if(e||e===0)d+=e;d+=">",i=c.seoMetadata,e=i||a.seoMetadata,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"seoMetadata",{hash:{}}));if(e||e===0)d+=e;i=c.kalturaLinks,e=i||a.kalturaLinks,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"kalturaLinks",{hash:{}}));if(e||e===0)d+=e;return d+="</div>\n",d}function q(a,b){var d="",e;return d+="&entry_id=",i=c.entryId,e=i||a.entryId,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"entryId",{hash:{}})),d+=o(e),d}function r(a,b){var d="",e;return d+="&cache_st=",i=c.cacheSt,e=i||a.cacheSt,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"cacheSt",{hash:{}})),d+=o(e),d}c=c||a.helpers;var f="",g,h,i,j,k=this,l="function",m=c.helperMissing,n=void 0,o=this.escapeExpression;i=c.includeSeoMetadata,g=i||b.includeSeoMetadata,h=c["if"],j=k.program(1,p,e),j.hash={},j.fn=j,j.inverse=k.noop,g=h.call(b,g,j);if(g||g===0)f+=g;f+='<script src="',i=c.scriptUrl,g=i||b.scriptUrl,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"scriptUrl",{hash:{}})),f+=o(g)+"?autoembed=true",i=c.entryId,g=i||b.entryId,h=c["if"],j=k.program(3,q,e),j.hash={},j.fn=j,j.inverse=k.noop,g=h.call(b,g,j);if(g||g===0)f+=g;f+="&playerId=",i=c.playerId,g=i||b.playerId,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"playerId",{hash:{}})),f+=o(g),i=c.cacheSt,g=i||b.cacheSt,h=c["if"],j=k.program(5,r,e),j.hash={},j.fn=j,j.inverse=k.noop,g=h.call(b,g,j);if(g||g===0)f+=g;f+="&width=",i=c.width,g=i||b.width,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"width",{hash:{}})),f+=o(g)+"&height=",i=c.height,g=i||b.height,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"height",{hash:{}})),f+=o(g),i=c.flashVars,g=i||b.flashVars,i=c.flashVarsUrl,h=i||b.flashVarsUrl,typeof h===l?g=h.call(b,g,{hash:{}}):h===n?g=m.call(b,"flashVarsUrl",g,{hash:{}}):g=h;if(g||g===0)f+=g;return f+='"></script>',f}),b.dynamic=a(function(a,b,c,d,e){c=c||a.helpers;var f="",g,h,i,j=this,k="function",l=c.helperMissing,m=void 0,n=this.escapeExpression;f+='<script src="',i=c.scriptUrl,g=i||b.scriptUrl,typeof g===k?g=g.call(b,{hash:{}}):g===m&&(g=l.call(b,"scriptUrl",{hash:{}})),f+=n(g)+'"></script>\n<div id="',i=c.playerId,g=i||b.playerId,typeof g===k?g=g.call(b,{hash:{}}):g===m&&(g=l.call(b,"playerId",{hash:{}})),f+=n(g)+'"',i=c.attributes,g=i||b.attributes,i=c.elAttributes,h=i||b.elAttributes,typeof h===k?g=h.call(b,g,{hash:{}}):h===m?g=l.call(b,"elAttributes",g,{hash:{}}):g=h;if(g||g===0)f+=g;f+=">",i=c.seoMetadata,g=i||b.seoMetadata,typeof g===k?g=g.call(b,{hash:{}}):g===m&&(g=l.call(b,"seoMetadata",{hash:{}}));if(g||g===0)f+=g;i=c.kalturaLinks,g=i||b.kalturaLinks,typeof g===k?g=g.call(b,{hash:{}}):g===m&&(g=l.call(b,"kalturaLinks",{hash:{}}));if(g||g===0)f+=g;f+="</div>\n<script>\nkWidget.",i=c.embedMethod,g=i||b.embedMethod,typeof g===k?g=g.call(b,{hash:{}}):g===m&&(g=l.call(b,"embedMethod",{hash:{}})),f+=n(g)+"(",i=c.kWidgetObject,g=i||b.kWidgetObject,typeof g===k?g=g.call(b,{hash:{}}):g===m&&(g=l.call(b,"kWidgetObject",{hash:{}}));if(g||g===0)f+=g;return f+=");\n</script>",f}),b.iframe=a(function(a,b,c,d,e){function p(a,b){var d="",e;return d+="&entry_id=",i=c.entryId,e=i||a.entryId,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"entryId",{hash:{}})),d+=o(e),d}c=c||a.helpers;var f="",g,h,i,j,k=this,l="function",m=c.helperMissing,n=void 0,o=this.escapeExpression;f+='<iframe src="',i=c.protocol,g=i||b.protocol,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"protocol",{hash:{}})),f+=o(g)+"://",i=c.host,g=i||b.host,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"host",{hash:{}})),f+=o(g)+"/p/",i=c.partnerId,g=i||b.partnerId,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"partnerId",{hash:{}})),f+=o(g)+"/sp/",i=c.partnerId,g=i||b.partnerId,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"partnerId",{hash:{}})),f+=o(g)+"00/embedIframeJs/uiconf_id/",i=c.uiConfId,g=i||b.uiConfId,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"uiConfId",{hash:{}})),f+=o(g)+"/partner_id/",i=c.partnerId,g=i||b.partnerId,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"partnerId",{hash:{}})),f+=o(g)+"?iframeembed=true&playerId=",i=c.playerId,g=i||b.playerId,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"playerId",{hash:{}})),f+=o(g),i=c.entryId,g=i||b.entryId,h=c["if"],j=k.program(1,p,e),j.hash={},j.fn=j,j.inverse=k.noop,g=h.call(b,g,j);if(g||g===0)f+=g;i=c.flashVars,g=i||b.flashVars,i=c.flashVarsUrl,h=i||b.flashVarsUrl,typeof h===l?g=h.call(b,g,{hash:{}}):h===n?g=m.call(b,"flashVarsUrl",g,{hash:{}}):g=h;if(g||g===0)f+=g;f+='" width="',i=c.width,g=i||b.width,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"width",{hash:{}})),f+=o(g)+'" height="',i=c.height,g=i||b.height,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"height",{hash:{}})),f+=o(g)+'" allowfullscreen webkitallowfullscreen mozAllowFullScreen frameborder="0"',i=c.attributes,g=i||b.attributes,i=c.elAttributes,h=i||b.elAttributes,typeof h===l?g=h.call(b,g,{hash:{}}):h===n?g=m.call(b,"elAttributes",g,{hash:{}}):g=h;if(g||g===0)f+=g;f+=">",i=c.seoMetadata,g=i||b.seoMetadata,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"seoMetadata",{hash:{}}));if(g||g===0)f+=g;i=c.kalturaLinks,g=i||b.kalturaLinks,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"kalturaLinks",{hash:{}}));if(g||g===0)f+=g;return f+="</iframe>",f}),b.kaltura_links=a(function(a,b,c,d,e){c=c||a.helpers;var f,g=this;return'<a href="http://corp.kaltura.com/products/video-platform-features">Video Platform</a>\n<a href="http://corp.kaltura.com/Products/Features/Video-Management">Video Management</a> \n<a href="http://corp.kaltura.com/Video-Solutions">Video Solutions</a>\n<a href="http://corp.kaltura.com/Products/Features/Video-Player">Video Player</a>'}),b.legacy=a(function(a,b,c,d,e){function p(a,b){var d="",e;return d+='<script src="',i=c.scriptUrl,e=i||a.scriptUrl,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"scriptUrl",{hash:{}})),d+=o(e)+'"></script>\n',d}function q(a,b){var d="",e;return d+='\n	<a rel="media:thumbnail" href="',i=c.entryMeta,e=i||a.entryMeta,e=e===null||e===undefined||e===!1?e:e.thumbnailUrl,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"entryMeta.thumbnailUrl",{hash:{}})),d+=o(e)+'"></a>\n	<span property="dc:description" content="',i=c.entryMeta,e=i||a.entryMeta,e=e===null||e===undefined||e===!1?e:e.description,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"entryMeta.description",{hash:{}})),d+=o(e)+'"></span>\n	<span property="media:title" content="',i=c.entryMeta,e=i||a.entryMeta,e=e===null||e===undefined||e===!1?e:e.name,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"entryMeta.name",{hash:{}})),d+=o(e)+'"></span>\n	<span property="media:width" content="',i=c.width,e=i||a.width,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"width",{hash:{}})),d+=o(e)+'"></span>\n	<span property="media:height" content="',i=c.height,e=i||a.height,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"height",{hash:{}})),d+=o(e)+'"></span>\n	<span property="media:type" content="application/x-shockwave-flash"></span>	\n	',d}c=c||a.helpers;var f="",g,h,i,j,k=this,l="function",m=c.helperMissing,n=void 0,o=this.escapeExpression;i=c.includeHtml5Library,g=i||b.includeHtml5Library,h=c["if"],j=k.program(1,p,e),j.hash={},j.fn=j,j.inverse=k.noop,g=h.call(b,g,j);if(g||g===0)f+=g;f+='<object id="',i=c.playerId,g=i||b.playerId,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"playerId",{hash:{}})),f+=o(g)+'" name="',i=c.playerId,g=i||b.playerId,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"playerId",{hash:{}})),f+=o(g)+'" type="application/x-shockwave-flash" allowFullScreen="true" allowNetworking="all" allowScriptAccess="always" height="',i=c.height,g=i||b.height,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"height",{hash:{}})),f+=o(g)+'" width="',i=c.width,g=i||b.width,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"width",{hash:{}})),f+=o(g)+'" bgcolor="#000000"',i=c.attributes,g=i||b.attributes,i=c.elAttributes,h=i||b.elAttributes,typeof h===l?g=h.call(b,g,{hash:{}}):h===n?g=m.call(b,"elAttributes",g,{hash:{}}):g=h;if(g||g===0)f+=g;f+=' data="',i=c.swfUrl,g=i||b.swfUrl,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"swfUrl",{hash:{}})),f+=o(g)+'">\n	<param name="allowFullScreen" value="true" />\n	<param name="allowNetworking" value="all" />\n	<param name="allowScriptAccess" value="always" />\n	<param name="bgcolor" value="#000000" />\n	<param name="flashVars" value="',i=c.flashVars,g=i||b.flashVars,i=c.flashVarsString,h=i||b.flashVarsString,typeof h===l?g=h.call(b,g,{hash:{}}):h===n?g=m.call(b,"flashVarsString",g,{hash:{}}):g=h;if(g||g===0)f+=g;f+='" />\n	<param name="movie" value="',i=c.swfUrl,g=i||b.swfUrl,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"swfUrl",{hash:{}})),f+=o(g)+'" />\n	',i=c.includeSeoMetadata,g=i||b.includeSeoMetadata,h=c["if"],j=k.program(3,q,e),j.hash={},j.fn=j,j.inverse=k.noop,g=h.call(b,g,j);if(g||g===0)f+=g;i=c.kalturaLinks,g=i||b.kalturaLinks,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"kalturaLinks",{hash:{}}));if(g||g===0)f+=g;return f+="\n</object>",f}),b.seo_metadata=a(function(a,b,c,d,e){function o(a,b){var d="",e;return d+='\n<span itemprop="name" content="',h=c.entryMeta,e=h||a.entryMeta,e=e===null||e===undefined||e===!1?e:e.name,typeof e===k?e=e.call(a,{hash:{}}):e===m&&(e=l.call(a,"entryMeta.name",{hash:{}})),d+=n(e)+'"></span>\n<span itemprop="description" content="',h=c.entryMeta,e=h||a.entryMeta,e=e===null||e===undefined||e===!1?e:e.description,typeof e===k?e=e.call(a,{hash:{}}):e===m&&(e=l.call(a,"entryMeta.description",{hash:{}})),d+=n(e)+'"></span>\n<span itemprop="duration" content="',h=c.entryMeta,e=h||a.entryMeta,e=e===null||e===undefined||e===!1?e:e.duration,typeof e===k?e=e.call(a,{hash:{}}):e===m&&(e=l.call(a,"entryMeta.duration",{hash:{}})),d+=n(e)+'"></span>\n<span itemprop="thumbnail" content="',h=c.entryMeta,e=h||a.entryMeta,e=e===null||e===undefined||e===!1?e:e.thumbnailUrl,typeof e===k?e=e.call(a,{hash:{}}):e===m&&(e=l.call(a,"entryMeta.thumbnailUrl",{hash:{}})),d+=n(e)+'"></span>\n<span itemprop="width" content="',h=c.width,e=h||a.width,typeof e===k?e=e.call(a,{hash:{}}):e===m&&(e=l.call(a,"width",{hash:{}})),d+=n(e)+'"></span>\n<span itemprop="height" content="',h=c.height,e=h||a.height,typeof e===k?e=e.call(a,{hash:{}}):e===m&&(e=l.call(a,"height",{hash:{}})),d+=n(e)+'"></span>\n',d}c=c||a.helpers;var f,g,h,i,j=this,k="function",l=c.helperMissing,m=void 0,n=this.escapeExpression;return h=c.includeSeoMetadata,f=h||b.includeSeoMetadata,g=c["if"],i=j.program(1,o,e),i.hash={},i.fn=i,i.inverse=j.noop,f=g.call(b,f,i),f||f===0?f:""})})()
+(function(){var a=Handlebars.template,b=Handlebars.templates=Handlebars.templates||{};b.auto=a(function(a,b,c,d,e){function p(a,b){var d="",e,f;d+='<div id="',i=c.playerId,e=i||a.playerId,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"playerId",{hash:{}})),d+=o(e)+'"',i=c.attributes,e=i||a.attributes,i=c.elAttributes,f=i||a.elAttributes,typeof f===l?e=f.call(a,e,{hash:{}}):f===n?e=m.call(a,"elAttributes",e,{hash:{}}):e=f;if(e||e===0)d+=e;d+=">",i=c.seoMetadata,e=i||a.seoMetadata,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"seoMetadata",{hash:{}}));if(e||e===0)d+=e;i=c.borhanLinks,e=i||a.borhanLinks,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"borhanLinks",{hash:{}}));if(e||e===0)d+=e;return d+="</div>\n",d}function q(a,b){var d="",e;return d+="&entry_id=",i=c.entryId,e=i||a.entryId,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"entryId",{hash:{}})),d+=o(e),d}function r(a,b){var d="",e;return d+="&cache_st=",i=c.cacheSt,e=i||a.cacheSt,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"cacheSt",{hash:{}})),d+=o(e),d}c=c||a.helpers;var f="",g,h,i,j,k=this,l="function",m=c.helperMissing,n=void 0,o=this.escapeExpression;i=c.includeSeoMetadata,g=i||b.includeSeoMetadata,h=c["if"],j=k.program(1,p,e),j.hash={},j.fn=j,j.inverse=k.noop,g=h.call(b,g,j);if(g||g===0)f+=g;f+='<script src="',i=c.scriptUrl,g=i||b.scriptUrl,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"scriptUrl",{hash:{}})),f+=o(g)+"?autoembed=true",i=c.entryId,g=i||b.entryId,h=c["if"],j=k.program(3,q,e),j.hash={},j.fn=j,j.inverse=k.noop,g=h.call(b,g,j);if(g||g===0)f+=g;f+="&playerId=",i=c.playerId,g=i||b.playerId,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"playerId",{hash:{}})),f+=o(g),i=c.cacheSt,g=i||b.cacheSt,h=c["if"],j=k.program(5,r,e),j.hash={},j.fn=j,j.inverse=k.noop,g=h.call(b,g,j);if(g||g===0)f+=g;f+="&width=",i=c.width,g=i||b.width,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"width",{hash:{}})),f+=o(g)+"&height=",i=c.height,g=i||b.height,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"height",{hash:{}})),f+=o(g),i=c.flashVars,g=i||b.flashVars,i=c.flashVarsUrl,h=i||b.flashVarsUrl,typeof h===l?g=h.call(b,g,{hash:{}}):h===n?g=m.call(b,"flashVarsUrl",g,{hash:{}}):g=h;if(g||g===0)f+=g;return f+='"></script>',f}),b.dynamic=a(function(a,b,c,d,e){c=c||a.helpers;var f="",g,h,i,j=this,k="function",l=c.helperMissing,m=void 0,n=this.escapeExpression;f+='<script src="',i=c.scriptUrl,g=i||b.scriptUrl,typeof g===k?g=g.call(b,{hash:{}}):g===m&&(g=l.call(b,"scriptUrl",{hash:{}})),f+=n(g)+'"></script>\n<div id="',i=c.playerId,g=i||b.playerId,typeof g===k?g=g.call(b,{hash:{}}):g===m&&(g=l.call(b,"playerId",{hash:{}})),f+=n(g)+'"',i=c.attributes,g=i||b.attributes,i=c.elAttributes,h=i||b.elAttributes,typeof h===k?g=h.call(b,g,{hash:{}}):h===m?g=l.call(b,"elAttributes",g,{hash:{}}):g=h;if(g||g===0)f+=g;f+=">",i=c.seoMetadata,g=i||b.seoMetadata,typeof g===k?g=g.call(b,{hash:{}}):g===m&&(g=l.call(b,"seoMetadata",{hash:{}}));if(g||g===0)f+=g;i=c.borhanLinks,g=i||b.borhanLinks,typeof g===k?g=g.call(b,{hash:{}}):g===m&&(g=l.call(b,"borhanLinks",{hash:{}}));if(g||g===0)f+=g;f+="</div>\n<script>\nbWidget.",i=c.embedMethod,g=i||b.embedMethod,typeof g===k?g=g.call(b,{hash:{}}):g===m&&(g=l.call(b,"embedMethod",{hash:{}})),f+=n(g)+"(",i=c.bWidgetObject,g=i||b.bWidgetObject,typeof g===k?g=g.call(b,{hash:{}}):g===m&&(g=l.call(b,"bWidgetObject",{hash:{}}));if(g||g===0)f+=g;return f+=");\n</script>",f}),b.iframe=a(function(a,b,c,d,e){function p(a,b){var d="",e;return d+="&entry_id=",i=c.entryId,e=i||a.entryId,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"entryId",{hash:{}})),d+=o(e),d}c=c||a.helpers;var f="",g,h,i,j,k=this,l="function",m=c.helperMissing,n=void 0,o=this.escapeExpression;f+='<iframe src="',i=c.protocol,g=i||b.protocol,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"protocol",{hash:{}})),f+=o(g)+"://",i=c.host,g=i||b.host,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"host",{hash:{}})),f+=o(g)+"/p/",i=c.partnerId,g=i||b.partnerId,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"partnerId",{hash:{}})),f+=o(g)+"/sp/",i=c.partnerId,g=i||b.partnerId,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"partnerId",{hash:{}})),f+=o(g)+"00/embedIframeJs/uiconf_id/",i=c.uiConfId,g=i||b.uiConfId,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"uiConfId",{hash:{}})),f+=o(g)+"/partner_id/",i=c.partnerId,g=i||b.partnerId,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"partnerId",{hash:{}})),f+=o(g)+"?iframeembed=true&playerId=",i=c.playerId,g=i||b.playerId,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"playerId",{hash:{}})),f+=o(g),i=c.entryId,g=i||b.entryId,h=c["if"],j=k.program(1,p,e),j.hash={},j.fn=j,j.inverse=k.noop,g=h.call(b,g,j);if(g||g===0)f+=g;i=c.flashVars,g=i||b.flashVars,i=c.flashVarsUrl,h=i||b.flashVarsUrl,typeof h===l?g=h.call(b,g,{hash:{}}):h===n?g=m.call(b,"flashVarsUrl",g,{hash:{}}):g=h;if(g||g===0)f+=g;f+='" width="',i=c.width,g=i||b.width,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"width",{hash:{}})),f+=o(g)+'" height="',i=c.height,g=i||b.height,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"height",{hash:{}})),f+=o(g)+'" allowfullscreen webkitallowfullscreen mozAllowFullScreen frameborder="0"',i=c.attributes,g=i||b.attributes,i=c.elAttributes,h=i||b.elAttributes,typeof h===l?g=h.call(b,g,{hash:{}}):h===n?g=m.call(b,"elAttributes",g,{hash:{}}):g=h;if(g||g===0)f+=g;f+=">",i=c.seoMetadata,g=i||b.seoMetadata,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"seoMetadata",{hash:{}}));if(g||g===0)f+=g;i=c.borhanLinks,g=i||b.borhanLinks,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"borhanLinks",{hash:{}}));if(g||g===0)f+=g;return f+="</iframe>",f}),b.borhan_links=a(function(a,b,c,d,e){c=c||a.helpers;var f,g=this;return'<a href="http://corp.borhan.com/products/video-platform-features">Video Platform</a>\n<a href="http://corp.borhan.com/Products/Features/Video-Management">Video Management</a> \n<a href="http://corp.borhan.com/Video-Solutions">Video Solutions</a>\n<a href="http://corp.borhan.com/Products/Features/Video-Player">Video Player</a>'}),b.legacy=a(function(a,b,c,d,e){function p(a,b){var d="",e;return d+='<script src="',i=c.scriptUrl,e=i||a.scriptUrl,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"scriptUrl",{hash:{}})),d+=o(e)+'"></script>\n',d}function q(a,b){var d="",e;return d+='\n	<a rel="media:thumbnail" href="',i=c.entryMeta,e=i||a.entryMeta,e=e===null||e===undefined||e===!1?e:e.thumbnailUrl,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"entryMeta.thumbnailUrl",{hash:{}})),d+=o(e)+'"></a>\n	<span property="dc:description" content="',i=c.entryMeta,e=i||a.entryMeta,e=e===null||e===undefined||e===!1?e:e.description,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"entryMeta.description",{hash:{}})),d+=o(e)+'"></span>\n	<span property="media:title" content="',i=c.entryMeta,e=i||a.entryMeta,e=e===null||e===undefined||e===!1?e:e.name,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"entryMeta.name",{hash:{}})),d+=o(e)+'"></span>\n	<span property="media:width" content="',i=c.width,e=i||a.width,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"width",{hash:{}})),d+=o(e)+'"></span>\n	<span property="media:height" content="',i=c.height,e=i||a.height,typeof e===l?e=e.call(a,{hash:{}}):e===n&&(e=m.call(a,"height",{hash:{}})),d+=o(e)+'"></span>\n	<span property="media:type" content="application/x-shockwave-flash"></span>	\n	',d}c=c||a.helpers;var f="",g,h,i,j,k=this,l="function",m=c.helperMissing,n=void 0,o=this.escapeExpression;i=c.includeHtml5Library,g=i||b.includeHtml5Library,h=c["if"],j=k.program(1,p,e),j.hash={},j.fn=j,j.inverse=k.noop,g=h.call(b,g,j);if(g||g===0)f+=g;f+='<object id="',i=c.playerId,g=i||b.playerId,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"playerId",{hash:{}})),f+=o(g)+'" name="',i=c.playerId,g=i||b.playerId,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"playerId",{hash:{}})),f+=o(g)+'" type="application/x-shockwave-flash" allowFullScreen="true" allowNetworking="all" allowScriptAccess="always" height="',i=c.height,g=i||b.height,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"height",{hash:{}})),f+=o(g)+'" width="',i=c.width,g=i||b.width,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"width",{hash:{}})),f+=o(g)+'" bgcolor="#000000"',i=c.attributes,g=i||b.attributes,i=c.elAttributes,h=i||b.elAttributes,typeof h===l?g=h.call(b,g,{hash:{}}):h===n?g=m.call(b,"elAttributes",g,{hash:{}}):g=h;if(g||g===0)f+=g;f+=' data="',i=c.swfUrl,g=i||b.swfUrl,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"swfUrl",{hash:{}})),f+=o(g)+'">\n	<param name="allowFullScreen" value="true" />\n	<param name="allowNetworking" value="all" />\n	<param name="allowScriptAccess" value="always" />\n	<param name="bgcolor" value="#000000" />\n	<param name="flashVars" value="',i=c.flashVars,g=i||b.flashVars,i=c.flashVarsString,h=i||b.flashVarsString,typeof h===l?g=h.call(b,g,{hash:{}}):h===n?g=m.call(b,"flashVarsString",g,{hash:{}}):g=h;if(g||g===0)f+=g;f+='" />\n	<param name="movie" value="',i=c.swfUrl,g=i||b.swfUrl,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"swfUrl",{hash:{}})),f+=o(g)+'" />\n	',i=c.includeSeoMetadata,g=i||b.includeSeoMetadata,h=c["if"],j=k.program(3,q,e),j.hash={},j.fn=j,j.inverse=k.noop,g=h.call(b,g,j);if(g||g===0)f+=g;i=c.borhanLinks,g=i||b.borhanLinks,typeof g===l?g=g.call(b,{hash:{}}):g===n&&(g=m.call(b,"borhanLinks",{hash:{}}));if(g||g===0)f+=g;return f+="\n</object>",f}),b.seo_metadata=a(function(a,b,c,d,e){function o(a,b){var d="",e;return d+='\n<span itemprop="name" content="',h=c.entryMeta,e=h||a.entryMeta,e=e===null||e===undefined||e===!1?e:e.name,typeof e===k?e=e.call(a,{hash:{}}):e===m&&(e=l.call(a,"entryMeta.name",{hash:{}})),d+=n(e)+'"></span>\n<span itemprop="description" content="',h=c.entryMeta,e=h||a.entryMeta,e=e===null||e===undefined||e===!1?e:e.description,typeof e===k?e=e.call(a,{hash:{}}):e===m&&(e=l.call(a,"entryMeta.description",{hash:{}})),d+=n(e)+'"></span>\n<span itemprop="duration" content="',h=c.entryMeta,e=h||a.entryMeta,e=e===null||e===undefined||e===!1?e:e.duration,typeof e===k?e=e.call(a,{hash:{}}):e===m&&(e=l.call(a,"entryMeta.duration",{hash:{}})),d+=n(e)+'"></span>\n<span itemprop="thumbnail" content="',h=c.entryMeta,e=h||a.entryMeta,e=e===null||e===undefined||e===!1?e:e.thumbnailUrl,typeof e===k?e=e.call(a,{hash:{}}):e===m&&(e=l.call(a,"entryMeta.thumbnailUrl",{hash:{}})),d+=n(e)+'"></span>\n<span itemprop="width" content="',h=c.width,e=h||a.width,typeof e===k?e=e.call(a,{hash:{}}):e===m&&(e=l.call(a,"width",{hash:{}})),d+=n(e)+'"></span>\n<span itemprop="height" content="',h=c.height,e=h||a.height,typeof e===k?e=e.call(a,{hash:{}}):e===m&&(e=l.call(a,"height",{hash:{}})),d+=n(e)+'"></span>\n',d}c=c||a.helpers;var f,g,h,i,j=this,k="function",l=c.helperMissing,m=void 0,n=this.escapeExpression;return h=c.includeSeoMetadata,f=h||b.includeSeoMetadata,g=c["if"],i=j.program(1,o,e),i.hash={},i.fn=i,i.inverse=j.noop,f=g.call(b,f,i),f||f===0?f:""})})()
 // Add indexOf to array object
 if (!Array.prototype.indexOf) {
     Array.prototype.indexOf = function (searchElement /*, fromIndex */ ) {
@@ -412,7 +412,7 @@ if (!Object.keys) {
 }
 (function( window, undefined ) {
 /**
-* Kaltura Embed Code Generator
+* Borhan Embed Code Generator
 * Used to generate different type of embed codes
 * Depended on Handlebars ( http://handlebarsjs.com/ )
 * 
@@ -443,9 +443,9 @@ EmbedCodeGenerator.prototype = {
 		* 
 		* @property playerId
 		* @type {String}
-		* @default "kaltura_player"
+		* @default "borhan_player"
 		*/			
-		playerId: 'kaltura_player',
+		playerId: 'borhan_player',
 		/**
 		* Embed HTTP protocol to use
 		* Can we one of: ['http', 'https']
@@ -456,24 +456,24 @@ EmbedCodeGenerator.prototype = {
 		*/			
 		protocol: 'http',
 		/**
-		* Host for loading html5 library & kdp swf
+		* Host for loading html5 library & bdp swf
 		* 
 		* @property host
 		* @type {String}
-		* @default "www.kaltura.com"
+		* @default "www.borhan.com"
 		*/			
-		host: 'www.kaltura.com',
+		host: 'www.borhan.com',
 		/**
-		* Secured host for loading html5 library & kdp swf
+		* Secured host for loading html5 library & bdp swf
 		* Used if protocol is: 'https'
 		* 
 		* @property securedHost
 		* @type {String}
-		* @default "www.kaltura.com"
+		* @default "www.borhan.com"
 		*/		
-		securedHost: 'www.kaltura.com',
+		securedHost: 'www.borhan.com',
 		/**
-		* Kaltura Widget Id
+		* Borhan Widget Id
 		* 
 		* @property widgetId
 		* @type {String}
@@ -481,7 +481,7 @@ EmbedCodeGenerator.prototype = {
 		*/
 		widgetId: null,
 		/**
-		* Kaltura Partner Id
+		* Borhan Partner Id
 		* 
 		* @property partnerId
 		* @type {Number}
@@ -498,7 +498,7 @@ EmbedCodeGenerator.prototype = {
 		*/		
 		cacheSt: null,
 		/**
-		* Kaltura UiConf Id
+		* Borhan UiConf Id
 		* 
 		* @property uiConfId
 		* @type {Number}
@@ -506,7 +506,7 @@ EmbedCodeGenerator.prototype = {
 		*/		
 		uiConfId: null,
 		/**
-		* Kaltura Entry Id
+		* Borhan Entry Id
 		* 
 		* @property entryId
 		* @type {String}
@@ -518,7 +518,7 @@ EmbedCodeGenerator.prototype = {
 		* {
 		*	name: 'Foo', 
 		*	description: 'Bar', 
-		*	thumbUrl: 'http://cdnbakmi.kaltura.com/thumbnail/...'
+		*	thumbUrl: 'http://cdnbakmi.borhan.com/thumbnail/...'
 		* }
 		* 
 		* @property entryMeta
@@ -567,13 +567,13 @@ EmbedCodeGenerator.prototype = {
 		*/			
 		flashVars: {},
 		/**
-		* Include Kaltura SEO links to embed code
+		* Include Borhan SEO links to embed code
 		* 
-		* @property includeKalturaLinks
+		* @property includeBorhanLinks
 		* @type {Boolean}
 		* @default true,
 		*/
-		includeKalturaLinks: true,
+		includeBorhanLinks: true,
 		/**
 		* Include Entry Seo Metadata
 		* Metadata is taken from {entryMeta} object
@@ -722,13 +722,13 @@ EmbedCodeGenerator.prototype = {
 		return ( type && Handlebars.templates && Handlebars.templates[ type ] ) ? Handlebars.templates[ type ] : null;
 	},
 	/**
-	* Check if embed type is using kWidget embed
+	* Check if embed type is using bWidget embed
 	*
-	* @method isKWidgetEmbed
+	* @method isBWidgetEmbed
 	* @param {String} type - One of config embed types
 	* @return {Boolean} true / false
 	*/
-	isKWidgetEmbed: function( type ) {
+	isBWidgetEmbed: function( type ) {
 		return ( type == 'dynamic' || type == 'thumb' ) ? true : false;
 	},
 	/**
@@ -761,7 +761,7 @@ EmbedCodeGenerator.prototype = {
 	getSwfUrl: function( params ) {
 		var cacheSt = (params.cacheSt) ? '/cache_st/' + params.cacheSt : '';
 		var entryId = (params.entryId) ? '/entry_id/' + params.entryId : '';
-		return params.protocol + '://' + this.getHost(params) + '/index.php/kwidget' + cacheSt + 
+		return params.protocol + '://' + this.getHost(params) + '/index.php/bwidget' + cacheSt + 
 				'/wid/' + params.widgetId + '/uiconf_id/' + params.uiConfId + entryId;
 	},
 	/**
@@ -776,7 +776,7 @@ EmbedCodeGenerator.prototype = {
 
 		// Add style attribute for dynamic / thumb embeds
 		// Or if includeSeoMetadata is true
-		if( this.isKWidgetEmbed( params.embedType ) || params.includeSeoMetadata ) {
+		if( this.isBWidgetEmbed( params.embedType ) || params.includeSeoMetadata ) {
 			attrs['style'] = 'width: ' + params.width + 'px; height: ' + params.height + 'px;';
 		}
 
@@ -796,14 +796,14 @@ EmbedCodeGenerator.prototype = {
 		return attrs;
 	},
 	/**
-	* Generate kWidget object for HTML5 library
+	* Generate bWidget object for HTML5 library
 	*
 	* @method getEmbedObject
 	* @param {Object} params Configuration object
-	* @return {Object} kWidget object
+	* @return {Object} bWidget object
 	*/
 	getEmbedObject: function( params ) {
-		// Used by kWidget.embed
+		// Used by bWidget.embed
 		var embedObject = {
 			targetId: params.playerId,		
 			wid: params.widgetId,
@@ -858,9 +858,9 @@ EmbedCodeGenerator.prototype = {
 			data['swfUrl'] = this.getSwfUrl( params );
 		}
 		// Add embed method and embed object for dynamic embeds
-		if( this.isKWidgetEmbed( params.embedType ) ) {
+		if( this.isBWidgetEmbed( params.embedType ) ) {
 			data['embedMethod'] = (params.embedType == 'dynamic') ? 'embed' : 'thumbEmbed';
-			data['kWidgetObject'] = this.getEmbedObject( params );
+			data['bWidgetObject'] = this.getEmbedObject( params );
 		}
 
 		data = this.extend( data, params );
@@ -2602,7 +2602,7 @@ if ( window.XDomainRequest ) {
     window.ZeroClipboard = ZeroClipboard;
   }
 })();
-(function(kmc) {
+(function(bmc) {
 
 	/* 
 	 * TODO:
@@ -2610,21 +2610,21 @@ if ( window.XDomainRequest ) {
 	 * Use filters for delivery 
 	 */
 
-	var Preview = kmc.Preview || {};
+	var Preview = bmc.Preview || {};
 
 	// Preview Partner Defaults
-	kmc.vars.previewDefaults = {
+	bmc.vars.previewDefaults = {
 		showAdvancedOptions: false,
-		includeKalturaLinks: (!kmc.vars.ignore_seo_links),
-		includeSeoMetadata: (!kmc.vars.ignore_entry_seo),
-		deliveryType: kmc.vars.default_delivery_type,
-		embedType: kmc.vars.default_embed_code_type,
-		secureEmbed: kmc.vars.embed_code_protocol_https
+		includeBorhanLinks: (!bmc.vars.ignore_seo_links),
+		includeSeoMetadata: (!bmc.vars.ignore_entry_seo),
+		deliveryType: bmc.vars.default_delivery_type,
+		embedType: bmc.vars.default_embed_code_type,
+		secureEmbed: bmc.vars.embed_code_protocol_https
 	};
 
 	// Check for current protocol and update secureEmbed
 	if(window.location.protocol == 'https:') {
-		kmc.vars.previewDefaults.secureEmbed = true;
+		bmc.vars.previewDefaults.secureEmbed = true;
 	}
 
 	Preview.storageName = 'previewDefaults';
@@ -2639,10 +2639,10 @@ if ( window.XDomainRequest ) {
 	Preview.getGenerator = function() {
 		if(!this.generator) {
 			this.generator = new kEmbedCodeGenerator({
-				host: kmc.vars.embed_host,
-				securedHost: kmc.vars.embed_host_https,
-				partnerId: kmc.vars.partner_id,
-				includeKalturaLinks: kmc.vars.previewDefaults.includeKalturaLinks
+				host: bmc.vars.embed_host,
+				securedHost: bmc.vars.embed_host_https,
+				partnerId: bmc.vars.partner_id,
+				includeBorhanLinks: bmc.vars.previewDefaults.includeBorhanLinks
 			});
 		}
 		return this.generator;
@@ -2685,7 +2685,7 @@ if ( window.XDomainRequest ) {
 		if(defaults) {
 			defaults = JSON.parse(defaults);
 		} else {
-			defaults = kmc.vars.previewDefaults;
+			defaults = bmc.vars.previewDefaults;
 		}
 		if(defaults[setting] !== undefined) {
 			return defaults[setting];
@@ -2782,15 +2782,15 @@ if ( window.XDomainRequest ) {
 		// Show our preview modal
 		var modalHeight = $('body').height() - 173;
 		$previewModal.find('.content').height(modalHeight);
-		kmc.layout.modal.show(el, false);
+		bmc.layout.modal.show(el, false);
 	};
 
 	Preview.closeModal = function(el) {
 		this.savePreviewState();
 		this.emptyDiv(this.iframeContainer);
 		$(el).fadeOut(300, function() {
-			kmc.layout.overlay.hide();
-			kmc.utils.hideFlash();
+			bmc.layout.overlay.hide();
+			bmc.utils.hideFlash();
 		});
 	};
 
@@ -2857,21 +2857,21 @@ if ( window.XDomainRequest ) {
 		var player = previewService.get('player');
 		var flashVars = this.getDeliveryTypeFlashVars(previewService.get('deliveryType'));
 		if(addKs === true) {
-			flashVars.ks = kmc.vars.ks;
+			flashVars.ks = bmc.vars.ks;
 		}
 
 		var playlistId = previewService.get('playlistId');
 		if(playlistId) {
 			// Use new kpl0Id flashvar for new players only
-			var html5_version = kmc.functions.getVersionFromPath(player.html5Url);
-			var kdpVersionCheck = kmc.functions.versionIsAtLeast(kmc.vars.min_kdp_version_for_playlist_api_v3, player.swf_version);
-			var html5VersionCheck = kmc.functions.versionIsAtLeast(kmc.vars.min_html5_version_for_playlist_api_v3, html5_version);
-			if( kdpVersionCheck && html5VersionCheck ) {
+			var html5_version = bmc.functions.getVersionFromPath(player.html5Url);
+			var bdpVersionCheck = bmc.functions.versionIsAtLeast(bmc.vars.min_bdp_version_for_playlist_api_v3, player.swf_version);
+			var html5VersionCheck = bmc.functions.versionIsAtLeast(bmc.vars.min_html5_version_for_playlist_api_v3, html5_version);
+			if( bdpVersionCheck && html5VersionCheck ) {
 				flashVars['playlistAPI.kpl0Id'] = playlistId;
 			} else {
 				flashVars['playlistAPI.autoInsert'] = 'true';
 				flashVars['playlistAPI.kpl0Name'] = previewService.get('playlistName');
-				flashVars['playlistAPI.kpl0Url'] = protocol + '://' + kmc.vars.api_host + '/index.php/partnerservices2/executeplaylist?' + 'partner_id=' + kmc.vars.partner_id + '&subp_id=' + kmc.vars.partner_id + '00' + '&format=8&ks={ks}&playlist_id=' + playlistId;
+				flashVars['playlistAPI.kpl0Url'] = protocol + '://' + bmc.vars.api_host + '/index.php/partnerservices2/executeplaylist?' + 'partner_id=' + bmc.vars.partner_id + '&subp_id=' + bmc.vars.partner_id + '00' + '&format=8&ks={ks}&playlist_id=' + playlistId;
 			}
 		}
 		return flashVars;	
@@ -2891,7 +2891,7 @@ if ( window.XDomainRequest ) {
 			height: player.height,
 			entryMeta: previewService.get('entryMeta'),
 			includeSeoMetadata: previewService.get('includeSeo'),
-			playerId: 'kaltura_player_' + cacheSt,
+			playerId: 'borhan_player_' + cacheSt,
 			cacheSt: cacheSt,
 			flashVars: this.getEmbedFlashVars(previewService, previewPlayer)
 		};
@@ -2911,16 +2911,16 @@ if ( window.XDomainRequest ) {
 		}
 
 		var protocol = this.getEmbedProtocol(previewService, framed);
-		var url = protocol + '://' + kmc.vars.api_host + '/index.php/extwidget/preview';
-		//var url = protocol + '://' + window.location.host + '/KMC_V2/preview.php';
-		url += '/partner_id/' + kmc.vars.partner_id;
+		var url = protocol + '://' + bmc.vars.api_host + '/index.php/extwidget/preview';
+		//var url = protocol + '://' + window.location.host + '/BMC_V2/preview.php';
+		url += '/partner_id/' + bmc.vars.partner_id;
 		url += '/uiconf_id/' + player.id;
 		// Add entry Id
 		if(previewService.get('entryId')) {
 			url += '/entry_id/' + previewService.get('entryId');
 		}
 		url += '/embed/' + previewService.get('embedType');
-		url += '?' + kmc.functions.flashVarsToUrl(this.getEmbedFlashVars(previewService, framed));
+		url += '?' + bmc.functions.flashVarsToUrl(this.getEmbedFlashVars(previewService, framed));
 		if( framed === true ) {
 			url += '&framed=true';
 		}
@@ -2940,15 +2940,15 @@ if ( window.XDomainRequest ) {
 
 	Preview.generateShortUrl = function(url, callback) {
 		if(!url) return ;
-		kmc.client.createShortURL(url, callback);
+		bmc.client.createShortURL(url, callback);
 	};
 
-	kmc.Preview = Preview;
+	bmc.Preview = Preview;
 
-})(window.kmc);
+})(window.bmc);
 
-var kmcApp = angular.module('kmcApp', []);
-kmcApp.factory('previewService', ['$rootScope', function($rootScope) {
+var bmcApp = angular.module('bmcApp', []);
+bmcApp.factory('previewService', ['$rootScope', function($rootScope) {
 	var previewProps = {};
 	var disableCount = 0;
 	return {
@@ -2983,7 +2983,7 @@ kmcApp.factory('previewService', ['$rootScope', function($rootScope) {
 		}
 	};
 }]);
-kmcApp.directive('showSlide', function() {
+bmcApp.directive('showSlide', function() {
 	return {
 		//restrict it's use to attribute only.
 		restrict: 'A',
@@ -3006,7 +3006,7 @@ kmcApp.directive('showSlide', function() {
 	};
 });
 
-kmcApp.controller('PreviewCtrl', ['$scope', 'previewService', function($scope, previewService) {
+bmcApp.controller('PreviewCtrl', ['$scope', 'previewService', function($scope, previewService) {
 
 	var draw = function() {
 			if(!$scope.$$phase) {
@@ -3014,7 +3014,7 @@ kmcApp.controller('PreviewCtrl', ['$scope', 'previewService', function($scope, p
 			}
 		};
 
-	var Preview = kmc.Preview;
+	var Preview = bmc.Preview;
 	Preview.playlistMode = false;
 
 	Preview.Service = previewService;
@@ -3023,19 +3023,19 @@ kmcApp.controller('PreviewCtrl', ['$scope', 'previewService', function($scope, p
 			options = options || {};
 			var playerId = (options.uiConfId) ? options.uiConfId : undefined;
 			// Exit if player not loaded
-			if(!kmc.vars.playlists_list || !kmc.vars.players_list) {
+			if(!bmc.vars.playlists_list || !bmc.vars.players_list) {
 				return ;
 			}
 			// List of players
 			if(options.playlistId || options.playerOnly) {
-				$scope.players = kmc.vars.playlists_list;
+				$scope.players = bmc.vars.playlists_list;
 				if(!Preview.playlistMode) {
 					Preview.playlistMode = true;
 					$scope.$broadcast('changePlayer', playerId);
 					return;
 				}
 			} else {
-				$scope.players = kmc.vars.players_list;
+				$scope.players = bmc.vars.players_list;
 				if(Preview.playlistMode || !$scope.player) {
 					Preview.playlistMode = false;
 					$scope.$broadcast('changePlayer', playerId);
@@ -3048,11 +3048,11 @@ kmcApp.controller('PreviewCtrl', ['$scope', 'previewService', function($scope, p
 		};
 
 	var setDeliveryTypes = function(player) {
-			var deliveryTypes = Preview.objectToArray(kmc.vars.delivery_types);
+			var deliveryTypes = Preview.objectToArray(bmc.vars.delivery_types);
 			var defaultType = $scope.deliveryType || Preview.getDefault('deliveryType');
 			var validDeliveryTypes = [];
 			$.each(deliveryTypes, function() {
-				if(this.minVersion && !kmc.functions.versionIsAtLeast(this.minVersion, player.swf_version)) {
+				if(this.minVersion && !bmc.functions.versionIsAtLeast(this.minVersion, player.swf_version)) {
 					if(this.id == defaultType) {
 						defaultType = null;
 					}
@@ -3070,7 +3070,7 @@ kmcApp.controller('PreviewCtrl', ['$scope', 'previewService', function($scope, p
 		};
 
 	var setEmbedTypes = function(player) {
-			var embedTypes = Preview.objectToArray(kmc.vars.embed_code_types);
+			var embedTypes = Preview.objectToArray(bmc.vars.embed_code_types);
 			var defaultType = $scope.embedType || Preview.getDefault('embedType');
 			var validEmbedTypes = [];
 			$.each(embedTypes, function() {
@@ -3082,8 +3082,8 @@ kmcApp.controller('PreviewCtrl', ['$scope', 'previewService', function($scope, p
 					return true;
 				}
 				// Check for library minimum version to eanble embed type
-				var libVersion = kmc.functions.getVersionFromPath(player.html5Url);
-				if(this.minVersion && !kmc.functions.versionIsAtLeast(this.minVersion, libVersion)) {
+				var libVersion = bmc.functions.getVersionFromPath(player.html5Url);
+				if(this.minVersion && !bmc.functions.versionIsAtLeast(this.minVersion, libVersion)) {
 					if(this.id == defaultType) {
 						defaultType = null;
 					}
@@ -3208,31 +3208,31 @@ kmcApp.controller('PreviewCtrl', ['$scope', 'previewService', function($scope, p
 
 }]);
 // Prevent the page to be framed
-if(kmc.vars.allowFrame == false && top != window) { top.location = window.location; }
+if(bmc.vars.allowFrame == false && top != window) { top.location = window.location; }
 
-/* kmc and kmc.vars defined in script block in kmc4success.php */
+/* bmc and bmc.vars defined in script block in bmc4success.php */
 
 // For debug enable to true. Debug will show information in the browser console
-kmc.vars.debug = false;
+bmc.vars.debug = false;
 
-// Quickstart guide (should be moved to kmc4success.php)
-kmc.vars.quickstart_guide = "/content/docs/pdf/KMC_User_Manual.pdf";
-kmc.vars.help_url = kmc.vars.service_url + '/kmc5help.html';
+// Quickstart guide (should be moved to bmc4success.php)
+bmc.vars.quickstart_guide = "/content/docs/pdf/BMC_User_Manual.pdf";
+bmc.vars.help_url = bmc.vars.service_url + '/bmc5help.html';
 
 // Set base URL
-kmc.vars.port = (window.location.port) ? ":" + window.location.port : "";
-kmc.vars.base_host = window.location.hostname + kmc.vars.port;
-kmc.vars.base_url = window.location.protocol + '//' + kmc.vars.base_host;
-kmc.vars.api_host = kmc.vars.host;
-kmc.vars.api_url = window.location.protocol + '//' + kmc.vars.api_host;
+bmc.vars.port = (window.location.port) ? ":" + window.location.port : "";
+bmc.vars.base_host = window.location.hostname + bmc.vars.port;
+bmc.vars.base_url = window.location.protocol + '//' + bmc.vars.base_host;
+bmc.vars.api_host = bmc.vars.host;
+bmc.vars.api_url = window.location.protocol + '//' + bmc.vars.api_host;
 
-// Holds the minimum version for html5 & kdp with the api_v3 for playlists
-kmc.vars.min_kdp_version_for_playlist_api_v3 = '3.6.15';
-kmc.vars.min_html5_version_for_playlist_api_v3 = '1.7.1.3';
+// Holds the minimum version for html5 & bdp with the api_v3 for playlists
+bmc.vars.min_bdp_version_for_playlist_api_v3 = '3.6.15';
+bmc.vars.min_html5_version_for_playlist_api_v3 = '1.7.1.3';
 
 // Log function
-kmc.log = function() {
-	if( kmc.vars.debug && typeof console !='undefined' && console.log ){
+bmc.log = function() {
+	if( bmc.vars.debug && typeof console !='undefined' && console.log ){
 		if (arguments.length == 1) {
 			console.log( arguments[0] );
 		} else {
@@ -3242,38 +3242,38 @@ kmc.log = function() {
 	}	
 };
 
-kmc.functions = {
+bmc.functions = {
 
 	loadSwf : function() {
 
-		var kmc_swf_url = window.location.protocol + '//' + kmc.vars.cdn_host + '/flash/kmc/' + kmc.vars.kmc_version + '/kmc.swf';
+		var bmc_swf_url = window.location.protocol + '//' + bmc.vars.cdn_host + '/flash/bmc/' + bmc.vars.bmc_version + '/bmc.swf';
 		var flashvars = {
-			// kmc configuration
-			kmc_uiconf			: kmc.vars.kmc_general_uiconf,
+			// bmc configuration
+			bmc_uiconf			: bmc.vars.bmc_general_uiconf,
 
 			//permission uiconf id:
-			permission_uiconf	: kmc.vars.kmc_permissions_uiconf,
+			permission_uiconf	: bmc.vars.bmc_permissions_uiconf,
 
-			host				: kmc.vars.host,
-			cdnhost				: kmc.vars.cdn_host,
+			host				: bmc.vars.host,
+			cdnhost				: bmc.vars.cdn_host,
 			srvurl				: "api_v3/index.php",
 			protocol 			: window.location.protocol + '//',
-			partnerid			: kmc.vars.partner_id,
-			subpid				: kmc.vars.partner_id + '00',
-			ks					: kmc.vars.ks,
+			partnerid			: bmc.vars.partner_id,
+			subpid				: bmc.vars.partner_id + '00',
+			ks					: bmc.vars.ks,
 			entryId				: "-1",
 			kshowId				: "-1",
 			debugmode			: "true",
-			widget_id			: "_" + kmc.vars.partner_id,
-			urchinNumber		: kmc.vars.google_analytics_account, // "UA-12055206-1""
-			firstLogin			: kmc.vars.first_login,
-			openPlayer			: "kmc.preview_embed.doPreviewEmbed", // @todo: remove for 2.0.9 ?
-			openPlaylist		: "kmc.preview_embed.doPreviewEmbed",
-			openCw				: "kmc.functions.openKcw",
-			language			: (kmc.vars.language || "")
+			widget_id			: "_" + bmc.vars.partner_id,
+			urchinNumber		: bmc.vars.google_analytics_account, // "UA-12055206-1""
+			firstLogin			: bmc.vars.first_login,
+			openPlayer			: "bmc.preview_embed.doPreviewEmbed", // @todo: remove for 2.0.9 ?
+			openPlaylist		: "bmc.preview_embed.doPreviewEmbed",
+			openCw				: "bmc.functions.openBcw",
+			language			: (bmc.vars.language || "")
 		};
 		// Disable analytics
-		if( kmc.vars.disable_analytics ) {
+		if( bmc.vars.disable_analytics ) {
 			flashvars.disableAnalytics = true;
 		}
 		var params = {
@@ -3281,7 +3281,7 @@ kmc.functions = {
 			allowScriptAccess: "always"
 		};
 
-		swfobject.embedSWF(kmc_swf_url, "kcms", "100%", "100%", "10.0.0", false, flashvars, params);
+		swfobject.embedSWF(bmc_swf_url, "kcms", "100%", "100%", "10.0.0", false, flashvars, params);
 		$("#kcms").attr('style', ''); // Reset the object style
 	},
 
@@ -3301,28 +3301,28 @@ kmc.functions = {
 	},
 	
 	expired : function() {
-		kmc.user.logout();
+		bmc.user.logout();
 	},
 
-	openKcw : function(conversion_profile, uiconf_tag) {
+	openBcw : function(conversion_profile, uiconf_tag) {
 
 		conversion_profile = conversion_profile || "";
 
 		// uiconf_tag - uploadWebCam or uploadImport
-		var kcw_uiconf = (uiconf_tag == "uploadWebCam") ? kmc.vars.kcw_webcam_uiconf : kmc.vars.kcw_import_uiconf;
+		var bcw_uiconf = (uiconf_tag == "uploadWebCam") ? bmc.vars.bcw_webcam_uiconf : bmc.vars.bcw_import_uiconf;
 
 		var flashvars = {
-			host			: kmc.vars.host,
-			cdnhost			: kmc.vars.cdn_host,
+			host			: bmc.vars.host,
+			cdnhost			: bmc.vars.cdn_host,
 			protocol 		: window.location.protocol.slice(0, -1),
-			partnerid		: kmc.vars.partner_id,
-			subPartnerId	: kmc.vars.partner_id + '00',
-			sessionId		: kmc.vars.ks,
+			partnerid		: bmc.vars.partner_id,
+			subPartnerId	: bmc.vars.partner_id + '00',
+			sessionId		: bmc.vars.ks,
 			devFlag			: "true",
 			entryId			: "-1",
 			kshow_id		: "-1",
-			terms_of_use	: kmc.vars.terms_of_use,
-			close			: "kmc.functions.onCloseKcw",
+			terms_of_use	: bmc.vars.terms_of_use,
+			close			: "bmc.functions.onCloseBcw",
 			quick_edit		: 0, 
 			kvar_conversionQuality : conversion_profile
 		};
@@ -3332,19 +3332,19 @@ kmc.functions = {
 			allownetworking: "all",
 			bgcolor: "#DBE3E9",
 			quality: "high",
-			movie: kmc.vars.service_url + "/kcw/ui_conf_id/" + kcw_uiconf
+			movie: bmc.vars.service_url + "/bcw/ui_conf_id/" + bcw_uiconf
 		};
 		
-		kmc.layout.modal.open( {
+		bmc.layout.modal.open( {
 			'width' : 700,
 			'height' : 420,
-			'content' : '<div id="kcw"></div>'
+			'content' : '<div id="bcw"></div>'
 		} );
 
-		swfobject.embedSWF(params.movie, "kcw", "680", "400" , "9.0.0", false, flashvars , params);
+		swfobject.embedSWF(params.movie, "bcw", "680", "400" , "9.0.0", false, flashvars , params);
 	},
-	onCloseKcw : function() {
-		kmc.layout.modal.close();
+	onCloseBcw : function() {
+		bmc.layout.modal.close();
 		$("#kcms")[0].gotoPage({
 			moduleName: "content",
 			subtab: "manage"
@@ -3352,13 +3352,13 @@ kmc.functions = {
 	},
 	// Should be moved into user object
 	openChangePwd : function(email) {
-		kmc.user.changeSetting('password');
+		bmc.user.changeSetting('password');
 	},
 	openChangeEmail : function(email) {
-		kmc.user.changeSetting('email');
+		bmc.user.changeSetting('email');
 	},
 	openChangeName : function(fname, lname, email) {
-		kmc.user.changeSetting('name');
+		bmc.user.changeSetting('name');
 	},
 	getAddPanelPosition : function() {
 		var el = $("#add").parent();
@@ -3366,13 +3366,13 @@ kmc.functions = {
 	},
 	openClipApp : function( entry_id, mode ) {
 		
-		var iframe_url = kmc.vars.base_url + '/apps/clipapp/' + kmc.vars.clipapp.version;
-			iframe_url += '/?kdpUiconf=' + kmc.vars.clipapp.kdp + '&kclipUiconf=' + kmc.vars.clipapp.kclip;
-			iframe_url += '&partnerId=' + kmc.vars.partner_id + '&host=' + kmc.vars.host + '&mode=' + mode + '&config=kmc&entryId=' + entry_id;
+		var iframe_url = bmc.vars.base_url + '/apps/clipapp/' + bmc.vars.clipapp.version;
+			iframe_url += '/?bdpUiconf=' + bmc.vars.clipapp.bdp + '&kclipUiconf=' + bmc.vars.clipapp.kclip;
+			iframe_url += '&partnerId=' + bmc.vars.partner_id + '&host=' + bmc.vars.host + '&mode=' + mode + '&config=bmc&entryId=' + entry_id;
 
 		var title = ( mode == 'trim' ) ? 'Trimming Tool' : 'Clipping Tool';
 
-		kmc.layout.modal.open( {
+		bmc.layout.modal.open( {
 			'width' : 950,
 			'height' : 616,
 			'title'	: title,
@@ -3419,14 +3419,14 @@ kmc.functions = {
 	}
 };
 
-kmc.utils = {
+bmc.utils = {
 	// Backward compatability
-	closeModal : function() {kmc.layout.modal.close();},
+	closeModal : function() {bmc.layout.modal.close();},
 
 	handleMenu : function() {
 
 		// Activate menu links
-		kmc.utils.activateHeader();
+		bmc.utils.activateHeader();
 	
 		// Calculate menu width
 		var menu_width = 10;
@@ -3437,7 +3437,7 @@ kmc.utils = {
 		var openMenu = function() {
 
 			// Set close menu to true
-			kmc.vars.close_menu = true;
+			bmc.vars.close_menu = true;
 
 			var menu_default_css = {
 				"width": 0,
@@ -3458,20 +3458,20 @@ kmc.utils = {
 
 		$("#user").hover( openMenu ).click( openMenu );
 		$("#user_links").mouseover( function(){
-			kmc.vars.close_menu = false;
+			bmc.vars.close_menu = false;
 		} );
 		$("#user_links").mouseleave( function() {
-			kmc.vars.close_menu = true;
-			setTimeout( kmc.utils.closeMenu , 650 );
+			bmc.vars.close_menu = true;
+			setTimeout( bmc.utils.closeMenu , 650 );
 		} );
 		$("#closeMenu").click( function() {
-			kmc.vars.close_menu = true;
-			kmc.utils.closeMenu();
+			bmc.vars.close_menu = true;
+			bmc.utils.closeMenu();
 		} );
 	},
 
 	closeMenu : function() {
-		if( kmc.vars.close_menu ) {
+		if( bmc.vars.close_menu ) {
 			$("#user_links").animate( {
 				width: 0
 			} , 500, function() {
@@ -3489,16 +3489,16 @@ kmc.utils = {
 
 			switch(tab) {
 				case "Quickstart Guide" :
-					this.href = kmc.vars.quickstart_guide;
+					this.href = bmc.vars.quickstart_guide;
 					return true;
 				case "Logout" :
-					kmc.user.logout();
+					bmc.user.logout();
 					return false;
 				case "Support" :
-					kmc.user.openSupport(this);
+					bmc.user.openSupport(this);
 					return false;
 				case "ChangePartner" :
-					kmc.user.changePartner();
+					bmc.user.changePartner();
 					return false;
 			}
 		});
@@ -3516,15 +3516,15 @@ kmc.utils = {
 	},
 	isModuleLoaded : function() {
 		if($("#flash_wrap object").length || $("#flash_wrap embed").length) {
-			kmc.utils.resize();
-			clearInterval(kmc.vars.isLoadedInterval);
-			kmc.vars.isLoadedInterval = null;
+			bmc.utils.resize();
+			clearInterval(bmc.vars.isLoadedInterval);
+			bmc.vars.isLoadedInterval = null;
 		}
 	},
 	debug : function() {
 		try{
-			console.info(" ks: ",kmc.vars.ks);
-			console.info(" partner_id: ",kmc.vars.partner_id);
+			console.info(" ks: ",bmc.vars.ks);
+			console.info(" partner_id: ",bmc.vars.partner_id);
 		}
 		catch(err) {}
 	},
@@ -3545,7 +3545,7 @@ kmc.utils = {
 		$("#closeMenu").trigger('click');
 	
 		if(arr) {
-			var module_url = kmc.vars.service_url + '/index.php/kmc/kmc4',
+			var module_url = bmc.vars.service_url + '/index.php/bmc/bmc4',
 				arr_len = arr.length,
 				tabs_html = '',
 				tab_class;
@@ -3580,7 +3580,7 @@ kmc.utils = {
 	},
 		
 	setTab : function(module, resetAll){
-		if( resetAll ) {$("#kmcHeader ul li a").removeClass("active");}
+		if( resetAll ) {$("#bmcHeader ul li a").removeClass("active");}
 		$("a#" + module).addClass("active");
 	},
 
@@ -3613,7 +3613,7 @@ kmc.utils = {
 	showFlash : function() {
 		$("#server_wrap").hide();
 		$("#server_frame").removeAttr('src');
-		if( !kmc.layout.modal.isOpen() ) {
+		if( !bmc.layout.modal.isOpen() ) {
 			$("#flash_wrap").css("visibility","visible");
 		}
 		$("#server_wrap").css("margin-top", 0);
@@ -3632,28 +3632,28 @@ kmc.utils = {
 	},
 
 	setClientIP: function() {
-		kmc.vars.clientIP = "";
-		if( kmc.vars.akamaiEdgeServerIpURL ) {
+		bmc.vars.clientIP = "";
+		if( bmc.vars.akamaiEdgeServerIpURL ) {
 			$.ajax({
-			  url: window.location.protocol + '//' + kmc.vars.akamaiEdgeServerIpURL,
+			  url: window.location.protocol + '//' + bmc.vars.akamaiEdgeServerIpURL,
 			  crossDomain: true,
 			  success: function( data ) {
-				kmc.vars.clientIP = $(data).find('serverip').text();
+				bmc.vars.clientIP = $(data).find('serverip').text();
 			  }
 			});
 		}
 	},
 	getClientIP: function() {
-		return kmc.vars.clientIP;
+		return bmc.vars.clientIP;
 	}
 		
 };
 
-kmc.mediator =  {
+bmc.mediator =  {
 
 	writeUrlHash : function(module,subtab){
 		location.hash = module + "|" + subtab;
-		document.title = "KMC > " + module + ((subtab && subtab !== "") ? " > " + subtab + " |" : "");
+		document.title = "BMC > " + module + ((subtab && subtab !== "") ? " > " + subtab + " |" : "");
 	},
 	readUrlHash : function() {
 		var module = "dashboard", 
@@ -3743,7 +3743,7 @@ kmc.mediator =  {
 	}
 };
 
-kmc.preview_embed = {
+bmc.preview_embed = {
 	// Should be changed to accept object with parameters
 	doPreviewEmbed : function(id, name, description, previewOnly, is_playlist, uiconf_id, live_bitrates, entry_flavors, is_video) {
 
@@ -3777,14 +3777,14 @@ kmc.preview_embed = {
 			}
 		}
 
-		kmc.Preview.openPreviewEmbed( embedOptions, kmc.Preview.Service );
+		bmc.Preview.openPreviewEmbed( embedOptions, bmc.Preview.Service );
 	}, // doPreviewEmbed
 
 	// for content|Manage->drilldown->flavors->preview
 	doFlavorPreview : function(entryId, entryName, flavorDetails) {
 
-		var player = kmc.vars.default_kdp;
-		var code = kmc.Preview.getGenerator().getCode({
+		var player = bmc.vars.default_bdp;
+		var code = bmc.Preview.getGenerator().getCode({
 			protocol: location.protocol.substring(0, location.protocol.length - 1),
 			embedType: 'legacy',
 			entryId: entryId,
@@ -3794,7 +3794,7 @@ kmc.preview_embed = {
 			includeSeoMetadata: false,
 			includeHtml5Library: false,
 			flashVars: {
-				'ks': kmc.vars.ks,
+				'ks': bmc.vars.ks,
 				'flavorId': flavorDetails.asset_id
 			}
 		});
@@ -3812,7 +3812,7 @@ kmc.preview_embed = {
 		'<dt>Status:</dt><dd>&nbsp;' + flavorDetails.status + '</dd>' +
 		'</dl>';
 
-		kmc.layout.modal.open( {
+		bmc.layout.modal.open( {
 			'width' : parseInt(player.width) + 120,
 			'height' : parseInt(player.height) + 300,
 			'title' : 'Flavor Preview',
@@ -3823,34 +3823,34 @@ kmc.preview_embed = {
 	updateList : function(is_playlist) {
 		var type = is_playlist ? "playlist" : "player";
 		$.ajax({
-			url: kmc.vars.base_url + kmc.vars.getuiconfs_url,
+			url: bmc.vars.base_url + bmc.vars.getuiconfs_url,
 			type: "POST",
 			data: {
 				"type": type,
-				"partner_id": kmc.vars.partner_id,
-				"ks": kmc.vars.ks
+				"partner_id": bmc.vars.partner_id,
+				"ks": bmc.vars.ks
 				},
 			dataType: "json",
 			success: function(data) {
 				if (data && data.length) {
 					if(is_playlist) {
-						kmc.vars.playlists_list = data;
+						bmc.vars.playlists_list = data;
 					}
 					else {
-						kmc.vars.players_list = data;
+						bmc.vars.players_list = data;
 					}
-					kmc.Preview.Service.updatePlayers();
+					bmc.Preview.Service.updatePlayers();
 				}
 			}
 		});
 	}
 };
 
-kmc.client = {
+bmc.client = {
 	makeRequest: function( service, action, params, callback ) {
-		var serviceUrl = kmc.vars.api_url + '/api_v3/index.php?service='+service+'&action='+action;
+		var serviceUrl = bmc.vars.api_url + '/api_v3/index.php?service='+service+'&action='+action;
 		var defaultParams = {
-			"ks"		: kmc.vars.ks,
+			"ks"		: bmc.vars.ks,
 			"format"	: 9
 		};
 		// Merge params and defaults
@@ -3881,7 +3881,7 @@ kmc.client = {
 			return md5(str);
 		};
 		
-		// Add kaltura signature param
+		// Add borhan signature param
 		var kalsig = getSignature( params );
 		serviceUrl += '&kalsig=' + kalsig;
 
@@ -3897,32 +3897,32 @@ kmc.client = {
 	},
 		
 	createShortURL : function(url, callback) {
-		kmc.log('createShortURL');
+		bmc.log('createShortURL');
 			
 		var data = {
-			"shortLink:objectType"	: "KalturaShortLink",
-			"shortLink:systemName"	: "KMC-PREVIEW", // Unique name for filtering
+			"shortLink:objectType"	: "BorhanShortLink",
+			"shortLink:systemName"	: "BMC-PREVIEW", // Unique name for filtering
 			"shortLink:fullUrl"		: url
 		};
 			
-		kmc.client.makeRequest("shortlink_shortlink", "add", data, function( res ) {
+		bmc.client.makeRequest("shortlink_shortlink", "add", data, function( res ) {
 			var tinyUrl = false;
 			if( callback ) {
 				if( res.id ) {
-					tinyUrl = kmc.vars.service_url + '/tiny/' + res.id;
+					tinyUrl = bmc.vars.service_url + '/tiny/' + res.id;
 				}
 				callback( tinyUrl );
 			} else {
-				kmc.preview_embed.setShortURL(res.id);
+				bmc.preview_embed.setShortURL(res.id);
 			}
 		});
 	}
 };
 
-kmc.layout = {
+bmc.layout = {
 	init: function() {
 		// Close open menu if user click anywhere
-		$("#kmcHeader").bind( 'click', function() { 
+		$("#bmcHeader").bind( 'click', function() { 
 			$("#hTabs a").each(function(inx, tab) {
 				var $tab = $(tab);
 				if( $tab.hasClass('menu') && $tab.hasClass('active') ){
@@ -3947,7 +3947,7 @@ kmc.layout = {
 
 		create: function(data) {
 			var options = {
-				'el': kmc.layout.modal.el,
+				'el': bmc.layout.modal.el,
 				'title': '',
 				'content': '',
 				'help': '',
@@ -3984,7 +3984,7 @@ kmc.layout = {
 
 			// Activate close button
 			$modal.find(".close").click( function() {
-				kmc.layout.modal.close(options.el);
+				bmc.layout.modal.close(options.el);
 				if( $.isFunction( data.closeCallback ) ) {
 					data.closeCallback();
 				}
@@ -3995,11 +3995,11 @@ kmc.layout = {
 
 		show: function(el, position) {
 			position = (position === undefined) ? true : position;
-			el = el || kmc.layout.modal.el;
+			el = el || bmc.layout.modal.el;
 			var $modal = $(el);
 
-			kmc.utils.hideFlash(true);
-			kmc.layout.overlay.show();
+			bmc.utils.hideFlash(true);
+			bmc.layout.overlay.show();
 			$modal.fadeIn(600);
 			
 			if( ! $.browser.msie ) {
@@ -4013,12 +4013,12 @@ kmc.layout = {
 
 		open: function(data) {
 			this.create(data);
-			var el = data.el || kmc.layout.modal.el;
+			var el = data.el || bmc.layout.modal.el;
 			this.show(el);
 		},
 		
 		position: function(el) {
-			el = el || kmc.layout.modal.el;
+			el = el || bmc.layout.modal.el;
 			var $modal = $(el);
 			// Calculate Modal Position
 			var mTop = ( ($(window).height() - $modal.height()) / 2 ),
@@ -4032,31 +4032,31 @@ kmc.layout = {
 			
 		},
 		close: function(el) {
-			el = el || kmc.layout.modal.el;
+			el = el || bmc.layout.modal.el;
 			$(el).fadeOut(300, function() {
 				$(el).find(".content").html('');
-				kmc.layout.overlay.hide();
-				kmc.utils.hideFlash();
+				bmc.layout.overlay.hide();
+				bmc.utils.hideFlash();
 			});
 		},
 		isOpen: function(el) {
-			el = el || kmc.layout.modal.el;
+			el = el || bmc.layout.modal.el;
 			return $(el).is(":visible");
 		}
 	}
 };
 
-kmc.user = {
+bmc.user = {
 
 	openSupport: function(el) {
 		var href = el.href;
 		// Show overlay
-		kmc.utils.hideFlash(true);
-		kmc.layout.overlay.show();
+		bmc.utils.hideFlash(true);
+		bmc.layout.overlay.show();
 
 		// We want the show the modal only after the iframe is loaded so we use "create" instead of "open"
 	   	var modal_content = '<iframe id="support" src="' + href + '" width="100%" scrolling="no" frameborder="0"></iframe>';
-		kmc.layout.modal.create( {
+		bmc.layout.modal.create( {
 			'width' : 550,
 			'title' : 'Support Request',
 			'content' : modal_content
@@ -4065,34 +4065,34 @@ kmc.user = {
 		// Wait until iframe loads and then show the modal
 		$("#support").load(function() {
 			// In order to get the iframe content height the modal must be visible
-			kmc.layout.modal.show();
+			bmc.layout.modal.show();
 			// Get iframe content height & update iframe
-			if( ! kmc.vars.support_frame_height ) {
-				kmc.vars.support_frame_height = $("#support")[0].contentWindow.document.body.scrollHeight;
+			if( ! bmc.vars.support_frame_height ) {
+				bmc.vars.support_frame_height = $("#support")[0].contentWindow.document.body.scrollHeight;
 			}
-			$("#support").height( kmc.vars.support_frame_height );
+			$("#support").height( bmc.vars.support_frame_height );
 			// Re-position the modal box
-			kmc.layout.modal.position();
+			bmc.layout.modal.position();
 		});
 	},
 
 	logout: function() {
-		var message = kmc.functions.checkForOngoingProcess();
+		var message = bmc.functions.checkForOngoingProcess();
 		if( message ) {alert( message );return false;}
-		var state = kmc.mediator.readUrlHash();
+		var state = bmc.mediator.readUrlHash();
 		// Cookies are HTTP only, we delete them using logoutAction
 		$.ajax({
-			url: kmc.vars.base_url + "/index.php/kmc/logout",
+			url: bmc.vars.base_url + "/index.php/bmc/logout",
 			type: "POST",
 			data: {
-				"ks": kmc.vars.ks
+				"ks": bmc.vars.ks
 				},
 			dataType: "json",
 			complete: function() {
-				if (kmc.vars.logoutUrl)
-					window.location = kmc.vars.logoutUrl;
+				if (bmc.vars.logoutUrl)
+					window.location = bmc.vars.logoutUrl;
 				else
-					window.location = kmc.vars.service_url + "/index.php/kmc/kmc#" + state.moduleName + "|" + state.subtab;
+					window.location = bmc.vars.service_url + "/index.php/bmc/bmc#" + state.moduleName + "|" + state.subtab;
 			}
 		});
 	},
@@ -4116,15 +4116,15 @@ kmc.user = {
 		}
 
 		// setup url
-		var http_protocol = (kmc.vars.kmc_secured || location.protocol == 'https:') ? 'https' : 'http';
+		var http_protocol = (bmc.vars.bmc_secured || location.protocol == 'https:') ? 'https' : 'http';
 		var from_domain = http_protocol + '://' + window.location.hostname;
-		var url = from_domain + kmc.vars.port + "/index.php/kmc/updateLoginData/type/" + action;
+		var url = from_domain + bmc.vars.port + "/index.php/bmc/updateLoginData/type/" + action;
 		// pass the parent url for the postMessage to work
 		url = url + '?parent=' + encodeURIComponent(document.location.href);
 
 		var modal_content = '<iframe src="' + url + '" width="100%" height="' + iframe_height + '" scrolling="no" frameborder="0"></iframe>';
 
-		kmc.layout.modal.open( {
+		bmc.layout.modal.open( {
 			'width' : 370,
 			'title' : title,
 			'content' : modal_content
@@ -4133,7 +4133,7 @@ kmc.user = {
 		// setup a callback to handle the dispatched MessageEvent. if window.postMessage is supported the passed
 		// event will have .data, .origin and .source properties. otherwise, it will only have the .data property.
 		XD.receiveMessage(function(message){
-			kmc.layout.modal.close();
+			bmc.layout.modal.close();
 			if(message.data == "reload") {
 				if( ($.browser.msie) && ($.browser.version < 8) ) {
 					window.location.hash = "account|user";
@@ -4146,24 +4146,24 @@ kmc.user = {
 	changePartner: function() {
 
 		var i, pid = 0, selected, bolded,
-			total = kmc.vars.allowed_partners.length;
+			total = bmc.vars.allowed_partners.length;
 
 		var modal_content = '<div id="change_account"><span>Please choose partner:</span><div class="container">';
 
 		for( i=0; i < total; i++ ) {
-			pid = kmc.vars.allowed_partners[i].id;
-			if( kmc.vars.partner_id == pid ) {
+			pid = bmc.vars.allowed_partners[i].id;
+			if( bmc.vars.partner_id == pid ) {
 				selected = ' checked="checked"';
 				bolded = ' style="font-weight: bold"';
 			} else {
 				selected = '';
 				bolded = '';
 			}
-			modal_content += '<label' + bolded + '><input type="radio" name="pid" value="' + pid + '" ' + selected + '/> &nbsp;' + kmc.vars.allowed_partners[i].name + '</label>';
+			modal_content += '<label' + bolded + '><input type="radio" name="pid" value="' + pid + '" ' + selected + '/> &nbsp;' + bmc.vars.allowed_partners[i].name + '</label>';
 		}
 		modal_content += '</div><div class="center"><button id="do_change_partner"><span>Continue</span></button></div>';
 
-		kmc.layout.modal.open( {
+		bmc.layout.modal.open( {
 			'width' : 300,
 			'title' : 'Change Account',
 			'content' : modal_content
@@ -4171,13 +4171,13 @@ kmc.user = {
 
 		$("#do_change_partner").click(function() {
 
-			var url = kmc.vars.base_url + '/index.php/kmc/extlogin';
+			var url = bmc.vars.base_url + '/index.php/bmc/extlogin';
 
 			// Setup input fields
 			var ks_input = $('<input />').attr({
 				'type': 'hidden',
 				'name': 'ks',
-				'value': kmc.vars.ks
+				'value': bmc.vars.ks
 			});
 			var partner_id_input = $('<input />').attr({
 				'type': 'hidden',
@@ -4202,43 +4202,43 @@ kmc.user = {
 	}
 };
 
-// Maintain support for old kmc2 functions:
+// Maintain support for old bmc2 functions:
 function openPlayer(title, width, height, uiconf_id, previewOnly) {
 	if (previewOnly===true) $("#kcms")[0].alert('previewOnly from studio');
-	kmc.preview_embed.doPreviewEmbed("multitab_playlist", title, null, previewOnly, true, uiconf_id, false, false, false);
+	bmc.preview_embed.doPreviewEmbed("multitab_playlist", title, null, previewOnly, true, uiconf_id, false, false, false);
 }
-function playlistAdded() {kmc.preview_embed.updateList(true);}
-function playerAdded() {kmc.preview_embed.updateList(false);}
+function playlistAdded() {bmc.preview_embed.updateList(true);}
+function playerAdded() {bmc.preview_embed.updateList(false);}
 /*** end old functions ***/
 
-// When page ready initilize KMC
+// When page ready initilize BMC
 $(function() {
-	kmc.layout.init();
-	kmc.utils.handleMenu();
-	kmc.functions.loadSwf();
+	bmc.layout.init();
+	bmc.utils.handleMenu();
+	bmc.functions.loadSwf();
 
 	// Set resize event to update the flash object size
-	$(window).wresize(kmc.utils.resize);
-	kmc.vars.isLoadedInterval = setInterval(kmc.utils.isModuleLoaded,200);	
+	$(window).wresize(bmc.utils.resize);
+	bmc.vars.isLoadedInterval = setInterval(bmc.utils.isModuleLoaded,200);	
 
-	// Load kdp player & playlists for preview & embed
-	kmc.preview_embed.updateList(); // Load players
-	kmc.preview_embed.updateList(true); // Load playlists
+	// Load bdp player & playlists for preview & embed
+	bmc.preview_embed.updateList(); // Load players
+	bmc.preview_embed.updateList(true); // Load playlists
 
 	// Set client IP
-	kmc.utils.setClientIP();
+	bmc.utils.setClientIP();
 });
 
 // Auto resize modal windows
 $(window).resize(function() {
 	// Exit if not open
-	if( kmc.layout.modal.isOpen() ) {
-		kmc.layout.modal.position();
+	if( bmc.layout.modal.isOpen() ) {
+		bmc.layout.modal.position();
 	}
 });
 
 // If we have ongoing process, we show a warning message when the user try to leaves the page
-window.onbeforeunload = kmc.functions.checkForOngoingProcess;
+window.onbeforeunload = bmc.functions.checkForOngoingProcess;
 
 /* WResize: plugin for fixing the IE window resize bug (http://noteslog.com/) */
 (function($){$.fn.wresize=function(f){version='1.1';wresize={fired:false,width:0};function resizeOnce(){if($.browser.msie){if(!wresize.fired){wresize.fired=true}else{var version=parseInt($.browser.version,10);wresize.fired=false;if(version<7){return false}else if(version==7){var width=$(window).width();if(width!=wresize.width){wresize.width=width;return false}}}}return true}function handleWResize(e){if(resizeOnce()){return f.apply(this,[e])}}this.each(function(){if(this==window){$(this).resize(handleWResize)}else{$(this).resize(f)}});return this}})(jQuery);

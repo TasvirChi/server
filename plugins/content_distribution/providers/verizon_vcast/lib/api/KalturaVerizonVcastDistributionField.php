@@ -3,7 +3,7 @@
  * @package plugins.verizonVcastDistribution
  * @subpackage api.enum
  */
-class KalturaVerizonVcastDistributionField extends KalturaStringEnum implements VerizonVcastDistributionField
+class BorhanVerizonVcastDistributionField extends BorhanStringEnum implements VerizonVcastDistributionField
 {
 	// see VerizonVcastDistributionField interface
 }

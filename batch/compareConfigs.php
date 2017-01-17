@@ -129,13 +129,13 @@ foreach($hosts as $host)
 
 	if(count($diff1))
 	{
-		KalturaLog::info("Host $host [" . print_r($diff1, true) . "]");
+		BorhanLog::info("Host $host [" . print_r($diff1, true) . "]");
 	}
 	if(count($diff2))
 	{
-		KalturaLog::info("Host $host [" . print_r($diff2, true) . "]");
+		BorhanLog::info("Host $host [" . print_r($diff2, true) . "]");
 	}
 	
 	if(!count($diff1) && !count($diff2))
-		KalturaLog::info("Host $host OK");
+		BorhanLog::info("Host $host OK");
 }

@@ -8,7 +8,7 @@ class KAsyncTagIndex extends KJobHandlerWorker
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job) {
+	protected function exec(BorhanBatchJob $job) {
 		
 		$this->reIndexTags($job);
 		
@@ -19,13 +19,13 @@ class KAsyncTagIndex extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::INDEX_TAGS;
+		return BorhanBatchJobType::INDEX_TAGS;
 	}
 	
-	protected function reIndexTags (KalturaBatchJob $job)
+	protected function reIndexTags (BorhanBatchJob $job)
 	{
-		KalturaLog::info("Re-indexing tags according to privacy contexts");
-		$tagPlugin = KalturaTagSearchClientPlugin::get(self::$kClient);
+		BorhanLog::info("Re-indexing tags according to privacy contexts");
+		$tagPlugin = BorhanTagSearchClientPlugin::get(self::$kClient);
 		$this->impersonate($job->partnerId);
 		try 
 		{
@@ -34,10 +34,10 @@ class KAsyncTagIndex extends KJobHandlerWorker
 		catch (Exception $e)
 		{
 			$this->unimpersonate();
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::KALTURA_API, $e->getCode(), $e->getMessage(), KalturaBatchJobStatus::FAILED);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::BORHAN_API, $e->getCode(), $e->getMessage(), BorhanBatchJobStatus::FAILED);
 		}
 		$this->unimpersonate();
-		return $this->closeJob($job, null, null, "Re-index complete", KalturaBatchJobStatus::FINISHED);
+		return $this->closeJob($job, null, null, "Re-index complete", BorhanBatchJobStatus::FINISHED);
 		
 	}
 }

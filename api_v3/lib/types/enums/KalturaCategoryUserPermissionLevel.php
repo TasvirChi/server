@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaCategoryUserPermissionLevel extends KalturaEnum implements CategoryKuserPermissionLevel
+class BorhanCategoryUserPermissionLevel extends BorhanEnum implements CategoryKuserPermissionLevel
 {
 
 }

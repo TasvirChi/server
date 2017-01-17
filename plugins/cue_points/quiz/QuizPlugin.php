@@ -3,7 +3,7 @@
  * Enable question cue point objects and answer cue point objects management on entry objects
  * @package plugins.quiz
  */
-class QuizPlugin extends KalturaPlugin implements IKalturaCuePoint, IKalturaServices, IKalturaDynamicAttributesContributer, IKalturaEventConsumers, IKalturaReportProvider, IKalturaSearchDataContributor
+class QuizPlugin extends BorhanPlugin implements IBorhanCuePoint, IBorhanServices, IBorhanDynamicAttributesContributer, IBorhanEventConsumers, IBorhanReportProvider, IBorhanSearchDataContributor
 {
 	const PLUGIN_NAME = 'quiz';
 
@@ -37,7 +37,7 @@ class QuizPlugin extends KalturaPlugin implements IKalturaCuePoint, IKalturaServ
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -45,7 +45,7 @@ class QuizPlugin extends KalturaPlugin implements IKalturaCuePoint, IKalturaServ
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissions::isAllowedPartner()
+	 * @see IBorhanPermissions::isAllowedPartner()
 	 */
 	public static function isAllowedPartner($partnerId)
 	{
@@ -53,7 +53,7 @@ class QuizPlugin extends KalturaPlugin implements IKalturaCuePoint, IKalturaServ
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaServices::getServicesMap()
+	 * @see IBorhanServices::getServicesMap()
 	 */
 	public static function getServicesMap ()
 	{
@@ -66,7 +66,7 @@ class QuizPlugin extends KalturaPlugin implements IKalturaCuePoint, IKalturaServ
 
 
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -96,34 +96,34 @@ class QuizPlugin extends KalturaPlugin implements IKalturaCuePoint, IKalturaServ
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$cuePointVersion = new KalturaVersion(
+		$cuePointVersion = new BorhanVersion(
 			self::CUE_POINT_VERSION_MAJOR,
 			self::CUE_POINT_VERSION_MINOR,
 			self::CUE_POINT_VERSION_BUILD);
 
-		$dependency = new KalturaDependency(self::CUE_POINT_NAME, $cuePointVersion);
+		$dependency = new BorhanDependency(self::CUE_POINT_NAME, $cuePointVersion);
 		return array($dependency);
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if($baseClass == 'KalturaCuePoint') {
+		if($baseClass == 'BorhanCuePoint') {
 			if ( $enumValue == self::getCuePointTypeCoreValue(QuizCuePointType::QUIZ_QUESTION))
-				return new KalturaQuestionCuePoint();
+				return new BorhanQuestionCuePoint();
 
 			if ( $enumValue == self::getCuePointTypeCoreValue(QuizCuePointType::QUIZ_ANSWER))
-				return new KalturaAnswerCuePoint();
+				return new BorhanAnswerCuePoint();
 		}
-		if ( ($baseClass=="KalturaUserEntry") && ($enumValue ==  self::getCoreValue('UserEntryType' , QuizUserEntryType::QUIZ)))
+		if ( ($baseClass=="BorhanUserEntry") && ($enumValue ==  self::getCoreValue('UserEntryType' , QuizUserEntryType::QUIZ)))
 		{
-			return new KalturaQuizUserEntry();
+			return new BorhanQuizUserEntry();
 		}
 		if ( ($baseClass=="UserEntry") && ($enumValue == self::getCoreValue('UserEntryType' , QuizUserEntryType::QUIZ)))
 		{
@@ -132,7 +132,7 @@ class QuizPlugin extends KalturaPlugin implements IKalturaCuePoint, IKalturaServ
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
@@ -150,7 +150,7 @@ class QuizPlugin extends KalturaPlugin implements IKalturaCuePoint, IKalturaServ
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	 */
 	public static function getEventConsumers()
 	{
@@ -160,7 +160,7 @@ class QuizPlugin extends KalturaPlugin implements IKalturaCuePoint, IKalturaServ
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaSchemaContributor::contributeToSchema()
+	 * @see IBorhanSchemaContributor::contributeToSchema()
 	 */
 	public static function contributeToSchema($type)
 	{
@@ -185,8 +185,8 @@ class QuizPlugin extends KalturaPlugin implements IKalturaCuePoint, IKalturaServ
 					<xs:element name="question" minOccurs="1" maxOccurs="1" type="xs:string"> </xs:element>
 					<xs:element name="hint" minOccurs="0" maxOccurs="1" type="xs:string"> </xs:element>
 					<xs:element name="explanation" minOccurs="0" maxOccurs="1" type="xs:string"> </xs:element>
-					<xs:element name="optionalAnswers" minOccurs="0" maxOccurs="1" type="KalturaOptionalAnswersArray"></xs:element>
-					<xs:element name="correctAnswerKeys" minOccurs="0" maxOccurs="1" type="KalturaStringArray"></xs:element>
+					<xs:element name="optionalAnswers" minOccurs="0" maxOccurs="1" type="BorhanOptionalAnswersArray"></xs:element>
+					<xs:element name="correctAnswerKeys" minOccurs="0" maxOccurs="1" type="BorhanStringArray"></xs:element>
 				</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -245,17 +245,17 @@ class QuizPlugin extends KalturaPlugin implements IKalturaCuePoint, IKalturaServ
 	}
 
 	/* (non-PHPdoc)
- 	* @see IKalturaCuePoint::getCuePointTypeCoreValue()
+ 	* @see IBorhanCuePoint::getCuePointTypeCoreValue()
  	*/
 	public static function getCuePointTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('CuePointType', $value);
 	}
 
 	public static  function getCapatabilityCoreValue()
 	{
-		return kPluginableEnumsManager::apiToCore('EntryCapability', self::PLUGIN_NAME . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . self::PLUGIN_NAME);
+		return kPluginableEnumsManager::apiToCore('EntryCapability', self::PLUGIN_NAME . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . self::PLUGIN_NAME);
 	}
 
 	/**
@@ -263,20 +263,20 @@ class QuizPlugin extends KalturaPlugin implements IKalturaCuePoint, IKalturaServ
 	 */
 	public static function getCoreValue($type, $valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore($type, $value);
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaCuePoint::getApiValue()
+	 * @see IBorhanCuePoint::getApiValue()
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaCuePoint::getTypesToIndexOnEntry()
+	 * @see IBorhanCuePoint::getTypesToIndexOnEntry()
 	*/
 	public static function getTypesToIndexOnEntry()
 	{
@@ -284,7 +284,7 @@ class QuizPlugin extends KalturaPlugin implements IKalturaCuePoint, IKalturaServ
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaDynamicAttributesContributer::getDynamicAttribute()
+	 * @see IBorhanDynamicAttributesContributer::getDynamicAttribute()
 	 */
 	public static function getDynamicAttributes(IIndexable $object)
 	{
@@ -414,7 +414,7 @@ class QuizPlugin extends KalturaPlugin implements IKalturaCuePoint, IKalturaServ
 	 */
 	protected function pagerResults(array $ans, $page_size , $page_index)
 	{
-		KalturaLog::debug("QUIZ Report::: page_size [$page_size] page_index [$page_index] array size [" .count($ans)."]");
+		BorhanLog::debug("QUIZ Report::: page_size [$page_size] page_index [$page_index] array size [" .count($ans)."]");
 		$res = array();
 		if ($page_index ==0)
 			$page_index = 1;
@@ -426,7 +426,7 @@ class QuizPlugin extends KalturaPlugin implements IKalturaCuePoint, IKalturaServ
 
 		$indexInArray = ($page_index -1) * $page_size;
 		$res = array_slice($ans, $indexInArray, $page_size, false );
-		KalturaLog::debug("QUIZ Report::: The number of arguments in the response is [" .count($res)."]");
+		BorhanLog::debug("QUIZ Report::: The number of arguments in the response is [" .count($res)."]");
 		return $res;
 	}
 
@@ -455,7 +455,7 @@ class QuizPlugin extends KalturaPlugin implements IKalturaCuePoint, IKalturaServ
 
 		$quizzes = UserEntryPeer::doSelect($c);
 		$numOfQuizzesFound = count($quizzes);
-		KalturaLog::debug("Found $numOfQuizzesFound quizzes that were submitted");
+		BorhanLog::debug("Found $numOfQuizzesFound quizzes that were submitted");
 		if ($numOfQuizzesFound)
 		{
 			$sumOfScores = 0;
@@ -607,7 +607,7 @@ class QuizPlugin extends KalturaPlugin implements IKalturaCuePoint, IKalturaServ
 	 * @param $objectIds
 	 * @return array
 	 * @throws kCoreException
-	 * @throws KalturaAPIException
+	 * @throws BorhanAPIException
 	 */
 	protected function getUserPercentageTable($objectIds, $orderBy)
 	{
@@ -862,7 +862,7 @@ class QuizPlugin extends KalturaPlugin implements IKalturaCuePoint, IKalturaServ
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaSearchDataContributor::getSearchData()
+	 * @see IBorhanSearchDataContributor::getSearchData()
 	 */
 	public static function getSearchData(BaseObject $object)
 	{

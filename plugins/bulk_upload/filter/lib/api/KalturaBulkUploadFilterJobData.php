@@ -5,17 +5,17 @@
  * @package plugins.bulkUploadFilter
  * @subpackage api.objects
  */
-class KalturaBulkUploadFilterJobData extends KalturaBulkUploadJobData
+class BorhanBulkUploadFilterJobData extends BorhanBulkUploadJobData
 {	
 	/**
 	 * Filter for extracting the objects list to upload 
-	 * @var KalturaFilter
+	 * @var BorhanFilter
 	 */
 	public $filter;
 
 	/**
 	 * Template object for new object creation
-	 * @var KalturaObject
+	 * @var BorhanObject
 	 */
 	public $templateObject;
 	
@@ -42,7 +42,7 @@ class KalturaBulkUploadFilterJobData extends KalturaBulkUploadJobData
 		
 		switch (get_class($this->templateObject))
 	    {
-	        case 'KalturaCategoryEntry':
+	        case 'BorhanCategoryEntry':
 	           	$dbData->setTemplateObject(new categoryEntry());
 	           	$this->templateObject->toObject($dbData->getTemplateObject());
 	            break;
@@ -54,9 +54,9 @@ class KalturaBulkUploadFilterJobData extends KalturaBulkUploadJobData
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject()
+	 * @see BorhanObject::fromObject()
 	 */
-	public function doFromObject($source_object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($source_object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 	    parent::doFromObject($source_object, $responseProfile);
 	    
@@ -65,10 +65,10 @@ class KalturaBulkUploadFilterJobData extends KalturaBulkUploadJobData
 	    switch (get_class($source_object->getFilter()))
 	    {
 	        case 'categoryEntryFilter':
-	            $this->filter = new KalturaCategoryEntryFilter();
+	            $this->filter = new BorhanCategoryEntryFilter();
 	            break;
 	        case 'entryFilter':
-	            $this->filter = new KalturaBaseEntryFilter();
+	            $this->filter = new BorhanBaseEntryFilter();
 	            break;
 	        default:
 	            break;
@@ -84,7 +84,7 @@ class KalturaBulkUploadFilterJobData extends KalturaBulkUploadJobData
 	    switch (get_class($source_object->getTemplateObject()))
 	    {
 	        case 'categoryEntry':
-	            $this->templateObject = new KalturaCategoryEntry();
+	            $this->templateObject = new BorhanCategoryEntry();
 	            break;
 	        default:
 	            break;
@@ -107,6 +107,6 @@ class KalturaBulkUploadFilterJobData extends KalturaBulkUploadJobData
 	
 	public function setType ()
 	{
-	    $this->type = kPluginableEnumsManager::coreToApi("KalturaBulkUploadType", BulkUploadFilterPlugin::getApiValue(BulkUploadFilterType::FILTER));
+	    $this->type = kPluginableEnumsManager::coreToApi("BorhanBulkUploadType", BulkUploadFilterPlugin::getApiValue(BulkUploadFilterType::FILTER));
 	}
 }

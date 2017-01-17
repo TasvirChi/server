@@ -3,7 +3,7 @@
  * @package plugins.wowza
  * @subpackage api.objects
  */
-class KalturaWowzaMediaServerNode extends KalturaMediaServerNode
+class BorhanWowzaMediaServerNode extends BorhanMediaServerNode
 {	
 	/**
 	 * Wowza Media server app prefix
@@ -58,7 +58,7 @@ class KalturaWowzaMediaServerNode extends KalturaMediaServerNode
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert()
+	 * @see BorhanObject::validateForInsert()
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{
@@ -66,7 +66,7 @@ class KalturaWowzaMediaServerNode extends KalturaMediaServerNode
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUpdate()
+	 * @see BorhanObject::validateForUpdate()
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = array())
 	{
@@ -75,7 +75,7 @@ class KalturaWowzaMediaServerNode extends KalturaMediaServerNode
 	
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -83,7 +83,7 @@ class KalturaWowzaMediaServerNode extends KalturaMediaServerNode
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toInsertableObject()
+	 * @see BorhanObject::toInsertableObject()
 	 */
 	public function toInsertableObject($object_to_fill = null, $props_to_skip = array())
 	{
@@ -94,7 +94,7 @@ class KalturaWowzaMediaServerNode extends KalturaMediaServerNode
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

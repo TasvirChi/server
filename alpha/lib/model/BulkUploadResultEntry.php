@@ -94,7 +94,7 @@ class BulkUploadResultEntry extends BulkUploadResult
 		}
 		catch (Exception $e)
 		{
-			KalturaLog::err($e->getMessage());
+			BorhanLog::err($e->getMessage());
 			return;
 		}
 		

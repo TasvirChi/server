@@ -2,7 +2,7 @@
 /**
  * @package plugins.ndnDistribution
  */
-class NdnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaEnumerator, IKalturaPending, IKalturaObjectLoader, IKalturaContentDistributionProvider, IKalturaEventConsumers, IKalturaServices
+class NdnDistributionPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanEnumerator, IBorhanPending, IBorhanObjectLoader, IBorhanContentDistributionProvider, IBorhanEventConsumers, IBorhanServices
 {
 	const PLUGIN_NAME = 'ndnDistribution';
 	const NDN_EVENT_CONSUMER = "kNdnFlowManager";
@@ -17,12 +17,12 @@ class NdnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	
 	public static function dependsOn()
 	{
-		$contentDistributionVersion = new KalturaVersion(
+		$contentDistributionVersion = new BorhanVersion(
 			self::CONTENT_DSTRIBUTION_VERSION_MAJOR,
 			self::CONTENT_DSTRIBUTION_VERSION_MINOR,
 			self::CONTENT_DSTRIBUTION_VERSION_BUILD);
 			
-		$dependency = new KalturaDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
+		$dependency = new BorhanDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
 		return array($dependency);
 	}
 	
@@ -85,23 +85,23 @@ class NdnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	public static function getObjectClass($baseClass, $enumValue)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::NDN)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::NDN)
 		{
-			if($baseClass == 'KalturaDistributionProfile')
-				return 'KalturaNdnDistributionProfile';
+			if($baseClass == 'BorhanDistributionProfile')
+				return 'BorhanNdnDistributionProfile';
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::NDN)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::NDN)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 				return 'Form_NdnProfileConfiguration';
 				
-			if($baseClass == 'Kaltura_Client_ContentDistribution_Type_DistributionProfile')
-				return 'Kaltura_Client_NdnDistribution_Type_NdnDistributionProfile';
+			if($baseClass == 'Borhan_Client_ContentDistribution_Type_DistributionProfile')
+				return 'Borhan_Client_NdnDistribution_Type_NdnDistributionProfile';
 		}
 		
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(NdnDistributionProviderType::NDN))
-			return 'KalturaNdnDistributionProfile';
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(NdnDistributionProviderType::NDN))
+			return 'BorhanNdnDistributionProfile';
 			
 		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(NdnDistributionProviderType::NDN))
 			return 'NdnDistributionProfile';
@@ -122,11 +122,11 @@ class NdnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	/**
 	 * Return an API distribution provider instance
 	 * 
-	 * @return KalturaDistributionProvider
+	 * @return BorhanDistributionProvider
 	 */
-	public static function getKalturaProvider()
+	public static function getBorhanProvider()
 	{
-		$distributionProvider = new KalturaNdnDistributionProvider();
+		$distributionProvider = new BorhanNdnDistributionProvider();
 		$distributionProvider->fromObject(self::getProvider());
 		return $distributionProvider;
 	}
@@ -156,7 +156,7 @@ class NdnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	 */
 	public static function getDistributionProviderTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('DistributionProviderType', $value);
 	}
 	
@@ -165,11 +165,11 @@ class NdnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	 */
 	public static function getEventConsumers()
 	{
@@ -179,7 +179,7 @@ class NdnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaServices::getServicesMap()
+	 * @see IBorhanServices::getServicesMap()
 	 */
 	public static function getServicesMap()
 	{

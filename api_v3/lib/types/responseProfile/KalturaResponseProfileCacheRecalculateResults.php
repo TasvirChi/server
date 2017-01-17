@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaResponseProfileCacheRecalculateResults extends KalturaObject
+class BorhanResponseProfileCacheRecalculateResults extends BorhanObject
 {
 	/**
 	 * Last recalculated id

@@ -3,7 +3,7 @@
  * @package plugins.playReady
  * @subpackage api.enum
  */
-class KalturaPlayReadyUncompressedDigitalVideoOPL extends KalturaEnum implements PlayReadyUncompressedDigitalVideoOPL
+class BorhanPlayReadyUncompressedDigitalVideoOPL extends BorhanEnum implements PlayReadyUncompressedDigitalVideoOPL
 {
 	// see PlayReadyUncompressedDigitalVideoOPL interface
 }

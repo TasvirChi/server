@@ -3,20 +3,20 @@
  * @package plugins.systemPartner
  * @subpackage api.objects
  */
-class KalturaSystemPartnerLimitArray extends KalturaTypedArray
+class BorhanSystemPartnerLimitArray extends BorhanTypedArray
 {
 	/**
 	 * @param Partner $partner
-	 * @return KalturaSystemPartnerLimitArray
+	 * @return BorhanSystemPartnerLimitArray
 	 */
 	public static function fromPartner(Partner $partner)
 	{
-		$arr = new KalturaSystemPartnerLimitArray();
-		$reflector = KalturaTypeReflectorCacher::get('KalturaSystemPartnerLimitType');
+		$arr = new BorhanSystemPartnerLimitArray();
+		$reflector = BorhanTypeReflectorCacher::get('BorhanSystemPartnerLimitType');
 		$types = $reflector->getConstants();
 		foreach($types as $typeInfo) {
 		    $typeValue = $typeInfo->getDefaultValue();
-		    $arr[] = KalturaSystemPartnerOveragedLimit::fromPartner($typeValue, $partner);
+		    $arr[] = BorhanSystemPartnerOveragedLimit::fromPartner($typeValue, $partner);
 		}
 			
 			
@@ -25,6 +25,6 @@ class KalturaSystemPartnerLimitArray extends KalturaTypedArray
 	
 	public function __construct()
 	{
-		return parent::__construct("KalturaSystemPartnerLimit");
+		return parent::__construct("BorhanSystemPartnerLimit");
 	}
 }

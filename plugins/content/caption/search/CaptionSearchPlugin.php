@@ -3,7 +3,7 @@
  * Enable indexing and searching caption asset objects
  * @package plugins.captionSearch
  */
-class CaptionSearchPlugin extends KalturaPlugin implements IKalturaPending, IKalturaPermissions, IKalturaServices, IKalturaEventConsumers, IKalturaEnumerator, IKalturaObjectLoader, IKalturaSearchDataContributor
+class CaptionSearchPlugin extends BorhanPlugin implements IBorhanPending, IBorhanPermissions, IBorhanServices, IBorhanEventConsumers, IBorhanEnumerator, IBorhanObjectLoader, IBorhanSearchDataContributor
 {
 	const MAX_CAPTION_FILE_SIZE_FOR_INDEXING = 900000; // limit the size of text which can indexed, the mysql packet size is limited by default to 1M anyway
 	const PLUGIN_NAME = 'captionSearch';
@@ -19,17 +19,17 @@ class CaptionSearchPlugin extends KalturaPlugin implements IKalturaPending, IKal
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$captionDependency = new KalturaDependency(CaptionPlugin::getPluginName());
+		$captionDependency = new BorhanDependency(CaptionPlugin::getPluginName());
 		
 		return array($captionDependency);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissions::isAllowedPartner()
+	 * @see IBorhanPermissions::isAllowedPartner()
 	 */
 	public static function isAllowedPartner($partnerId)
 	{
@@ -44,7 +44,7 @@ class CaptionSearchPlugin extends KalturaPlugin implements IKalturaPending, IKal
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaServices::getServicesMap()
+	 * @see IBorhanServices::getServicesMap()
 	 */
 	public static function getServicesMap()
 	{
@@ -55,7 +55,7 @@ class CaptionSearchPlugin extends KalturaPlugin implements IKalturaPending, IKal
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	 */
 	public static function getEventConsumers()
 	{
@@ -65,7 +65,7 @@ class CaptionSearchPlugin extends KalturaPlugin implements IKalturaPending, IKal
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -79,35 +79,35 @@ class CaptionSearchPlugin extends KalturaPlugin implements IKalturaPending, IKal
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
 		if($baseClass == 'kJobData' && $enumValue == self::getBatchJobTypeCoreValue(CaptionSearchBatchJobType::PARSE_CAPTION_ASSET))
 			return new kParseCaptionAssetJobData();
 	
-		if($baseClass == 'KalturaJobData' && $enumValue == self::getApiValue(CaptionSearchBatchJobType::PARSE_CAPTION_ASSET))
-			return new KalturaParseCaptionAssetJobData();
+		if($baseClass == 'BorhanJobData' && $enumValue == self::getApiValue(CaptionSearchBatchJobType::PARSE_CAPTION_ASSET))
+			return new BorhanParseCaptionAssetJobData();
 		
 		return null;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
 		if($baseClass == 'kJobData' && $enumValue == self::getBatchJobTypeCoreValue(CaptionSearchBatchJobType::PARSE_CAPTION_ASSET))
 			return 'kParseCaptionAssetJobData';
 	
-		if($baseClass == 'KalturaJobData' && $enumValue == self::getApiValue(CaptionSearchBatchJobType::PARSE_CAPTION_ASSET))
-			return 'KalturaParseCaptionAssetJobData';
+		if($baseClass == 'BorhanJobData' && $enumValue == self::getApiValue(CaptionSearchBatchJobType::PARSE_CAPTION_ASSET))
+			return 'BorhanParseCaptionAssetJobData';
 		
 		return null;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSearchDataContributor::getSearchData()
+	 * @see IBorhanSearchDataContributor::getSearchData()
 	 */
 	public static function getSearchData(BaseObject $object)
 	{
@@ -136,7 +136,7 @@ class CaptionSearchPlugin extends KalturaPlugin implements IKalturaPending, IKal
 	    	$captionsContentManager = kCaptionsContentManager::getCoreContentManager($captionAsset->getContainerFormat());
 	    	if(!$captionsContentManager)
 	    	{
-	    		KalturaLog::err("Captions content manager not found for format [" . $captionAsset->getContainerFormat() . "]");
+	    		BorhanLog::err("Captions content manager not found for format [" . $captionAsset->getContainerFormat() . "]");
 	    		continue;
 	    	}
 	    		
@@ -160,7 +160,7 @@ class CaptionSearchPlugin extends KalturaPlugin implements IKalturaPending, IKal
 	 */
 	public static function getBatchJobTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('BatchJobType', $value);
 	}
 	
@@ -169,7 +169,7 @@ class CaptionSearchPlugin extends KalturaPlugin implements IKalturaPending, IKal
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	/**

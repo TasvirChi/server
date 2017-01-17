@@ -3,7 +3,7 @@
  * @package plugins.drm
  * @subpackage api.objects
  */
-class KalturaDrmPolicy extends KalturaObject implements IFilterable
+class BorhanDrmPolicy extends BorhanObject implements IFilterable
 {	
 	/**
 	 * @var int
@@ -37,30 +37,30 @@ class KalturaDrmPolicy extends KalturaObject implements IFilterable
 	public $description;
 	
 	/**
-	 * @var KalturaDrmProviderType
+	 * @var BorhanDrmProviderType
 	 * @filter eq,in
 	 */
 	public $provider;
 	
 	/**
-	 * @var KalturaDrmPolicyStatus
+	 * @var BorhanDrmPolicyStatus
 	 * @filter eq,in
 	 */
 	public $status;
 	
 	/**
-	 * @var KalturaDrmLicenseScenario
+	 * @var BorhanDrmLicenseScenario
 	 * @filter eq,in
 	 */
 	public $scenario;
 	
 	/**
-	 * @var KalturaDrmLicenseType
+	 * @var BorhanDrmLicenseType
 	 */
 	public $licenseType;
 	
 	/**
-	 * @var KalturaDrmLicenseExpirationPolicy
+	 * @var BorhanDrmLicenseExpirationPolicy
 	 */
 	public $licenseExpirationPolicy;
 	
@@ -116,13 +116,13 @@ class KalturaDrmPolicy extends KalturaObject implements IFilterable
 		
 	/**
 	 * @param int $type
-	 * @return KalturaDrmPolicy
+	 * @return BorhanDrmPolicy
 	 */
 	static function getInstanceByType ($provider)
 	{
-		$obj = KalturaPluginManager::loadObject('KalturaDrmPolicy', $provider);		
+		$obj = BorhanPluginManager::loadObject('BorhanDrmPolicy', $provider);		
 		if(!$obj)
-			$obj = new KalturaDrmPolicy();
+			$obj = new BorhanDrmPolicy();
 		return $obj;
 	}
 	

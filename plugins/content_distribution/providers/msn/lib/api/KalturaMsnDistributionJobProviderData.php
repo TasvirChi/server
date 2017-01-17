@@ -3,26 +3,26 @@
  * @package plugins.msnDistribution
  * @subpackage api.objects
  */
-class KalturaMsnDistributionJobProviderData extends KalturaConfigurableDistributionJobProviderData
+class BorhanMsnDistributionJobProviderData extends BorhanConfigurableDistributionJobProviderData
 {
 	/**
 	 * @var string
 	 */
 	public $xml;
 	
-	public function __construct(KalturaDistributionJobData $distributionJobData = null)
+	public function __construct(BorhanDistributionJobData $distributionJobData = null)
 	{
 		parent::__construct($distributionJobData);
 		if(!$distributionJobData)
 			return;
 			
-		if(!($distributionJobData->distributionProfile instanceof KalturaMsnDistributionProfile))
+		if(!($distributionJobData->distributionProfile instanceof BorhanMsnDistributionProfile))
 			return;
 			
 		$flavorAssetsByMsnId = array();
 		$entryId = $distributionJobData->entryDistribution->entryId;
 		$distributionProfile = $distributionJobData->distributionProfile;
-		/* @var $distributionProfile KalturaMsnDistributionProfile */
+		/* @var $distributionProfile BorhanMsnDistributionProfile */
 		$this->addFlavorByMsnId($flavorAssetsByMsnId, 1001, $entryId, $distributionProfile->sourceFlavorParamsId);
 		$this->addFlavorByMsnId($flavorAssetsByMsnId, 1002, $entryId, $distributionProfile->wmvFlavorParamsId);
 		$this->addFlavorByMsnId($flavorAssetsByMsnId, 1003, $entryId, $distributionProfile->flvFlavorParamsId);
@@ -35,12 +35,12 @@ class KalturaMsnDistributionJobProviderData extends KalturaConfigurableDistribut
 		$feed->addFlavorAssetsByMsnId($flavorAssetsByMsnId);
 		$feed->addThumbnailAssets($thumbAssets);
 		
-		if($distributionJobData instanceof KalturaDistributionSubmitJobData)
+		if($distributionJobData instanceof BorhanDistributionSubmitJobData)
 		{
 			$this->xml = $feed->getXml();
 		}
 			
-		if($distributionJobData instanceof KalturaDistributionUpdateJobData)
+		if($distributionJobData instanceof BorhanDistributionUpdateJobData)
 		{
 			$feed->setUUID($distributionJobData->remoteId);
 			$this->xml = $feed->getXml();

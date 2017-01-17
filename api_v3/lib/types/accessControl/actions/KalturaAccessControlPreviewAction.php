@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaAccessControlPreviewAction extends KalturaRuleAction
+class BorhanAccessControlPreviewAction extends BorhanRuleAction
 {
 	/**
 	 * @var int
@@ -29,7 +29,7 @@ class KalturaAccessControlPreviewAction extends KalturaRuleAction
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

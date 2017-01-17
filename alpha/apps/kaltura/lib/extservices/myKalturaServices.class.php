@@ -3,19 +3,19 @@
  * @package Core
  * @subpackage ExternalServices
  */
-class myKalturaServices extends myBaseMediaSource implements IMediaSource
+class myBorhanServices extends myBaseMediaSource implements IMediaSource
 {
-	const AUTH_SALT = "myKalturaServices:gogog123";
+	const AUTH_SALT = "myBorhanServices:gogog123";
 	const AUTH_INTERVAL = 3600;
 	
 	const MAX_PAGE_SIZE = 30;
 	
 	protected $supported_media_types = 7; // support all media//self::SUPPORT_MEDIA_TYPE_VIDEO + (int)self::SUPPORT_MEDIA_TYPE_IMAGE;  
-	protected $source_name = "Kaltura";
+	protected $source_name = "Borhan";
 	protected $auth_method = array ( self::AUTH_METHOD_PUBLIC );//, self::AUTH_METHOD_USER_PASS);
 	protected $search_in_user = true; 
-	protected $logo = "http://www.kaltura.com/images/wizard/logo_kaltura.gif";
-	protected $id = entry::ENTRY_MEDIA_SOURCE_KALTURA;
+	protected $logo = "http://www.borhan.com/images/wizard/logo_borhan.gif";
+	protected $id = entry::ENTRY_MEDIA_SOURCE_BORHAN;
 	
 	private static $NEED_MEDIA_INFO = "0";
 	
@@ -89,7 +89,7 @@ class myKalturaServices extends myBaseMediaSource implements IMediaSource
 		$act->setSortAlias( "ids" );
 		$act->skip_count = true;
 		
-//		$kaltura_media_type = self::getKalturaMediaType ( $media_type );
+//		$borhan_media_type = self::getBorhanMediaType ( $media_type );
 
 		$act->setMediaType ( $media_type );
 		

@@ -19,9 +19,9 @@ class AmazonS3StorageProfile extends StorageProfile
 	const CUSTOM_DATA_SIGNATURE_TYPE = 'signatureType';
 	const CUSTOM_DATA_END_POINT = 'endPoint';
 	
-	public function getKalturaObjectType()
+	public function getBorhanObjectType()
 	{
-		return 'KalturaAmazonS3StorageProfile';
+		return 'BorhanAmazonS3StorageProfile';
 	}
 	
 	/* Files Permission Public */

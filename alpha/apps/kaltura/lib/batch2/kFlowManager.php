@@ -439,7 +439,7 @@ class kFlowManager implements kBatchJobStatusEventConsumer, kObjectAddedEventCon
 		catch ( Exception $ex )
 		{
 			self::alert($dbBatchJob, $ex);
-			KalturaLog::err( "Error:" . $ex->getMessage() );
+			BorhanLog::err( "Error:" . $ex->getMessage() );
 		}
 			
 		return true;
@@ -452,7 +452,7 @@ class kFlowManager implements kBatchJobStatusEventConsumer, kObjectAddedEventCon
 		$jobData->setMailPriority( kMailJobData::MAIL_PRIORITY_HIGH);
 		$jobData->setStatus(kMailJobData::MAIL_STATUS_PENDING);
 
-		KalturaLog::alert("Error in job [{$dbBatchJob->getId()}]\n".$exception);
+		BorhanLog::alert("Error in job [{$dbBatchJob->getId()}]\n".$exception);
 
 		$jobData->setMailType(90); // is the email template
 		$jobData->setBodyParamsArray(array($dbBatchJob->getId(), $exception->getFile(), $exception->getLine(), $exception->getMessage(), $exception->getTraceAsString()));
@@ -671,7 +671,7 @@ class kFlowManager implements kBatchJobStatusEventConsumer, kObjectAddedEventCon
 			
 		$entry = entryPeer::retrieveByPKNoFilter($object->getEntryId());
 
-		KalturaLog::info("Asset id [" . $object->getId() . "] isOriginal [" . $object->getIsOriginal() . "] status [" . $object->getStatus() . "]");
+		BorhanLog::info("Asset id [" . $object->getId() . "] isOriginal [" . $object->getIsOriginal() . "] status [" . $object->getStatus() . "]");
 		if($object->getIsOriginal())
 			return true;
 		
@@ -733,7 +733,7 @@ class kFlowManager implements kBatchJobStatusEventConsumer, kObjectAddedEventCon
 		$entry = entryPeer::retrieveByPK($object->getReplacedEntryId());
 		if(!$entry)
 		{
-			KalturaLog::err("Real entry id [" . $object->getReplacedEntryId() . "] not found");
+			BorhanLog::err("Real entry id [" . $object->getReplacedEntryId() . "] not found");
 			return true;
 		}
 		

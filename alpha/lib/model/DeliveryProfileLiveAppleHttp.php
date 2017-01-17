@@ -97,7 +97,7 @@ class DeliveryProfileLiveAppleHttp extends DeliveryProfileLive {
 			$tsUrl = $this->checkIfValidUrl($urlLine, $url);
 			if ($this->urlExists($tsUrl ,kConf::get(self::HLS_LIVE_STREAM_CONTENT_TYPE),'0-1') !== false)
 			{
-				KalturaLog::log("Live ts url: $tsUrl");
+				BorhanLog::log("Live ts url: $tsUrl");
 				return true;
 			}
 		}
@@ -148,7 +148,7 @@ class DeliveryProfileLiveAppleHttp extends DeliveryProfileLive {
 		$entry = entryPeer::retrieveByPK($entryId);
 		if(!$entry)
 		{
-			KalturaLog::err("Entry [$entryId] not found");
+			BorhanLog::err("Entry [$entryId] not found");
 			return $manifestUrl;
 		}
 		

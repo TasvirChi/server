@@ -19,7 +19,7 @@ class kResponseProfileCacher implements kObjectChangedEventConsumer, kObjectDele
 	
 	const CACHE_VALUE_HOSTNAME = 'X-Me';
 	const CACHE_VALUE_TIME = 'X-Time';
-	const CACHE_VALUE_SESSION = 'X-Kaltura-Session';
+	const CACHE_VALUE_SESSION = 'X-Borhan-Session';
 	const CACHE_VALUE_VERSION = 'X-Cache-Version';
 	
 	/**
@@ -89,7 +89,7 @@ class kResponseProfileCacher implements kObjectChangedEventConsumer, kObjectDele
 	
 	protected static function invalidateRelated(IRelatedObject $object)
 	{
-		KalturaLog::debug('Invalidating object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] related objects');
+		BorhanLog::debug('Invalidating object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] related objects');
 		
 		$partnerId = $object->getPartnerId();
 		$triggerKey = self::getRelatedObjectKey($object);
@@ -110,7 +110,7 @@ class kResponseProfileCacher implements kObjectChangedEventConsumer, kObjectDele
 		);
 		
 		$invalidationKey = self::addCacheVersion($invalidationKey);
-		KalturaLog::debug("Invalidating key [$invalidationKey] now [" . date('Y-m-d H:i:s', $value[self::CACHE_VALUE_TIME]) . "]");
+		BorhanLog::debug("Invalidating key [$invalidationKey] now [" . date('Y-m-d H:i:s', $value[self::CACHE_VALUE_TIME]) . "]");
 		
 		$cacheStores = self::getInvalidationStores();
 		foreach ($cacheStores as $cacheStore)
@@ -128,7 +128,7 @@ class kResponseProfileCacher implements kObjectChangedEventConsumer, kObjectDele
 		$value[self::CACHE_VALUE_VERSION] = self::getCacheVersion();
 		
 		$key = self::addCacheVersion($key);
-		KalturaLog::debug("Key [$key]");
+		BorhanLog::debug("Key [$key]");
 		
 		$cacheStores = self::getStores();
 		foreach ($cacheStores as $cacheStore)
@@ -141,7 +141,7 @@ class kResponseProfileCacher implements kObjectChangedEventConsumer, kObjectDele
 	protected static function delete($key)
 	{
 		$key = self::addCacheVersion($key);
-		KalturaLog::debug("Key [$key]");
+		BorhanLog::debug("Key [$key]");
 		$cacheStores = self::getStores();
 		foreach ($cacheStores as $cacheStore)
 		{
@@ -171,17 +171,17 @@ class kResponseProfileCacher implements kObjectChangedEventConsumer, kObjectDele
 				{
 					foreach($value as $key => $item)
 					{
-						KalturaLog::debug("Key [$key] Server[" . $item->{self::CACHE_VALUE_HOSTNAME} . "] Session[" . $item->{self::CACHE_VALUE_SESSION} . "] Time[" . date('Y-m-d H:i:s', $item->{self::CACHE_VALUE_TIME}) . "]");
+						BorhanLog::debug("Key [$key] Server[" . $item->{self::CACHE_VALUE_HOSTNAME} . "] Session[" . $item->{self::CACHE_VALUE_SESSION} . "] Time[" . date('Y-m-d H:i:s', $item->{self::CACHE_VALUE_TIME}) . "]");
 					}
 				}
 				else
 				{
-					KalturaLog::debug("Key [$keys] Server[" . $value->{self::CACHE_VALUE_HOSTNAME} . "] Session[" . $value->{self::CACHE_VALUE_SESSION} . "] Time[" . date('Y-m-d H:i:s', $value->{self::CACHE_VALUE_TIME}) . "]");
+					BorhanLog::debug("Key [$keys] Server[" . $value->{self::CACHE_VALUE_HOSTNAME} . "] Session[" . $value->{self::CACHE_VALUE_SESSION} . "] Time[" . date('Y-m-d H:i:s', $value->{self::CACHE_VALUE_TIME}) . "]");
 				}
 				return $value;
 			}
 		}
-		KalturaLog::debug("Key [$keys] not found");
+		BorhanLog::debug("Key [$keys] not found");
 			
 		return null;
 	}
@@ -211,12 +211,12 @@ class kResponseProfileCacher implements kObjectChangedEventConsumer, kObjectDele
 					if(isset($invalidationCaches[$invalidationKey]))
 					{
 						$value = $invalidationCaches[$invalidationKey];
-						KalturaLog::debug("Invalidation key [$invalidationKey] Server[" . $value->{self::CACHE_VALUE_HOSTNAME} . "] Session[" . $value->{self::CACHE_VALUE_SESSION} . "] Time[" . date('Y-m-d H:i:s', $value->{self::CACHE_VALUE_TIME}) . "]");
+						BorhanLog::debug("Invalidation key [$invalidationKey] Server[" . $value->{self::CACHE_VALUE_HOSTNAME} . "] Session[" . $value->{self::CACHE_VALUE_SESSION} . "] Time[" . date('Y-m-d H:i:s', $value->{self::CACHE_VALUE_TIME}) . "]");
 						$invalidationTimes[] = $value->{self::CACHE_VALUE_TIME};
 					}
 					else
 					{
-						KalturaLog::debug("Invalidation key [$invalidationKey] not found");
+						BorhanLog::debug("Invalidation key [$invalidationKey] not found");
 					}
 				}
 				
@@ -224,7 +224,7 @@ class kResponseProfileCacher implements kObjectChangedEventConsumer, kObjectDele
 				$invalidationTime += kConf::get('cache_invalidation_threshold', 'local', 10);
 				if(intval($invalidationTime) >= intval($time))
 				{
-					KalturaLog::debug("Invalidation times [" . implode(', ', $invalidationTimes) . "] >= [{$time}]");
+					BorhanLog::debug("Invalidation times [" . implode(', ', $invalidationTimes) . "] >= [{$time}]");
 					return false;
 				}
 			}	
@@ -292,19 +292,19 @@ class kResponseProfileCacher implements kObjectChangedEventConsumer, kObjectDele
 		/* @var $object IRelatedObject */
 		if($this->isCachedObject($object))
 		{
-			KalturaLog::debug('Object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] is cached object');
+			BorhanLog::debug('Object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] is cached object');
 			$this->invalidateCachedObject($object);
 		}
 			
 		if($this->hasCachedRootObjects($object))
 		{
-			KalturaLog::debug('Object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] has cached root objects');
+			BorhanLog::debug('Object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] has cached root objects');
 			$this->invalidateCachedRootObjects($object);
 		}
 			
 		if($this->hasCachedRelatedObjects($object))
 		{
-			KalturaLog::debug('Object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] has cached related objects');
+			BorhanLog::debug('Object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] has cached related objects');
 			$this->invalidateCachedRelatedObjects($object);
 		}
 			
@@ -346,19 +346,19 @@ class kResponseProfileCacher implements kObjectChangedEventConsumer, kObjectDele
 		
 		if($this->isCachedObject($object))
 		{
-			KalturaLog::debug('Object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] is cached object');
+			BorhanLog::debug('Object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] is cached object');
 			$this->invalidateCachedObject($object);
 		}
 					
 		if($this->hasCachedRelatedObjects($object))
 		{
-			KalturaLog::debug('Object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] has cached related objects');
+			BorhanLog::debug('Object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] has cached related objects');
 			$this->invalidateCachedRelatedObjects($object);
 		}
 			
 		if($this->hasCachedRootObjects($object))
 		{
-			KalturaLog::debug('Object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] has cached root objects');
+			BorhanLog::debug('Object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] has cached root objects');
 			$this->invalidateCachedRootObjects($object);
 		}
 			
@@ -396,13 +396,13 @@ class kResponseProfileCacher implements kObjectChangedEventConsumer, kObjectDele
 		/* @var $object IRelatedObject */
 		if($this->hasCachedRelatedObjects($object))
 		{
-			KalturaLog::debug('Object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] has cached related objects');
+			BorhanLog::debug('Object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] has cached related objects');
 			$this->invalidateCachedRelatedObjects($object);
 		}
 			
 		if($this->hasCachedRootObjects($object))
 		{
-			KalturaLog::debug('Object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] has cached root objects');
+			BorhanLog::debug('Object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] has cached root objects');
 			$this->invalidateCachedRootObjects($object);
 		}
 			
@@ -629,7 +629,7 @@ class kResponseProfileCacher implements kObjectChangedEventConsumer, kObjectDele
 			$offset = 0;
 			$array = array();
 			$list = $cacheStore->query($query);
-			KalturaLog::debug('Found [' . count($list->getObjects()) . '/' . $list->getCount() . '] items');
+			BorhanLog::debug('Found [' . count($list->getObjects()) . '/' . $list->getCount() . '] items');
 			while(count($list->getObjects()))
 			{
 				foreach ($list->getObjects() as $cacheObject)
@@ -653,7 +653,7 @@ class kResponseProfileCacher implements kObjectChangedEventConsumer, kObjectDele
 				$offset += count($list->getObjects());
 				$query->setOffset($offset);
 				$list = $cacheStore->query($query);
-				KalturaLog::debug('Found [' . count($list->getObjects()) . '/' . $list->getCount() . '] items');
+				BorhanLog::debug('Found [' . count($list->getObjects()) . '/' . $list->getCount() . '] items');
 			}
 			return $array;
 		}
@@ -687,7 +687,7 @@ class kResponseProfileCacher implements kObjectChangedEventConsumer, kObjectDele
 			$offset = 0;
 			$array = array();
 			$list = $cacheStore->query($query);
-			KalturaLog::debug('Found [' . count($list->getObjects()) . '/' . $list->getCount() . '] items');
+			BorhanLog::debug('Found [' . count($list->getObjects()) . '/' . $list->getCount() . '] items');
 			while(count($list->getObjects()))
 			{
 				foreach ($list->getObjects() as $cacheObject)
@@ -700,7 +700,7 @@ class kResponseProfileCacher implements kObjectChangedEventConsumer, kObjectDele
 				$offset += count($list->getObjects());
 				$query->setOffset($offset);
 				$list = $cacheStore->query($query);
-				KalturaLog::debug('Found [' . count($list->getObjects()) . '/' . $list->getCount() . '] items');
+				BorhanLog::debug('Found [' . count($list->getObjects()) . '/' . $list->getCount() . '] items');
 			}
 			return array_keys($array);
 		}
@@ -735,7 +735,7 @@ class kResponseProfileCacher implements kObjectChangedEventConsumer, kObjectDele
 				$query->setLimit(self::MAX_CACHE_KEYS_PER_JOB);
 
 				$list = $cacheStore->query($query);
-				KalturaLog::debug('Found [' . count($list->getObjects()) . '/' . $list->getCount() . '] items');
+				BorhanLog::debug('Found [' . count($list->getObjects()) . '/' . $list->getCount() . '] items');
 				$array = array();
 				foreach ($list->getObjects() as $cacheObject)
 				{
@@ -752,7 +752,7 @@ class kResponseProfileCacher implements kObjectChangedEventConsumer, kObjectDele
 
 	protected function addRecalculateRelatedObjectsCacheJob(IRelatedObject $object)
 	{
-		KalturaLog::debug('Recalculating object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] related objects');
+		BorhanLog::debug('Recalculating object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] related objects');
 		
 		$partnerId = $object->getPartnerId();
 		$triggerKey = self::getRelatedObjectKey($object);
@@ -783,7 +783,7 @@ class kResponseProfileCacher implements kObjectChangedEventConsumer, kObjectDele
 	
 	protected function addRecalculateObjectCacheJob(IRelatedObject $object)
 	{
-		KalturaLog::debug('Recalculating object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] cache');
+		BorhanLog::debug('Recalculating object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] cache');
 		$objectType = get_class($object);
 		$objectKey = self::getObjectKey($object);
 		$partnerId = $object->getPartnerId();
@@ -800,7 +800,7 @@ class kResponseProfileCacher implements kObjectChangedEventConsumer, kObjectDele
 	
 	protected function invalidateCachedRootObjects(IRelatedObject $object)
 	{
-		KalturaLog::debug('Invalidating object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] roots');
+		BorhanLog::debug('Invalidating object [' . get_class($object) . '] id [' . $object->getPrimaryKey() . '] roots');
 		
 		$roots = null;
 		if(isset($this->queryCache[kResponseProfileCacher::CACHE_ROOT_OBJECTS]))

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaUiConfObjType extends KalturaEnum
+class BorhanUiConfObjType extends BorhanEnum
 {
 	const PLAYER = 1;
 	const CONTRIBUTION_WIZARD = 2;
@@ -13,15 +13,15 @@ class KalturaUiConfObjType extends KalturaEnum
 	const APP_STUDIO = 6;
 	const KRECORD = 7;
 	const PLAYER_V3 = 8;
-	const KMC_ACCOUNT = 9;
-	const KMC_ANALYTICS = 10;
-	const KMC_CONTENT = 11;
-	const KMC_DASHBOARD = 12;
-	const KMC_LOGIN = 13;
+	const BMC_ACCOUNT = 9;
+	const BMC_ANALYTICS = 10;
+	const BMC_CONTENT = 11;
+	const BMC_DASHBOARD = 12;
+	const BMC_LOGIN = 13;
 	const PLAYER_SL = 14;
 	const CLIENTSIDE_ENCODER = 15;
-	const KMC_GENERAL = 16;
-	const KMC_ROLES_AND_PERMISSIONS = 17;
+	const BMC_GENERAL = 16;
+	const BMC_ROLES_AND_PERMISSIONS = 17;
 	const CLIPPER = 18;
 	const KSR = 19;
 	const KUPLOAD = 20;

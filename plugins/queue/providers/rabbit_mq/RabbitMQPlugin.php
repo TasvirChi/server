@@ -2,7 +2,7 @@
 /**
  * @package plugins.rabbitMQ
  */
-class RabbitMQPlugin extends KalturaPlugin implements IKalturaPending, IKalturaObjectLoader, IKalturaQueuePlugin
+class RabbitMQPlugin extends BorhanPlugin implements IBorhanPending, IBorhanObjectLoader, IBorhanQueuePlugin
 {
 	const PLUGIN_NAME = 'rabbitMQ';
 	const QUEUE_PLUGIN_NAME = 'queue';
@@ -12,7 +12,7 @@ class RabbitMQPlugin extends KalturaPlugin implements IKalturaPending, IKalturaO
 	
 	/*
 	 * (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -21,7 +21,7 @@ class RabbitMQPlugin extends KalturaPlugin implements IKalturaPending, IKalturaO
 	
 	/*
 	 * (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
@@ -44,7 +44,7 @@ class RabbitMQPlugin extends KalturaPlugin implements IKalturaPending, IKalturaO
 	
 	/*
 	 * (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
@@ -73,18 +73,18 @@ class RabbitMQPlugin extends KalturaPlugin implements IKalturaPending, IKalturaO
 	 */
 	public static function getPushNotificationTemplateTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('QueueProviderType', $value);
 	}
 	
 	/*
 	 * (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$minVersion = new KalturaVersion(self::QUEUE_PLUGIN_VERSION_MAJOR, self::QUEUE_PLUGIN_VERSION_MINOR, self::QUEUE_PLUGIN_VERSION_BUILD);
-		$dependency = new KalturaDependency(self::QUEUE_PLUGIN_NAME, $minVersion);
+		$minVersion = new BorhanVersion(self::QUEUE_PLUGIN_VERSION_MAJOR, self::QUEUE_PLUGIN_VERSION_MINOR, self::QUEUE_PLUGIN_VERSION_BUILD);
+		$dependency = new BorhanDependency(self::QUEUE_PLUGIN_NAME, $minVersion);
 		
 		return array($dependency);
 	}

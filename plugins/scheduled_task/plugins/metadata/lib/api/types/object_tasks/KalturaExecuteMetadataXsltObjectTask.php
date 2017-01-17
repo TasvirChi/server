@@ -4,7 +4,7 @@
  * @package plugins.scheduledTaskMetadata
  * @subpackage api.objects.objectTasks
  */
-class KalturaExecuteMetadataXsltObjectTask extends KalturaObjectTask
+class BorhanExecuteMetadataXsltObjectTask extends BorhanObjectTask
 {
 	/**
 	 * Metadata profile id to lookup the metadata object
@@ -16,7 +16,7 @@ class KalturaExecuteMetadataXsltObjectTask extends KalturaObjectTask
 	/**
 	 * Metadata object type to lookup the metadata object
 	 *
-	 * @var KalturaMetadataObjectType
+	 * @var BorhanMetadataObjectType
 	 */
 	public $metadataObjectType;
 
@@ -33,7 +33,7 @@ class KalturaExecuteMetadataXsltObjectTask extends KalturaObjectTask
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUsage()
+	 * @see BorhanObject::validateForUsage()
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -46,7 +46,7 @@ class KalturaExecuteMetadataXsltObjectTask extends KalturaObjectTask
 		myPartnerUtils::addPartnerToCriteria('MetadataProfile', kCurrentContext::getCurrentPartnerId(), true);
 		$metadataProfile = MetadataProfilePeer::retrieveByPK($this->metadataProfileId);
 		if (is_null($metadataProfile))
-			throw new KalturaAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $this->metadataProfileId);
+			throw new BorhanAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $this->metadataProfileId);
 	}
 
 	public function toObject($dbObject = null, $skip = array())
@@ -59,7 +59,7 @@ class KalturaExecuteMetadataXsltObjectTask extends KalturaObjectTask
 		return $dbObject;
 	}
 
-	public function doFromObject($srcObj, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($srcObj, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($srcObj, $responseProfile);
 

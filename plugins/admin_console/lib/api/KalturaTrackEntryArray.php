@@ -3,17 +3,17 @@
  * @package plugins.adminConsole
  * @subpackage api.objects
  */
-class KalturaTrackEntryArray extends KalturaTypedArray
+class BorhanTrackEntryArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaTrackEntryArray();
+		$newArr = new BorhanTrackEntryArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-    		$nObj = new KalturaTrackEntry();
+    		$nObj = new BorhanTrackEntry();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaTrackEntryArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaTrackEntry");	
+		parent::__construct("BorhanTrackEntry");	
 	}
 }

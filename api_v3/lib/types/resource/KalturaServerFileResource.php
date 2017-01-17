@@ -5,7 +5,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaServerFileResource extends KalturaDataCenterContentResource
+class BorhanServerFileResource extends BorhanDataCenterContentResource
 {
 	/**
 	 * Full path to the local file 
@@ -17,7 +17,7 @@ class KalturaServerFileResource extends KalturaDataCenterContentResource
 	private static $map_between_objects = array('localFilePath');
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -25,7 +25,7 @@ class KalturaServerFileResource extends KalturaDataCenterContentResource
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaDataCenterContentResource::validateForUsage()
+	 * @see BorhanDataCenterContentResource::validateForUsage()
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -35,7 +35,7 @@ class KalturaServerFileResource extends KalturaDataCenterContentResource
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($object_to_fill = null, $props_to_skip = array())
 	{
@@ -47,7 +47,7 @@ class KalturaServerFileResource extends KalturaDataCenterContentResource
 		/* @var $ret kLocalFileResource */
 		
 		if(!file_exists($ret->getLocalFilePath()))
-			throw new KalturaAPIException(KalturaErrors::LOCAL_FILE_NOT_FOUND, $ret->getLocalFilePath());
+			throw new BorhanAPIException(BorhanErrors::LOCAL_FILE_NOT_FOUND, $ret->getLocalFilePath());
 		
 		return $ret;
 	}

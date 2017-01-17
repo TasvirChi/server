@@ -3,7 +3,7 @@
  * @package plugins.cielo24
  * @subpackage api.objects
  */
-class KalturaCielo24JobProviderData extends KalturaIntegrationJobProviderData
+class BorhanCielo24JobProviderData extends BorhanIntegrationJobProviderData
 {
 	/**
 	 * Entry ID
@@ -24,12 +24,12 @@ class KalturaCielo24JobProviderData extends KalturaIntegrationJobProviderData
 	public $captionAssetFormats;
 	
 	/**
-	 * @var KalturaCielo24Priority
+	 * @var BorhanCielo24Priority
 	 */
 	public $priority;
 	
 	/**
-	 * @var KalturaCielo24Fidelity
+	 * @var BorhanCielo24Fidelity
 	 */
 	public $fidelity;
 	
@@ -56,7 +56,7 @@ class KalturaCielo24JobProviderData extends KalturaIntegrationJobProviderData
 	
 	/**
 	 * Transcript content language
-	 * @var KalturaLanguage
+	 * @var BorhanLanguage
 	 */
 	public $spokenLanguage;
 	
@@ -81,7 +81,7 @@ class KalturaCielo24JobProviderData extends KalturaIntegrationJobProviderData
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -93,14 +93,14 @@ class KalturaCielo24JobProviderData extends KalturaIntegrationJobProviderData
 		$entryId = $this->entryId;
 		$entry = entryPeer::retrieveByPK($entryId);
 		if(!$entry || $entry->getType() != entryType::MEDIA_CLIP || !in_array($entry->getMediaType(), array(entry::ENTRY_MEDIA_TYPE_VIDEO,entry::ENTRY_MEDIA_TYPE_AUDIO)))
-			throw new KalturaAPIException(KalturaErrors::INVALID_ENTRY_ID, $entryId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_ENTRY_ID, $entryId);
 	
 		$flavorAssetId = $this->flavorAssetId;
 		if($flavorAssetId)
 		{
 			$flavorAsset = assetPeer::retrieveById($flavorAssetId);
 			if(!$flavorAsset || $flavorAsset->getEntryId() != $entryId)
-				throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND, $flavorAssetId);
+				throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND, $flavorAssetId);
 		}
 		
 		$cielo24ParamsMap = kConf::get('cielo24','integration');
@@ -108,7 +108,7 @@ class KalturaCielo24JobProviderData extends KalturaIntegrationJobProviderData
 		if($this->spokenLanguage)
 		{
 			if (!isset($supportedLanguages[$this->spokenLanguage]))
-				throw new KalturaAPIException(KalturaCielo24Errors::LANGUAGE_NOT_SUPPORTED, $this->spokenLanguage);
+				throw new BorhanAPIException(BorhanCielo24Errors::LANGUAGE_NOT_SUPPORTED, $this->spokenLanguage);
 		}
 	
 		return parent::validateForUsage($sourceObject, $propertiesToSkip = array());
@@ -131,7 +131,7 @@ class KalturaCielo24JobProviderData extends KalturaIntegrationJobProviderData
 		{
 			$sourceAsset = assetPeer::retrieveOriginalReadyByEntryId($entryId);
 			if(!$sourceAsset)
-				throw new KalturaAPIException(KalturaCielo24Errors::NO_FLAVOR_ASSET_FOUND, $entryId);
+				throw new BorhanAPIException(BorhanCielo24Errors::NO_FLAVOR_ASSET_FOUND, $entryId);
 			$object->setFlavorAssetId($sourceAsset->getId());
 		}
 		
@@ -150,8 +150,8 @@ class KalturaCielo24JobProviderData extends KalturaIntegrationJobProviderData
 			foreach($formatsArray as $format)
 			{
 				$format = preg_replace("/[^A-Z_]/", "", $format);
-				if(!constant("KalturaCaptionType::" . $format) || in_array($format, $excludedFormats))
-					throw new KalturaAPIException(KalturaCielo24Errors::INVALID_TYPES,$formatsString);
+				if(!constant("BorhanCaptionType::" . $format) || in_array($format, $excludedFormats))
+					throw new BorhanAPIException(BorhanCielo24Errors::INVALID_TYPES,$formatsString);
 				$sanitizedFormatsArray[] = $format;
 			}
 			$sanitizedFormats = implode(",", $sanitizedFormatsArray);

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters
  */
-class KalturaCategoryUserFilter extends KalturaCategoryUserBaseFilter
+class BorhanCategoryUserFilter extends BorhanCategoryUserBaseFilter
 {
 	static private $map_between_objects = array
 	(
@@ -12,7 +12,7 @@ class KalturaCategoryUserFilter extends KalturaCategoryUserBaseFilter
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -45,9 +45,9 @@ class KalturaCategoryUserFilter extends KalturaCategoryUserBaseFilter
 	public $relatedGroupsByUserId;
 
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::getListResponse()
+	 * @see BorhanRelatedFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		if($this->userIdIn)
 		{
@@ -78,8 +78,8 @@ class KalturaCategoryUserFilter extends KalturaCategoryUserBaseFilter
 			$c->add(kuserPeer::TYPE, KuserType::USER);
 			$kuser = kuserPeer::doSelectOne($c);
 			if (!$kuser){
-				$response = new KalturaCategoryUserListResponse();
-				$response->objects = new KalturaCategoryUserArray();
+				$response = new BorhanCategoryUserListResponse();
+				$response->objects = new BorhanCategoryUserArray();
 				$response->totalCount = 0;
 				return $response;
 			}
@@ -117,8 +117,8 @@ class KalturaCategoryUserFilter extends KalturaCategoryUserBaseFilter
 			
 			if (!$kuser)
 			{
-				$response = new KalturaCategoryUserListResponse();
-        		$response->objects = new KalturaCategoryUserArray();
+				$response = new BorhanCategoryUserListResponse();
+        		$response->objects = new BorhanCategoryUserArray();
         		$response->totalCount = 0;
         		
         		return $response;
@@ -168,7 +168,7 @@ class KalturaCategoryUserFilter extends KalturaCategoryUserBaseFilter
 		//if filter had categories that doesn't exists or not entitled - should return 0 objects. 
 		if(count($categories) && !count($categoriesInheritanceRoot))
 		{
-			$response = new KalturaCategoryUserListResponse();
+			$response = new BorhanCategoryUserListResponse();
 			$response->totalCount = 0;
 			
 			return $response;
@@ -176,7 +176,7 @@ class KalturaCategoryUserFilter extends KalturaCategoryUserBaseFilter
 		
 		$categoryKuserFilter = $this->toObject();
 		
-		$c = KalturaCriteria::create(categoryKuserPeer::OM_CLASS);
+		$c = BorhanCriteria::create(categoryKuserPeer::OM_CLASS);
 		$categoryKuserFilter->attachToCriteria($c);
 		$pager->attachToCriteria($c);
 		$c->applyFilters();
@@ -184,9 +184,9 @@ class KalturaCategoryUserFilter extends KalturaCategoryUserBaseFilter
 		$list = categoryKuserPeer::doSelect($c);
 		$totalCount = $c->getRecordsCount();
 		
-		$newList = KalturaCategoryUserArray::fromDbArray($list, $responseProfile);
+		$newList = BorhanCategoryUserArray::fromDbArray($list, $responseProfile);
 		
-		$response = new KalturaCategoryUserListResponse();
+		$response = new BorhanCategoryUserListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $totalCount;
 		

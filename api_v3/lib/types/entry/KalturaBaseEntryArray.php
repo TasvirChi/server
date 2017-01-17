@@ -3,18 +3,18 @@
  * @package api
  * @subpackage objects
  */
-class KalturaBaseEntryArray extends KalturaTypedArray
+class BorhanBaseEntryArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$isAdmin = kCurrentContext::$is_admin_session;
-		$newArr = new KalturaBaseEntryArray();
+		$newArr = new BorhanBaseEntryArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-    		$nObj = KalturaEntryFactory::getInstanceByType($obj->getType(), $isAdmin);
+    		$nObj = BorhanEntryFactory::getInstanceByType($obj->getType(), $isAdmin);
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -24,6 +24,6 @@ class KalturaBaseEntryArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaBaseEntry");	
+		parent::__construct("BorhanBaseEntry");	
 	}
 }

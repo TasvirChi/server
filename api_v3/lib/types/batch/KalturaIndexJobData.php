@@ -3,11 +3,11 @@
  * @package api
  * @subpackage objects
  */
-class KalturaIndexJobData extends KalturaJobData
+class BorhanIndexJobData extends BorhanJobData
 {
 	/**
 	 * The filter should return the list of objects that need to be reindexed.
-	 * @var KalturaFilter
+	 * @var BorhanFilter
 	 */
 	public $filter;
 	
@@ -67,7 +67,7 @@ class KalturaIndexJobData extends KalturaJobData
 		return parent::toObject($dbData, $props_to_skip);
 	}
 	
-	public function doFromObject($dbData, KalturaDetachedResponseProfile $responseProfile = null) 
+	public function doFromObject($dbData, BorhanDetachedResponseProfile $responseProfile = null) 
 	{
 		/* @var $dbData kIndexJobData */
 		$filter = $dbData->getFilter();
@@ -75,27 +75,27 @@ class KalturaIndexJobData extends KalturaJobData
 		switch($filterType)
 		{
 			case 'entryFilter':
-				$this->filter = new KalturaBaseEntryFilter();
+				$this->filter = new BorhanBaseEntryFilter();
 				break;
 				
 			case 'categoryFilter':
-				$this->filter = new KalturaCategoryFilter();
+				$this->filter = new BorhanCategoryFilter();
 				break;
 			
 			case 'categoryEntryFilter':
-				$this->filter = new KalturaCategoryEntryFilter();
+				$this->filter = new BorhanCategoryEntryFilter();
 				break;
 				
 			case 'categoryKuserFilter':
-				$this->filter = new KalturaCategoryUserFilter();
+				$this->filter = new BorhanCategoryUserFilter();
 				break;
 			
 			case 'kuserFilter':
-				$this->filter = new KalturaUserFilter();
+				$this->filter = new BorhanUserFilter();
 				break;
 				
 			default:
-				$this->filter = KalturaPluginManager::loadObject('KalturaFilter', $filterType);
+				$this->filter = BorhanPluginManager::loadObject('BorhanFilter', $filterType);
 		}
 		if($this->filter)
 			$this->filter->fromObject($filter);

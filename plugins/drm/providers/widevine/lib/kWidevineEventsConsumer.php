@@ -9,7 +9,7 @@ class kWidevineEventsConsumer implements kObjectChangedEventConsumer, kObjectDel
 		try 
 		{
 			$wvFlavorAssets = $this->getWidevineFlavorAssetsForEntry($object->getId());
-			KalturaLog::info('Found '.count($wvFlavorAssets).' widevine flavors');	
+			BorhanLog::info('Found '.count($wvFlavorAssets).' widevine flavors');	
 
 			if(count($wvFlavorAssets))
 			{
@@ -18,7 +18,7 @@ class kWidevineEventsConsumer implements kObjectChangedEventConsumer, kObjectDel
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err('Failed to process objectChangedEvent for entry ['.$object->getId().'] - '.$e->getMessage());
+			BorhanLog::err('Failed to process objectChangedEvent for entry ['.$object->getId().'] - '.$e->getMessage());
 		}		
 		return true;
 	}
@@ -49,7 +49,7 @@ class kWidevineEventsConsumer implements kObjectChangedEventConsumer, kObjectDel
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err('Failed to process objectDeleted for widevine flavor asset ['.$object->getId().'] - '.$e->getMessage());
+			BorhanLog::err('Failed to process objectDeleted for widevine flavor asset ['.$object->getId().'] - '.$e->getMessage());
 		}
 		return true;
 	}
@@ -121,7 +121,7 @@ class kWidevineEventsConsumer implements kObjectChangedEventConsumer, kObjectDel
 		
 		if(!count($wvAssetIds))
 		{
-			KalturaLog::info("No valid WV assets found, Widevine Sync job is not created");
+			BorhanLog::info("No valid WV assets found, Widevine Sync job is not created");
 			return;
 		}
 			
@@ -172,15 +172,15 @@ class kWidevineEventsConsumer implements kObjectChangedEventConsumer, kObjectDel
 	{
 		$entryFilter = new entryFilter();
 		$entryFilter->fields['_like_plugins_data'] = WidevinePlugin::getWidevineAssetIdSearchData($wvAssetId);
-		$entryFilter->setPartnerSearchScope(baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE);
-		$c = KalturaCriteria::create(entryPeer::OM_CLASS);				
+		$entryFilter->setPartnerSearchScope(baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE);
+		$c = BorhanCriteria::create(entryPeer::OM_CLASS);				
 		$entryFilter->attachToCriteria($c);	
 		$c->add(entryPeer::ID, $entryId, Criteria::NOT_EQUAL);
 		$c->applyFilters();
 		$entriesCount = $c->getRecordsCount();
 		if($entriesCount)
 		{
-			KalturaLog::info('Found active flavors for WV asset id ['.$wvAssetId.']');
+			BorhanLog::info('Found active flavors for WV asset id ['.$wvAssetId.']');
 			return true;
 		}
 		else					

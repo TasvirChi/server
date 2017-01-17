@@ -3,10 +3,10 @@
  * @package plugins.shortLink
  * @subpackage api.filters
  */
-class KalturaShortLinkFilter extends KalturaShortLinkBaseFilter
+class BorhanShortLinkFilter extends BorhanShortLinkBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{

@@ -214,7 +214,7 @@ class AvnFeed
 		}
 		else
 		{
-			KalturaLog::alert('"Content-Type" header was not found for the following URL: '. $url);
+			BorhanLog::alert('"Content-Type" header was not found for the following URL: '. $url);
 			return null;
 		}
 	}

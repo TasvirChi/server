@@ -35,9 +35,9 @@ if (file_exists($cacheFilePath))
 require_once(__DIR__ . "/../../bootstrap.php");
 
 ActKeyUtils::checkCurrent();
-KalturaLog::setContext("XSD-DOC");
+BorhanLog::setContext("XSD-DOC");
 
-KalturaLog::debug(">------------------------------------- xsd doc -------------------------------------");
+BorhanLog::debug(">------------------------------------- xsd doc -------------------------------------");
 
 require_once(__DIR__ . "/header.php");
 
@@ -66,4 +66,4 @@ kFile::setFileContent($cacheFilePath, $out);
 
 require_once(__DIR__ . "/footer.php");
 
-KalturaLog::debug("<------------------------------------- xsd doc -------------------------------------");
+BorhanLog::debug("<------------------------------------- xsd doc -------------------------------------");

@@ -1,16 +1,16 @@
 <?php
 /**
- * Enable the plugin to return extended KalturaCriteria object according to the searched object type
+ * Enable the plugin to return extended BorhanCriteria object according to the searched object type
  * @package infra
  * @subpackage Plugins
  */
-interface IKalturaCriteriaFactory extends IKalturaBase
+interface IBorhanCriteriaFactory extends IBorhanBase
 {
 	/**
-	 * Creates a new KalturaCriteria for the given object name
+	 * Creates a new BorhanCriteria for the given object name
 	 * 
 	 * @param string $objectType object type to create Criteria for.
-	 * @return KalturaCriteria derived object
+	 * @return BorhanCriteria derived object
 	 */
-	public static function getKalturaCriteria($objectType);
+	public static function getBorhanCriteria($objectType);
 }

@@ -3,6 +3,6 @@
  * @package plugins.yahooDistribution
  * @subpackage api.filters.enum
  */
-class KalturaYahooDistributionProviderOrderBy extends KalturaDistributionProviderOrderBy
+class BorhanYahooDistributionProviderOrderBy extends BorhanDistributionProviderOrderBy
 {
 }

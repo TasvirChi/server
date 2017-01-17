@@ -3,7 +3,7 @@
  * @package plugins.widevine
  * @subpackage model.enum
  */
-class WidevineAssetType implements IKalturaPluginEnum, assetType
+class WidevineAssetType implements IBorhanPluginEnum, assetType
 {
 	const WIDEVINE_FLAVOR = 'WidevineFlavor';
 	

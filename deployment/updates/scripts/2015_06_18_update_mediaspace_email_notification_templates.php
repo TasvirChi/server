@@ -45,5 +45,5 @@ while($eventNotificationTemplates){
 	$criteria->add(EventNotificationTemplatePeer::ID, $lastId, Criteria::GREATER_THAN);
 	$eventNotificationTemplates = EventNotificationTemplatePeer::doSelect($criteria);
 }
-KalturaLog::log('Done: updated '.$count.' templates');
+BorhanLog::log('Done: updated '.$count.' templates');
 

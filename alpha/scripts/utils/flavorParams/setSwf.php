@@ -48,9 +48,9 @@ else
 }
 
 $swfOperator = new kOperator();
-$swfOperator->id = KalturaConversionEngineType::PDF2SWF;
+$swfOperator->id = BorhanConversionEngineType::PDF2SWF;
 $pdfOperator = new kOperator();
-$pdfOperator->id = KalturaConversionEngineType::PDF_CREATOR;
+$pdfOperator->id = BorhanConversionEngineType::PDF_CREATOR;
 $operators = new kOperatorSets();
 $operators->addSet(array($pdfOperator, $swfOperator));
 $operators->addSet(array($swfOperator));

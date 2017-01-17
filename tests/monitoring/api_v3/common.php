@@ -1,6 +1,6 @@
 <?php
-require_once realpath(__DIR__ . '/../../') . '/lib/KalturaClient.php';
-require_once realpath(__DIR__ . '/../') . '/KalturaMonitorResult.php';
+require_once realpath(__DIR__ . '/../../') . '/lib/BorhanClient.php';
+require_once realpath(__DIR__ . '/../') . '/BorhanMonitorResult.php';
 
 $options = getopt('', array(
 	'service-url:',
@@ -13,7 +13,7 @@ if(!isset($options['service-url']))
 	exit(-1);
 }
 
-class KalturaMonitorClientLogger implements IKalturaLogger
+class BorhanMonitorClientLogger implements IBorhanLogger
 {
 	function log($msg)
 	{
@@ -21,7 +21,7 @@ class KalturaMonitorClientLogger implements IKalturaLogger
 	}
 }
 
-class KalturaMonitorClient extends KalturaClient
+class BorhanMonitorClient extends BorhanClient
 {
 	protected function doHttpRequest($url, $params = array(), $files = array())
 	{
@@ -122,16 +122,16 @@ class KalturaMonitorClient extends KalturaClient
 $config = parse_ini_file(__DIR__ . '/../config.ini', true);
 
 $serviceUrl = $config['client-config']['protocol'] . '://' . $options['service-url'] . ':' . $config['client-config']['port'];;
-$clientConfig = new KalturaConfiguration();
+$clientConfig = new BorhanConfiguration();
 $clientConfig->serviceUrl = $serviceUrl;
 
 foreach($config['config'] as $attribute => $value)
 	$clientConfig->$attribute = $value;
 	
 if(isset($options['debug']))
-	$clientConfig->setLogger(new KalturaMonitorClientLogger());
+	$clientConfig->setLogger(new BorhanMonitorClientLogger());
 
-$client = new KalturaMonitorClient($clientConfig);
+$client = new BorhanMonitorClient($clientConfig);
 
 foreach($config['client-config'] as $attribute => $value)
 	$client->setClientConfiguration($attribute, $value);

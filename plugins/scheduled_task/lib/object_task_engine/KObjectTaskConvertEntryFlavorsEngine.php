@@ -7,11 +7,11 @@
 class KObjectTaskConvertEntryFlavorsEngine extends KObjectTaskEntryEngineBase
 {
 	/**
-	 * @param KalturaBaseEntry $object
+	 * @param BorhanBaseEntry $object
 	 */
 	function processObject($object)
 	{
-		/** @var KalturaConvertEntryFlavorsObjectTask $objectTask */
+		/** @var BorhanConvertEntryFlavorsObjectTask $objectTask */
 		$objectTask = $this->getObjectTask();
 		$entryId = $object->id;
 		$reconvert = $objectTask->reconvert;
@@ -23,10 +23,10 @@ class KObjectTaskConvertEntryFlavorsEngine extends KObjectTaskEntryEngineBase
 			try
 			{
 				$this->impersonate($object->partnerId);
-				$flavorAssetFilter = new KalturaFlavorAssetFilter();
+				$flavorAssetFilter = new BorhanFlavorAssetFilter();
 				$flavorAssetFilter->entryIdEqual = $entryId;
 				$flavorAssetFilter->flavorParamsIdEqual = $flavorParamsId;
-				$flavorAssetFilter->statusEqual = KalturaFlavorAssetStatus::READY;
+				$flavorAssetFilter->statusEqual = BorhanFlavorAssetStatus::READY;
 				$flavorAssetResponse = $client->flavorAsset->listAction($flavorAssetFilter);
 				if (!count($flavorAssetResponse->objects) || $reconvert)
 					$client->flavorAsset->convert($entryId, $flavorParamsId);
@@ -35,8 +35,8 @@ class KObjectTaskConvertEntryFlavorsEngine extends KObjectTaskEntryEngineBase
 			}
 			catch(Exception $ex)
 			{
-				KalturaLog::err(sprintf('Failed to convert entry id %s with flavor params id %s', $entryId, $flavorParamsId));
-				KalturaLog::err($ex);
+				BorhanLog::err(sprintf('Failed to convert entry id %s with flavor params id %s', $entryId, $flavorParamsId));
+				BorhanLog::err($ex);
 			}
 		}
 	}

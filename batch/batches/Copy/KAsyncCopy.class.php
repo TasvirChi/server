@@ -18,13 +18,13 @@ class KAsyncCopy extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::COPY;
+		return BorhanBatchJobType::COPY;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->copyObjects($job, $job->data);
 	}
@@ -32,13 +32,13 @@ class KAsyncCopy extends KJobHandlerWorker
 	/**
 	 * Will take a single filter and call each item to be Copied 
 	 */
-	private function copyObjects(KalturaBatchJob $job, KalturaCopyJobData $data)
+	private function copyObjects(BorhanBatchJob $job, BorhanCopyJobData $data)
 	{
 		$engine = KCopyingEngine::getInstance($job->jobSubType);
 		$engine->configure($job->partnerId);
 	
 		$filter = clone $data->filter;
-		$advancedFilter = new KalturaIndexAdvancedFilter();
+		$advancedFilter = new BorhanIndexAdvancedFilter();
 		
 		if($data->lastCopyId)
 		{
@@ -55,12 +55,12 @@ class KAsyncCopy extends KJobHandlerWorker
 			$lastCopyId = $engine->getLastCopyId();
 			
 			$data->lastCopyId = $lastCopyId;
-			$this->updateJob($job, "Copied $copiedObjectsCount objects", KalturaBatchJobStatus::PROCESSING, $data);
+			$this->updateJob($job, "Copied $copiedObjectsCount objects", BorhanBatchJobStatus::PROCESSING, $data);
 			
 			$advancedFilter->indexIdGreaterThan = $lastCopyId;
 			$filter->advancedSearch = $advancedFilter;
 		}
 		
-		return $this->closeJob($job, null, null, "Copy objects finished", KalturaBatchJobStatus::FINISHED);
+		return $this->closeJob($job, null, null, "Copy objects finished", BorhanBatchJobStatus::FINISHED);
 	}
 }

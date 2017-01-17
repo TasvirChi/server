@@ -3,7 +3,7 @@
  * @package plugins.dropFolder
  * @subpackage api.filters.enum
  */
-class KalturaDropFolderOrderBy extends KalturaStringEnum
+class BorhanDropFolderOrderBy extends BorhanStringEnum
 {
 	const ID_ASC = "+id";
 	const ID_DESC = "-id";

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaReportFilter extends KalturaObject
+class BorhanReportFilter extends BorhanObject
 {
 	/**
 	 * The dimension whose values should be filtered

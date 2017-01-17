@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaTubeMogulSyndicationFeedCategories extends KalturaStringEnum
+class BorhanTubeMogulSyndicationFeedCategories extends BorhanStringEnum
 {
 	const ARTS_AND_ANIMATION = "Arts &amp; Animation";
 	const COMEDY = "Comedy";

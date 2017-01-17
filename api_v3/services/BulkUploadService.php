@@ -9,7 +9,7 @@
  * @subpackage services
  * @deprecated Use BulkUploadPlugin instead.
  */
-class BulkUploadService extends KalturaBaseService
+class BulkUploadService extends BorhanBaseService
 {
 	const PARTNER_DEFAULT_CONVERSION_PROFILE_ID = -1;
 	
@@ -21,10 +21,10 @@ class BulkUploadService extends KalturaBaseService
 	 * @action add
 	 * @param int $conversionProfileId Convertion profile id to use for converting the current bulk (-1 to use partner's default)
 	 * @param file $csvFileData bulk upload file
-	 * @param KalturaBulkUploadType $bulkUploadType
+	 * @param BorhanBulkUploadType $bulkUploadType
 	 * @param string $uploadedBy
 	 * @param string $fileName Friendly name of the file, used to be recognized later in the logs.
-	 * @return KalturaBulkUpload
+	 * @return BorhanBulkUpload
 	 */
 	public function addAction($conversionProfileId, $csvFileData, $bulkUploadType = null, $uploadedBy = null, $fileName = null)
 	{
@@ -33,7 +33,7 @@ class BulkUploadService extends KalturaBaseService
 			
 		$conversionProfile = conversionProfile2Peer::retrieveByPK($conversionProfileId);
 		if(!$conversionProfile)
-			throw new KalturaAPIException(KalturaErrors::CONVERSION_PROFILE_ID_NOT_FOUND, $conversionProfileId);
+			throw new BorhanAPIException(BorhanErrors::CONVERSION_PROFILE_ID_NOT_FOUND, $conversionProfileId);
 		
 		$coreBulkUploadType = kPluginableEnumsManager::apiToCore('BulkUploadType', $bulkUploadType);
 		
@@ -47,7 +47,7 @@ class BulkUploadService extends KalturaBaseService
 		
 		$dbJob = kJobsManager::addBulkUploadJob($this->getPartner(), $data, $coreBulkUploadType);
 		$dbJobLog = BatchJobLogPeer::retrieveByBatchJobId($dbJob->getId());
-		$bulkUpload = new KalturaBulkUpload();
+		$bulkUpload = new BorhanBulkUpload();
 		$bulkUpload->fromObject($dbJobLog, $this->getResponseProfile());
 		
 		return $bulkUpload;
@@ -61,15 +61,15 @@ class BulkUploadService extends KalturaBaseService
 	 * @param int $bulkUploadType
 	 * @param string $uploadedBy
 	 * @param string $fileName
-	 * @throws KalturaErrors::CONVERSION_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::CONVERSION_PROFILE_ID_NOT_FOUND
 	 */
 	protected function constructJobData ($filePath, $fileName, Partner $partner, $puserId, $uploadedBy, $conversionProfileId = null, $coreBulkUploadType = null)
 	{
-	   $data = KalturaPluginManager::loadObject('kBulkUploadJobData', $coreBulkUploadType);
+	   $data = BorhanPluginManager::loadObject('kBulkUploadJobData', $coreBulkUploadType);
 
 		if(is_null($data))
 		{
-			throw new KalturaAPIException(KalturaErrors::BULK_UPLOAD_BULK_UPLOAD_TYPE_NOT_VALID, $coreBulkUploadType);
+			throw new BorhanAPIException(BorhanErrors::BULK_UPLOAD_BULK_UPLOAD_TYPE_NOT_VALID, $coreBulkUploadType);
 		}
 		
 		$data->setFilePath($filePath);
@@ -79,9 +79,9 @@ class BulkUploadService extends KalturaBaseService
 		if (!$conversionProfileId)
 			$conversionProfileId = $partner->getDefaultConversionProfileId();
 			
-		$kmcVersion = $partner->getKmcVersion();
+		$bmcVersion = $partner->getBmcVersion();
 		$check = null;
-		if($kmcVersion < 2)
+		if($bmcVersion < 2)
 		{
 			$check = ConversionProfilePeer::retrieveByPK($conversionProfileId);
 		}
@@ -90,7 +90,7 @@ class BulkUploadService extends KalturaBaseService
 			$check = conversionProfile2Peer::retrieveByPK($conversionProfileId);
 		}
 		if(!$check)
-			throw new KalturaAPIException(KalturaErrors::CONVERSION_PROFILE_ID_NOT_FOUND, $conversionProfileId);
+			throw new BorhanAPIException(BorhanErrors::CONVERSION_PROFILE_ID_NOT_FOUND, $conversionProfileId);
 		
 		$objectData = new kBulkUploadEntryData();
 		$objectData->setConversionProfileId($conversionProfileId);
@@ -104,7 +104,7 @@ class BulkUploadService extends KalturaBaseService
 	 *
 	 * @action get
 	 * @param bigint $id
-	 * @return KalturaBulkUpload
+	 * @return BorhanBulkUpload
 	 */
 	public function getAction($id)
 	{
@@ -115,9 +115,9 @@ class BulkUploadService extends KalturaBaseService
 		$batchJob = BatchJobLogPeer::doSelectOne($c);
 		
 		if (!$batchJob)
-		    throw new KalturaAPIException(KalturaErrors::BULK_UPLOAD_NOT_FOUND, $id);
+		    throw new BorhanAPIException(BorhanErrors::BULK_UPLOAD_NOT_FOUND, $id);
 		    
-		$ret = new KalturaBulkUpload();
+		$ret = new BorhanBulkUpload();
 		$ret->fromObject($batchJob, $this->getResponseProfile());
 		return $ret;
 	}
@@ -126,13 +126,13 @@ class BulkUploadService extends KalturaBaseService
 	 * List bulk upload batch jobs
 	 *
 	 * @action list
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaBulkUploadListResponse
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanBulkUploadListResponse
 	 */
-	public function listAction(KalturaFilterPager $pager = null)
+	public function listAction(BorhanFilterPager $pager = null)
 	{
 	    if (!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 			
 	    $c = new Criteria();
 		$c->addAnd(BatchJobLogPeer::PARTNER_ID, $this->getPartnerId());
@@ -149,8 +149,8 @@ class BulkUploadService extends KalturaBaseService
 		$pager->attachToCriteria($c);
 		$jobs = BatchJobLogPeer::doSelect($c);
 		
-		$response = new KalturaBulkUploadListResponse();
-		$response->objects = KalturaBulkUploads::fromBatchJobArray($jobs);
+		$response = new BorhanBulkUploadListResponse();
+		$response->objects = BorhanBulkUploads::fromBatchJobArray($jobs);
 		$response->totalCount = $count; 
 		
 		return $response;
@@ -176,15 +176,15 @@ function serveAction($id)
 		$batchJob = BatchJobPeer::doSelectOne($c);
 		
 		if (!$batchJob)
-			throw new KalturaAPIException(KalturaErrors::BULK_UPLOAD_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::BULK_UPLOAD_NOT_FOUND, $id);
 			 
-		KalturaLog::info("Batch job found for jobid [$id] bulk upload type [". $batchJob->getJobSubType() . "]");
+		BorhanLog::info("Batch job found for jobid [$id] bulk upload type [". $batchJob->getJobSubType() . "]");
 		
 		$syncKey = $batchJob->getSyncKey(BatchJob::FILE_SYNC_BATCHJOB_SUB_TYPE_BULKUPLOAD);
 		list($fileSync, $local) = kFileSyncUtils::getReadyFileSyncForKey($syncKey, true, false);
 		
 		if (!$fileSync) {
-			throw new KalturaAPIException(KalturaErrors::FILE_DOESNT_EXIST, $id);
+			throw new BorhanAPIException(BorhanErrors::FILE_DOESNT_EXIST, $id);
 		}
 		
 		header("Content-Type: text/plain; charset=UTF-8");
@@ -198,7 +198,7 @@ function serveAction($id)
 		else
 		{
 			$remoteUrl = kDataCenterMgr::getRedirectExternalUrl($fileSync);
-			KalturaLog::info("Redirecting to [$remoteUrl]");
+			BorhanLog::info("Redirecting to [$remoteUrl]");
 			header("Location: $remoteUrl");
 			die;
 		}	
@@ -222,14 +222,14 @@ function serveAction($id)
 		$batchJob = BatchJobPeer::doSelectOne($c);
 		
 		if (!$batchJob)
-			throw new KalturaAPIException(KalturaErrors::BULK_UPLOAD_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::BULK_UPLOAD_NOT_FOUND, $id);
 			 
-		KalturaLog::info("Batch job found for jobid [$id] bulk upload type [". $batchJob->getJobSubType() . "]");
+		BorhanLog::info("Batch job found for jobid [$id] bulk upload type [". $batchJob->getJobSubType() . "]");
 			
-		$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaBulkUpload');
+		$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanBulkUpload');
 		foreach($pluginInstances as $pluginInstance)
 		{
-			/* @var $pluginInstance IKalturaBulkUpload */
+			/* @var $pluginInstance IBorhanBulkUpload */
 			$pluginInstance->writeBulkUploadLogFile($batchJob);
 		}	
 	}
@@ -239,7 +239,7 @@ function serveAction($id)
 	 * 
 	 * @action abort
 	 * @param bigint $id job id
-	 * @return KalturaBulkUpload
+	 * @return BorhanBulkUpload
 	 */
 	public function abortAction($id)
 	{
@@ -263,7 +263,7 @@ function serveAction($id)
 			$batchJobLog = BatchJobLogPeer::doSelectOne($c);
 
 			if(!$batchJobLog)
-				throw new KalturaAPIException(KalturaErrors::BULK_UPLOAD_NOT_FOUND, $id);
+				throw new BorhanAPIException(BorhanErrors::BULK_UPLOAD_NOT_FOUND, $id);
 
 			$batchJobLog->setAbort(BatchJobExecutionStatus::ABORTED);
 			$batchJobLog->save();
@@ -273,7 +273,7 @@ function serveAction($id)
 		}
 
 		$batchJobLog = BatchJobLogPeer::retrieveByBatchJobId($id);
-		$ret = new KalturaBulkUpload();
+		$ret = new BorhanBulkUpload();
 		$ret->fromObject($batchJobLog, $this->getResponseProfile());
 		return $ret;
 

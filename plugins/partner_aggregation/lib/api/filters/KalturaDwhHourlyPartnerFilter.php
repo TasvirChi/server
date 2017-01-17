@@ -3,10 +3,10 @@
  * @package plugins.partnerAggregation
  * @subpackage api.filters
  */
-class KalturaDwhHourlyPartnerFilter extends KalturaDwhHourlyPartnerBaseFilter
+class BorhanDwhHourlyPartnerFilter extends BorhanDwhHourlyPartnerBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -14,7 +14,7 @@ class KalturaDwhHourlyPartnerFilter extends KalturaDwhHourlyPartnerBaseFilter
 	}
 	
 	/**
-	 * @see KalturaFilter::toObject()
+	 * @see BorhanFilter::toObject()
 	 * @return DwhHourlyPartnerFilter
 	 */
 	public function toObject($object_to_fill = null, $props_to_skip = array())

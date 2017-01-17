@@ -5,7 +5,7 @@
  * @service annotation
  * @package plugins.annotation
  * @subpackage api.services
- * @throws KalturaErrors::SERVICE_FORBIDDEN
+ * @throws BorhanErrors::SERVICE_FORBIDDEN
  * @deprecated use cuePoint service instead
  */
 class AnnotationService extends CuePointService
@@ -23,17 +23,17 @@ class AnnotationService extends CuePointService
 		parent::initService($serviceId, $serviceName, $actionName);
 
 		if(!AnnotationPlugin::isAllowedPartner($this->getPartnerId()))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, AnnotationPlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, AnnotationPlugin::PLUGIN_NAME);
 	}
 
 	/**
 	 * Allows you to add an annotation object associated with an entry
 	 *
 	 * @action add
-	 * @param KalturaAnnotation $annotation
-	 * @return KalturaAnnotation
+	 * @param BorhanAnnotation $annotation
+	 * @return BorhanAnnotation
 	 */
-	function addAction(KalturaCuePoint $annotation)
+	function addAction(BorhanCuePoint $annotation)
 	{
 		return parent::addAction($annotation);
 	}
@@ -43,11 +43,11 @@ class AnnotationService extends CuePointService
 	 *
 	 * @action update
 	 * @param string $id
-	 * @param KalturaAnnotation $annotation
-	 * @return KalturaAnnotation
-	 * @throws KalturaCuePointErrors::INVALID_CUE_POINT_ID
+	 * @param BorhanAnnotation $annotation
+	 * @return BorhanAnnotation
+	 * @throws BorhanCuePointErrors::INVALID_CUE_POINT_ID
 	 */
-	function updateAction($id, KalturaCuePoint $annotation)
+	function updateAction($id, BorhanCuePoint $annotation)
 	{
 		return parent::updateAction($id, $annotation);
 	}
@@ -56,19 +56,19 @@ class AnnotationService extends CuePointService
 	* List annotation objects by filter and pager
 	*
 	* @action list
-	* @param KalturaAnnotationFilter $filter
-	* @param KalturaFilterPager $pager
-	* @return KalturaAnnotationListResponse
+	* @param BorhanAnnotationFilter $filter
+	* @param BorhanFilterPager $pager
+	* @return BorhanAnnotationListResponse
 	*/
-	function listAction(KalturaCuePointFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanCuePointFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if(!$filter)
-			$filter = new KalturaAnnotationFilter();
+			$filter = new BorhanAnnotationFilter();
 		
 		$filter->cuePointTypeEqual = AnnotationPlugin::getApiValue(AnnotationCuePointType::ANNOTATION);
 		
 		$list = parent::listAction($filter, $pager);
-		$ret = new KalturaAnnotationListResponse();
+		$ret = new BorhanAnnotationListResponse();
 		$ret->objects = $list->objects;
 		$ret->totalCount = $list->totalCount;
 		

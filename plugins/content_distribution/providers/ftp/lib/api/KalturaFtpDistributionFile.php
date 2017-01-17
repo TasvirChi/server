@@ -3,7 +3,7 @@
  * @package plugins.ftpDistribution
  * @subpackage api.objects
  */
-class KalturaFtpDistributionFile extends KalturaObject
+class BorhanFtpDistributionFile extends BorhanObject
 {
 	/**
 	 * @var string
@@ -57,7 +57,7 @@ class KalturaFtpDistributionFile extends KalturaObject
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{

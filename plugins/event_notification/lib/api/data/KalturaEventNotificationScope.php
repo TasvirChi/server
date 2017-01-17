@@ -3,7 +3,7 @@
  * @package plugins.eventNotification
  * @subpackage api.objects
  */
-class KalturaEventNotificationScope extends KalturaScope
+class BorhanEventNotificationScope extends BorhanScope
 {
 	/**
 	 * @var string
@@ -11,7 +11,7 @@ class KalturaEventNotificationScope extends KalturaScope
 	public $objectId;
 
 	/**
-	 * @var KalturaEventNotificationEventObjectType
+	 * @var BorhanEventNotificationEventObjectType
 	 */
 	public $scopeObjectType;
 
@@ -23,7 +23,7 @@ class KalturaEventNotificationScope extends KalturaScope
 		/** @var kEventNotificationScope $objectToFill */
 		$objectToFill = parent::toObject($objectToFill);
 
-		$objectClassName = KalturaPluginManager::getObjectClass('EventNotificationEventObjectType', kPluginableEnumsManager::apiToCore('EventNotificationEventObjectType', $this->scopeObjectType));
+		$objectClassName = BorhanPluginManager::getObjectClass('EventNotificationEventObjectType', kPluginableEnumsManager::apiToCore('EventNotificationEventObjectType', $this->scopeObjectType));
 		$peerClass = $objectClassName.'Peer';
 		$objectId = $this->objectId;
 		if (class_exists($peerClass))
@@ -39,7 +39,7 @@ class KalturaEventNotificationScope extends KalturaScope
 		}
 
 		if (is_null($objectToFill->getObject()))
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $this->objectId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $this->objectId);
 
 		return $objectToFill;
 	}

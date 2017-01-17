@@ -3,7 +3,7 @@
  * @package plugins.ideticDistribution
  * @subpackage api.objects
  */
-class KalturaIdeticDistributionJobProviderData extends KalturaConfigurableDistributionJobProviderData
+class BorhanIdeticDistributionJobProviderData extends BorhanConfigurableDistributionJobProviderData
 {	
 	
 	/**
@@ -37,14 +37,14 @@ class KalturaIdeticDistributionJobProviderData extends KalturaConfigurableDistri
 	}
 	
 	
-	public function __construct(KalturaDistributionJobData $distributionJobData = null)
+	public function __construct(BorhanDistributionJobData $distributionJobData = null)
 	{
 	    parent::__construct($distributionJobData);
 	    
 		if(!$distributionJobData)
 			return;
 			
-		if(!($distributionJobData->distributionProfile instanceof KalturaIdeticDistributionProfile))
+		if(!($distributionJobData->distributionProfile instanceof BorhanIdeticDistributionProfile))
 			return;
 			
 		$flavorAsset=null;

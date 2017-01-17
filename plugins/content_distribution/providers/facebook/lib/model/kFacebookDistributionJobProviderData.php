@@ -16,7 +16,7 @@ class kFacebookDistributionJobProviderData extends kConfigurableDistributionJobP
 	private $thumbAssetFilePath;
 	
 	/**
-	 * @var KalturaFacebookCaptionDistributionInfoArray
+	 * @var BorhanFacebookCaptionDistributionInfoArray
 	 */
 	private $captionsInfo;
 	
@@ -74,7 +74,7 @@ class kFacebookDistributionJobProviderData extends kConfigurableDistributionJobP
 	}	
 	
 	/**
-	 * @return KalturaFacebookCaptionDistributionInfoArray $captionsInfo
+	 * @return BorhanFacebookCaptionDistributionInfoArray $captionsInfo
 	 */
 	public function getCaptionsInfo()
 	{
@@ -82,7 +82,7 @@ class kFacebookDistributionJobProviderData extends kConfigurableDistributionJobP
 	}
 
 	/**
-	 * @param KalturaFacebookCaptionDistributionInfoArray $captionsInfo
+	 * @param BorhanFacebookCaptionDistributionInfoArray $captionsInfo
 	 */
 	public function setCaptionsInfo($captionsInfo)
 	{

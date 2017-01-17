@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaDrmPolicyBaseFilter extends KalturaFilter
+abstract class BorhanDrmPolicyBaseFilter extends BorhanFilter
 {
 	static private $map_between_objects = array
 	(
@@ -55,18 +55,18 @@ abstract class KalturaDrmPolicyBaseFilter extends KalturaFilter
 	public $systemNameLike;
 
 	/**
-	 * @var KalturaDrmProviderType
+	 * @var BorhanDrmProviderType
 	 */
 	public $providerEqual;
 
 	/**
-	 * @dynamicType KalturaDrmProviderType
+	 * @dynamicType BorhanDrmProviderType
 	 * @var string
 	 */
 	public $providerIn;
 
 	/**
-	 * @var KalturaDrmPolicyStatus
+	 * @var BorhanDrmPolicyStatus
 	 */
 	public $statusEqual;
 
@@ -76,12 +76,12 @@ abstract class KalturaDrmPolicyBaseFilter extends KalturaFilter
 	public $statusIn;
 
 	/**
-	 * @var KalturaDrmLicenseScenario
+	 * @var BorhanDrmLicenseScenario
 	 */
 	public $scenarioEqual;
 
 	/**
-	 * @dynamicType KalturaDrmLicenseScenario
+	 * @dynamicType BorhanDrmLicenseScenario
 	 * @var string
 	 */
 	public $scenarioIn;

@@ -3,14 +3,14 @@
  * @package api
  * @subpackage objects
  */
-class KalturaSchedulerConfigArray extends KalturaTypedArray
+class BorhanSchedulerConfigArray extends BorhanTypedArray
 {
-	public static function fromDbArray(array $arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaSchedulerConfigArray();
+		$newArr = new BorhanSchedulerConfigArray();
 		foreach ( $arr as $obj )
 		{
-			$nObj = new KalturaSchedulerConfig();
+			$nObj = new BorhanSchedulerConfig();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -20,6 +20,6 @@ class KalturaSchedulerConfigArray extends KalturaTypedArray
 	
 	public function __construct( )
 	{
-		return parent::__construct ( "KalturaSchedulerConfig" );
+		return parent::__construct ( "BorhanSchedulerConfig" );
 	}
 }

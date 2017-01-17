@@ -3,7 +3,7 @@
  * @package api
  * @subpackage v3
  */
-class KalturaSyndicationFeedRenderer
+class BorhanSyndicationFeedRenderer
 {
 	const MAX_RETUREND_ENTRIES = 10000;
 	const ENTRY_PEER_LIMIT_QUERY = 100;
@@ -21,7 +21,7 @@ class KalturaSyndicationFeedRenderer
 	private $limit = self::MAX_RETUREND_ENTRIES;
 
 	/**
-	 * @var KalturaBaseSyndicationFeed
+	 * @var BorhanBaseSyndicationFeed
 	 */
 	public $syndicationFeed = null;
 	
@@ -62,7 +62,7 @@ class KalturaSyndicationFeedRenderer
 	
 	/**
 	 * The critria used currently
-	 * @var KalturaCriteria
+	 * @var BorhanCriteria
 	 */
 	private $currentCriteria = null;
 	
@@ -73,7 +73,7 @@ class KalturaSyndicationFeedRenderer
 	private $executed = false;
 	
 	/**
-	 * @var KalturaCriteria
+	 * @var BorhanCriteria
 	 */
 	private $baseCriteria = null;
 	
@@ -120,7 +120,7 @@ class KalturaSyndicationFeedRenderer
 		if(!is_null($syndicationFeedDB->getPrivacyContext()) && $syndicationFeedDB->getPrivacyContext() != '')
 			kEntitlementUtils::setPrivacyContextSearch($syndicationFeedDB->getPrivacyContext());
 			
-		$tmpSyndicationFeed = KalturaSyndicationFeedFactory::getInstanceByType($syndicationFeedDB->getType());
+		$tmpSyndicationFeed = BorhanSyndicationFeedFactory::getInstanceByType($syndicationFeedDB->getType());
 		$tmpSyndicationFeed->fromObject($syndicationFeedDB);
 		$this->syndicationFeed = $tmpSyndicationFeed;
 		
@@ -153,7 +153,7 @@ class KalturaSyndicationFeedRenderer
 			$this->entryFilters = myPlaylistUtils::getPlaylistFiltersById($this->syndicationFeed->playlistId);
 			foreach($this->entryFilters as $entryFilter)
 			{
-				$entryFilter->setPartnerSearchScope(baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE);		// partner scope already attached
+				$entryFilter->setPartnerSearchScope(baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE);		// partner scope already attached
 			}
 			
 			$playlist = entryPeer::retrieveByPK( $this->syndicationFeed->playlistId );
@@ -172,7 +172,7 @@ class KalturaSyndicationFeedRenderer
 		}
 			
 		$microTimeEnd = microtime(true);
-		KalturaLog::info("syndicationFeedRenderer- initialization done [".($microTimeEnd - $microTimeStart)."]");		
+		BorhanLog::info("syndicationFeedRenderer- initialization done [".($microTimeEnd - $microTimeStart)."]");		
 	}
 	
 	public function addFlavorParamsAttachedFilter()
@@ -184,7 +184,7 @@ class KalturaSyndicationFeedRenderer
 			return;
 			
 		$entryFilter = new entryFilter();
-		$entryFilter->setPartnerSearchScope(baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE);		// partner scope already attached
+		$entryFilter->setPartnerSearchScope(baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE);		// partner scope already attached
 		$entryFilter->setFlavorParamsMatchOr($this->syndicationFeed->flavorParamId);
 		$entryFilter->attachToCriteria($this->baseCriteria);
 	}
@@ -204,7 +204,7 @@ class KalturaSyndicationFeedRenderer
 		if($this->executed)
 			return;
 			
-		$entryFilter->setPartnerSearchScope(baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE);		// partner scope already attached
+		$entryFilter->setPartnerSearchScope(baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE);		// partner scope already attached
 		$entryFilter->attachToCriteria($this->baseCriteria);
 	}
 	
@@ -379,7 +379,7 @@ class KalturaSyndicationFeedRenderer
 	}
 	
 	/**
-	 * @return KalturaCriteria
+	 * @return BorhanCriteria
 	 */
 	private function getNextCriteria()
 	{
@@ -438,7 +438,7 @@ class KalturaSyndicationFeedRenderer
 			
 		$microTimeStart = microtime(true);
 		
-		$renderer = KalturaSyndicationFeedFactory::getRendererByType($this->syndicationFeed->type);
+		$renderer = BorhanSyndicationFeedFactory::getRendererByType($this->syndicationFeed->type);
 		$renderer->init($this->syndicationFeed, $this->syndicationFeedDb, $this->mimeType);
 		
 		header($renderer->handleHttpHeader());
@@ -453,7 +453,7 @@ class KalturaSyndicationFeedRenderer
 		$feedUpdatedAt = $this->syndicationFeedDb->getUpdatedAt(null);
 
 		$e = null;
-		$kalturaFeed = $this->syndicationFeed->type == KalturaSyndicationFeedType::KALTURA || $this->syndicationFeed->type == KalturaSyndicationFeedType::KALTURA_XSLT;
+		$borhanFeed = $this->syndicationFeed->type == BorhanSyndicationFeedType::BORHAN || $this->syndicationFeed->type == BorhanSyndicationFeedType::BORHAN_XSLT;
 		$nextEntry = $this->getNextEntry();
 		
 		while($nextEntry)
@@ -481,14 +481,14 @@ class KalturaSyndicationFeedRenderer
 			if ($xml === false)
 			{	
 				$e = null;
-				if(!$kalturaFeed) {
-					$e = new KalturaMediaEntry();
+				if(!$borhanFeed) {
+					$e = new BorhanMediaEntry();
 					$e->fromObject($entry);
 				}
 				
 				$flavorAssetUrl = is_null($e) ? null : $this->getFlavorAssetUrl($e);
 				
-				if(!$kalturaFeed && $entry->getType() !== entryType::MIX && is_null($flavorAssetUrl)) {
+				if(!$borhanFeed && $entry->getType() !== entryType::MIX && is_null($flavorAssetUrl)) {
 					$xml = ""; // cache empty result to avoid checking getFlavorAssetUrl next time
 				} else {
 					$xml = $renderer->handleBody($entry, $e, $flavorAssetUrl);
@@ -510,7 +510,7 @@ class KalturaSyndicationFeedRenderer
 			apc_delete($this->feedProcessingKey);
 				
 		$microTimeEnd = microtime(true);
-		KalturaLog::info("syndicationFeedRenderer- render time for ({$this->syndicationFeed->type}) is " . ($microTimeEnd - $microTimeStart));
+		BorhanLog::info("syndicationFeedRenderer- render time for ({$this->syndicationFeed->type}) is " . ($microTimeEnd - $microTimeStart));
 	}
 	
 	/*
@@ -527,11 +527,11 @@ class KalturaSyndicationFeedRenderer
 	
 	private function getExternalStorageUrl(Partner $partner, flavorAsset $flavorAsset, FileSyncKey $key)
 	{
-		if(!$partner->getStorageServePriority() || $partner->getStorageServePriority() == StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_ONLY)
+		if(!$partner->getStorageServePriority() || $partner->getStorageServePriority() == StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_ONLY)
 			return null;
 			
-		if($partner->getStorageServePriority() == StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_FIRST)
-			if(kFileSyncUtils::getReadyInternalFileSyncForKey($key)) // check if having file sync on kaltura dcs
+		if($partner->getStorageServePriority() == StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_FIRST)
+			if(kFileSyncUtils::getReadyInternalFileSyncForKey($key)) // check if having file sync on borhan dcs
 				return null;
 				
 		$fileSync = kFileSyncUtils::getReadyExternalFileSyncForKey($key);
@@ -569,13 +569,13 @@ class KalturaSyndicationFeedRenderer
 		return $url;
 	}
 	
-	private function getFlavorAssetUrl($kalturaEntry)
+	private function getFlavorAssetUrl($borhanEntry)
 	{
 		$partner = PartnerPeer::retrieveByPK($this->syndicationFeed->partnerId);
 		if(!$partner)
 			return null;
 	
-		$flavorAsset = assetPeer::retrieveByEntryIdAndParams($kalturaEntry->id,$this->syndicationFeed->flavorParamId);
+		$flavorAsset = assetPeer::retrieveByEntryIdAndParams($borhanEntry->id,$this->syndicationFeed->flavorParamId);
 		if (!$flavorAsset)
 			return null;
 					
@@ -590,7 +590,7 @@ class KalturaSyndicationFeedRenderer
 		if($this->syndicationFeedDb->getServePlayManifest())
 		{
 			$shouldAddKtToken = false;
-			if($this->syndicationFeed->type == KalturaSyndicationFeedType::ITUNES)
+			if($this->syndicationFeed->type == BorhanSyndicationFeedType::ITUNES)
 			{
 				$entry = $flavorAsset->getentry();
 				$accessControl = $entry->getaccessControl();

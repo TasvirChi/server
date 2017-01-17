@@ -14,7 +14,7 @@ class KConversionEngineFfmpegAux  extends KJobConversionEngine
 	
 	public function getType()
 	{
-		return KalturaConversionEngineType::FFMPEG_AUX;
+		return BorhanConversionEngineType::FFMPEG_AUX;
 	}
 	
 	public function getCmd ()

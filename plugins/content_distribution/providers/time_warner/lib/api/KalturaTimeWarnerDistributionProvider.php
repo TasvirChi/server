@@ -3,6 +3,6 @@
  * @package plugins.timeWarnerDistribution
  * @subpackage api.objects
  */
-class KalturaTimeWarnerDistributionProvider extends KalturaDistributionProvider
+class BorhanTimeWarnerDistributionProvider extends BorhanDistributionProvider
 {
 }

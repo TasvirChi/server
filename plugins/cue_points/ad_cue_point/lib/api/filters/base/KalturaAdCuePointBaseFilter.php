@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaAdCuePointBaseFilter extends KalturaCuePointFilter
+abstract class BorhanAdCuePointBaseFilter extends BorhanCuePointFilter
 {
 	static private $map_between_objects = array
 	(
@@ -38,12 +38,12 @@ abstract class KalturaAdCuePointBaseFilter extends KalturaCuePointFilter
 	}
 
 	/**
-	 * @var KalturaAdProtocolType
+	 * @var BorhanAdProtocolType
 	 */
 	public $protocolTypeEqual;
 
 	/**
-	 * @dynamicType KalturaAdProtocolType
+	 * @dynamicType BorhanAdProtocolType
 	 * @var string
 	 */
 	public $protocolTypeIn;

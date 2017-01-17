@@ -3,12 +3,12 @@
  * @package plugins.FeedDropFolder
  * @subpackage model.enum
  */
-class FeedDropFolderType implements IKalturaPluginEnum, DropFolderType
+class FeedDropFolderType implements IBorhanPluginEnum, DropFolderType
 {
 	const FEED = 'FEED';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPluginEnum::getAdditionalValues()
+	 * @see IBorhanPluginEnum::getAdditionalValues()
 	 */
 	public static function getAdditionalValues() {
 		return array('FEED' => self::FEED);
@@ -16,7 +16,7 @@ class FeedDropFolderType implements IKalturaPluginEnum, DropFolderType
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPluginEnum::getAdditionalDescriptions()
+	 * @see IBorhanPluginEnum::getAdditionalDescriptions()
 	 */
 	public static function getAdditionalDescriptions() {
 		return array();

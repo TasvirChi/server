@@ -9,7 +9,7 @@ class myPartnerRegistration
 		$this->partnerParentId = $partnerParentId;	
 	}
 	
-	const KALTURA_SUPPORT = "wikisupport@kaltura.com";
+	const BORHAN_SUPPORT = "wikisupport@borhan.com";
 	  
 	private function str_makerand ($minlength, $maxlength, $useupper, $usespecial, $usenumbers)
 	{
@@ -36,13 +36,13 @@ class myPartnerRegistration
 		return $key;
 	}
 
-	const KALTURAS_CMS_REGISTRATION_CONFIRMATION = 50;
-	const KALTURAS_DEFAULT_REGISTRATION_CONFIRMATION = 54;
-	const KALTURAS_EXISTING_USER_REGISTRATION_CONFIRMATION = 55;
-	const KALTURAS_DEFAULT_EXISTING_USER_REGISTRATION_CONFIRMATION = 56;
-	const KALTURAS_BLACKBOARD_DEFAULT_REGISTRATION_CONFIRMATION = 57;
-	const KALTURAS_DEVELOPER_REGISTRATION_CONFIRMATION = 220;
-	const KALTURAS_DEVELOPER_EXISTING_USER_REGISTRATION_CONFIRMATION = 221;
+	const BORHANS_CMS_REGISTRATION_CONFIRMATION = 50;
+	const BORHANS_DEFAULT_REGISTRATION_CONFIRMATION = 54;
+	const BORHANS_EXISTING_USER_REGISTRATION_CONFIRMATION = 55;
+	const BORHANS_DEFAULT_EXISTING_USER_REGISTRATION_CONFIRMATION = 56;
+	const BORHANS_BLACKBOARD_DEFAULT_REGISTRATION_CONFIRMATION = 57;
+	const BORHANS_DEVELOPER_REGISTRATION_CONFIRMATION = 220;
+	const BORHANS_DEVELOPER_EXISTING_USER_REGISTRATION_CONFIRMATION = 221;
 	
 	public function sendRegistrationInformationForPartner ($partner, $skip_emails, $existingUser, $silent = false )
 	{
@@ -55,8 +55,8 @@ class myPartnerRegistration
 											
 		if ( !$skip_emails && kConf::hasParam("report_partner_registration") && kConf::get("report_partner_registration")) 
 		{											
-			// email the wikisupport@kaltura.com  with this info
-			$this->sendRegistrationInformation($partner, $adminKuser, $existingUser, self::KALTURA_SUPPORT );
+			// email the wikisupport@borhan.com  with this info
+			$this->sendRegistrationInformation($partner, $adminKuser, $existingUser, self::BORHAN_SUPPORT );
 
 			// if need to hook into SalesForce - this is the place
 			if ( include_once ( "mySalesForceUtils.class.php" ) )
@@ -85,7 +85,7 @@ class myPartnerRegistration
 		$loginData = $adminKuser->getLoginData();
 		$hashKey = $loginData->getNewHashKeyIfCurrentInvalid();
 		$resetPasswordLink = UserLoginDataPeer::getPassResetLink($hashKey);
-		$kmcLink = trim(kConf::get('apphome_url'), '/').'/kmc';
+		$bmcLink = trim(kConf::get('apphome_url'), '/').'/bmc';
 		$contactLink = kConf::get('contact_url');
 		$contactPhone = kConf::get('contact_phone_number');		
 		$beginnersGuideLink = kConf::get('beginners_tutorial_url');
@@ -96,7 +96,7 @@ class myPartnerRegistration
 
 		
 	 	// send the $cms_email,$cms_password, TWICE !
-	 	if(kConf::get('kaltura_installation_type') == 'CE')	{
+	 	if(kConf::get('borhan_installation_type') == 'CE')	{
 			$partner_type = 1;
 		}
 
@@ -104,46 +104,46 @@ class myPartnerRegistration
 		{
 			if ($existingUser) {
 				return; // emails will be sent via external system 
-				//$mailType = self::KALTURAS_DEVELOPER_EXISTING_USER_REGISTRATION_CONFIRMATION;
+				//$mailType = self::BORHANS_DEVELOPER_EXISTING_USER_REGISTRATION_CONFIRMATION;
 				//$bodyParams = array($loginEmail, $partnerId);
 			}
 			else {
 				return; // emails will be sent via external system
-				//$mailType = self::KALTURAS_DEVELOPER_REGISTRATION_CONFIRMATION;
+				//$mailType = self::BORHANS_DEVELOPER_REGISTRATION_CONFIRMATION;
 				//$bodyParams = array($resetPasswordLink, $resetPasswordLink);
 			}
 		}
 		else {
 			switch($partner_type) { // send different email for different partner types
-				case Partner::PARTNER_TYPE_KMC: // KMC signup
+				case Partner::PARTNER_TYPE_BMC: // BMC signup
 					if ($existingUser) {
-						$mailType = self::KALTURAS_EXISTING_USER_REGISTRATION_CONFIRMATION;
+						$mailType = self::BORHANS_EXISTING_USER_REGISTRATION_CONFIRMATION;
 						$bodyParams = array($userName, $loginEmail, $partnerId, $contactLink, $contactPhone, $beginnersGuideLink, $quickStartGuideLink);
 					}
 					else {
-						$mailType = self::KALTURAS_CMS_REGISTRATION_CONFIRMATION;
-						$bodyParams = array($userName, $loginEmail, $resetPasswordLink, $partnerId, $kmcLink, $quickStartGuideLink, $uploadMediaVideoLink, $howToPublishVideoLink, $contactLink, $contactPhone);
+						$mailType = self::BORHANS_CMS_REGISTRATION_CONFIRMATION;
+						$bodyParams = array($userName, $loginEmail, $resetPasswordLink, $partnerId, $bmcLink, $quickStartGuideLink, $uploadMediaVideoLink, $howToPublishVideoLink, $contactLink, $contactPhone);
 					}
 					break;
 				//blackboard
 				case Partner::PARTNER_TYPE_BLACKBOARD:
 					if ($existingUser) {
-						$mailType = self::KALTURAS_DEFAULT_EXISTING_USER_REGISTRATION_CONFIRMATION;
+						$mailType = self::BORHANS_DEFAULT_EXISTING_USER_REGISTRATION_CONFIRMATION;
 						$bodyParams = array($userName, $loginEmail, $partnerId, $contactLink, $contactPhone, $beginnersGuideLink, $quickStartGuideLink);
 					}
 					else {
-						$mailType = self::KALTURAS_BLACKBOARD_DEFAULT_REGISTRATION_CONFIRMATION;
-						$bodyParams = array($resetPasswordLink, $loginEmail, $partnerId, $kmcLink);
+						$mailType = self::BORHANS_BLACKBOARD_DEFAULT_REGISTRATION_CONFIRMATION;
+						$bodyParams = array($resetPasswordLink, $loginEmail, $partnerId, $bmcLink);
 					}
 					break;	
 				default: // all others
 				 	if ($existingUser) {
-						$mailType = self::KALTURAS_DEFAULT_EXISTING_USER_REGISTRATION_CONFIRMATION;
+						$mailType = self::BORHANS_DEFAULT_EXISTING_USER_REGISTRATION_CONFIRMATION;
 						$bodyParams = array($userName, $loginEmail, $partnerId, $contactLink, $contactPhone, $beginnersGuideLink, $quickStartGuideLink);
 					}
 					else {
-						$mailType = self::KALTURAS_DEFAULT_REGISTRATION_CONFIRMATION;
-						$bodyParams = array($userName, $loginEmail, $partnerId, $resetPasswordLink, $kmcLink, $contactLink, $contactPhone, $beginnersGuideLink, $quickStartGuideLink);
+						$mailType = self::BORHANS_DEFAULT_REGISTRATION_CONFIRMATION;
+						$bodyParams = array($userName, $loginEmail, $partnerId, $resetPasswordLink, $bmcLink, $contactLink, $contactPhone, $beginnersGuideLink, $quickStartGuideLink);
 					}
 					break;
 			}
@@ -223,10 +223,10 @@ class myPartnerRegistration
 		if ( ! $partner_name ) $partner_name = $newPartner->getId();
 		$newPartner->setPartnerName( $partner_name );
 		$newPartner->setPrefix($newPartner->getId());
-		$newPartner->setPartnerAlias(md5($newPartner->getId().'kaltura partner'));
+		$newPartner->setPartnerAlias(md5($newPartner->getId().'borhan partner'));
 
 		// set default conversion profile for trial accounts
-		if ($newPartner->getType() == Partner::PARTNER_TYPE_KMC)
+		if ($newPartner->getType() == Partner::PARTNER_TYPE_BMC)
 		{
 			$newPartner->setDefConversionProfileType( ConversionProfile::DEFAULT_TRIAL_COVERSION_PROFILE_TYPE );
 		}
@@ -242,7 +242,7 @@ class myPartnerRegistration
 		
 		$fromPartner = PartnerPeer::retrieveByPK($templatePartnerId ? $templatePartnerId : kConf::get("template_partner_id"));
 	 	if (!$fromPartner)
-	 		KalturaLog::log("Template content partner was not found!");
+	 		BorhanLog::log("Template content partner was not found!");
  		else
  		{
  			$newPartner->setI18nTemplatePartnerId($templatePartnerId);
@@ -254,7 +254,7 @@ class myPartnerRegistration
 	 	
 		$newPartner->setHtmlPurifierBehaviour(HTMLPurifierBehaviourType::BLOCK);
 		
-		$newPartner->setKmcVersion(kConf::get('new_partner_kmc_version'));
+		$newPartner->setBmcVersion(kConf::get('new_partner_bmc_version'));
 		$newPartner->save();
 		
 		return $newPartner;
@@ -337,7 +337,7 @@ class myPartnerRegistration
 			}
 			else if ($existingLoginData->isPasswordValid($password))
 			{
-				KalturaLog::log('Login id ['.$email.'] already used, and given password is valid. Creating new partner with this same login id');
+				BorhanLog::log('Login id ['.$email.'] already used, and given password is valid. Creating new partner with this same login id');
 			}
 			else
 			{
@@ -389,7 +389,7 @@ class myPartnerRegistration
 			
 		if($partner->getPartnerPackage() == 100) //Developer partner
 		{
-			$permissionNames = array(PermissionName::FEATURE_LIVE_STREAM, PermissionName::FEATURE_KALTURA_LIVE_STREAM, PermissionName::FEATURE_KALTURA_LIVE_STREAM_TRANSCODE);
+			$permissionNames = array(PermissionName::FEATURE_LIVE_STREAM, PermissionName::FEATURE_BORHAN_LIVE_STREAM, PermissionName::FEATURE_BORHAN_LIVE_STREAM_TRANSCODE);
 			foreach ($permissionNames as $permissionName) 
 			{
 				$permission = PermissionPeer::getByNameAndPartner ( $permissionName, $partner->getId() );
@@ -484,7 +484,7 @@ class myPartnerRegistration
  		uiConfPeer::setUseCriteriaFilter(false);
  		$c = new Criteria();
  		$c->addAnd(uiConfPeer::PARTNER_ID, $templatePartner->getId());
- 		$c->addAnd(uiConfPeer::OBJ_TYPE, array (uiConf::UI_CONF_TYPE_KDP3, uiConf::UI_CONF_TYPE_WIDGET), Criteria::IN);
+ 		$c->addAnd(uiConfPeer::OBJ_TYPE, array (uiConf::UI_CONF_TYPE_BDP3, uiConf::UI_CONF_TYPE_WIDGET), Criteria::IN);
  		$c->addAnd(uiConfPeer::STATUS, uiConf::UI_CONF_STATUS_READY);
  		$count = uiConfPeer::doCount($c);
  		if ($count > kConf::get('copy_partner_limit_ui_confs'))
@@ -505,10 +505,10 @@ class myPartnerRegistration
  		}
  		UserRolePeer::setUseCriteriaFilter ( true );
  		
- 		$validatorPlugins = KalturaPluginManager::getPluginInstances('IKalturaObjectValidator');
+ 		$validatorPlugins = BorhanPluginManager::getPluginInstances('IBorhanObjectValidator');
  		foreach ($validatorPlugins as $validatorPlugins)
  		{
- 		    $validatorPlugins->validateObject ($templatePartner, IKalturaObjectValidator::OPERATION_COPY);
+ 		    $validatorPlugins->validateObject ($templatePartner, IBorhanObjectValidator::OPERATION_COPY);
  		}
         
 	}

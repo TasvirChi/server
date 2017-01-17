@@ -3,6 +3,6 @@
  * @package plugins.schedule
  * @subpackage api.enum
  */
-class KalturaScheduleEventRecurrenceDay extends KalturaStringEnum implements ScheduleEventRecurrenceDay
+class BorhanScheduleEventRecurrenceDay extends BorhanStringEnum implements ScheduleEventRecurrenceDay
 {
 }

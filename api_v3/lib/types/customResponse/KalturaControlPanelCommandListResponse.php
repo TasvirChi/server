@@ -3,10 +3,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaControlPanelCommandListResponse extends KalturaListResponse
+class BorhanControlPanelCommandListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaControlPanelCommandArray
+	 * @var BorhanControlPanelCommandArray
 	 * @readonly
 	 */
 	public $objects;

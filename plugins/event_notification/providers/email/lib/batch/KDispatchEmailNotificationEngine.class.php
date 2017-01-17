@@ -14,16 +14,16 @@ class KDispatchEmailNotificationEngine extends KDispatchEventNotificationEngine
 	const REPLYTO_RECIPIENT_TYPE = 'ReplyTo';
 	
 	/**
-	 * Old kaltura default
+	 * Old borhan default
 	 * @var strung
 	 */
-	protected $defaultFromMail = 'notifications@kaltura.com';
+	protected $defaultFromMail = 'notifications@borhan.com';
 	 
 	/**
-	 * Old kaltura default
+	 * Old borhan default
 	 * @var strung
 	 */
-	protected $defaultFromName = 'Kaltura Notification Service';
+	protected $defaultFromName = 'Borhan Notification Service';
 	
 	/**
 	 * @var PHPMailer
@@ -119,22 +119,22 @@ class KDispatchEmailNotificationEngine extends KDispatchEventNotificationEngine
 	/* (non-PHPdoc)
 	 * @see KDispatchEventNotificationEngine::dispatch()
 	 */
-	public function dispatch(KalturaEventNotificationTemplate $eventNotificationTemplate, KalturaEventNotificationDispatchJobData &$data)
+	public function dispatch(BorhanEventNotificationTemplate $eventNotificationTemplate, BorhanEventNotificationDispatchJobData &$data)
 	{
 		$this->sendEmail($eventNotificationTemplate, $data);
 	}
 
 	/**
-	 * @param KalturaEmailNotificationTemplate $emailNotificationTemplate
-	 * @param KalturaEmailNotificationDispatchJobData $data
+	 * @param BorhanEmailNotificationTemplate $emailNotificationTemplate
+	 * @param BorhanEmailNotificationDispatchJobData $data
 	 * @return boolean
 	 */
-	protected function sendEmail(KalturaEmailNotificationTemplate $emailNotificationTemplate, KalturaEmailNotificationDispatchJobData &$data)
+	protected function sendEmail(BorhanEmailNotificationTemplate $emailNotificationTemplate, BorhanEmailNotificationDispatchJobData &$data)
 	{
 		if(!count($data->to) && !count($data->cc) && !count($data->bcc))
 			throw new Exception("Recipient e-mail address cannot be null");
 			
-		$this::$mailer->IsHTML($emailNotificationTemplate->format == KalturaEmailNotificationFormat::HTML);
+		$this::$mailer->IsHTML($emailNotificationTemplate->format == BorhanEmailNotificationFormat::HTML);
 		
 		if($data->priority)
 			$this::$mailer->Priority = 	$data->priority;
@@ -150,7 +150,7 @@ class KDispatchEmailNotificationEngine extends KDispatchEventNotificationEngine
 		{
 			foreach($data->contentParameters as $contentParameter)
 			{
-				/* @var $contentParameter KalturaKeyValue */
+				/* @var $contentParameter BorhanKeyValue */
 				$contentParameters['{' .$contentParameter->key. '}'] = strip_tags($contentParameter->value);
 			}		
 		}
@@ -164,7 +164,7 @@ class KDispatchEmailNotificationEngine extends KDispatchEventNotificationEngine
 				{
 					continue;
 				}
-				KalturaLog::info("Adding recipient to TO recipients $name<$email>");
+				BorhanLog::info("Adding recipient to TO recipients $name<$email>");
 				self::$mailer->AddAddress($email, $name);
 			}
 		}
@@ -178,7 +178,7 @@ class KDispatchEmailNotificationEngine extends KDispatchEventNotificationEngine
 				{
 					continue;
 				}
-				KalturaLog::info("Adding recipient to CC recipients $name<$email>");
+				BorhanLog::info("Adding recipient to CC recipients $name<$email>");
 				self::$mailer->AddCC($email, $name);
 			}
 		}
@@ -192,7 +192,7 @@ class KDispatchEmailNotificationEngine extends KDispatchEventNotificationEngine
 				{
 					continue;
 				}
-				KalturaLog::info("Adding recipient to BCC recipients $name<$email>");
+				BorhanLog::info("Adding recipient to BCC recipients $name<$email>");
 				self::$mailer->AddBCC($email, $name);
 			}
 		}
@@ -202,7 +202,7 @@ class KDispatchEmailNotificationEngine extends KDispatchEventNotificationEngine
 			$recipients = $this->getRecipientArray($data->replyTo, $contentParameters);
 			foreach ($recipients as $email=>$name)
 			{
-				KalturaLog::info("Adding recipient to ReplyTo recipients $name<$email>");
+				BorhanLog::info("Adding recipient to ReplyTo recipients $name<$email>");
 				self::$mailer->AddReplyTo($email, $name);
 			}
 		}
@@ -227,7 +227,7 @@ class KDispatchEmailNotificationEngine extends KDispatchEventNotificationEngine
 			$this::$mailer->From = $this->defaultFromMail;
 			$this::$mailer->FromName = $this->defaultFromName;
 		}
-		KalturaLog::info("Sender [{$this::$mailer->FromName}<{$this::$mailer->From}>]");
+		BorhanLog::info("Sender [{$this::$mailer->FromName}<{$this::$mailer->From}>]");
 		
 		$subject = $emailNotificationTemplate->subject;
 		$body = $emailNotificationTemplate->body;
@@ -244,8 +244,8 @@ class KDispatchEmailNotificationEngine extends KDispatchEventNotificationEngine
 			$body = str_replace(array_keys($contentParameters), $contentParameters, $body);
 		}
 				
-		KalturaLog::info("Subject [$subject]");
-		KalturaLog::info("Body [$body]");
+		BorhanLog::info("Subject [$subject]");
+		BorhanLog::info("Body [$body]");
 		
 		$this::$mailer->Subject = $subject;
 		$this::$mailer->Body = $body;
@@ -254,10 +254,10 @@ class KDispatchEmailNotificationEngine extends KDispatchEventNotificationEngine
 		{
 			foreach($data->customHeaders as $customHeader)
 			{
-				/* @var $customHeader KalturaKeyValue */
+				/* @var $customHeader BorhanKeyValue */
 				$key = $customHeader->key;
 				$value = $customHeader->value;
-				/* @var $customHeader KalturaKeyValue */
+				/* @var $customHeader BorhanKeyValue */
 				if(is_array($contentParameters) && count($contentParameters))
 				{
 					$key = str_replace(array_keys($contentParameters), $contentParameters, $key);
@@ -299,11 +299,11 @@ class KDispatchEmailNotificationEngine extends KDispatchEventNotificationEngine
 	
 	/**
 	 * Function to retrieve array of recipients for the email notifiation based on the data.
-	 * @param KalturaEmailNotificationRecipientJobData $recipientJobData
+	 * @param BorhanEmailNotificationRecipientJobData $recipientJobData
 	 * @param array $contentParameters
 	 * @return array;
 	 */
-	protected function getRecipientArray (KalturaEmailNotificationRecipientJobData $recipientJobData, array $contentParameters)
+	protected function getRecipientArray (BorhanEmailNotificationRecipientJobData $recipientJobData, array $contentParameters)
 	{
 		$recipientEngine = KEmailNotificationRecipientEngine::getEmailNotificationRecipientEngine($recipientJobData);
 		$recipients = $recipientEngine->getRecipients($contentParameters);

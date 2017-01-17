@@ -15,7 +15,7 @@ class KScheduledTaskRunner extends KPeriodicWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::SCHEDULED_TASK;
+		return BorhanBatchJobType::SCHEDULED_TASK;
 	}
 
 	/* (non-PHPdoc)
@@ -42,7 +42,7 @@ class KScheduledTaskRunner extends KPeriodicWorker
 			}
 			catch(Exception $ex)
 			{
-				KalturaLog::err($ex);
+				BorhanLog::err($ex);
 			}
 		}
 	}
@@ -55,11 +55,11 @@ class KScheduledTaskRunner extends KPeriodicWorker
 	{
 		$scheduledTaskClient = $this->getScheduledTaskClient();
 
-		$filter = new KalturaScheduledTaskProfileFilter();
-		$filter->orderBy = KalturaScheduledTaskProfileOrderBy::LAST_EXECUTION_STARTED_AT_ASC;
-		$filter->statusEqual = KalturaScheduledTaskProfileStatus::ACTIVE;
+		$filter = new BorhanScheduledTaskProfileFilter();
+		$filter->orderBy = BorhanScheduledTaskProfileOrderBy::LAST_EXECUTION_STARTED_AT_ASC;
+		$filter->statusEqual = BorhanScheduledTaskProfileStatus::ACTIVE;
 
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageSize = $maxProfiles;
 
 		$result = $scheduledTaskClient->scheduledTaskProfile->listAction($filter, $pager);
@@ -68,9 +68,9 @@ class KScheduledTaskRunner extends KPeriodicWorker
 	}
 
 	/**
-	 * @param KalturaScheduledTaskProfile $profile
+	 * @param BorhanScheduledTaskProfile $profile
 	 */
-	protected function processProfile(KalturaScheduledTaskProfile $profile)
+	protected function processProfile(BorhanScheduledTaskProfile $profile)
 	{
 		$this->updateProfileBeforeExecution($profile);
 		if ($profile->maxTotalCountAllowed)
@@ -78,7 +78,7 @@ class KScheduledTaskRunner extends KPeriodicWorker
 		else
 			$maxTotalCountAllowed = $this->getParams('maxTotalCountAllowed');
 
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageIndex = 1;
 		$pager->pageSize = 500;
 		while(true)
@@ -97,7 +97,7 @@ class KScheduledTaskRunner extends KPeriodicWorker
 
 			if ($result->totalCount > $maxTotalCountAllowed)
 			{
-				KalturaLog::crit("List query for profile $profile->id returned too many results ($result->totalCount when the allowed total count is $maxTotalCountAllowed), suspending the profile");
+				BorhanLog::crit("List query for profile $profile->id returned too many results ($result->totalCount when the allowed total count is $maxTotalCountAllowed), suspending the profile");
 				$this->suspendProfile($profile);
 				break;
 			}
@@ -114,14 +114,14 @@ class KScheduledTaskRunner extends KPeriodicWorker
 	}
 
 	/**
-	 * @param KalturaScheduledTaskProfile $profile
+	 * @param BorhanScheduledTaskProfile $profile
 	 * @param $object
 	 */
-	protected function processObject(KalturaScheduledTaskProfile $profile, $object)
+	protected function processObject(BorhanScheduledTaskProfile $profile, $object)
 	{
 		foreach($profile->objectTasks as $objectTask)
 		{
-			/** @var KalturaObjectTask $objectTask */
+			/** @var BorhanObjectTask $objectTask */
 			$objectTaskEngine = $this->getObjectTaskEngineByType($objectTask->type);
 			$objectTaskEngine->setObjectTask($objectTask);
 			try
@@ -134,12 +134,12 @@ class KScheduledTaskRunner extends KPeriodicWorker
 				$id = '';
 				if (property_exists($object, 'id'))
 					$id = $object->id;
-				KalturaLog::err(sprintf('An error occurred while executing %s on object %s (id %s)', get_class($objectTaskEngine), get_class($object), $id));
-				KalturaLog::err($ex);
+				BorhanLog::err(sprintf('An error occurred while executing %s on object %s (id %s)', get_class($objectTaskEngine), get_class($object), $id));
+				BorhanLog::err($ex);
 
 				if ($objectTask->stopProcessingOnError)
 				{
-					KalturaLog::log('Object task is configured to stop processing on error');
+					BorhanLog::log('Object task is configured to stop processing on error');
 					break;
 				}
 			}
@@ -163,23 +163,23 @@ class KScheduledTaskRunner extends KPeriodicWorker
 	}
 
 	/**
-	 * @return KalturaScheduledTaskClientPlugin
+	 * @return BorhanScheduledTaskClientPlugin
 	 */
 	protected function getScheduledTaskClient()
 	{
 		$client = $this->getClient();
-		return KalturaScheduledTaskClientPlugin::get($client);
+		return BorhanScheduledTaskClientPlugin::get($client);
 	}
 
 	/**
 	 * Update the profile last execution time so we would have profiles rotation in case one execution dies
 	 *
-	 * @param KalturaScheduledTaskProfile $profile
+	 * @param BorhanScheduledTaskProfile $profile
 	 */
-	protected function updateProfileBeforeExecution(KalturaScheduledTaskProfile $profile)
+	protected function updateProfileBeforeExecution(BorhanScheduledTaskProfile $profile)
 	{
 		$scheduledTaskClient = $this->getScheduledTaskClient();
-		$profileForUpdate = new KalturaScheduledTaskProfile();
+		$profileForUpdate = new BorhanScheduledTaskProfile();
 		$profileForUpdate->lastExecutionStartedAt = time();
 		$this->impersonate($profile->partnerId);
 		$scheduledTaskClient->scheduledTaskProfile->update($profile->id, $profileForUpdate);
@@ -189,13 +189,13 @@ class KScheduledTaskRunner extends KPeriodicWorker
 	/**
 	 * Moves the profile to suspended status
 	 *
-	 * @param KalturaScheduledTaskProfile $profile
+	 * @param BorhanScheduledTaskProfile $profile
 	 */
-	protected function suspendProfile(KalturaScheduledTaskProfile $profile)
+	protected function suspendProfile(BorhanScheduledTaskProfile $profile)
 	{
 		$scheduledTaskClient = $this->getScheduledTaskClient();
-		$profileForUpdate = new KalturaScheduledTaskProfile();
-		$profileForUpdate->status = KalturaScheduledTaskProfileStatus::SUSPENDED;
+		$profileForUpdate = new BorhanScheduledTaskProfile();
+		$profileForUpdate->status = BorhanScheduledTaskProfileStatus::SUSPENDED;
 		$this->impersonate($profile->partnerId);
 		$scheduledTaskClient->scheduledTaskProfile->update($profile->id, $profileForUpdate);
 		$this->unimpersonate();

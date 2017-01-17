@@ -1,5 +1,5 @@
 <?php
-class KalturaResponseProfileCacher extends kResponseProfileCacher
+class BorhanResponseProfileCacher extends kResponseProfileCacher
 {
 	/**
 	 * @var IRelatedObject
@@ -21,7 +21,7 @@ class KalturaResponseProfileCacher extends kResponseProfileCacher
 	 */
 	private static $storedObjectTypeKeys = array();
 	
-	private static function getObjectSpecificCacheValue(KalturaObject $apiObject, IRelatedObject $object, $responseProfileKey)
+	private static function getObjectSpecificCacheValue(BorhanObject $apiObject, IRelatedObject $object, $responseProfileKey)
 	{
 		return array(
 			'type' => 'primaryObject',
@@ -98,7 +98,7 @@ class KalturaResponseProfileCacher extends kResponseProfileCacher
 		if(!self::$cachedObject)
 			return;
 			
-		KalturaLog::debug("Loaded " . get_class($object) . " [" . $object->getId() . "]");
+		BorhanLog::debug("Loaded " . get_class($object) . " [" . $object->getId() . "]");
 		
 		$peer = $object->getPeer();
 		if($peer instanceof IRelatedObjectPeer)
@@ -110,7 +110,7 @@ class KalturaResponseProfileCacher extends kResponseProfileCacher
 			}
 			self::$storedObjectTypeKeys[$key] = true;
 			$value = self::getObjectTypeCacheValue($object);
-			KalturaLog::debug("Set [$key]");
+			BorhanLog::debug("Set [$key]");
 			
 			self::set($key, $value);
 		}
@@ -122,16 +122,16 @@ class KalturaResponseProfileCacher extends kResponseProfileCacher
 	}
 	
 	/**
-	 * @param KalturaObject $apiObject
+	 * @param BorhanObject $apiObject
 	 * @param IRelatedObject $object
-	 * @param KalturaDetachedResponseProfile $responseProfile
+	 * @param BorhanDetachedResponseProfile $responseProfile
 	 * @return boolean
 	 */
-	public static function start(KalturaObject $apiObject, IRelatedObject $object, KalturaDetachedResponseProfile $responseProfile)
+	public static function start(BorhanObject $apiObject, IRelatedObject $object, BorhanDetachedResponseProfile $responseProfile)
 	{
 		if(self::$cachedObject)
 		{
-			KalturaLog::debug("Object [" . get_class(self::$cachedObject) . "][" . self::$cachedObject->getId() . "] still caching");
+			BorhanLog::debug("Object [" . get_class(self::$cachedObject) . "][" . self::$cachedObject->getId() . "] still caching");
 			return false;
 		}
 			
@@ -149,7 +149,7 @@ class KalturaResponseProfileCacher extends kResponseProfileCacher
 		if($value && self::areKeysValid($invalidationKeys, $value->{self::CACHE_VALUE_TIME}))
 		{
 			$cachedApiObject = unserialize($value->apiObject);
-			if($cachedApiObject instanceof KalturaObject)
+			if($cachedApiObject instanceof BorhanObject)
 			{
 				$properties = get_object_vars($cachedApiObject);
 				foreach ($properties as $propertyName => $propertyValue)
@@ -158,9 +158,9 @@ class KalturaResponseProfileCacher extends kResponseProfileCacher
 				}
 				return true;
 			}
-			KalturaLog::err("Object [" . get_class($object) . "][" . $object->getId() . "] - invalid object cached");
+			BorhanLog::err("Object [" . get_class($object) . "][" . $object->getId() . "] - invalid object cached");
 		}
-		KalturaLog::debug("Start " . get_class($object) . " [" . $object->getId() . "]");
+		BorhanLog::debug("Start " . get_class($object) . " [" . $object->getId() . "]");
 		
 		if(self::$responseProfileKey != $responseProfileKey && !$responseProfileCache)
 		{
@@ -173,17 +173,17 @@ class KalturaResponseProfileCacher extends kResponseProfileCacher
 		return false;
 	}
 	
-	public static function stop(IRelatedObject $object, KalturaObject $apiObject)
+	public static function stop(IRelatedObject $object, BorhanObject $apiObject)
 	{
 		if($object !== self::$cachedObject)
 		{
-			KalturaLog::debug("Object [" . get_class(self::$cachedObject) . "][" . self::$cachedObject->getId() . "] still caching");
+			BorhanLog::debug("Object [" . get_class(self::$cachedObject) . "][" . self::$cachedObject->getId() . "] still caching");
 			return;
 		}
 
 		if($apiObject->relatedObjects)
 		{
-			KalturaLog::debug("Stop " . get_class($apiObject));
+			BorhanLog::debug("Stop " . get_class($apiObject));
 			
 			$key = self::getObjectSpecificCacheKey(self::$cachedObject, self::$responseProfileKey);
 			$value = self::getObjectSpecificCacheValue($apiObject, self::$cachedObject, self::$responseProfileKey);
@@ -192,20 +192,20 @@ class KalturaResponseProfileCacher extends kResponseProfileCacher
 		}
 		else
 		{
-			KalturaLog::debug("API Object [" . get_class($apiObject) . "] has no related objects");
+			BorhanLog::debug("API Object [" . get_class($apiObject) . "] has no related objects");
 		}
 		
 		self::$cachedObject = null;
 		self::$cachePerUser = false;
 	}
 	
-	protected static function recalculateCache(kCouchbaseCacheListItem $cache, KalturaDetachedResponseProfile $responseProfile = null)
+	protected static function recalculateCache(kCouchbaseCacheListItem $cache, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		KalturaLog::debug("Cache object id [" . $cache->getId() . "]");
+		BorhanLog::debug("Cache object id [" . $cache->getId() . "]");
 		$data = $cache->getData();
 		if(!$data)
 		{
-			KalturaLog::err("Cache object contains no data for id [" . $cache->getId() . "]");
+			BorhanLog::err("Cache object contains no data for id [" . $cache->getId() . "]");
 			self::delete($cache->getId());
 			return;
 		}
@@ -217,7 +217,7 @@ class KalturaResponseProfileCacher extends kResponseProfileCacher
 			$responseProfile = unserialize($value['responseProfile']);
 			if(!$responseProfile)
 			{
-				KalturaLog::err("Response-Profile key [$responseProfileCacheKey] not found in cache");
+				BorhanLog::err("Response-Profile key [$responseProfileCacheKey] not found in cache");
 				self::delete($cache->getId());
 				return;
 			}
@@ -227,7 +227,7 @@ class KalturaResponseProfileCacher extends kResponseProfileCacher
 		$object = $peer::retrieveByPK($data['objectId']);
 		if(!$object)
 		{
-			KalturaLog::err("Object $peer [" . $data['objectId'] . "] not found");
+			BorhanLog::err("Object $peer [" . $data['objectId'] . "] not found");
 			self::delete($cache->getId());
 			return;
 		}
@@ -243,10 +243,10 @@ class KalturaResponseProfileCacher extends kResponseProfileCacher
 	}
 	
 	/**
-	 * @param KalturaResponseProfileCacheRecalculateOptions $options
-	 * @return KalturaResponseProfileCacheRecalculateResults
+	 * @param BorhanResponseProfileCacheRecalculateOptions $options
+	 * @return BorhanResponseProfileCacheRecalculateResults
 	 */
-	public static function recalculateCacheBySessionType(KalturaResponseProfileCacheRecalculateOptions $options)
+	public static function recalculateCacheBySessionType(BorhanResponseProfileCacheRecalculateOptions $options)
 	{
 		$sessionKey = self::getSessionKey();
 		
@@ -259,14 +259,14 @@ class KalturaResponseProfileCacher extends kResponseProfileCacher
 		if($options->isFirstLoop)
 		{
 			if($lastRecalculateTime >= $options->jobCreatedAt)
-				throw new KalturaAPIException(KalturaErrors::RESPONSE_PROFILE_CACHE_ALREADY_RECALCULATED);
+				throw new BorhanAPIException(BorhanErrors::RESPONSE_PROFILE_CACHE_ALREADY_RECALCULATED);
 				
 			$lastRecalculateTime = time();
 			self::set($uniqueKey);
 		}
 		
 		$partnerId = kCurrentContext::getCurrentPartnerId();
-		$results = new KalturaResponseProfileCacheRecalculateResults();
+		$results = new BorhanResponseProfileCacheRecalculateResults();
 		
 		/* @var $object IRelatedObject */
 		$responseProfile = null;
@@ -288,7 +288,7 @@ class KalturaResponseProfileCacher extends kResponseProfileCacher
 			if($options->objectId)
 			{
 				$objectKey = "{$partnerId}_{$options->cachedObjectType}_{$options->objectId}";
-				KalturaLog::debug("Serach for key [$sessionKey, $objectKey]");
+				BorhanLog::debug("Serach for key [$sessionKey, $objectKey]");
 				$query->addKey(kResponseProfileCacher::VIEW_KEY_SESSION_KEY, $sessionKey);
 				$query->addKey(kResponseProfileCacher::VIEW_KEY_OBJECT_KEY, $objectKey);
 			}
@@ -298,7 +298,7 @@ class KalturaResponseProfileCacher extends kResponseProfileCacher
 				if($options->startObjectKey)
 					$objectKey = $options->startObjectKey;
 					
-				KalturaLog::debug("Serach for start key [$sessionKey, $objectKey]");
+				BorhanLog::debug("Serach for start key [$sessionKey, $objectKey]");
 				$query->addStartKey(kResponseProfileCacher::VIEW_KEY_SESSION_KEY, $sessionKey);
 				$query->addStartKey(kResponseProfileCacher::VIEW_KEY_OBJECT_KEY, $objectKey);
 				
@@ -335,7 +335,7 @@ class KalturaResponseProfileCacher extends kResponseProfileCacher
 			$newRecalculateCache = self::get($uniqueKey, false);
 			$newRecalculateTime = $lastRecalculateCache->{self::CACHE_VALUE_TIME};
 			if($newRecalculateTime > $lastRecalculateTime)
-				throw new KalturaAPIException(KalturaErrors::RESPONSE_PROFILE_CACHE_RECALCULATE_RESTARTED);
+				throw new BorhanAPIException(BorhanErrors::RESPONSE_PROFILE_CACHE_RECALCULATE_RESTARTED);
 		}
 		return $results;
 	}

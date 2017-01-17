@@ -4,7 +4,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaLiveStats extends KalturaObject
+class BorhanLiveStats extends BorhanObject
 {				
 	/**
 	 *
@@ -56,7 +56,7 @@ class KalturaLiveStats extends KalturaObject
 	
 	public function getWSObject() {
 		$obj = new WSLiveStats();
-		$obj->fromKalturaObject($this);
+		$obj->fromBorhanObject($this);
 		return $obj;
 	}
 	

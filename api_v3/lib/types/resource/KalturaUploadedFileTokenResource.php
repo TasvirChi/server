@@ -7,7 +7,7 @@
  * @see api/services/UploadService#uploadAction()
  * @see api/services/UploadTokenService#addAction()
  */
-class KalturaUploadedFileTokenResource extends KalturaDataCenterContentResource
+class BorhanUploadedFileTokenResource extends BorhanDataCenterContentResource
 {
 	/**
 	 * Token that returned from upload.upload action or uploadToken.add action. 
@@ -16,19 +16,19 @@ class KalturaUploadedFileTokenResource extends KalturaDataCenterContentResource
 	public $token;
 	
 	/* (non-PHPdoc)
-	 * @see KalturaDataCenterContentResource::getDc()
+	 * @see BorhanDataCenterContentResource::getDc()
 	 */
 	public function getDc()
 	{
 		$dbUploadToken = UploadTokenPeer::retrieveByPK($this->token);
 		if(is_null($dbUploadToken))
-			throw new KalturaAPIException(KalturaErrors::UPLOAD_TOKEN_NOT_FOUND);
+			throw new BorhanAPIException(BorhanErrors::UPLOAD_TOKEN_NOT_FOUND);
 		
 		return $dbUploadToken->getDc();
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaDataCenterContentResource::validateForUsage()
+	 * @see BorhanDataCenterContentResource::validateForUsage()
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -38,7 +38,7 @@ class KalturaUploadedFileTokenResource extends KalturaDataCenterContentResource
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaResource::entryHandled()
+	 * @see BorhanResource::entryHandled()
 	 */
 	public function entryHandled(entry $dbEntry)
 	{
@@ -46,14 +46,14 @@ class KalturaUploadedFileTokenResource extends KalturaDataCenterContentResource
 		
 		$dbUploadToken = UploadTokenPeer::retrieveByPK($this->token);
 		if(is_null($dbUploadToken))
-			throw new KalturaAPIException(KalturaErrors::UPLOAD_TOKEN_NOT_FOUND);
+			throw new BorhanAPIException(BorhanErrors::UPLOAD_TOKEN_NOT_FOUND);
 		
 		if($dbUploadToken->getStatus() == UploadToken::UPLOAD_TOKEN_FULL_UPLOAD)
 			kUploadTokenMgr::closeUploadTokenById($this->token);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($object_to_fill = null, $props_to_skip = array())
 	{
@@ -61,7 +61,7 @@ class KalturaUploadedFileTokenResource extends KalturaDataCenterContentResource
 		
 		$dbUploadToken = UploadTokenPeer::retrieveByPK($this->token);
 		if(is_null($dbUploadToken))
-			throw new KalturaAPIException(KalturaErrors::UPLOAD_TOKEN_NOT_FOUND);
+			throw new BorhanAPIException(BorhanErrors::UPLOAD_TOKEN_NOT_FOUND);
 		
 		if(!$object_to_fill)
 			$object_to_fill = new kUploadedFileTokenResource();
@@ -82,7 +82,7 @@ class KalturaUploadedFileTokenResource extends KalturaDataCenterContentResource
 		{
 			if($ex->getCode() == kUploadTokenException::UPLOAD_TOKEN_INVALID_STATUS)
 				;
-			throw new KalturaAPIException(KalturaErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY);
+			throw new BorhanAPIException(BorhanErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY);
 			
 			throw $ex;
 		}
@@ -96,7 +96,7 @@ class KalturaUploadedFileTokenResource extends KalturaDataCenterContentResource
 			}
 			else
 			{
-				throw new KalturaAPIException(KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN);
+				throw new BorhanAPIException(BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN);
 			}
 		}
 		

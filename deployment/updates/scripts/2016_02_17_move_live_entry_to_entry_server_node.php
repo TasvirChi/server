@@ -57,12 +57,12 @@ foreach($liveEntries as $liveEntry)
 			$liveEntryServerNode->setServerType($mediaServer->getIndex());
 			$liveEntryServerNode->save();
 			
-			KalturaLog::debug("entryId [".$liveEntryServerNode->getEntryId()."] server-node [".$liveEntryServerNode->getServerNodeId()."] server-type [".$liveEntryServerNode->getServerType()."] ");
+			BorhanLog::debug("entryId [".$liveEntryServerNode->getEntryId()."] server-node [".$liveEntryServerNode->getServerNodeId()."] server-type [".$liveEntryServerNode->getServerType()."] ");
 		}
 	}
 }
 
 if(count($liveEntries) === LIMIT && $liveEntry)
-	KalturaLog::warning("Live entries count equals script limit, please run script again with latest updated at value = ", $liveEntry->getUpdatedAt());
+	BorhanLog::warning("Live entries count equals script limit, please run script again with latest updated at value = ", $liveEntry->getUpdatedAt());
 
 ?>

@@ -49,29 +49,29 @@ class KOperationEngineEncodingCom  extends KOperationEngine
 		
 		switch($data->flavorParamsOutput->videoCodec)
 		{
-			case KalturaVideoCodec::NONE:
+			case BorhanVideoCodec::NONE:
 				$sendData->setFormatOutput('mp3');
 				//$sendData->setFormatVideoCodec('none');
 				break;
 				
-			case KalturaVideoCodec::VP6:
+			case BorhanVideoCodec::VP6:
 				$sendData->setFormatOutput('flv');
 				$sendData->setFormatVideoCodec('vp6');
 				break;
 				
-			case KalturaVideoCodec::FLV:
+			case BorhanVideoCodec::FLV:
 				$sendData->setFormatOutput('flv');
 				$sendData->setFormatVideoCodec('vp6');
 				break;
 				
-			case KalturaVideoCodec::H263:
+			case BorhanVideoCodec::H263:
 				return array(false, "Do not support H263");
 				
 				$sendData->setFormatOutput('3gp');
 				$sendData->setFormatVideoCodec('h263');
 				break;
 				
-			case KalturaVideoCodec::H264:
+			case BorhanVideoCodec::H264:
 				$sendData->setFormatOutput('mp4');
 				$sendData->setFormatVideoCodec('libx264');
 				break;

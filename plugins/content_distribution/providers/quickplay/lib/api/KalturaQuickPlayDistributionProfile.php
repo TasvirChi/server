@@ -3,7 +3,7 @@
  * @package plugins.quickPlayDistribution
  * @subpackage api.objects
  */
-class KalturaQuickPlayDistributionProfile extends KalturaConfigurableDistributionProfile
+class BorhanQuickPlayDistributionProfile extends BorhanConfigurableDistributionProfile
 {
 	/**
 	 * @var string

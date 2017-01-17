@@ -2,7 +2,7 @@
 /**
  * @package plugins.metroPcsDistribution
  */
-class MetroPcsDistributionPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaEnumerator, IKalturaPending, IKalturaObjectLoader, IKalturaContentDistributionProvider
+class MetroPcsDistributionPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanEnumerator, IBorhanPending, IBorhanObjectLoader, IBorhanContentDistributionProvider
 {
 	const PLUGIN_NAME = 'metroPcsDistribution';
 	const CONTENT_DSTRIBUTION_VERSION_MAJOR = 2;
@@ -16,12 +16,12 @@ class MetroPcsDistributionPlugin extends KalturaPlugin implements IKalturaPermis
 	
 	public static function dependsOn()
 	{
-		$contentDistributionVersion = new KalturaVersion(
+		$contentDistributionVersion = new BorhanVersion(
 			self::CONTENT_DSTRIBUTION_VERSION_MAJOR,
 			self::CONTENT_DSTRIBUTION_VERSION_MINOR,
 			self::CONTENT_DSTRIBUTION_VERSION_BUILD);
 			
-		$dependency = new KalturaDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
+		$dependency = new BorhanDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
 		return array($dependency);
 	}
 	
@@ -57,7 +57,7 @@ class MetroPcsDistributionPlugin extends KalturaPlugin implements IKalturaPermis
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::METRO_PCS)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::METRO_PCS)
 		{
 			if($baseClass == 'IDistributionEngineCloseDelete')
 				return new MetroPcsDistributionEngine();
@@ -77,14 +77,14 @@ class MetroPcsDistributionPlugin extends KalturaPlugin implements IKalturaPermis
 			if($baseClass == 'IDistributionEngineUpdate')
 				return new MetroPcsDistributionEngine();
 		
-			if($baseClass == 'KalturaDistributionProfile')
-				return new KalturaMetroPcsDistributionProfile();
+			if($baseClass == 'BorhanDistributionProfile')
+				return new BorhanMetroPcsDistributionProfile();
 		
-			if($baseClass == 'KalturaDistributionJobProviderData')
-				return new KalturaMetroPcsDistributionJobProviderData();
+			if($baseClass == 'BorhanDistributionJobProviderData')
+				return new BorhanMetroPcsDistributionJobProviderData();
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::METRO_PCS)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::METRO_PCS)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 			{
@@ -97,9 +97,9 @@ class MetroPcsDistributionPlugin extends KalturaPlugin implements IKalturaPermis
 		if (!class_exists('kCurrentContext') || kCurrentContext::$ps_vesion != 'ps3')
 			return null;
 
-		if($baseClass == 'KalturaDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(MetroPcsDistributionProviderType::METRO_PCS))
+		if($baseClass == 'BorhanDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(MetroPcsDistributionProviderType::METRO_PCS))
 		{
-			$reflect = new ReflectionClass('KalturaMetroPcsDistributionJobProviderData');
+			$reflect = new ReflectionClass('BorhanMetroPcsDistributionJobProviderData');
 			return $reflect->newInstanceArgs($constructorArgs);
 		}
 	
@@ -109,8 +109,8 @@ class MetroPcsDistributionPlugin extends KalturaPlugin implements IKalturaPermis
 			return $reflect->newInstanceArgs($constructorArgs);
 		}
 	
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(MetroPcsDistributionProviderType::METRO_PCS))
-			return new KalturaMetroPcsDistributionProfile();
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(MetroPcsDistributionProviderType::METRO_PCS))
+			return new BorhanMetroPcsDistributionProfile();
 			
 		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(MetroPcsDistributionProviderType::METRO_PCS))
 			return new MetroPcsDistributionProfile();
@@ -126,7 +126,7 @@ class MetroPcsDistributionPlugin extends KalturaPlugin implements IKalturaPermis
 	public static function getObjectClass($baseClass, $enumValue)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::METRO_PCS)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::METRO_PCS)
 		{
 			if($baseClass == 'IDistributionEngineCloseDelete')
 				return 'MetroPcsDistributionEngine';
@@ -146,34 +146,34 @@ class MetroPcsDistributionPlugin extends KalturaPlugin implements IKalturaPermis
 			if($baseClass == 'IDistributionEngineUpdate')
 				return 'MetroPcsDistributionEngine';
 		
-			if($baseClass == 'KalturaDistributionProfile')
-				return 'KalturaMetroPcsDistributionProfile';
+			if($baseClass == 'BorhanDistributionProfile')
+				return 'BorhanMetroPcsDistributionProfile';
 		
-			if($baseClass == 'KalturaDistributionJobProviderData')
-				return 'KalturaMetroPcsDistributionJobProviderData';
+			if($baseClass == 'BorhanDistributionJobProviderData')
+				return 'BorhanMetroPcsDistributionJobProviderData';
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::METRO_PCS)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::METRO_PCS)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 				return 'Form_MetroPcsProfileConfiguration';
 				
-			if($baseClass == 'Kaltura_Client_ContentDistribution_Type_DistributionProfile')
-				return 'Kaltura_Client_MetroPcsDistribution_Type_MetroPcsDistributionProfile';
+			if($baseClass == 'Borhan_Client_ContentDistribution_Type_DistributionProfile')
+				return 'Borhan_Client_MetroPcsDistribution_Type_MetroPcsDistributionProfile';
 		}
 		
 		// content distribution does not work in partner services 2 context because it uses dynamic enums
 		if (!class_exists('kCurrentContext') || kCurrentContext::$ps_vesion != 'ps3')
 			return null;
 
-		if($baseClass == 'KalturaDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(MetroPcsDistributionProviderType::METRO_PCS))
-			return 'KalturaMetroPcsDistributionJobProviderData';
+		if($baseClass == 'BorhanDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(MetroPcsDistributionProviderType::METRO_PCS))
+			return 'BorhanMetroPcsDistributionJobProviderData';
 	
 		if($baseClass == 'kDistributionJobProviderData' && $enumValue == self::getApiValue(MetroPcsDistributionProviderType::METRO_PCS))
 			return 'kMetroPcsDistributionJobProviderData';
 	
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(MetroPcsDistributionProviderType::METRO_PCS))
-			return 'KalturaMetroPcsDistributionProfile';
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(MetroPcsDistributionProviderType::METRO_PCS))
+			return 'BorhanMetroPcsDistributionProfile';
 			
 		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(MetroPcsDistributionProviderType::METRO_PCS))
 			return 'MetroPcsDistributionProfile';
@@ -194,11 +194,11 @@ class MetroPcsDistributionPlugin extends KalturaPlugin implements IKalturaPermis
 	/**
 	 * Return an API distribution provider instance
 	 * 
-	 * @return KalturaDistributionProvider
+	 * @return BorhanDistributionProvider
 	 */
-	public static function getKalturaProvider()
+	public static function getBorhanProvider()
 	{
-		$distributionProvider = new KalturaMetroPcsDistributionProvider();
+		$distributionProvider = new BorhanMetroPcsDistributionProvider();
 		$distributionProvider->fromObject(self::getProvider());
 		return $distributionProvider;
 	}
@@ -226,7 +226,7 @@ class MetroPcsDistributionPlugin extends KalturaPlugin implements IKalturaPermis
 	 */
 	public static function getDistributionProviderTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('DistributionProviderType', $value);
 	}
 	
@@ -235,6 +235,6 @@ class MetroPcsDistributionPlugin extends KalturaPlugin implements IKalturaPermis
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 }

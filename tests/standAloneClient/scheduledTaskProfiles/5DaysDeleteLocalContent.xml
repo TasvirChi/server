@@ -14,19 +14,19 @@
 	<session />
 	<!-- 5 Days Delte Local Content -->
 	<request service="scheduledTaskProfile" action="add" plugin="scheduledTask" partnerId="{variable:partnerId}">
-		<scheduledTaskProfile objectType="KalturaScheduledTaskProfile">
+		<scheduledTaskProfile objectType="BorhanScheduledTaskProfile">
 			<name>5 Days Delete Local Content</name>
 			<objectFilterEngineType>1</objectFilterEngineType>
-			<objectFilter objectType="KalturaMediaEntryFilter">
+			<objectFilter objectType="BorhanMediaEntryFilter">
 				<createdAtLessThanOrEqual>{php:return -5*24*60*60;}</createdAtLessThanOrEqual>
-				<advancedSearch objectType="KalturaSearchOperator">
+				<advancedSearch objectType="BorhanSearchOperator">
 					<type>1</type>
 					<items objectType="array">
-						<item objectType="KalturaMetadataSearchItem">
+						<item objectType="BorhanMetadataSearchItem">
 							<metadataProfileId>{variable:metadataProfileId}</metadataProfileId>
 							<type>1</type>
 							<items objectType="array">
-								<item objectType="KalturaSearchCondition">
+								<item objectType="BorhanSearchCondition">
 									<field>/*[local-name()='metadata']/*[local-name()='DeleteStatus']</field>
 									<value>Local Content Not Deleted</value>
 								</item>
@@ -36,7 +36,7 @@
 				</advancedSearch>
 			</objectFilter>
 			<objectTasks objectType="array">
-				<item objectType="KalturaExecuteMetadataXsltObjectTask">
+				<item objectType="BorhanExecuteMetadataXsltObjectTask">
 					<metadataProfileId>{variable:metadataProfileId}</metadataProfileId>
 					<metadataObjectType>1</metadataObjectType><!-- ENTRY -->
 					<xslt>
@@ -59,7 +59,7 @@
 						]]>
 					</xslt>
 				</item>
-                <item objectType="KalturaDeleteLocalContentObjectTask">
+                <item objectType="BorhanDeleteLocalContentObjectTask">
                 </item>
 			</objectTasks>
 		</scheduledTaskProfile>

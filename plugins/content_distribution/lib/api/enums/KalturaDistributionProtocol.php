@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.enum
  */
-class KalturaDistributionProtocol extends KalturaEnum
+class BorhanDistributionProtocol extends BorhanEnum
 {
 	const FTP = 1;
 	const SCP = 2;

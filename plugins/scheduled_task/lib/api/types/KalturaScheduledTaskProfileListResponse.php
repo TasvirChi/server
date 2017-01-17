@@ -3,10 +3,10 @@
  * @package plugins.scheduledTask
  * @subpackage api.objects
  */
-class KalturaScheduledTaskProfileListResponse extends KalturaListResponse
+class BorhanScheduledTaskProfileListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaScheduledTaskProfileArray
+	 * @var BorhanScheduledTaskProfileArray
 	 * @readonly
 	 */
 	public $objects;

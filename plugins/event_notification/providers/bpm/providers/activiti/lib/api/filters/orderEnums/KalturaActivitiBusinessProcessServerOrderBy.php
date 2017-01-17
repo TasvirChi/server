@@ -3,6 +3,6 @@
  * @package plugins.activitiBusinessProcessNotification
  * @subpackage api.filters.enum
  */
-class KalturaActivitiBusinessProcessServerOrderBy extends KalturaBusinessProcessServerOrderBy
+class BorhanActivitiBusinessProcessServerOrderBy extends BorhanBusinessProcessServerOrderBy
 {
 }

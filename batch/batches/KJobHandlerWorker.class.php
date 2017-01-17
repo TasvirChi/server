@@ -8,19 +8,19 @@ abstract class KJobHandlerWorker extends KBatchBase
 {
 	/**
 	 * The job object that currently handled
-	 * @var KalturaBatchJob
+	 * @var BorhanBatchJob
 	 */
 	private static $currentJob;
 	
 	/**
-	 * @param KalturaBatchJob $job
-	 * @return KalturaBatchJob
+	 * @param BorhanBatchJob $job
+	 * @return BorhanBatchJob
 	 */
-	abstract protected function exec(KalturaBatchJob $job);
+	abstract protected function exec(BorhanBatchJob $job);
 
 	/**
 	 * Returns the job object that currently handled
-	 * @return KalturaBatchJob
+	 * @return BorhanBatchJob
 	 */
 	public static function getCurrentJob()
 	{
@@ -28,11 +28,11 @@ abstract class KJobHandlerWorker extends KBatchBase
 	}
 
 	/**
-	 * @param KalturaBatchJob $currentJob
+	 * @param BorhanBatchJob $currentJob
 	 */
-	protected static function setCurrentJob(KalturaBatchJob $currentJob)
+	protected static function setCurrentJob(BorhanBatchJob $currentJob)
 	{
-		KalturaLog::debug("Start job[$currentJob->id] type[$currentJob->jobType] sub-type[$currentJob->jobSubType] object[$currentJob->jobObjectType] object-id[$currentJob->jobObjectId] partner-id[$currentJob->partnerId] dc[$currentJob->dc] parent-id[$currentJob->parentJobId] root-id[$currentJob->rootJobId]");
+		BorhanLog::debug("Start job[$currentJob->id] type[$currentJob->jobType] sub-type[$currentJob->jobSubType] object[$currentJob->jobObjectType] object-id[$currentJob->jobObjectId] partner-id[$currentJob->partnerId] dc[$currentJob->dc] parent-id[$currentJob->parentJobId] root-id[$currentJob->rootJobId]");
 		self::$currentJob = $currentJob;
 		
 		self::$kClient->setClientTag(self::$clientTag . " partnerId: " . $currentJob->partnerId);
@@ -41,7 +41,7 @@ abstract class KJobHandlerWorker extends KBatchBase
 	protected static function unsetCurrentJob()
 	{
 		$currentJob = self::getCurrentJob();
-		KalturaLog::debug("End job[$currentJob->id]");
+		BorhanLog::debug("End job[$currentJob->id]");
 		self::$currentJob = null;
 
 		self::$kClient->setClientTag(self::$clientTag);
@@ -80,16 +80,16 @@ abstract class KJobHandlerWorker extends KBatchBase
 			}
 			catch (Exception $e)
 			{
-				KalturaLog::err($e->getMessage());
+				BorhanLog::err($e->getMessage());
 				return null;
 			}
 		}
 		
-		KalturaLog::info(count($jobs) . " jobs to handle");
+		BorhanLog::info(count($jobs) . " jobs to handle");
 		
 		if(! count($jobs) > 0)
 		{
-			KalturaLog::info("Queue size: 0 sent to scheduler");
+			BorhanLog::info("Queue size: 0 sent to scheduler");
 			$this->saveSchedulerQueue(static::getType());
 			return null;
 		}
@@ -102,15 +102,15 @@ abstract class KJobHandlerWorker extends KBatchBase
 				$job = $this->exec($job);
 				self::unimpersonate();
 			}
-			catch(KalturaException $kex)
+			catch(BorhanException $kex)
 			{
 				self::unimpersonate();
-				$this->closeJobOnError($job,KalturaBatchJobErrorTypes::KALTURA_API, $kex, KalturaBatchJobStatus::FAILED);
+				$this->closeJobOnError($job,BorhanBatchJobErrorTypes::BORHAN_API, $kex, BorhanBatchJobStatus::FAILED);
 			}
-			catch(kApplicativeException $kaex)
+			catch(kApplicativeException $baex)
 			{
 				self::unimpersonate();
-				$this->closeJobOnError($job,KalturaBatchJobErrorTypes::APP, $kaex, KalturaBatchJobStatus::FAILED);
+				$this->closeJobOnError($job,BorhanBatchJobErrorTypes::APP, $baex, BorhanBatchJobStatus::FAILED);
 			}
 			catch(kTemporaryException $ktex)
 			{
@@ -118,17 +118,17 @@ abstract class KJobHandlerWorker extends KBatchBase
 				if($ktex->getResetJobExecutionAttempts())
 					KBatchBase::$kClient->batch->resetJobExecutionAttempts($job->id, $this->getExclusiveLockKey(), $job->jobType);
 				
-				$this->closeJobOnError($job,KalturaBatchJobErrorTypes::RUNTIME, $ktex, KalturaBatchJobStatus::RETRY, $ktex->getData());
+				$this->closeJobOnError($job,BorhanBatchJobErrorTypes::RUNTIME, $ktex, BorhanBatchJobStatus::RETRY, $ktex->getData());
 			}
-			catch(KalturaClientException $kcex)
+			catch(BorhanClientException $kcex)
 			{
 				self::unimpersonate();
-				$this->closeJobOnError($job,KalturaBatchJobErrorTypes::KALTURA_CLIENT, $kcex, KalturaBatchJobStatus::RETRY);
+				$this->closeJobOnError($job,BorhanBatchJobErrorTypes::BORHAN_CLIENT, $kcex, BorhanBatchJobStatus::RETRY);
 			}
 			catch(Exception $ex)
 			{
 				self::unimpersonate();
-				$this->closeJobOnError($job,KalturaBatchJobErrorTypes::RUNTIME, $ex, KalturaBatchJobStatus::FAILED);
+				$this->closeJobOnError($job,BorhanBatchJobErrorTypes::RUNTIME, $ex, BorhanBatchJobStatus::FAILED);
 			}
 			self::unsetCurrentJob();
 		}
@@ -145,35 +145,35 @@ abstract class KJobHandlerWorker extends KBatchBase
 		} 
 		catch(Exception $ex)
 		{
-			KalturaLog::err("Failed to close job after expirencing an error.");
-			KalturaLog::err($ex->getMessage());
+			BorhanLog::err("Failed to close job after expirencing an error.");
+			BorhanLog::err($ex->getMessage());
 		}
 	}
 	
 	/**
 	 * @param int $jobId
-	 * @param KalturaBatchJob $job
-	 * @return KalturaBatchJob
+	 * @param BorhanBatchJob $job
+	 * @return BorhanBatchJob
 	 */
-	protected function updateExclusiveJob($jobId, KalturaBatchJob $job)
+	protected function updateExclusiveJob($jobId, BorhanBatchJob $job)
 	{
 		return KBatchBase::$kClient->batch->updateExclusiveJob($jobId, $this->getExclusiveLockKey(), $job);
 	}
 	
 	/**
-	 * @param KalturaBatchJob $job
-	 * @return KalturaBatchJob
+	 * @param BorhanBatchJob $job
+	 * @return BorhanBatchJob
 	 */
-	protected function freeExclusiveJob(KalturaBatchJob $job)
+	protected function freeExclusiveJob(BorhanBatchJob $job)
 	{
 		$resetExecutionAttempts = false;
-		if ($job->status == KalturaBatchJobStatus::ALMOST_DONE)
+		if ($job->status == BorhanBatchJobStatus::ALMOST_DONE)
 			$resetExecutionAttempts = true;
 		
 		$response = KBatchBase::$kClient->batch->freeExclusiveJob($job->id, $this->getExclusiveLockKey(), static::getType(), $resetExecutionAttempts);
 		
 		if(is_numeric($response->queueSize)) {
-			KalturaLog::info("Queue size: $response->queueSize sent to scheduler");
+			BorhanLog::info("Queue size: $response->queueSize sent to scheduler");
 			$this->saveSchedulerQueue(static::getType(), $response->queueSize);
 		}
 		
@@ -181,11 +181,11 @@ abstract class KJobHandlerWorker extends KBatchBase
 	}
 	
 	/**
-	 * @return KalturaBatchJobFilter
+	 * @return BorhanBatchJobFilter
 	 */
 	protected function getFilter()
 	{
-		$filter = new KalturaBatchJobFilter();
+		$filter = new BorhanBatchJobFilter();
 		if(KBatchBase::$taskConfig->filter)
 			$filter = KBatchBase::$taskConfig->filter;
 		
@@ -199,11 +199,11 @@ abstract class KJobHandlerWorker extends KBatchBase
 	}
 	
 	/**
-	 * @return KalturaExclusiveLockKey
+	 * @return BorhanExclusiveLockKey
 	 */
 	protected function getExclusiveLockKey()
 	{
-		$lockKey = new KalturaExclusiveLockKey();
+		$lockKey = new BorhanExclusiveLockKey();
 		$lockKey->schedulerId = $this->getSchedulerId();
 		$lockKey->workerId = $this->getId();
 		$lockKey->batchIndex = $this->getIndex();
@@ -212,26 +212,26 @@ abstract class KJobHandlerWorker extends KBatchBase
 	}
 	
 	/**
-	 * @param KalturaBatchJob $job
+	 * @param BorhanBatchJob $job
 	 */
-	protected function onFree(KalturaBatchJob $job)
+	protected function onFree(BorhanBatchJob $job)
 	{
 		$this->onJobEvent($job, KBatchEvent::EVENT_JOB_FREE);
 	}
 	
 	/**
-	 * @param KalturaBatchJob $job
+	 * @param BorhanBatchJob $job
 	 */
-	protected function onUpdate(KalturaBatchJob $job)
+	protected function onUpdate(BorhanBatchJob $job)
 	{
 		$this->onJobEvent($job, KBatchEvent::EVENT_JOB_UPDATE);
 	}
 	
 	/**
-	 * @param KalturaBatchJob $job
+	 * @param BorhanBatchJob $job
 	 * @param int $event_id
 	 */
-	protected function onJobEvent(KalturaBatchJob $job, $event_id)
+	protected function onJobEvent(BorhanBatchJob $job, $event_id)
 	{
 		$event = new KBatchEvent();
 		
@@ -247,14 +247,14 @@ abstract class KJobHandlerWorker extends KBatchBase
 	
 	/**
 	 * @param string $jobType
-	 * @return KalturaWorkerQueueFilter
+	 * @return BorhanWorkerQueueFilter
 	 */
 	protected function getBaseQueueFilter($jobType)
 	{
 		$filter = $this->getFilter();
 		$filter->jobTypeEqual = $jobType;
 		
-		$workerQueueFilter = new KalturaWorkerQueueFilter();
+		$workerQueueFilter = new BorhanWorkerQueueFilter();
 		$workerQueueFilter->schedulerId = $this->getSchedulerId();
 		$workerQueueFilter->workerId = $this->getId();
 		$workerQueueFilter->filter = $filter;
@@ -266,12 +266,12 @@ abstract class KJobHandlerWorker extends KBatchBase
 	/**
 	 * @param string $jobType
 	 * @param boolean $isCloser
-	 * @return KalturaWorkerQueueFilter
+	 * @return BorhanWorkerQueueFilter
 	 */
 	protected function getQueueFilter($jobType)
 	{
 		$workerQueueFilter = $this->getBaseQueueFilter($jobType);
-		//$workerQueueFilter->filter->statusIn = KalturaBatchJobStatus::PENDING . ',' . KalturaBatchJobStatus::RETRY;
+		//$workerQueueFilter->filter->statusIn = BorhanBatchJobStatus::PENDING . ',' . BorhanBatchJobStatus::RETRY;
 		
 		return $workerQueueFilter;
 	}
@@ -301,7 +301,7 @@ abstract class KJobHandlerWorker extends KBatchBase
 			$size = KBatchBase::$kClient->batch->getQueueSize($workerQueueFilter);
 		}
 		
-		$queueStatus = new KalturaBatchQueuesStatus();
+		$queueStatus = new BorhanBatchQueuesStatus();
 		$queueStatus->workerId = $this->getId();
 		$queueStatus->jobType = $jobType;
 		$queueStatus->size = $size;
@@ -310,22 +310,22 @@ abstract class KJobHandlerWorker extends KBatchBase
 	}
 	
 	/**
-	 * @return KalturaBatchJob
+	 * @return BorhanBatchJob
 	 */
 	protected function newEmptyJob()
 	{
-		return new KalturaBatchJob();
+		return new BorhanBatchJob();
 	}
 	
 	/**
-	 * @param KalturaBatchJob $job
+	 * @param BorhanBatchJob $job
 	 * @param string $msg
 	 * @param int $status
 	 * @param unknown_type $data
 	 * @param boolean $remote
-	 * @return KalturaBatchJob
+	 * @return BorhanBatchJob
 	 */
-	protected function updateJob(KalturaBatchJob $job, $msg, $status, KalturaJobData $data = null)
+	protected function updateJob(BorhanBatchJob $job, $msg, $status, BorhanJobData $data = null)
 	{
 		$updateJob = $this->newEmptyJob();
 		
@@ -338,30 +338,30 @@ abstract class KJobHandlerWorker extends KBatchBase
 		$updateJob->status = $status;
 		$updateJob->data = $data;
 		
-		KalturaLog::info("job[$job->id] status: [$status] msg : [$msg]");
+		BorhanLog::info("job[$job->id] status: [$status] msg : [$msg]");
 		if($this->isUnitTest)
 			return $job;
 		
 		$job = $this->updateExclusiveJob($job->id, $updateJob);
-		if($job instanceof KalturaBatchJob)
+		if($job instanceof BorhanBatchJob)
 			$this->onUpdate($job);
 		
 		return $job;
 	}
 	
 	/**
-	 * @param KalturaBatchJob $job
+	 * @param BorhanBatchJob $job
 	 * @param int $errType
 	 * @param int $errNumber
 	 * @param string $msg
 	 * @param int $status
-	 * @param KalturaJobData $data
-	 * @return KalturaBatchJob
+	 * @param BorhanJobData $data
+	 * @return BorhanBatchJob
 	 */
-	protected function closeJob(KalturaBatchJob $job, $errType, $errNumber, $msg, $status, $data = null)
+	protected function closeJob(BorhanBatchJob $job, $errType, $errNumber, $msg, $status, $data = null)
 	{
 		if(! is_null($errType))
-			KalturaLog::err($msg);
+			BorhanLog::err($msg);
 		
 		$updateJob = $this->newEmptyJob();
 		
@@ -376,7 +376,7 @@ abstract class KJobHandlerWorker extends KBatchBase
 		$updateJob->errNumber = $errNumber;
 		$updateJob->data = $data;
 		
-		KalturaLog::info("job[$job->id] status: [$status] msg : [$msg]");
+		BorhanLog::info("job[$job->id] status: [$status] msg : [$msg]");
 		if($this->isUnitTest)
 		{
 			$job->status = $updateJob->status;
@@ -388,12 +388,12 @@ abstract class KJobHandlerWorker extends KBatchBase
 		}
 		
 		$job = $this->updateExclusiveJob($job->id, $updateJob);
-		if($job instanceof KalturaBatchJob)
+		if($job instanceof BorhanBatchJob)
 			$this->onUpdate($job);
 		
-		KalturaLog::info("Free job[$job->id]");
+		BorhanLog::info("Free job[$job->id]");
 		$job = $this->freeExclusiveJob($job);
-		if($job instanceof KalturaBatchJob)
+		if($job instanceof BorhanBatchJob)
 			$this->onFree($job);
 		
 		return $job;		

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaStorageExportJobData extends KalturaStorageJobData
+class BorhanStorageExportJobData extends BorhanStorageJobData
 {
     
 	/**
@@ -44,15 +44,15 @@ class KalturaStorageExportJobData extends KalturaStorageJobData
 	public function toSubType($subType)
 	{
 		switch ($subType) {
-			case KalturaStorageProfileProtocol::FTP:
-            case KalturaStorageProfileProtocol::SFTP:
-            case KalturaStorageProfileProtocol::SCP:
-            case KalturaStorageProfileProtocol::S3:
-            case KalturaStorageProfileProtocol::KALTURA_DC:
-            case KalturaStorageProfileProtocol::LOCAL:
+			case BorhanStorageProfileProtocol::FTP:
+            case BorhanStorageProfileProtocol::SFTP:
+            case BorhanStorageProfileProtocol::SCP:
+            case BorhanStorageProfileProtocol::S3:
+            case BorhanStorageProfileProtocol::BORHAN_DC:
+            case BorhanStorageProfileProtocol::LOCAL:
                 return $subType;                  	
 			default:
-				return kPluginableEnumsManager::apiToCore('KalturaStorageProfileProtocol', $subType);
+				return kPluginableEnumsManager::apiToCore('BorhanStorageProfileProtocol', $subType);
 		}
 	}
 	
@@ -67,7 +67,7 @@ class KalturaStorageExportJobData extends KalturaStorageJobData
             case StorageProfileProtocol::SFTP:
             case StorageProfileProtocol::SCP:
             case StorageProfileProtocol::S3:
-            case StorageProfileProtocol::KALTURA_DC:
+            case StorageProfileProtocol::BORHAN_DC:
           	case StorageProfileProtocol::LOCAL:
                 return $subType;                    
             default:

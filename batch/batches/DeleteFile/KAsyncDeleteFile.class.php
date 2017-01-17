@@ -9,25 +9,25 @@ class KAsyncDeleteFile extends KJobHandlerWorker
 {
 	public static function getType()
 	{
-		return KalturaBatchJobType::DELETE_FILE;
+		return BorhanBatchJobType::DELETE_FILE;
 	}
 	
 	/**
 	 * (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
-		$this->updateJob($job, "File deletion started", KalturaBatchJobStatus::PROCESSING);
+		$this->updateJob($job, "File deletion started", BorhanBatchJobStatus::PROCESSING);
 		$jobData = $job->data;
 		
-		/* @var $jobData KalturaDeleteFileJobData */
+		/* @var $jobData BorhanDeleteFileJobData */
 		$result = unlink($jobData->localFileSyncPath);
 		
 		if (!$result)
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::RUNTIME, null, "Failed to delete file from disk", KalturaBatchJobStatus::FAILED);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::RUNTIME, null, "Failed to delete file from disk", BorhanBatchJobStatus::FAILED);
 		
-		return $this->closeJob($job, null, null, 'File deleted successfully', KalturaBatchJobStatus::FINISHED);
+		return $this->closeJob($job, null, null, 'File deleted successfully', BorhanBatchJobStatus::FINISHED);
 		
 	}
 

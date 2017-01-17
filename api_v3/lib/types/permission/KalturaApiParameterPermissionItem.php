@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaApiParameterPermissionItem extends KalturaPermissionItem
+class BorhanApiParameterPermissionItem extends BorhanPermissionItem
 {
 	
 	/**
@@ -17,7 +17,7 @@ class KalturaApiParameterPermissionItem extends KalturaPermissionItem
 	public $parameter;
 	
 	/**
-	 * @var KalturaApiParameterPermissionItemAction
+	 * @var BorhanApiParameterPermissionItemAction
 	 */
 	public $action;
 	

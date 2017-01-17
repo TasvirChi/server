@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaConversionProfileAssetParams extends KalturaObject implements IRelatedFilterable 
+class BorhanConversionProfileAssetParams extends BorhanObject implements IRelatedFilterable 
 {
 	/**
 	 * The id of the conversion profile
@@ -26,7 +26,7 @@ class KalturaConversionProfileAssetParams extends KalturaObject implements IRela
 	/**
 	 * The ingestion origin of the asset params
 	 *  
-	 * @var KalturaFlavorReadyBehaviorType
+	 * @var BorhanFlavorReadyBehaviorType
 	 * @filter eq,in
 	 */
 	public $readyBehavior;
@@ -34,7 +34,7 @@ class KalturaConversionProfileAssetParams extends KalturaObject implements IRela
 	/**
 	 * The ingestion origin of the asset params
 	 *  
-	 * @var KalturaAssetParamsOrigin
+	 * @var BorhanAssetParamsOrigin
 	 * @filter eq,in
 	 */
 	public $origin;
@@ -49,19 +49,19 @@ class KalturaConversionProfileAssetParams extends KalturaObject implements IRela
 	
 	/**
 	 * Starts conversion even if the decision layer reduced the configuration to comply with the source
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $forceNoneComplied;
 	
 	/**
 	 * 
 	 * Specifies how to treat the flavor after conversion is finished
-	 * @var KalturaAssetParamsDeletePolicy
+	 * @var BorhanAssetParamsDeletePolicy
 	 */
 	public $deletePolicy;
 	
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $isEncrypted;
 
@@ -71,7 +71,7 @@ class KalturaConversionProfileAssetParams extends KalturaObject implements IRela
 	public $contentAwareness;
 	
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $twoPass;
 
@@ -96,7 +96,7 @@ class KalturaConversionProfileAssetParams extends KalturaObject implements IRela
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -120,16 +120,16 @@ class KalturaConversionProfileAssetParams extends KalturaObject implements IRela
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUpdate($sourceObject, $propertiesToSkip)
+	 * @see BorhanObject::validateForUpdate($sourceObject, $propertiesToSkip)
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = array())
 	{
 		/* @var $sourceObject flavorParamsConversionProfile */
 		$assetParams = $sourceObject->getassetParams();
 		if(!$assetParams)
-			throw new KalturaAPIException(KalturaErrors::ASSET_ID_NOT_FOUND, $sourceObject->getFlavorParamsId());
+			throw new BorhanAPIException(BorhanErrors::ASSET_ID_NOT_FOUND, $sourceObject->getFlavorParamsId());
 			
-		if($assetParams instanceof liveParams && $this->origin == KalturaAssetParamsOrigin::CONVERT_WHEN_MISSING)
-			throw new KalturaAPIException(KalturaErrors::LIVE_PARAMS_ORIGIN_NOT_SUPPORTED, $sourceObject->getFlavorParamsId(), $assetParams->getType(), $this->origin);
+		if($assetParams instanceof liveParams && $this->origin == BorhanAssetParamsOrigin::CONVERT_WHEN_MISSING)
+			throw new BorhanAPIException(BorhanErrors::LIVE_PARAMS_ORIGIN_NOT_SUPPORTED, $sourceObject->getFlavorParamsId(), $assetParams->getType(), $this->origin);
 	}
 }

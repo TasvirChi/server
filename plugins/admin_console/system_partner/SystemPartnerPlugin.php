@@ -2,7 +2,7 @@
 /**
  * @package plugins.systemPartner
  */
-class SystemPartnerPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaServices, IKalturaEnumerator
+class SystemPartnerPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanServices, IBorhanEnumerator
 {
 	const PLUGIN_NAME = 'systemPartner';
 	

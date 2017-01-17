@@ -3,11 +3,11 @@
  * @package api
  * @subpackage objects
  */
-class KalturaCopyJobData extends KalturaJobData
+class BorhanCopyJobData extends BorhanJobData
 {
 	/**
 	 * The filter should return the list of objects that need to be copied.
-	 * @var KalturaFilter
+	 * @var BorhanFilter
 	 */
 	public $filter;
 	
@@ -19,7 +19,7 @@ class KalturaCopyJobData extends KalturaJobData
 	
 	/**
 	 * Template object to overwrite attributes on the copied object
-	 * @var KalturaObject
+	 * @var BorhanObject
 	 */
 	public $templateObject;
 	
@@ -29,7 +29,7 @@ class KalturaCopyJobData extends KalturaJobData
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -37,7 +37,7 @@ class KalturaCopyJobData extends KalturaJobData
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbData = null, $props_to_skip = array()) 
 	{
@@ -50,9 +50,9 @@ class KalturaCopyJobData extends KalturaJobData
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject()
+	 * @see BorhanObject::fromObject()
 	 */
-	public function doFromObject($dbData, KalturaDetachedResponseProfile $responseProfile = null) 
+	public function doFromObject($dbData, BorhanDetachedResponseProfile $responseProfile = null) 
 	{
 		/* @var $dbData kCopyJobData */
 		$filter = $dbData->getFilter();
@@ -60,27 +60,27 @@ class KalturaCopyJobData extends KalturaJobData
 		switch($filterType)
 		{
 			case 'entryFilter':
-				$this->filter = new KalturaBaseEntryFilter();
-				$this->templateObject = new KalturaBaseEntry();
+				$this->filter = new BorhanBaseEntryFilter();
+				$this->templateObject = new BorhanBaseEntry();
 				break;
 				
 			case 'categoryFilter':
-				$this->filter = new KalturaCategoryFilter();
-				$this->templateObject = new KalturaCategory();
+				$this->filter = new BorhanCategoryFilter();
+				$this->templateObject = new BorhanCategory();
 				break;
 				
 			case 'categoryEntryFilter':
-				$this->filter = new KalturaCategoryEntryFilter();
-				$this->templateObject = new KalturaCategoryEntry();
+				$this->filter = new BorhanCategoryEntryFilter();
+				$this->templateObject = new BorhanCategoryEntry();
 				break;
 				
 			case 'categoryKuserFilter':
-				$this->filter = new KalturaCategoryUserFilter();
-				$this->templateObject = new KalturaCategoryUser();
+				$this->filter = new BorhanCategoryUserFilter();
+				$this->templateObject = new BorhanCategoryUser();
 				break;
 				
 			default:
-				$this->filter = KalturaPluginManager::loadObject('KalturaFilter', $filterType);
+				$this->filter = BorhanPluginManager::loadObject('BorhanFilter', $filterType);
 		}
 		if($this->filter)
 			$this->filter->fromObject($filter);

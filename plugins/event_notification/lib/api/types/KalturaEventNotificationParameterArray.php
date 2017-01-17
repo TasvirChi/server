@@ -3,11 +3,11 @@
  * @package plugins.eventNotification
  * @subpackage api.objects
  */
-class KalturaEventNotificationParameterArray extends KalturaTypedArray
+class BorhanEventNotificationParameterArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaEventNotificationParameterArray();
+		$newArr = new BorhanEventNotificationParameterArray();
 		if ($arr == null)
 			return $newArr;
 
@@ -17,15 +17,15 @@ class KalturaEventNotificationParameterArray extends KalturaTypedArray
 			switch ($parameterType)
 			{
 				case 'kEventNotificationParameter':
-    				$nObj = new KalturaEventNotificationParameter();
+    				$nObj = new BorhanEventNotificationParameter();
 					break;
 					
 				case 'kEventNotificationArrayParameter':
-    				$nObj = new KalturaEventNotificationArrayParameter();
+    				$nObj = new BorhanEventNotificationArrayParameter();
 					break;
 					
 				default:
-    				$nObj = KalturaPluginManager::loadObject('KalturaEventNotificationParameter', $parameterType);
+    				$nObj = BorhanPluginManager::loadObject('BorhanEventNotificationParameter', $parameterType);
 			}
 			
 			if($nObj)
@@ -40,6 +40,6 @@ class KalturaEventNotificationParameterArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaEventNotificationParameter");	
+		parent::__construct("BorhanEventNotificationParameter");	
 	}
 }

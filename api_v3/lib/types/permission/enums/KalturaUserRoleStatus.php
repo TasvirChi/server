@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaUserRoleStatus extends KalturaEnum implements UserRoleStatus
+class BorhanUserRoleStatus extends BorhanEnum implements UserRoleStatus
 {
 	// see userRoleStatus interface
 }

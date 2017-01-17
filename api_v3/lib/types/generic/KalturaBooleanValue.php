@@ -2,11 +2,11 @@
 /**
  * A boolean representation to return an array of booleans
  * 
- * @see KalturaBooleanValueArray
+ * @see BorhanBooleanValueArray
  * @package api
  * @subpackage objects
  */
-class KalturaBooleanValue extends KalturaValue
+class BorhanBooleanValue extends BorhanValue
 {
 	/**
 	 * @var bool
@@ -14,7 +14,7 @@ class KalturaBooleanValue extends KalturaValue
     public $value;
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

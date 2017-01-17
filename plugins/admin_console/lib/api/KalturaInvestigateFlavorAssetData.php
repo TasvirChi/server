@@ -3,34 +3,34 @@
  * @package plugins.adminConsole
  * @subpackage api.objects
  */
-class KalturaInvestigateFlavorAssetData extends KalturaObject
+class BorhanInvestigateFlavorAssetData extends BorhanObject
 {
 	/**
-	 * @var KalturaFlavorAsset
+	 * @var BorhanFlavorAsset
 	 * @readonly
 	 */
 	public $flavorAsset;
 
 	/**
-	 * @var KalturaFileSyncListResponse
+	 * @var BorhanFileSyncListResponse
 	 * @readonly
 	 */
 	public $fileSyncs;
 
 	/**
-	 * @var KalturaMediaInfoListResponse
+	 * @var BorhanMediaInfoListResponse
 	 * @readonly
 	 */
 	public $mediaInfos;
 
 	/**
-	 * @var KalturaFlavorParams
+	 * @var BorhanFlavorParams
 	 * @readonly
 	 */
 	public $flavorParams;
 
 	/**
-	 * @var KalturaFlavorParamsOutputListResponse
+	 * @var BorhanFlavorParamsOutputListResponse
 	 * @readonly
 	 */
 	public $flavorParamsOutputs;

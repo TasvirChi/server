@@ -4,6 +4,6 @@
  * @subpackage objects
  * @abstract
  */
-abstract class KalturaBaseEntryCloneOptionItem extends KalturaObject
+abstract class BorhanBaseEntryCloneOptionItem extends BorhanObject
 {
 }

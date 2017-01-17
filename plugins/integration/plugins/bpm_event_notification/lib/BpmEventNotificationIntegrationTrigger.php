@@ -3,7 +3,7 @@
  * @package plugins.bpmEventNotificationIntegration
  * @subpackage lib.enum
  */
-class BpmEventNotificationIntegrationTrigger implements IKalturaPluginEnum, IntegrationTriggerType
+class BpmEventNotificationIntegrationTrigger implements IBorhanPluginEnum, IntegrationTriggerType
 {
 	const BPM_EVENT_NOTIFICATION = 'BpmEventNotification';
 	

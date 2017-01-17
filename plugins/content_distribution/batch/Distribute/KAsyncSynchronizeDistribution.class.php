@@ -12,7 +12,7 @@ class KAsyncSynchronizeDistribution extends KPeriodicWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::DISTRIBUTION_SYNC;
+		return BorhanBatchJobType::DISTRIBUTION_SYNC;
 	}
 	
 	/* (non-PHPdoc)

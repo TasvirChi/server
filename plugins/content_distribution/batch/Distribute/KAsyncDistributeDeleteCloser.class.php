@@ -1,6 +1,6 @@
 <?php
 /**
- * Distributes kaltura entries to remote destination  
+ * Distributes borhan entries to remote destination  
  *
  * @package plugins.contentDistribution 
  * @subpackage Scheduler.Distribute
@@ -12,13 +12,13 @@ class KAsyncDistributeDeleteCloser extends KAsyncDistributeCloser
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::DISTRIBUTION_DELETE;
+		return BorhanBatchJobType::DISTRIBUTION_DELETE;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KAsyncDistribute::getDistributionEngine()
 	 */
-	protected function getDistributionEngine($providerType, KalturaDistributionJobData $data)
+	protected function getDistributionEngine($providerType, BorhanDistributionJobData $data)
 	{
 		return DistributionEngine::getEngine('IDistributionEngineCloseDelete', $providerType, $data);
 	}
@@ -26,7 +26,7 @@ class KAsyncDistributeDeleteCloser extends KAsyncDistributeCloser
 	/* (non-PHPdoc)
 	 * @see KAsyncDistribute::execute()
 	 */
-	protected function execute(KalturaDistributionJobData $data)
+	protected function execute(BorhanDistributionJobData $data)
 	{
 		return $this->engine->closeDelete($data);
 	}

@@ -3,7 +3,7 @@
  * Enable widevine flavor ingestion from XML bulk upload
  * @package plugins.widevine
  */
-class WidevineBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPending, IKalturaSchemaContributor, IKalturaBulkUploadXmlHandler
+class WidevineBulkUploadXmlPlugin extends BorhanPlugin implements IBorhanPending, IBorhanSchemaContributor, IBorhanBulkUploadXmlHandler
 {
 	const PLUGIN_NAME = 'widevineBulkUploadXml';
 	const BULK_UPLOAD_XML_PLUGIN_NAME = 'bulkUploadXml';
@@ -14,7 +14,7 @@ class WidevineBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendi
 	private $xmlBulkUploadEngine = null;
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -22,18 +22,18 @@ class WidevineBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendi
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$bulkUploadXmlDependency = new KalturaDependency(self::BULK_UPLOAD_XML_PLUGIN_NAME);
-		$widevineDependency = new KalturaDependency(WidevinePlugin::getPluginName());
+		$bulkUploadXmlDependency = new BorhanDependency(self::BULK_UPLOAD_XML_PLUGIN_NAME);
+		$widevineDependency = new BorhanDependency(WidevinePlugin::getPluginName());
 		
 		return array($bulkUploadXmlDependency, $widevineDependency);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSchemaContributor::contributeToSchema()
+	 * @see IBorhanSchemaContributor::contributeToSchema()
 	 */
 	public static function contributeToSchema($type)
 	{
@@ -144,7 +144,7 @@ class WidevineBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendi
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::configureBulkUploadXmlHandler()
+	 * @see IBorhanBulkUploadXmlHandler::configureBulkUploadXmlHandler()
 	 */
 	public function configureBulkUploadXmlHandler(BulkUploadEngineXml $xmlBulkUploadEngine)
 	{
@@ -152,11 +152,11 @@ class WidevineBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendi
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::handleItemAdded()
+	 * @see IBorhanBulkUploadXmlHandler::handleItemAdded()
 	 */
-	public function handleItemAdded(KalturaObjectBase $object, SimpleXMLElement $item)
+	public function handleItemAdded(BorhanObjectBase $object, SimpleXMLElement $item)
 	{
-		if(!($object instanceof KalturaBaseEntry))
+		if(!($object instanceof BorhanBaseEntry))
 			return;
 		
 		if(!isset($item->widevineAssets))
@@ -169,11 +169,11 @@ class WidevineBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendi
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::handleItemUpdated()
+	 * @see IBorhanBulkUploadXmlHandler::handleItemUpdated()
 	 */
-	public function handleItemUpdated(KalturaObjectBase $object, SimpleXMLElement $item)
+	public function handleItemUpdated(BorhanObjectBase $object, SimpleXMLElement $item)
 	{
-		if(!($object instanceof KalturaBaseEntry))
+		if(!($object instanceof BorhanBaseEntry))
 			return;
 		
 		if(!$item->widevineAssets)
@@ -182,31 +182,31 @@ class WidevineBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendi
 		if(empty($item->widevineAssets->widevineAsset))
 			return;
 		
-		$action = KBulkUploadEngine::$actionsMap[KalturaBulkUploadAction::UPDATE];
+		$action = KBulkUploadEngine::$actionsMap[BorhanBulkUploadAction::UPDATE];
 		
 		if(isset($item->widevineAssets->action))
 			$action = strtolower($item->widevineAssets->action);
 			
 		switch ($action)
 		{
-			case KBulkUploadEngine::$actionsMap[KalturaBulkUploadAction::UPDATE]:
+			case KBulkUploadEngine::$actionsMap[BorhanBulkUploadAction::UPDATE]:
 				$this->handleWidevineAssets($object->id, $item);
 				break;
 			default:
-				throw new KalturaBatchException("widevineAssets->action: $action is not supported", KalturaBatchJobAppErrors::BULK_ACTION_NOT_SUPPORTED);
+				throw new BorhanBatchException("widevineAssets->action: $action is not supported", BorhanBatchJobAppErrors::BULK_ACTION_NOT_SUPPORTED);
 		}		
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::handleItemDeleted()
+	 * @see IBorhanBulkUploadXmlHandler::handleItemDeleted()
 	 */
-	public function handleItemDeleted(KalturaObjectBase $object, SimpleXMLElement $item)
+	public function handleItemDeleted(BorhanObjectBase $object, SimpleXMLElement $item)
 	{
 		// No handling required
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaConfigurator::getContainerName()
+	 * @see IBorhanConfigurator::getContainerName()
 	*/
 	public function getContainerName()
 	{
@@ -215,7 +215,7 @@ class WidevineBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendi
 	
 	private function handleWidevineAssets($entryId, SimpleXMLElement $item)
 	{	
-		KalturaLog::debug("Handling widevine assets for entry: ".$entryId);
+		BorhanLog::debug("Handling widevine assets for entry: ".$entryId);
 							
 		$pluginsErrorResults = array();
 		
@@ -229,7 +229,7 @@ class WidevineBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendi
 			}
 			catch (Exception $e)
 			{
-				KalturaLog::err($this->getContainerName() . ' failed: ' . $e->getMessage());
+				BorhanLog::err($this->getContainerName() . ' failed: ' . $e->getMessage());
 				$pluginsErrorResults[] = $e->getMessage();
 			}
 		}	
@@ -249,7 +249,7 @@ class WidevineBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendi
 	 */
 	private function handleWidevineAsset($entryId, SimpleXMLElement $widevineAssetElm)
 	{		
-		$widevineAsset = new KalturaWidevineFlavorAsset();
+		$widevineAsset = new BorhanWidevineFlavorAsset();
 		$widevineAsset->widevineAssetId = $widevineAssetElm->widevineAssetId;
 		
 		if($widevineAssetElm->widevineDistributionStartDate)
@@ -264,7 +264,7 @@ class WidevineBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendi
 		if(!$flavorAssetId)
 		{
 			$flavorParamsId = $widevineAssetElm->flavorParamsId;
-			$filter = new KalturaAssetFilter();
+			$filter = new BorhanAssetFilter();
 			$filter->entryIdEqual = $entryId;
 			$flavorAssetList = KBatchBase::$kClient->flavorAsset->listAction($filter);	
 			if($flavorAssetList->objects)

@@ -3,97 +3,97 @@
  * @package api
  * @subpackage filters
  */
-class KalturaBatchJobFilter extends KalturaBatchJobBaseFilter
+class BorhanBatchJobFilter extends BorhanBatchJobBaseFilter
 {
 	protected function toDynamicJobSubTypeValues($jobType, $jobSubTypeIn)
 	{
-		$data = new KalturaJobData();
+		$data = new BorhanJobData();
 		switch($jobType)
 		{
-			case KalturaBatchJobType::BULKUPLOAD:
-				$data = new KalturaBulkUploadJobData();
+			case BorhanBatchJobType::BULKUPLOAD:
+				$data = new BorhanBulkUploadJobData();
 				break;
 				
-			case KalturaBatchJobType::CONVERT:
-				$data = new KalturaConvertJobData();
+			case BorhanBatchJobType::CONVERT:
+				$data = new BorhanConvertJobData();
 				break;
 				
-			case KalturaBatchJobType::CONVERT_PROFILE:
-				$data = new KalturaConvertProfileJobData();
+			case BorhanBatchJobType::CONVERT_PROFILE:
+				$data = new BorhanConvertProfileJobData();
 				break;
 				
-			case KalturaBatchJobType::EXTRACT_MEDIA:
-				$data = new KalturaExtractMediaJobData();
+			case BorhanBatchJobType::EXTRACT_MEDIA:
+				$data = new BorhanExtractMediaJobData();
 				break;
 				
-			case KalturaBatchJobType::IMPORT:
-				$data = new KalturaImportJobData();
+			case BorhanBatchJobType::IMPORT:
+				$data = new BorhanImportJobData();
 				break;
 				
-			case KalturaBatchJobType::POSTCONVERT:
-				$data = new KalturaPostConvertJobData();
+			case BorhanBatchJobType::POSTCONVERT:
+				$data = new BorhanPostConvertJobData();
 				break;
 				
-			case KalturaBatchJobType::MAIL:
-				$data = new KalturaMailJobData();
+			case BorhanBatchJobType::MAIL:
+				$data = new BorhanMailJobData();
 				break;
 				
-			case KalturaBatchJobType::NOTIFICATION:
-				$data = new KalturaNotificationJobData();
+			case BorhanBatchJobType::NOTIFICATION:
+				$data = new BorhanNotificationJobData();
 				break;
 				
-			case KalturaBatchJobType::BULKDOWNLOAD:
-				$data = new KalturaBulkDownloadJobData();
+			case BorhanBatchJobType::BULKDOWNLOAD:
+				$data = new BorhanBulkDownloadJobData();
 				break;
 				
-			case KalturaBatchJobType::FLATTEN:
-				$data = new KalturaFlattenJobData();
+			case BorhanBatchJobType::FLATTEN:
+				$data = new BorhanFlattenJobData();
 				break;
 				
-			case KalturaBatchJobType::PROVISION_PROVIDE:
-			case KalturaBatchJobType::PROVISION_DELETE:	
-				$data = new KalturaProvisionJobData();
+			case BorhanBatchJobType::PROVISION_PROVIDE:
+			case BorhanBatchJobType::PROVISION_DELETE:	
+				$data = new BorhanProvisionJobData();
 				break;
 				
-			case KalturaBatchJobType::CONVERT_COLLECTION:
-				$data = new KalturaConvertCollectionJobData();
+			case BorhanBatchJobType::CONVERT_COLLECTION:
+				$data = new BorhanConvertCollectionJobData();
 				break;
 				
-			case KalturaBatchJobType::STORAGE_EXPORT:
-				$data = new KalturaStorageExportJobData();
+			case BorhanBatchJobType::STORAGE_EXPORT:
+				$data = new BorhanStorageExportJobData();
 				break;
 				
-			case KalturaBatchJobType::STORAGE_DELETE:
-				$data = new KalturaStorageDeleteJobData();
+			case BorhanBatchJobType::STORAGE_DELETE:
+				$data = new BorhanStorageDeleteJobData();
 				break;
 				
-			case KalturaBatchJobType::INDEX:
-				$data = new KalturaIndexJobData();
+			case BorhanBatchJobType::INDEX:
+				$data = new BorhanIndexJobData();
 				break;
 				
-			case KalturaBatchJobType::COPY:
-				$data = new KalturaCopyJobData();
+			case BorhanBatchJobType::COPY:
+				$data = new BorhanCopyJobData();
 				break;
 				
-			case KalturaBatchJobType::DELETE:
-				$data = new KalturaDeleteJobData();
+			case BorhanBatchJobType::DELETE:
+				$data = new BorhanDeleteJobData();
 				break;
 
-			case KalturaBatchJobType::DELETE_FILE:
-				$data = new KalturaDeleteFileJobData();
+			case BorhanBatchJobType::DELETE_FILE:
+				$data = new BorhanDeleteFileJobData();
 				break;
 				
-			case KalturaBatchJobType::MOVE_CATEGORY_ENTRIES:
-				$data = new KalturaMoveCategoryEntriesJobData();
+			case BorhanBatchJobType::MOVE_CATEGORY_ENTRIES:
+				$data = new BorhanMoveCategoryEntriesJobData();
 				break;
 				
 			default:
-				$data = KalturaPluginManager::loadObject('KalturaJobData', $jobType);
+				$data = BorhanPluginManager::loadObject('BorhanJobData', $jobType);
 		}
 		
 		if(!$data)
 		{
-			KalturaLog::err("Data type not found for job type [$jobType]");
+			BorhanLog::err("Data type not found for job type [$jobType]");
 			return null;
 		}
 			
@@ -107,7 +107,7 @@ class KalturaBatchJobFilter extends KalturaBatchJobBaseFilter
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{

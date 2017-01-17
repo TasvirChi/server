@@ -3,7 +3,7 @@
  * @package plugins.dailymotionDistribution
  * @subpackage api.objects
  */
-class KalturaDailymotionDistributionProfile extends KalturaConfigurableDistributionProfile
+class BorhanDailymotionDistributionProfile extends BorhanConfigurableDistributionProfile
 {
 	/**
 	 * @var string
@@ -16,7 +16,7 @@ class KalturaDailymotionDistributionProfile extends KalturaConfigurableDistribut
 	public $password;
 
 	/**
-	 * @var KalturaDailymotionGeoBlockingMapping
+	 * @var BorhanDailymotionGeoBlockingMapping
 	 */
 	public $geoBlockingMapping;
 			

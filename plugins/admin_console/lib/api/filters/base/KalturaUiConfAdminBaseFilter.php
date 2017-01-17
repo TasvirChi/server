@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaUiConfAdminBaseFilter extends KalturaUiConfFilter
+abstract class BorhanUiConfAdminBaseFilter extends BorhanUiConfFilter
 {
 	static private $map_between_objects = array
 	(

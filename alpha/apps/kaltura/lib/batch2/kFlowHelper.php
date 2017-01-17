@@ -31,7 +31,7 @@ class kFlowHelper
 		$entry = entryPeer::retrieveByPK($entryId);
 		if(!$entry)
 		{
-			KalturaLog::err("Entry [$entryId] not found");
+			BorhanLog::err("Entry [$entryId] not found");
 			return null;
 		}
 
@@ -167,7 +167,7 @@ class kFlowHelper
 			$flavorAsset = kFlowHelper::createOriginalFlavorAsset($dbBatchJob->getPartnerId(), $dbBatchJob->getEntryId(), $msg);
 			if(!$flavorAsset)
 			{
-				KalturaLog::err("Flavor asset not created for entry [" . $dbBatchJob->getEntryId() . "]");
+				BorhanLog::err("Flavor asset not created for entry [" . $dbBatchJob->getEntryId() . "]");
 				kBatchManager::updateEntry($dbBatchJob->getEntryId(), entryStatus::ERROR_CONVERTING);
 				$dbBatchJob->setMessage($msg);
 				$dbBatchJob->setDescription($dbBatchJob->getDescription() . "\n" . $msg);
@@ -182,7 +182,7 @@ class kFlowHelper
 			$isNewContent = false;
 
 		$ext = pathinfo($data->getDestFileLocalPath(), PATHINFO_EXTENSION);
-		KalturaLog::info("Imported file extension: $ext");
+		BorhanLog::info("Imported file extension: $ext");
 		if(!$flavorAsset->getVersion())
 			$flavorAsset->incrementVersion();
 
@@ -263,14 +263,14 @@ class kFlowHelper
 		/* @var $liveEntry LiveEntry */
 		if(!$liveEntry)
 		{
-			KalturaLog::err("Live entry [" . $dbBatchJob->getEntryId() . "] not found");
+			BorhanLog::err("Live entry [" . $dbBatchJob->getEntryId() . "] not found");
 			return $dbBatchJob;
 		}
 		
 		$recordedEntry = entryPeer::retrieveByPKNoFilter($liveEntry->getRecordedEntryId());
 		if(!$recordedEntry)
 		{
-			KalturaLog::err("Recorded entry [" . $liveEntry->getRecordedEntryId() . "] not found");
+			BorhanLog::err("Recorded entry [" . $liveEntry->getRecordedEntryId() . "] not found");
 			return $dbBatchJob;
 		}
 
@@ -278,7 +278,7 @@ class kFlowHelper
 		/* @var $asset liveAsset */
 		if(!$asset)
 		{
-			KalturaLog::err("Live asset [" . $data->getAssetId() . "] not found");
+			BorhanLog::err("Live asset [" . $data->getAssetId() . "] not found");
 			return $dbBatchJob;
 		}
 		
@@ -296,7 +296,7 @@ class kFlowHelper
 		$files = kFileSyncUtils::dir_get_files($key, false);
 
 		if (self::hasFileDiscontinuity($files)) {
-			KalturaLog::warning('we have a discontinuity with ts files - not running the concat job for entry [ ' . $dbBatchJob->getEntryId() . ']' );
+			BorhanLog::warning('we have a discontinuity with ts files - not running the concat job for entry [ ' . $dbBatchJob->getEntryId() . ']' );
 			return $dbBatchJob;
 		}
 
@@ -306,14 +306,14 @@ class kFlowHelper
 			$replacingEntry = kLock::runLocked($lockKey, array('kFlowHelper', 'getReplacingEntry'), array($recordedEntry, $asset, count($files)));
 			if(!$replacingEntry)
 			{
-				KalturaLog::err('Failed to allocate replacing entry');
+				BorhanLog::err('Failed to allocate replacing entry');
 				kJobsManager::updateBatchJob($dbBatchJob, BatchJob::BATCHJOB_STATUS_FAILED);
 				return $dbBatchJob;
 			}
 
 			$flavorParams = assetParamsPeer::retrieveByPKNoFilter($asset->getFlavorParamsId());
 			if(is_null($flavorParams)) { 
-				KalturaLog::err('Failed to retrieve asset params');
+				BorhanLog::err('Failed to retrieve asset params');
 				return $dbBatchJob;
 			}
 		
@@ -350,7 +350,7 @@ class kFlowHelper
 
 		for ($i = 0 ; $i < count($files); $i++) {
 			if (!isset($filesArr[$i])) {
-				KalturaLog::info("got ts file discontinuity for " . $i);
+				BorhanLog::info("got ts file discontinuity for " . $i);
 				return true;
 			}
 		}
@@ -409,7 +409,7 @@ class kFlowHelper
 					$recordedEntrySegmentCount = $replacingEntry->getRecordedEntrySegmentCount();
 					if($recordedEntrySegmentCount > $liveSegmentCount)
 					{
-						KalturaLog::debug("Entry [{$recordedEntry->getId()}] in replacment with higher segment count [$recordedEntrySegmentCount] > [$liveSegmentCount]");
+						BorhanLog::debug("Entry [{$recordedEntry->getId()}] in replacment with higher segment count [$recordedEntrySegmentCount] > [$liveSegmentCount]");
 						return null;
 					}
 					else 
@@ -417,7 +417,7 @@ class kFlowHelper
 						$replacingAsset = assetPeer::retrieveByEntryIdAndParams($replacingEntryId, $asset->getFlavorParamsId());
 						if($replacingAsset)
 						{
-							KalturaLog::debug("Entry in replacement, deleting - [".$replacingEntryId."]");
+							BorhanLog::debug("Entry in replacement, deleting - [".$replacingEntryId."]");
 							myEntryUtils::deleteReplacingEntry($recordedEntry, $replacingEntry);
 							$replacingEntry = null;
 						}
@@ -571,7 +571,7 @@ class kFlowHelper
 			if ($code != kCoreException::MAX_ASSETS_PER_ENTRY)
 				throw $ex;
 
-				KalturaLog::err("Max assets per entry was reached continuing with normal flow");
+				BorhanLog::err("Max assets per entry was reached continuing with normal flow");
 			}			
 
 			// handle the source flavor as if it was converted, makes the entry ready according to ready behavior rules
@@ -628,11 +628,11 @@ class kFlowHelper
 			else
 				$brToTest = $calcBrToTest;
 			
-			KalturaLog::log("durToTest($durToTest),brToTest($brToTest),calcBrToTest($calcBrToTest)");
+			BorhanLog::log("durToTest($durToTest),brToTest($brToTest),calcBrToTest($calcBrToTest)");
 			if(($durToTest>KDLSanityLimits::MaxDuration	// 360000000
 			 ||($calcBrToTest>0 && $calcBrToTest<KDLSanityLimits::MinBitrate) )
 			 ||($brToTest>0 && $brToTest<KDLSanityLimits::MinBitrate)) {
-				KalturaLog::err("invalid source, should be fixed");
+				BorhanLog::err("invalid source, should be fixed");
 				$flavorAsset = assetPeer::retrieveById($data->getFlavorAssetId());
 				if($flavorAsset && $flavorAsset->getVersion()<40){
 					$flavorAsset->incrementVersion();
@@ -670,7 +670,7 @@ class kFlowHelper
 		// verifies that flavor asset exists
 		if(!$flavorAsset)
 		{
-			KalturaLog::err("Error: Flavor asset not found [" . $data->getFlavorAssetId() . "]");
+			BorhanLog::err("Error: Flavor asset not found [" . $data->getFlavorAssetId() . "]");
 			throw new APIException(APIErrors::INVALID_FLAVOR_ASSET_ID, $data->getFlavorAssetId());
 		}
 
@@ -694,7 +694,7 @@ class kFlowHelper
 			// verifies that flavor asset exists
 			if(!$flavorAsset)
 			{
-				KalturaLog::err("Error: Flavor asset not found [" . $flavor->getFlavorAssetId() . "]");
+				BorhanLog::err("Error: Flavor asset not found [" . $flavor->getFlavorAssetId() . "]");
 				throw new APIException(APIErrors::INVALID_FLAVOR_ASSET_ID, $flavor->getFlavorAssetId());
 			}
 
@@ -765,7 +765,7 @@ class kFlowHelper
 		if(!$data->getDestFileSyncLocalPath() && $fileSync) 
 		{
 			//no flavors were created in the last conversion, updating the DestFileSyncLocalPath to the path of the last created flavor
-			KalturaLog::info('Setting destFileSyncLocalPath with: '.$fileSync->getFullPath());
+			BorhanLog::info('Setting destFileSyncLocalPath with: '.$fileSync->getFullPath());
 			$data->setDestFileSyncLocalPath($fileSync->getFullPath());		
 		}
 		$nextJob = self::createNextJob($flavorParamsOutput, $dbBatchJob, $data, $syncKey); //todo validate sync key
@@ -784,7 +784,7 @@ class kFlowHelper
 	{
 		$syncKey = $flavorAsset->getSyncKey(flavorAsset::FILE_SYNC_FLAVOR_ASSET_SUB_TYPE_ASSET);
 		$storageProfileId = $flavorParamsOutput->getSourceRemoteStorageProfileId();
-		if($storageProfileId == StorageProfile::STORAGE_KALTURA_DC)
+		if($storageProfileId == StorageProfile::STORAGE_BORHAN_DC)
 		{
 			kFileSyncUtils::moveFromFile($data->getDestFileSyncLocalPath(), $syncKey);
 		}
@@ -807,14 +807,14 @@ class kFlowHelper
 			}
 			catch(Exception $e){
 				$err = 'Saving conversion log: ' . $e->getMessage();
-				KalturaLog::err($err);
+				BorhanLog::err($err);
 
 				$desc = $dbBatchJob->getDescription() . "\n" . $err;
 				$dbBatchJob->getDescription($desc);
 			}
 		}
 		
-		if($storageProfileId == StorageProfile::STORAGE_KALTURA_DC)
+		if($storageProfileId == StorageProfile::STORAGE_BORHAN_DC)
 		{
 			$data->setDestFileSyncLocalPath(kFileSyncUtils::getLocalFilePathForKey($syncKey));
 
@@ -974,7 +974,7 @@ class kFlowHelper
 
 			$flavorParamsOutput = $data->getFlavorParamsOutput();
 			$storageProfileId = $flavorParamsOutput->getSourceRemoteStorageProfileId();
-			if($storageProfileId == StorageProfile::STORAGE_KALTURA_DC)
+			if($storageProfileId == StorageProfile::STORAGE_BORHAN_DC)
 			{
 				kFileSyncUtils::moveFromFile($destFileSyncDesc->getFileSyncLocalPath(), $syncKey, false);
 			}
@@ -1034,7 +1034,7 @@ class kFlowHelper
 			}
 			catch(Exception $e){
 				$err = 'Saving conversion log: ' . $e->getMessage();
-				KalturaLog::err($err);
+				BorhanLog::err($err);
 
 				$desc = $dbBatchJob->getDescription() . "\n" . $err;
 				$dbBatchJob->getDescription($desc);
@@ -1049,7 +1049,7 @@ class kFlowHelper
 		kFileSyncUtils::moveFromFile($data->getThumbPath(), $syncKey);
 
 		$data->setThumbPath(kFileSyncUtils::getLocalFilePathForKey($syncKey));
-		KalturaLog::info("Thumbnail archived file to: " . $data->getThumbPath());
+		BorhanLog::info("Thumbnail archived file to: " . $data->getThumbPath());
 
 		// save the data changes to the db
 		$dbBatchJob->setData($data);
@@ -1166,7 +1166,7 @@ class kFlowHelper
 			}
 			catch(Exception $e){
 				$err = 'Saving conversion log: ' . $e->getMessage();
-				KalturaLog::err($err);
+				BorhanLog::err($err);
 
 				$desc = $dbBatchJob->getDescription() . "\n" . $err;
 				$dbBatchJob->getDescription($desc);
@@ -1301,7 +1301,7 @@ class kFlowHelper
 
 	public static function handleDeleteFileProcessing (kDeleteFileJobData $data)
 	{
-		KalturaLog::info("Delete started for file path " . $data->getLocalFileSyncPath());
+		BorhanLog::info("Delete started for file path " . $data->getLocalFileSyncPath());
 	}
 
 	/**
@@ -1355,9 +1355,9 @@ class kFlowHelper
 			// replacing the file name in the ism file
 			$oldName = basename($flavor->getDestFileSyncLocalPath());
 			$flavor->setDestFileSyncLocalPath(kFileSyncUtils::getLocalFilePathForKey($syncKey));
-			KalturaLog::info("Convert archived file to: " . $flavor->getDestFileSyncLocalPath());
+			BorhanLog::info("Convert archived file to: " . $flavor->getDestFileSyncLocalPath());
 			$newName = basename($flavor->getDestFileSyncLocalPath());
-			KalturaLog::info("Editing ISM [$oldName] to [$newName]");
+			BorhanLog::info("Editing ISM [$oldName] to [$newName]");
 			$ismContent = str_replace("src=\"$oldName\"", "src=\"$newName\"", $ismContent);
 
 			// creating post convert job (without thumb)
@@ -1381,13 +1381,13 @@ class kFlowHelper
 		// replacing the ismc file name in the ism file
 		$oldName = basename($ismcPath);
 		$newName = basename(kFileSyncUtils::getLocalFilePathForKey($syncKey));
-		KalturaLog::info("Editing ISM [$oldName] to [$newName]");
+		BorhanLog::info("Editing ISM [$oldName] to [$newName]");
 		$ismContent = str_replace("content=\"$oldName\"", "content=\"$newName\"", $ismContent);
 
 		$ismPath .= '.tmp';
 		$bytesWritten = file_put_contents($ismPath, $ismContent);
 		if(!$bytesWritten)
-			KalturaLog::err("Failed to update file [$ismPath]");
+			BorhanLog::err("Failed to update file [$ismPath]");
 
 		// syncing ism and lig files
 		if(file_exists($ismPath))
@@ -1476,13 +1476,13 @@ class kFlowHelper
 		$entry = entryPeer::retrieveByPK($entryId);
 		if(!$entry)
 		{
-			KalturaLog::notice("Entry id [$entryId] not found");
+			BorhanLog::notice("Entry id [$entryId] not found");
 			return;
 		}
 
 		if($entry->getType() != entryType::MEDIA_CLIP || $entry->getMediaType() != entry::ENTRY_MEDIA_TYPE_VIDEO)
 		{
-			KalturaLog::notice("Cupture thumbnail is not supported for entry [$entryId] of type [" . $entry->getType() . "] and media type [" . $entry->getMediaType() . "]");
+			BorhanLog::notice("Cupture thumbnail is not supported for entry [$entryId] of type [" . $entry->getType() . "] and media type [" . $entry->getMediaType() . "]");
 			return;
 		}
 
@@ -1493,19 +1493,19 @@ class kFlowHelper
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err('getConversionProfile2ForEntry Error: ' . $e->getMessage());
+			BorhanLog::err('getConversionProfile2ForEntry Error: ' . $e->getMessage());
 		}
 
 		if(!$profile)
 		{
-			KalturaLog::notice("Profile not found for entry id [$entryId]");
+			BorhanLog::notice("Profile not found for entry id [$entryId]");
 			return;
 		}
 
 		$assetParamsIds = flavorParamsConversionProfilePeer::getFlavorIdsByProfileId($profile->getId());
 		if(!count($assetParamsIds))
 		{
-			KalturaLog::notice("No asset params objects found for profile id [" . $profile->getId() . "]");
+			BorhanLog::notice("No asset params objects found for profile id [" . $profile->getId() . "]");
 			return;
 		}
 
@@ -1527,7 +1527,7 @@ class kFlowHelper
 
 			if(is_null($alternateFlavorParamsId))
 			{
-				KalturaLog::notice("No source flavor params object found for entry id [$entryId]");
+				BorhanLog::notice("No source flavor params object found for entry id [$entryId]");
 				return;
 			}
 		}
@@ -1547,7 +1547,7 @@ class kFlowHelper
 		{
 			if(isset($thumbAssetsList[$thumbParams->getId()]))
 			{
-				KalturaLog::log("Thumbnail asset already created [" . $thumbAssetsList[$thumbParams->getId()]->getId() . "]");
+				BorhanLog::log("Thumbnail asset already created [" . $thumbAssetsList[$thumbParams->getId()]->getId() . "]");
 				continue;
 			}
 
@@ -1558,7 +1558,7 @@ class kFlowHelper
 			}
 			elseif($thumbParams->getSourceParamsId() != $srcParamsId)
 			{
-				KalturaLog::log("Only thumbnails that uses source params [$srcParamsId] should be generated for now");
+				BorhanLog::log("Only thumbnails that uses source params [$srcParamsId] should be generated for now");
 				continue;
 			}
 
@@ -1634,18 +1634,18 @@ class kFlowHelper
 			$entry = $dbBatchJob->getEntry(false, false);
 			if(!$entry)
 			{
-				KalturaLog::err("Entry not found [" . $dbBatchJob->getEntryId() . "]");
+				BorhanLog::err("Entry not found [" . $dbBatchJob->getEntryId() . "]");
 				return;
 			}
 
-			KalturaLog::info("Entry duration: " . $entry->getLengthInMsecs());
+			BorhanLog::info("Entry duration: " . $entry->getLengthInMsecs());
 			if(!$entry->getLengthInMsecs())
 			{
-				KalturaLog::info("Copy duration from flvor asset: " . $data->getFlavorAssetId());
+				BorhanLog::info("Copy duration from flvor asset: " . $data->getFlavorAssetId());
 				$mediaInfo = mediaInfoPeer::retrieveByFlavorAssetId($data->getFlavorAssetId());
 				if($mediaInfo)
 				{
-					KalturaLog::info("Set duration to: " . $mediaInfo->getContainerDuration());
+					BorhanLog::info("Set duration to: " . $mediaInfo->getContainerDuration());
 					$entry->setDimensionsIfBigger($mediaInfo->getVideoWidth(), $mediaInfo->getVideoHeight());
 					
 					if($entry->getCalculateDuration())
@@ -1679,7 +1679,7 @@ class kFlowHelper
 			}
 			catch (Exception $e)
 			{
-				KalturaLog::err($e->getMessage());
+				BorhanLog::err($e->getMessage());
 
 				// sometimes, because of disc IO load, it takes long time for the thumb to be moved.
 				// in such cases, the entry thumb version may be increased by other process.
@@ -1720,14 +1720,14 @@ class kFlowHelper
 				}
 				catch(Exception $e)
 				{
-					KalturaLog::err($e->getMessage());
+					BorhanLog::err($e->getMessage());
 					kBatchManager::updateEntry($dbBatchJob->getEntryId(), entryStatus::ERROR_CONVERTING);
 					return $dbBatchJob;
 				}
 			}
 			elseif($currentFlavorAsset)
 			{
-				KalturaLog::log("Root job [" . $convertProfileJob->getId() . "] is not profile conversion");
+				BorhanLog::log("Root job [" . $convertProfileJob->getId() . "] is not profile conversion");
 
 				$syncKey = $currentFlavorAsset->getSyncKey(flavorAsset::FILE_SYNC_FLAVOR_ASSET_SUB_TYPE_ASSET);
 				if(kFileSyncUtils::fileSync_exists($syncKey))
@@ -1828,7 +1828,7 @@ class kFlowHelper
 		$fileSync = FileSyncPeer::retrieveByPK($data->getSrcFileSyncId());
 		if(!$fileSync)
 		{
-			KalturaLog::err("FileSync [" . $data->getSrcFileSyncId() . "] not found");
+			BorhanLog::err("FileSync [" . $data->getSrcFileSyncId() . "] not found");
 			return $dbBatchJob;
 		}
 
@@ -1851,10 +1851,10 @@ class kFlowHelper
 			}
 		}		
 		// check if all exports finished and delete local file sync according to configuration
-		if($asset && $asset->getStatus() == asset::ASSET_STATUS_READY && $dbBatchJob->getJobSubType() != StorageProfile::STORAGE_KALTURA_DC)
+		if($asset && $asset->getStatus() == asset::ASSET_STATUS_READY && $dbBatchJob->getJobSubType() != StorageProfile::STORAGE_BORHAN_DC)
 		{
 			$partner = $dbBatchJob->getPartner();
-			if($partner && $partner->getStorageDeleteFromKaltura())
+			if($partner && $partner->getStorageDeleteFromBorhan())
 			{
 				if(self::isAssetExportFinished($fileSync, $asset))
 				{
@@ -1887,7 +1887,7 @@ class kFlowHelper
 		$originalEntryFileSync = FileSyncPeer::doSelectOne($c);
 		if(!$originalEntryFileSync)
 		{
-			KalturaLog::info("Origianl entry file sync not found with the following details: [object_type, object_sub_type, Partner_id, Linked_id] [" . $fileSync->getObjectType() 
+			BorhanLog::info("Origianl entry file sync not found with the following details: [object_type, object_sub_type, Partner_id, Linked_id] [" . $fileSync->getObjectType() 
 							. ", " . $fileSync->getObjectSubType() . ", " . $fileSync->getPartnerId() . ", " . $fileSync->getId() . "]");
 			return;
 		}
@@ -1895,7 +1895,7 @@ class kFlowHelper
 		$originalAssetToDeleteFileSyncFor = assetPeer::retrieveById($originalEntryFileSync->getObjectId());
 		if(!$originalAssetToDeleteFileSyncFor)
 		{
-			KalturaLog::info("Could not find asset matching file sync object id " . $originalEntryFileSync->getObjectId());
+			BorhanLog::info("Could not find asset matching file sync object id " . $originalEntryFileSync->getObjectId());
 			return;
 		}
 		
@@ -1953,7 +1953,7 @@ class kFlowHelper
 		{
 			/* @var $assetToDelete asset */
 			$versionsToDelete =  $assetToDelete->getFileSyncVersionsToDelete();
-			KalturaLog::info("file sync versions to delete are " . print_r($versionsToDelete, true));
+			BorhanLog::info("file sync versions to delete are " . print_r($versionsToDelete, true));
 			if($versionsToDelete)
 			{
 				foreach ($versionsToDelete as $version)
@@ -1985,13 +1985,13 @@ class kFlowHelper
 	public static function handleStorageExportFailed(BatchJob $dbBatchJob, kStorageExportJobData $data)
 	{
 		if ($dbBatchJob->getErrType() == BatchJobErrorTypes::APP && $dbBatchJob->getErrNumber() == BatchJobAppErrors::FILE_ALREADY_EXISTS){
-			KalturaLog::notice("remote file already exists");
+			BorhanLog::notice("remote file already exists");
 			return $dbBatchJob;
 		}
 		$fileSync = FileSyncPeer::retrieveByPK($data->getSrcFileSyncId());
 		if(!$fileSync)
 		{
-			KalturaLog::err("FileSync [" . $data->getSrcFileSyncId() . "] not found");
+			BorhanLog::err("FileSync [" . $data->getSrcFileSyncId() . "] not found");
 			return $dbBatchJob;
 		}
 
@@ -2024,7 +2024,7 @@ class kFlowHelper
 	    $fileSync = FileSyncPeer::retrieveByPK($data->getSrcFileSyncId());
 		if(!$fileSync)
 		{
-			KalturaLog::err("FileSync [" . $data->getSrcFileSyncId() . "] not found");
+			BorhanLog::err("FileSync [" . $data->getSrcFileSyncId() . "] not found");
 			return $dbBatchJob;
 		}
 
@@ -2056,7 +2056,7 @@ class kFlowHelper
 				if ($ex->getCode() != kCoreException::MAX_ASSETS_PER_ENTRY)
 					throw $ex;
 				
-				KalturaLog::err("Max assets per entry was reached continuing with normal flow");
+				BorhanLog::err("Max assets per entry was reached continuing with normal flow");
 			}
 
 			if($conversionsCreated)
@@ -2132,7 +2132,7 @@ class kFlowHelper
 			
 			if (is_null($entry))
 			{
-				KalturaLog::err("Entry id [$entryId] not found.");
+				BorhanLog::err("Entry id [$entryId] not found.");
 			}
 			else
 			{
@@ -2247,7 +2247,7 @@ class kFlowHelper
 		$partner = PartnerPeer::retrieveByPK($dbBatchJob->getPartnerId());
 		if (!$partner)
 		{
-			KalturaLog::err("Partner id [".$dbBatchJob->getPartnerId()."] not found, not sending mail");
+			BorhanLog::err("Partner id [".$dbBatchJob->getPartnerId()."] not found, not sending mail");
 			return $dbBatchJob;
 		}
 
@@ -2261,7 +2261,7 @@ class kFlowHelper
 				continue;
 			if ($entry->getType() != entryType::MEDIA_CLIP)
 			{
-				KalturaLog::info("This entry cannot be downloaded $entryId");
+				BorhanLog::info("This entry cannot be downloaded $entryId");
 				continue;
 			}
 			
@@ -2325,7 +2325,7 @@ class kFlowHelper
 			$dbFileAsset = FileAssetPeer::retrieveByPK($uploadToken->getObjectId());
 			if(!$dbFileAsset)
 			{
-				KalturaLog::err("File asset id [" . $uploadToken->getObjectId() . "] not found");
+				BorhanLog::err("File asset id [" . $uploadToken->getObjectId() . "] not found");
 				return;
 			}
 
@@ -2343,7 +2343,7 @@ class kFlowHelper
 			$dbAsset = assetPeer::retrieveById($uploadToken->getObjectId());
 			if(!$dbAsset)
 			{
-				KalturaLog::err("Asset id [" . $uploadToken->getObjectId() . "] not found");
+				BorhanLog::err("Asset id [" . $uploadToken->getObjectId() . "] not found");
 				return;
 			}
 
@@ -2359,7 +2359,7 @@ class kFlowHelper
 			}
 			catch(Exception $e)
 			{
-				KalturaLog::err($e->getMessage());
+				BorhanLog::err($e->getMessage());
 				return;
 			}
 
@@ -2393,7 +2393,7 @@ class kFlowHelper
 			$dbFileAsset = FileAssetPeer::retrieveByPK($uploadToken->getObjectId());
 			if(!$dbFileAsset)
 			{
-				KalturaLog::err("File asset id [" . $uploadToken->getObjectId() . "] not found");
+				BorhanLog::err("File asset id [" . $uploadToken->getObjectId() . "] not found");
 				return;
 			}
 
@@ -2410,7 +2410,7 @@ class kFlowHelper
 			$dbAsset = assetPeer::retrieveById($uploadToken->getObjectId());
 			if(!$dbAsset)
 			{
-				KalturaLog::err("Asset id [" . $uploadToken->getObjectId() . "] not found");
+				BorhanLog::err("Asset id [" . $uploadToken->getObjectId() . "] not found");
 				return;
 			}
 
@@ -2453,7 +2453,7 @@ class kFlowHelper
 	{
 		if(!is_subclass_of($uploadToken->getObjectType(), assetPeer::OM_CLASS) && $uploadToken->getObjectType() != FileAssetPeer::OM_CLASS && $uploadToken->getObjectType() != entryPeer::OM_CLASS)
 		{
-			KalturaLog::info("Class [" . $uploadToken->getObjectType() . "] not supported");
+			BorhanLog::info("Class [" . $uploadToken->getObjectType() . "] not supported");
 			return;
 		}
 
@@ -2461,11 +2461,11 @@ class kFlowHelper
 
 		if(!file_exists($fullPath))
 		{
-			KalturaLog::info("File path [$fullPath] not found");
+			BorhanLog::info("File path [$fullPath] not found");
 			$remoteDCHost = kUploadTokenMgr::getRemoteHostForUploadToken($uploadToken->getId(), kDataCenterMgr::getCurrentDcId());
 			if(!$remoteDCHost)
 			{
-				KalturaLog::err("File path [$fullPath] could not be redirected");
+				BorhanLog::err("File path [$fullPath] could not be redirected");
 				return;
 			}
 
@@ -2477,7 +2477,7 @@ class kFlowHelper
 			$dbFileAsset = FileAssetPeer::retrieveByPK($uploadToken->getObjectId());
 			if(!$dbFileAsset)
 			{
-				KalturaLog::err("File asset id [" . $uploadToken->getObjectId() . "] not found");
+				BorhanLog::err("File asset id [" . $uploadToken->getObjectId() . "] not found");
 				return;
 			}
 
@@ -2509,7 +2509,7 @@ class kFlowHelper
 			$uploadToken->setStatus(UploadToken::UPLOAD_TOKEN_CLOSED);
 			$uploadToken->save();
 			
-			KalturaLog::info("File asset [" . $dbFileAsset->getId() . "] handled");
+			BorhanLog::info("File asset [" . $dbFileAsset->getId() . "] handled");
 			return;
 		}
 		
@@ -2518,7 +2518,7 @@ class kFlowHelper
 			$dbAsset = assetPeer::retrieveById($uploadToken->getObjectId());
 			if(!$dbAsset)
 			{
-				KalturaLog::err("Asset id [" . $uploadToken->getObjectId() . "] not found");
+				BorhanLog::err("Asset id [" . $uploadToken->getObjectId() . "] not found");
 				return;
 			}
 
@@ -2578,7 +2578,7 @@ class kFlowHelper
 			$dbEntry = entryPeer::retrieveByPK($uploadToken->getObjectId());
 			if(!$dbEntry)
 			{
-				KalturaLog::err("Entry id [" . $uploadToken->getObjectId() . "] not found");
+				BorhanLog::err("Entry id [" . $uploadToken->getObjectId() . "] not found");
 				return;
 			}
 			
@@ -2616,7 +2616,7 @@ class kFlowHelper
 		$entry = entryPeer::retrieveByPK($tempEntry->getReplacedEntryId());
 		if(!$entry)
 		{
-			KalturaLog::err("Real entry id [" . $tempEntry->getReplacedEntryId() . "] not found");
+			BorhanLog::err("Real entry id [" . $tempEntry->getReplacedEntryId() . "] not found");
 			myEntryUtils::deleteEntry($tempEntry,null,true);
 			return;
 		}
@@ -2626,7 +2626,7 @@ class kFlowHelper
 			$entry->setReplacementStatus(entryReplacementStatus::FAILED);
 			$entry->save();
 
-			// NOTE: KalturaEntryService::cancelReplace() must be used to reset this status and delete the temp entry
+			// NOTE: BorhanEntryService::cancelReplace() must be used to reset this status and delete the temp entry
 
 			return;
 		}
@@ -2634,7 +2634,7 @@ class kFlowHelper
 		switch($entry->getReplacementStatus())
 		{
 			case entryReplacementStatus::APPROVED_BUT_NOT_READY:
-				KalturaLog::log("status changed to ready");
+				BorhanLog::log("status changed to ready");
 				kEventsManager::raiseEventDeferred(new kObjectReadyForReplacmentEvent($tempEntry));
 				break;
 
@@ -2647,12 +2647,12 @@ class kFlowHelper
 				break;
 
 			case entryReplacementStatus::FAILED:
-				// Do nothing. KalturaEntryService::cancelReplace() will be used to delete the entry.
+				// Do nothing. BorhanEntryService::cancelReplace() will be used to delete the entry.
 				break;
 
 			case entryReplacementStatus::NONE:
 			default:
-				KalturaLog::err("Real entry id [" . $tempEntry->getReplacedEntryId() . "] replacement canceled");
+				BorhanLog::err("Real entry id [" . $tempEntry->getReplacedEntryId() . "] replacement canceled");
 				myEntryUtils::deleteEntry($tempEntry,null,true);
 				break;
 		}
@@ -2705,7 +2705,7 @@ class kFlowHelper
 		// Extract simple download name
 		$regex = "/^{$partner_id}_Export_[a-zA-Z0-9]+_(?<fileName>[\w\-]+.csv)$/";
 		if(!preg_match($regex, $file_name, $matches)) {
-			KalturaLog::err("File name doesn't match expected format");
+			BorhanLog::err("File name doesn't match expected format");
 			return null;
 		}
 		$downloadName = $matches['fileName'];
@@ -2741,7 +2741,7 @@ class kFlowHelper
 		
 		$moveFile = kFile::moveFile($data->outputPath, $filePath);
 		if(!$moveFile) {
-			KalturaLog::err("Failed to move report file from: " . $data->outputPath . " to: " . $filePath);
+			BorhanLog::err("Failed to move report file from: " . $data->outputPath . " to: " . $filePath);
 			return kFlowHelper::handleLiveReportExportFailed($dbBatchJob, $data);
 		} 
 		
@@ -2753,7 +2753,7 @@ class kFlowHelper
 		// Create download URL
 		$url = self::createLiveReportExportDownloadUrl($dbBatchJob->getPartnerId(), $fileName, $expiry, $data->applicationUrlTemplate);
 		if(!$url) {
-			KalturaLog::err("Failed to create download URL");
+			BorhanLog::err("Failed to create download URL");
 			return kFlowHelper::handleLiveReportExportFailed($dbBatchJob, $data);
 		}
 		
@@ -2861,7 +2861,7 @@ class kFlowHelper
 	
 	private static function handleLocalFileSyncDeletion($entryId, Partner $partner)
 	{
-		if($partner && $partner->getStorageDeleteFromKaltura())
+		if($partner && $partner->getStorageDeleteFromBorhan())
 		{
 			$readyAssets = assetPeer::retrieveReadyFlavorsByEntryId($entryId);
 			self::deleteAssetLocalFileSyncsByAssetArray($readyAssets);

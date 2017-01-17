@@ -1,5 +1,5 @@
 <?php
-require_once KALTURA_ROOT_PATH.'/vendor/google-api-php-client-1.1.2/src/Google/autoload.php';
+require_once BORHAN_ROOT_PATH.'/vendor/google-api-php-client-1.1.2/src/Google/autoload.php';
   
 /**
  * @package plugins.youtubeApiDistribution
@@ -132,7 +132,7 @@ class Form_YoutubeApiProfileConfiguration extends Form_ConfigurableProfileConfig
 			return null;
 			
 		$distributionProfile = $this->distributionProfile;
-		/* @var $distributionProfile Kaltura_Client_YoutubeApiDistribution_Type_YoutubeApiDistributionProfile */
+		/* @var $distributionProfile Borhan_Client_YoutubeApiDistribution_Type_YoutubeApiDistributionProfile */
 		
 		$client = new Google_Client();
 		$client->setClientId($distributionProfile->googleClientId);
@@ -146,7 +146,7 @@ class Form_YoutubeApiProfileConfiguration extends Form_ConfigurableProfileConfig
 		}
 		catch(Google_Auth_Exception $e)
 		{
-			KalturaLog::err($e);
+			BorhanLog::err($e);
 			return array();
 		}
 		

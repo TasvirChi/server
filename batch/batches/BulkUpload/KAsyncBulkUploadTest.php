@@ -31,7 +31,7 @@ class KAsyncBulkUploadTest extends PHPUnit_Framework_TestCase
 	{
 		$content = "BEGIN:VCALENDAR\r\n";
 		$content .= "VERSION:1.0\r\n";
-		$content .= "PRODID:-//Kaltura/tests//Bulk-Upload//EN\r\n";
+		$content .= "PRODID:-//Borhan/tests//Bulk-Upload//EN\r\n";
 		
 		$now = time();
 		for($i = 1; $i <= $events; $i++) 
@@ -56,7 +56,7 @@ class KAsyncBulkUploadTest extends PHPUnit_Framework_TestCase
 	{
 		$content = "BEGIN:VCALENDAR\r\n";
 		$content .= "VERSION:1.0\r\n";
-		$content .= "PRODID:-//Kaltura/tests//Bulk-Upload//EN\r\n";
+		$content .= "PRODID:-//Borhan/tests//Bulk-Upload//EN\r\n";
 		
 		$now = time();
 		$id = uniqid();
@@ -82,7 +82,7 @@ class KAsyncBulkUploadTest extends PHPUnit_Framework_TestCase
 	{
 		var_dump($content);
 		
-		$calendar = kSchedulingICal::parse($content, KalturaScheduleEventType::RECORD);
+		$calendar = kSchedulingICal::parse($content, BorhanScheduleEventType::RECORD);
 		$components = $calendar->getComponents();
 		
 		$events = array();
@@ -93,7 +93,7 @@ class KAsyncBulkUploadTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals('kSchedulingICalEvent', get_class($component));
 			
 			$event = $component->toObject();
-			$this->assertEquals('KalturaRecordScheduleEvent', get_class($event));
+			$this->assertEquals('BorhanRecordScheduleEvent', get_class($event));
 			
 			$events[$component->getUid()] = $event;
 		}
@@ -104,14 +104,14 @@ class KAsyncBulkUploadTest extends PHPUnit_Framework_TestCase
 	
 	/**
 	 * @param string $rule
-	 * @return KalturaScheduleEventRecurance
+	 * @return BorhanScheduleEventRecurance
 	 */
 	public function doTestICalWithRules($rule)
 	{
 		$content = $this->getICal(array('RRULE' => $rule));
 		$events = $this->validateICal($content);
 		$event = reset($events);
-		/* @var $event KalturaRecordScheduleEvent */
+		/* @var $event BorhanRecordScheduleEvent */
 		
 		return reset($event->recurances);
 	}
@@ -119,7 +119,7 @@ class KAsyncBulkUploadTest extends PHPUnit_Framework_TestCase
 	public function testICalWithRules()
 	{
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;INTERVAL=2;BYMONTH=1;BYDAY=SU;BYHOUR=8,9;BYMINUTE=30');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(2, $rule->interval, "interval [$rule->interval]");
 		$this->assertEquals(1, $rule->byMonth, "byMonth [$rule->byMonth]");
 		$this->assertEquals('SU', $rule->byDay, "byDay [$rule->byDay]");
@@ -128,11 +128,11 @@ class KAsyncBulkUploadTest extends PHPUnit_Framework_TestCase
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		
 		$until = time() + (60 * 60 * 24 * 365 * 6);
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;BYMONTH=4;BYDAY=-1SU;UNTIL=' . kSchedulingICal::formatDate($until));
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(4, $rule->byMonth, "byMonth [$rule->byMonth]");
 		$this->assertEquals('-1SU', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals($until, $rule->until, "until [$rule->until]");
@@ -140,7 +140,7 @@ class KAsyncBulkUploadTest extends PHPUnit_Framework_TestCase
 
 		$until = time() - (60 * 60 * 24 * 365 * 6);
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU;UNTIL=' . kSchedulingICal::formatDate($until));
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(10, $rule->byMonth, "byMonth [$rule->byMonth]");
 		$this->assertEquals('-1SU', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals($until, $rule->until, "until [$rule->until]");
@@ -148,7 +148,7 @@ class KAsyncBulkUploadTest extends PHPUnit_Framework_TestCase
 
 		$until = time() - (60 * 60 * 24 * 365 * 3);
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;BYMONTH=4;BYDAY=-1SU;UNTIL=' . kSchedulingICal::formatDate($until));
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(4, $rule->byMonth, "byMonth [$rule->byMonth]");
 		$this->assertEquals('-1SU', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals($until, $rule->until, "until [$rule->until]");
@@ -156,128 +156,128 @@ class KAsyncBulkUploadTest extends PHPUnit_Framework_TestCase
 
 		$until = time() + (60 * 60 * 24 * 365 * 5);
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;BYMONTH=4;BYDAY=1SU;UNTIL=' . kSchedulingICal::formatDate($until));
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(4, $rule->byMonth, "byMonth [$rule->byMonth]");
 		$this->assertEquals('1SU', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals($until, $rule->until, "until [$rule->until]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;BYMONTH=3;BYDAY=2SU');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(3, $rule->byMonth, "byMonth [$rule->byMonth]");
 		$this->assertEquals('2SU', $rule->byDay, "byDay [$rule->byDay]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;BYMONTH=11;BYDAY=1SU');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(11, $rule->byMonth, "byMonth [$rule->byMonth]");
 		$this->assertEquals('1SU', $rule->byDay, "byDay [$rule->byDay]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;BYMONTH=11;BYDAY=1SU');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(11, $rule->byMonth, "byMonth [$rule->byMonth]");
 		$this->assertEquals('1SU', $rule->byDay, "byDay [$rule->byDay]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;BYMONTH=3;BYDAY=2SU');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(3, $rule->byMonth, "byMonth [$rule->byMonth]");
 		$this->assertEquals('2SU', $rule->byDay, "byDay [$rule->byDay]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(10, $rule->byMonth, "byMonth [$rule->byMonth]");
 		$this->assertEquals('-1SU', $rule->byDay, "byDay [$rule->byDay]");
 		
 
 		$until = time() + (60 * 60 * 24 * 365);
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;BYDAY=1SU;BYMONTH=4;UNTIL=' . kSchedulingICal::formatDate($until));
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(4, $rule->byMonth, "byMonth [$rule->byMonth]");
 		$this->assertEquals('1SU', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals($until, $rule->until, "until [$rule->until]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(10, $rule->byMonth, "byMonth [$rule->byMonth]");
 		$this->assertEquals('-1SU', $rule->byDay, "byDay [$rule->byDay]");
 		
 
 		$until = time() + (60 * 60 * 24 * 365 * 2);
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;BYDAY=1SU;BYMONTH=4;UNTIL=' . kSchedulingICal::formatDate($until));
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(4, $rule->byMonth, "byMonth [$rule->byMonth]");
 		$this->assertEquals('1SU', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals($until, $rule->until, "until [$rule->until]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;BYDAY=-1SU;BYMONTH=4');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(4, $rule->byMonth, "byMonth [$rule->byMonth]");
 		$this->assertEquals('-1SU', $rule->byDay, "byDay [$rule->byDay]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=DAILY;COUNT=10');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::DAILY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::DAILY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(10, $rule->count, "count [$rule->count]");
 		
 
 		$until = time() + (60 * 60 * 24 * 365 * 6);
 		$rule = $this->doTestICalWithRules('FREQ=DAILY;UNTIL=' . kSchedulingICal::formatDate($until));
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::DAILY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::DAILY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals($until, $rule->until, "until [$rule->until]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=DAILY;INTERVAL=2');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::DAILY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::DAILY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(2, $rule->interval, "interval [$rule->interval]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=DAILY;INTERVAL=10;COUNT=5');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::DAILY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::DAILY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(10, $rule->interval, "interval [$rule->interval]");
 		$this->assertEquals(5, $rule->count, "count [$rule->count]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;UNTIL=' . kSchedulingICal::formatDate($until) . ';BYMONTH=1;BYDAY=SU,MO,TU,WE,TH,FR,SA');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals($until, $rule->until, "until [$rule->until]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=DAILY;UNTIL=' . kSchedulingICal::formatDate($until) . ';BYMONTH=1');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::DAILY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::DAILY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(1, $rule->byMonth, "byMonth [$rule->byMonth]");
 		$this->assertEquals($until, $rule->until, "until [$rule->until]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=WEEKLY;COUNT=10');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::WEEKLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::WEEKLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(10, $rule->count, "count [$rule->count]");
 		
 
 		$until = time() + (60 * 60 * 24 * 365 * 6);
 		$rule = $this->doTestICalWithRules('FREQ=WEEKLY;UNTIL=' . kSchedulingICal::formatDate($until));
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::WEEKLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::WEEKLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals($until, $rule->until, "until [$rule->until]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=WEEKLY;INTERVAL=2;WKST=SU');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::WEEKLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::WEEKLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(2, $rule->interval, "interval [$rule->interval]");
 		$this->assertEquals('SU', $rule->weekStartDay, "weekStartDay [$rule->weekStartDay]");
 		
 
 		$until = time() + (60 * 60 * 24 * 365 * 6);
 		$rule = $this->doTestICalWithRules('FREQ=WEEKLY;UNTIL=' . kSchedulingICal::formatDate($until) . ';WKST=SU;BYDAY=TU,TH');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::WEEKLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::WEEKLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals($until, $rule->until, "until [$rule->until]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=WEEKLY;COUNT=10;WKST=SU;BYDAY=TU,TH');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::WEEKLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::WEEKLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals('TU,TH', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals(10, $rule->count, "count [$rule->count]");
 		$this->assertEquals('SU', $rule->weekStartDay, "weekStartDay [$rule->weekStartDay]");
@@ -285,7 +285,7 @@ class KAsyncBulkUploadTest extends PHPUnit_Framework_TestCase
 
 		$until = time() + (60 * 60 * 24 * 365 * 6);
 		$rule = $this->doTestICalWithRules('FREQ=WEEKLY;INTERVAL=2;UNTIL=' . kSchedulingICal::formatDate($until) . ';WKST=SU;BYDAY=MO,WE,FR');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::WEEKLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::WEEKLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(2, $rule->interval, "interval [$rule->interval]");
 		$this->assertEquals('MO,WE,FR', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals($until, $rule->until, "until [$rule->until]");
@@ -293,7 +293,7 @@ class KAsyncBulkUploadTest extends PHPUnit_Framework_TestCase
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=WEEKLY;INTERVAL=2;COUNT=8;WKST=SU;BYDAY=TU,TH');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::WEEKLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::WEEKLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(2, $rule->interval, "interval [$rule->interval]");
 		$this->assertEquals('TU,TH', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals(8, $rule->count, "count [$rule->count]");
@@ -301,116 +301,116 @@ class KAsyncBulkUploadTest extends PHPUnit_Framework_TestCase
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=MONTHLY;COUNT=10;BYDAY=1FR');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals('1FR', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals(10, $rule->count, "count [$rule->count]");
 		
 
 		$until = time() + (60 * 60 * 24 * 365 * 6);
 		$rule = $this->doTestICalWithRules('FREQ=MONTHLY;UNTIL=' . kSchedulingICal::formatDate($until) . ';BYDAY=1FR');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals('1FR', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals($until, $rule->until, "until [$rule->until]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=MONTHLY;INTERVAL=2;COUNT=10;BYDAY=1SU,-1SU');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(2, $rule->interval, "interval [$rule->interval]");
 		$this->assertEquals('1SU,-1SU', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals(10, $rule->count, "count [$rule->count]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=MONTHLY;COUNT=6;BYDAY=-2MO');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals('-2MO', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals(6, $rule->count, "count [$rule->count]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=MONTHLY;BYMONTHDAY=-3');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(-3, $rule->byMonthDay, "byMonthDay [$rule->byMonthDay]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=MONTHLY;COUNT=10;BYMONTHDAY=2,15');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals('2,15', $rule->byMonthDay, "byMonthDay [$rule->byMonthDay]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=MONTHLY;COUNT=10;BYMONTHDAY=1,-1');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals('1,-1', $rule->byMonthDay, "byMonthDay [$rule->byMonthDay]");
 		$this->assertEquals(10, $rule->count, "count [$rule->count]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=MONTHLY;INTERVAL=18;COUNT=10;BYMONTHDAY=10,11,12,13,14,15');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals('10,11,12,13,14,15', $rule->byMonthDay, "byMonthDay [$rule->byMonthDay]");
 		$this->assertEquals(18, $rule->interval, "interval [$rule->interval]");
 		$this->assertEquals(10, $rule->count, "count [$rule->count]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=MONTHLY;INTERVAL=2;BYDAY=TU');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(2, $rule->interval, "interval [$rule->interval]");
 		$this->assertEquals('TU', $rule->byDay, "byDay [$rule->byDay]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;COUNT=10;BYMONTH=6,7');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals('6,7', $rule->byMonth, "byMonth [$rule->byMonth]");
 		$this->assertEquals(10, $rule->count, "count [$rule->count]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;INTERVAL=2;COUNT=10;BYMONTH=1,2,3');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(2, $rule->interval, "interval [$rule->interval]");
 		$this->assertEquals('1,2,3', $rule->byMonth, "byMonth [$rule->byMonth]");
 		$this->assertEquals(10, $rule->count, "count [$rule->count]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;INTERVAL=3;COUNT=10;BYYEARDAY=1,100,200');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(3, $rule->interval, "interval [$rule->interval]");
 		$this->assertEquals(10, $rule->count, "count [$rule->count]");
 		$this->assertEquals('1,100,200', $rule->byYearDay, "byYearDay [$rule->byYearDay]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;BYDAY=20MO');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals('20MO', $rule->byDay, "byDay [$rule->byDay]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;BYWEEKNO=20;BYDAY=MO');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals('MO', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals(20, $rule->byWeekNumber, "byWeekNumber [$rule->byWeekNumber]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;BYMONTH=3;BYDAY=TH');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals('TH', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals(3, $rule->byMonth, "byMonth [$rule->byMonth]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;BYDAY=TH;BYMONTH=6,7,8');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals('TH', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals('6,7,8', $rule->byMonth, "byMonth [$rule->byMonth]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=MONTHLY;BYDAY=FR;BYMONTHDAY=13');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals('FR', $rule->byDay, "byDay [$rule->byDay]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=MONTHLY;BYDAY=SA;BYMONTHDAY=7,8,9,10,11,12,13');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals('SA', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals('7,8,9,10,11,12,13', $rule->byMonthDay, "byMonthDay [$rule->byMonthDay]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=YEARLY;INTERVAL=4;BYMONTH=11;BYDAY=TU;BYMONTHDAY=2,3,4,5,6,7,8');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::YEARLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(4, $rule->interval, "interval [$rule->interval]");
 		$this->assertEquals('TU', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals(11, $rule->byMonth, "byMonth [$rule->byMonth]");
@@ -418,50 +418,50 @@ class KAsyncBulkUploadTest extends PHPUnit_Framework_TestCase
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=MONTHLY;COUNT=3;BYDAY=TU,WE,TH;BYSETPOS=3');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals('TU,WE,TH', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals(3, $rule->count, "count [$rule->count]");
 		$this->assertEquals(3, $rule->byOffset, "byOffset [$rule->byOffset]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=MONTHLY;BYDAY=MO,TU,WE,TH,FR;BYSETPOS=-2');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals('MO,TU,WE,TH,FR', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals(-2, $rule->byOffset, "byOffset [$rule->byOffset]");
 		
 
 		$until = time() + (60 * 60 * 24 * 365 * 6);
 		$rule = $this->doTestICalWithRules('FREQ=HOURLY;INTERVAL=3;UNTIL=' . kSchedulingICal::formatDate($until));
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::HOURLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::HOURLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(3, $rule->interval, "interval [$rule->interval]");
 		$this->assertEquals($until, $rule->until, "until [$rule->until]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=MINUTELY;INTERVAL=15;COUNT=6');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::MINUTELY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::MINUTELY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(15, $rule->interval, "interval [$rule->interval]");
 		$this->assertEquals(6, $rule->count, "count [$rule->count]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=MINUTELY;INTERVAL=90;COUNT=4');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::MINUTELY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::MINUTELY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(90, $rule->interval, "interval [$rule->interval]");
 		$this->assertEquals(4, $rule->count, "count [$rule->count]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=DAILY;BYHOUR=9,10,11,12,13,14,15,16;BYMINUTE=0,20,40');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::DAILY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::DAILY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals('0,20,40', $rule->byMinute, "byMinute [$rule->byMinute]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=MINUTELY;INTERVAL=20;BYHOUR=9,10,11,12,13,14,15,16');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::MINUTELY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::MINUTELY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(20, $rule->interval, "interval [$rule->interval]");
 		$this->assertEquals('9,10,11,12,13,14,15,16', $rule->byHour, "byHour [$rule->byHour]");
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=WEEKLY;INTERVAL=2;COUNT=4;BYDAY=TU,SU;WKST=MO');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::WEEKLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::WEEKLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(2, $rule->interval, "interval [$rule->interval]");
 		$this->assertEquals('TU,SU', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals(4, $rule->count, "count [$rule->count]");
@@ -469,7 +469,7 @@ class KAsyncBulkUploadTest extends PHPUnit_Framework_TestCase
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=WEEKLY;INTERVAL=2;COUNT=4;BYDAY=TU,SU;WKST=SU');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::WEEKLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::WEEKLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(2, $rule->interval, "interval [$rule->interval]");
 		$this->assertEquals('TU,SU', $rule->byDay, "byDay [$rule->byDay]");
 		$this->assertEquals(4, $rule->count, "count [$rule->count]");
@@ -477,7 +477,7 @@ class KAsyncBulkUploadTest extends PHPUnit_Framework_TestCase
 		
 
 		$rule = $this->doTestICalWithRules('FREQ=MONTHLY;BYMONTHDAY=15,30;COUNT=5');
-		$this->assertEquals(KalturaScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
+		$this->assertEquals(BorhanScheduleEventRecurrenceFrequency::MONTHLY, $rule->frequency, "frequency [$rule->frequency]");
 		$this->assertEquals(5, $rule->count, "count [$rule->count]");
 		$this->assertEquals('15,30', $rule->byMonthDay, "byMonthDay [$rule->byMonthDay]");
 	}
@@ -496,11 +496,11 @@ class KAsyncBulkUploadTest extends PHPUnit_Framework_TestCase
 		self::$createdRecordsCount = $count;
 		$content = $this->getSimleICal($count);
 		
-		$this->doTest(KalturaBulkUploadType::ICAL, $content);
+		$this->doTest(BorhanBulkUploadType::ICAL, $content);
 	}
 	
 	
-	public function doTest($subType, $content, $expectedStatus = KalturaBatchJobStatus::ALMOST_DONE)
+	public function doTest($subType, $content, $expectedStatus = BorhanBatchJobStatus::ALMOST_DONE)
 	{
 		$iniFile = realpath(__DIR__ . "/../../../configurations/batch");
 		$schedulerConfig = new KSchedulerConfig($iniFile);
@@ -529,19 +529,19 @@ class KAsyncBulkUploadTest extends PHPUnit_Framework_TestCase
 	
 	private function prepareJobs($subType, $content)
 	{
-		if($subType == KalturaBulkUploadType::ICAL)
+		if($subType == BorhanBulkUploadType::ICAL)
 		{
-			$data = new KalturaBulkUploadICalJobData();
-			$data->eventsType = KalturaScheduleEventType::RECORD;
+			$data = new BorhanBulkUploadICalJobData();
+			$data->eventsType = BorhanScheduleEventType::RECORD;
 		}
 		
 		$data->fileName = 'test';
 		$data->filePath = tempnam(sys_get_temp_dir(), 'bulk.');
 		file_put_contents($data->filePath, $content);
 		
-		$job = new KalturaBatchJob();
+		$job = new BorhanBatchJob();
 		$job->id = 1;
-		$job->status = KalturaBatchJobStatus::PENDING;
+		$job->status = BorhanBatchJobStatus::PENDING;
 		$job->data = $data;
 		$job->jobSubType = $subType;
 		
@@ -553,14 +553,14 @@ class KAsyncBulkUploadTest extends PHPUnit_Framework_TestCase
 		return null;
 	}
 	
-	function countBulkUploadEntries($bulkUploadJobId, $bulkUploadObjectType = KalturaBulkUploadObjectType::ENTRY)
+	function countBulkUploadEntries($bulkUploadJobId, $bulkUploadObjectType = BorhanBulkUploadObjectType::ENTRY)
 	{
 		$res = array();
-		$created = new KalturaKeyValue();
+		$created = new BorhanKeyValue();
 		$created->key = 'created';
 		$created->value = self::$createdRecordsCount;
 		$res[] = $created;		
-		$error = new KalturaKeyValue();
+		$error = new BorhanKeyValue();
 		$error->key = 'error';
 		$error->value = self::$errorRecordsCount;
 		$res[] = $error;

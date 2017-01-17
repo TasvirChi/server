@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaGoogleVideoSyndicationFeedBaseFilter extends KalturaBaseSyndicationFeedFilter
+abstract class BorhanGoogleVideoSyndicationFeedBaseFilter extends BorhanBaseSyndicationFeedFilter
 {
 	static private $map_between_objects = array
 	(

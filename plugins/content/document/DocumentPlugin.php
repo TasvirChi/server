@@ -2,7 +2,7 @@
 /**
  * @package plugins.document
  */
-class DocumentPlugin extends KalturaPlugin implements IKalturaPlugin, IKalturaServices, IKalturaObjectLoader, IKalturaEventConsumers, IKalturaEnumerator, IKalturaTypeExtender
+class DocumentPlugin extends BorhanPlugin implements IBorhanPlugin, IBorhanServices, IBorhanObjectLoader, IBorhanEventConsumers, IBorhanEnumerator, IBorhanTypeExtender
 {
 	const PLUGIN_NAME = 'document';
 	const DOCUMENT_OBJECT_CREATED_HANDLER = 'DocumentCreatedHandler';
@@ -21,7 +21,7 @@ class DocumentPlugin extends KalturaPlugin implements IKalturaPlugin, IKalturaSe
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaTypeExtender::getExtendedTypes()
+	 * @see IBorhanTypeExtender::getExtendedTypes()
 	 */
 	public static function getExtendedTypes($baseClass, $enumValue)
 	{
@@ -45,7 +45,7 @@ class DocumentPlugin extends KalturaPlugin implements IKalturaPlugin, IKalturaSe
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
@@ -56,50 +56,50 @@ class DocumentPlugin extends KalturaPlugin implements IKalturaPlugin, IKalturaSe
 			return new DocumentEntry();
 		}
 		
-		if($baseClass == 'KalturaBaseEntry' && $enumValue == entryType::DOCUMENT)
+		if($baseClass == 'BorhanBaseEntry' && $enumValue == entryType::DOCUMENT)
 		{
-			return new KalturaDocumentEntry();
+			return new BorhanDocumentEntry();
 		}
 		
 		
-		// KALTURA FLAVOR PARAMS
+		// BORHAN FLAVOR PARAMS
 		
-		if($baseClass == 'KalturaFlavorParams')
+		if($baseClass == 'BorhanFlavorParams')
 		{
 			switch($enumValue)
 			{
 				case DocumentPlugin::getAssetTypeCoreValue(DocumentAssetType::PDF):
-					return new KalturaPdfFlavorParams();
+					return new BorhanPdfFlavorParams();
 					
 				case DocumentPlugin::getAssetTypeCoreValue(DocumentAssetType::SWF):
-					return new KalturaSwfFlavorParams();
+					return new BorhanSwfFlavorParams();
 					
 				case DocumentPlugin::getAssetTypeCoreValue(DocumentAssetType::DOCUMENT):
-					return new KalturaDocumentFlavorParams();
+					return new BorhanDocumentFlavorParams();
 					
 				case DocumentPlugin::getAssetTypeCoreValue(DocumentAssetType::IMAGE);
-					return new KalturaImageFlavorParams();
+					return new BorhanImageFlavorParams();
 				
 				default:
 					return null;	
 			}
 		}
 	
-		if($baseClass == 'KalturaFlavorParamsOutput')
+		if($baseClass == 'BorhanFlavorParamsOutput')
 		{
 			switch($enumValue)
 			{
 				case DocumentPlugin::getAssetTypeCoreValue(DocumentAssetType::PDF):
-					return new KalturaPdfFlavorParamsOutput();
+					return new BorhanPdfFlavorParamsOutput();
 					
 				case DocumentPlugin::getAssetTypeCoreValue(DocumentAssetType::SWF):
-					return new KalturaSwfFlavorParamsOutput();
+					return new BorhanSwfFlavorParamsOutput();
 					
 				case DocumentPlugin::getAssetTypeCoreValue(DocumentAssetType::DOCUMENT):
-					return new KalturaDocumentFlavorParamsOutput();
+					return new BorhanDocumentFlavorParamsOutput();
 					
 				case DocumentPlugin::getAssetTypeCoreValue(DocumentAssetType::IMAGE);
-					return new KalturaImageFlavorParamsOutput();
+					return new BorhanImageFlavorParamsOutput();
 				
 				default:
 					return null;	
@@ -109,7 +109,7 @@ class DocumentPlugin extends KalturaPlugin implements IKalturaPlugin, IKalturaSe
 		
 		// OPERATION ENGINES
 		
-		if($baseClass == 'KOperationEngine' && $enumValue == KalturaConversionEngineType::PDF_CREATOR)
+		if($baseClass == 'KOperationEngine' && $enumValue == BorhanConversionEngineType::PDF_CREATOR)
 		{
 			if(!isset($constructorArgs['params']) || !isset($constructorArgs['outFilePath']))
 				return null;
@@ -118,7 +118,7 @@ class DocumentPlugin extends KalturaPlugin implements IKalturaPlugin, IKalturaSe
 		}
 
 		
-		if($baseClass == 'KOperationEngine' && $enumValue == KalturaConversionEngineType::PDF2SWF)
+		if($baseClass == 'KOperationEngine' && $enumValue == BorhanConversionEngineType::PDF2SWF)
 		{
 			if(!isset($constructorArgs['params']) || !isset($constructorArgs['outFilePath']))
 				return null;
@@ -126,7 +126,7 @@ class DocumentPlugin extends KalturaPlugin implements IKalturaPlugin, IKalturaSe
 			return new KOperationEnginePdf2Swf($constructorArgs['params']->pdf2SwfCmd, $constructorArgs['outFilePath']);
 		}
 		
-		if($baseClass == 'KOperationEngine' && $enumValue == KalturaConversionEngineType::IMAGEMAGICK)
+		if($baseClass == 'KOperationEngine' && $enumValue == BorhanConversionEngineType::IMAGEMAGICK)
 		{
 			if(!isset($constructorArgs['params']) || !isset($constructorArgs['outFilePath']))
 				return null;
@@ -134,14 +134,14 @@ class DocumentPlugin extends KalturaPlugin implements IKalturaPlugin, IKalturaSe
 			return new KOperationEngineImageMagick($constructorArgs['params']->imageMagickCmd, $constructorArgs['outFilePath']);
 		}
 		
-		if($baseClass == 'KOperationEngine' && $enumValue == KalturaConversionEngineType::PPT2IMG)
+		if($baseClass == 'KOperationEngine' && $enumValue == BorhanConversionEngineType::PPT2IMG)
 		{
 			if(!isset($constructorArgs['params']) || !isset($constructorArgs['outFilePath']))
 				return null;
 			return new KOperationEnginePpt2Image($constructorArgs['params']->ppt2ImgCmd, $constructorArgs['outFilePath']);
 		}
 
-		if($baseClass == 'KOperationEngine' && $enumValue == KalturaConversionEngineType::THUMB_ASSETS)
+		if($baseClass == 'KOperationEngine' && $enumValue == BorhanConversionEngineType::THUMB_ASSETS)
 		{
 			return new KOperationEngineThumbAssetsGenerator(null, null);
 		}
@@ -178,7 +178,7 @@ class DocumentPlugin extends KalturaPlugin implements IKalturaPlugin, IKalturaSe
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
@@ -260,7 +260,7 @@ class DocumentPlugin extends KalturaPlugin implements IKalturaPlugin, IKalturaSe
 	 */
 	public static function getAssetTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('assetType', $value);
 	}
 	
@@ -269,7 +269,7 @@ class DocumentPlugin extends KalturaPlugin implements IKalturaPlugin, IKalturaSe
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	/**

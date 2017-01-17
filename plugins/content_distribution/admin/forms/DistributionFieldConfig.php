@@ -45,7 +45,7 @@ class Form_DistributionFieldConfig_SubForm extends Zend_Form_SubForm
 			'label'			=> 'MRSS XSLT:',
 		));
 		
-		$isRequired = new Kaltura_Form_Element_EnumSelect('isRequired', array('enum' => 'Kaltura_Client_ContentDistribution_Enum_DistributionFieldRequiredStatus'));
+		$isRequired = new Borhan_Form_Element_EnumSelect('isRequired', array('enum' => 'Borhan_Client_ContentDistribution_Enum_DistributionFieldRequiredStatus'));
 		$isRequired->setLabel('Required:');
 		$isRequired->setFilters(array('StringTrim'));
 		$this->addElements(array($isRequired));
@@ -100,13 +100,13 @@ class Form_DistributionFieldConfig_SubForm extends Zend_Form_SubForm
 		}
 		
 		$requiredStatus = isset($props['isRequired']) ? $props['isRequired'] : null;
-		if ($requiredStatus == Kaltura_Client_ContentDistribution_Enum_DistributionFieldRequiredStatus::REQUIRED_BY_PROVIDER) {
+		if ($requiredStatus == Borhan_Client_ContentDistribution_Enum_DistributionFieldRequiredStatus::REQUIRED_BY_PROVIDER) {
 			$this->getElement('isRequired')->setAttrib('disabled', 'disabled');
 		}
 		else 
 		{
 			// required by provider shouldn't be selectable by the user
-			$this->getElement('isRequired')->removeMultiOption(Kaltura_Client_ContentDistribution_Enum_DistributionFieldRequiredStatus::REQUIRED_BY_PROVIDER);
+			$this->getElement('isRequired')->removeMultiOption(Borhan_Client_ContentDistribution_Enum_DistributionFieldRequiredStatus::REQUIRED_BY_PROVIDER);
 		}
 		
 		$this->setDefault('fieldNameForView', $object->fieldName);
@@ -142,7 +142,7 @@ class Form_DistributionFieldConfig_SubForm extends Zend_Form_SubForm
 		foreach ($updateParamsArray as $updateParam)
 		{
 			if (!empty($updateParam)) {
-				$newString = new Kaltura_Client_Type_String();
+				$newString = new Borhan_Client_Type_String();
 				$newString->value = $updateParam;
 				$updateParams[] = $newString;
 			}

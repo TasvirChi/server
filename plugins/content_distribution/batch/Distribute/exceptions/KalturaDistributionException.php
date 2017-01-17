@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution 
  * @subpackage Scheduler.Distribute
  */
-class KalturaDistributionException extends KalturaClientException 
+class BorhanDistributionException extends BorhanClientException 
 {
-	// use error codes from this enum KalturaBatchJobAppErrors
+	// use error codes from this enum BorhanBatchJobAppErrors
 }

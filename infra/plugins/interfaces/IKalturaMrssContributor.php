@@ -4,7 +4,7 @@
  * @package infra
  * @subpackage Plugins
  */
-interface IKalturaMrssContributor extends IKalturaBase
+interface IBorhanMrssContributor extends IBorhanBase
 {
 	/**
 	 * @param BaseObject $object

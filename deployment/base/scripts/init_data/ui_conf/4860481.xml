@@ -1,4 +1,4 @@
-<layout id="default light player" skinPath="http://cdnbakmi.kaltura.com/content/uiconf/kaltura/pptWidget/kpwSkin/v3.4.8.2/skin.swf">
+<layout id="default light player" skinPath="http://cdnbakmi.borhan.com/content/uiconf/borhan/pptWidget/kpwSkin/v3.4.8.2/skin.swf">
 	<HBox id="topLevel" width="100%" height="100%" paddingTop="0">
 		<VBox id="player" width="100%" height="100%" styleName="black" paddingTop="0"  >
 			<HBox styleName="headerBg" height="42" width="100%" verticalAlign="top" paddingTop="0" paddingBottom="10">
@@ -9,7 +9,7 @@
 						icon="closeIc0n" buttonType="iconButton" />-->
 				</VBox>
 			</HBox>
-			<Plugin id="kalturaMix" width="0%" height="0%"
+			<Plugin id="borhanMix" width="0%" height="0%"
 				includeInLayout="false" loadingPolicy="onDemand" />
 			<Plugin id="statistics" width="0%" height="0%"
 				includeInLayout="false" />
@@ -46,7 +46,7 @@
 						</HBox>-->
 					</VBox>
 					<Canvas id="pptWidgetScreenWrapper" width="60%" height="100%" styleName="black" includeInLayout="{pptWidgetAPI.showOnlyVideo}" visible="{pptWidgetAPI.showOnlyVideo}">
-						<Plugin id="pptWidgetAPI" width="0%" height="0%" includeInLayout="false" path="/content/uiconf/ps/remote_learner/kdp3/v3.5.8/plugins/pptWidgetAPIPlugin2.swf"
+						<Plugin id="pptWidgetAPI" width="0%" height="0%" includeInLayout="false" path="/content/uiconf/ps/remote_learner/bdp3/v3.5.8/plugins/pptWidgetAPIPlugin2.swf"
 						gallerySize="{carousel.numOfSlidesPerScreen}" decreasedBitmapSize="{carousel.itemSize}"/>
 						<Plugin id="pptWidgetScreen" width="100%" height="100%" bitmapDataProvider="{pptWidgetAPI.bitmapDataProvider}"
 						presentationMovieClip="{pptWidgetAPI.presentationMovieClip}"/>
@@ -79,7 +79,7 @@
 
 							<Plugin id="carousel" height="100%" width="100%"
 								dataProvider="{pptWidgetAPI.carouselPicturesDataProvider}"
-								itemSize="58" imagePadding="4" horizontalGap="20" path="/content/uiconf/kaltura/pptWidget/patches/patch_7_3_2011/carouselPlugin.swf"/>
+								itemSize="58" imagePadding="4" horizontalGap="20" path="/content/uiconf/borhan/pptWidget/patches/patch_7_3_2011/carouselPlugin.swf"/>
 							 <Button minHeight="50" id="nextCarousel" kClick="sendNotification('carouselNext')" buttonType="iconButton" icon="galleryNexxt" /> 
 						</HBox>
 						<Spacer height="3" />
@@ -160,9 +160,9 @@
 							selectedDisabledIcon="closeFullScreenIcon" focusRectPadding="0"
 							k_buttonType="buttonIconControllerArea" tooltip="Toggle fullscreen"
 							/>
-						<Button id="kalturaLogo" height="50" width="100" buttonType="iconButton"
-							kClick="navigate('http://www.kaltura.com')" styleName="controllerScreen"
-							icon="kalturaLogo" />
+						<Button id="borhanLogo" height="50" width="100" buttonType="iconButton"
+							kClick="navigate('http://www.borhan.com')" styleName="controllerScreen"
+							icon="borhanLogo" />
 						<Spacer width="10" />
 					</HBox>
 				</Canvas>

@@ -4,7 +4,7 @@
  * @subpackage system
  * @deprecated
  */
-class testCredentialsAction extends kalturaAction
+class testCredentialsAction extends borhanAction
 {
 	private $_test_array = NULL;
 	private $_bottom_line = null;

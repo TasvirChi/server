@@ -1,14 +1,14 @@
 <?php
 /**
- * Associative array of KalturaListResponse
+ * Associative array of BorhanListResponse
  * 
  * @package api
  * @subpackage objects
  */
-class KalturaListResponseArray extends KalturaAssociativeArray
+class BorhanListResponseArray extends BorhanAssociativeArray
 {
 	public function __construct()
 	{
-		return parent::__construct("KalturaListResponse");
+		return parent::__construct("BorhanListResponse");
 	}
 }

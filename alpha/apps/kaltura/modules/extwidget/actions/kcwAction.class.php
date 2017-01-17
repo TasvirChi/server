@@ -3,7 +3,7 @@
  * @package Core
  * @subpackage externalWidgets
  */
-class kcwAction extends sfAction
+class bcwAction extends sfAction
 {
 	/**
 	 * Will forward to the regular swf player according to the widget_id 
@@ -52,7 +52,7 @@ class kcwAction extends sfAction
 			"&uiConfId=" . $ui_conf_id . 
 			$conf_vars;
 			
-		$wrapper_swf = myContentStorage::getFSFlashRootPath ()."/flexwrapper/".kConf::get('kcw_flex_wrapper_version')."/FlexWrapper.swf";
+		$wrapper_swf = myContentStorage::getFSFlashRootPath ()."/flexwrapper/".kConf::get('bcw_flex_wrapper_version')."/FlexWrapper.swf";
 		$this->redirect(  $host . myPartnerUtils::getUrlForPartner( $partner_id , $subp_id ) . "$wrapper_swf?$params");
 	}
 }

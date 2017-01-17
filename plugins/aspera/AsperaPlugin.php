@@ -2,7 +2,7 @@
 /**
  * @package plugins.aspera
  */
-class AsperaPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaPermissions, IKalturaServices
+class AsperaPlugin extends BorhanPlugin implements IBorhanVersion, IBorhanPermissions, IBorhanServices
 {
 
 	const PLUGIN_NAME = 'aspera';
@@ -12,7 +12,7 @@ class AsperaPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaPer
 	const PLUGIN_VERSION_BUILD = 0;
 	
 	/* (non-PHPdoc)
-	 * @see KalturaPlugin::getInstance()
+	 * @see BorhanPlugin::getInstance()
 	 */
 	public function getInstance($interface)
 	{
@@ -23,7 +23,7 @@ class AsperaPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaPer
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -31,11 +31,11 @@ class AsperaPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaPer
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaVersion::getVersion()
+	 * @see IBorhanVersion::getVersion()
 	 */
 	public static function getVersion()
 	{
-		return new KalturaVersion(
+		return new BorhanVersion(
 			self::PLUGIN_VERSION_MAJOR,
 			self::PLUGIN_VERSION_MINOR,
 			self::PLUGIN_VERSION_BUILD
@@ -43,7 +43,7 @@ class AsperaPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaPer
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissions::isAllowedPartner()
+	 * @see IBorhanPermissions::isAllowedPartner()
 	 */
 	public static function isAllowedPartner($partnerId)
 	{
@@ -55,7 +55,7 @@ class AsperaPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaPer
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaServices::getServicesMap()
+	 * @see IBorhanServices::getServicesMap()
 	 */
 	public static function getServicesMap()
 	{

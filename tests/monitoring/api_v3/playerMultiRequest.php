@@ -1,7 +1,7 @@
 <?php
 $config = array();
 $client = null;
-/* @var $client KalturaClient */
+/* @var $client BorhanClient */
 require_once __DIR__  . '/common.php';
 
 $options = getopt('', array(
@@ -21,17 +21,17 @@ if(!isset($options['entry-id']) && !isset($options['entry-reference-id']))
 }
 
 $start = microtime(true);
-$monitorResult = new KalturaMonitorResult();
+$monitorResult = new BorhanMonitorResult();
 $apiCall = null;
 try
 {
 	$apiCall = 'session.start';
-	$ks = $client->session->start($config['monitor-partner']['secret'], 'monitor-user', KalturaSessionType::USER, $config['monitor-partner']['id']);
+	$ks = $client->session->start($config['monitor-partner']['secret'], 'monitor-user', BorhanSessionType::USER, $config['monitor-partner']['id']);
 	$client->setKs($ks);
 		
 	$entryId = null;
 
-	$contextDataParams = new KalturaEntryContextDataParams();
+	$contextDataParams = new BorhanEntryContextDataParams();
 	$contextDataParams->streamerType = 'http';
 	
 	$client->startMultiRequest();
@@ -39,41 +39,41 @@ try
 	if(isset($options['entry-id']))
 	{
 		$entry = $client->baseEntry->get($options['entry-id']);
-		/* @var $entry KalturaMediaEntry */
+		/* @var $entry BorhanMediaEntry */
 	}
 	elseif(isset($options['entry-reference-id']))
 	{
 		$baseEntryList = $client->baseEntry->listByReferenceId($options['entry-reference-id']);
-		/* @var $baseEntryList KalturaBaseEntryListResponse */
+		/* @var $baseEntryList BorhanBaseEntryListResponse */
 		$entry = $baseEntryList->objects[0];
-		/* @var $entry KalturaMediaEntry */
+		/* @var $entry BorhanMediaEntry */
 	}
 	
 	$client->baseEntry->getContextData($entry->id, $contextDataParams);
 	
 	if(isset($options['list-flavors']))
 	{
-		$flavorAssetFilter = new KalturaFlavorAssetFilter();
+		$flavorAssetFilter = new BorhanFlavorAssetFilter();
 		$flavorAssetFilter->entryIdEqual = $entry->id;
-		$flavorAssetFilter->statusEqual = KalturaFlavorAssetStatus::READY;
+		$flavorAssetFilter->statusEqual = BorhanFlavorAssetStatus::READY;
 		$client->flavorAsset->listAction($flavorAssetFilter);
 	}
 	
 	if(isset($options['list-cue-points']))
 	{
-		$cuePointFilter = new KalturaCuePointFilter();
+		$cuePointFilter = new BorhanCuePointFilter();
 		$cuePointFilter->entryIdEqual = $entry->id;
-		$cuePointFilter->statusEqual = KalturaCuePointStatus::READY;
-		$cuePointPlugin = KalturaCuePointClientPlugin::get($client);
+		$cuePointFilter->statusEqual = BorhanCuePointStatus::READY;
+		$cuePointPlugin = BorhanCuePointClientPlugin::get($client);
 		$cuePointPlugin->cuePoint->listAction($cuePointFilter);
 	}
 	
 	if(isset($options['list-metadata']))
 	{
-		$metadataFilter = new KalturaMetadataFilter();
+		$metadataFilter = new BorhanMetadataFilter();
 		$metadataFilter->entryIdEqual = $entry->id;
-		$metadataFilter->statusEqual = KalturaMetadataStatus::VALID;
-		$metadataPlugin = KalturaMetadataClientPlugin::get($client);
+		$metadataFilter->statusEqual = BorhanMetadataStatus::VALID;
+		$metadataPlugin = BorhanMetadataClientPlugin::get($client);
 		$metadataPlugin->metadata->listAction($metadataFilter);
 	}
 
@@ -85,35 +85,35 @@ try
 	foreach($responses as $response)
 	{
 		if(is_array($response) && isset($response['message']) && isset($response['code']))
-			throw new KalturaException($response["message"], $response["code"]);
+			throw new BorhanException($response["message"], $response["code"]);
 	}
 	
 	$monitorResult->executionTime = $requestEnd - $start;
 	$monitorResult->value = $requestEnd - $requestStart;
 	$monitorResult->description = "Multi-request execution time: $monitorResult->value seconds";
 }
-catch(KalturaException $e)
+catch(BorhanException $e)
 {
 	$end = microtime(true);
 	$monitorResult->executionTime = $end - $start;
 	
-	$error = new KalturaMonitorError();
+	$error = new BorhanMonitorError();
 	$error->code = $e->getCode();
 	$error->description = $e->getMessage();
-	$error->level = KalturaMonitorError::ERR;
+	$error->level = BorhanMonitorError::ERR;
 	
 	$monitorResult->errors[] = $error;
 	$monitorResult->description = "Exception: " . get_class($e) . ", API: $apiCall, Code: " . $e->getCode() . ", Message: " . $e->getMessage();
 }
-catch(KalturaClientException $ce)
+catch(BorhanClientException $ce)
 {
 	$end = microtime(true);
 	$monitorResult->executionTime = $end - $start;
 	
-	$error = new KalturaMonitorError();
+	$error = new BorhanMonitorError();
 	$error->code = $ce->getCode();
 	$error->description = $ce->getMessage();
-	$error->level = KalturaMonitorError::CRIT;
+	$error->level = BorhanMonitorError::CRIT;
 	
 	$monitorResult->errors[] = $error;
 	$monitorResult->description = "Exception: " . get_class($ce) . ", API: $apiCall, Code: " . $ce->getCode() . ", Message: " . $ce->getMessage();

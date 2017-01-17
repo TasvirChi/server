@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaDeliveryProfileType extends KalturaDynamicEnum implements DeliveryProfileType
+class BorhanDeliveryProfileType extends BorhanDynamicEnum implements DeliveryProfileType
 {
 	/**
 	 * @return string

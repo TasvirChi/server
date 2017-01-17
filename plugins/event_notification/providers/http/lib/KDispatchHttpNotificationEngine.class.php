@@ -26,17 +26,17 @@ class KDispatchHttpNotificationEngine extends KDispatchEventNotificationEngine
 	/* (non-PHPdoc)
 	 * @see KDispatchEventNotificationEngine::dispatch()
 	 */
-	public function dispatch(KalturaEventNotificationTemplate $eventNotificationTemplate, KalturaEventNotificationDispatchJobData &$data)
+	public function dispatch(BorhanEventNotificationTemplate $eventNotificationTemplate, BorhanEventNotificationDispatchJobData &$data)
 	{
 		$this->sendHttpRequest($eventNotificationTemplate, $data);
 	}
 
 	/**
-	 * @param KalturaHttpNotificationTemplate $httpNotificationTemplate
-	 * @param KalturaHttpNotificationDispatchJobData $data
+	 * @param BorhanHttpNotificationTemplate $httpNotificationTemplate
+	 * @param BorhanHttpNotificationDispatchJobData $data
 	 * @return boolean
 	 */
-	public function sendHttpRequest(KalturaHttpNotificationTemplate $httpNotificationTemplate, KalturaHttpNotificationDispatchJobData &$data)
+	public function sendHttpRequest(BorhanHttpNotificationTemplate $httpNotificationTemplate, BorhanHttpNotificationDispatchJobData &$data)
 	{
 		/**
 		 * TODO
@@ -52,7 +52,7 @@ class KDispatchHttpNotificationEngine extends KDispatchEventNotificationEngine
 		{
 			foreach($data->contentParameters as $contentParameter)
 			{
-				/* @var $contentParameter KalturaKeyValue */
+				/* @var $contentParameter BorhanKeyValue */
 				$postParameters[$contentParameter->key] = $contentParameter->value;
 				$contentParameters['{' . $contentParameter->key . '}'] = $contentParameter->value;
 			}		
@@ -63,14 +63,14 @@ class KDispatchHttpNotificationEngine extends KDispatchEventNotificationEngine
 		$secret = $data->signSecret;
 		if(!is_null($secret)) { 
 			$dataSig = sha1($secret . $curlData);
-			$headers[] = "X-KALTURA-SIGNATURE: $dataSig";
+			$headers[] = "X-BORHAN-SIGNATURE: $dataSig";
 		}
 		
 		if(is_array($data->customHeaders) && count($data->customHeaders))
 		{
 			foreach($data->customHeaders as $customHeader)
 			{
-				/* @var $customHeader KalturaKeyValue */
+				/* @var $customHeader BorhanKeyValue */
 				$key = $customHeader->key;
 				$value = $customHeader->value;
 				if(is_array($contentParameters) && count($contentParameters))
@@ -92,14 +92,14 @@ class KDispatchHttpNotificationEngine extends KDispatchEventNotificationEngine
 		$url = $data->url;
 		switch($data->method)
 		{
-			case KalturaHttpNotificationMethod::POST:
+			case BorhanHttpNotificationMethod::POST:
 				curl_setopt($ch, CURLOPT_POST, true);
 				
 				if($curlData)
 					curl_setopt($ch, CURLOPT_POSTFIELDS, $curlData);
 				break;
 				
-			case KalturaHttpNotificationMethod::PUT:
+			case BorhanHttpNotificationMethod::PUT:
 				curl_setopt($ch, CURLOPT_PUT, true);
 				
 				if($curlData)
@@ -110,14 +110,14 @@ class KDispatchHttpNotificationEngine extends KDispatchEventNotificationEngine
 				}
 				break;
 				
-			case KalturaHttpNotificationMethod::DELETE:
+			case BorhanHttpNotificationMethod::DELETE:
 				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
 				
 				if($curlData)
 					curl_setopt($ch, CURLOPT_POSTFIELDS, $curlData);
 				break;
 				
-			case KalturaHttpNotificationMethod::GET:
+			case BorhanHttpNotificationMethod::GET:
 			default:
 				if($curlData)
 					$url .= '?' . $curlData;
@@ -151,7 +151,7 @@ class KDispatchHttpNotificationEngine extends KDispatchEventNotificationEngine
 		
 		if($data->sslCertificate)
 		{
-			if($data->sslCertificateType == KalturaHttpNotificationCertificateType::PEM)
+			if($data->sslCertificateType == BorhanHttpNotificationCertificateType::PEM)
 			{
 				curl_setopt($ch, CURLOPT_SSLCERT, $data->sslCertificate);
 			}
@@ -181,7 +181,7 @@ class KDispatchHttpNotificationEngine extends KDispatchEventNotificationEngine
 		$errMessage = curl_error($ch);
 		curl_close($ch);
 		
-		KalturaLog::info("HTTP Request info [" . print_r($info, true) . "]\nResults [$results]");
+		BorhanLog::info("HTTP Request info [" . print_r($info, true) . "]\nResults [$results]");
 		if(!$results || $httpCode != 200)
 		{
 			throw new kTemporaryException("Sending HTTP request failed [$errCode]: $errMessage", $httpCode);

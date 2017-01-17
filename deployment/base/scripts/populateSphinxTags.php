@@ -28,13 +28,13 @@ while(count($tags))
 	foreach($tags as $tag)
 	{
 	    /* @var $tag Tag */
-		KalturaLog::log('tag id ' . $tag->getId() . ' tag string [' . $tag->getTag() . '] crc id[' . $sphinx->getSphinxId($tag) . ']');
+		BorhanLog::log('tag id ' . $tag->getId() . ' tag string [' . $tag->getTag() . '] crc id[' . $sphinx->getSphinxId($tag) . ']');
 		
 		try {
 			$ret = $sphinx->saveToSphinx($tag, true);
 		}
 		catch(Exception $e){
-			KalturaLog::err($e->getMessage());
+			BorhanLog::err($e->getMessage());
 			exit -1;
 		}
 	}
@@ -44,5 +44,5 @@ while(count($tags))
 	$tags = TagPeer::doSelect($c, $con);
 }
 
-KalturaLog::log('Done');
+BorhanLog::log('Done');
 exit(0);

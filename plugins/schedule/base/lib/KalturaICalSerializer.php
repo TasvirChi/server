@@ -1,6 +1,6 @@
 <?php
 
-class KalturaICalSerializer extends KalturaSerializer
+class BorhanICalSerializer extends BorhanSerializer
 {
 	private $calendar;
 	
@@ -10,7 +10,7 @@ class KalturaICalSerializer extends KalturaSerializer
 	}
 	/**
 	 * {@inheritDoc}
-	 * @see KalturaSerializer::setHttpHeaders()
+	 * @see BorhanSerializer::setHttpHeaders()
 	 */
 	public function setHttpHeaders()
 	{
@@ -19,7 +19,7 @@ class KalturaICalSerializer extends KalturaSerializer
 
 	/**
 	 * {@inheritDoc}
-	 * @see KalturaSerializer::getHeader()
+	 * @see BorhanSerializer::getHeader()
 	 */
 	public function getHeader() 
 	{
@@ -29,16 +29,16 @@ class KalturaICalSerializer extends KalturaSerializer
 
 	/**
 	 * {@inheritDoc}
-	 * @see KalturaSerializer::serialize()
+	 * @see BorhanSerializer::serialize()
 	 */
 	public function serialize($object)
 	{
-		if($object instanceof KalturaScheduleEvent)
+		if($object instanceof BorhanScheduleEvent)
 		{
 			$event = kSchedulingICalEvent::fromObject($object);
 			return $event->write();
 		}
-		elseif($object instanceof KalturaScheduleEventArray)
+		elseif($object instanceof BorhanScheduleEventArray)
 		{
 			$ret = '';
 			foreach($object as $item)
@@ -47,18 +47,18 @@ class KalturaICalSerializer extends KalturaSerializer
 			}
 			return $ret;
 		}
-		elseif($object instanceof KalturaScheduleEventListResponse)
+		elseif($object instanceof BorhanScheduleEventListResponse)
 		{
 			$ret = $this->serialize($object->objects);
-			$ret .= $this->calendar->writeField('X-KALTURA-TOTAL-COUNT', $object->totalCount);
+			$ret .= $this->calendar->writeField('X-BORHAN-TOTAL-COUNT', $object->totalCount);
 			return $ret;
 		}
-		elseif($object instanceof KalturaAPIException)
+		elseif($object instanceof BorhanAPIException)
 		{
 			$ret = $this->calendar->writeField('BEGIN', 'VERROR');
-			$ret .= $this->calendar->writeField('X-KALTURA-CODE', $object->getCode());
-			$ret .= $this->calendar->writeField('X-KALTURA-MESSAGE', $object->getMessage());
-			$ret .= $this->calendar->writeField('X-KALTURA-ARGUMENTS', implode(';', $object->getArgs()));
+			$ret .= $this->calendar->writeField('X-BORHAN-CODE', $object->getCode());
+			$ret .= $this->calendar->writeField('X-BORHAN-MESSAGE', $object->getMessage());
+			$ret .= $this->calendar->writeField('X-BORHAN-ARGUMENTS', implode(';', $object->getArgs()));
 			$ret .= $this->calendar->writeField('END', 'VERROR');
 			return $ret;
 		}
@@ -73,12 +73,12 @@ class KalturaICalSerializer extends KalturaSerializer
 	
 	/**
 	 * {@inheritDoc}
-	 * @see KalturaSerializer::getFooter()
+	 * @see BorhanSerializer::getFooter()
 	 */
 	public function getFooter($execTime = null)
 	{
 		if($execTime)
-			$this->calendar->writeField('x-kaltura-execution-time', $execTime);
+			$this->calendar->writeField('x-borhan-execution-time', $execTime);
 		
 		return $this->calendar->end();
 	}

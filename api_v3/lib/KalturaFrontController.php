@@ -3,7 +3,7 @@
  * @package api
  * @subpackage v3
  */
-class KalturaFrontController
+class BorhanFrontController
 {
 	private static $instance;
 	private $requestStart = null;
@@ -17,7 +17,7 @@ class KalturaFrontController
 	
 	private function __construct()
 	{
-		$this->dispatcher = KalturaDispatcher::getInstance();
+		$this->dispatcher = BorhanDispatcher::getInstance();
 		
 		$this->params = requestUtils::getRequestParams();
 		
@@ -28,9 +28,9 @@ class KalturaFrontController
 	}
 		
 	/**
-	 * Return a singleton KalturaFrontController instance
+	 * Return a singleton BorhanFrontController instance
 	 *
-	 * @return KalturaFrontController
+	 * @return BorhanFrontController
 	 */
 	public static function getInstance()
 	{
@@ -45,7 +45,7 @@ class KalturaFrontController
 	public function onRequestStart($service, $action, array $params, $requestIndex = 0, $isInMultiRequest = false)
 	{
 		$this->requestStart = microtime(true);
-		KalturaLog::analytics(array(
+		BorhanLog::analytics(array(
 			'request_start',
 			'pid' => getmypid(),
 			'agent' => '"' . (isset($_SERVER["HTTP_USER_AGENT"]) ? $_SERVER["HTTP_USER_AGENT"] : null) . '"',
@@ -64,7 +64,7 @@ class KalturaFrontController
 	{
 		$duration = microtime(true) - $this->requestStart;
 		
-		KalturaLog::analytics(array(
+		BorhanLog::analytics(array(
 			'request_end',
 			'partnerId' => kCurrentContext::$partner_id,
 			'masterPartnerId' => kCurrentContext::$master_partner_id,
@@ -77,7 +77,7 @@ class KalturaFrontController
 			'requestIndex' => $requestIndex,
 		));
 		
-		KalturaMonitorClient::monitorApiEnd($errorCode);
+		BorhanMonitorClient::monitorApiEnd($errorCode);
 	}
 	
 	public function run()
@@ -90,7 +90,7 @@ class KalturaFrontController
 		
 		set_error_handler(array(&$this, "errorHandler"));
 		
-		KalturaLog::debug("Params [" . print_r($this->params, true) . "]");
+		BorhanLog::debug("Params [" . print_r($this->params, true) . "]");
 		try {	
 			$this->setSerializerByFormat();
 		}
@@ -272,15 +272,15 @@ class KalturaFrontController
 			}
 			else
 			{
-				throw new KalturaAPIException(APIErrors::INTERNAL_SERVERL_ERROR, "Malformed request");
+				throw new BorhanAPIException(APIErrors::INTERNAL_SERVERL_ERROR, "Malformed request");
 			}
 							
-			$cache = new KalturaResponseCacher($currentParams);
+			$cache = new BorhanResponseCacher($currentParams);
 			
 			$success = true;
 			$errorCode = null;
 			$this->onRequestStart($currentService, $currentAction, $currentParams, kCurrentContext::$multiRequest_index, true);
-			$cachedResult = $cache->checkCache('X-Kaltura-Part-Of-MultiRequest');
+			$cachedResult = $cache->checkCache('X-Borhan-Part-Of-MultiRequest');
 			if ($cachedResult)
 			{
 				$currentResult = unserialize($cachedResult);
@@ -290,7 +290,7 @@ class KalturaFrontController
 				if (kCurrentContext::$multiRequest_index != 1)
 				{
 					kMemoryManager::clearMemory();
-					KalturaCriterion::clearTags();
+					BorhanCriterion::clearTags();
 				}
 							
 				try
@@ -350,7 +350,7 @@ class KalturaFrontController
 			return $this->getValueFromObject($object->$currentProperty, $path);
 		}
 		
-		if ($object instanceof KalturaTypedArray && $object->offsetExists($currentProperty))
+		if ($object instanceof BorhanTypedArray && $object->offsetExists($currentProperty))
 		{
 			return $this->getValueFromObject($object->offsetGet($currentProperty), $path);
 		}
@@ -367,11 +367,11 @@ class KalturaFrontController
 			case E_NOTICE:
 			case E_STRICT:
 			case E_USER_NOTICE:
-				KalturaLog::log(sprintf($errorFormat, $errFile, $errLine, $errStr), KalturaLog::NOTICE);
+				BorhanLog::log(sprintf($errorFormat, $errFile, $errLine, $errStr), BorhanLog::NOTICE);
 				break;
 			case E_USER_WARNING:
 			case E_WARNING:
-				KalturaLog::log(sprintf($errorFormat, $errFile, $errLine, $errStr), KalturaLog::WARN);
+				BorhanLog::log(sprintf($errorFormat, $errFile, $errLine, $errStr), BorhanLog::WARN);
 				break;
 			default: // throw it as an exception
 				throw new ErrorException($errStr, 0, $errNo, $errFile, $errLine);
@@ -380,19 +380,19 @@ class KalturaFrontController
 	
 	public function getExceptionObject($ex, $service, $action)
 	{
-		KalturaResponseCacher::adjustApiCacheForException($ex);
+		BorhanResponseCacher::adjustApiCacheForException($ex);
 		
-		if ($ex instanceof KalturaAPIException)
+		if ($ex instanceof BorhanAPIException)
 		{
-			KalturaLog::err($ex);
+			BorhanLog::err($ex);
 			$object = $ex;
 		}
 		else if ($ex instanceof APIException)  // don't let unwanted exception to be serialized
 		{
 			$args = $ex->extra_data;
-			$reflectionException = new ReflectionClass("KalturaAPIException");
+			$reflectionException = new ReflectionClass("BorhanAPIException");
 			$ex = $reflectionException->newInstanceArgs($args);
-			KalturaLog::err($ex);
+			BorhanLog::err($ex);
 			$object = $ex;
 		}
 		else if ($ex instanceof kCoreException)
@@ -400,97 +400,97 @@ class KalturaFrontController
 			switch($ex->getCode())
 			{
 				case kCoreException::USER_BLOCKED:
-					$object = new KalturaAPIException(KalturaErrors::USER_BLOCKED);
+					$object = new BorhanAPIException(BorhanErrors::USER_BLOCKED);
 					break;
 				case kCoreException::PARTNER_BLOCKED:
-					$object = new KalturaAPIException(KalturaErrors::SERVICE_FORBIDDEN_CONTENT_BLOCKED);
+					$object = new BorhanAPIException(BorhanErrors::SERVICE_FORBIDDEN_CONTENT_BLOCKED);
 					break;
 					
 				case kCoreException::INVALID_KS:
-					$object = new KalturaAPIException(KalturaErrors::INVALID_KS, $ex->getData(), ks::INVALID_STR, 'INVALID_STR');
+					$object = new BorhanAPIException(BorhanErrors::INVALID_KS, $ex->getData(), ks::INVALID_STR, 'INVALID_STR');
 					break;
 					
 				case kCoreException::MAX_NUMBER_OF_ACCESS_CONTROLS_REACHED:
-					$object = new KalturaAPIException(KalturaErrors::MAX_NUMBER_OF_ACCESS_CONTROLS_REACHED, $ex->getData());
+					$object = new BorhanAPIException(BorhanErrors::MAX_NUMBER_OF_ACCESS_CONTROLS_REACHED, $ex->getData());
 					break;
 					
 				case kCoreException::MAX_CATEGORIES_PER_ENTRY:
-					$object = new KalturaAPIException(KalturaErrors::MAX_CATEGORIES_FOR_ENTRY_REACHED, $ex->getData());
+					$object = new BorhanAPIException(BorhanErrors::MAX_CATEGORIES_FOR_ENTRY_REACHED, $ex->getData());
 					break;
 					
 				case kCoreException::MAX_ASSETS_PER_ENTRY:
-					$object = new KalturaAPIException(KalturaErrors::MAX_ASSETS_FOR_ENTRY_REACHED, asset::MAX_ASSETS_PER_ENTRY);
+					$object = new BorhanAPIException(BorhanErrors::MAX_ASSETS_FOR_ENTRY_REACHED, asset::MAX_ASSETS_PER_ENTRY);
 					break;
 				
 				case kCoreException::SEARCH_TOO_GENERAL:
-					$object = new KalturaAPIException(KalturaErrors::SEARCH_TOO_GENERAL);
+					$object = new BorhanAPIException(BorhanErrors::SEARCH_TOO_GENERAL);
 					break;
 					
 				case kCoreException::SOURCE_FILE_NOT_FOUND:
-					$object = new KalturaAPIException(KalturaErrors::SOURCE_FILE_NOT_FOUND);
+					$object = new BorhanAPIException(BorhanErrors::SOURCE_FILE_NOT_FOUND);
 					break;
 					
 				case APIErrors::INVALID_ACTIONS_LIMIT:
-					$object = new KalturaAPIException(APIErrors::INVALID_ACTIONS_LIMIT);
+					$object = new BorhanAPIException(APIErrors::INVALID_ACTIONS_LIMIT);
 					break;
 					
 				case APIErrors::PRIVILEGE_IP_RESTRICTION:
-					$object = new KalturaAPIException(APIErrors::PRIVILEGE_IP_RESTRICTION);
+					$object = new BorhanAPIException(APIErrors::PRIVILEGE_IP_RESTRICTION);
 					break;
 					
 				case APIErrors::INVALID_SET_ROLE:
-					$object = new KalturaAPIException(APIErrors::INVALID_SET_ROLE);
+					$object = new BorhanAPIException(APIErrors::INVALID_SET_ROLE);
 					break;
 					
 				case APIErrors::UNKNOWN_ROLE_ID:
-					$object = new KalturaAPIException(APIErrors::UNKNOWN_ROLE_ID);
+					$object = new BorhanAPIException(APIErrors::UNKNOWN_ROLE_ID);
 					break;
 					
 				case APIErrors::SEARCH_ENGINE_QUERY_FAILED:
-					$object = new KalturaAPIException(APIErrors::SEARCH_ENGINE_QUERY_FAILED);
+					$object = new BorhanAPIException(APIErrors::SEARCH_ENGINE_QUERY_FAILED);
 					break;
 					
 				case kCoreException::FILE_NOT_FOUND:
-					$object = new KalturaAPIException(KalturaErrors::FILE_NOT_FOUND);
+					$object = new BorhanAPIException(BorhanErrors::FILE_NOT_FOUND);
 					break;
 					
 				case kCoreException::LOCK_TIMED_OUT:
-					$object = new KalturaAPIException(KalturaErrors::LOCK_TIMED_OUT);
+					$object = new BorhanAPIException(BorhanErrors::LOCK_TIMED_OUT);
 					break;
 					
 				case kCoreException::SPHINX_CRITERIA_EXCEEDED_MAX_MATCHES_ALLOWED:
-					$object = new KalturaAPIException(KalturaErrors::SPHINX_CRITERIA_EXCEEDED_MAX_MATCHES_ALLOWED);
+					$object = new BorhanAPIException(BorhanErrors::SPHINX_CRITERIA_EXCEEDED_MAX_MATCHES_ALLOWED);
 					break;
 
 				case kCoreException::INVALID_ENTRY_ID:
-					$object = new KalturaAPIException(KalturaErrors::INVALID_ENTRY_ID, $ex->getData());
+					$object = new BorhanAPIException(BorhanErrors::INVALID_ENTRY_ID, $ex->getData());
 					break;
 					
 				case kCoreException::MAX_FILE_SYNCS_FOR_OBJECT_PER_DAY_REACHED:
-					$object = new KalturaAPIException(KalturaErrors::MAX_FILE_SYNCS_FOR_OBJECT_PER_DAY_REACHED, $ex->getData());
+					$object = new BorhanAPIException(BorhanErrors::MAX_FILE_SYNCS_FOR_OBJECT_PER_DAY_REACHED, $ex->getData());
 					break;
 
 				case kCoreException::ID_NOT_FOUND:
-					$object = new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $ex->getData());
+					$object = new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $ex->getData());
 					break;
 				case kCoreException::FILE_PENDING:
-					$object = new KalturaAPIException(KalturaErrors::FILE_PENDING);
+					$object = new BorhanAPIException(BorhanErrors::FILE_PENDING);
 					break;
 						
 				default:
-					KalturaLog::crit($ex);
-					$object = new KalturaAPIException(KalturaErrors::INTERNAL_SERVERL_ERROR);
+					BorhanLog::crit($ex);
+					$object = new BorhanAPIException(BorhanErrors::INTERNAL_SERVERL_ERROR);
 			}
 		}
 		else if ($ex instanceof PropelException)
 		{
-			KalturaLog::alert($ex);
-			$object = new KalturaAPIException(KalturaErrors::INTERNAL_DATABASE_ERROR);
+			BorhanLog::alert($ex);
+			$object = new BorhanAPIException(BorhanErrors::INTERNAL_DATABASE_ERROR);
 		}
 		else
 		{
-			KalturaLog::crit($ex);
-			$object = new KalturaAPIException(KalturaErrors::INTERNAL_SERVERL_ERROR);
+			BorhanLog::crit($ex);
+			$object = new BorhanAPIException(BorhanErrors::INTERNAL_SERVERL_ERROR);
 		}
 		
 		return $this->handleErrorMapping($object, $service, $action);
@@ -502,20 +502,20 @@ class KalturaFrontController
 		// Return a serializer according to the given format
 		switch ($format)
 		{
-			case KalturaResponseType::RESPONSE_TYPE_XML:
-				return new KalturaXmlSerializer($ignoreNull);
+			case BorhanResponseType::RESPONSE_TYPE_XML:
+				return new BorhanXmlSerializer($ignoreNull);
 		
-			case KalturaResponseType::RESPONSE_TYPE_PHP:
-				return new KalturaPhpSerializer();
+			case BorhanResponseType::RESPONSE_TYPE_PHP:
+				return new BorhanPhpSerializer();
 		
-			case KalturaResponseType::RESPONSE_TYPE_JSON:
-				return new KalturaJsonSerializer();
+			case BorhanResponseType::RESPONSE_TYPE_JSON:
+				return new BorhanJsonSerializer();
 					
-			case KalturaResponseType::RESPONSE_TYPE_JSONP:
-				return new KalturaJsonProcSerializer();
+			case BorhanResponseType::RESPONSE_TYPE_JSONP:
+				return new BorhanJsonProcSerializer();
 				 
 			default:
-				return KalturaPluginManager::loadObject('KalturaSerializer', $format);
+				return BorhanPluginManager::loadObject('BorhanSerializer', $format);
 		}		
 	}
 	
@@ -531,12 +531,12 @@ class KalturaFrontController
 		}
 		
 		// Determine the output format (or default to XML)
-		$format = isset($this->params["format"]) ? $this->params["format"] : KalturaResponseType::RESPONSE_TYPE_XML;
+		$format = isset($this->params["format"]) ? $this->params["format"] : BorhanResponseType::RESPONSE_TYPE_XML;
 		
 		// Create a serializer according to the given format
 		$serializer = $this->setSerializer($format, $ignoreNull);
 		if(empty($serializer))
-			throw new KalturaAPIException(APIErrors::UNKNOWN_RESPONSE_FORMAT, $format);
+			throw new BorhanAPIException(APIErrors::UNKNOWN_RESPONSE_FORMAT, $format);
 		
 		$this->serializer = $serializer;
 	}
@@ -549,7 +549,7 @@ class KalturaFrontController
 		}
 		
 		$start = microtime(true);
-		KalturaLog::debug("Serialize start");
+		BorhanLog::debug("Serialize start");
 
 		// Set HTTP headers
 		if(isset($this->params['content-type']))
@@ -570,7 +570,7 @@ class KalturaFrontController
 		// Post processing (handle special cases)
 		$result = $this->serializer->getHeader() . $serializedObject . $this->serializer->getFooter($this->end - $this->start);
 		
-		KalturaLog::debug("Serialize took - " . (microtime(true) - $start));
+		BorhanLog::debug("Serialize took - " . (microtime(true) - $start));
 		return $result;
 	}
 	
@@ -592,12 +592,12 @@ class KalturaFrontController
 		return $serializedObject;
 	}
 
-	protected function handleErrorMapping(KalturaAPIException $apiException, $service, $action)
+	protected function handleErrorMapping(BorhanAPIException $apiException, $service, $action)
 	{
 		if (!kConf::hasParam('api_strict_error_map'))
 		{
-			KalturaLog::err('api_strict_error_map was not found in kConf and is mandatory!');
-			return new KalturaAPIException(KalturaErrors::INTERNAL_SERVERL_ERROR);
+			BorhanLog::err('api_strict_error_map was not found in kConf and is mandatory!');
+			return new BorhanAPIException(BorhanErrors::INTERNAL_SERVERL_ERROR);
 		}
 
 		$map = kConf::get('api_strict_error_map');
@@ -617,24 +617,24 @@ class KalturaFrontController
 
 		if (array_search($apiException->getCode(), $whiteListedErrors, true) !== false)
 		{
-			KalturaLog::debug('Returning white-listed error: '.$apiException->getCode());
+			BorhanLog::debug('Returning white-listed error: '.$apiException->getCode());
 			return $apiException;
 		}
 
 		// finally, replace the error or return null as default
 		if ($defaultNull)
 		{
-			KalturaLog::debug('Replacing error code "' . $apiException->getCode() . '" with null result');
+			BorhanLog::debug('Replacing error code "' . $apiException->getCode() . '" with null result');
 			return null;
 		}
 		else
 		{
-			$reflectionException = new ReflectionClass("KalturaAPIException");
+			$reflectionException = new ReflectionClass("BorhanAPIException");
 			$errorStr = constant($defaultError);
 			$args = array_merge(array($errorStr), $apiException->getArgs());
-			/** @var KalturaAPIException $replacedException */
+			/** @var BorhanAPIException $replacedException */
 			$replacedException = $reflectionException->newInstanceArgs($args);
-			KalturaLog::debug('Replacing error code "' . $apiException->getCode() . '" with error code "' . $replacedException->getCode() . '"');
+			BorhanLog::debug('Replacing error code "' . $apiException->getCode() . '" with error code "' . $replacedException->getCode() . '"');
 			return $replacedException;
 		}
 	}
@@ -642,7 +642,7 @@ class KalturaFrontController
 	public function serialize($object, $className, $serializerType, IResponseProfile $coreResponseProfile = null)
 	{
 		if (!class_exists($className)) {
-			KalturaLog::err("Class [$className] was not found!");
+			BorhanLog::err("Class [$className] was not found!");
 			return null;
 		}
 		
@@ -651,16 +651,16 @@ class KalturaFrontController
 		
 		if($coreResponseProfile)
 		{
-			$responseProfile = KalturaBaseResponseProfile::getInstance($coreResponseProfile);
+			$responseProfile = BorhanBaseResponseProfile::getInstance($coreResponseProfile);
 		}
 			
-		// if KalturaBaseEntry, KalturaCuePoint, KalturaAsset
+		// if BorhanBaseEntry, BorhanCuePoint, BorhanAsset
 		if (is_subclass_of($className, 'IApiObjectFactory')) 
 		{
 			$apiObject = $className::getInstance($object, $responseProfile);
 		}		
 
-		// if KalturaObject
+		// if BorhanObject
 		elseif (is_subclass_of($className, 'IApiObject')) 
 		{
 			$apiObject = new $className();

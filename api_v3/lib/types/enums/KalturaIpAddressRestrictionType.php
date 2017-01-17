@@ -2,9 +2,9 @@
 /**
  * @package api
  * @subpackage enum
- * @deprecated use KalturaRule instead
+ * @deprecated use BorhanRule instead
  */
-class KalturaIpAddressRestrictionType extends KalturaEnum implements accessControlListRestrictionType
+class BorhanIpAddressRestrictionType extends BorhanEnum implements accessControlListRestrictionType
 {
 	// see interface "accessControlListRestrictionType" for values
 }

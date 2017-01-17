@@ -9,7 +9,7 @@ class myFlickrServices extends myBaseMediaSource implements IMediaSource
 	protected $source_name = "Flickr";
 	protected $auth_method = array ( self::AUTH_METHOD_PUBLIC , self::AUTH_METHOD_EXTERNAL );
 	protected $search_in_user = false; 
-	protected $logo = "http://www.kaltura.com/images/wizard/logo_flickr.png";
+	protected $logo = "http://www.borhan.com/images/wizard/logo_flickr.png";
 	protected $id = entry::ENTRY_MEDIA_SOURCE_FLICKR;
 	
 	private static $NEED_MEDIA_INFO = "1";

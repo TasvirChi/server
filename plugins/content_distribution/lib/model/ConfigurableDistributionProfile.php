@@ -244,7 +244,7 @@ abstract class ConfigurableDistributionProfile extends DistributionProfile
         </xsl:stylesheet>
         ';
       
-        KalturaLog::debug('Result XSL: '. $xsl);
+        BorhanLog::debug('Result XSL: '. $xsl);
         return $xsl;
     }
 		
@@ -253,7 +253,7 @@ abstract class ConfigurableDistributionProfile extends DistributionProfile
 	{
 		$entry = entryPeer::retrieveByPKNoFilter($entryDistribution->getEntryId());
         if (!$entry) {
-            KalturaLog::err('Entry not found with ID ['. $entryDistribution->getEntryId() .']');
+            BorhanLog::err('Entry not found with ID ['. $entryDistribution->getEntryId() .']');
             return null;
         }
 		
@@ -284,14 +284,14 @@ abstract class ConfigurableDistributionProfile extends DistributionProfile
 		
 		if(!$mrssStr)
 		{
-			KalturaLog::err('No MRSS returned for entry ['.$entry->getId().']');
+			BorhanLog::err('No MRSS returned for entry ['.$entry->getId().']');
 			return null;
 		}
 		
 		$mrssObj = new DOMDocument();
 		if(!$mrssObj->loadXML($mrssStr))
 		{
-		    KalturaLog::err('Error loading MRSS XML object for entry ['.$entry->getId().']');
+		    BorhanLog::err('Error loading MRSS XML object for entry ['.$entry->getId().']');
 			return null;
 		}
 		
@@ -301,7 +301,7 @@ abstract class ConfigurableDistributionProfile extends DistributionProfile
 		
 		if(!$xslObj->loadXML($xslStr))
 		{
-		    KalturaLog::err('Error loading distribution profile XSLT for profile ID ['.$this->getId().']');
+		    BorhanLog::err('Error loading distribution profile XSLT for profile ID ['.$this->getId().']');
 			return null;
 		}
 		
@@ -314,16 +314,16 @@ abstract class ConfigurableDistributionProfile extends DistributionProfile
 		$resultXmlObj->loadXML($resultXml);
 		
 		if (!$resultXmlObj) {
-		    KalturaLog::err('Error transforming XML for distribution profile ['.$this->getId().'] and entry id ['.$entry->getId().']');
+		    BorhanLog::err('Error transforming XML for distribution profile ['.$this->getId().'] and entry id ['.$entry->getId().']');
 		    return null;
 		}
 		
         /* DEBUG logs
-		KalturaLog::log('entry mrss = '.$mrssStr);
-		KalturaLog::log('profile xslt = '.$xslStr);
+		BorhanLog::log('entry mrss = '.$mrssStr);
+		BorhanLog::log('profile xslt = '.$xslStr);
 		*/
 		
-		KalturaLog::debug('Result XML: '.$resultXmlObj->saveXML());		
+		BorhanLog::debug('Result XML: '.$resultXmlObj->saveXML());		
 		return $resultXmlObj;
 	}
 	
@@ -333,7 +333,7 @@ abstract class ConfigurableDistributionProfile extends DistributionProfile
         $fieldElement = $xpath->query("//*[@id='$fieldName']")->item(0);
 	    
 	    if (!$fieldElement) {
-	        KalturaLog::err('Cannot find element with ID ['.$fieldName.'] in XML');
+	        BorhanLog::err('Cannot find element with ID ['.$fieldName.'] in XML');
 	        return null;
 	    }
 	    $fieldValue = $fieldElement->nodeValue;
@@ -347,12 +347,12 @@ abstract class ConfigurableDistributionProfile extends DistributionProfile
 		{
 		    $valuesXmlObj = $this->getFieldValuesXml($entryDistribution);
 		    if (!$valuesXmlObj) {
-		        KalturaLog::err('Error transforming XML for distribution profile ['.$this->getId().'] and entry distribution id ['.$entryDistribution->getId().']');
+		        BorhanLog::err('Error transforming XML for distribution profile ['.$this->getId().'] and entry distribution id ['.$entryDistribution->getId().']');
 		        return null;
 		    }
 		    
 		    $valuesXmlStr = $valuesXmlObj->saveXML();
-		    KalturaLog::info('All field values result XML: '.$valuesXmlStr);
+		    BorhanLog::info('All field values result XML: '.$valuesXmlStr);
 		    
 		    $fieldValues = array();
 		    $fieldConfigArray = $this->getFieldConfigArray();
@@ -371,7 +371,7 @@ abstract class ConfigurableDistributionProfile extends DistributionProfile
 	{
 	    $valuesXmlObj = $this->getFieldValuesXml($entryDistribution, $fieldName);
 	    if (!$valuesXmlObj) {
-	        KalturaLog::err('Error transforming XML for distribution profile ['.$this->getId().'] and entry distribution id ['.$entryDistribution->getId().'] field name ['.$fieldName.']');
+	        BorhanLog::err('Error transforming XML for distribution profile ['.$this->getId().'] and entry distribution id ['.$entryDistribution->getId().'] field name ['.$fieldName.']');
 	        return null;
 	    }
 	    
@@ -447,7 +447,7 @@ abstract class ConfigurableDistributionProfile extends DistributionProfile
 		$entry = entryPeer::retrieveByPK($entryDistribution->getEntryId());
 		if(!$entry)
 		{
-			KalturaLog::err("Entry [" . $entryDistribution->getEntryId() . "] not found");
+			BorhanLog::err("Entry [" . $entryDistribution->getEntryId() . "] not found");
 			$validationErrors[] = $this->createValidationError($action, DistributionErrorType::INVALID_DATA, 'entry', 'entry not found');
 			return $validationErrors;
 		}
@@ -464,7 +464,7 @@ abstract class ConfigurableDistributionProfile extends DistributionProfile
 		
 		$allFieldValues = $this->getAllFieldValues($entryDistribution);
 		if (!$allFieldValues || !is_array($allFieldValues)) {
-		    KalturaLog::err('Error getting field values from entry distribution id ['.$entryDistribution->getId().'] profile id ['.$this->getId().']');
+		    BorhanLog::err('Error getting field values from entry distribution id ['.$entryDistribution->getId().'] profile id ['.$this->getId().']');
 		    return $validationErrors;
 		}
 		

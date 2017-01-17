@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaActivitiBusinessProcessServerBaseFilter extends KalturaBusinessProcessServerFilter
+abstract class BorhanActivitiBusinessProcessServerBaseFilter extends BorhanBusinessProcessServerFilter
 {
 	static private $map_between_objects = array
 	(

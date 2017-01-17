@@ -3,17 +3,17 @@
  * @package api
  * @subpackage objects
  */
-class KalturaAccessControlProfileArray extends KalturaTypedArray
+class BorhanAccessControlProfileArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaAccessControlProfileArray();
+		$newArr = new BorhanAccessControlProfileArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-    		$nObj = new KalturaAccessControlProfile();
+    		$nObj = new BorhanAccessControlProfile();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaAccessControlProfileArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaAccessControlProfile");	
+		parent::__construct("BorhanAccessControlProfile");	
 	}
 }

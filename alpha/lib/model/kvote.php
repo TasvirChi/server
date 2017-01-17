@@ -25,14 +25,14 @@ class kvote extends Basekvote implements IBaseObject
 		return parent::save( $con );
 	}
 	
-	public function getFormattedCreatedAt( $format = dateUtils::KALTURA_FORMAT )
+	public function getFormattedCreatedAt( $format = dateUtils::BORHAN_FORMAT )
 	{
-		return dateUtils::formatKalturaDate( $this , 'getCreatedAt' , $format );
+		return dateUtils::formatBorhanDate( $this , 'getCreatedAt' , $format );
 	}
 
-	public function getFormattedUpdatedAt( $format = dateUtils::KALTURA_FORMAT )
+	public function getFormattedUpdatedAt( $format = dateUtils::BORHAN_FORMAT )
 	{
-		return dateUtils::formatKalturaDate( $this , 'getUpdatedAt' , $format );
+		return dateUtils::formatBorhanDate( $this , 'getUpdatedAt' , $format );
 	}
 	
 	

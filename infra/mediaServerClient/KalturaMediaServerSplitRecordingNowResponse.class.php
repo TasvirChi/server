@@ -1,11 +1,11 @@
 <?php
 
 
-class KalturaMediaServerSplitRecordingNowResponse extends SoapObject
+class BorhanMediaServerSplitRecordingNowResponse extends SoapObject
 {				
 	public function getType()
 	{
-		return 'http://services.api.server.media.kaltura.com/:SplitRecordingNowResponse';
+		return 'http://services.api.server.media.borhan.com/:SplitRecordingNowResponse';
 	}
 					
 	protected function getAttributeType($attributeName)

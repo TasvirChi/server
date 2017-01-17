@@ -7,7 +7,7 @@
  * @package api
  * @subpackage services
  */
-class KalturaLiveEntryService extends KalturaEntryService
+class BorhanLiveEntryService extends BorhanEntryService
 {
 	//amount of time for attempting to grab kLock
 	const KLOCK_CREATE_RECORDED_ENTRY_GRAB_TIMEOUT = 0.1;
@@ -59,39 +59,39 @@ class KalturaLiveEntryService extends KalturaEntryService
 	 * @action appendRecording
 	 * @param string $entryId Live entry id
 	 * @param string $assetId Live asset id
-	 * @param KalturaEntryServerNodeType $mediaServerIndex
-	 * @param KalturaDataCenterContentResource $resource
+	 * @param BorhanEntryServerNodeType $mediaServerIndex
+	 * @param BorhanDataCenterContentResource $resource
 	 * @param float $duration in seconds
 	 * @param bool $isLastChunk Is this the last recorded chunk in the current session (i.e. following a stream stop event)
-	 * @return KalturaLiveEntry The updated live entry
+	 * @return BorhanLiveEntry The updated live entry
 	 *
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
-	function appendRecordingAction($entryId, $assetId, $mediaServerIndex, KalturaDataCenterContentResource $resource, $duration, $isLastChunk = false)
+	function appendRecordingAction($entryId, $assetId, $mediaServerIndex, BorhanDataCenterContentResource $resource, $duration, $isLastChunk = false)
 	{
-		if(PermissionPeer::isValidForPartner(PermissionName::FEATURE_LIVE_STREAM_KALTURA_RECORDING, kCurrentContext::getCurrentPartnerId()))
+		if(PermissionPeer::isValidForPartner(PermissionName::FEATURE_LIVE_STREAM_BORHAN_RECORDING, kCurrentContext::getCurrentPartnerId()))
 		{
-			throw new KalturaAPIException(KalturaErrors::KALTURA_RECORDING_ENABLED, kCurrentContext::$partner_id);
+			throw new BorhanAPIException(BorhanErrors::BORHAN_RECORDING_ENABLED, kCurrentContext::$partner_id);
 		}
 		
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbEntry || !($dbEntry instanceof LiveEntry))
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 
 		$dbAsset = assetPeer::retrieveById($assetId);
 		if (!$dbAsset || !($dbAsset instanceof liveAsset))
-			throw new KalturaAPIException(KalturaErrors::ASSET_ID_NOT_FOUND, $assetId);
+			throw new BorhanAPIException(BorhanErrors::ASSET_ID_NOT_FOUND, $assetId);
 		
 		$maxRecordingDuration = (kConf::get('max_live_recording_duration_hours') + 1) * 60 * 60 * 1000;
 		$currentDuration = $dbEntry->getCurrentDuration($duration, $maxRecordingDuration);
 		if($currentDuration > $maxRecordingDuration)
 		{
-			throw new KalturaAPIException(KalturaErrors::LIVE_STREAM_EXCEEDED_MAX_RECORDED_DURATION, $entryId);
+			throw new BorhanAPIException(BorhanErrors::LIVE_STREAM_EXCEEDED_MAX_RECORDED_DURATION, $entryId);
 		}
 
 		$kResource = $resource->toObject();
 		$filename = $kResource->getLocalFilePath();
-		if (!($resource instanceof KalturaServerFileResource))
+		if (!($resource instanceof BorhanServerFileResource))
 		{
 			$filename = kConf::get('uploaded_segment_destination') . basename($kResource->getLocalFilePath());
 			kFile::moveFile($kResource->getLocalFilePath(), $filename);
@@ -134,7 +134,7 @@ class KalturaLiveEntryService extends KalturaEntryService
 			}
 		}
 
-		$entry = KalturaEntryFactory::getInstanceByType($dbEntry->getType());
+		$entry = BorhanEntryFactory::getInstanceByType($dbEntry->getType());
 		$entry->fromObject($dbEntry, $this->getResponseProfile());
 		return $entry;
 	}
@@ -148,7 +148,7 @@ class KalturaLiveEntryService extends KalturaEntryService
 		$recordedAsset = assetPeer::retrieveByEntryIdAndParams($entry->getId(), $flavorParamsId);
 		if($recordedAsset)
 		{
-			KalturaLog::info("Asset [" . $recordedAsset->getId() . "] of flavor params id [$flavorParamsId] already exists");
+			BorhanLog::info("Asset [" . $recordedAsset->getId() . "] of flavor params id [$flavorParamsId] already exists");
 			return;
 		}
 
@@ -191,22 +191,22 @@ class KalturaLiveEntryService extends KalturaEntryService
 	 * @action registerMediaServer
 	 * @param string $entryId Live entry id
 	 * @param string $hostname Media server host name
-	 * @param KalturaEntryServerNodeType $mediaServerIndex Media server index primary / secondary
+	 * @param BorhanEntryServerNodeType $mediaServerIndex Media server index primary / secondary
 	 * @param string $applicationName the application to which entry is being broadcast
-	 * @param KalturaEntryServerNodeStatus $liveEntryStatus the status KalturaEntryServerNodeStatus::PLAYABLE | KalturaEntryServerNodeStatus::BROADCASTING
-	 * @return KalturaLiveEntry The updated live entry
+	 * @param BorhanEntryServerNodeStatus $liveEntryStatus the status BorhanEntryServerNodeStatus::PLAYABLE | BorhanEntryServerNodeStatus::BROADCASTING
+	 * @return BorhanLiveEntry The updated live entry
 	 *
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::SERVER_NODE_NOT_FOUND
-	 * @throws KalturaErrors::ENTRY_SERVER_NODE_MULTI_RESULT
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::SERVER_NODE_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_SERVER_NODE_MULTI_RESULT
 	 */
-	function registerMediaServerAction($entryId, $hostname, $mediaServerIndex, $applicationName = null, $liveEntryStatus = KalturaEntryServerNodeStatus::PLAYABLE)
+	function registerMediaServerAction($entryId, $hostname, $mediaServerIndex, $applicationName = null, $liveEntryStatus = BorhanEntryServerNodeStatus::PLAYABLE)
 	{
-		KalturaLog::debug("Entry [$entryId] from mediaServerIndex [$mediaServerIndex] with liveEntryStatus [$liveEntryStatus]");
+		BorhanLog::debug("Entry [$entryId] from mediaServerIndex [$mediaServerIndex] with liveEntryStatus [$liveEntryStatus]");
 
 		$dbLiveEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbLiveEntry || !($dbLiveEntry instanceof LiveEntry))
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 		
 		$this->setMediaServerWrapper($dbLiveEntry, $mediaServerIndex, $hostname, $liveEntryStatus, $applicationName);
 		
@@ -218,12 +218,12 @@ class KalturaLiveEntryService extends KalturaEntryService
 				in_array($liveEntryStatus, array(EntryServerNodeStatus::BROADCASTING, EntryServerNodeStatus::PLAYABLE)) && 
 				$dbLiveEntry->getRecordStatus())
 		{
-			KalturaLog::info("Checking if recorded entry needs to be created for entry $entryId");
+			BorhanLog::info("Checking if recorded entry needs to be created for entry $entryId");
 			$createRecordedEntry = false;
 			if(!$dbLiveEntry->getRecordedEntryId())
 			{
 				$createRecordedEntry = true;
-				KalturaLog::info("Creating a new recorded entry for $entryId ");
+				BorhanLog::info("Creating a new recorded entry for $entryId ");
 			}
 			else {
 				$dbRecordedEntry = entryPeer::retrieveByPK($dbLiveEntry->getRecordedEntryId());
@@ -236,12 +236,12 @@ class KalturaLiveEntryService extends KalturaEntryService
 					$isNewSession = $dbLiveEntry->getLastBroadcastEndTime() + kConf::get('live_session_reconnect_timeout', 'local', 180) < $dbLiveEntry->getCurrentBroadcastStartTime();
 					$recordedEntryNotYetCreatedForCurrentSession = $recordedEntryCreationTime < $dbLiveEntry->getCurrentBroadcastStartTime();
 
-					KalturaLog::debug("isNewSession [$isNewSession] getLastBroadcastEndTime [{$dbLiveEntry->getLastBroadcastEndTime()}] getCurrentBroadcastStartTime [{$dbLiveEntry->getCurrentBroadcastStartTime()}]");
-					KalturaLog::debug("recordedEntryCreationTime [$recordedEntryNotYetCreatedForCurrentSession] recordedEntryCreationTime [$recordedEntryCreationTime] getCurrentBroadcastStartTime [{$dbLiveEntry->getCurrentBroadcastStartTime()}]"); 
+					BorhanLog::debug("isNewSession [$isNewSession] getLastBroadcastEndTime [{$dbLiveEntry->getLastBroadcastEndTime()}] getCurrentBroadcastStartTime [{$dbLiveEntry->getCurrentBroadcastStartTime()}]");
+					BorhanLog::debug("recordedEntryCreationTime [$recordedEntryNotYetCreatedForCurrentSession] recordedEntryCreationTime [$recordedEntryCreationTime] getCurrentBroadcastStartTime [{$dbLiveEntry->getCurrentBroadcastStartTime()}]"); 
 					if ($dbLiveEntry->getRecordStatus() == RecordStatus::PER_SESSION) {
 						if ($isNewSession && $recordedEntryNotYetCreatedForCurrentSession)
 						{
-							KalturaLog::info("Creating a recorded entry for $entryId ");
+							BorhanLog::info("Creating a recorded entry for $entryId ");
 							$createRecordedEntry = true;
 						}
 					}
@@ -252,7 +252,7 @@ class KalturaLiveEntryService extends KalturaEntryService
 				$this->createRecordedEntry($dbLiveEntry, $mediaServerIndex);
 		}
 
-		$entry = KalturaEntryFactory::getInstanceByType($dbLiveEntry->getType());
+		$entry = BorhanEntryFactory::getInstanceByType($dbLiveEntry->getType());
 		$entry->fromObject($dbLiveEntry, $this->getResponseProfile());
 		return $entry;
 	}
@@ -270,7 +270,7 @@ class KalturaLiveEntryService extends KalturaEntryService
 			switch($code)
 			{
 				case kCoreException::MEDIA_SERVER_NOT_FOUND :
-					throw new KalturaAPIException(KalturaErrors::MEDIA_SERVER_NOT_FOUND, $hostname);
+					throw new BorhanAPIException(BorhanErrors::MEDIA_SERVER_NOT_FOUND, $hostname);
 				default:
 					throw $ex;
 			}
@@ -316,7 +316,7 @@ class KalturaLiveEntryService extends KalturaEntryService
 			$recordedEntry->setRootEntryId($dbEntry->getId());
 			$recordedEntry->setName($recordedEntryName);
 			$recordedEntry->setDescription($dbEntry->getDescription());
-			$recordedEntry->setSourceType(EntrySourceType::KALTURA_RECORDED_LIVE);
+			$recordedEntry->setSourceType(EntrySourceType::BORHAN_RECORDED_LIVE);
 			$recordedEntry->setAccessControlId($dbEntry->getAccessControlId());
 			$recordedEntry->setKuserId($dbEntry->getKuserId());
 			$recordedEntry->setPartnerId($dbEntry->getPartnerId());
@@ -365,35 +365,35 @@ class KalturaLiveEntryService extends KalturaEntryService
 	 * @action unregisterMediaServer
 	 * @param string $entryId Live entry id
 	 * @param string $hostname Media server host name
-	 * @param KalturaEntryServerNodeType $mediaServerIndex Media server index primary / secondary
-	 * @return KalturaLiveEntry The updated live entry
+	 * @param BorhanEntryServerNodeType $mediaServerIndex Media server index primary / secondary
+	 * @return BorhanLiveEntry The updated live entry
 	 *
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::SERVER_NODE_NOT_FOUND
-	 * @throws KalturaErrors::ENTRY_SERVER_NODE_MULTI_RESULT
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::SERVER_NODE_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_SERVER_NODE_MULTI_RESULT
 	 */
 	function unregisterMediaServerAction($entryId, $hostname, $mediaServerIndex)
 	{
 		$this->dumpApiRequest($entryId);
 
-		KalturaLog::debug("Entry [$entryId] from mediaServerIndex [$mediaServerIndex] with hostname [$hostname]");
+		BorhanLog::debug("Entry [$entryId] from mediaServerIndex [$mediaServerIndex] with hostname [$hostname]");
 
 		/* @var $dbLiveEntry LiveEntry */
 		$dbLiveEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbLiveEntry || !($dbLiveEntry instanceof LiveEntry))
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 
 		$dbServerNode = ServerNodePeer::retrieveActiveMediaServerNode($hostname);
 		if (!$dbServerNode)
-			throw new KalturaAPIException(KalturaErrors::SERVER_NODE_NOT_FOUND, $hostname);
+			throw new BorhanAPIException(BorhanErrors::SERVER_NODE_NOT_FOUND, $hostname);
 
 		$dbLiveEntryServerNode = EntryServerNodePeer::retrieveByEntryIdAndServerType($entryId, $mediaServerIndex);
 		if(!$dbLiveEntryServerNode)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_SERVER_NODE_NOT_FOUND, $entryId, $mediaServerIndex);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_SERVER_NODE_NOT_FOUND, $entryId, $mediaServerIndex);
 
 		$dbLiveEntryServerNode->deleteOrMarkForDeletion();
 
-		$entry = KalturaEntryFactory::getInstanceByType($dbLiveEntry->getType());
+		$entry = BorhanEntryFactory::getInstanceByType($dbLiveEntry->getType());
 		$entry->fromObject($dbLiveEntry, $this->getResponseProfile());
 		return $entry;
 	}
@@ -404,15 +404,15 @@ class KalturaLiveEntryService extends KalturaEntryService
 	 * @action validateRegisteredMediaServers
 	 * @param string $entryId Live entry id
 	 *
-	 * @throws KalturaAPIException
+	 * @throws BorhanAPIException
 	 */
 	function validateRegisteredMediaServersAction($entryId)
 	{
-		KalturaResponseCacher::disableCache();
+		BorhanResponseCacher::disableCache();
 
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbEntry || !($dbEntry instanceof LiveEntry))
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 
 		/* @var $dbEntry LiveEntry */
 		$dbEntry->validateMediaServers();
@@ -423,28 +423,28 @@ class KalturaLiveEntryService extends KalturaEntryService
 	 *
 	 * @action setRecordedContent
 	 * @param string $entryId Live entry id
-	 * @param KalturaEntryServerNodeType $mediaServerIndex
-	 * @param KalturaDataCenterContentResource $resource
+	 * @param BorhanEntryServerNodeType $mediaServerIndex
+	 * @param BorhanDataCenterContentResource $resource
 	 * @param float $duration in seconds
 	 * @param string $recordedEntryId Recorded entry Id
-	 * @return KalturaLiveEntry The updated live entry
+	 * @return BorhanLiveEntry The updated live entry
 	 *
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
-	function setRecordedContentAction($entryId, $mediaServerIndex, KalturaDataCenterContentResource $resource, $duration, $recordedEntryId = null)
+	function setRecordedContentAction($entryId, $mediaServerIndex, BorhanDataCenterContentResource $resource, $duration, $recordedEntryId = null)
 	{
-		if(!PermissionPeer::isValidForPartner(PermissionName::FEATURE_LIVE_STREAM_KALTURA_RECORDING, kCurrentContext::getCurrentPartnerId()))
+		if(!PermissionPeer::isValidForPartner(PermissionName::FEATURE_LIVE_STREAM_BORHAN_RECORDING, kCurrentContext::getCurrentPartnerId()))
 		{
-			throw new KalturaAPIException(KalturaErrors::KALTURA_RECORDING_DISABLED, kCurrentContext::$partner_id);
+			throw new BorhanAPIException(BorhanErrors::BORHAN_RECORDING_DISABLED, kCurrentContext::$partner_id);
 		}
 		
 		$dbLiveEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbLiveEntry || !($dbLiveEntry instanceof LiveEntry))
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 		
 		if($mediaServerIndex != EntryServerNodeType::LIVE_PRIMARY)
 		{
-			$entry = KalturaEntryFactory::getInstanceByType($dbLiveEntry->getType());
+			$entry = BorhanEntryFactory::getInstanceByType($dbLiveEntry->getType());
 			$entry->fromObject($dbLiveEntry, $this->getResponseProfile());
 			return $entry;
 		}
@@ -465,7 +465,7 @@ class KalturaLiveEntryService extends KalturaEntryService
 		}
 		
 		if(!$recordedEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $recordedEntryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $recordedEntryId);
 		
 		$totalDuration = (int)($duration * 1000);
 		$dbLiveEntry->setLengthInMsecs($totalDuration);
@@ -475,7 +475,7 @@ class KalturaLiveEntryService extends KalturaEntryService
 		$service->initService('media', 'media', 'updateContent');
 		$service->updateContentAction($recordedEntry->getId(), $resource);
 		
-		$entry = KalturaEntryFactory::getInstanceByType($dbLiveEntry->getType());
+		$entry = BorhanEntryFactory::getInstanceByType($dbLiveEntry->getType());
 		$entry->fromObject($dbLiveEntry, $this->getResponseProfile());
 		return $entry;
 	}

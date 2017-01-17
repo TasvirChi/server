@@ -47,7 +47,7 @@ class myCustomData
 		catch ( Exception $ex )
 		{
 			// cannot initialize from $str 
-			KalturaLog::log ( __METHOD__ . ", cannot init from string [$str]");
+			BorhanLog::log ( __METHOD__ . ", cannot init from string [$str]");
 			$this->data = array();
 		}
 	}

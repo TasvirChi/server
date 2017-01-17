@@ -3,7 +3,7 @@
  * This class will make common tasks in the action classes much easier.
  *
  */
-abstract class kalturaAction extends sfAction
+abstract class borhanAction extends sfAction
 {
   private $cookieSecret = 'y3tAno3therS$cr3T';
   
@@ -163,7 +163,7 @@ abstract class kalturaAction extends sfAction
 		if ( $kshow == NULL )	$kshow = kshowPeer::retrieveByPK( $kshow_id);
 		if ( !$kshow )
 		{
-			$this->playDead( "This Kaltura is no longer available. (Message No." .$kshow_id.")" );
+			$this->playDead( "This Borhan is no longer available. (Message No." .$kshow_id.")" );
 			//throw new Exception ( "Cannot force permission for show $kshow_id");
 		}
 		
@@ -472,12 +472,12 @@ abstract class kalturaAction extends sfAction
   
   protected function followRedirectCookie()
   {
-	$return_to = @$_COOKIE["kaltura_redirect"];
+	$return_to = @$_COOKIE["borhan_redirect"];
 	if ($return_to)
 	{
 		$return_to = base64_decode($return_to);
 		// make the redirect cookie expire
-		setcookie( 'kaltura_redirect', '', time() - 86400 , '/' );
+		setcookie( 'borhan_redirect', '', time() - 86400 , '/' );
 		
 		$this->redirect( "http://$return_to/".$_SERVER["REQUEST_URI"] );
 	}

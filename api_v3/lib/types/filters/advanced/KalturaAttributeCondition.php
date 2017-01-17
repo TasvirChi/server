@@ -4,7 +4,7 @@
  * @package api
  * @subpackage filters
  */
-abstract class KalturaAttributeCondition extends KalturaSearchItem
+abstract class BorhanAttributeCondition extends BorhanSearchItem
 {
 	/**
 	 * @var string

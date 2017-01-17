@@ -3,7 +3,7 @@
  * @package plugins.freewheelDistribution
  * @subpackage api.objects
  */
-class KalturaFreewheelDistributionAssetPath extends KalturaDistributionJobProviderData
+class BorhanFreewheelDistributionAssetPath extends BorhanDistributionJobProviderData
 {
 	/**
 	 * @var string

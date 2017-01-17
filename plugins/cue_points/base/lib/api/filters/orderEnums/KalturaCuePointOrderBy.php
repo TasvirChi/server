@@ -3,7 +3,7 @@
  * @package plugins.cuePoint
  * @subpackage api.filters.enum
  */
-class KalturaCuePointOrderBy extends KalturaStringEnum
+class BorhanCuePointOrderBy extends BorhanStringEnum
 {
 	const CREATED_AT_ASC = "+createdAt";
 	const CREATED_AT_DESC = "-createdAt";

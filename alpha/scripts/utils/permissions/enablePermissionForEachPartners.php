@@ -29,7 +29,7 @@ $countLimitEachLoop = 500;
 require_once (dirname ( __FILE__ ) . '/../../bootstrap.php');
 
 $con = myDbHelper::getConnection ( myDbHelper::DB_HELPER_CONN_PROPEL2 );
-KalturaStatement::setDryRun ( $dryRun );
+BorhanStatement::setDryRun ( $dryRun );
 
 $lastPartnerId = 0;
 
@@ -47,7 +47,7 @@ while ( 1 ) {
 
 	foreach ( $partners as $partner ) {
 		/* @var $partner partner */
-		KalturaLog::debug("Set permission [$permissionName] for partner id [" . $partner->getId () . "]");
+		BorhanLog::debug("Set permission [$permissionName] for partner id [" . $partner->getId () . "]");
 		$dbPermission = PermissionPeer::getByNameAndPartner ( $permissionName, $partner->getId () );
 		var_dump($dbPermission);
 		if (!$dbPermission) {
@@ -67,4 +67,4 @@ while ( 1 ) {
 	sleep ( 1 );
 }
 
-KalturaLog::debug("Done");
+BorhanLog::debug("Done");

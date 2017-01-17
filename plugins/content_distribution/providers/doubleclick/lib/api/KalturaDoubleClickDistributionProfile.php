@@ -3,7 +3,7 @@
  * @package plugins.doubleClickDistribution
  * @subpackage api.objects
  */
-class KalturaDoubleClickDistributionProfile extends KalturaConfigurableDistributionProfile
+class BorhanDoubleClickDistributionProfile extends BorhanConfigurableDistributionProfile
 {
 	/**
 	 * @var string
@@ -61,17 +61,17 @@ class KalturaDoubleClickDistributionProfile extends KalturaConfigurableDistribut
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert($propertiesToSkip)
+	 * @see BorhanObject::validateForInsert($propertiesToSkip)
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{
 		$partnerId = kCurrentContext::getCurrentPartnerId();
 		$partner = PartnerPeer::retrieveByPK($partnerId);
 		if(!$partner)
-			throw new KalturaAPIException(KalturaErrors::PARTNER_NOT_FOUND, $partnerId);
+			throw new BorhanAPIException(BorhanErrors::PARTNER_NOT_FOUND, $partnerId);
 			
 		if(!$partner->getPluginEnabled(DoubleClickDistributionPlugin::DEPENDENTS_ON_PLUGIN_NAME_CUE_POINT))
-			throw new KalturaAPIException(KalturaErrors::PLUGIN_NOT_AVAILABLE_FOR_PARTNER, DoubleClickDistributionPlugin::DEPENDENTS_ON_PLUGIN_NAME_CUE_POINT, $partnerId);
+			throw new BorhanAPIException(BorhanErrors::PLUGIN_NOT_AVAILABLE_FOR_PARTNER, DoubleClickDistributionPlugin::DEPENDENTS_ON_PLUGIN_NAME_CUE_POINT, $partnerId);
 		
 		return parent::validateForInsert($propertiesToSkip);
 	}

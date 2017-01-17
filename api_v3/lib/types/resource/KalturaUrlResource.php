@@ -5,7 +5,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaUrlResource extends KalturaContentResource
+class BorhanUrlResource extends BorhanContentResource
 {
 	/**
 	 * Remote URL, FTP, HTTP or HTTPS 
@@ -22,7 +22,7 @@ class KalturaUrlResource extends KalturaContentResource
 	private static $map_between_objects = array('url', 'forceAsyncDownload');
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -30,7 +30,7 @@ class KalturaUrlResource extends KalturaContentResource
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUsage($sourceObject, $propertiesToSkip)
+	 * @see BorhanObject::validateForUsage($sourceObject, $propertiesToSkip)
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -40,7 +40,7 @@ class KalturaUrlResource extends KalturaContentResource
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($object_to_fill = null, $props_to_skip = array())
 	{

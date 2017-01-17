@@ -23,13 +23,13 @@ class YouTubeDistributionRightsFeedEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineSubmit::submit()
 	 */
-	public function submit(KalturaDistributionSubmitJobData $data)
+	public function submit(BorhanDistributionSubmitJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaYouTubeDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaYouTubeDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanYouTubeDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanYouTubeDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaYouTubeDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaYouTubeDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanYouTubeDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanYouTubeDistributionJobProviderData");
 		
 		$this->handleSubmit($data, $data->distributionProfile, $data->providerData);
 		
@@ -39,7 +39,7 @@ class YouTubeDistributionRightsFeedEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseSubmit::closeSubmit()
 	 */
-	public function closeSubmit(KalturaDistributionSubmitJobData $data)
+	public function closeSubmit(BorhanDistributionSubmitJobData $data)
 	{
 		$statusXml = $this->fetchStatusXml($data, $data->distributionProfile, $data->providerData);
 
@@ -86,13 +86,13 @@ class YouTubeDistributionRightsFeedEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineDelete::delete()
 	 */
-	public function delete(KalturaDistributionDeleteJobData $data)
+	public function delete(BorhanDistributionDeleteJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaYouTubeDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaYouTubeDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanYouTubeDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanYouTubeDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaYouTubeDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaYouTubeDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanYouTubeDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanYouTubeDistributionJobProviderData");
 		
 		$this->handleDelete($data, $data->distributionProfile, $data->providerData);
 		
@@ -102,7 +102,7 @@ class YouTubeDistributionRightsFeedEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseDelete::closeDelete()
 	 */
-	public function closeDelete(KalturaDistributionDeleteJobData $data)
+	public function closeDelete(BorhanDistributionDeleteJobData $data)
 	{
 		$statusXml = $this->fetchStatusXml($data, $data->distributionProfile, $data->providerData);
 
@@ -123,13 +123,13 @@ class YouTubeDistributionRightsFeedEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineUpdate::update()
 	 */
-	public function update(KalturaDistributionUpdateJobData $data)
+	public function update(BorhanDistributionUpdateJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaYouTubeDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaYouTubeDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanYouTubeDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanYouTubeDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaYouTubeDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaYouTubeDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanYouTubeDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanYouTubeDistributionJobProviderData");
 
 		$this->handleUpdate($data, $data->distributionProfile, $data->providerData);
 		
@@ -139,7 +139,7 @@ class YouTubeDistributionRightsFeedEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseUpdate::closeUpdate()
 	 */
-	public function closeUpdate(KalturaDistributionUpdateJobData $data)
+	public function closeUpdate(BorhanDistributionUpdateJobData $data)
 	{
 		$statusXml = $this->fetchStatusXml($data, $data->distributionProfile, $data->providerData);
 
@@ -167,27 +167,27 @@ class YouTubeDistributionRightsFeedEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineReport::fetchReport()
 	 */
-	public function fetchReport(KalturaDistributionFetchReportJobData $data)
+	public function fetchReport(BorhanDistributionFetchReportJobData $data)
 	{
 		return false;
 	}
 	
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaYouTubeDistributionProfile $distributionProfile
-	 * @param KalturaYouTubeDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanYouTubeDistributionProfile $distributionProfile
+	 * @param BorhanYouTubeDistributionJobProviderData $providerData
 	 */
-	protected function handleSubmit(KalturaDistributionJobData $data, KalturaYouTubeDistributionProfile $distributionProfile, KalturaYouTubeDistributionJobProviderData $providerData)
+	protected function handleSubmit(BorhanDistributionJobData $data, BorhanYouTubeDistributionProfile $distributionProfile, BorhanYouTubeDistributionJobProviderData $providerData)
 	{
 		$videoFilePath = $providerData->videoAssetFilePath;
 		$thumbnailFilePath = $providerData->thumbAssetFilePath;
 		$captionAssetsids = $providerData->captionAssetIds;
 		
 		if (!$videoFilePath)
-			throw new KalturaDistributionException('No video asset to distribute, the job will fail');
+			throw new BorhanDistributionException('No video asset to distribute, the job will fail');
 
 		if (!file_exists($videoFilePath))
-			throw new KalturaDistributionException('The file ['.$videoFilePath.'] was not found (probably not synced yet), the job will retry');
+			throw new BorhanDistributionException('The file ['.$videoFilePath.'] was not found (probably not synced yet), the job will retry');
 
 		$sftpManager = $this->getSFTPManager($distributionProfile);
 		$sftpManager->filePutContents($providerData->sftpDirectory.'/'.$providerData->sftpMetadataFilename, $providerData->submitXml);
@@ -211,11 +211,11 @@ class YouTubeDistributionRightsFeedEngine extends DistributionEngine implements
 	}
 	
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaYouTubeDistributionProfile $distributionProfile
-	 * @param KalturaYouTubeDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanYouTubeDistributionProfile $distributionProfile
+	 * @param BorhanYouTubeDistributionJobProviderData $providerData
 	 */
-	protected function handleDelete(KalturaDistributionJobData $data, KalturaYouTubeDistributionProfile $distributionProfile, KalturaYouTubeDistributionJobProviderData $providerData)
+	protected function handleDelete(BorhanDistributionJobData $data, BorhanYouTubeDistributionProfile $distributionProfile, BorhanYouTubeDistributionJobProviderData $providerData)
 	{
 		$sftpManager = $this->getSFTPManager($distributionProfile);
 		$sftpManager->filePutContents($providerData->sftpDirectory.'/'.$providerData->sftpMetadataFilename, $providerData->deleteXml);
@@ -226,11 +226,11 @@ class YouTubeDistributionRightsFeedEngine extends DistributionEngine implements
 	}
 	
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaYouTubeDistributionProfile $distributionProfile
-	 * @param KalturaYouTubeDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanYouTubeDistributionProfile $distributionProfile
+	 * @param BorhanYouTubeDistributionJobProviderData $providerData
 	 */
-	protected function handleUpdate(KalturaDistributionJobData $data, KalturaYouTubeDistributionProfile $distributionProfile, KalturaYouTubeDistributionJobProviderData $providerData)
+	protected function handleUpdate(BorhanDistributionJobData $data, BorhanYouTubeDistributionProfile $distributionProfile, BorhanYouTubeDistributionJobProviderData $providerData)
 	{
 		$thumbnailFilePath = $providerData->thumbAssetFilePath;
 
@@ -251,20 +251,20 @@ class YouTubeDistributionRightsFeedEngine extends DistributionEngine implements
 	
 	protected function getFilePath( $asset, $entryId )
 	{
-		$filter = new KalturaFileSyncFilter();
+		$filter = new BorhanFileSyncFilter();
 		$filter->orderBy = '-version';
-		$filter->fileObjectTypeEqual = KalturaFileSyncObjectType::ASSET;
+		$filter->fileObjectTypeEqual = BorhanFileSyncObjectType::ASSET;
 		$filter->objectIdEqual = $asset->id;
 		$filter->objectSubTypeEqual = 1;
-		$filter->statusEqual = KalturaFileSyncStatus::READY;
+		$filter->statusEqual = BorhanFileSyncStatus::READY;
 		$filter->entryIdEqual = $entryId;
-		$filter->currentDc = KalturaNullableBoolean::TRUE_VALUE;
+		$filter->currentDc = BorhanNullableBoolean::TRUE_VALUE;
 		
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageSize = 1;
 		$pager->pageIndex = 1;
 		
-		$filesyncPlugin = KalturaFileSyncClientPlugin::get( KBatchBase::$kClient );
+		$filesyncPlugin = BorhanFileSyncClientPlugin::get( KBatchBase::$kClient );
 		$result = $filesyncPlugin->fileSync->listAction($filter, $pager);
 		if ( ! empty( $result->objects ) )
 		{
@@ -275,19 +275,19 @@ class YouTubeDistributionRightsFeedEngine extends DistributionEngine implements
 		return "";
 	}
 	
-	protected function addCaptions(KalturaYouTubeDistributionJobProviderData $providerData, $sftpManager, KalturaDistributionJobData $data)
+	protected function addCaptions(BorhanYouTubeDistributionJobProviderData $providerData, $sftpManager, BorhanDistributionJobData $data)
 	{
 		if ( $providerData->captionAssetIds == "" ) 
 			return;
 	
 		$entryId = $data->entryDistribution->entryId;
-		$filter = new KalturaAssetFilter();
+		$filter = new BorhanAssetFilter();
 		$filter->idIn = $providerData->captionAssetIds;
 		$filter->entryIdEqual = $entryId;
 		KBatchBase::impersonate($data->entryDistribution->partnerId);
 		
 		try{
-			$captionPlugin = KalturaCaptionClientPlugin::get( KBatchBase::$kClient );
+			$captionPlugin = BorhanCaptionClientPlugin::get( KBatchBase::$kClient );
 			$result = $captionPlugin->captionAsset->listAction( $filter );
 		}
 		catch(Exception $e){
@@ -299,7 +299,7 @@ class YouTubeDistributionRightsFeedEngine extends DistributionEngine implements
 	
 		foreach ($result->objects as $asset)
 		{
-			if ( $asset instanceof KalturaCaptionAsset )
+			if ( $asset instanceof BorhanCaptionAsset )
 			{
 				$captionFilePath = $this->getFilePath($asset, $entryId);
 				if (file_exists($captionFilePath))
@@ -312,24 +312,24 @@ class YouTubeDistributionRightsFeedEngine extends DistributionEngine implements
 	}
 
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaYouTubeDistributionProfile $distributionProfile
-	 * @param KalturaYouTubeDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanYouTubeDistributionProfile $distributionProfile
+	 * @param BorhanYouTubeDistributionJobProviderData $providerData
 	 * @return Status XML or FALSE when status is not available yet
 	 */
-	protected function fetchStatusXml(KalturaDistributionJobData $data, KalturaYouTubeDistributionProfile $distributionProfile, KalturaYouTubeDistributionJobProviderData $providerData)
+	protected function fetchStatusXml(BorhanDistributionJobData $data, BorhanYouTubeDistributionProfile $distributionProfile, BorhanYouTubeDistributionJobProviderData $providerData)
 	{
 		$statusFilePath = $providerData->sftpDirectory . '/' . 'status-' . $providerData->sftpMetadataFilename;
 		$sftpManager = $this->getSFTPManager($distributionProfile);
 		$statusXml = null;
 		try
 		{
-			KalturaLog::info('Trying to get the following status file: ['.$statusFilePath.']');
+			BorhanLog::info('Trying to get the following status file: ['.$statusFilePath.']');
 			$statusXml = $sftpManager->getFile($statusFilePath);
 		}
 		catch(kFileTransferMgrException $ex) // file is still missing
 		{
-			KalturaLog::info('File doesn\'t exist yet, retry later');
+			BorhanLog::info('File doesn\'t exist yet, retry later');
 			return false;
 		}
 
@@ -338,34 +338,34 @@ class YouTubeDistributionRightsFeedEngine extends DistributionEngine implements
 	}
 
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaYouTubeDistributionProfile $distributionProfile
-	 * @param KalturaYouTubeDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanYouTubeDistributionProfile $distributionProfile
+	 * @param BorhanYouTubeDistributionJobProviderData $providerData
 	 * @return string Status XML or FALSE when status is not available yet
 	 */
-	protected function fetchBatchStatus(KalturaDistributionJobData $data, KalturaYouTubeDistributionProfile $distributionProfile, KalturaYouTubeDistributionJobProviderData $providerData)
+	protected function fetchBatchStatus(BorhanDistributionJobData $data, BorhanYouTubeDistributionProfile $distributionProfile, BorhanYouTubeDistributionJobProviderData $providerData)
 	{
 		$statusFilePath = $providerData->sftpDirectory . '/internal_failure-status.xml';
 		$sftpManager = $this->getSFTPManager($distributionProfile);
 		$statusXml = null;
 		try
 		{
-			KalturaLog::info('Trying to get the following status file: ['.$statusFilePath.']');
+			BorhanLog::info('Trying to get the following status file: ['.$statusFilePath.']');
 			$statusXml = $sftpManager->getFile($statusFilePath);
 			return $statusXml;
 		}
 		catch(kFileTransferMgrException $ex) // file is still missing
 		{
-			KalturaLog::info('File doesn\'t exist yet, so no internal failure was found till now');
+			BorhanLog::info('File doesn\'t exist yet, so no internal failure was found till now');
 			return false;
 		}
 	}
 
-	protected function syncPlaylists($videoId, KalturaYouTubeDistributionJobProviderData $providerData)
+	protected function syncPlaylists($videoId, BorhanYouTubeDistributionJobProviderData $providerData)
 	{
 		$fieldValues = unserialize($providerData->fieldValues);
-		$youtubeChannel = isset($fieldValues[KalturaYouTubeDistributionField::VIDEO_CHANNEL]) ? $fieldValues[KalturaYouTubeDistributionField::VIDEO_CHANNEL] : null;
-		$newVideoPlaylists = isset($fieldValues[KalturaYouTubeDistributionField::PLAYLISTS]) ? $fieldValues[KalturaYouTubeDistributionField::PLAYLISTS] : null;
+		$youtubeChannel = isset($fieldValues[BorhanYouTubeDistributionField::VIDEO_CHANNEL]) ? $fieldValues[BorhanYouTubeDistributionField::VIDEO_CHANNEL] : null;
+		$newVideoPlaylists = isset($fieldValues[BorhanYouTubeDistributionField::PLAYLISTS]) ? $fieldValues[BorhanYouTubeDistributionField::PLAYLISTS] : null;
 		$clientId = $providerData->googleClientId;
 		$clientSecret   = $providerData->googleClientSecret;
 		$tokenData = $providerData->googleTokenData;
@@ -377,12 +377,12 @@ class YouTubeDistributionRightsFeedEngine extends DistributionEngine implements
 		}
 		if (!$youtubeChannel)
 		{
-			KalturaLog::err('YouTube channel was not found');
+			BorhanLog::err('YouTube channel was not found');
 			return $providerData->currentPlaylists;
 		}
 		if (!$videoId)
 		{
-			KalturaLog::err('No video id');
+			BorhanLog::err('No video id');
 			return $providerData->currentPlaylists;
 		}
 		$youtubeService = YouTubeDistributionGoogleClientHelper::getYouTubeService($clientId, $clientSecret, $tokenData);
@@ -395,10 +395,10 @@ class YouTubeDistributionRightsFeedEngine extends DistributionEngine implements
 
 	/**
 	 * 
-	 * @param KalturaYouTubeDistributionProfile $distributionProfile
+	 * @param BorhanYouTubeDistributionProfile $distributionProfile
 	 * @return sftpMgr
 	 */
-	protected function getSFTPManager(KalturaYouTubeDistributionProfile $distributionProfile)
+	protected function getSFTPManager(BorhanYouTubeDistributionProfile $distributionProfile)
 	{
 		if (!is_null($this->_sftpManager))
 			return $this->_sftpManager;

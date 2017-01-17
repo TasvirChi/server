@@ -2,7 +2,7 @@
 /**
  * @package plugins.audit
  */
-class AuditPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaServices, IKalturaEventConsumers
+class AuditPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanServices, IBorhanEventConsumers
 {
 	const PLUGIN_NAME = 'audit';
 	const AUDIT_TRAIL_MANAGER = 'kAuditTrailManager';

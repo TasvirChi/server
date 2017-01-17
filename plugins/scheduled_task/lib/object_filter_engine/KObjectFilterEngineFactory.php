@@ -8,17 +8,17 @@ class KObjectFilterEngineFactory
 {
 	/**
 	 * @param $type
-	 * @param KalturaClient $client
+	 * @param BorhanClient $client
 	 * @return KObjectFilterEngineBase
 	 */
-	public static function getInstanceByType($type, KalturaClient $client)
+	public static function getInstanceByType($type, BorhanClient $client)
 	{
 		switch($type)
 		{
-			case KalturaObjectFilterEngineType::ENTRY:
+			case BorhanObjectFilterEngineType::ENTRY:
 				return new KObjectFilterBaseEntryEngine($client);
 			default:
-				return KalturaPluginManager::loadObject('KObjectFilterEngineBase', $type, array($client));
+				return BorhanPluginManager::loadObject('KObjectFilterEngineBase', $type, array($client));
 		}
 	}
 } 

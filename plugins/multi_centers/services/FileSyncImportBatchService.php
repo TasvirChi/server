@@ -4,7 +4,7 @@
  * @package plugins.multiCenters
  * @subpackage api.services
  */
-class FileSyncImportBatchService extends KalturaBatchService
+class FileSyncImportBatchService extends BorhanBatchService
 {
 	const MAX_FILESYNC_ID_PREFIX = 'fileSyncMaxId-dc';
 	const LAST_FILESYNC_ID_PREFIX = 'fileSyncLastId-worker';
@@ -87,14 +87,14 @@ class FileSyncImportBatchService extends KalturaBatchService
 	 * batch lockPendingFileSyncs action locks file syncs for import by the file sync periodic worker
 	 *
 	 * @action lockPendingFileSyncs
-	 * @param KalturaFileSyncFilter $filter
+	 * @param BorhanFileSyncFilter $filter
 	 * @param int $workerId The id of the file sync import worker 
 	 * @param int $sourceDc The id of the DC from which the file syncs should be pulled
 	 * @param int $maxCount The maximum number of file syncs that should be returned
 	 * @param int $maxSize The maximum total size of file syncs that should be returned, this limit may be exceeded by one file sync
-	 * @return KalturaLockFileSyncsResponse
+	 * @return BorhanLockFileSyncsResponse
 	 */
-	function lockPendingFileSyncsAction(KalturaFileSyncFilter $filter, $workerId, $sourceDc, $maxCount, $maxSize = null)
+	function lockPendingFileSyncsAction(BorhanFileSyncFilter $filter, $workerId, $sourceDc, $maxCount, $maxSize = null)
 	{
 		// need to explicitly disable the cache since this action may not perform any queries
 		kApiCache::disableConditionalCache();
@@ -109,24 +109,24 @@ class FileSyncImportBatchService extends KalturaBatchService
 		$keysCache = kCacheManager::getSingleLayerCache(kCacheManager::CACHE_TYPE_QUERY_CACHE_KEYS);
 		if (!$keysCache)
 		{
-			throw new KalturaAPIException(MultiCentersErrors::GET_KEYS_CACHE_FAILED);
+			throw new BorhanAPIException(MultiCentersErrors::GET_KEYS_CACHE_FAILED);
 		}
 		
 		$lockCache = kCacheManager::getSingleLayerCache(kCacheManager::CACHE_TYPE_LOCK_KEYS);
 		if (!$lockCache)
 		{
-			throw new KalturaAPIException(MultiCentersErrors::GET_LOCK_CACHE_FAILED);
+			throw new BorhanAPIException(MultiCentersErrors::GET_LOCK_CACHE_FAILED);
 		}
 		
 		// get the max id / last id
 		$maxId = $keysCache->get(self::MAX_FILESYNC_ID_PREFIX . $sourceDc);
 		if (!$maxId)
 		{
-			throw new KalturaAPIException(MultiCentersErrors::GET_MAX_FILESYNC_ID_FAILED, $sourceDc);
+			throw new BorhanAPIException(MultiCentersErrors::GET_MAX_FILESYNC_ID_FAILED, $sourceDc);
 		}
 		
 		$initialLastId = $keysCache->get(self::LAST_FILESYNC_ID_PREFIX . $workerId);
-		KalturaLog::info("got lastId [$initialLastId] for worker [$workerId]");
+		BorhanLog::info("got lastId [$initialLastId] for worker [$workerId]");
 		
 		$lastId = $initialLastId ? $initialLastId : $maxId;
 								
@@ -161,7 +161,7 @@ class FileSyncImportBatchService extends KalturaBatchService
 			// make sure last id is always increasing
 			if ($lastId <= $lastSelectId)
 			{
-				KalturaLog::info("last id was decremented $lastId <= $lastSelectId, stopping");
+				BorhanLog::info("last id was decremented $lastId <= $lastSelectId, stopping");
 				break;
 			}
 			
@@ -264,17 +264,17 @@ class FileSyncImportBatchService extends KalturaBatchService
 				$curKey = self::LOCK_KEY_PREFIX . $fileSync->getId();
 				if (isset($lockKeys[$curKey]))
 				{
-					KalturaLog::info('file sync '.$fileSync->getId().' already locked');
+					BorhanLog::info('file sync '.$fileSync->getId().' already locked');
 					continue;
 				}
 				
 				if (!$lockCache->add($curKey, true, self::LOCK_EXPIRY))
 				{
-					KalturaLog::info('failed to lock file sync '.$fileSync->getId());
+					BorhanLog::info('failed to lock file sync '.$fileSync->getId());
 					continue;
 				}
 				
-				KalturaLog::info('locked file sync ' . $fileSync->getId());
+				BorhanLog::info('locked file sync ' . $fileSync->getId());
 				
 				// get the original id if not set
 				if (!$fileSync->getOriginalId())
@@ -282,7 +282,7 @@ class FileSyncImportBatchService extends KalturaBatchService
 					$originalFileSync = self::getOriginalFileSync($fileSync);
 					if (!$originalFileSync)
 					{
-						KalturaLog::info('failed to get original file sync for '.$fileSync->getId());
+						BorhanLog::info('failed to get original file sync for '.$fileSync->getId());
 						continue;
 					}
 					
@@ -314,7 +314,7 @@ class FileSyncImportBatchService extends KalturaBatchService
 		//		but the only effect of this is that some file syncs will be scanned again		
 		if (!$initialLastId || $lastId > $initialLastId)
 		{
-			KalturaLog::info("setting lastId to [$lastId] for worker [$workerId]");
+			BorhanLog::info("setting lastId to [$lastId] for worker [$workerId]");
 			
 			$keysCache->set(self::LAST_FILESYNC_ID_PREFIX . $workerId, $lastId);
 		}
@@ -336,8 +336,8 @@ class FileSyncImportBatchService extends KalturaBatchService
 		
 		// build the response object
 		$sourceDc = kDataCenterMgr::getDcById($sourceDc);
-		$result = new KalturaLockFileSyncsResponse;
-		$result->fileSyncs = KalturaFileSyncArray::fromDbArray($lockedFileSyncs, $this->getResponseProfile());
+		$result = new BorhanLockFileSyncsResponse;
+		$result->fileSyncs = BorhanFileSyncArray::fromDbArray($lockedFileSyncs, $this->getResponseProfile());
 		$result->limitReached = $limitReached;
 		$result->dcSecret = $sourceDc["secret"];
 		$result->baseUrl = isset($sourceDc["fileSyncImportUrl"]) ? $sourceDc["fileSyncImportUrl"] : $sourceDc["url"];
@@ -359,12 +359,12 @@ class FileSyncImportBatchService extends KalturaBatchService
 		$lockCache = kCacheManager::getSingleLayerCache(kCacheManager::CACHE_TYPE_LOCK_KEYS);
 		if (!$lockCache)
 		{
-			throw new KalturaAPIException(MultiCentersErrors::GET_LOCK_CACHE_FAILED);
+			throw new BorhanAPIException(MultiCentersErrors::GET_LOCK_CACHE_FAILED);
 		}
 		
 		if (!$lockCache->set(self::LOCK_KEY_PREFIX . $id, true, self::LOCK_EXPIRY))
 		{
-			throw new KalturaAPIException(MultiCentersErrors::EXTEND_FILESYNC_LOCK_FAILED);
+			throw new BorhanAPIException(MultiCentersErrors::EXTEND_FILESYNC_LOCK_FAILED);
 		}
 	}
 }

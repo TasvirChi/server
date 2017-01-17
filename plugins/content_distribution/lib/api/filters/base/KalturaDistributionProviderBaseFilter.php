@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaDistributionProviderBaseFilter extends KalturaFilter
+abstract class BorhanDistributionProviderBaseFilter extends BorhanFilter
 {
 	static private $map_between_objects = array
 	(
@@ -27,12 +27,12 @@ abstract class KalturaDistributionProviderBaseFilter extends KalturaFilter
 	}
 
 	/**
-	 * @var KalturaDistributionProviderType
+	 * @var BorhanDistributionProviderType
 	 */
 	public $typeEqual;
 
 	/**
-	 * @dynamicType KalturaDistributionProviderType
+	 * @dynamicType BorhanDistributionProviderType
 	 * @var string
 	 */
 	public $typeIn;

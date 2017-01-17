@@ -2,7 +2,7 @@
 /**
  * @package plugins.FeedDropFolder
  */
-class FeedDropFolderPlugin extends KalturaPlugin implements IKalturaPlugin, IKalturaPending, IKalturaObjectLoader, IKalturaEnumerator, IKalturaApplicationTranslations
+class FeedDropFolderPlugin extends BorhanPlugin implements IBorhanPlugin, IBorhanPending, IBorhanObjectLoader, IBorhanEnumerator, IBorhanApplicationTranslations
 {
 	const PLUGIN_NAME = 'FeedDropFolder';
 	const DROP_FOLDER_PLUGIN_NAME = 'dropFolder';
@@ -10,7 +10,7 @@ class FeedDropFolderPlugin extends KalturaPlugin implements IKalturaPlugin, IKal
 	const ERROR_MESSAGE_INCOMPLETE_HANDLING = "Feed is too long- because of handling limitation not all feed items will be handled. Feed Drop Folder ID ";
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName() {
 		return self::PLUGIN_NAME;
@@ -21,21 +21,21 @@ class FeedDropFolderPlugin extends KalturaPlugin implements IKalturaPlugin, IKal
 		switch ($baseClass)
 		{
 			case 'KDropFolderEngine':
-				if ($enumValue == KalturaDropFolderType::FEED)
+				if ($enumValue == BorhanDropFolderType::FEED)
 				{
 					return new KFeedDropFolderEngine();
 				}
 				break;
-			case ('KalturaDropFolderFile'):
+			case ('BorhanDropFolderFile'):
 				if ($enumValue == self::getDropFolderTypeCoreValue(FeedDropFolderType::FEED) )
 				{
-					return new KalturaFeedDropFolderFile();
+					return new BorhanFeedDropFolderFile();
 				}
 				break;
-			case ('KalturaDropFolder'):
+			case ('BorhanDropFolder'):
 				if ($enumValue == self::getDropFolderTypeCoreValue(FeedDropFolderType::FEED) )
 				{
-					return new KalturaFeedDropFolder();
+					return new BorhanFeedDropFolder();
 				}
 				break;
 			case 'kDropFolderXmlFileHandler':
@@ -45,15 +45,15 @@ class FeedDropFolderPlugin extends KalturaPlugin implements IKalturaPlugin, IKal
 				}
 				break;
 			case 'Form_DropFolderConfigureExtend_SubForm':
-				if ($enumValue == Kaltura_Client_DropFolder_Enum_DropFolderType::FEED)
+				if ($enumValue == Borhan_Client_DropFolder_Enum_DropFolderType::FEED)
 				{
 					return new Form_FeedDropFolderConfigureExtend_SubForm();
 				}
 				break;
-			case 'Kaltura_Client_DropFolder_Type_DropFolder':
-				if ($enumValue == Kaltura_Client_DropFolder_Enum_DropFolderType::FEED)
+			case 'Borhan_Client_DropFolder_Type_DropFolder':
+				if ($enumValue == Borhan_Client_DropFolder_Enum_DropFolderType::FEED)
 				{
-					return new Kaltura_Client_FeedDropFolder_Type_FeedDropFolder();
+					return new Borhan_Client_FeedDropFolder_Type_FeedDropFolder();
 				}
 				break;
 		}
@@ -76,7 +76,7 @@ class FeedDropFolderPlugin extends KalturaPlugin implements IKalturaPlugin, IKal
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -93,10 +93,10 @@ class FeedDropFolderPlugin extends KalturaPlugin implements IKalturaPlugin, IKal
 	}
 		
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn() {
-		$dropFolderDependency = new KalturaDependency(self::DROP_FOLDER_PLUGIN_NAME);
+		$dropFolderDependency = new BorhanDependency(self::DROP_FOLDER_PLUGIN_NAME);
 		
 		return array($dropFolderDependency);
 	}
@@ -106,12 +106,12 @@ class FeedDropFolderPlugin extends KalturaPlugin implements IKalturaPlugin, IKal
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 
 	public static function getDropFolderTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('DropFolderType', $value);
 	}
 
@@ -129,7 +129,7 @@ class FeedDropFolderPlugin extends KalturaPlugin implements IKalturaPlugin, IKal
 			$langFilePath = __DIR__ . "/config/lang/$default.php";
 		}
 		
-		KalturaLog::info("Loading file [$langFilePath]");
+		BorhanLog::info("Loading file [$langFilePath]");
 		$array = include($langFilePath);
 	
 		return array($locale => $array);

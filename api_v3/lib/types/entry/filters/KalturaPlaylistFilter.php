@@ -3,17 +3,17 @@
  * @package api
  * @subpackage filters
  */
-class KalturaPlaylistFilter extends KalturaPlaylistBaseFilter
+class BorhanPlaylistFilter extends BorhanPlaylistBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaBaseEntryFilter::getListResponse()
+	 * @see BorhanBaseEntryFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		list($list, $totalCount) = $this->doGetListResponse($pager);
 		
-	    $newList = KalturaPlaylistArray::fromDbArray($list, $responseProfile);
-		$response = new KalturaPlaylistListResponse();
+	    $newList = BorhanPlaylistArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanPlaylistListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $totalCount;
 		

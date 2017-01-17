@@ -3,12 +3,12 @@
  * @package api
  * @subpackage objects
  */
-class KalturaAuthenticatedCondition extends KalturaCondition
+class BorhanAuthenticatedCondition extends BorhanCondition
 {
 	/**
 	 * The privelege needed to remove the restriction
 	 * 
-	 * @var KalturaStringValueArray
+	 * @var BorhanStringValueArray
 	 */
 	public $privileges;
 	
@@ -31,7 +31,7 @@ class KalturaAuthenticatedCondition extends KalturaCondition
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

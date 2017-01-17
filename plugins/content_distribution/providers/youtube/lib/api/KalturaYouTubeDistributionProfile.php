@@ -3,10 +3,10 @@
  * @package plugins.youTubeDistribution
  * @subpackage api.objects
  */
-class KalturaYouTubeDistributionProfile extends KalturaConfigurableDistributionProfile
+class BorhanYouTubeDistributionProfile extends BorhanConfigurableDistributionProfile
 {
 	/**
-	 * @var KalturaYouTubeDistributionFeedSpecVersion
+	 * @var BorhanYouTubeDistributionFeedSpecVersion
 	 */
 	public $feedSpecVersion;
 

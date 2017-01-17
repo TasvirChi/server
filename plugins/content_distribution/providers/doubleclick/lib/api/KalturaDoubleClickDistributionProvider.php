@@ -3,7 +3,7 @@
  * @package plugins.doubleClickDistribution
  * @subpackage api.objects
  */
-class KalturaDoubleClickDistributionProvider extends KalturaDistributionProvider
+class BorhanDoubleClickDistributionProvider extends BorhanDistributionProvider
 {
 	
 }

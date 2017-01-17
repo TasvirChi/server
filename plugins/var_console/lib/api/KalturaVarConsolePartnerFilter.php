@@ -4,11 +4,11 @@
  * @subpackage model.filters
  *
  */
-class KalturaVarConsolePartnerFilter extends KalturaPartnerFilter
+class BorhanVarConsolePartnerFilter extends BorhanPartnerFilter
 {
     /**
      * Eq filter for the partner's group type
-     * @var KalturaPartnerGroupType
+     * @var BorhanPartnerGroupType
      */
     public $groupTypeEq;
     

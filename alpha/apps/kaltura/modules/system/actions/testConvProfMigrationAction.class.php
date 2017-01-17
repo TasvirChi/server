@@ -4,14 +4,14 @@
  * @subpackage system
  * @deprecated
  */
-require_once ( __DIR__ . "/kalturaSystemAction.class.php" );
+require_once ( __DIR__ . "/borhanSystemAction.class.php" );
 
 /**
  * @package    Core
  * @subpackage system
  * @deprecated
  */
-class testConvProfMigrationAction extends kalturaSystemAction
+class testConvProfMigrationAction extends borhanSystemAction
 {
 	public function execute()
 	{

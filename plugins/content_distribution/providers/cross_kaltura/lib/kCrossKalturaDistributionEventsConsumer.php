@@ -1,9 +1,9 @@
 <?php
 /**
- * @package plugins.crossKalturaDistribution
+ * @package plugins.crossBorhanDistribution
  * @subpackage lib
  */
-class kCrossKalturaDistributionEventsConsumer implements kBatchJobStatusEventConsumer
+class kCrossBorhanDistributionEventsConsumer implements kBatchJobStatusEventConsumer
 {
 	/* (non-PHPdoc)
 	 * @see kBatchJobStatusEventConsumer::shouldConsumeJobStatusEvent()
@@ -24,12 +24,12 @@ class kCrossKalturaDistributionEventsConsumer implements kBatchJobStatusEventCon
 	    $data = $dbBatchJob->getData();
 		if (!$data instanceof kDistributionJobData)
 		{	
-		    KalturaLog::err('Wrong job data type');
+		    BorhanLog::err('Wrong job data type');
 			return false;
 		}	
 		
-		$crossKalturaCoreValueType = kPluginableEnumsManager::apiToCore('DistributionProviderType', CrossKalturaDistributionPlugin::getApiValue(CrossKalturaDistributionProviderType::CROSS_KALTURA));
-		if ($data->getProviderType() == $crossKalturaCoreValueType)
+		$crossBorhanCoreValueType = kPluginableEnumsManager::apiToCore('DistributionProviderType', CrossBorhanDistributionPlugin::getApiValue(CrossBorhanDistributionProviderType::CROSS_BORHAN));
+		if ($data->getProviderType() == $crossBorhanCoreValueType)
 		{		
 			return true;
 		}		
@@ -62,22 +62,22 @@ class kCrossKalturaDistributionEventsConsumer implements kBatchJobStatusEventCon
 		$entryDistribution = EntryDistributionPeer::retrieveByPK($data->getEntryDistributionId());
 		if(!$entryDistribution)
 		{
-			KalturaLog::err('Entry distribution ['.$data->getEntryDistributionId().'] not found');
+			BorhanLog::err('Entry distribution ['.$data->getEntryDistributionId().'] not found');
 			return $dbBatchJob;
 		}
 		
 		$providerData = $data->getProviderData();
-		if(!($providerData instanceof kCrossKalturaDistributionJobProviderData))
+		if(!($providerData instanceof kCrossBorhanDistributionJobProviderData))
 		{
-		    KalturaLog::err('Wrong provider data class ['.get_class($providerData).']');
+		    BorhanLog::err('Wrong provider data class ['.get_class($providerData).']');
 			return $dbBatchJob;
 		}
 		
-		$entryDistribution->putInCustomData(CrossKalturaDistributionCustomDataField::DISTRIBUTED_FLAVOR_ASSETS, $providerData->getDistributedFlavorAssets());
-		$entryDistribution->putInCustomData(CrossKalturaDistributionCustomDataField::DISTRIBUTED_THUMB_ASSETS, $providerData->getDistributedThumbAssets());
-		$entryDistribution->putInCustomData(CrossKalturaDistributionCustomDataField::DISTRIBUTED_METADATA, $providerData->getDistributedMetadata());
-		$entryDistribution->putInCustomData(CrossKalturaDistributionCustomDataField::DISTRIBUTED_CAPTION_ASSETS, $providerData->getDistributedCaptionAssets());
-		$entryDistribution->putInCustomData(CrossKalturaDistributionCustomDataField::DISTRIBUTED_CUE_POINTS, $providerData->getDistributedCuePoints());
+		$entryDistribution->putInCustomData(CrossBorhanDistributionCustomDataField::DISTRIBUTED_FLAVOR_ASSETS, $providerData->getDistributedFlavorAssets());
+		$entryDistribution->putInCustomData(CrossBorhanDistributionCustomDataField::DISTRIBUTED_THUMB_ASSETS, $providerData->getDistributedThumbAssets());
+		$entryDistribution->putInCustomData(CrossBorhanDistributionCustomDataField::DISTRIBUTED_METADATA, $providerData->getDistributedMetadata());
+		$entryDistribution->putInCustomData(CrossBorhanDistributionCustomDataField::DISTRIBUTED_CAPTION_ASSETS, $providerData->getDistributedCaptionAssets());
+		$entryDistribution->putInCustomData(CrossBorhanDistributionCustomDataField::DISTRIBUTED_CUE_POINTS, $providerData->getDistributedCuePoints());
 		$entryDistribution->save();
 		
 		return $dbBatchJob;

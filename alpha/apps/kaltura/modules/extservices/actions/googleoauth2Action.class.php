@@ -18,7 +18,7 @@ class googleoauth2Action extends oauth2Action
 	public function execute()
 	{
 		// add google client library to include path
-		set_include_path(get_include_path().PATH_SEPARATOR.KALTURA_ROOT_PATH.'/vendor/google-api-php-client/src/');
+		set_include_path(get_include_path().PATH_SEPARATOR.BORHAN_ROOT_PATH.'/vendor/google-api-php-client/src/');
 		require_once 'Google_Client.php';
 
 		$ks    = $this->getRequestParameter('ks');
@@ -161,7 +161,7 @@ class googleoauth2Action extends oauth2Action
 		}
 		catch(Google_AuthException $ex)
 		{
-			KalturaLog::err($ex);
+			BorhanLog::err($ex);
 			$this->tokenError = true;
 			return;
 		}
@@ -217,13 +217,13 @@ class googleoauth2Action extends oauth2Action
 			$body = $request->getResponseBody();
 			if ($code != 200)
 			{
-				KalturaLog::err('Google API returned: ' . $body);
+				BorhanLog::err('Google API returned: ' . $body);
 				$this->tokenError = true;
 			}
 		}
 		catch(Exception $ex)
 		{
-			KalturaLog::err($ex);
+			BorhanLog::err($ex);
 			$this->tokenError = true;
 		}
 	}

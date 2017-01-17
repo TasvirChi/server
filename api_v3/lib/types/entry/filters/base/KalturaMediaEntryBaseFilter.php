@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaMediaEntryBaseFilter extends KalturaPlayableEntryFilter
+abstract class BorhanMediaEntryBaseFilter extends BorhanPlayableEntryFilter
 {
 	static private $map_between_objects = array
 	(
@@ -37,7 +37,7 @@ abstract class KalturaMediaEntryBaseFilter extends KalturaPlayableEntryFilter
 	}
 
 	/**
-	 * @var KalturaMediaType
+	 * @var BorhanMediaType
 	 */
 	public $mediaTypeEqual;
 
@@ -47,23 +47,23 @@ abstract class KalturaMediaEntryBaseFilter extends KalturaPlayableEntryFilter
 	public $mediaTypeIn;
 
 	/**
-	 * @var KalturaSourceType
+	 * @var BorhanSourceType
 	 */
 	public $sourceTypeEqual;
 
 	/**
-	 * @var KalturaSourceType
+	 * @var BorhanSourceType
 	 */
 	public $sourceTypeNotEqual;
 
 	/**
-	 * @dynamicType KalturaSourceType
+	 * @dynamicType BorhanSourceType
 	 * @var string
 	 */
 	public $sourceTypeIn;
 
 	/**
-	 * @dynamicType KalturaSourceType
+	 * @dynamicType BorhanSourceType
 	 * @var string
 	 */
 	public $sourceTypeNotIn;

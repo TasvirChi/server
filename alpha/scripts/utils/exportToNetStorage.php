@@ -24,7 +24,7 @@ if(!$storageProfile)
 }
 
 $flavorParamsIds = $storageProfile->getFlavorParamsIds();
-KalturaLog::log("flavorParamsIds [$flavorParamsIds]");
+BorhanLog::log("flavorParamsIds [$flavorParamsIds]");
 
 $flavorParamsArr = null;
 if(!is_null($flavorParamsIds) && strlen(trim($flavorParamsIds)))

@@ -4,7 +4,7 @@
  * @package plugins.cuePoint
  * @subpackage batch
  */
-abstract class CuePointBulkUploadXmlHandler implements IKalturaBulkUploadXmlHandler
+abstract class CuePointBulkUploadXmlHandler implements IBorhanBulkUploadXmlHandler
 {
 	/**
 	 * @var BulkUploadEngineXml
@@ -12,7 +12,7 @@ abstract class CuePointBulkUploadXmlHandler implements IKalturaBulkUploadXmlHand
 	protected $xmlBulkUploadEngine = null;
 	
 	/**
-	 * @var KalturaCuePointClientPlugin
+	 * @var BorhanCuePointClientPlugin
 	 */
 	protected $cuePointPlugin = null;
 	
@@ -41,7 +41,7 @@ abstract class CuePointBulkUploadXmlHandler implements IKalturaBulkUploadXmlHand
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::configureBulkUploadXmlHandler()
+	 * @see IBorhanBulkUploadXmlHandler::configureBulkUploadXmlHandler()
 	 */
 	public function configureBulkUploadXmlHandler(BulkUploadEngineXml $xmlBulkUploadEngine)
 	{
@@ -49,18 +49,18 @@ abstract class CuePointBulkUploadXmlHandler implements IKalturaBulkUploadXmlHand
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::handleItemAdded()
+	 * @see IBorhanBulkUploadXmlHandler::handleItemAdded()
 	 */
-	public function handleItemAdded(KalturaObjectBase $object, SimpleXMLElement $item)
+	public function handleItemAdded(BorhanObjectBase $object, SimpleXMLElement $item)
 	{
-		if(!($object instanceof KalturaBaseEntry))
+		if(!($object instanceof BorhanBaseEntry))
 			return;
 			
 		if(empty($item->scenes))
 			return;
 			
 		$this->entryId = $object->id;
-		$this->cuePointPlugin = KalturaCuePointClientPlugin::get(KBatchBase::$kClient);
+		$this->cuePointPlugin = BorhanCuePointClientPlugin::get(KBatchBase::$kClient);
 		
 		KBatchBase::impersonate($this->xmlBulkUploadEngine->getCurrentPartnerId());
 		KBatchBase::$kClient->startMultiRequest();
@@ -78,30 +78,30 @@ abstract class CuePointBulkUploadXmlHandler implements IKalturaBulkUploadXmlHand
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::handleItemUpdated()
+	 * @see IBorhanBulkUploadXmlHandler::handleItemUpdated()
 	 */
-	public function handleItemUpdated(KalturaObjectBase $object, SimpleXMLElement $item)
+	public function handleItemUpdated(BorhanObjectBase $object, SimpleXMLElement $item)
 	{
-		if(!($object instanceof KalturaBaseEntry))
+		if(!($object instanceof BorhanBaseEntry))
 			return;
 			
 		if(empty($item->scenes))
 			return;
 
-		$action = KBulkUploadEngine::$actionsMap[KalturaBulkUploadAction::UPDATE];
+		$action = KBulkUploadEngine::$actionsMap[BorhanBulkUploadAction::UPDATE];
 		if(isset($item->scenes->action))
 			$action = strtolower($item->scenes->action);
 			
 		switch ($action)
 		{
-			case KBulkUploadEngine::$actionsMap[KalturaBulkUploadAction::UPDATE]:
+			case KBulkUploadEngine::$actionsMap[BorhanBulkUploadAction::UPDATE]:
 				break;
 			default:
-				throw new KalturaBatchException("scenes->action: $action is not supported", KalturaBatchJobAppErrors::BULK_ACTION_NOT_SUPPORTED);
+				throw new BorhanBatchException("scenes->action: $action is not supported", BorhanBatchJobAppErrors::BULK_ACTION_NOT_SUPPORTED);
 		}
 			
 		$this->entryId = $object->id;
-		$this->cuePointPlugin = KalturaCuePointClientPlugin::get(KBatchBase::$kClient);
+		$this->cuePointPlugin = BorhanCuePointClientPlugin::get(KBatchBase::$kClient);
 		
 		KBatchBase::impersonate($this->xmlBulkUploadEngine->getCurrentPartnerId());
 		
@@ -123,9 +123,9 @@ abstract class CuePointBulkUploadXmlHandler implements IKalturaBulkUploadXmlHand
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::handleItemDeleted()
+	 * @see IBorhanBulkUploadXmlHandler::handleItemDeleted()
 	 */
-	public function handleItemDeleted(KalturaObjectBase $object, SimpleXMLElement $item)
+	public function handleItemDeleted(BorhanObjectBase $object, SimpleXMLElement $item)
 	{
 		// No handling required
 	}
@@ -139,10 +139,10 @@ abstract class CuePointBulkUploadXmlHandler implements IKalturaBulkUploadXmlHand
 		if (is_array(self::$existingCuePointsBySystemName))
 			return;
 		
-		$filter = new KalturaCuePointFilter();
+		$filter = new BorhanCuePointFilter();
 		$filter->entryIdEqual = $entryId;
 		
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageSize = 500;
 		
 		$cuePoints = $this->cuePointPlugin->cuePoint->listAction($filter, $pager);
@@ -163,11 +163,11 @@ abstract class CuePointBulkUploadXmlHandler implements IKalturaBulkUploadXmlHand
 	{
 		if(count($results) != count($this->operations) || count($this->operations) != count($items))
 		{
-			KalturaLog::err("results count [" . count($results) . "] operations count [" . count($this->operations) . "] items count [" . count($items) . "]");
+			BorhanLog::err("results count [" . count($results) . "] operations count [" . count($this->operations) . "] items count [" . count($items) . "]");
 			return;
 		}
 			
-		$pluginsInstances = KalturaPluginManager::getPluginInstances('IKalturaBulkUploadXmlHandler');
+		$pluginsInstances = BorhanPluginManager::getPluginInstances('IBorhanBulkUploadXmlHandler');
 		
 		foreach($results as $index => $cuePoint)
 		{
@@ -176,28 +176,28 @@ abstract class CuePointBulkUploadXmlHandler implements IKalturaBulkUploadXmlHand
 			
 			foreach($pluginsInstances as $pluginsInstance)
 			{
-				/* @var $pluginsInstance IKalturaBulkUploadXmlHandler */
+				/* @var $pluginsInstance IBorhanBulkUploadXmlHandler */
 				
 				$pluginsInstance->configureBulkUploadXmlHandler($this->xmlBulkUploadEngine);
 				
-				if($this->operations[$index] == KalturaBulkUploadAction::ADD)
+				if($this->operations[$index] == BorhanBulkUploadAction::ADD)
 					$pluginsInstance->handleItemAdded($cuePoint, $items[$index]);
-				elseif($this->operations[$index] == KalturaBulkUploadAction::UPDATE)
+				elseif($this->operations[$index] == BorhanBulkUploadAction::UPDATE)
 					$pluginsInstance->handleItemUpdated($cuePoint, $items[$index]);
-				elseif($this->operations[$index] == KalturaBulkUploadAction::DELETE)
+				elseif($this->operations[$index] == BorhanBulkUploadAction::DELETE)
 					$pluginsInstance->handleItemDeleted($cuePoint, $items[$index]);
 			}
 		}
 	}
 
 	/**
-	 * @return KalturaCuePoint
+	 * @return BorhanCuePoint
 	 */
 	abstract protected function getNewInstance();
 
 	/**
 	 * @param SimpleXMLElement $scene
-	 * @return KalturaCuePoint
+	 * @return BorhanCuePoint
 	 */
 	protected function parseCuePoint(SimpleXMLElement $scene)
 	{
@@ -231,7 +231,7 @@ abstract class CuePointBulkUploadXmlHandler implements IKalturaBulkUploadXmlHand
 			
 		$cuePoint->entryId = $this->entryId;
 		$ingestedCuePoint = $this->cuePointPlugin->cuePoint->add($cuePoint);
-		$this->operations[] = KalturaBulkUploadAction::ADD;
+		$this->operations[] = BorhanBulkUploadAction::ADD;
 		if($cuePoint->systemName)
 			$this->ingested[$cuePoint->systemName] = $ingestedCuePoint;
 			
@@ -251,20 +251,20 @@ abstract class CuePointBulkUploadXmlHandler implements IKalturaBulkUploadXmlHand
 		{
 			$cuePointId = $scene['sceneId'];
 			$ingestedCuePoint = $this->cuePointPlugin->cuePoint->update($cuePointId, $cuePoint);
-			$this->operations[] = KalturaBulkUploadAction::UPDATE;
+			$this->operations[] = BorhanBulkUploadAction::UPDATE;
 		}
 		elseif(isset($cuePoint->systemName) && isset(self::$existingCuePointsBySystemName[$cuePoint->systemName]))
 		{
 			$cuePoint = $this->removeNonUpdatbleFields($cuePoint);
 			$cuePointId = self::$existingCuePointsBySystemName[$cuePoint->systemName];
 			$ingestedCuePoint = $this->cuePointPlugin->cuePoint->update($cuePointId, $cuePoint);
-			$this->operations[] = KalturaBulkUploadAction::UPDATE;
+			$this->operations[] = BorhanBulkUploadAction::UPDATE;
 		}
 		else
 		{
 			$cuePoint->entryId = $this->entryId;
 			$ingestedCuePoint = $this->cuePointPlugin->cuePoint->add($cuePoint);
-			$this->operations[] = KalturaBulkUploadAction::ADD;
+			$this->operations[] = BorhanBulkUploadAction::ADD;
 		}
 		if($cuePoint->systemName)
 			$this->ingested[$cuePoint->systemName] = $ingestedCuePoint;
@@ -287,11 +287,11 @@ abstract class CuePointBulkUploadXmlHandler implements IKalturaBulkUploadXmlHand
 	
 //		Won't work in the middle of multi request
 //		
-//		$filter = new KalturaAnnotationFilter();
+//		$filter = new BorhanAnnotationFilter();
 //		$filter->entryIdEqual = $this->entryId;
 //		$filter->systemNameEqual = $systemName;
 //		
-//		$pager = new KalturaFilterPager();
+//		$pager = new BorhanFilterPager();
 //		$pager->pageSize = 1;
 //		
 //		try
@@ -303,14 +303,14 @@ abstract class CuePointBulkUploadXmlHandler implements IKalturaBulkUploadXmlHand
 //			return null;
 //		}
 //		
-//		if($cuePointListResponce->totalCount && $cuePointListResponce->objects[0] instanceof KalturaAnnotation)
+//		if($cuePointListResponce->totalCount && $cuePointListResponce->objects[0] instanceof BorhanAnnotation)
 //			return $cuePointListResponce->objects[0]->id;
 //			
 //		return null;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaConfigurator::getContainerName()
+	 * @see IBorhanConfigurator::getContainerName()
 	*/
 	public function getContainerName()
 	{
@@ -319,9 +319,9 @@ abstract class CuePointBulkUploadXmlHandler implements IKalturaBulkUploadXmlHand
 	
 	/**
 	 * Removes all non updatble fields from the cuepoint
-	 * @param KalturaCuePoint $entry
+	 * @param BorhanCuePoint $entry
 	 */
-	protected function removeNonUpdatbleFields(KalturaCuePoint $cuePoint)
+	protected function removeNonUpdatbleFields(BorhanCuePoint $cuePoint)
 	{
 		return $cuePoint;
 	}

@@ -4,7 +4,7 @@
  * @package api
  * @subpackage objects
   */
-class KalturaQuizUserEntry extends KalturaUserEntry{
+class BorhanQuizUserEntry extends BorhanUserEntry{
 
 	/**
 	 * @var float
@@ -23,7 +23,7 @@ class KalturaQuizUserEntry extends KalturaUserEntry{
 	}
 
 	/**
-	 * KalturaQuizUserEntry constructor.
+	 * BorhanQuizUserEntry constructor.
 	 */
 	public function __construct()
 	{
@@ -40,7 +40,7 @@ class KalturaQuizUserEntry extends KalturaUserEntry{
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toInsertableObject()
+	 * @see BorhanObject::toInsertableObject()
 	 */
 	public function toInsertableObject ( $object_to_fill = null , $props_to_skip = array() )
 	{
@@ -63,7 +63,7 @@ class KalturaQuizUserEntry extends KalturaUserEntry{
 			$userEntry = UserEntryPeer::doSelect($c);
 			if (count($userEntry) > 0)
 			{
-				throw new KalturaAPIException(KalturaQuizErrors::QUIZ_USER_ENTRY_ALREADY_EXISTS, $this->entryId);
+				throw new BorhanAPIException(BorhanQuizErrors::QUIZ_USER_ENTRY_ALREADY_EXISTS, $this->entryId);
 			}
 		}
 		return $object_to_fill;
@@ -72,7 +72,7 @@ class KalturaQuizUserEntry extends KalturaUserEntry{
 	public function validateForInsert($propertiesToSkip = array())
 	{
 		if(!QuizPlugin::isQuiz($this->entryId))
-			throw new KalturaAPIException(KalturaQuizErrors::PROVIDED_ENTRY_IS_NOT_A_QUIZ, $this->entryId);
+			throw new BorhanAPIException(BorhanQuizErrors::PROVIDED_ENTRY_IS_NOT_A_QUIZ, $this->entryId);
 		parent::validateForInsert($propertiesToSkip);
 	}
 

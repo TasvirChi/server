@@ -125,7 +125,7 @@ class dfxpCaptionsContentManager extends kCaptionsContentManager
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err($e->getMessage());
+			BorhanLog::err($e->getMessage());
 			return array();
 		}
 
@@ -154,7 +154,7 @@ class dfxpCaptionsContentManager extends kCaptionsContentManager
 		$itemsData = $this->parseBody($xml);
 		if(! $itemsData)
 		{
-			KalturaLog::err("XML element <p> not found");
+			BorhanLog::err("XML element <p> not found");
 			return array();
 		}
 		
@@ -185,7 +185,7 @@ class dfxpCaptionsContentManager extends kCaptionsContentManager
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err($e->getMessage());
+			BorhanLog::err($e->getMessage());
 			return null;
 		}
 		

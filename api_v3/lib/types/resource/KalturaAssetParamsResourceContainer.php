@@ -3,11 +3,11 @@
  * @package api
  * @subpackage objects
  */
-class KalturaAssetParamsResourceContainer extends KalturaResource 
+class BorhanAssetParamsResourceContainer extends BorhanResource 
 {
 	/**
 	 * The content resource to associate with asset params
-	 * @var KalturaContentResource
+	 * @var BorhanContentResource
 	 */
 	public $resource;
 	

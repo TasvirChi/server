@@ -7,7 +7,7 @@
  * @package api
  * @subpackage services
  */
-class SessionService extends KalturaBaseService
+class SessionService extends BorhanBaseService
 {
     
 	
@@ -21,13 +21,13 @@ class SessionService extends KalturaBaseService
 	
 	
 	/**
-	 * Start a session with Kaltura's server.
+	 * Start a session with Borhan's server.
 	 * The result KS is the session key that you should pass to all services that requires a ticket.
 	 * 
 	 * @action start
 	 * @param string $secret Remember to provide the correct secret according to the sessionType you want
 	 * @param string $userId
-	 * @param KalturaSessionType $type Regular session or Admin session
+	 * @param BorhanSessionType $type Regular session or Admin session
 	 * @param int $partnerId
 	 * @param int $expiry KS expiry time in seconds
 	 * @param string $privileges 
@@ -37,7 +37,7 @@ class SessionService extends KalturaBaseService
 	 */
 	function startAction($secret, $userId = "", $type = 0, $partnerId = null, $expiry = 86400 , $privileges = null )
 	{
-		KalturaResponseCacher::disableCache();
+		BorhanResponseCacher::disableCache();
 		// make sure the secret fits the one in the partner's table
 		$ks = "";
 		$result = kSessionUtils::startKSession ( $partnerId , $secret , $userId , $ks , $expiry , $type , "" , $privileges );
@@ -48,19 +48,19 @@ class SessionService extends KalturaBaseService
 	}
 		else
 		{
-			throw new KalturaAPIException ( APIErrors::START_SESSION_ERROR ,$partnerId );
+			throw new BorhanAPIException ( APIErrors::START_SESSION_ERROR ,$partnerId );
 		}
 	}
 	
 	
 	/**
-	 * End a session with the Kaltura server, making the current KS invalid.
+	 * End a session with the Borhan server, making the current KS invalid.
 	 * 
 	 * @action end
 	 */
 	function endAction()
 	{
-		KalturaResponseCacher::disableCache();
+		BorhanResponseCacher::disableCache();
 		
 		$ks = $this->getKs();
 		if($ks)
@@ -68,14 +68,14 @@ class SessionService extends KalturaBaseService
 	}
 
 	/**
-	 * Start an impersonated session with Kaltura's server.
+	 * Start an impersonated session with Borhan's server.
 	 * The result KS is the session key that you should pass to all services that requires a ticket.
 	 * 
 	 * @action impersonate
 	 * @param string $secret - should be the secret (admin or user) of the original partnerId (not impersonatedPartnerId).
 	 * @param int $impersonatedPartnerId
 	 * @param string $userId - impersonated userId
-	 * @param KalturaSessionType $type
+	 * @param BorhanSessionType $type
 	 * @param int $partnerId
 	 * @param int $expiry KS expiry time in seconds
 	 * @param string $privileges 
@@ -83,15 +83,15 @@ class SessionService extends KalturaBaseService
 	 *
 	 * @throws APIErrors::START_SESSION_ERROR
 	 */
-	function impersonateAction($secret, $impersonatedPartnerId, $userId = "", $type = KalturaSessionType::USER, $partnerId = null, $expiry = 86400 , $privileges = null )
+	function impersonateAction($secret, $impersonatedPartnerId, $userId = "", $type = BorhanSessionType::USER, $partnerId = null, $expiry = 86400 , $privileges = null )
 	{
-		KalturaResponseCacher::disableCache();
+		BorhanResponseCacher::disableCache();
 		
 		// verify that partnerId exists and is in correspondence with given secret
 		$result = myPartnerUtils::isValidSecret($partnerId, $secret, "", $expiry, $type);
 		if ($result !== true)
 		{
-			throw new KalturaAPIException ( APIErrors::START_SESSION_ERROR, $partnerId );
+			throw new BorhanAPIException ( APIErrors::START_SESSION_ERROR, $partnerId );
 		}
 				
 		// verify partner is allowed to start session for another partner
@@ -111,11 +111,11 @@ class SessionService extends KalturaBaseService
 		if(!$impersonatedPartner)
 		{
 			// impersonated partner could not be fetched from the DB
-			throw new KalturaAPIException ( APIErrors::START_SESSION_ERROR ,$partnerId );
+			throw new BorhanAPIException ( APIErrors::START_SESSION_ERROR ,$partnerId );
 		}
 		
 		// set the correct secret according to required session type
-		if($type == KalturaSessionType::ADMIN)
+		if($type == BorhanSessionType::ADMIN)
 		{
 			$impersonatedSecret = $impersonatedPartner->getAdminSecret();
 		}
@@ -134,27 +134,27 @@ class SessionService extends KalturaBaseService
 		}
 		else
 		{
-			throw new KalturaAPIException ( APIErrors::START_SESSION_ERROR ,$partnerId );
+			throw new BorhanAPIException ( APIErrors::START_SESSION_ERROR ,$partnerId );
 		}
 	}
 
 	/**
-	 * Start an impersonated session with Kaltura's server.
+	 * Start an impersonated session with Borhan's server.
 	 * The result KS info contains the session key that you should pass to all services that requires a ticket.
 	 * Type, expiry and privileges won't be changed if they're not set
 	 * 
 	 * @action impersonateByKs
 	 * @param string $session The old KS of the impersonated partner
-	 * @param KalturaSessionType $type Type of the new KS 
+	 * @param BorhanSessionType $type Type of the new KS 
 	 * @param int $expiry Expiry time in seconds of the new KS
 	 * @param string $privileges Privileges of the new KS
-	 * @return KalturaSessionInfo
+	 * @return BorhanSessionInfo
 	 *
 	 * @throws APIErrors::START_SESSION_ERROR
 	 */
 	function impersonateByKsAction($session, $type = null, $expiry = null , $privileges = null)
 	{
-		KalturaResponseCacher::disableCache();
+		BorhanResponseCacher::disableCache();
 		
 		$oldKS = null;
 		try
@@ -163,8 +163,8 @@ class SessionService extends KalturaBaseService
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err($e->getMessage());
-			throw new KalturaAPIException(APIErrors::START_SESSION_ERROR, $this->getPartnerId());
+			BorhanLog::err($e->getMessage());
+			throw new BorhanAPIException(APIErrors::START_SESSION_ERROR, $this->getPartnerId());
 		}
 		$impersonatedPartnerId = $oldKS->partner_id;
 		$impersonatedUserId = $oldKS->user;
@@ -195,12 +195,12 @@ class SessionService extends KalturaBaseService
 		
 		if(!$impersonatedPartner)
 		{
-			KalturaLog::err("Impersonated partner [$impersonatedPartnerId ]could not be fetched from the DB");
-			throw new KalturaAPIException(APIErrors::START_SESSION_ERROR, $this->getPartnerId());
+			BorhanLog::err("Impersonated partner [$impersonatedPartnerId ]could not be fetched from the DB");
+			throw new BorhanAPIException(APIErrors::START_SESSION_ERROR, $this->getPartnerId());
 		}
 		
 		// set the correct secret according to required session type
-		if($impersonatedType == KalturaSessionType::ADMIN)
+		if($impersonatedType == BorhanSessionType::ADMIN)
 		{
 			$impersonatedSecret = $impersonatedPartner->getAdminSecret();
 		}
@@ -209,13 +209,13 @@ class SessionService extends KalturaBaseService
 			$impersonatedSecret = $impersonatedPartner->getSecret();
 		}
 		
-		$sessionInfo = new KalturaSessionInfo();
+		$sessionInfo = new BorhanSessionInfo();
 		
 		$result = kSessionUtils::startKSession($impersonatedPartnerId, $impersonatedSecret, $impersonatedUserId, $sessionInfo->ks, $impersonatedExpiry, $impersonatedType, '', $impersonatedPrivileges, $this->getPartnerId());
 		if($result < 0)
 		{
-			KalturaLog::err("Failed starting a session with result [$result]");
-			throw new KalturaAPIException(APIErrors::START_SESSION_ERROR, $this->getPartnerId());
+			BorhanLog::err("Failed starting a session with result [$result]");
+			throw new BorhanAPIException(APIErrors::START_SESSION_ERROR, $this->getPartnerId());
 		}
 	
 		$sessionInfo->partnerId = $impersonatedPartnerId;
@@ -232,13 +232,13 @@ class SessionService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param string $session The KS to be parsed, keep it empty to use current session.
-	 * @return KalturaSessionInfo
+	 * @return BorhanSessionInfo
 	 *
 	 * @throws APIErrors::START_SESSION_ERROR
 	 */
 	function getAction($session = null)
 	{
-		KalturaResponseCacher::disableCache();
+		BorhanResponseCacher::disableCache();
 		
 		if(!$session)
 			$session = kCurrentContext::$ks;
@@ -246,9 +246,9 @@ class SessionService extends KalturaBaseService
 		$ks = ks::fromSecureString($session);
 		
 		if (!myPartnerUtils::allowPartnerAccessPartner($this->getPartnerId(), $this->partnerGroup(), $ks->partner_id))
-			throw new KalturaAPIException(APIErrors::PARTNER_ACCESS_FORBIDDEN, $this->getPartnerId(), $ks->partner_id);
+			throw new BorhanAPIException(APIErrors::PARTNER_ACCESS_FORBIDDEN, $this->getPartnerId(), $ks->partner_id);
 		
-		$sessionInfo = new KalturaSessionInfo();
+		$sessionInfo = new BorhanSessionInfo();
 		$sessionInfo->partnerId = $ks->partner_id;
 		$sessionInfo->userId = $ks->user;
 		$sessionInfo->expiry = $ks->valid_until;
@@ -259,7 +259,7 @@ class SessionService extends KalturaBaseService
 	}
 	
 	/**
-	 * Start a session for Kaltura's flash widgets
+	 * Start a session for Borhan's flash widgets
 	 * 
 	 * @action startWidgetSession
 	 * @param string $widgetId
@@ -269,7 +269,7 @@ class SessionService extends KalturaBaseService
 	 * @throws APIErrors::MISSING_KS
 	 * @throws APIErrors::INVALID_KS
 	 * @throws APIErrors::START_WIDGET_SESSION_ERROR
-	 * @return KalturaStartWidgetSessionResponse
+	 * @return BorhanStartWidgetSessionResponse
 	 */	
 	function startWidgetSession ( $widgetId , $expiry = 86400 )
 	{
@@ -278,7 +278,7 @@ class SessionService extends KalturaBaseService
 		$widget = widgetPeer::retrieveByPK( $widgetId );
 		if ( !$widget )
 		{
-			throw new KalturaAPIException ( APIErrors::INVALID_WIDGET_ID , $widgetId );
+			throw new BorhanAPIException ( APIErrors::INVALID_WIDGET_ID , $widgetId );
 		}
 
 		$partnerId = $widget->getPartnerId();
@@ -320,7 +320,7 @@ class SessionService extends KalturaBaseService
 		{
 			$user = $this->getKuser();
 			if ( ! $this->getKS() )// the one from the base class
-				throw new KalturaAPIException ( APIErrors::MISSING_KS );
+				throw new BorhanAPIException ( APIErrors::MISSING_KS );
 
 			$widget_partner_id = $widget->getPartnerId();
 			$res = kSessionUtils::validateKSession2 ( 1 ,$widget_partner_id  , $user->getId() , $ks_str , $this->ks );
@@ -328,7 +328,7 @@ class SessionService extends KalturaBaseService
 			if ( 0 >= $res )
 			{
 				// chaned this to be an exception rather than an error
-				throw new KalturaAPIException ( APIErrors::INVALID_KS , $ks_str , $res , ks::getErrorStr( $res ));
+				throw new BorhanAPIException ( APIErrors::INVALID_KS , $ks_str , $res , ks::getErrorStr( $res ));
 			}			
 		}
 		else
@@ -339,7 +339,7 @@ class SessionService extends KalturaBaseService
 
 		if ( $result >= 0 )
 		{
-			$response = new KalturaStartWidgetSessionResponse();
+			$response = new BorhanStartWidgetSessionResponse();
 			$response->partnerId = $partnerId;
 			$response->ks = $ksStr;
 			$response->userId = $userId;
@@ -348,7 +348,7 @@ class SessionService extends KalturaBaseService
 		else
 		{
 			// TODO - see that there is a good error for when the invalid login count exceed s the max
-			throw new  KalturaAPIException  ( APIErrors::START_WIDGET_SESSION_ERROR ,$widgetId );
+			throw new  BorhanAPIException  ( APIErrors::START_WIDGET_SESSION_ERROR ,$widgetId );
 		}		
 	}
 }

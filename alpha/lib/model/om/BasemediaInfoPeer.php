@@ -460,7 +460,7 @@ abstract class BasemediaInfoPeer {
 		
 		$queryResult = mediaInfoPeer::populateObjects(BasePeer::doSelect($criteriaForSelect, $con));
 		
-		if($criteriaForSelect instanceof KalturaCriteria)
+		if($criteriaForSelect instanceof BorhanCriteria)
 			$criteriaForSelect->applyResultsSort($queryResult);
 		
 		if ($cacheKey !== null)
@@ -556,7 +556,7 @@ abstract class BasemediaInfoPeer {
 		mediaInfoPeer::getCriteriaFilter()->applyFilter($criteria);
 	}
 	
-	public static function addPartnerToCriteria($partnerId, $privatePartnerData = false, $partnerGroup = null, $kalturaNetwork = null)
+	public static function addPartnerToCriteria($partnerId, $privatePartnerData = false, $partnerGroup = null, $borhanNetwork = null)
 	{
 	}
 	
@@ -894,7 +894,7 @@ abstract class BasemediaInfoPeer {
 		}
 		$stmt->closeCursor();
 		
-		if($criteria instanceof KalturaCriteria)
+		if($criteria instanceof BorhanCriteria)
 			$criteria->applyResultsSort($results);
 		
 		return $results;

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layouts>
   <layout layoutId="AppStudioTemplate"
-  skinPath="/content/uiconf/kaltura/appstudio/v.1/kdp_skin_aps_v2.swf">
+  skinPath="/content/uiconf/borhan/appstudio/v.1/bdp_skin_aps_v2.swf">
 
     <VBox id="player" height="100%" styleName="topLevelLayout"
     width="100%">
         <HBox height="30" id="TopTitleScreen"  styleName="controllerBoxDark" k_theme_change="true" width="100%">
             <Label height="22" id="movieName" styleName="movieName"
             width="100%" k_theme_change="true"
-            text="{myKplayer.kalturaEntry.entryName}" />
+            text="{myKplayer.borhanEntry.entryName}" />
           </HBox>
 			<Canvas height="100%" id="PlayerHolder" 
 				styleName="PlayerBackground" width="100%">
 				<Module height="0" id="stats" 
-					k_path="stats/KalturaStatsModule.swf" width="0"/>
+					k_path="stats/BorhanStatsModule.swf" width="0"/>
 				<KplayerModule height="100%" id="myKplayer" 
 					k_path="kplayer/KplayerModule.swf" styleName="centered" 
 					width="100%" />
@@ -33,7 +33,7 @@
 					width="100%"/>
 				<waterMark height="100%" id="watermark" 
 					k_path="watermarks/WaterMarkLoader.swf" 
-					k_watermark_path="http://www.kaltura.com/content/uiconf/kaltura/generic/kaltura_watermark.png" 
+					k_watermark_path="http://www.borhan.com/content/uiconf/borhan/generic/borhan_watermark.png" 
 					k_watermark_position="bottomLeft" styleName="centered" 
 					width="100%" k_watermark_padding="0" />
 				<adapTv id="adapTv" height="100%" width="100%" 
@@ -41,7 +41,7 @@
 					k_pre_listen_to="doPlay" k_pre_dispatch="endPreSession" 
 					k_post_listen_to="playerPlayEnd" 
 					k_post_dispatch="endPostSession" k_adaptv_zone="default" 
-					k_path="adapTv/KdpAdapTvModule.swf" styleName="centered" />
+					k_path="adapTv/BdpAdapTvModule.swf" styleName="centered" />
 				<Gigya height="100%" id="Gigya" 
 					k_share_email_body="Hi%2c%3cbr%3eI watched this video and thought you'd enjoy it too %24URL%24 to watch.%3cbr%3e%0d%0a%24sender%24%0d%0a" 
 					k_share_email_subject="Take a look at this video" 
@@ -76,13 +76,13 @@
 			<Button id="editBtnControllerScreen"
           k_buttonType="buttonIconControllerArea" width="autoSize"
           height="autoSize"
-          k_click="jsCall('gotoEditorWindow',myKplayer.kalturaEntry.entryId);pauseMedia()"
+          k_click="jsCall('gotoEditorWindow',myKplayer.borhanEntry.entryId);pauseMedia()"
           label="Edit" styleName="editBtn" k_stats_id="edit"
           tooltip="Remix this video" />
           
 			<Button id="uploadBtnControllerScreen" width="autoSize"
           height="autoSize" k_buttonType="buttonIconControllerArea"
-          k_click="jsCall('gotoContributorWindow',myKplayer.kalturaEntry.entryId);pauseMedia()"
+          k_click="jsCall('gotoContributorWindow',myKplayer.borhanEntry.entryId);pauseMedia()"
           label="upload" styleName="uploadBtn" k_stats_id="upload"
           tooltip="Add additional videos, images or audio files to this video" />
           
@@ -116,31 +116,31 @@
           <Button id="custom1BtnControllerScreen"
           k_buttonType="buttonIconControllerArea" width="autoSize"
           height="autoSize"
-          k_click="jsCall('customFunc1',myKplayer.kalturaEntry.entryId)"
+          k_click="jsCall('customFunc1',myKplayer.borhanEntry.entryId)"
           label="custom1" styleName="customBtn"
           tooltip="Custom1 tooltip" />
           <Button id="custom2BtnControllerScreen"
           k_buttonType="buttonIconControllerArea" width="autoSize"
           height="autoSize"
-          k_click="jsCall('customFunc2',myKplayer.kalturaEntry.entryId)"
+          k_click="jsCall('customFunc2',myKplayer.borhanEntry.entryId)"
           label="custom2" styleName="customBtn"
           tooltip="Custom2 tooltip" />
           <Button id="custom3BtnControllerScreen"
           k_buttonType="buttonIconControllerArea" width="autoSize"
           height="autoSize"
-          k_click="jsCall('customFunc3',myKplayer.kalturaEntry.entryId)"
+          k_click="jsCall('customFunc3',myKplayer.borhanEntry.entryId)"
           label="custom3" styleName="customBtn"
           tooltip="Custom3 tooltip" />
           <Button id="custom4BtnControllerScreen"
           k_buttonType="buttonIconControllerArea" width="autoSize"
           height="autoSize"
-          k_click="jsCall('customFunc4',myKplayer.kalturaEntry.entryId)"
+          k_click="jsCall('customFunc4',myKplayer.borhanEntry.entryId)"
           label="custom4" styleName="customBtn"
           tooltip="Custom4 tooltip" />
           <Button id="custom5BtnControllerScreen"
           k_buttonType="buttonIconControllerArea" width="autoSize"
           height="autoSize"
-          k_click="jsCall('customFunc5',myKplayer.kalturaEntry.entryId)"
+          k_click="jsCall('customFunc5',myKplayer.borhanEntry.entryId)"
           label="custom5" styleName="customBtn"
           tooltip="Custom5 tooltip" />
           <Button id="thumbnailBtnControllerScreen"
@@ -155,7 +155,7 @@
         </HBox>
 
 		<Spacer width="3"/>
-		<Button id="poweredByControllerScreen" width="32" height="20" k_click="navigate('http://www.kaltura.com')" styleName="kalturaLogoDark" k_theme_change="true"/>
+		<Button id="poweredByControllerScreen" width="32" height="20" k_click="navigate('http://www.borhan.com')" styleName="borhanLogoDark" k_theme_change="true"/>
 		<Spacer width="3"/>
       </HBox>
     </VBox>
@@ -192,7 +192,7 @@
             minWidth="75" minHeight="75"
             k_buttonType="buttonVideoArea" width="autoSize"
             height="autoSize"
-            k_click="jsCall('gotoEditorWindow',myKplayer.kalturaEntry.entryId);pauseMedia()"
+            k_click="jsCall('gotoEditorWindow',myKplayer.borhanEntry.entryId);pauseMedia()"
             label="Edit" styleName="editBtn" k_stats_id="edit"
             tooltip="Remix this video" />
             
@@ -200,7 +200,7 @@
             labelPlacement="top" height="autoSize"
             k_buttonType="buttonVideoArea" minWidth="75"
             minHeight="75" k_stats_id="upload"
-            k_click="jsCall('gotoContributorWindow',myKplayer.kalturaEntry.entryId);pauseMedia()"
+            k_click="jsCall('gotoContributorWindow',myKplayer.borhanEntry.entryId);pauseMedia()"
             label="upload" styleName="uploadBtn" 
             tooltip="Add additional videos, images or audio files to this video" />
 
@@ -235,32 +235,32 @@
             <Button id="custom1BtnStartScreen" labelPlacement="top"
             k_buttonType="buttonVideoArea" width="autoSize"
             minWidth="75" minHeight="75" height="autoSize"
-            k_click="jsCall('customFunc1',myKplayer.kalturaEntry.entryId)"
+            k_click="jsCall('customFunc1',myKplayer.borhanEntry.entryId)"
             label="custom1" styleName="customBtn"
             tooltip="Custom1 tooltip" />
             <Button id="custom2BtnStartScreen" labelPlacement="top"
             k_buttonType="buttonVideoArea" width="autoSize"
             minWidth="75" minHeight="75" height="autoSize"
-            k_click="jsCall('customFunc2',myKplayer.kalturaEntry.entryId)"
+            k_click="jsCall('customFunc2',myKplayer.borhanEntry.entryId)"
             label="custom2" styleName="customBtn"
             tooltip="Custom2 tooltip" />
             <Button id="custom3BtnStartScreen" labelPlacement="top"
             k_buttonType="buttonVideoArea" width="autoSize"
             minWidth="75" minHeight="75" height="autoSize"
-            k_click="jsCall('customFunc3',myKplayer.kalturaEntry.entryId)"
+            k_click="jsCall('customFunc3',myKplayer.borhanEntry.entryId)"
             label="custom3" styleName="customBtn"
             tooltip="Custom3 tooltip" />
             <Button id="custom4BtnStartScreen" labelPlacement="top"
             k_buttonType="buttonVideoArea" width="autoSize"
             minWidth="75" minHeight="75" height="autoSize"
-            k_click="jsCall('customFunc4',myKplayer.kalturaEntry.entryId)"
+            k_click="jsCall('customFunc4',myKplayer.borhanEntry.entryId)"
             label="custom4" styleName="customBtn"
             tooltip="Custom4 tooltip" />
 
             <Button id="custom5BtnStartScreen" labelPlacement="top"
             k_buttonType="buttonVideoArea" width="autoSize"
             minWidth="75" minHeight="75" height="autoSize"
-            k_click="jsCall('customFunc5',myKplayer.kalturaEntry.entryId)"
+            k_click="jsCall('customFunc5',myKplayer.borhanEntry.entryId)"
             label="custom5" styleName="customBtn"
             tooltip="Custom5 tooltip" />
             <Button id="thumbnailBtnStartScreen"
@@ -308,14 +308,14 @@
 				<Button id="editBtnPauseScreen" minWidth="75"
             minHeight="75" k_buttonType="buttonVideoArea"
             width="autoSize" height="autoSize" labelPlacement="top"
-            k_click="jsCall('gotoEditorWindow',myKplayer.kalturaEntry.entryId);pauseMedia()"
+            k_click="jsCall('gotoEditorWindow',myKplayer.borhanEntry.entryId);pauseMedia()"
             label="Edit" styleName="editBtn" k_stats_id="edit"
             tooltip="Remix this video" />
             
 				<Button id="uploadBtnPauseScreen" width="autoSize"
             labelPlacement="top" minWidth="75" minHeight="75"
             height="autoSize" k_buttonType="buttonVideoArea"
-            k_click="jsCall('gotoContributorWindow',myKplayer.kalturaEntry.entryId);pauseMedia()"
+            k_click="jsCall('gotoContributorWindow',myKplayer.borhanEntry.entryId);pauseMedia()"
             label="upload" styleName="uploadBtn" k_stats_id="upload"
             tooltip="Add additional videos, images or audio files to this video" />
             
@@ -351,31 +351,31 @@
             <Button id="custom1BtnPauseScreen" minWidth="75"
             minHeight="75" k_buttonType="buttonVideoArea"
             width="autoSize" height="autoSize" labelPlacement="top"
-            k_click="jsCall('customFunc1',myKplayer.kalturaEntry.entryId)"
+            k_click="jsCall('customFunc1',myKplayer.borhanEntry.entryId)"
             label="custom1" styleName="customBtn"
             tooltip="Custom1 tooltip" />
             <Button id="custom2BtnPauseScreen" minWidth="75"
             minHeight="75" k_buttonType="buttonVideoArea"
             width="autoSize" height="autoSize" labelPlacement="top"
-            k_click="jsCall('customFunc2',myKplayer.kalturaEntry.entryId)"
+            k_click="jsCall('customFunc2',myKplayer.borhanEntry.entryId)"
             label="custom2" styleName="customBtn"
             tooltip="Custom2 tooltip" />
             <Button id="custom3BtnPauseScreen" minWidth="75"
             minHeight="75" k_buttonType="buttonVideoArea"
             width="autoSize" height="autoSize" labelPlacement="top"
-            k_click="jsCall('customFunc3',myKplayer.kalturaEntry.entryId)"
+            k_click="jsCall('customFunc3',myKplayer.borhanEntry.entryId)"
             label="custom3" styleName="customBtn"
             tooltip="Custom3 tooltip" />
             <Button id="custom5BtnPauseScreen" minWidth="75"
             minHeight="75" k_buttonType="buttonVideoArea"
             width="autoSize" height="autoSize" labelPlacement="top"
-            k_click="jsCall('customFunc4',myKplayer.kalturaEntry.entryId)"
+            k_click="jsCall('customFunc4',myKplayer.borhanEntry.entryId)"
             label="custom5" styleName="customBtn"
             tooltip="Custom5 tooltip" />
             <Button id="custom4BtnPauseScreen" minWidth="75"
             minHeight="75" k_buttonType="buttonVideoArea"
             width="autoSize" height="autoSize" labelPlacement="top"
-            k_click="jsCall('customFunc5',myKplayer.kalturaEntry.entryId)"
+            k_click="jsCall('customFunc5',myKplayer.borhanEntry.entryId)"
             label="custom4" styleName="customBtn"
             tooltip="Custom4 tooltip" />
             <Button id="thumbnailBtnPauseScreen" minWidth="75"
@@ -420,14 +420,14 @@
 				<Button id="editBtnPlayScreen" minWidth="75"
             minHeight="75" k_buttonType="buttonVideoArea"
             width="autoSize" height="autoSize" labelPlacement="top"
-            k_click="jsCall('gotoEditorWindow',myKplayer.kalturaEntry.entryId);pauseMedia()"
+            k_click="jsCall('gotoEditorWindow',myKplayer.borhanEntry.entryId);pauseMedia()"
             label="Edit" styleName="editBtn" k_stats_id="edit"
             tooltip="Remix this video" />
             
 				<Button id="uploadBtnPlayScreen" width="autoSize"
             minWidth="75" minHeight="75" labelPlacement="top"
             height="autoSize" k_buttonType="buttonVideoArea"
-            k_click="jsCall('gotoContributorWindow',myKplayer.kalturaEntry.entryId);pauseMedia()"
+            k_click="jsCall('gotoContributorWindow',myKplayer.borhanEntry.entryId);pauseMedia()"
             label="upload" styleName="uploadBtn" k_stats_id="upload"
             tooltip="Add additional videos, images or audio files to this video" />
             
@@ -465,31 +465,31 @@
             <Button id="custom1BtnPlayScreen" minWidth="75"
             minHeight="75" k_buttonType="buttonVideoArea"
             width="autoSize" labelPlacement="top" height="autoSize"
-            k_click="jsCall('customFunc1',myKplayer.kalturaEntry.entryId)"
+            k_click="jsCall('customFunc1',myKplayer.borhanEntry.entryId)"
             label="custom1" styleName="customBtn"
             tooltip="Custom1 tooltip" />
             <Button id="custom2BtnPlayScreen" minWidth="75"
             minHeight="75" k_buttonType="buttonVideoArea"
             width="autoSize" labelPlacement="top" height="autoSize"
-            k_click="jsCall('customFunc2',myKplayer.kalturaEntry.entryId)"
+            k_click="jsCall('customFunc2',myKplayer.borhanEntry.entryId)"
             label="custom2" styleName="customBtn"
             tooltip="Custom2 tooltip" />
             <Button id="custom3BtnPlayScreen" minWidth="75"
             minHeight="75" k_buttonType="buttonVideoArea"
             width="autoSize" labelPlacement="top" height="autoSize"
-            k_click="jsCall('customFunc3',myKplayer.kalturaEntry.entryId)"
+            k_click="jsCall('customFunc3',myKplayer.borhanEntry.entryId)"
             label="custom3" styleName="customBtn"
             tooltip="Custom3 tooltip" />
             <Button id="custom5BtnPlayScreen" minWidth="75"
             minHeight="75" k_buttonType="buttonVideoArea"
             width="autoSize" labelPlacement="top" height="autoSize"
-            k_click="jsCall('customFunc4',myKplayer.kalturaEntry.entryId)"
+            k_click="jsCall('customFunc4',myKplayer.borhanEntry.entryId)"
             label="custom5" styleName="customBtn"
             tooltip="Custom5 tooltip" />
             <Button id="custom4BtnPlayScreen" minWidth="75"
             minHeight="75" k_buttonType="buttonVideoArea"
             width="autoSize" labelPlacement="top" height="autoSize"
-            k_click="jsCall('customFunc5',myKplayer.kalturaEntry.entryId)"
+            k_click="jsCall('customFunc5',myKplayer.borhanEntry.entryId)"
             label="custom4" styleName="customBtn"
             tooltip="Custom4 tooltip" />
             <Button id="thumbnailBtnPlayScreen"
@@ -532,13 +532,13 @@
 				<Button id="editBtnEndScreen" minWidth="75" minHeight="75" 
 					k_buttonType="buttonVideoArea" width="autoSize" 
 					height="autoSize" k_stats_id="edit" 
-					k_click="jsCall('gotoEditorWindow',myKplayer.kalturaEntry.entryId);pauseMedia()" 
+					k_click="jsCall('gotoEditorWindow',myKplayer.borhanEntry.entryId);pauseMedia()" 
 					labelPlacement="top" label="Edit" styleName="editBtn" 
 					tooltip="Remix this video" />
 				<Button id="uploadBtnEndScreen" width="autoSize" minWidth="75" 
 					minHeight="75" height="autoSize" 
 					k_buttonType="buttonVideoArea" labelPlacement="top" 
-					k_click="jsCall('gotoContributorWindow',myKplayer.kalturaEntry.entryId);pauseMedia()" 
+					k_click="jsCall('gotoContributorWindow',myKplayer.borhanEntry.entryId);pauseMedia()" 
 					label="Upload" styleName="uploadBtn" k_stats_id="upload" 
 					tooltip="Add additional videos, images or audio files to this video" 
 					/>
@@ -555,32 +555,32 @@
 				<Button id="custom1BtnEndScreen" minWidth="75" minHeight="75" 
 					k_buttonType="buttonVideoArea" width="autoSize" 
 					labelPlacement="top" height="autoSize" 
-					k_click="jsCall('customFunc1',myKplayer.kalturaEntry.entryId)" 
+					k_click="jsCall('customFunc1',myKplayer.borhanEntry.entryId)" 
 					label="custom1" styleName="customBtn" 
 					tooltip="Custom1 tooltip" />
 				<Button id="custom2BtnEndScreen" minWidth="75" minHeight="75" 
 					k_buttonType="buttonVideoArea" width="autoSize" 
 					labelPlacement="top" height="autoSize" 
-					k_click="jsCall('customFunc2',myKplayer.kalturaEntry.entryId)" 
+					k_click="jsCall('customFunc2',myKplayer.borhanEntry.entryId)" 
 					label="custom2" styleName="customBtn" 
 					tooltip="Custom2 tooltip" />
 				<Button id="custom3BtnEndScreen" minWidth="75" minHeight="75" 
 					k_buttonType="buttonVideoArea" width="autoSize" 
 					labelPlacement="top" height="autoSize" 
-					k_click="jsCall('customFunc3',myKplayer.kalturaEntry.entryId)" 
+					k_click="jsCall('customFunc3',myKplayer.borhanEntry.entryId)" 
 					label="custom3" styleName="customBtn" 
 					tooltip="Custom3 tooltip" />
 				<Button id="custom4BtnEndScreen" minWidth="75" minHeight="75" 
 					k_buttonType="buttonVideoArea" width="autoSize" 
 					labelPlacement="top" height="autoSize" 
-					k_click="jsCall('customFunc4',myKplayer.kalturaEntry.entryId)" 
+					k_click="jsCall('customFunc4',myKplayer.borhanEntry.entryId)" 
 					label="custom4" styleName="customBtn" 
 					tooltip="Custom4 tooltip" />
 
 				<Button id="custom5BtnEndScreen" minWidth="75" minHeight="75" 
 					k_buttonType="buttonVideoArea" width="autoSize" 
 					labelPlacement="top" height="autoSize" 
-					k_click="jsCall('customFunc5',myKplayer.kalturaEntry.entryId)" 
+					k_click="jsCall('customFunc5',myKplayer.borhanEntry.entryId)" 
 					label="custom5" styleName="customBtn" 
 					tooltip="Custom5 tooltip" />
 				<Button id="thumbnailBtnEndScreen" command="createThumbnail" 
@@ -636,7 +636,7 @@
 			<cssSelector componentId="TopTitleScreen" newClass="controllerBoxDark"/>
 			<cssSelector componentId="ControllerScreen" newClass="controllerBoxDark"/>
 
-			<cssSelector componentId="poweredByControllerScreen" newClass="kalturaLogoDark"/>
+			<cssSelector componentId="poweredByControllerScreen" newClass="borhanLogoDark"/>
 			<cssSelector componentId="movieName" newClass="movieNameDark"/>
 			<font>Arial</font>
 			<fontSize>12</fontSize>
@@ -654,7 +654,7 @@
 
 			<cssSelector componentId="TopTitleScreen" newClass="controllerBoxLight"/>
 			<cssSelector componentId="ControllerScreen" newClass="controllerBoxLight"/>
-			<cssSelector componentId="poweredByControllerScreen" newClass="kalturaLogoLight"/>
+			<cssSelector componentId="poweredByControllerScreen" newClass="borhanLogoLight"/>
 			<font>Arial</font>
 			<fontSize>12</fontSize>
 		</theme>

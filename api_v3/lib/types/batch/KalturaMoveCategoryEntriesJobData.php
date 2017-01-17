@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaMoveCategoryEntriesJobData extends KalturaJobData
+class BorhanMoveCategoryEntriesJobData extends BorhanJobData
 {
 	/**
 	 * Source category id

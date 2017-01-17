@@ -51,8 +51,8 @@ class kSchedulingICalRule extends kSchedulingICalComponent
 	 */
 	public function toObject()
 	{
-		$rule = new KalturaScheduleEventRecurrence();
-		$rule->frequency = constant('KalturaScheduleEventRecurrenceFrequency::' . $this->getField('freq'));
+		$rule = new BorhanScheduleEventRecurrence();
+		$rule->frequency = constant('BorhanScheduleEventRecurrenceFrequency::' . $this->getField('freq'));
 		$rule->until = kSchedulingICal::parseDate($this->getField('until'));
 
 		$strings = array(
@@ -82,21 +82,21 @@ class kSchedulingICalRule extends kSchedulingICalComponent
 	}
 	
 	/**
-	 * @param KalturaScheduleEventRecurrence $rule
+	 * @param BorhanScheduleEventRecurrence $rule
 	 * @return kSchedulingICalRule
 	 */
-	public static function fromObject(KalturaScheduleEventRecurrence $rule)
+	public static function fromObject(BorhanScheduleEventRecurrence $rule)
 	{
 		$object = new kSchedulingICalRule();
 
 		$frequencyTypes = array(
-			KalturaScheduleEventRecurrenceFrequency::SECONDLY => 'SECONDLY',
-			KalturaScheduleEventRecurrenceFrequency::MINUTELY => 'MINUTELY',
-			KalturaScheduleEventRecurrenceFrequency::HOURLY => 'HOURLY',
-			KalturaScheduleEventRecurrenceFrequency::DAILY => 'DAILY',
-			KalturaScheduleEventRecurrenceFrequency::WEEKLY => 'WEEKLY',
-			KalturaScheduleEventRecurrenceFrequency::MONTHLY => 'MONTHLY',
-			KalturaScheduleEventRecurrenceFrequency::YEARLY => 'YEARLY',
+			BorhanScheduleEventRecurrenceFrequency::SECONDLY => 'SECONDLY',
+			BorhanScheduleEventRecurrenceFrequency::MINUTELY => 'MINUTELY',
+			BorhanScheduleEventRecurrenceFrequency::HOURLY => 'HOURLY',
+			BorhanScheduleEventRecurrenceFrequency::DAILY => 'DAILY',
+			BorhanScheduleEventRecurrenceFrequency::WEEKLY => 'WEEKLY',
+			BorhanScheduleEventRecurrenceFrequency::MONTHLY => 'MONTHLY',
+			BorhanScheduleEventRecurrenceFrequency::YEARLY => 'YEARLY',
 		);
 		
 		if($rule->frequency && isset($frequencyTypes[$rule->frequency]))

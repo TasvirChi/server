@@ -3,12 +3,12 @@
  * @package Core
  * @subpackage ExternalServices
  */
-class myKalturaPartnerServices extends myKalturaServices implements IMediaSource
+class myBorhanPartnerServices extends myBorhanServices implements IMediaSource
 {
-	const AUTH_SALT = "myKalturaPartnerServices:gogog123";
+	const AUTH_SALT = "myBorhanPartnerServices:gogog123";
 	const AUTH_INTERVAL = 3600;
 	
-	protected $id = entry::ENTRY_MEDIA_SOURCE_KALTURA_PARTNER;
+	protected $id = entry::ENTRY_MEDIA_SOURCE_BORHAN_PARTNER;
 	
 	private static $NEED_MEDIA_INFO = "0";
 	

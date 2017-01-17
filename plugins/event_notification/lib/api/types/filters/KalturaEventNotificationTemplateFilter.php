@@ -3,10 +3,10 @@
  * @package plugins.eventNotification
  * @subpackage api.filters
  */
-class KalturaEventNotificationTemplateFilter extends KalturaEventNotificationTemplateBaseFilter
+class BorhanEventNotificationTemplateFilter extends BorhanEventNotificationTemplateBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{

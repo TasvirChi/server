@@ -3,22 +3,22 @@
  * @package api
  * @subpackage objects
  */
-class KalturaReportArray extends KalturaTypedArray
+class BorhanReportArray extends BorhanTypedArray
 {
 	public function __construct()
 	{
-		return parent::__construct("KalturaReport");
+		return parent::__construct("BorhanReport");
 	}
 	
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaReportArray();
+		$newArr = new BorhanReportArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-    		$nObj = new KalturaReport();
+    		$nObj = new BorhanReport();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}

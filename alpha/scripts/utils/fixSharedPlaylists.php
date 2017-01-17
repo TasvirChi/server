@@ -2,7 +2,7 @@
 require_once(dirname(__FILE__).'/../bootstrap.php');
 
 
-$playlists = entryPeer::retrieveByPKs(array('_KMCSPL1', '_KMCSPL2'));
+$playlists = entryPeer::retrieveByPKs(array('_BMCSPL1', '_BMCSPL2'));
 foreach($playlists as $playlist)
 {
 	/* @var $playlist entry */
@@ -23,4 +23,4 @@ foreach($playlists as $playlist)
 	$playlist->save();
 }
 
-KalturaLog::debug('Done');
+BorhanLog::debug('Done');

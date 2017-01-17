@@ -27,7 +27,7 @@ class AnnotationBulkUploadXmlHandler extends CuePointBulkUploadXmlHandler
 	 */
 	protected function getNewInstance()
 	{
-		return new KalturaAnnotation();
+		return new BorhanAnnotation();
 	}
 	
 	/* (non-PHPdoc)
@@ -39,7 +39,7 @@ class AnnotationBulkUploadXmlHandler extends CuePointBulkUploadXmlHandler
 			return null;
 			
 		$cuePoint = parent::parseCuePoint($scene);
-		if(!($cuePoint instanceof KalturaAnnotation))
+		if(!($cuePoint instanceof BorhanAnnotation))
 			return null;
 		
 		if(isset($scene->sceneEndTime))

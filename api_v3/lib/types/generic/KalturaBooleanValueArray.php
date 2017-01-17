@@ -1,24 +1,24 @@
 <?php
 /**
- * An array of KalturaBooleanValue
+ * An array of BorhanBooleanValue
  * 
  * @package api
  * @subpackage objects
  */
-class KalturaBooleanValueArray extends KalturaTypedArray
+class BorhanBooleanValueArray extends BorhanTypedArray
 {
 	/**
 	 * @param array<string|kBooleanValue> $strings
-	 * @return KalturaBooleanValueArray
+	 * @return BorhanBooleanValueArray
 	 */
-	public static function fromDbArray(array $bools = null, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $bools = null, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$boolArray = new KalturaBooleanValueArray();
+		$boolArray = new BorhanBooleanValueArray();
 		if($bools && is_array($bools))
 		{
 			foreach($bools as $bool)
 			{
-				$boolObject = new KalturaStringValue();
+				$boolObject = new BorhanStringValue();
 				
 				if($bool instanceof kValue)
 				{
@@ -37,6 +37,6 @@ class KalturaBooleanValueArray extends KalturaTypedArray
 	
 	public function __construct()
 	{
-		return parent::__construct("KalturaBooleanValue");
+		return parent::__construct("BorhanBooleanValue");
 	}
 }

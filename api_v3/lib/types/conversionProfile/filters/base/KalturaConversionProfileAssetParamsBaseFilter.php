@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaConversionProfileAssetParamsBaseFilter extends KalturaRelatedFilter
+abstract class BorhanConversionProfileAssetParamsBaseFilter extends BorhanRelatedFilter
 {
 	static private $map_between_objects = array
 	(
@@ -55,7 +55,7 @@ abstract class KalturaConversionProfileAssetParamsBaseFilter extends KalturaRela
 	public $assetParamsIdIn;
 
 	/**
-	 * @var KalturaFlavorReadyBehaviorType
+	 * @var BorhanFlavorReadyBehaviorType
 	 */
 	public $readyBehaviorEqual;
 
@@ -65,7 +65,7 @@ abstract class KalturaConversionProfileAssetParamsBaseFilter extends KalturaRela
 	public $readyBehaviorIn;
 
 	/**
-	 * @var KalturaAssetParamsOrigin
+	 * @var BorhanAssetParamsOrigin
 	 */
 	public $originEqual;
 

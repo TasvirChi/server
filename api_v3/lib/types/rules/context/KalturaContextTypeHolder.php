@@ -3,17 +3,17 @@
  * @package api
  * @subpackage objects
  */
-class KalturaContextTypeHolder extends KalturaObject
+class BorhanContextTypeHolder extends BorhanObject
 {
 	/**
 	 * The type of the condition context
 	 * 
-	 * @var KalturaContextType
+	 * @var BorhanContextType
 	 */
 	public $type;
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

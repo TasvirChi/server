@@ -3,16 +3,16 @@
  * @package plugins.eventNotification
  * @subpackage api.objects
  */
-class KalturaEventNotificationArrayParameter extends KalturaEventNotificationParameter
+class BorhanEventNotificationArrayParameter extends BorhanEventNotificationParameter
 {
 	/**
-	 * @var KalturaStringArray
+	 * @var BorhanStringArray
 	 */
 	public $values;
 	
 	/**
 	 * Used to restrict the values to close list
-	 * @var KalturaStringValueArray
+	 * @var BorhanStringValueArray
 	 */
 	public $allowedValues;
 	
@@ -23,7 +23,7 @@ class KalturaEventNotificationArrayParameter extends KalturaEventNotificationPar
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -31,7 +31,7 @@ class KalturaEventNotificationArrayParameter extends KalturaEventNotificationPar
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

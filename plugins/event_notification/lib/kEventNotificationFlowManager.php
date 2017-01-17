@@ -15,7 +15,7 @@ class kEventNotificationFlowManager implements kGenericEventConsumer
 	/* (non-PHPdoc)
 	 * @see kGenericEventConsumer::consumeEvent()
 	 */
-	public function consumeEvent(KalturaEvent $event) 
+	public function consumeEvent(BorhanEvent $event) 
 	{
 		foreach($this->notificationTemplates as $notificationTemplate)
 		{
@@ -28,10 +28,10 @@ class kEventNotificationFlowManager implements kGenericEventConsumer
 
 	/**
 	 * Return single integer value that represents the event type
-	 * @param KalturaEvent $event
+	 * @param BorhanEvent $event
 	 * @return int
 	 */
-	protected function getEventType(KalturaEvent $event) 
+	protected function getEventType(BorhanEvent $event) 
 	{
 		$matches = null;
 		if(!preg_match('/k(\w+)Event/', get_class($event), $matches))
@@ -56,7 +56,7 @@ class kEventNotificationFlowManager implements kGenericEventConsumer
 	 */
 	public static function getObject($objectType, $objectId) 
 	{
-		$objectClass = KalturaPluginManager::getObjectClass('EventNotificationEventObjectType', $objectType);
+		$objectClass = BorhanPluginManager::getObjectClass('EventNotificationEventObjectType', $objectType);
 		$peerClass = $objectClass . 'Peer';
 		$peer = null;
 
@@ -75,10 +75,10 @@ class kEventNotificationFlowManager implements kGenericEventConsumer
 
 	/**
 	 * Return single integer value that represents the event object type
-	 * @param KalturaEvent $event
+	 * @param BorhanEvent $event
 	 * @return string class name
 	 */
-	protected function getEventObjectType(KalturaEvent $event) 
+	protected function getEventObjectType(BorhanEvent $event) 
 	{
 		if($event instanceof kBatchJobStatusEvent)
 			return 'BatchJob';
@@ -101,7 +101,7 @@ class kEventNotificationFlowManager implements kGenericEventConsumer
 		if(is_null(self::$allNotificationTemplates))
 		{
 			self::$allNotificationTemplates = EventNotificationTemplatePeer::retrieveByPartnerId($partnerId);
-			KalturaLog::info("Found [" . count(self::$allNotificationTemplates) . "] templates");
+			BorhanLog::info("Found [" . count(self::$allNotificationTemplates) . "] templates");
 		}
 		
 		$notificationTemplates = array();
@@ -114,7 +114,7 @@ class kEventNotificationFlowManager implements kGenericEventConsumer
 			if($notificationTemplate->getEventType() != $eventType)
 				continue;				
 			
-			$templateObjectClassName = KalturaPluginManager::getObjectClass('EventNotificationEventObjectType', $notificationTemplate->getObjectType());
+			$templateObjectClassName = BorhanPluginManager::getObjectClass('EventNotificationEventObjectType', $notificationTemplate->getObjectType());
 			if(strcmp($eventObjectClassName, $templateObjectClassName) && !is_subclass_of($eventObjectClassName, $templateObjectClassName))
 				continue;				
 			
@@ -126,7 +126,7 @@ class kEventNotificationFlowManager implements kGenericEventConsumer
 	/* (non-PHPdoc)
 	 * @see kGenericEventConsumer::shouldConsumeEvent()
 	 */
-	public function shouldConsumeEvent(KalturaEvent $event) 
+	public function shouldConsumeEvent(BorhanEvent $event) 
 	{
 		$this->notificationTemplates = array();
 		

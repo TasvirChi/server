@@ -3,6 +3,6 @@
  * @package api
  * @subpackage filters
  */
-class KalturaApiActionPermissionItemFilter extends KalturaApiActionPermissionItemBaseFilter
+class BorhanApiActionPermissionItemFilter extends BorhanApiActionPermissionItemBaseFilter
 {
 }

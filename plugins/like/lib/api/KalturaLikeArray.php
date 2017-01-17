@@ -3,17 +3,17 @@
  * @package plugins.like
  * @subpackage api.objects
  */
-class KalturaLikeArray extends KalturaTypedArray
+class BorhanLikeArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaLikeArray();
+		$newArr = new BorhanLikeArray();
 		if ($arr == null)
 			return $newArr;
 	
 		foreach ($arr as $obj)
 		{
-			$nObj = new KalturaLike();
+			$nObj = new BorhanLike();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaLikeArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaLike");	
+		parent::__construct("BorhanLike");	
 	}
 }

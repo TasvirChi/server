@@ -3,7 +3,7 @@
  * @package plugins.drm
  * @subpackage api.enum
  */
-class KalturaDrmProfileStatus extends KalturaEnum implements DrmProfileStatus
+class BorhanDrmProfileStatus extends BorhanEnum implements DrmProfileStatus
 {
 	// see DrmProfileStatus interface
 }

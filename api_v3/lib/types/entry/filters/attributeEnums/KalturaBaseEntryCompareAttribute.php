@@ -3,7 +3,7 @@
 /**
  * Auto-generated enum class
 */
-class KalturaBaseEntryCompareAttribute extends KalturaStringEnum
+class BorhanBaseEntryCompareAttribute extends BorhanStringEnum
 {
 	const STATUS = "status";
 	const TYPE = "type";

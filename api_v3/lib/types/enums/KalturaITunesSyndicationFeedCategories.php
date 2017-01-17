@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaITunesSyndicationFeedCategories extends KalturaStringEnum
+class BorhanITunesSyndicationFeedCategories extends BorhanStringEnum
 {
 	const ARTS = "Arts";
 		const ARTS_DESIGN = "Arts/Design";

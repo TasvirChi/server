@@ -10,50 +10,50 @@
 	<session />
 	<multirequest>
 		<request service="eventNotificationTemplate" action="add" plugin="eventNotification" partnerId="0">
-			<template objectType="KalturaEmailNotificationTemplate">
+			<template objectType="BorhanEmailNotificationTemplate">
 				<name>Media Retirement Notice</name>
 				<systemName>Media_Retirement_Notice</systemName>
 				<automaticDispatchEnabled>0</automaticDispatchEnabled>
 				<contentParameters objectType="array">
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>from_email</key>
 						<description>Server configuration: partner_notification_email</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>kConf::get("partner_notification_email")</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>from_name</key>
 						<description>Server configuration: partner_notification_name</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>kConf::get("partner_notification_name")</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>entry_id</key>
 						<description>Entry ID</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>$scope->getObject()->getId()</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>entry_name</key>
 						<description>Entry name</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>$scope->getObject()->getName()</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>entry_status</key>
 						<description>Entry status</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>$scope->getObject()->getStatus()</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>entry_reference_id</key>
 						<description>Entry reference ID</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>$scope->getObject()->getReferenceID()</code>
 						</value>
 					</item>
@@ -61,18 +61,18 @@
 				<format>1</format>
 				<subject>Media asset will be retiring in _expiration_time_string_</subject>
 				<body>Media asset {entry_name} will be retiring in _expiration_time_string_.&lt;br /&gt;Please contact your support channel should you wish this to be aborted.</body>
-				<to objectType="KalturaEmailNotificationUserRecipientProvider">
-					<filter objectType="KalturaUserFilter">
-						<permissionNamesMultiLikeAnd>KMC_ACCESS</permissionNamesMultiLikeAnd>
+				<to objectType="BorhanEmailNotificationUserRecipientProvider">
+					<filter objectType="BorhanUserFilter">
+						<permissionNamesMultiLikeAnd>BMC_ACCESS</permissionNamesMultiLikeAnd>
 					</filter>
 				</to>
-				<!--<to objectType="KalturaEmailNotificationStaticRecipientProvider">
+				<!--<to objectType="BorhanEmailNotificationStaticRecipientProvider">
 					<emailRecipients objectType="array">
-						<item objectType = "KalturaEmailNotificationRecipient">
-							<email objectType="KalturaEvalStringField">
+						<item objectType = "BorhanEmailNotificationRecipient">
+							<email objectType="BorhanEvalStringField">
 								<code>!is_null($scope->getObject()->getkuser()) ? $scope->getObject()->getkuser()->getEmail() : ''</code>
 							</email>
-							<name objectType="KalturaEvalStringField">
+							<name objectType="BorhanEvalStringField">
 								<code>!is_null($scope->getObject()->getkuser()) ? $scope->getObject()->getkuser()->getFirstName().' '.$scope->getObject()->getkuser()->getLastName() : ''</code>
 							</name>
 						</item>

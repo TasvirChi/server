@@ -3,7 +3,7 @@
  * @package plugins.systemPartner
  * @subpackage api.objects
  */
-class KalturaSystemPartnerConfiguration extends KalturaObject
+class BorhanSystemPartnerConfiguration extends BorhanObject
 {
 	/**
 	 * @var int
@@ -69,10 +69,10 @@ class KalturaSystemPartnerConfiguration extends KalturaObject
 	/**
 	 * @var bool
 	 */
-	public $storageDeleteFromKaltura;
+	public $storageDeleteFromBorhan;
 	
 	/**
-	 * @var KalturaStorageServePriority
+	 * @var BorhanStorageServePriority
 	 */
 	public $storageServePriority;
 	
@@ -80,7 +80,7 @@ class KalturaSystemPartnerConfiguration extends KalturaObject
 	 * 
 	 * @var int
 	 */
-	public $kmcVersion;
+	public $bmcVersion;
 	
 	/**
 	 * @var int
@@ -124,7 +124,7 @@ class KalturaSystemPartnerConfiguration extends KalturaObject
 	public $importRemoteSourceForConvert;
 	
 	/**
-	 * @var KalturaPermissionArray
+	 * @var BorhanPermissionArray
 	 */
 	public $permissions;
 	
@@ -159,7 +159,7 @@ class KalturaSystemPartnerConfiguration extends KalturaObject
 	public $isFirstLogin;
 	
 	/**
-	 * @var KalturaPartnerGroupType
+	 * @var BorhanPartnerGroupType
 	 */
 	public $partnerGroupType;
 	
@@ -169,7 +169,7 @@ class KalturaSystemPartnerConfiguration extends KalturaObject
 	public $partnerParentId;
 	
 	/**
-	 * @var KalturaSystemPartnerLimitArray
+	 * @var BorhanSystemPartnerLimitArray
 	 */
 	public $limits;
 	
@@ -263,7 +263,7 @@ class KalturaSystemPartnerConfiguration extends KalturaObject
 	
 
 	/**
-	 * @var KalturaSourceType
+	 * @var BorhanSourceType
 	 */
 	public $defaultLiveStreamEntrySourceType;
 
@@ -276,7 +276,7 @@ class KalturaSystemPartnerConfiguration extends KalturaObject
 
 	/**
 	 * 
-	 * @var KalturaBaseEntryFilter
+	 * @var BorhanBaseEntryFilter
 	 */
 	public $autoModerateEntryFilter;
 	
@@ -311,7 +311,7 @@ class KalturaSystemPartnerConfiguration extends KalturaObject
 	public $defaultEmbedCodeType;
 	
 	/**
-	 * @var KalturaKeyBooleanValueArray
+	 * @var BorhanKeyBooleanValueArray
 	 */
 	public $customDeliveryTypes;
 	
@@ -321,7 +321,7 @@ class KalturaSystemPartnerConfiguration extends KalturaObject
 	public $restrictEntryByMetadata;
 	
 	/**
-	 * @var KalturaLanguageCode
+	 * @var BorhanLanguageCode
 	 */
 	public $language;
 	
@@ -362,9 +362,9 @@ class KalturaSystemPartnerConfiguration extends KalturaObject
 		"partnerPackage",
 		"monitorUsage",
 		"moderateContent",
-		"storageDeleteFromKaltura",
+		"storageDeleteFromBorhan",
 		"storageServePriority",
-		"kmcVersion",
+		"bmcVersion",
 		"defThumbOffset",
 		"defThumbDensity",
 	//"adminLoginUsersQuota",
@@ -420,20 +420,20 @@ class KalturaSystemPartnerConfiguration extends KalturaObject
 		return array_merge(parent::getMapBetweenObjects(), self::$map_between_objects);
 	}
 	
-	public function doFromObject($source_object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($source_object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($source_object, $responseProfile);
 		
 		$permissions = PermissionPeer::retrievePartnerLevelPermissions($source_object->getId());
-		$this->permissions = KalturaPermissionArray::fromDbArray($permissions);
-		$this->limits = KalturaSystemPartnerLimitArray::fromPartner($source_object);
+		$this->permissions = BorhanPermissionArray::fromDbArray($permissions);
+		$this->limits = BorhanSystemPartnerLimitArray::fromPartner($source_object);
 		
 		$this->restrictEntryByMetadata = $source_object->getShouldApplyAccessControlOnEntryMetadata();
 		
 		$dbAutoModerationEntryFilter = $source_object->getAutoModerateEntryFilter();
 		if ($dbAutoModerationEntryFilter)
 		{
-			$this->autoModerateEntryFilter = new KalturaBaseEntryFilter();
+			$this->autoModerateEntryFilter = new BorhanBaseEntryFilter();
 			$this->autoModerateEntryFilter->fromObject($dbAutoModerationEntryFilter);
 		}
 
@@ -463,7 +463,7 @@ class KalturaSystemPartnerConfiguration extends KalturaObject
 		{
 			$audioThumbEntry = entryPeer::retrieveByPK($audioThumbEntryId);
 			if (!$audioThumbEntry || $audioThumbEntry->getMediaType() != entry::ENTRY_MEDIA_TYPE_IMAGE)
-				throw new KalturaAPIException(SystemPartnerErrors::PARTNER_AUDIO_THUMB_ENTRY_ID_ERROR, $audioThumbEntryId);
+				throw new BorhanAPIException(SystemPartnerErrors::PARTNER_AUDIO_THUMB_ENTRY_ID_ERROR, $audioThumbEntryId);
 		}
 
 		$liveThumbEntryId = $this->liveThumbEntryId;
@@ -471,7 +471,7 @@ class KalturaSystemPartnerConfiguration extends KalturaObject
 		{
 			$liveThumbEntry = entryPeer::retrieveByPK($liveThumbEntryId);
 			if (!$liveThumbEntry || $liveThumbEntry->getMediaType() != entry::ENTRY_MEDIA_TYPE_IMAGE)
-				throw new KalturaAPIException(SystemPartnerErrors::PARTNER_LIVE_THUMB_ENTRY_ID_ERROR, $liveThumbEntryId);
+				throw new BorhanAPIException(SystemPartnerErrors::PARTNER_LIVE_THUMB_ENTRY_ID_ERROR, $liveThumbEntryId);
 		}
 	
 		return parent::validateForUpdate($sourceObject,$propertiesToSkip);
@@ -481,7 +481,7 @@ class KalturaSystemPartnerConfiguration extends KalturaObject
 	{
 		$object_to_fill = parent::toObject($object_to_fill, $props_to_skip);
 		if (!$object_to_fill) {
-			KalturaLog::err('Cannot find object to fill');
+			BorhanLog::err('Cannot find object to fill');
 			return null;
 		}
 		
@@ -501,10 +501,10 @@ class KalturaSystemPartnerConfiguration extends KalturaObject
 		{
 		    $parentPartnerDb = PartnerPeer::retrieveByPK($this->partnerParentId);
 		    
-		    if ($parentPartnerDb->getPartnerGroupType() != KalturaPartnerGroupType::GROUP 
-		        && $parentPartnerDb->getPartnerGroupType() != KalturaPartnerGroupType::VAR_GROUP)
+		    if ($parentPartnerDb->getPartnerGroupType() != BorhanPartnerGroupType::GROUP 
+		        && $parentPartnerDb->getPartnerGroupType() != BorhanPartnerGroupType::VAR_GROUP)
 		    {
-		        throw new KalturaAPIException(SystemPartnerErrors::UNABLE_TO_FORM_GROUP_ASSOCIATION, $this->partnerParentId, $parentPartnerDb->getPartnerGroupType());
+		        throw new BorhanAPIException(SystemPartnerErrors::UNABLE_TO_FORM_GROUP_ASSOCIATION, $this->partnerParentId, $parentPartnerDb->getPartnerGroupType());
 		    }
 		}
 		
@@ -563,7 +563,7 @@ class KalturaSystemPartnerConfiguration extends KalturaObject
 	{
 		if(strstr($permissionName, '_PLUGIN_PERMISSION'))
 		{
-			$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaPermissionsEnabler');
+			$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanPermissionsEnabler');
 			foreach($pluginInstances as $pluginInstance)
 			{
 				$pluginInstance->permissionEnabled($partnerId, $permissionName);

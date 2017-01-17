@@ -3,12 +3,12 @@
  * @package plugins.contentDistribution
  * @subpackage model.enum
  */
-class ContentDistributionObjectFeatureType implements IKalturaPluginEnum, ObjectFeatureType
+class ContentDistributionObjectFeatureType implements IBorhanPluginEnum, ObjectFeatureType
 {
 	const CONTENT_DISTRIBUTION = 'ContentDistribution';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPluginEnum::getAdditionalValues()
+	 * @see IBorhanPluginEnum::getAdditionalValues()
 	 */
 	public static function getAdditionalValues() 
 	{
@@ -20,7 +20,7 @@ class ContentDistributionObjectFeatureType implements IKalturaPluginEnum, Object
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPluginEnum::getAdditionalDescriptions()
+	 * @see IBorhanPluginEnum::getAdditionalDescriptions()
 	 */
 	public static function getAdditionalDescriptions() {
 		return array();

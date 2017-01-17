@@ -51,12 +51,12 @@ class assetParamsPeer extends BaseassetParamsPeer
 		$criteria->addAnd(self::ID, $id, Criteria::NOT_EQUAL);
 	}
 
-	public static function addPartnerToCriteria($partnerId, $privatePartnerData = false, $partnerGroup = null, $kalturaNetwork = null)
+	public static function addPartnerToCriteria($partnerId, $privatePartnerData = false, $partnerGroup = null, $borhanNetwork = null)
 	{
 		self::$filterPartner = $partnerId;
 		
 		if(!self::$isDefaultInDefaultCriteria)
-			return parent::addPartnerToCriteria($partnerId, $privatePartnerData, $partnerGroup, $kalturaNetwork);
+			return parent::addPartnerToCriteria($partnerId, $privatePartnerData, $partnerGroup, $borhanNetwork);
 		
 		$criteriaFilter = self::getCriteriaFilter();
 		$criteria = $criteriaFilter->getFilter();
@@ -64,19 +64,19 @@ class assetParamsPeer extends BaseassetParamsPeer
 		if(!$privatePartnerData)
 		{
 			// the private partner data is not allowed - 
-			if($kalturaNetwork)
+			if($borhanNetwork)
 			{
-				// allow only the kaltura network stuff
+				// allow only the borhan network stuff
 				if($partnerId)
 				{
 					$orderBy = "(" . self::PARTNER_ID . "<>{$partnerId})";  // first take the pattner_id and then the rest
-					myCriteria::addComment($criteria , "Only Kaltura Network");
+					myCriteria::addComment($criteria , "Only Borhan Network");
 					$criteria->addAscendingOrderByColumn($orderBy);//, Criteria::CUSTOM );
 				}
 			}
 			else
 			{
-				// no private data and no kaltura_network - 
+				// no private data and no borhan_network - 
 				// add a criteria that will return nothing
 				$criteria->addAnd(self::PARTNER_ID, Partner::PARTNER_THAT_DOWS_NOT_EXIST);
 			}
@@ -84,7 +84,7 @@ class assetParamsPeer extends BaseassetParamsPeer
 		else
 		{
 			// private data is allowed
-			if(empty($partnerGroup) && empty($kalturaNetwork))
+			if(empty($partnerGroup) && empty($borhanNetwork))
 			{
 				// the default case
 				$criteria->addAnd(self::PARTNER_ID, $partnerId);
@@ -98,7 +98,7 @@ class assetParamsPeer extends BaseassetParamsPeer
 				$criterion = null;
 				if($partnerGroup)
 				{
-					// $partnerGroup hold a list of partners separated by ',' or $kalturaNetwork is not empty (should be mySearchUtils::KALTURA_NETWORK = 'kn')
+					// $partnerGroup hold a list of partners separated by ',' or $borhanNetwork is not empty (should be mySearchUtils::BORHAN_NETWORK = 'kn')
 					$partners = explode(',', trim($partnerGroup));
 					$hasPartnerZero = false;
 					foreach($partners as $index => &$p)
@@ -153,7 +153,7 @@ class assetParamsPeer extends BaseassetParamsPeer
 			if(isset(self::$class_types_cache[$assetType]))
 				return self::$class_types_cache[$assetType];
 				
-			$extendedCls = KalturaPluginManager::getObjectClass(parent::OM_CLASS, $assetType);
+			$extendedCls = BorhanPluginManager::getObjectClass(parent::OM_CLASS, $assetType);
 			if($extendedCls)
 			{
 				self::$class_types_cache[$assetType] = $extendedCls;
@@ -268,7 +268,7 @@ class assetParamsPeer extends BaseassetParamsPeer
 		$criteria = new Criteria(assetParamsPeer::DATABASE_NAME);
 		$criteria->add(assetParamsPeer::ID, $pks, Criteria::IN);
 		
-		$types = KalturaPluginManager::getExtendedTypes(assetParamsPeer::OM_CLASS, assetType::THUMBNAIL);
+		$types = BorhanPluginManager::getExtendedTypes(assetParamsPeer::OM_CLASS, assetType::THUMBNAIL);
 		$criteria->add(assetParamsPeer::TYPE, $types, Criteria::IN);
 		
 		return assetParamsPeer::doSelect($criteria, $con);
@@ -311,7 +311,7 @@ class assetParamsPeer extends BaseassetParamsPeer
 	}
 
 	public static function retrieveAllFlavorParamsTypes(){
-		$flavorTypes = KalturaPluginManager::getExtendedTypes(self::OM_CLASS, assetType::FLAVOR);
+		$flavorTypes = BorhanPluginManager::getExtendedTypes(self::OM_CLASS, assetType::FLAVOR);
 		$flavorTypes[] = assetType::LIVE;
 		return $flavorTypes;
 		

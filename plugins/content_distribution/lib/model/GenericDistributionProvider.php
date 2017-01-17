@@ -197,7 +197,7 @@ class GenericDistributionProvider extends BaseGenericDistributionProvider implem
 				$requiredThumbDimensions = unserialize($requiredThumbDimensionsStr);
 			}
 			catch(Exception $e){
-				KalturaLog::err("Unable to unserialize [$requiredThumbDimensionsStr]");
+				BorhanLog::err("Unable to unserialize [$requiredThumbDimensionsStr]");
 			}
 		}
 			
@@ -231,7 +231,7 @@ class GenericDistributionProvider extends BaseGenericDistributionProvider implem
 				$optionalThumbDimensions = unserialize($optionalThumbDimensionsStr);
 			}
 			catch(Exception $e){
-				KalturaLog::err("Unable to unserialize [$optionalThumbDimensionsStr]");
+				BorhanLog::err("Unable to unserialize [$optionalThumbDimensionsStr]");
 			}
 		}
 			

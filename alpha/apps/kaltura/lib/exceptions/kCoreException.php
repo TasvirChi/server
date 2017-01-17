@@ -18,7 +18,7 @@ class kCoreException extends Exception
 		$this->message = $message;
 		$this->code = $code;
 		$this->data = $data;
-		KalturaLog::err($this);
+		BorhanLog::err($this);
 	}
 	
 	/**

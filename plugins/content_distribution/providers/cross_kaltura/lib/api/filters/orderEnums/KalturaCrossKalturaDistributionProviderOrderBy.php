@@ -1,8 +1,8 @@
 <?php
 /**
- * @package plugins.crossKalturaDistribution
+ * @package plugins.crossBorhanDistribution
  * @subpackage api.filters.enum
  */
-class KalturaCrossKalturaDistributionProviderOrderBy extends KalturaDistributionProviderOrderBy
+class BorhanCrossBorhanDistributionProviderOrderBy extends BorhanDistributionProviderOrderBy
 {
 }

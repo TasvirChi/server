@@ -7,7 +7,7 @@ require_once(dirname(__FILE__) . '/kCacheManager.php');
 require_once(dirname(__FILE__) . '/../request/kSessionBase.class.php');
 require_once(dirname(__FILE__) . '/../request/kIpAddressUtils.php');
 require_once(dirname(__FILE__) . '/../request/kGeoUtils.php');
-require_once(dirname(__FILE__) . '/../monitor/KalturaMonitorClient.php');
+require_once(dirname(__FILE__) . '/../monitor/BorhanMonitorClient.php');
 
 /**
  * @package server-infra
@@ -32,7 +32,7 @@ class kApiCache extends kApiCacheBase
 
 	const ANONYMOUS_CACHE_EXPIRY = 600;
 	const CONDITIONAL_CACHE_EXPIRY = 86400;		// 1 day, must not be greater than the expiry of the query cache keys
-	const KALTURA_COMMENT_MARKER = '@KALTURA_COMMENT@';
+	const BORHAN_COMMENT_MARKER = '@BORHAN_COMMENT@';
 	const REDIRECT_ENTRY_CACHE_EXPIRY = 120;
 	
 	const EXPIRY_MARGIN = 300;
@@ -45,7 +45,7 @@ class kApiCache extends kApiCacheBase
 	// this request named warm cache request will block other such requests for WARM_CACHE_TTL seconds
 
 	// header to mark the request is due to cache warming. the header holds the original request protocol http/https
-	const WARM_CACHE_HEADER = "X-KALTURA-WARM-CACHE";
+	const WARM_CACHE_HEADER = "X-BORHAN-WARM-CACHE";
 
 	// interval before cache expiry in which to try and warm the cache
 	const WARM_CACHE_INTERVAL = 60;
@@ -137,7 +137,7 @@ class kApiCache extends kApiCacheBase
 		
 		if ($this->_partnerId && function_exists('apache_note'))
 		{
-			apache_note("Kaltura_PartnerId", $this->_partnerId);
+			apache_note("Borhan_PartnerId", $this->_partnerId);
 		}
 
 		if (!kConf::get('enable_cache') ||
@@ -210,10 +210,10 @@ class kApiCache extends kApiCacheBase
 			if (array_key_exists($this->_ksPartnerId, $optimizedPlayback))
 			{
 				$params = $optimizedPlayback[$this->_ksPartnerId];
-				if (array_key_exists('cache_kdp_access_control', $params) && $params['cache_kdp_access_control'])
+				if (array_key_exists('cache_bdp_access_control', $params) && $params['cache_bdp_access_control'])
 				{
 					$clientTag = 'none';
-					if (strpos(strtolower($this->clientTag), "kdp") !== false || strpos(strtolower($this->clientTag), "html") !== false )
+					if (strpos(strtolower($this->clientTag), "bdp") !== false || strpos(strtolower($this->clientTag), "html") !== false )
 					{
 						$clientTag = 'player';
 					}
@@ -328,7 +328,7 @@ class kApiCache extends kApiCacheBase
 			return false;
 
 		case self::COND_SITE_MATCH:
-			$result = (strpos($fieldValue, "kwidget") === false ? '0' : '1');
+			$result = (strpos($fieldValue, "bwidget") === false ? '0' : '1');
 			if (!count($refValue))
 				return $result;
 			foreach($refValue as $curRefValue)
@@ -496,7 +496,7 @@ class kApiCache extends kApiCacheBase
 				
 				$comment = (isset($_SERVER["HOSTNAME"]) ? $_SERVER["HOSTNAME"] : gethostname());
 				$comment .= "[{$this->_cacheKey}]";
-				$sql = str_replace(self::KALTURA_COMMENT_MARKER, $comment, $sql);
+				$sql = str_replace(self::BORHAN_COMMENT_MARKER, $comment, $sql);
 				
 				$stmt = $pdo->query($sql);
 				if(!$stmt)
@@ -628,7 +628,7 @@ class kApiCache extends kApiCacheBase
 		if ($warmCacheHeader !== false)
 		{
 			// make a trace in the access log of this being a warmup call
-			header("X-Kaltura:cached-warmup-$warmCacheHeader,".$this->_cacheKey, false);
+			header("X-Borhan:cached-warmup-$warmCacheHeader,".$this->_cacheKey, false);
 		}
 		
 		if(is_null($this->_cacheStoreTypes))
@@ -693,7 +693,7 @@ class kApiCache extends kApiCacheBase
 	 * @param $cacheHeaderName - the header name to add
 	 * @param $cacheHeader - the header value to add
 	 */
-	public function checkCache($cacheHeaderName = 'X-Kaltura', $cacheHeader = 'cached-dispatcher')
+	public function checkCache($cacheHeaderName = 'X-Borhan', $cacheHeader = 'cached-dispatcher')
 	{
 		for ($attempt = 0; $attempt < 20; $attempt++)
 		{
@@ -723,7 +723,7 @@ class kApiCache extends kApiCacheBase
 			if ($action != 'multirequest' && isset($this->_params['action']))
 				$action = $this->_params['service'] . '.' . $this->_params['action'];
 		
-			KalturaMonitorClient::monitorApiStart($result !== false, $action, $this->_partnerId, $this->getCurrentSessionType(), $this->clientTag, $isInMultiRequest);
+			BorhanMonitorClient::monitorApiStart($result !== false, $action, $this->_partnerId, $this->getCurrentSessionType(), $this->clientTag, $isInMultiRequest);
 		}
 		
 		return $result;
@@ -778,7 +778,7 @@ class kApiCache extends kApiCacheBase
 		}
 
 		$processingTime = microtime(true) - $startTime;
-		if (self::hasExtraFields() && $cacheHeaderName == 'X-Kaltura')
+		if (self::hasExtraFields() && $cacheHeaderName == 'X-Borhan')
 			$cacheHeader = 'cached-with-extra-fields';
 		if (self::$_cacheHeaderCount < self::MAX_CACHE_HEADER_COUNT)
 			header("$cacheHeaderName:$cacheHeader,$this->_cacheKey,$processingTime", false);
@@ -917,14 +917,14 @@ class kApiCache extends kApiCacheBase
 		if (!$this->storeExtraFields())
 			return;
 
-		// set the X-Kaltura header only if it does not exist or contains 'cache-key'
+		// set the X-Borhan header only if it does not exist or contains 'cache-key'
 		// the header is overwritten for cache-key so that for a multirequest we'll get the key of
 		// the entire request and not just the last request
 		$headers = headers_list();
 		$foundHeader = false;
 		foreach($headers as $header)
 		{
-			if (strpos($header, 'X-Kaltura:') === 0 && strpos($header, 'cache-key') === false)
+			if (strpos($header, 'X-Borhan:') === 0 && strpos($header, 'cache-key') === false)
 			{
 				$foundHeader = true;
 				break;
@@ -932,7 +932,7 @@ class kApiCache extends kApiCacheBase
 		}
 
 		if (!$foundHeader)
-			header("X-Kaltura: cache-key,".$this->_cacheKey);
+			header("X-Borhan: cache-key,".$this->_cacheKey);
 
 		$this->_responseMetadata = $responseMetadata;
 		$this->_cacheId = microtime(true) . '_' . getmypid();

@@ -3,14 +3,14 @@
  * @package plugins.drm
  * @subpackage api.objects
  */
-class KalturaDrmProfileArray extends KalturaTypedArray
+class BorhanDrmProfileArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaDrmProfileArray();
+		$newArr = new BorhanDrmProfileArray();
 		foreach ( $arr as $obj )
 		{
-		    $nObj = KalturaDrmProfile::getInstanceByType($obj->getProvider());
+		    $nObj = BorhanDrmProfile::getInstanceByType($obj->getProvider());
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -21,6 +21,6 @@ class KalturaDrmProfileArray extends KalturaTypedArray
 	
 	public function __construct( )
 	{
-		return parent::__construct ( 'KalturaDrmProfile' );
+		return parent::__construct ( 'BorhanDrmProfile' );
 	}
 }

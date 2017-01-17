@@ -10,26 +10,26 @@ $script = realpath(dirname(__FILE__) . '/../../../../') . '/alpha/scripts/utils/
 $config = realpath(dirname(__FILE__)) . '/../../../permissions/service.cuepoint.cuepoint.ini';
 passthru("php $script $config");
 
-$config = realpath(dirname(__FILE__)) . '/../../../permissions/object.KalturaCuePoint.ini';
+$config = realpath(dirname(__FILE__)) . '/../../../permissions/object.BorhanCuePoint.ini';
 passthru("php $script $config");
 
-$config = realpath(dirname(__FILE__)) . '/../../../permissions/object.KalturaAdCuePoint.ini';
+$config = realpath(dirname(__FILE__)) . '/../../../permissions/object.BorhanAdCuePoint.ini';
 passthru("php $script $config");
 
-$config = realpath(dirname(__FILE__)) . '/../../../permissions/object.KalturaAnswerCuePoint.ini';
+$config = realpath(dirname(__FILE__)) . '/../../../permissions/object.BorhanAnswerCuePoint.ini';
 passthru("php $script $config");
 
-$config = realpath(dirname(__FILE__)) . '/../../../permissions/object.KalturaThumbCuePoint.ini';
+$config = realpath(dirname(__FILE__)) . '/../../../permissions/object.BorhanThumbCuePoint.ini';
 passthru("php $script $config");
 
-$config = realpath(dirname(__FILE__)) . '/../../../permissions/object.KalturaAnnotationCuePoint.ini';
+$config = realpath(dirname(__FILE__)) . '/../../../permissions/object.BorhanAnnotationCuePoint.ini';
 passthru("php $script $config");
 
-$config = realpath(dirname(__FILE__)) . '/../../../permissions/object.KalturaCodeCuePoint.ini';
+$config = realpath(dirname(__FILE__)) . '/../../../permissions/object.BorhanCodeCuePoint.ini';
 passthru("php $script $config");
 
-$config = realpath(dirname(__FILE__)) . '/../../../permissions/object.KalturaEventCuePoint.ini';
+$config = realpath(dirname(__FILE__)) . '/../../../permissions/object.BorhanEventCuePoint.ini';
 passthru("php $script $config");
 
-$config = realpath(dirname(__FILE__)) . '/../../../permissions/object.KalturaQuestionCuePoint.ini';
+$config = realpath(dirname(__FILE__)) . '/../../../permissions/object.BorhanQuestionCuePoint.ini';
 passthru("php $script $config");

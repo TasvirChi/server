@@ -311,8 +311,8 @@ if (!mysqli_fetch_array($result, MYSQLI_ASSOC))
 
 mysqli_free_result($result);
 
-// Change database to kaltura
-mysqli_select_db($link,'kaltura') or die("Error: Could not select 'kaltura' database\n");
+// Change database to borhan
+mysqli_select_db($link,'borhan') or die("Error: Could not select 'borhan' database\n");
 
 // Make sure the memcache server is configured
 $query = "SELECT memc_server_count()";

@@ -3,14 +3,14 @@
  * @package api
  * @subpackage objects
  */
-class KalturaLiveEntryServerNode extends KalturaEntryServerNode 
+class BorhanLiveEntryServerNode extends BorhanEntryServerNode 
 {
 	const MAX_BITRATE_PERCENTAGE_DIFF_ALLOWED = 10;
 	const MAX_FRAMERATE_PERCENTAGE_DIFF_ALLOWED = 15;
 	
 	/**
 	 * parameters of the stream we got
-	 * @var KalturaLiveStreamParamsArray
+	 * @var BorhanLiveStreamParamsArray
 	 */
 	public $streams;
 
@@ -20,7 +20,7 @@ class KalturaLiveEntryServerNode extends KalturaEntryServerNode
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -37,7 +37,7 @@ class KalturaLiveEntryServerNode extends KalturaEntryServerNode
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUpdate()
+	 * @see BorhanObject::validateForUpdate()
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = array())
 	{

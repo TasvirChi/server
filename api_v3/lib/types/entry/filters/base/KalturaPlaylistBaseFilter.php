@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaPlaylistBaseFilter extends KalturaBaseEntryFilter
+abstract class BorhanPlaylistBaseFilter extends BorhanBaseEntryFilter
 {
 	static private $map_between_objects = array
 	(

@@ -137,7 +137,7 @@ class LiveEntryServerNode extends EntryServerNode
 		$liveEntry = entryPeer::retrieveByPK($this->getEntryId());
 		if(!$liveEntry)
 		{
-			KalturaLog::debug("Live entry with id [" . $this->getEntryId() . "] not found, live entry data will not be updated");
+			BorhanLog::debug("Live entry with id [" . $this->getEntryId() . "] not found, live entry data will not be updated");
 			return null;
 		}
 		
@@ -149,7 +149,7 @@ class LiveEntryServerNode extends EntryServerNode
 		$liveEntry = entryPeer::retrieveByPK($this->getEntryId());
 		if(!$liveEntry)
 		{
-			KalturaLog::err("Entry with id [{$this->getEntryId()}] not found, clearing entry server node from db");
+			BorhanLog::err("Entry with id [{$this->getEntryId()}] not found, clearing entry server node from db");
 			$this->delete();
 			return;
 		}
@@ -158,7 +158,7 @@ class LiveEntryServerNode extends EntryServerNode
 		$timeFromLastUpdate = time() - $this->getUpdatedAt(null);
 		if($this->getDc() === kDataCenterMgr::getCurrentDcId() && !$liveEntry->isCacheValid($this) && $timeFromLastUpdate > LiveEntry::DEFAULT_CACHE_EXPIRY)
 		{
-			KalturaLog::info("Removing media server id [" . $this->getServerNodeId() . "] from liveEntry [" . $this->getEntryId() . "]");
+			BorhanLog::info("Removing media server id [" . $this->getServerNodeId() . "] from liveEntry [" . $this->getEntryId() . "]");
 			$this->deleteOrMarkForDeletion($liveEntry);
 		}
 	}
@@ -168,7 +168,7 @@ class LiveEntryServerNode extends EntryServerNode
 		$liveEntry = $entry ? $entry : entryPeer::retrieveByPK($this->getEntryId());
 		if(!$liveEntry)
 		{
-			KalturaLog::debug("Entry with id [{$this->getEntryId()}] not found, clearing entry server node from db");
+			BorhanLog::debug("Entry with id [{$this->getEntryId()}] not found, clearing entry server node from db");
 			$this->delete();
 			return;
 		}
@@ -180,14 +180,14 @@ class LiveEntryServerNode extends EntryServerNode
 			$recordedEntry = $recordedEntryId ? entryPeer::retrieveByPK($recordedEntryId) : null;
 			if(!$recordedEntry)
 			{
-				KalturaLog::debug("Recorded entry with id [{$this->getEntryId()}] not found, clearing entry server node from db");
+				BorhanLog::debug("Recorded entry with id [{$this->getEntryId()}] not found, clearing entry server node from db");
 				$this->delete();
 				return;
 			}
 			
 			if(!myEntryUtils::shouldServeVodFromLive($recordedEntry))
 			{
-				KalturaLog::debug("Recorded entry with id [{$this->getEntryId()}] found and ready or recorded is of old source type, clearing entry server node from db");
+				BorhanLog::debug("Recorded entry with id [{$this->getEntryId()}] found and ready or recorded is of old source type, clearing entry server node from db");
 				$this->delete();
 				return;
 			}
@@ -197,7 +197,7 @@ class LiveEntryServerNode extends EntryServerNode
 			return;
 		}
 		
-		KalturaLog::debug("Live entry with id [{$liveEntry->getId()}], is set with recording disabled, clearing entry server node id [{$this->getId()}] from db");
+		BorhanLog::debug("Live entry with id [{$liveEntry->getId()}], is set with recording disabled, clearing entry server node id [{$this->getId()}] from db");
 		$this->delete();
 	}
 }

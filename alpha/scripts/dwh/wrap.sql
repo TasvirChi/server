@@ -1,1 +1,1 @@
-CALL kalturadw.mark_operational_sync_as_done('entry');
+CALL borhandw.mark_operational_sync_as_done('entry');

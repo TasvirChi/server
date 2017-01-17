@@ -4,7 +4,7 @@
  * @package plugins.dropFolder
  * @subpackage api.objects
  */
-class KalturaDropFolderImportJobData extends KalturaSshImportJobData
+class BorhanDropFolderImportJobData extends BorhanSshImportJobData
 {
 	/**
 	 * @var int

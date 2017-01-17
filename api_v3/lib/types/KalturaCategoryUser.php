@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaCategoryUser extends KalturaObject implements IRelatedFilterable
+class BorhanCategoryUser extends BorhanObject implements IRelatedFilterable
 {
 	/**
 	 * 
@@ -33,7 +33,7 @@ class KalturaCategoryUser extends KalturaObject implements IRelatedFilterable
 	/**
 	 * Permission level
 	 * @deprecated
-	 * @var KalturaCategoryUserPermissionLevel
+	 * @var BorhanCategoryUserPermissionLevel
 	 * @filter eq,in
 	 */
 	public $permissionLevel;
@@ -41,7 +41,7 @@ class KalturaCategoryUser extends KalturaObject implements IRelatedFilterable
 	/**
 	 * Status
 	 * 
-	 * @var KalturaCategoryUserStatus
+	 * @var BorhanCategoryUserStatus
 	 * @readonly
 	 * @filter eq,in
 	 */
@@ -66,9 +66,9 @@ class KalturaCategoryUser extends KalturaObject implements IRelatedFilterable
 	public $updatedAt;
 	
 	/**
-	 * Update method can be either manual or automatic to distinguish between manual operations (for example in KMC) on automatic - using bulk upload 
+	 * Update method can be either manual or automatic to distinguish between manual operations (for example in BMC) on automatic - using bulk upload 
 	 * 
-	 * @var KalturaUpdateMethodType
+	 * @var BorhanUpdateMethodType
 	 * @filter eq, in
 	 */
 	public $updateMethod;
@@ -147,20 +147,20 @@ class KalturaCategoryUser extends KalturaObject implements IRelatedFilterable
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert()
+	 * @see BorhanObject::validateForInsert()
 	 */
 	public function validateForInsert($propertiesToSkip = array()) 
 	{
 		$category = categoryPeer::retrieveByPK ( $this->categoryId );
 		if (! $category)
-			throw new KalturaAPIException ( KalturaErrors::CATEGORY_NOT_FOUND, $this->categoryId );
+			throw new BorhanAPIException ( BorhanErrors::CATEGORY_NOT_FOUND, $this->categoryId );
 		
 		if ($category->getInheritanceType () == InheritanceType::INHERIT)
-			throw new KalturaAPIException ( KalturaErrors::CATEGORY_INHERIT_MEMBERS, $this->categoryId );
+			throw new BorhanAPIException ( BorhanErrors::CATEGORY_INHERIT_MEMBERS, $this->categoryId );
 		
 		//validating userId is not 0 or null
 		if($this->userId == "0")
-		    throw new KalturaAPIException ( KalturaErrors::INVALID_USER_ID);
+		    throw new BorhanAPIException ( BorhanErrors::INVALID_USER_ID);
 		$this->validatePropertyMinLength('userId',1);
 		
 		$partnerId = kCurrentContext::$partner_id ? kCurrentContext::$partner_id : kCurrentContext::$ks_partner_id;
@@ -170,7 +170,7 @@ class KalturaCategoryUser extends KalturaObject implements IRelatedFilterable
 		{
 			$categoryKuser = categoryKuserPeer::retrieveByCategoryIdAndKuserId ( $this->categoryId, $kuser->getId () );
 			if ($categoryKuser)
-				throw new KalturaAPIException ( KalturaErrors::CATEGORY_USER_ALREADY_EXISTS );
+				throw new BorhanAPIException ( BorhanErrors::CATEGORY_USER_ALREADY_EXISTS );
 		}
 		
 		$currentKuserCategoryKuser = categoryKuserPeer::retrievePermittedKuserInCategory($this->categoryId, kCurrentContext::getCurrentKsKuserId());
@@ -178,14 +178,14 @@ class KalturaCategoryUser extends KalturaObject implements IRelatedFilterable
 				$currentKuserCategoryKuser->getPermissionLevel () != CategoryKuserPermissionLevel::MANAGER) && 
 				$category->getUserJoinPolicy () == UserJoinPolicyType::NOT_ALLOWED && 
 				kEntitlementUtils::getEntitlementEnforcement ()) {
-			throw new KalturaAPIException ( KalturaErrors::CATEGORY_USER_JOIN_NOT_ALLOWED, $this->categoryId );
+			throw new BorhanAPIException ( BorhanErrors::CATEGORY_USER_JOIN_NOT_ALLOWED, $this->categoryId );
 		}
 		
 		//if user doesn't exists - create it
 		if(!$kuser)
 		{
 			if(!preg_match(kuser::PUSER_ID_REGEXP, $this->userId))
-				throw new KalturaAPIException(KalturaErrors::INVALID_FIELD_VALUE, 'userId');
+				throw new BorhanAPIException(BorhanErrors::INVALID_FIELD_VALUE, 'userId');
 				
 			kuserPeer::createKuserForPartner($partnerId, $this->userId);
 		}
@@ -194,7 +194,7 @@ class KalturaCategoryUser extends KalturaObject implements IRelatedFilterable
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toInsertableObject()
+	 * @see BorhanObject::toInsertableObject()
 	 */
 	public function toInsertableObject($dbObject = null, $skip = array())
 	{
@@ -202,7 +202,7 @@ class KalturaCategoryUser extends KalturaObject implements IRelatedFilterable
 	    {
     	    $category = categoryPeer::retrieveByPK($this->categoryId);
     	    if(!$category)
-    	    	throw new KalturaAPIException ( KalturaErrors::CATEGORY_NOT_FOUND, $this->categoryId );
+    	    	throw new BorhanAPIException ( BorhanErrors::CATEGORY_NOT_FOUND, $this->categoryId );
     	    
 	        $this->permissionLevel = $category->getDefaultPermissionLevel();
 	    }
@@ -211,14 +211,14 @@ class KalturaCategoryUser extends KalturaObject implements IRelatedFilterable
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUpdate($sourceObject, $propertiesToSkip)
+	 * @see BorhanObject::validateForUpdate($sourceObject, $propertiesToSkip)
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = null)
 	{
 		/* @var $sourceObject categoryKuser */
 		$category = categoryPeer::retrieveByPK($sourceObject->getCategoryId());
 		if (!$category)
-			throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $sourceObject->getCategoryId());
+			throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $sourceObject->getCategoryId());
 			
 		if ($this->permissionNames && $this->permissionNames != $sourceObject->getPermissionNames())
 		{
@@ -226,7 +226,7 @@ class KalturaCategoryUser extends KalturaObject implements IRelatedFilterable
 			{
 				if (strpos($this->permissionNames, PermissionName::CATEGORY_EDIT) === false)
 				{
-					throw new KalturaAPIException(KalturaErrors::CANNOT_UPDATE_CATEGORY_USER_OWNER);
+					throw new BorhanAPIException(BorhanErrors::CANNOT_UPDATE_CATEGORY_USER_OWNER);
 				}
 			}
 		}
@@ -234,7 +234,7 @@ class KalturaCategoryUser extends KalturaObject implements IRelatedFilterable
 		$currentKuserCategoryKuser = categoryKuserPeer::retrievePermittedKuserInCategory($sourceObject->getCategoryId(), kCurrentContext::getCurrentKsKuserId());
 		if(kEntitlementUtils::getEntitlementEnforcement() && 
 		(!$currentKuserCategoryKuser || !$currentKuserCategoryKuser->hasPermission(PermissionName::CATEGORY_EDIT)))
-			throw new KalturaAPIException(KalturaErrors::CANNOT_UPDATE_CATEGORY_USER, $sourceObject->getCategoryId());
+			throw new BorhanAPIException(BorhanErrors::CANNOT_UPDATE_CATEGORY_USER, $sourceObject->getCategoryId());
 			
 		return parent::validateForUpdate($sourceObject, $propertiesToSkip);
 	}

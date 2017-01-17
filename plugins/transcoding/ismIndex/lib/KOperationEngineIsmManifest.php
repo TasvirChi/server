@@ -33,12 +33,12 @@ class KOperationEngineIsmManifest extends KSingleOutputOperationEngine
 		file_put_contents($ismFilePath, $ismStr);
 		
 		$destFileSyncDescArr = array();
-		$fileSyncDesc = new KalturaDestFileSyncDescriptor();
+		$fileSyncDesc = new BorhanDestFileSyncDescriptor();
 		$fileSyncDesc->fileSyncLocalPath = $ismFilePath;
 		$fileSyncDesc->fileSyncObjectSubType = 1; //".ism";
 		$destFileSyncDescArr[] = $fileSyncDesc;
 		
-		$fileSyncDesc = new KalturaDestFileSyncDescriptor();
+		$fileSyncDesc = new BorhanDestFileSyncDescriptor();
 		$fileSyncDesc->fileSyncLocalPath = $ismcFilePath;
 		$fileSyncDesc->fileSyncObjectSubType = 4; //".ismc";
 		$destFileSyncDescArr[] = $fileSyncDesc;

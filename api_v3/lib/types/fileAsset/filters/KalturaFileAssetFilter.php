@@ -3,7 +3,7 @@
  * @package api
  * @subpackage api.filters
  */
-class KalturaFileAssetFilter extends KalturaFileAssetBaseFilter
+class BorhanFileAssetFilter extends BorhanFileAssetBaseFilter
 {
 	static private $map_between_objects = array
 	(
@@ -11,7 +11,7 @@ class KalturaFileAssetFilter extends KalturaFileAssetBaseFilter
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaFileAssetBaseFilter::getMapBetweenObjects()
+	 * @see BorhanFileAssetBaseFilter::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -19,7 +19,7 @@ class KalturaFileAssetFilter extends KalturaFileAssetBaseFilter
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -27,7 +27,7 @@ class KalturaFileAssetFilter extends KalturaFileAssetBaseFilter
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::toObject()
+	 * @see BorhanFilter::toObject()
 	 */
 	public function toObject ( $object_to_fill = null, $props_to_skip = array() )
 	{
@@ -37,9 +37,9 @@ class KalturaFileAssetFilter extends KalturaFileAssetBaseFilter
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::getListResponse()
+	 * @see BorhanRelatedFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$fileAssetFilter = $this->toObject();
 
@@ -51,8 +51,8 @@ class KalturaFileAssetFilter extends KalturaFileAssetBaseFilter
 		$pager->attachToCriteria($c);
 		$dbList = FileAssetPeer::doSelect($c);
 		
-		$response = new KalturaFileAssetListResponse();
-		$response->objects = KalturaFileAssetArray::fromDbArray($dbList, $responseProfile);
+		$response = new BorhanFileAssetListResponse();
+		$response->objects = BorhanFileAssetArray::fromDbArray($dbList, $responseProfile);
 		$response->totalCount = $totalCount;
 		return $response; 
 	}

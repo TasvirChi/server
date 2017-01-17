@@ -3,10 +3,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaLiveChannelSegmentListResponse extends KalturaListResponse
+class BorhanLiveChannelSegmentListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaLiveChannelSegmentArray
+	 * @var BorhanLiveChannelSegmentArray
 	 * @readonly
 	 */
 	public $objects;

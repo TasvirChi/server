@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaFileExistsResponse extends KalturaObject 
+class BorhanFileExistsResponse extends BorhanObject 
 {
 	/**
 	 * Indicates if the file exists

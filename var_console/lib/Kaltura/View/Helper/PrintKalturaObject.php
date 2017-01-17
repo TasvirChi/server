@@ -3,7 +3,7 @@
  * @package Var
  * @subpackage View
  */
-class Kaltura_View_Helper_PrintKalturaObject extends Zend_View_Helper_Abstract
+class Borhan_View_Helper_PrintBorhanObject extends Zend_View_Helper_Abstract
 {
 	private function printFriedlyName($name)
 	{
@@ -79,7 +79,7 @@ class Kaltura_View_Helper_PrintKalturaObject extends Zend_View_Helper_Abstract
 		return $ret;
 	}
 	
-	public function printKalturaObject($object)
+	public function printBorhanObject($object)
 	{
 		if(is_array($object))
 			return $this->printArray($object); 

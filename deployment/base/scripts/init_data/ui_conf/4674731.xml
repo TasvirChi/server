@@ -1,7 +1,7 @@
-<layout id="full" name="moodleDefaultLight" skinPath="/content/uiconf/kaltura/kmc/appstudio/kdp3/dragonfly/skin/skin_3.5.5/skin_light.swf?null">
+<layout id="full" name="moodleDefaultLight" skinPath="/content/uiconf/borhan/bmc/appstudio/bdp3/dragonfly/skin/skin_3.5.5/skin_light.swf?null">
   <HBox id="topLevel" width="100%" height="100%">
     <VBox id="player" width="100%" height="100%" styleName="black">
-      <Plugin id="kalturaMix" width="0%" height="0%" includeInLayout="false" loadingPolicy="onDemand"/>
+      <Plugin id="borhanMix" width="0%" height="0%" includeInLayout="false" loadingPolicy="onDemand"/>
       <Plugin id="statistics" width="0%" height="0%" includeInLayout="false"/>
 	  <HBox id="TopTitleScreen" width="100%" height="30" styleName="darkBg">
 			<Label height="22" id="movieName" styleName="movieName" width="100%" text="{mediaProxy.entry.name}" />
@@ -15,7 +15,7 @@
           <Spacer height="100%"/>
         </VBox>
         <Screens id="screensLayer" width="100%" height="100%" mouseOverTarget="{PlayerHolder}" styleName="clickThrough" startScreenId="startScreen" startScreenOverId="startScreen" pauseScreenOverId="pauseScreen" pauseScreenId="pauseScreen" playScreenOverId="playScreen" endScreenId="endScreen" endScreenOverId="endScreen"/>
-        <Watermark id="watermark" width="100%" height="100%" watermarkPath="http://www.kaltura.com/content/uiconf/kaltura/generic/kaltura_watermark.png" watermarkClickPath="http://www.kaltura.com/" watermarkPosition="bottomLeft" padding="5"/>
+        <Watermark id="watermark" width="100%" height="100%" watermarkPath="http://www.borhan.com/content/uiconf/borhan/generic/borhan_watermark.png" watermarkClickPath="http://www.borhan.com/" watermarkPosition="bottomLeft" padding="5"/>
         <VBox id="skipBtnHolder" width="100%" height="100%">
           <Spacer height="100%"/>
           <HBox width="100%" height="30">
@@ -44,7 +44,7 @@
             <Button id="fullScreenBtnControllerScreen" command="fullScreen" buttonType="iconButton" height="22" styleName="controllerScreen" icon="openFullScreenIcon" selectedUpIcon="closeFullScreenIcong" selectedOverIcon="closeFullScreenIcon" selectedDownIcon="closeFullScreenIcon" selectedDisabledIcon="closeFullScreenIcon" focusRectPadding="0" allowDisable="false" tooltip="Toggle fullscreen" k_buttonType="buttonIconControllerArea" color1="2236962" color2="0" color3="14540253" color4="16777215" color5="0" font="Arial"/>
           </HBox>
           <Spacer width="13"/>
-          <Button id="kalturaLogo" height="50" width="100" kClick="navigate('http://www.kaltura.com')" styleName="controllerScreen" icon="kalturaLogo"/>
+          <Button id="borhanLogo" height="50" width="100" kClick="navigate('http://www.borhan.com')" styleName="controllerScreen" icon="borhanLogo"/>
           <Spacer width="13"/>
         </HBox>
       </Canvas>

@@ -3,10 +3,10 @@
  * @package plugins.schedule
  * @subpackage api.filters
  */
-class KalturaCameraScheduleResourceFilter extends KalturaCameraScheduleResourceBaseFilter
+class BorhanCameraScheduleResourceFilter extends BorhanCameraScheduleResourceBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaScheduleResourceFilter::getListResponseType()
+	 * @see BorhanScheduleResourceFilter::getListResponseType()
 	 */
 	protected function getListResponseType()
 	{

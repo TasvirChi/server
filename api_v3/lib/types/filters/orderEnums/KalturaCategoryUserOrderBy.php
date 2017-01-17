@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters.enum
  */
-class KalturaCategoryUserOrderBy extends KalturaStringEnum
+class BorhanCategoryUserOrderBy extends BorhanStringEnum
 {
 	const CREATED_AT_ASC = "+createdAt";
 	const CREATED_AT_DESC = "-createdAt";

@@ -4,7 +4,7 @@
  * @package plugins.scheduledTask
  * @subpackage api.objects
  */
-class KalturaScheduledTaskJobData extends KalturaJobData
+class BorhanScheduledTaskJobData extends BorhanJobData
 {
 	/**
 	 * @var int

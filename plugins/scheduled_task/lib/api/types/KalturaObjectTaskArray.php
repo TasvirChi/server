@@ -4,20 +4,20 @@
  * @package plugins.scheduledTask
  * @subpackage api.objects
  */
-class KalturaObjectTaskArray extends KalturaTypedArray
+class BorhanObjectTaskArray extends BorhanTypedArray
 {
 	public function __construct()
 	{
-		parent::__construct('KalturaObjectTask');
+		parent::__construct('BorhanObjectTask');
 	}
 
-	public static function fromDbArray(array $dbArray, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $dbArray, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$apiArray = new KalturaObjectTaskArray();
+		$apiArray = new BorhanObjectTaskArray();
 		foreach($dbArray as $dbObject)
 		{
 			/** @var kObjectTask $dbObject */
-			$apiObject = KalturaObjectTask::getInstanceByDbObject($dbObject);
+			$apiObject = BorhanObjectTask::getInstanceByDbObject($dbObject);
 			if (is_null($apiObject))
 			{
 				throw new Exception('Couldn\'t load api object for db object '.$dbObject->getType());

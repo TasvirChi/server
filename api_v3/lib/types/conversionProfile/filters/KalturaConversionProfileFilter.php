@@ -3,10 +3,10 @@
  * @package api
  * @subpackage filters
  */
-class KalturaConversionProfileFilter extends KalturaConversionProfileBaseFilter
+class BorhanConversionProfileFilter extends BorhanConversionProfileBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -14,9 +14,9 @@ class KalturaConversionProfileFilter extends KalturaConversionProfileBaseFilter
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::getListResponse()
+	 * @see BorhanRelatedFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$conversionProfile2Filter = $this->toObject();
 
@@ -28,9 +28,9 @@ class KalturaConversionProfileFilter extends KalturaConversionProfileBaseFilter
 		$pager->attachToCriteria($c);
 		$dbList = conversionProfile2Peer::doSelect($c);
 		
-		$list = KalturaConversionProfileArray::fromDbArray($dbList, $responseProfile);
+		$list = BorhanConversionProfileArray::fromDbArray($dbList, $responseProfile);
 		$list->loadFlavorParamsIds();
-		$response = new KalturaConversionProfileListResponse();
+		$response = new BorhanConversionProfileListResponse();
 		$response->objects = $list;
 		$response->totalCount = $totalCount;
 		return $response;  

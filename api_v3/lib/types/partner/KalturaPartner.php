@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaPartner extends KalturaObject implements IFilterable
+class BorhanPartner extends BorhanObject implements IFilterable
 {
 	/**
 	 * @var int
@@ -60,7 +60,7 @@ class KalturaPartner extends KalturaObject implements IFilterable
 	public $description;
 	
 	/**
-	 * @var KalturaCommercialUseType
+	 * @var BorhanCommercialUseType
 	 */
 	public $commercialUse;
 	
@@ -80,7 +80,7 @@ class KalturaPartner extends KalturaObject implements IFilterable
 	public $contentCategories;
 	
 	/**
-	 * @var KalturaPartnerType
+	 * @var BorhanPartnerType
 	 */
 	public $type;
 	
@@ -110,7 +110,7 @@ class KalturaPartner extends KalturaObject implements IFilterable
 	public $notify;
 	
 	/**
-	 * @var KalturaPartnerStatus
+	 * @var BorhanPartnerStatus
 	 * @readonly
 	 * @filter eq,in,order
 	 */
@@ -205,7 +205,7 @@ class KalturaPartner extends KalturaObject implements IFilterable
 	public $state;
 	
 	/**
-	 * @var KalturaKeyValueArray
+	 * @var BorhanKeyValueArray
 	 * @insertonly
 	 */
 	public $additionalParams;
@@ -217,7 +217,7 @@ class KalturaPartner extends KalturaObject implements IFilterable
 	public $publishersQuota;
 	
 	/**
-	 * @var KalturaPartnerGroupType
+	 * @var BorhanPartnerGroupType
 	 * @requiresPermission read
 	 * @filter eq
 	 * @readonly
@@ -244,13 +244,13 @@ class KalturaPartner extends KalturaObject implements IFilterable
 	public $defaultEmbedCodeType;
 	
 	/**
-	 * @var KalturaPlayerDeliveryTypesArray
+	 * @var BorhanPlayerDeliveryTypesArray
 	 * @readonly
 	 */
 	public $deliveryTypes;
 	
 	/**
-	 * @var KalturaPlayerEmbedCodeTypesArray
+	 * @var BorhanPlayerEmbedCodeTypesArray
 	 * @readonly
 	 */
 	public $embedCodeTypes;
@@ -336,14 +336,14 @@ class KalturaPartner extends KalturaObject implements IFilterable
 		return $this;
 	}
 	
-	public function doFromObject($partner, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($partner, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($partner);
 		
 		$this->name = kString::stripUtf8InvalidChars($this->name);
 		$this->description = kString::stripUtf8InvalidChars($this->description);
 		$this->adminName = kString::stripUtf8InvalidChars($this->adminName);
-		$this->additionalParams = KalturaKeyValueArray::fromKeyValueArray($partner->getAdditionalParams());
+		$this->additionalParams = BorhanKeyValueArray::fromKeyValueArray($partner->getAdditionalParams());
 		if (!$this->host){
 			$this->host = null;
 		}
@@ -354,9 +354,9 @@ class KalturaPartner extends KalturaObject implements IFilterable
 	
 	
 	/**
-	 * Function runs required validations on the current KalturaPartner object and 
+	 * Function runs required validations on the current BorhanPartner object and 
 	 * if all validations are successful, creates a new DB object for it and returns it.
-	 * @throws KalturaAPIException
+	 * @throws BorhanAPIException
 	 * @return Partner
 	 */
 	public function toPartner()
@@ -381,7 +381,7 @@ class KalturaPartner extends KalturaObject implements IFilterable
 		}
 		elseif(($this->firstName || $this->lastName) && $this->adminName)
 		{
-			throw new KalturaAPIException(KalturaErrors::PROPERTY_DEPRECATED, "adminName");
+			throw new BorhanAPIException(BorhanErrors::PROPERTY_DEPRECATED, "adminName");
 		}
 
 		$this->validatePropertyNotNull("name");

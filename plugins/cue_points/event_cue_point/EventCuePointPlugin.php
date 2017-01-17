@@ -3,7 +3,7 @@
  * Enable event cue point objects management on entry objects
  * @package plugins.EventCuePoint
  */
-class EventCuePointPlugin extends KalturaPlugin implements IKalturaCuePoint, IKalturaEventConsumers
+class EventCuePointPlugin extends BorhanPlugin implements IBorhanCuePoint, IBorhanEventConsumers
 {
 	const PLUGIN_NAME = 'eventCuePoint';
 	const CUE_POINT_VERSION_MAJOR = 1;
@@ -14,7 +14,7 @@ class EventCuePointPlugin extends KalturaPlugin implements IKalturaCuePoint, IKa
 	const EVENT_CUE_POINT_CONSUMER = 'kEventCuePointConsumer';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -22,7 +22,7 @@ class EventCuePointPlugin extends KalturaPlugin implements IKalturaCuePoint, IKa
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissions::isAllowedPartner()
+	 * @see IBorhanPermissions::isAllowedPartner()
 	 */
 	public static function isAllowedPartner($partnerId)
 	{
@@ -30,7 +30,7 @@ class EventCuePointPlugin extends KalturaPlugin implements IKalturaCuePoint, IKa
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -44,30 +44,30 @@ class EventCuePointPlugin extends KalturaPlugin implements IKalturaCuePoint, IKa
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$cuePointVersion = new KalturaVersion(
+		$cuePointVersion = new BorhanVersion(
 			self::CUE_POINT_VERSION_MAJOR,
 			self::CUE_POINT_VERSION_MINOR,
 			self::CUE_POINT_VERSION_BUILD);
 			
-		$dependency = new KalturaDependency(self::CUE_POINT_NAME, $cuePointVersion);
+		$dependency = new BorhanDependency(self::CUE_POINT_NAME, $cuePointVersion);
 		return array($dependency);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if($baseClass == 'KalturaCuePoint' && $enumValue == self::getCuePointTypeCoreValue(EventCuePointType::EVENT))
-			return new KalturaEventCuePoint();
+		if($baseClass == 'BorhanCuePoint' && $enumValue == self::getCuePointTypeCoreValue(EventCuePointType::EVENT))
+			return new BorhanEventCuePoint();
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
@@ -76,20 +76,20 @@ class EventCuePointPlugin extends KalturaPlugin implements IKalturaCuePoint, IKa
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaCuePoint::getCuePointTypeCoreValue()
+	 * @see IBorhanCuePoint::getCuePointTypeCoreValue()
 	 */
 	public static function getCuePointTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('CuePointType', $value);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaCuePoint::getApiValue()
+	 * @see IBorhanCuePoint::getApiValue()
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	public static function contributeToSchema($type)
@@ -98,7 +98,7 @@ class EventCuePointPlugin extends KalturaPlugin implements IKalturaCuePoint, IKa
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	*/
 	public static function getEventConsumers()
 	{

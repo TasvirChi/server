@@ -3,10 +3,10 @@
  * @package plugins.adminConsole
  * @subpackage api.objects
  */
-class KalturaInvestigateThumbAssetDataArray extends KalturaTypedArray
+class BorhanInvestigateThumbAssetDataArray extends BorhanTypedArray
 {
 	public function __construct()
 	{
-		parent::__construct("KalturaInvestigateThumbAssetData");	
+		parent::__construct("BorhanInvestigateThumbAssetData");	
 	}
 }

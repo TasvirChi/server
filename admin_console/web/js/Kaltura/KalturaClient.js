@@ -1,934 +1,934 @@
-function KalturaAccessControlOrderBy()
+function BorhanAccessControlOrderBy()
 {
 }
-KalturaAccessControlOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaAccessControlOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanAccessControlOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanAccessControlOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
 
-function KalturaAudioCodec()
+function BorhanAudioCodec()
 {
 }
-KalturaAudioCodec.prototype.NONE = "";
-KalturaAudioCodec.prototype.MP3 = "mp3";
-KalturaAudioCodec.prototype.AAC = "aac";
+BorhanAudioCodec.prototype.NONE = "";
+BorhanAudioCodec.prototype.MP3 = "mp3";
+BorhanAudioCodec.prototype.AAC = "aac";
 
-function KalturaBaseEntryOrderBy()
+function BorhanBaseEntryOrderBy()
 {
 }
-KalturaBaseEntryOrderBy.prototype.NAME_ASC = "+name";
-KalturaBaseEntryOrderBy.prototype.NAME_DESC = "-name";
-KalturaBaseEntryOrderBy.prototype.MODERATION_COUNT_ASC = "+moderationCount";
-KalturaBaseEntryOrderBy.prototype.MODERATION_COUNT_DESC = "-moderationCount";
-KalturaBaseEntryOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaBaseEntryOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
-KalturaBaseEntryOrderBy.prototype.RANK_ASC = "+rank";
-KalturaBaseEntryOrderBy.prototype.RANK_DESC = "-rank";
+BorhanBaseEntryOrderBy.prototype.NAME_ASC = "+name";
+BorhanBaseEntryOrderBy.prototype.NAME_DESC = "-name";
+BorhanBaseEntryOrderBy.prototype.MODERATION_COUNT_ASC = "+moderationCount";
+BorhanBaseEntryOrderBy.prototype.MODERATION_COUNT_DESC = "-moderationCount";
+BorhanBaseEntryOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanBaseEntryOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanBaseEntryOrderBy.prototype.RANK_ASC = "+rank";
+BorhanBaseEntryOrderBy.prototype.RANK_DESC = "-rank";
 
-function KalturaBaseJobOrderBy()
+function BorhanBaseJobOrderBy()
 {
 }
-KalturaBaseJobOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaBaseJobOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
-KalturaBaseJobOrderBy.prototype.EXECUTION_ATTEMPTS_ASC = "+executionAttempts";
-KalturaBaseJobOrderBy.prototype.EXECUTION_ATTEMPTS_DESC = "-executionAttempts";
+BorhanBaseJobOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanBaseJobOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanBaseJobOrderBy.prototype.EXECUTION_ATTEMPTS_ASC = "+executionAttempts";
+BorhanBaseJobOrderBy.prototype.EXECUTION_ATTEMPTS_DESC = "-executionAttempts";
 
-function KalturaBaseSyndicationFeedOrderBy()
+function BorhanBaseSyndicationFeedOrderBy()
 {
 }
-KalturaBaseSyndicationFeedOrderBy.prototype.PLAYLIST_ID_ASC = "+playlistId";
-KalturaBaseSyndicationFeedOrderBy.prototype.PLAYLIST_ID_DESC = "-playlistId";
-KalturaBaseSyndicationFeedOrderBy.prototype.NAME_ASC = "+name";
-KalturaBaseSyndicationFeedOrderBy.prototype.NAME_DESC = "-name";
-KalturaBaseSyndicationFeedOrderBy.prototype.TYPE_ASC = "+type";
-KalturaBaseSyndicationFeedOrderBy.prototype.TYPE_DESC = "-type";
-KalturaBaseSyndicationFeedOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaBaseSyndicationFeedOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanBaseSyndicationFeedOrderBy.prototype.PLAYLIST_ID_ASC = "+playlistId";
+BorhanBaseSyndicationFeedOrderBy.prototype.PLAYLIST_ID_DESC = "-playlistId";
+BorhanBaseSyndicationFeedOrderBy.prototype.NAME_ASC = "+name";
+BorhanBaseSyndicationFeedOrderBy.prototype.NAME_DESC = "-name";
+BorhanBaseSyndicationFeedOrderBy.prototype.TYPE_ASC = "+type";
+BorhanBaseSyndicationFeedOrderBy.prototype.TYPE_DESC = "-type";
+BorhanBaseSyndicationFeedOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanBaseSyndicationFeedOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
 
-function KalturaBatchJobErrorTypes()
+function BorhanBatchJobErrorTypes()
 {
 }
-KalturaBatchJobErrorTypes.prototype.APP = 0;
-KalturaBatchJobErrorTypes.prototype.RUNTIME = 1;
-KalturaBatchJobErrorTypes.prototype.HTTP = 2;
-KalturaBatchJobErrorTypes.prototype.CURL = 3;
+BorhanBatchJobErrorTypes.prototype.APP = 0;
+BorhanBatchJobErrorTypes.prototype.RUNTIME = 1;
+BorhanBatchJobErrorTypes.prototype.HTTP = 2;
+BorhanBatchJobErrorTypes.prototype.CURL = 3;
 
-function KalturaBatchJobOrderBy()
+function BorhanBatchJobOrderBy()
 {
 }
-KalturaBatchJobOrderBy.prototype.STATUS_ASC = "+status";
-KalturaBatchJobOrderBy.prototype.STATUS_DESC = "-status";
-KalturaBatchJobOrderBy.prototype.QUEUE_TIME_ASC = "+queueTime";
-KalturaBatchJobOrderBy.prototype.QUEUE_TIME_DESC = "-queueTime";
-KalturaBatchJobOrderBy.prototype.FINISH_TIME_ASC = "+finishTime";
-KalturaBatchJobOrderBy.prototype.FINISH_TIME_DESC = "-finishTime";
-KalturaBatchJobOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaBatchJobOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
-KalturaBatchJobOrderBy.prototype.EXECUTION_ATTEMPTS_ASC = "+executionAttempts";
-KalturaBatchJobOrderBy.prototype.EXECUTION_ATTEMPTS_DESC = "-executionAttempts";
+BorhanBatchJobOrderBy.prototype.STATUS_ASC = "+status";
+BorhanBatchJobOrderBy.prototype.STATUS_DESC = "-status";
+BorhanBatchJobOrderBy.prototype.QUEUE_TIME_ASC = "+queueTime";
+BorhanBatchJobOrderBy.prototype.QUEUE_TIME_DESC = "-queueTime";
+BorhanBatchJobOrderBy.prototype.FINISH_TIME_ASC = "+finishTime";
+BorhanBatchJobOrderBy.prototype.FINISH_TIME_DESC = "-finishTime";
+BorhanBatchJobOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanBatchJobOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanBatchJobOrderBy.prototype.EXECUTION_ATTEMPTS_ASC = "+executionAttempts";
+BorhanBatchJobOrderBy.prototype.EXECUTION_ATTEMPTS_DESC = "-executionAttempts";
 
-function KalturaBatchJobStatus()
+function BorhanBatchJobStatus()
 {
 }
-KalturaBatchJobStatus.prototype.PENDING = 0;
-KalturaBatchJobStatus.prototype.QUEUED = 1;
-KalturaBatchJobStatus.prototype.PROCESSING = 2;
-KalturaBatchJobStatus.prototype.PROCESSED = 3;
-KalturaBatchJobStatus.prototype.MOVEFILE = 4;
-KalturaBatchJobStatus.prototype.FINISHED = 5;
-KalturaBatchJobStatus.prototype.FAILED = 6;
-KalturaBatchJobStatus.prototype.ABORTED = 7;
-KalturaBatchJobStatus.prototype.ALMOST_DONE = 8;
-KalturaBatchJobStatus.prototype.RETRY = 9;
-KalturaBatchJobStatus.prototype.FATAL = 10;
+BorhanBatchJobStatus.prototype.PENDING = 0;
+BorhanBatchJobStatus.prototype.QUEUED = 1;
+BorhanBatchJobStatus.prototype.PROCESSING = 2;
+BorhanBatchJobStatus.prototype.PROCESSED = 3;
+BorhanBatchJobStatus.prototype.MOVEFILE = 4;
+BorhanBatchJobStatus.prototype.FINISHED = 5;
+BorhanBatchJobStatus.prototype.FAILED = 6;
+BorhanBatchJobStatus.prototype.ABORTED = 7;
+BorhanBatchJobStatus.prototype.ALMOST_DONE = 8;
+BorhanBatchJobStatus.prototype.RETRY = 9;
+BorhanBatchJobStatus.prototype.FATAL = 10;
 
-function KalturaBatchJobType()
+function BorhanBatchJobType()
 {
 }
-KalturaBatchJobType.prototype.CONVERT = 0;
-KalturaBatchJobType.prototype.IMPORT = 1;
-KalturaBatchJobType.prototype.DELETE = 2;
-KalturaBatchJobType.prototype.FLATTEN = 3;
-KalturaBatchJobType.prototype.BULKUPLOAD = 4;
-KalturaBatchJobType.prototype.DVDCREATOR = 5;
-KalturaBatchJobType.prototype.DOWNLOAD = 6;
-KalturaBatchJobType.prototype.OOCONVERT = 7;
-KalturaBatchJobType.prototype.CONVERT_PROFILE = 10;
-KalturaBatchJobType.prototype.POSTCONVERT = 11;
-KalturaBatchJobType.prototype.PULL = 12;
-KalturaBatchJobType.prototype.REMOTE_CONVERT = 13;
-KalturaBatchJobType.prototype.EXTRACT_MEDIA = 14;
-KalturaBatchJobType.prototype.MAIL = 15;
-KalturaBatchJobType.prototype.NOTIFICATION = 16;
-KalturaBatchJobType.prototype.CLEANUP = 17;
-KalturaBatchJobType.prototype.SCHEDULER_HELPER = 18;
-KalturaBatchJobType.prototype.BULKDOWNLOAD = 19;
-KalturaBatchJobType.prototype.PROJECT = 1000;
+BorhanBatchJobType.prototype.CONVERT = 0;
+BorhanBatchJobType.prototype.IMPORT = 1;
+BorhanBatchJobType.prototype.DELETE = 2;
+BorhanBatchJobType.prototype.FLATTEN = 3;
+BorhanBatchJobType.prototype.BULKUPLOAD = 4;
+BorhanBatchJobType.prototype.DVDCREATOR = 5;
+BorhanBatchJobType.prototype.DOWNLOAD = 6;
+BorhanBatchJobType.prototype.OOCONVERT = 7;
+BorhanBatchJobType.prototype.CONVERT_PROFILE = 10;
+BorhanBatchJobType.prototype.POSTCONVERT = 11;
+BorhanBatchJobType.prototype.PULL = 12;
+BorhanBatchJobType.prototype.REMOTE_CONVERT = 13;
+BorhanBatchJobType.prototype.EXTRACT_MEDIA = 14;
+BorhanBatchJobType.prototype.MAIL = 15;
+BorhanBatchJobType.prototype.NOTIFICATION = 16;
+BorhanBatchJobType.prototype.CLEANUP = 17;
+BorhanBatchJobType.prototype.SCHEDULER_HELPER = 18;
+BorhanBatchJobType.prototype.BULKDOWNLOAD = 19;
+BorhanBatchJobType.prototype.PROJECT = 1000;
 
-function KalturaBulkUploadCsvVersion()
+function BorhanBulkUploadCsvVersion()
 {
 }
-KalturaBulkUploadCsvVersion.prototype.V1 = "1";
-KalturaBulkUploadCsvVersion.prototype.V2 = "2";
+BorhanBulkUploadCsvVersion.prototype.V1 = "1";
+BorhanBulkUploadCsvVersion.prototype.V2 = "2";
 
-function KalturaCategoryOrderBy()
+function BorhanCategoryOrderBy()
 {
 }
-KalturaCategoryOrderBy.prototype.DEPTH_ASC = "+depth";
-KalturaCategoryOrderBy.prototype.DEPTH_DESC = "-depth";
-KalturaCategoryOrderBy.prototype.FULL_NAME_ASC = "+fullName";
-KalturaCategoryOrderBy.prototype.FULL_NAME_DESC = "-fullName";
-KalturaCategoryOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaCategoryOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanCategoryOrderBy.prototype.DEPTH_ASC = "+depth";
+BorhanCategoryOrderBy.prototype.DEPTH_DESC = "-depth";
+BorhanCategoryOrderBy.prototype.FULL_NAME_ASC = "+fullName";
+BorhanCategoryOrderBy.prototype.FULL_NAME_DESC = "-fullName";
+BorhanCategoryOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanCategoryOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
 
-function KalturaCommercialUseType()
+function BorhanCommercialUseType()
 {
 }
-KalturaCommercialUseType.prototype.COMMERCIAL_USE = "commercial_use";
-KalturaCommercialUseType.prototype.NON_COMMERCIAL_USE = "non-commercial_use";
+BorhanCommercialUseType.prototype.COMMERCIAL_USE = "commercial_use";
+BorhanCommercialUseType.prototype.NON_COMMERCIAL_USE = "non-commercial_use";
 
-function KalturaContainerFormat()
+function BorhanContainerFormat()
 {
 }
-KalturaContainerFormat.prototype.FLV = "flv";
-KalturaContainerFormat.prototype.MP4 = "mp4";
-KalturaContainerFormat.prototype.AVI = "avi";
-KalturaContainerFormat.prototype.MOV = "mov";
-KalturaContainerFormat.prototype._3GP = "3gp";
+BorhanContainerFormat.prototype.FLV = "flv";
+BorhanContainerFormat.prototype.MP4 = "mp4";
+BorhanContainerFormat.prototype.AVI = "avi";
+BorhanContainerFormat.prototype.MOV = "mov";
+BorhanContainerFormat.prototype._3GP = "3gp";
 
-function KalturaConversionProfileOrderBy()
+function BorhanConversionProfileOrderBy()
 {
 }
-KalturaConversionProfileOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaConversionProfileOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanConversionProfileOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanConversionProfileOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
 
-function KalturaCountryRestrictionType()
+function BorhanCountryRestrictionType()
 {
 }
-KalturaCountryRestrictionType.prototype.RESTRICT_COUNTRY_LIST = 0;
-KalturaCountryRestrictionType.prototype.ALLOW_COUNTRY_LIST = 1;
+BorhanCountryRestrictionType.prototype.RESTRICT_COUNTRY_LIST = 0;
+BorhanCountryRestrictionType.prototype.ALLOW_COUNTRY_LIST = 1;
 
-function KalturaDataEntryOrderBy()
+function BorhanDataEntryOrderBy()
 {
 }
-KalturaDataEntryOrderBy.prototype.NAME_ASC = "+name";
-KalturaDataEntryOrderBy.prototype.NAME_DESC = "-name";
-KalturaDataEntryOrderBy.prototype.MODERATION_COUNT_ASC = "+moderationCount";
-KalturaDataEntryOrderBy.prototype.MODERATION_COUNT_DESC = "-moderationCount";
-KalturaDataEntryOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaDataEntryOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
-KalturaDataEntryOrderBy.prototype.RANK_ASC = "+rank";
-KalturaDataEntryOrderBy.prototype.RANK_DESC = "-rank";
+BorhanDataEntryOrderBy.prototype.NAME_ASC = "+name";
+BorhanDataEntryOrderBy.prototype.NAME_DESC = "-name";
+BorhanDataEntryOrderBy.prototype.MODERATION_COUNT_ASC = "+moderationCount";
+BorhanDataEntryOrderBy.prototype.MODERATION_COUNT_DESC = "-moderationCount";
+BorhanDataEntryOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanDataEntryOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanDataEntryOrderBy.prototype.RANK_ASC = "+rank";
+BorhanDataEntryOrderBy.prototype.RANK_DESC = "-rank";
 
-function KalturaDirectoryRestrictionType()
+function BorhanDirectoryRestrictionType()
 {
 }
-KalturaDirectoryRestrictionType.prototype.DONT_DISPLAY = 0;
-KalturaDirectoryRestrictionType.prototype.DISPLAY_WITH_LINK = 1;
+BorhanDirectoryRestrictionType.prototype.DONT_DISPLAY = 0;
+BorhanDirectoryRestrictionType.prototype.DISPLAY_WITH_LINK = 1;
 
-function KalturaDocumentEntryOrderBy()
+function BorhanDocumentEntryOrderBy()
 {
 }
-KalturaDocumentEntryOrderBy.prototype.NAME_ASC = "+name";
-KalturaDocumentEntryOrderBy.prototype.NAME_DESC = "-name";
-KalturaDocumentEntryOrderBy.prototype.MODERATION_COUNT_ASC = "+moderationCount";
-KalturaDocumentEntryOrderBy.prototype.MODERATION_COUNT_DESC = "-moderationCount";
-KalturaDocumentEntryOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaDocumentEntryOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
-KalturaDocumentEntryOrderBy.prototype.RANK_ASC = "+rank";
-KalturaDocumentEntryOrderBy.prototype.RANK_DESC = "-rank";
+BorhanDocumentEntryOrderBy.prototype.NAME_ASC = "+name";
+BorhanDocumentEntryOrderBy.prototype.NAME_DESC = "-name";
+BorhanDocumentEntryOrderBy.prototype.MODERATION_COUNT_ASC = "+moderationCount";
+BorhanDocumentEntryOrderBy.prototype.MODERATION_COUNT_DESC = "-moderationCount";
+BorhanDocumentEntryOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanDocumentEntryOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanDocumentEntryOrderBy.prototype.RANK_ASC = "+rank";
+BorhanDocumentEntryOrderBy.prototype.RANK_DESC = "-rank";
 
-function KalturaDocumentType()
+function BorhanDocumentType()
 {
 }
-KalturaDocumentType.prototype.DOCUMENT = 11;
-KalturaDocumentType.prototype.SWF = 12;
+BorhanDocumentType.prototype.DOCUMENT = 11;
+BorhanDocumentType.prototype.SWF = 12;
 
-function KalturaDurationType()
+function BorhanDurationType()
 {
 }
-KalturaDurationType.prototype.NOT_AVAILABLE = "notavailable";
-KalturaDurationType.prototype.SHORT = "short";
-KalturaDurationType.prototype.MEDIUM = "medium";
-KalturaDurationType.prototype.LONG = "long";
+BorhanDurationType.prototype.NOT_AVAILABLE = "notavailable";
+BorhanDurationType.prototype.SHORT = "short";
+BorhanDurationType.prototype.MEDIUM = "medium";
+BorhanDurationType.prototype.LONG = "long";
 
-function KalturaEditorType()
+function BorhanEditorType()
 {
 }
-KalturaEditorType.prototype.SIMPLE = 1;
-KalturaEditorType.prototype.ADVANCED = 2;
+BorhanEditorType.prototype.SIMPLE = 1;
+BorhanEditorType.prototype.ADVANCED = 2;
 
-function KalturaEntryModerationStatus()
+function BorhanEntryModerationStatus()
 {
 }
-KalturaEntryModerationStatus.prototype.PENDING_MODERATION = 1;
-KalturaEntryModerationStatus.prototype.APPROVED = 2;
-KalturaEntryModerationStatus.prototype.REJECTED = 3;
-KalturaEntryModerationStatus.prototype.FLAGGED_FOR_REVIEW = 5;
-KalturaEntryModerationStatus.prototype.AUTO_APPROVED = 6;
+BorhanEntryModerationStatus.prototype.PENDING_MODERATION = 1;
+BorhanEntryModerationStatus.prototype.APPROVED = 2;
+BorhanEntryModerationStatus.prototype.REJECTED = 3;
+BorhanEntryModerationStatus.prototype.FLAGGED_FOR_REVIEW = 5;
+BorhanEntryModerationStatus.prototype.AUTO_APPROVED = 6;
 
-function KalturaEntryStatus()
+function BorhanEntryStatus()
 {
 }
-KalturaEntryStatus.prototype.ERROR_IMPORTING = -2;
-KalturaEntryStatus.prototype.ERROR_CONVERTING = -1;
-KalturaEntryStatus.prototype.IMPORT = 0;
-KalturaEntryStatus.prototype.PRECONVERT = 1;
-KalturaEntryStatus.prototype.READY = 2;
-KalturaEntryStatus.prototype.DELETED = 3;
-KalturaEntryStatus.prototype.PENDING = 4;
-KalturaEntryStatus.prototype.MODERATE = 5;
-KalturaEntryStatus.prototype.BLOCKED = 6;
+BorhanEntryStatus.prototype.ERROR_IMPORTING = -2;
+BorhanEntryStatus.prototype.ERROR_CONVERTING = -1;
+BorhanEntryStatus.prototype.IMPORT = 0;
+BorhanEntryStatus.prototype.PRECONVERT = 1;
+BorhanEntryStatus.prototype.READY = 2;
+BorhanEntryStatus.prototype.DELETED = 3;
+BorhanEntryStatus.prototype.PENDING = 4;
+BorhanEntryStatus.prototype.MODERATE = 5;
+BorhanEntryStatus.prototype.BLOCKED = 6;
 
-function KalturaEntryType()
+function BorhanEntryType()
 {
 }
-KalturaEntryType.prototype.AUTOMATIC = -1;
-KalturaEntryType.prototype.MEDIA_CLIP = 1;
-KalturaEntryType.prototype.MIX = 2;
-KalturaEntryType.prototype.PLAYLIST = 5;
-KalturaEntryType.prototype.DATA = 6;
-KalturaEntryType.prototype.DOCUMENT = 10;
+BorhanEntryType.prototype.AUTOMATIC = -1;
+BorhanEntryType.prototype.MEDIA_CLIP = 1;
+BorhanEntryType.prototype.MIX = 2;
+BorhanEntryType.prototype.PLAYLIST = 5;
+BorhanEntryType.prototype.DATA = 6;
+BorhanEntryType.prototype.DOCUMENT = 10;
 
-function KalturaFlavorAssetStatus()
+function BorhanFlavorAssetStatus()
 {
 }
-KalturaFlavorAssetStatus.prototype.ERROR = -1;
-KalturaFlavorAssetStatus.prototype.QUEUED = 0;
-KalturaFlavorAssetStatus.prototype.CONVERTING = 1;
-KalturaFlavorAssetStatus.prototype.READY = 2;
-KalturaFlavorAssetStatus.prototype.DELETED = 3;
-KalturaFlavorAssetStatus.prototype.NOT_APPLICABLE = 4;
+BorhanFlavorAssetStatus.prototype.ERROR = -1;
+BorhanFlavorAssetStatus.prototype.QUEUED = 0;
+BorhanFlavorAssetStatus.prototype.CONVERTING = 1;
+BorhanFlavorAssetStatus.prototype.READY = 2;
+BorhanFlavorAssetStatus.prototype.DELETED = 3;
+BorhanFlavorAssetStatus.prototype.NOT_APPLICABLE = 4;
 
-function KalturaFlavorParamsOrderBy()
+function BorhanFlavorParamsOrderBy()
 {
 }
 
-function KalturaFlavorParamsOutputOrderBy()
+function BorhanFlavorParamsOutputOrderBy()
 {
 }
 
-function KalturaGender()
+function BorhanGender()
 {
 }
-KalturaGender.prototype.UNKNOWN = 0;
-KalturaGender.prototype.MALE = 1;
-KalturaGender.prototype.FEMALE = 2;
+BorhanGender.prototype.UNKNOWN = 0;
+BorhanGender.prototype.MALE = 1;
+BorhanGender.prototype.FEMALE = 2;
 
-function KalturaGoogleSyndicationFeedAdultValues()
+function BorhanGoogleSyndicationFeedAdultValues()
 {
 }
-KalturaGoogleSyndicationFeedAdultValues.prototype.YES = "Yes";
-KalturaGoogleSyndicationFeedAdultValues.prototype.NO = "No";
+BorhanGoogleSyndicationFeedAdultValues.prototype.YES = "Yes";
+BorhanGoogleSyndicationFeedAdultValues.prototype.NO = "No";
 
-function KalturaGoogleVideoSyndicationFeedOrderBy()
+function BorhanGoogleVideoSyndicationFeedOrderBy()
 {
 }
-KalturaGoogleVideoSyndicationFeedOrderBy.prototype.PLAYLIST_ID_ASC = "+playlistId";
-KalturaGoogleVideoSyndicationFeedOrderBy.prototype.PLAYLIST_ID_DESC = "-playlistId";
-KalturaGoogleVideoSyndicationFeedOrderBy.prototype.NAME_ASC = "+name";
-KalturaGoogleVideoSyndicationFeedOrderBy.prototype.NAME_DESC = "-name";
-KalturaGoogleVideoSyndicationFeedOrderBy.prototype.TYPE_ASC = "+type";
-KalturaGoogleVideoSyndicationFeedOrderBy.prototype.TYPE_DESC = "-type";
-KalturaGoogleVideoSyndicationFeedOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaGoogleVideoSyndicationFeedOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanGoogleVideoSyndicationFeedOrderBy.prototype.PLAYLIST_ID_ASC = "+playlistId";
+BorhanGoogleVideoSyndicationFeedOrderBy.prototype.PLAYLIST_ID_DESC = "-playlistId";
+BorhanGoogleVideoSyndicationFeedOrderBy.prototype.NAME_ASC = "+name";
+BorhanGoogleVideoSyndicationFeedOrderBy.prototype.NAME_DESC = "-name";
+BorhanGoogleVideoSyndicationFeedOrderBy.prototype.TYPE_ASC = "+type";
+BorhanGoogleVideoSyndicationFeedOrderBy.prototype.TYPE_DESC = "-type";
+BorhanGoogleVideoSyndicationFeedOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanGoogleVideoSyndicationFeedOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
 
-function KalturaITunesSyndicationFeedAdultValues()
+function BorhanITunesSyndicationFeedAdultValues()
 {
 }
-KalturaITunesSyndicationFeedAdultValues.prototype.YES = "yes";
-KalturaITunesSyndicationFeedAdultValues.prototype.NO = "no";
-KalturaITunesSyndicationFeedAdultValues.prototype.CLEAN = "clean";
+BorhanITunesSyndicationFeedAdultValues.prototype.YES = "yes";
+BorhanITunesSyndicationFeedAdultValues.prototype.NO = "no";
+BorhanITunesSyndicationFeedAdultValues.prototype.CLEAN = "clean";
 
-function KalturaITunesSyndicationFeedCategories()
+function BorhanITunesSyndicationFeedCategories()
 {
 }
-KalturaITunesSyndicationFeedCategories.prototype.ARTS = "Arts";
-KalturaITunesSyndicationFeedCategories.prototype.ARTS_DESIGN = "Arts/Design";
-KalturaITunesSyndicationFeedCategories.prototype.ARTS_FASHION_BEAUTY = "Arts/Fashion &amp; Beauty";
-KalturaITunesSyndicationFeedCategories.prototype.ARTS_FOOD = "Arts/Food";
-KalturaITunesSyndicationFeedCategories.prototype.ARTS_LITERATURE = "Arts/Literature";
-KalturaITunesSyndicationFeedCategories.prototype.ARTS_PERFORMING_ARTS = "Arts/Performing Arts";
-KalturaITunesSyndicationFeedCategories.prototype.ARTS_VISUAL_ARTS = "Arts/Visual Arts";
-KalturaITunesSyndicationFeedCategories.prototype.BUSINESS = "Business";
-KalturaITunesSyndicationFeedCategories.prototype.BUSINESS_BUSINESS_NEWS = "Business/Business News";
-KalturaITunesSyndicationFeedCategories.prototype.BUSINESS_CAREERS = "Business/Careers";
-KalturaITunesSyndicationFeedCategories.prototype.BUSINESS_INVESTING = "Business/Investing";
-KalturaITunesSyndicationFeedCategories.prototype.BUSINESS_MANAGEMENT_MARKETING = "Business/Management &amp; Marketing";
-KalturaITunesSyndicationFeedCategories.prototype.BUSINESS_SHOPPING = "Business/Shopping";
-KalturaITunesSyndicationFeedCategories.prototype.COMEDY = "Comedy";
-KalturaITunesSyndicationFeedCategories.prototype.EDUCATION = "Education";
-KalturaITunesSyndicationFeedCategories.prototype.EDUCATION_TECHNOLOGY = "Education/Education Technology";
-KalturaITunesSyndicationFeedCategories.prototype.EDUCATION_HIGHER_EDUCATION = "Education/Higher Education";
-KalturaITunesSyndicationFeedCategories.prototype.EDUCATION_K_12 = "Education/K-12";
-KalturaITunesSyndicationFeedCategories.prototype.EDUCATION_LANGUAGE_COURSES = "Education/Language Courses";
-KalturaITunesSyndicationFeedCategories.prototype.EDUCATION_TRAINING = "Education/Training";
-KalturaITunesSyndicationFeedCategories.prototype.GAMES_HOBBIES = "Games &amp; Hobbies";
-KalturaITunesSyndicationFeedCategories.prototype.GAMES_HOBBIES_AUTOMOTIVE = "Games &amp; Hobbies/Automotive";
-KalturaITunesSyndicationFeedCategories.prototype.GAMES_HOBBIES_AVIATION = "Games &amp; Hobbies/Aviation";
-KalturaITunesSyndicationFeedCategories.prototype.GAMES_HOBBIES_HOBBIES = "Games &amp; Hobbies/Hobbies";
-KalturaITunesSyndicationFeedCategories.prototype.GAMES_HOBBIES_OTHER_GAMES = "Games &amp; Hobbies/Other Games";
-KalturaITunesSyndicationFeedCategories.prototype.GAMES_HOBBIES_VIDEO_GAMES = "Games &amp; Hobbies/Video Games";
-KalturaITunesSyndicationFeedCategories.prototype.GOVERNMENT_ORGANIZATIONS = "Government &amp; Organizations";
-KalturaITunesSyndicationFeedCategories.prototype.GOVERNMENT_ORGANIZATIONS_LOCAL = "Government &amp; Organizations/Local";
-KalturaITunesSyndicationFeedCategories.prototype.GOVERNMENT_ORGANIZATIONS_NATIONAL = "Government &amp; Organizations/National";
-KalturaITunesSyndicationFeedCategories.prototype.GOVERNMENT_ORGANIZATIONS_NON_PROFIT = "Government &amp; Organizations/Non-Profit";
-KalturaITunesSyndicationFeedCategories.prototype.GOVERNMENT_ORGANIZATIONS_REGIONAL = "Government &amp; Organizations/Regional";
-KalturaITunesSyndicationFeedCategories.prototype.HEALTH = "Health";
-KalturaITunesSyndicationFeedCategories.prototype.HEALTH_ALTERNATIVE_HEALTH = "Health/Alternative Health";
-KalturaITunesSyndicationFeedCategories.prototype.HEALTH_FITNESS_NUTRITION = "Health/Fitness &amp; Nutrition";
-KalturaITunesSyndicationFeedCategories.prototype.HEALTH_SELF_HELP = "Health/Self-Help";
-KalturaITunesSyndicationFeedCategories.prototype.HEALTH_SEXUALITY = "Health/Sexuality";
-KalturaITunesSyndicationFeedCategories.prototype.KIDS_FAMILY = "Kids &amp; Family";
-KalturaITunesSyndicationFeedCategories.prototype.MUSIC = "Music";
-KalturaITunesSyndicationFeedCategories.prototype.NEWS_POLITICS = "News &amp; Politics";
-KalturaITunesSyndicationFeedCategories.prototype.RELIGION_SPIRITUALITY = "Religion &amp; Spirituality";
-KalturaITunesSyndicationFeedCategories.prototype.RELIGION_SPIRITUALITY_BUDDHISM = "Religion &amp; Spirituality/Buddhism";
-KalturaITunesSyndicationFeedCategories.prototype.RELIGION_SPIRITUALITY_CHRISTIANITY = "Religion &amp; Spirituality/Christianity";
-KalturaITunesSyndicationFeedCategories.prototype.RELIGION_SPIRITUALITY_HINDUISM = "Religion &amp; Spirituality/Hinduism";
-KalturaITunesSyndicationFeedCategories.prototype.RELIGION_SPIRITUALITY_ISLAM = "Religion &amp; Spirituality/Islam";
-KalturaITunesSyndicationFeedCategories.prototype.RELIGION_SPIRITUALITY_JUDAISM = "Religion &amp; Spirituality/Judaism";
-KalturaITunesSyndicationFeedCategories.prototype.RELIGION_SPIRITUALITY_OTHER = "Religion &amp; Spirituality/Other";
-KalturaITunesSyndicationFeedCategories.prototype.RELIGION_SPIRITUALITY_SPIRITUALITY = "Religion &amp; Spirituality/Spirituality";
-KalturaITunesSyndicationFeedCategories.prototype.SCIENCE_MEDICINE = "Science &amp; Medicine";
-KalturaITunesSyndicationFeedCategories.prototype.SCIENCE_MEDICINE_MEDICINE = "Science &amp; Medicine/Medicine";
-KalturaITunesSyndicationFeedCategories.prototype.SCIENCE_MEDICINE_NATURAL_SCIENCES = "Science &amp; Medicine/Natural Sciences";
-KalturaITunesSyndicationFeedCategories.prototype.SCIENCE_MEDICINE_SOCIAL_SCIENCES = "Science &amp; Medicine/Social Sciences";
-KalturaITunesSyndicationFeedCategories.prototype.SOCIETY_CULTURE = "Society &amp; Culture";
-KalturaITunesSyndicationFeedCategories.prototype.SOCIETY_CULTURE_HISTORY = "Society &amp; Culture/History";
-KalturaITunesSyndicationFeedCategories.prototype.SOCIETY_CULTURE_PERSONAL_JOURNALS = "Society &amp; Culture/Personal Journals";
-KalturaITunesSyndicationFeedCategories.prototype.SOCIETY_CULTURE_PHILOSOPHY = "Society &amp; Culture/Philosophy";
-KalturaITunesSyndicationFeedCategories.prototype.SOCIETY_CULTURE_PLACES_TRAVEL = "Society &amp; Culture/Places &amp; Travel";
-KalturaITunesSyndicationFeedCategories.prototype.SPORTS_RECREATION = "Sports &amp; Recreation";
-KalturaITunesSyndicationFeedCategories.prototype.SPORTS_RECREATION_AMATEUR = "Sports &amp; Recreation/Amateur";
-KalturaITunesSyndicationFeedCategories.prototype.SPORTS_RECREATION_COLLEGE_HIGH_SCHOOL = "Sports &amp; Recreation/College &amp; High School";
-KalturaITunesSyndicationFeedCategories.prototype.SPORTS_RECREATION_OUTDOOR = "Sports &amp; Recreation/Outdoor";
-KalturaITunesSyndicationFeedCategories.prototype.SPORTS_RECREATION_PROFESSIONAL = "Sports &amp; Recreation/Professional";
-KalturaITunesSyndicationFeedCategories.prototype.TECHNOLOGY = "Technology";
-KalturaITunesSyndicationFeedCategories.prototype.TECHNOLOGY_GADGETS = "Technology/Gadgets";
-KalturaITunesSyndicationFeedCategories.prototype.TECHNOLOGY_TECH_NEWS = "Technology/Tech News";
-KalturaITunesSyndicationFeedCategories.prototype.TECHNOLOGY_PODCASTING = "Technology/Podcasting";
-KalturaITunesSyndicationFeedCategories.prototype.TECHNOLOGY_SOFTWARE_HOW_TO = "Technology/Software How-To";
-KalturaITunesSyndicationFeedCategories.prototype.TV_FILM = "TV &amp; Film";
-
-function KalturaITunesSyndicationFeedOrderBy()
-{
-}
-KalturaITunesSyndicationFeedOrderBy.prototype.PLAYLIST_ID_ASC = "+playlistId";
-KalturaITunesSyndicationFeedOrderBy.prototype.PLAYLIST_ID_DESC = "-playlistId";
-KalturaITunesSyndicationFeedOrderBy.prototype.NAME_ASC = "+name";
-KalturaITunesSyndicationFeedOrderBy.prototype.NAME_DESC = "-name";
-KalturaITunesSyndicationFeedOrderBy.prototype.TYPE_ASC = "+type";
-KalturaITunesSyndicationFeedOrderBy.prototype.TYPE_DESC = "-type";
-KalturaITunesSyndicationFeedOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaITunesSyndicationFeedOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
-
-function KalturaLicenseType()
-{
-}
-KalturaLicenseType.prototype.UNKNOWN = -1;
-KalturaLicenseType.prototype.NONE = 0;
-KalturaLicenseType.prototype.COPYRIGHTED = 1;
-KalturaLicenseType.prototype.PUBLIC_DOMAIN = 2;
-KalturaLicenseType.prototype.CREATIVECOMMONS_ATTRIBUTION = 3;
-KalturaLicenseType.prototype.CREATIVECOMMONS_ATTRIBUTION_SHARE_ALIKE = 4;
-KalturaLicenseType.prototype.CREATIVECOMMONS_ATTRIBUTION_NO_DERIVATIVES = 5;
-KalturaLicenseType.prototype.CREATIVECOMMONS_ATTRIBUTION_NON_COMMERCIAL = 6;
-KalturaLicenseType.prototype.CREATIVECOMMONS_ATTRIBUTION_NON_COMMERCIAL_SHARE_ALIKE = 7;
-KalturaLicenseType.prototype.CREATIVECOMMONS_ATTRIBUTION_NON_COMMERCIAL_NO_DERIVATIVES = 8;
-KalturaLicenseType.prototype.GFDL = 9;
-KalturaLicenseType.prototype.GPL = 10;
-KalturaLicenseType.prototype.AFFERO_GPL = 11;
-KalturaLicenseType.prototype.LGPL = 12;
-KalturaLicenseType.prototype.BSD = 13;
-KalturaLicenseType.prototype.APACHE = 14;
-KalturaLicenseType.prototype.MOZILLA = 15;
-
-function KalturaMailJobOrderBy()
-{
-}
-KalturaMailJobOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaMailJobOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
-KalturaMailJobOrderBy.prototype.EXECUTION_ATTEMPTS_ASC = "+executionAttempts";
-KalturaMailJobOrderBy.prototype.EXECUTION_ATTEMPTS_DESC = "-executionAttempts";
-
-function KalturaMailJobStatus()
-{
-}
-KalturaMailJobStatus.prototype.PENDING = 1;
-KalturaMailJobStatus.prototype.SENT = 2;
-KalturaMailJobStatus.prototype.ERROR = 3;
-KalturaMailJobStatus.prototype.QUEUED = 4;
-
-function KalturaMailType()
-{
-}
-KalturaMailType.prototype.MAIL_TYPE_KALTURA_NEWSLETTER = 10;
-KalturaMailType.prototype.MAIL_TYPE_ADDED_TO_FAVORITES = 11;
-KalturaMailType.prototype.MAIL_TYPE_ADDED_TO_CLIP_FAVORITES = 12;
-KalturaMailType.prototype.MAIL_TYPE_NEW_COMMENT_IN_PROFILE = 13;
-KalturaMailType.prototype.MAIL_TYPE_CLIP_ADDED_YOUR_KALTURA = 20;
-KalturaMailType.prototype.MAIL_TYPE_VIDEO_ADDED = 21;
-KalturaMailType.prototype.MAIL_TYPE_ROUGHCUT_CREATED = 22;
-KalturaMailType.prototype.MAIL_TYPE_ADDED_KALTURA_TO_YOUR_FAVORITES = 23;
-KalturaMailType.prototype.MAIL_TYPE_NEW_COMMENT_IN_KALTURA = 24;
-KalturaMailType.prototype.MAIL_TYPE_CLIP_ADDED = 30;
-KalturaMailType.prototype.MAIL_TYPE_VIDEO_CREATED = 31;
-KalturaMailType.prototype.MAIL_TYPE_ADDED_KALTURA_TO_HIS_FAVORITES = 32;
-KalturaMailType.prototype.MAIL_TYPE_NEW_COMMENT_IN_KALTURA_YOU_CONTRIBUTED = 33;
-KalturaMailType.prototype.MAIL_TYPE_CLIP_CONTRIBUTED = 40;
-KalturaMailType.prototype.MAIL_TYPE_ROUGHCUT_CREATED_SUBSCRIBED = 41;
-KalturaMailType.prototype.MAIL_TYPE_ADDED_KALTURA_TO_HIS_FAVORITES_SUBSCRIBED = 42;
-KalturaMailType.prototype.MAIL_TYPE_NEW_COMMENT_IN_KALTURA_YOU_SUBSCRIBED = 43;
-KalturaMailType.prototype.MAIL_TYPE_REGISTER_CONFIRM = 50;
-KalturaMailType.prototype.MAIL_TYPE_PASSWORD_RESET = 51;
-KalturaMailType.prototype.MAIL_TYPE_LOGIN_MAIL_RESET = 52;
-KalturaMailType.prototype.MAIL_TYPE_REGISTER_CONFIRM_VIDEO_SERVICE = 54;
-KalturaMailType.prototype.MAIL_TYPE_VIDEO_READY = 60;
-KalturaMailType.prototype.MAIL_TYPE_VIDEO_IS_READY = 62;
-KalturaMailType.prototype.MAIL_TYPE_BULK_DOWNLOAD_READY = 63;
-KalturaMailType.prototype.MAIL_TYPE_NOTIFY_ERR = 70;
-KalturaMailType.prototype.MAIL_TYPE_ACCOUNT_UPGRADE_CONFIRM = 80;
-KalturaMailType.prototype.MAIL_TYPE_VIDEO_SERVICE_NOTICE = 81;
-KalturaMailType.prototype.MAIL_TYPE_VIDEO_SERVICE_NOTICE_LIMIT_REACHED = 82;
-KalturaMailType.prototype.MAIL_TYPE_VIDEO_SERVICE_NOTICE_ACCOUNT_LOCKED = 83;
-KalturaMailType.prototype.MAIL_TYPE_VIDEO_SERVICE_NOTICE_ACCOUNT_DELETED = 84;
-KalturaMailType.prototype.MAIL_TYPE_VIDEO_SERVICE_NOTICE_UPGRADE_OFFER = 85;
-KalturaMailType.prototype.MAIL_TYPE_ACCOUNT_REACTIVE_CONFIRM = 86;
-KalturaMailType.prototype.MAIL_TYPE_SYSTEM_USER_RESET_PASSWORD = 110;
-KalturaMailType.prototype.MAIL_TYPE_SYSTEM_USER_RESET_PASSWORD_SUCCESS = 111;
+BorhanITunesSyndicationFeedCategories.prototype.ARTS = "Arts";
+BorhanITunesSyndicationFeedCategories.prototype.ARTS_DESIGN = "Arts/Design";
+BorhanITunesSyndicationFeedCategories.prototype.ARTS_FASHION_BEAUTY = "Arts/Fashion &amp; Beauty";
+BorhanITunesSyndicationFeedCategories.prototype.ARTS_FOOD = "Arts/Food";
+BorhanITunesSyndicationFeedCategories.prototype.ARTS_LITERATURE = "Arts/Literature";
+BorhanITunesSyndicationFeedCategories.prototype.ARTS_PERFORMING_ARTS = "Arts/Performing Arts";
+BorhanITunesSyndicationFeedCategories.prototype.ARTS_VISUAL_ARTS = "Arts/Visual Arts";
+BorhanITunesSyndicationFeedCategories.prototype.BUSINESS = "Business";
+BorhanITunesSyndicationFeedCategories.prototype.BUSINESS_BUSINESS_NEWS = "Business/Business News";
+BorhanITunesSyndicationFeedCategories.prototype.BUSINESS_CAREERS = "Business/Careers";
+BorhanITunesSyndicationFeedCategories.prototype.BUSINESS_INVESTING = "Business/Investing";
+BorhanITunesSyndicationFeedCategories.prototype.BUSINESS_MANAGEMENT_MARKETING = "Business/Management &amp; Marketing";
+BorhanITunesSyndicationFeedCategories.prototype.BUSINESS_SHOPPING = "Business/Shopping";
+BorhanITunesSyndicationFeedCategories.prototype.COMEDY = "Comedy";
+BorhanITunesSyndicationFeedCategories.prototype.EDUCATION = "Education";
+BorhanITunesSyndicationFeedCategories.prototype.EDUCATION_TECHNOLOGY = "Education/Education Technology";
+BorhanITunesSyndicationFeedCategories.prototype.EDUCATION_HIGHER_EDUCATION = "Education/Higher Education";
+BorhanITunesSyndicationFeedCategories.prototype.EDUCATION_K_12 = "Education/K-12";
+BorhanITunesSyndicationFeedCategories.prototype.EDUCATION_LANGUAGE_COURSES = "Education/Language Courses";
+BorhanITunesSyndicationFeedCategories.prototype.EDUCATION_TRAINING = "Education/Training";
+BorhanITunesSyndicationFeedCategories.prototype.GAMES_HOBBIES = "Games &amp; Hobbies";
+BorhanITunesSyndicationFeedCategories.prototype.GAMES_HOBBIES_AUTOMOTIVE = "Games &amp; Hobbies/Automotive";
+BorhanITunesSyndicationFeedCategories.prototype.GAMES_HOBBIES_AVIATION = "Games &amp; Hobbies/Aviation";
+BorhanITunesSyndicationFeedCategories.prototype.GAMES_HOBBIES_HOBBIES = "Games &amp; Hobbies/Hobbies";
+BorhanITunesSyndicationFeedCategories.prototype.GAMES_HOBBIES_OTHER_GAMES = "Games &amp; Hobbies/Other Games";
+BorhanITunesSyndicationFeedCategories.prototype.GAMES_HOBBIES_VIDEO_GAMES = "Games &amp; Hobbies/Video Games";
+BorhanITunesSyndicationFeedCategories.prototype.GOVERNMENT_ORGANIZATIONS = "Government &amp; Organizations";
+BorhanITunesSyndicationFeedCategories.prototype.GOVERNMENT_ORGANIZATIONS_LOCAL = "Government &amp; Organizations/Local";
+BorhanITunesSyndicationFeedCategories.prototype.GOVERNMENT_ORGANIZATIONS_NATIONAL = "Government &amp; Organizations/National";
+BorhanITunesSyndicationFeedCategories.prototype.GOVERNMENT_ORGANIZATIONS_NON_PROFIT = "Government &amp; Organizations/Non-Profit";
+BorhanITunesSyndicationFeedCategories.prototype.GOVERNMENT_ORGANIZATIONS_REGIONAL = "Government &amp; Organizations/Regional";
+BorhanITunesSyndicationFeedCategories.prototype.HEALTH = "Health";
+BorhanITunesSyndicationFeedCategories.prototype.HEALTH_ALTERNATIVE_HEALTH = "Health/Alternative Health";
+BorhanITunesSyndicationFeedCategories.prototype.HEALTH_FITNESS_NUTRITION = "Health/Fitness &amp; Nutrition";
+BorhanITunesSyndicationFeedCategories.prototype.HEALTH_SELF_HELP = "Health/Self-Help";
+BorhanITunesSyndicationFeedCategories.prototype.HEALTH_SEXUALITY = "Health/Sexuality";
+BorhanITunesSyndicationFeedCategories.prototype.KIDS_FAMILY = "Kids &amp; Family";
+BorhanITunesSyndicationFeedCategories.prototype.MUSIC = "Music";
+BorhanITunesSyndicationFeedCategories.prototype.NEWS_POLITICS = "News &amp; Politics";
+BorhanITunesSyndicationFeedCategories.prototype.RELIGION_SPIRITUALITY = "Religion &amp; Spirituality";
+BorhanITunesSyndicationFeedCategories.prototype.RELIGION_SPIRITUALITY_BUDDHISM = "Religion &amp; Spirituality/Buddhism";
+BorhanITunesSyndicationFeedCategories.prototype.RELIGION_SPIRITUALITY_CHRISTIANITY = "Religion &amp; Spirituality/Christianity";
+BorhanITunesSyndicationFeedCategories.prototype.RELIGION_SPIRITUALITY_HINDUISM = "Religion &amp; Spirituality/Hinduism";
+BorhanITunesSyndicationFeedCategories.prototype.RELIGION_SPIRITUALITY_ISLAM = "Religion &amp; Spirituality/Islam";
+BorhanITunesSyndicationFeedCategories.prototype.RELIGION_SPIRITUALITY_JUDAISM = "Religion &amp; Spirituality/Judaism";
+BorhanITunesSyndicationFeedCategories.prototype.RELIGION_SPIRITUALITY_OTHER = "Religion &amp; Spirituality/Other";
+BorhanITunesSyndicationFeedCategories.prototype.RELIGION_SPIRITUALITY_SPIRITUALITY = "Religion &amp; Spirituality/Spirituality";
+BorhanITunesSyndicationFeedCategories.prototype.SCIENCE_MEDICINE = "Science &amp; Medicine";
+BorhanITunesSyndicationFeedCategories.prototype.SCIENCE_MEDICINE_MEDICINE = "Science &amp; Medicine/Medicine";
+BorhanITunesSyndicationFeedCategories.prototype.SCIENCE_MEDICINE_NATURAL_SCIENCES = "Science &amp; Medicine/Natural Sciences";
+BorhanITunesSyndicationFeedCategories.prototype.SCIENCE_MEDICINE_SOCIAL_SCIENCES = "Science &amp; Medicine/Social Sciences";
+BorhanITunesSyndicationFeedCategories.prototype.SOCIETY_CULTURE = "Society &amp; Culture";
+BorhanITunesSyndicationFeedCategories.prototype.SOCIETY_CULTURE_HISTORY = "Society &amp; Culture/History";
+BorhanITunesSyndicationFeedCategories.prototype.SOCIETY_CULTURE_PERSONAL_JOURNALS = "Society &amp; Culture/Personal Journals";
+BorhanITunesSyndicationFeedCategories.prototype.SOCIETY_CULTURE_PHILOSOPHY = "Society &amp; Culture/Philosophy";
+BorhanITunesSyndicationFeedCategories.prototype.SOCIETY_CULTURE_PLACES_TRAVEL = "Society &amp; Culture/Places &amp; Travel";
+BorhanITunesSyndicationFeedCategories.prototype.SPORTS_RECREATION = "Sports &amp; Recreation";
+BorhanITunesSyndicationFeedCategories.prototype.SPORTS_RECREATION_AMATEUR = "Sports &amp; Recreation/Amateur";
+BorhanITunesSyndicationFeedCategories.prototype.SPORTS_RECREATION_COLLEGE_HIGH_SCHOOL = "Sports &amp; Recreation/College &amp; High School";
+BorhanITunesSyndicationFeedCategories.prototype.SPORTS_RECREATION_OUTDOOR = "Sports &amp; Recreation/Outdoor";
+BorhanITunesSyndicationFeedCategories.prototype.SPORTS_RECREATION_PROFESSIONAL = "Sports &amp; Recreation/Professional";
+BorhanITunesSyndicationFeedCategories.prototype.TECHNOLOGY = "Technology";
+BorhanITunesSyndicationFeedCategories.prototype.TECHNOLOGY_GADGETS = "Technology/Gadgets";
+BorhanITunesSyndicationFeedCategories.prototype.TECHNOLOGY_TECH_NEWS = "Technology/Tech News";
+BorhanITunesSyndicationFeedCategories.prototype.TECHNOLOGY_PODCASTING = "Technology/Podcasting";
+BorhanITunesSyndicationFeedCategories.prototype.TECHNOLOGY_SOFTWARE_HOW_TO = "Technology/Software How-To";
+BorhanITunesSyndicationFeedCategories.prototype.TV_FILM = "TV &amp; Film";
+
+function BorhanITunesSyndicationFeedOrderBy()
+{
+}
+BorhanITunesSyndicationFeedOrderBy.prototype.PLAYLIST_ID_ASC = "+playlistId";
+BorhanITunesSyndicationFeedOrderBy.prototype.PLAYLIST_ID_DESC = "-playlistId";
+BorhanITunesSyndicationFeedOrderBy.prototype.NAME_ASC = "+name";
+BorhanITunesSyndicationFeedOrderBy.prototype.NAME_DESC = "-name";
+BorhanITunesSyndicationFeedOrderBy.prototype.TYPE_ASC = "+type";
+BorhanITunesSyndicationFeedOrderBy.prototype.TYPE_DESC = "-type";
+BorhanITunesSyndicationFeedOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanITunesSyndicationFeedOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+
+function BorhanLicenseType()
+{
+}
+BorhanLicenseType.prototype.UNKNOWN = -1;
+BorhanLicenseType.prototype.NONE = 0;
+BorhanLicenseType.prototype.COPYRIGHTED = 1;
+BorhanLicenseType.prototype.PUBLIC_DOMAIN = 2;
+BorhanLicenseType.prototype.CREATIVECOMMONS_ATTRIBUTION = 3;
+BorhanLicenseType.prototype.CREATIVECOMMONS_ATTRIBUTION_SHARE_ALIKE = 4;
+BorhanLicenseType.prototype.CREATIVECOMMONS_ATTRIBUTION_NO_DERIVATIVES = 5;
+BorhanLicenseType.prototype.CREATIVECOMMONS_ATTRIBUTION_NON_COMMERCIAL = 6;
+BorhanLicenseType.prototype.CREATIVECOMMONS_ATTRIBUTION_NON_COMMERCIAL_SHARE_ALIKE = 7;
+BorhanLicenseType.prototype.CREATIVECOMMONS_ATTRIBUTION_NON_COMMERCIAL_NO_DERIVATIVES = 8;
+BorhanLicenseType.prototype.GFDL = 9;
+BorhanLicenseType.prototype.GPL = 10;
+BorhanLicenseType.prototype.AFFERO_GPL = 11;
+BorhanLicenseType.prototype.LGPL = 12;
+BorhanLicenseType.prototype.BSD = 13;
+BorhanLicenseType.prototype.APACHE = 14;
+BorhanLicenseType.prototype.MOZILLA = 15;
+
+function BorhanMailJobOrderBy()
+{
+}
+BorhanMailJobOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanMailJobOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanMailJobOrderBy.prototype.EXECUTION_ATTEMPTS_ASC = "+executionAttempts";
+BorhanMailJobOrderBy.prototype.EXECUTION_ATTEMPTS_DESC = "-executionAttempts";
+
+function BorhanMailJobStatus()
+{
+}
+BorhanMailJobStatus.prototype.PENDING = 1;
+BorhanMailJobStatus.prototype.SENT = 2;
+BorhanMailJobStatus.prototype.ERROR = 3;
+BorhanMailJobStatus.prototype.QUEUED = 4;
+
+function BorhanMailType()
+{
+}
+BorhanMailType.prototype.MAIL_TYPE_BORHAN_NEWSLETTER = 10;
+BorhanMailType.prototype.MAIL_TYPE_ADDED_TO_FAVORITES = 11;
+BorhanMailType.prototype.MAIL_TYPE_ADDED_TO_CLIP_FAVORITES = 12;
+BorhanMailType.prototype.MAIL_TYPE_NEW_COMMENT_IN_PROFILE = 13;
+BorhanMailType.prototype.MAIL_TYPE_CLIP_ADDED_YOUR_BORHAN = 20;
+BorhanMailType.prototype.MAIL_TYPE_VIDEO_ADDED = 21;
+BorhanMailType.prototype.MAIL_TYPE_ROUGHCUT_CREATED = 22;
+BorhanMailType.prototype.MAIL_TYPE_ADDED_BORHAN_TO_YOUR_FAVORITES = 23;
+BorhanMailType.prototype.MAIL_TYPE_NEW_COMMENT_IN_BORHAN = 24;
+BorhanMailType.prototype.MAIL_TYPE_CLIP_ADDED = 30;
+BorhanMailType.prototype.MAIL_TYPE_VIDEO_CREATED = 31;
+BorhanMailType.prototype.MAIL_TYPE_ADDED_BORHAN_TO_HIS_FAVORITES = 32;
+BorhanMailType.prototype.MAIL_TYPE_NEW_COMMENT_IN_BORHAN_YOU_CONTRIBUTED = 33;
+BorhanMailType.prototype.MAIL_TYPE_CLIP_CONTRIBUTED = 40;
+BorhanMailType.prototype.MAIL_TYPE_ROUGHCUT_CREATED_SUBSCRIBED = 41;
+BorhanMailType.prototype.MAIL_TYPE_ADDED_BORHAN_TO_HIS_FAVORITES_SUBSCRIBED = 42;
+BorhanMailType.prototype.MAIL_TYPE_NEW_COMMENT_IN_BORHAN_YOU_SUBSCRIBED = 43;
+BorhanMailType.prototype.MAIL_TYPE_REGISTER_CONFIRM = 50;
+BorhanMailType.prototype.MAIL_TYPE_PASSWORD_RESET = 51;
+BorhanMailType.prototype.MAIL_TYPE_LOGIN_MAIL_RESET = 52;
+BorhanMailType.prototype.MAIL_TYPE_REGISTER_CONFIRM_VIDEO_SERVICE = 54;
+BorhanMailType.prototype.MAIL_TYPE_VIDEO_READY = 60;
+BorhanMailType.prototype.MAIL_TYPE_VIDEO_IS_READY = 62;
+BorhanMailType.prototype.MAIL_TYPE_BULK_DOWNLOAD_READY = 63;
+BorhanMailType.prototype.MAIL_TYPE_NOTIFY_ERR = 70;
+BorhanMailType.prototype.MAIL_TYPE_ACCOUNT_UPGRADE_CONFIRM = 80;
+BorhanMailType.prototype.MAIL_TYPE_VIDEO_SERVICE_NOTICE = 81;
+BorhanMailType.prototype.MAIL_TYPE_VIDEO_SERVICE_NOTICE_LIMIT_REACHED = 82;
+BorhanMailType.prototype.MAIL_TYPE_VIDEO_SERVICE_NOTICE_ACCOUNT_LOCKED = 83;
+BorhanMailType.prototype.MAIL_TYPE_VIDEO_SERVICE_NOTICE_ACCOUNT_DELETED = 84;
+BorhanMailType.prototype.MAIL_TYPE_VIDEO_SERVICE_NOTICE_UPGRADE_OFFER = 85;
+BorhanMailType.prototype.MAIL_TYPE_ACCOUNT_REACTIVE_CONFIRM = 86;
+BorhanMailType.prototype.MAIL_TYPE_SYSTEM_USER_RESET_PASSWORD = 110;
+BorhanMailType.prototype.MAIL_TYPE_SYSTEM_USER_RESET_PASSWORD_SUCCESS = 111;
 
-function KalturaPlayableEntryOrderBy()
+function BorhanPlayableEntryOrderBy()
 {
 }
-KalturaPlayableEntryOrderBy.prototype.PLAYS_ASC = "+plays";
-KalturaPlayableEntryOrderBy.prototype.PLAYS_DESC = "-plays";
-KalturaPlayableEntryOrderBy.prototype.VIEWS_ASC = "+views";
-KalturaPlayableEntryOrderBy.prototype.VIEWS_DESC = "-views";
-KalturaPlayableEntryOrderBy.prototype.DURATION_ASC = "+duration";
-KalturaPlayableEntryOrderBy.prototype.DURATION_DESC = "-duration";
-KalturaPlayableEntryOrderBy.prototype.NAME_ASC = "+name";
-KalturaPlayableEntryOrderBy.prototype.NAME_DESC = "-name";
-KalturaPlayableEntryOrderBy.prototype.MODERATION_COUNT_ASC = "+moderationCount";
-KalturaPlayableEntryOrderBy.prototype.MODERATION_COUNT_DESC = "-moderationCount";
-KalturaPlayableEntryOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaPlayableEntryOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
-KalturaPlayableEntryOrderBy.prototype.RANK_ASC = "+rank";
-KalturaPlayableEntryOrderBy.prototype.RANK_DESC = "-rank";
+BorhanPlayableEntryOrderBy.prototype.PLAYS_ASC = "+plays";
+BorhanPlayableEntryOrderBy.prototype.PLAYS_DESC = "-plays";
+BorhanPlayableEntryOrderBy.prototype.VIEWS_ASC = "+views";
+BorhanPlayableEntryOrderBy.prototype.VIEWS_DESC = "-views";
+BorhanPlayableEntryOrderBy.prototype.DURATION_ASC = "+duration";
+BorhanPlayableEntryOrderBy.prototype.DURATION_DESC = "-duration";
+BorhanPlayableEntryOrderBy.prototype.NAME_ASC = "+name";
+BorhanPlayableEntryOrderBy.prototype.NAME_DESC = "-name";
+BorhanPlayableEntryOrderBy.prototype.MODERATION_COUNT_ASC = "+moderationCount";
+BorhanPlayableEntryOrderBy.prototype.MODERATION_COUNT_DESC = "-moderationCount";
+BorhanPlayableEntryOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanPlayableEntryOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanPlayableEntryOrderBy.prototype.RANK_ASC = "+rank";
+BorhanPlayableEntryOrderBy.prototype.RANK_DESC = "-rank";
 
-function KalturaMediaEntryOrderBy()
+function BorhanMediaEntryOrderBy()
 {
 }
-KalturaMediaEntryOrderBy.prototype.MEDIA_TYPE_ASC = "+mediaType";
-KalturaMediaEntryOrderBy.prototype.MEDIA_TYPE_DESC = "-mediaType";
-KalturaMediaEntryOrderBy.prototype.PLAYS_ASC = "+plays";
-KalturaMediaEntryOrderBy.prototype.PLAYS_DESC = "-plays";
-KalturaMediaEntryOrderBy.prototype.VIEWS_ASC = "+views";
-KalturaMediaEntryOrderBy.prototype.VIEWS_DESC = "-views";
-KalturaMediaEntryOrderBy.prototype.DURATION_ASC = "+duration";
-KalturaMediaEntryOrderBy.prototype.DURATION_DESC = "-duration";
-KalturaMediaEntryOrderBy.prototype.NAME_ASC = "+name";
-KalturaMediaEntryOrderBy.prototype.NAME_DESC = "-name";
-KalturaMediaEntryOrderBy.prototype.MODERATION_COUNT_ASC = "+moderationCount";
-KalturaMediaEntryOrderBy.prototype.MODERATION_COUNT_DESC = "-moderationCount";
-KalturaMediaEntryOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaMediaEntryOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
-KalturaMediaEntryOrderBy.prototype.RANK_ASC = "+rank";
-KalturaMediaEntryOrderBy.prototype.RANK_DESC = "-rank";
+BorhanMediaEntryOrderBy.prototype.MEDIA_TYPE_ASC = "+mediaType";
+BorhanMediaEntryOrderBy.prototype.MEDIA_TYPE_DESC = "-mediaType";
+BorhanMediaEntryOrderBy.prototype.PLAYS_ASC = "+plays";
+BorhanMediaEntryOrderBy.prototype.PLAYS_DESC = "-plays";
+BorhanMediaEntryOrderBy.prototype.VIEWS_ASC = "+views";
+BorhanMediaEntryOrderBy.prototype.VIEWS_DESC = "-views";
+BorhanMediaEntryOrderBy.prototype.DURATION_ASC = "+duration";
+BorhanMediaEntryOrderBy.prototype.DURATION_DESC = "-duration";
+BorhanMediaEntryOrderBy.prototype.NAME_ASC = "+name";
+BorhanMediaEntryOrderBy.prototype.NAME_DESC = "-name";
+BorhanMediaEntryOrderBy.prototype.MODERATION_COUNT_ASC = "+moderationCount";
+BorhanMediaEntryOrderBy.prototype.MODERATION_COUNT_DESC = "-moderationCount";
+BorhanMediaEntryOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanMediaEntryOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanMediaEntryOrderBy.prototype.RANK_ASC = "+rank";
+BorhanMediaEntryOrderBy.prototype.RANK_DESC = "-rank";
 
-function KalturaMediaType()
+function BorhanMediaType()
 {
 }
-KalturaMediaType.prototype.VIDEO = 1;
-KalturaMediaType.prototype.IMAGE = 2;
-KalturaMediaType.prototype.AUDIO = 5;
+BorhanMediaType.prototype.VIDEO = 1;
+BorhanMediaType.prototype.IMAGE = 2;
+BorhanMediaType.prototype.AUDIO = 5;
 
-function KalturaMixEntryOrderBy()
+function BorhanMixEntryOrderBy()
 {
 }
-KalturaMixEntryOrderBy.prototype.PLAYS_ASC = "+plays";
-KalturaMixEntryOrderBy.prototype.PLAYS_DESC = "-plays";
-KalturaMixEntryOrderBy.prototype.VIEWS_ASC = "+views";
-KalturaMixEntryOrderBy.prototype.VIEWS_DESC = "-views";
-KalturaMixEntryOrderBy.prototype.DURATION_ASC = "+duration";
-KalturaMixEntryOrderBy.prototype.DURATION_DESC = "-duration";
-KalturaMixEntryOrderBy.prototype.NAME_ASC = "+name";
-KalturaMixEntryOrderBy.prototype.NAME_DESC = "-name";
-KalturaMixEntryOrderBy.prototype.MODERATION_COUNT_ASC = "+moderationCount";
-KalturaMixEntryOrderBy.prototype.MODERATION_COUNT_DESC = "-moderationCount";
-KalturaMixEntryOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaMixEntryOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
-KalturaMixEntryOrderBy.prototype.RANK_ASC = "+rank";
-KalturaMixEntryOrderBy.prototype.RANK_DESC = "-rank";
+BorhanMixEntryOrderBy.prototype.PLAYS_ASC = "+plays";
+BorhanMixEntryOrderBy.prototype.PLAYS_DESC = "-plays";
+BorhanMixEntryOrderBy.prototype.VIEWS_ASC = "+views";
+BorhanMixEntryOrderBy.prototype.VIEWS_DESC = "-views";
+BorhanMixEntryOrderBy.prototype.DURATION_ASC = "+duration";
+BorhanMixEntryOrderBy.prototype.DURATION_DESC = "-duration";
+BorhanMixEntryOrderBy.prototype.NAME_ASC = "+name";
+BorhanMixEntryOrderBy.prototype.NAME_DESC = "-name";
+BorhanMixEntryOrderBy.prototype.MODERATION_COUNT_ASC = "+moderationCount";
+BorhanMixEntryOrderBy.prototype.MODERATION_COUNT_DESC = "-moderationCount";
+BorhanMixEntryOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanMixEntryOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanMixEntryOrderBy.prototype.RANK_ASC = "+rank";
+BorhanMixEntryOrderBy.prototype.RANK_DESC = "-rank";
 
-function KalturaModerationFlagStatus()
+function BorhanModerationFlagStatus()
 {
 }
-KalturaModerationFlagStatus.prototype.PENDING = 1;
-KalturaModerationFlagStatus.prototype.MODERATED = 2;
+BorhanModerationFlagStatus.prototype.PENDING = 1;
+BorhanModerationFlagStatus.prototype.MODERATED = 2;
 
-function KalturaModerationFlagType()
+function BorhanModerationFlagType()
 {
 }
-KalturaModerationFlagType.prototype.SEXUAL_CONTENT = 1;
-KalturaModerationFlagType.prototype.VIOLENT_REPULSIVE = 2;
-KalturaModerationFlagType.prototype.HARMFUL_DANGEROUS = 3;
-KalturaModerationFlagType.prototype.SPAM_COMMERCIALS = 4;
+BorhanModerationFlagType.prototype.SEXUAL_CONTENT = 1;
+BorhanModerationFlagType.prototype.VIOLENT_REPULSIVE = 2;
+BorhanModerationFlagType.prototype.HARMFUL_DANGEROUS = 3;
+BorhanModerationFlagType.prototype.SPAM_COMMERCIALS = 4;
 
-function KalturaModerationObjectType()
+function BorhanModerationObjectType()
 {
 }
-KalturaModerationObjectType.prototype.ENTRY = 2;
-KalturaModerationObjectType.prototype.USER = 3;
+BorhanModerationObjectType.prototype.ENTRY = 2;
+BorhanModerationObjectType.prototype.USER = 3;
 
-function KalturaNotificationObjectType()
+function BorhanNotificationObjectType()
 {
 }
-KalturaNotificationObjectType.prototype.ENTRY = 1;
-KalturaNotificationObjectType.prototype.KSHOW = 2;
-KalturaNotificationObjectType.prototype.USER = 3;
-KalturaNotificationObjectType.prototype.BATCH_JOB = 4;
+BorhanNotificationObjectType.prototype.ENTRY = 1;
+BorhanNotificationObjectType.prototype.KSHOW = 2;
+BorhanNotificationObjectType.prototype.USER = 3;
+BorhanNotificationObjectType.prototype.BATCH_JOB = 4;
 
-function KalturaNotificationOrderBy()
+function BorhanNotificationOrderBy()
 {
 }
-KalturaNotificationOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaNotificationOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
-KalturaNotificationOrderBy.prototype.EXECUTION_ATTEMPTS_ASC = "+executionAttempts";
-KalturaNotificationOrderBy.prototype.EXECUTION_ATTEMPTS_DESC = "-executionAttempts";
+BorhanNotificationOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanNotificationOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanNotificationOrderBy.prototype.EXECUTION_ATTEMPTS_ASC = "+executionAttempts";
+BorhanNotificationOrderBy.prototype.EXECUTION_ATTEMPTS_DESC = "-executionAttempts";
 
-function KalturaNotificationStatus()
+function BorhanNotificationStatus()
 {
 }
-KalturaNotificationStatus.prototype.PENDING = 1;
-KalturaNotificationStatus.prototype.SENT = 2;
-KalturaNotificationStatus.prototype.ERROR = 3;
-KalturaNotificationStatus.prototype.SHOULD_RESEND = 4;
-KalturaNotificationStatus.prototype.ERROR_RESENDING = 5;
-KalturaNotificationStatus.prototype.SENT_SYNCH = 6;
-KalturaNotificationStatus.prototype.QUEUED = 7;
+BorhanNotificationStatus.prototype.PENDING = 1;
+BorhanNotificationStatus.prototype.SENT = 2;
+BorhanNotificationStatus.prototype.ERROR = 3;
+BorhanNotificationStatus.prototype.SHOULD_RESEND = 4;
+BorhanNotificationStatus.prototype.ERROR_RESENDING = 5;
+BorhanNotificationStatus.prototype.SENT_SYNCH = 6;
+BorhanNotificationStatus.prototype.QUEUED = 7;
 
-function KalturaNotificationType()
+function BorhanNotificationType()
 {
 }
-KalturaNotificationType.prototype.ENTRY_ADD = 1;
-KalturaNotificationType.prototype.ENTR_UPDATE_PERMISSIONS = 2;
-KalturaNotificationType.prototype.ENTRY_DELETE = 3;
-KalturaNotificationType.prototype.ENTRY_BLOCK = 4;
-KalturaNotificationType.prototype.ENTRY_UPDATE = 5;
-KalturaNotificationType.prototype.ENTRY_UPDATE_THUMBNAIL = 6;
-KalturaNotificationType.prototype.ENTRY_UPDATE_MODERATION = 7;
-KalturaNotificationType.prototype.USER_ADD = 21;
-KalturaNotificationType.prototype.USER_BANNED = 26;
+BorhanNotificationType.prototype.ENTRY_ADD = 1;
+BorhanNotificationType.prototype.ENTR_UPDATE_PERMISSIONS = 2;
+BorhanNotificationType.prototype.ENTRY_DELETE = 3;
+BorhanNotificationType.prototype.ENTRY_BLOCK = 4;
+BorhanNotificationType.prototype.ENTRY_UPDATE = 5;
+BorhanNotificationType.prototype.ENTRY_UPDATE_THUMBNAIL = 6;
+BorhanNotificationType.prototype.ENTRY_UPDATE_MODERATION = 7;
+BorhanNotificationType.prototype.USER_ADD = 21;
+BorhanNotificationType.prototype.USER_BANNED = 26;
 
-function KalturaNullableBoolean()
+function BorhanNullableBoolean()
 {
 }
-KalturaNullableBoolean.prototype.NULL_VALUE = -1;
-KalturaNullableBoolean.prototype.FALSE_VALUE = 0;
-KalturaNullableBoolean.prototype.TRUE_VALUE = 1;
+BorhanNullableBoolean.prototype.NULL_VALUE = -1;
+BorhanNullableBoolean.prototype.FALSE_VALUE = 0;
+BorhanNullableBoolean.prototype.TRUE_VALUE = 1;
 
-function KalturaPartnerOrderBy()
+function BorhanPartnerOrderBy()
 {
 }
-KalturaPartnerOrderBy.prototype.ID_ASC = "+id";
-KalturaPartnerOrderBy.prototype.ID_DESC = "-id";
-KalturaPartnerOrderBy.prototype.NAME_ASC = "+name";
-KalturaPartnerOrderBy.prototype.NAME_DESC = "-name";
-KalturaPartnerOrderBy.prototype.WEBSITE_ASC = "+website";
-KalturaPartnerOrderBy.prototype.WEBSITE_DESC = "-website";
-KalturaPartnerOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaPartnerOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
-KalturaPartnerOrderBy.prototype.ADMIN_NAME_ASC = "+adminName";
-KalturaPartnerOrderBy.prototype.ADMIN_NAME_DESC = "-adminName";
-KalturaPartnerOrderBy.prototype.ADMIN_EMAIL_ASC = "+adminEmail";
-KalturaPartnerOrderBy.prototype.ADMIN_EMAIL_DESC = "-adminEmail";
-KalturaPartnerOrderBy.prototype.STATUS_ASC = "+status";
-KalturaPartnerOrderBy.prototype.STATUS_DESC = "-status";
+BorhanPartnerOrderBy.prototype.ID_ASC = "+id";
+BorhanPartnerOrderBy.prototype.ID_DESC = "-id";
+BorhanPartnerOrderBy.prototype.NAME_ASC = "+name";
+BorhanPartnerOrderBy.prototype.NAME_DESC = "-name";
+BorhanPartnerOrderBy.prototype.WEBSITE_ASC = "+website";
+BorhanPartnerOrderBy.prototype.WEBSITE_DESC = "-website";
+BorhanPartnerOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanPartnerOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanPartnerOrderBy.prototype.ADMIN_NAME_ASC = "+adminName";
+BorhanPartnerOrderBy.prototype.ADMIN_NAME_DESC = "-adminName";
+BorhanPartnerOrderBy.prototype.ADMIN_EMAIL_ASC = "+adminEmail";
+BorhanPartnerOrderBy.prototype.ADMIN_EMAIL_DESC = "-adminEmail";
+BorhanPartnerOrderBy.prototype.STATUS_ASC = "+status";
+BorhanPartnerOrderBy.prototype.STATUS_DESC = "-status";
 
-function KalturaPartnerType()
+function BorhanPartnerType()
 {
 }
-KalturaPartnerType.prototype.KMC = 1;
-KalturaPartnerType.prototype.WIKI = 100;
-KalturaPartnerType.prototype.WORDPRESS = 101;
-KalturaPartnerType.prototype.DRUPAL = 102;
-KalturaPartnerType.prototype.DEKIWIKI = 103;
-KalturaPartnerType.prototype.MOODLE = 104;
-KalturaPartnerType.prototype.COMMUNITY_EDITION = 105;
-KalturaPartnerType.prototype.JOOMLA = 106;
+BorhanPartnerType.prototype.BMC = 1;
+BorhanPartnerType.prototype.WIKI = 100;
+BorhanPartnerType.prototype.WORDPRESS = 101;
+BorhanPartnerType.prototype.DRUPAL = 102;
+BorhanPartnerType.prototype.DEKIWIKI = 103;
+BorhanPartnerType.prototype.MOODLE = 104;
+BorhanPartnerType.prototype.COMMUNITY_EDITION = 105;
+BorhanPartnerType.prototype.JOOMLA = 106;
 
-function KalturaPlaylistOrderBy()
+function BorhanPlaylistOrderBy()
 {
 }
-KalturaPlaylistOrderBy.prototype.NAME_ASC = "+name";
-KalturaPlaylistOrderBy.prototype.NAME_DESC = "-name";
-KalturaPlaylistOrderBy.prototype.MODERATION_COUNT_ASC = "+moderationCount";
-KalturaPlaylistOrderBy.prototype.MODERATION_COUNT_DESC = "-moderationCount";
-KalturaPlaylistOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaPlaylistOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
-KalturaPlaylistOrderBy.prototype.RANK_ASC = "+rank";
-KalturaPlaylistOrderBy.prototype.RANK_DESC = "-rank";
+BorhanPlaylistOrderBy.prototype.NAME_ASC = "+name";
+BorhanPlaylistOrderBy.prototype.NAME_DESC = "-name";
+BorhanPlaylistOrderBy.prototype.MODERATION_COUNT_ASC = "+moderationCount";
+BorhanPlaylistOrderBy.prototype.MODERATION_COUNT_DESC = "-moderationCount";
+BorhanPlaylistOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanPlaylistOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanPlaylistOrderBy.prototype.RANK_ASC = "+rank";
+BorhanPlaylistOrderBy.prototype.RANK_DESC = "-rank";
 
-function KalturaPlaylistType()
+function BorhanPlaylistType()
 {
 }
-KalturaPlaylistType.prototype.DYNAMIC = 10;
-KalturaPlaylistType.prototype.STATIC_LIST = 3;
-KalturaPlaylistType.prototype.EXTERNAL = 101;
-
-function KalturaReportType()
-{
-}
-KalturaReportType.prototype.TOP_CONTENT = 1;
-KalturaReportType.prototype.CONTENT_DROPOFF = 2;
-KalturaReportType.prototype.CONTENT_INTERACTIONS = 3;
-KalturaReportType.prototype.MAP_OVERLAY = 4;
-KalturaReportType.prototype.TOP_CONTRIBUTORS = 5;
-KalturaReportType.prototype.TOP_SYNDICATION = 6;
-KalturaReportType.prototype.CONTENT_CONTRIBUTIONS = 7;
-KalturaReportType.prototype.WIDGETS_STATS = 8;
-
-function KalturaSearchProviderType()
-{
-}
-KalturaSearchProviderType.prototype.FLICKR = 3;
-KalturaSearchProviderType.prototype.YOUTUBE = 4;
-KalturaSearchProviderType.prototype.MYSPACE = 7;
-KalturaSearchProviderType.prototype.PHOTOBUCKET = 8;
-KalturaSearchProviderType.prototype.JAMENDO = 9;
-KalturaSearchProviderType.prototype.CCMIXTER = 10;
-KalturaSearchProviderType.prototype.NYPL = 11;
-KalturaSearchProviderType.prototype.CURRENT = 12;
-KalturaSearchProviderType.prototype.MEDIA_COMMONS = 13;
-KalturaSearchProviderType.prototype.KALTURA = 20;
-KalturaSearchProviderType.prototype.KALTURA_USER_CLIPS = 21;
-KalturaSearchProviderType.prototype.ARCHIVE_ORG = 22;
-KalturaSearchProviderType.prototype.KALTURA_PARTNER = 23;
-KalturaSearchProviderType.prototype.METACAFE = 24;
-KalturaSearchProviderType.prototype.SEARCH_PROXY = 28;
-
-function KalturaSessionType()
-{
-}
-KalturaSessionType.prototype.USER = 0;
-KalturaSessionType.prototype.ADMIN = 2;
-
-function KalturaSiteRestrictionType()
-{
-}
-KalturaSiteRestrictionType.prototype.RESTRICT_SITE_LIST = 0;
-KalturaSiteRestrictionType.prototype.ALLOW_SITE_LIST = 1;
-
-function KalturaSourceType()
-{
-}
-KalturaSourceType.prototype.FILE = 1;
-KalturaSourceType.prototype.WEBCAM = 2;
-KalturaSourceType.prototype.URL = 5;
-KalturaSourceType.prototype.SEARCH_PROVIDER = 6;
-
-function KalturaStatsEventType()
-{
-}
-KalturaStatsEventType.prototype.WIDGET_LOADED = 1;
-KalturaStatsEventType.prototype.MEDIA_LOADED = 2;
-KalturaStatsEventType.prototype.PLAY = 3;
-KalturaStatsEventType.prototype.PLAY_REACHED_25 = 4;
-KalturaStatsEventType.prototype.PLAY_REACHED_50 = 5;
-KalturaStatsEventType.prototype.PLAY_REACHED_75 = 6;
-KalturaStatsEventType.prototype.PLAY_REACHED_100 = 7;
-KalturaStatsEventType.prototype.OPEN_EDIT = 8;
-KalturaStatsEventType.prototype.OPEN_VIRAL = 9;
-KalturaStatsEventType.prototype.OPEN_DOWNLOAD = 10;
-KalturaStatsEventType.prototype.OPEN_REPORT = 11;
-KalturaStatsEventType.prototype.BUFFER_START = 12;
-KalturaStatsEventType.prototype.BUFFER_END = 13;
-KalturaStatsEventType.prototype.OPEN_FULL_SCREEN = 14;
-KalturaStatsEventType.prototype.CLOSE_FULL_SCREEN = 15;
-KalturaStatsEventType.prototype.REPLAY = 16;
-KalturaStatsEventType.prototype.SEEK = 17;
-KalturaStatsEventType.prototype.OPEN_UPLOAD = 18;
-KalturaStatsEventType.prototype.SAVE_PUBLISH = 19;
-KalturaStatsEventType.prototype.CLOSE_EDITOR = 20;
-KalturaStatsEventType.prototype.PRE_BUMPER_PLAYED = 21;
-KalturaStatsEventType.prototype.POST_BUMPER_PLAYED = 22;
-KalturaStatsEventType.prototype.BUMPER_CLICKED = 23;
-KalturaStatsEventType.prototype.FUTURE_USE_1 = 24;
-KalturaStatsEventType.prototype.FUTURE_USE_2 = 25;
-KalturaStatsEventType.prototype.FUTURE_USE_3 = 26;
-
-function KalturaStatsKmcEventType()
-{
-}
-KalturaStatsKmcEventType.prototype.CONTENT_PAGE_VIEW = 1001;
-KalturaStatsKmcEventType.prototype.CONTENT_ADD_PLAYLIST = 1010;
-KalturaStatsKmcEventType.prototype.CONTENT_EDIT_PLAYLIST = 1011;
-KalturaStatsKmcEventType.prototype.CONTENT_DELETE_PLAYLIST = 1012;
-KalturaStatsKmcEventType.prototype.CONTENT_DELETE_ITEM = 1058;
-KalturaStatsKmcEventType.prototype.CONTENT_EDIT_ENTRY = 1013;
-KalturaStatsKmcEventType.prototype.CONTENT_CHANGE_THUMBNAIL = 1014;
-KalturaStatsKmcEventType.prototype.CONTENT_ADD_TAGS = 1015;
-KalturaStatsKmcEventType.prototype.CONTENT_REMOVE_TAGS = 1016;
-KalturaStatsKmcEventType.prototype.CONTENT_ADD_ADMIN_TAGS = 1017;
-KalturaStatsKmcEventType.prototype.CONTENT_REMOVE_ADMIN_TAGS = 1018;
-KalturaStatsKmcEventType.prototype.CONTENT_DOWNLOAD = 1019;
-KalturaStatsKmcEventType.prototype.CONTENT_APPROVE_MODERATION = 1020;
-KalturaStatsKmcEventType.prototype.CONTENT_REJECT_MODERATION = 1021;
-KalturaStatsKmcEventType.prototype.CONTENT_BULK_UPLOAD = 1022;
-KalturaStatsKmcEventType.prototype.CONTENT_ADMIN_KCW_UPLOAD = 1023;
-KalturaStatsKmcEventType.prototype.CONTENT_CONTENT_GO_TO_PAGE = 1057;
-KalturaStatsKmcEventType.prototype.ACCOUNT_CHANGE_PARTNER_INFO = 1030;
-KalturaStatsKmcEventType.prototype.ACCOUNT_CHANGE_LOGIN_INFO = 1031;
-KalturaStatsKmcEventType.prototype.ACCOUNT_CONTACT_US_USAGE = 1032;
-KalturaStatsKmcEventType.prototype.ACCOUNT_UPDATE_SERVER_SETTINGS = 1033;
-KalturaStatsKmcEventType.prototype.ACCOUNT_ACCOUNT_OVERVIEW = 1034;
-KalturaStatsKmcEventType.prototype.ACCOUNT_ACCESS_CONTROL = 1035;
-KalturaStatsKmcEventType.prototype.ACCOUNT_TRANSCODING_SETTINGS = 1036;
-KalturaStatsKmcEventType.prototype.ACCOUNT_ACCOUNT_UPGRADE = 1037;
-KalturaStatsKmcEventType.prototype.ACCOUNT_SAVE_SERVER_SETTINGS = 1038;
-KalturaStatsKmcEventType.prototype.ACCOUNT_ACCESS_CONTROL_DELETE = 1039;
-KalturaStatsKmcEventType.prototype.ACCOUNT_SAVE_TRANSCODING_SETTINGS = 1040;
-KalturaStatsKmcEventType.prototype.LOGIN = 1041;
-KalturaStatsKmcEventType.prototype.DASHBOARD_IMPORT_CONTENT = 1042;
-KalturaStatsKmcEventType.prototype.DASHBOARD_UPDATE_CONTENT = 1043;
-KalturaStatsKmcEventType.prototype.DASHBOARD_ACCOUNT_CONTACT_US = 1044;
-KalturaStatsKmcEventType.prototype.DASHBOARD_VIEW_REPORTS = 1045;
-KalturaStatsKmcEventType.prototype.DASHBOARD_EMBED_PLAYER = 1046;
-KalturaStatsKmcEventType.prototype.DASHBOARD_EMBED_PLAYLIST = 1047;
-KalturaStatsKmcEventType.prototype.DASHBOARD_CUSTOMIZE_PLAYERS = 1048;
-KalturaStatsKmcEventType.prototype.APP_STUDIO_NEW_PLAYER_SINGLE_VIDEO = 1050;
-KalturaStatsKmcEventType.prototype.APP_STUDIO_NEW_PLAYER_PLAYLIST = 1051;
-KalturaStatsKmcEventType.prototype.APP_STUDIO_NEW_PLAYER_MULTI_TAB_PLAYLIST = 1052;
-KalturaStatsKmcEventType.prototype.APP_STUDIO_EDIT_PLAYER_SINGLE_VIDEO = 1053;
-KalturaStatsKmcEventType.prototype.APP_STUDIO_EDIT_PLAYER_PLAYLIST = 1054;
-KalturaStatsKmcEventType.prototype.APP_STUDIO_EDIT_PLAYER_MULTI_TAB_PLAYLIST = 1055;
-KalturaStatsKmcEventType.prototype.APP_STUDIO_DUPLICATE_PLAYER = 1056;
-KalturaStatsKmcEventType.prototype.REPORTS_AND_ANALYTICS_BANDWIDTH_USAGE_TAB = 1070;
-KalturaStatsKmcEventType.prototype.REPORTS_AND_ANALYTICS_CONTENT_REPORTS_TAB = 1071;
-KalturaStatsKmcEventType.prototype.REPORTS_AND_ANALYTICS_USERS_AND_COMMUNITY_REPORTS_TAB = 1072;
-KalturaStatsKmcEventType.prototype.REPORTS_AND_ANALYTICS_TOP_CONTRIBUTORS = 1073;
-KalturaStatsKmcEventType.prototype.REPORTS_AND_ANALYTICS_MAP_OVERLAYS = 1074;
-KalturaStatsKmcEventType.prototype.REPORTS_AND_ANALYTICS_TOP_SYNDICATIONS = 1075;
-KalturaStatsKmcEventType.prototype.REPORTS_AND_ANALYTICS_TOP_CONTENT = 1076;
-KalturaStatsKmcEventType.prototype.REPORTS_AND_ANALYTICS_CONTENT_DROPOFF = 1077;
-KalturaStatsKmcEventType.prototype.REPORTS_AND_ANALYTICS_CONTENT_INTERACTIONS = 1078;
-KalturaStatsKmcEventType.prototype.REPORTS_AND_ANALYTICS_CONTENT_CONTRIBUTIONS = 1079;
-KalturaStatsKmcEventType.prototype.REPORTS_AND_ANALYTICS_VIDEO_DRILL_DOWN = 1080;
-KalturaStatsKmcEventType.prototype.REPORTS_AND_ANALYTICS_CONTENT_DRILL_DOWN_INTERACTION = 1081;
-KalturaStatsKmcEventType.prototype.REPORTS_AND_ANALYTICS_CONTENT_CONTRIBUTIONS_DRILLDOWN = 1082;
-KalturaStatsKmcEventType.prototype.REPORTS_AND_ANALYTICS_VIDEO_DRILL_DOWN_DROPOFF = 1083;
-KalturaStatsKmcEventType.prototype.REPORTS_AND_ANALYTICS_MAP_OVERLAYS_DRILLDOWN = 1084;
-KalturaStatsKmcEventType.prototype.REPORTS_AND_ANALYTICS_TOP_SYNDICATIONS_DRILL_DOWN = 1085;
-KalturaStatsKmcEventType.prototype.REPORTS_AND_ANALYTICS_BANDWIDTH_USAGE_VIEW_MONTHLY = 1086;
-KalturaStatsKmcEventType.prototype.REPORTS_AND_ANALYTICS_BANDWIDTH_USAGE_VIEW_YEARLY = 1087;
-
-function KalturaSyndicationFeedStatus()
-{
-}
-KalturaSyndicationFeedStatus.prototype.DELETED = -1;
-KalturaSyndicationFeedStatus.prototype.ACTIVE = 1;
+BorhanPlaylistType.prototype.DYNAMIC = 10;
+BorhanPlaylistType.prototype.STATIC_LIST = 3;
+BorhanPlaylistType.prototype.EXTERNAL = 101;
+
+function BorhanReportType()
+{
+}
+BorhanReportType.prototype.TOP_CONTENT = 1;
+BorhanReportType.prototype.CONTENT_DROPOFF = 2;
+BorhanReportType.prototype.CONTENT_INTERACTIONS = 3;
+BorhanReportType.prototype.MAP_OVERLAY = 4;
+BorhanReportType.prototype.TOP_CONTRIBUTORS = 5;
+BorhanReportType.prototype.TOP_SYNDICATION = 6;
+BorhanReportType.prototype.CONTENT_CONTRIBUTIONS = 7;
+BorhanReportType.prototype.WIDGETS_STATS = 8;
+
+function BorhanSearchProviderType()
+{
+}
+BorhanSearchProviderType.prototype.FLICKR = 3;
+BorhanSearchProviderType.prototype.YOUTUBE = 4;
+BorhanSearchProviderType.prototype.MYSPACE = 7;
+BorhanSearchProviderType.prototype.PHOTOBUCKET = 8;
+BorhanSearchProviderType.prototype.JAMENDO = 9;
+BorhanSearchProviderType.prototype.CCMIXTER = 10;
+BorhanSearchProviderType.prototype.NYPL = 11;
+BorhanSearchProviderType.prototype.CURRENT = 12;
+BorhanSearchProviderType.prototype.MEDIA_COMMONS = 13;
+BorhanSearchProviderType.prototype.BORHAN = 20;
+BorhanSearchProviderType.prototype.BORHAN_USER_CLIPS = 21;
+BorhanSearchProviderType.prototype.ARCHIVE_ORG = 22;
+BorhanSearchProviderType.prototype.BORHAN_PARTNER = 23;
+BorhanSearchProviderType.prototype.METACAFE = 24;
+BorhanSearchProviderType.prototype.SEARCH_PROXY = 28;
+
+function BorhanSessionType()
+{
+}
+BorhanSessionType.prototype.USER = 0;
+BorhanSessionType.prototype.ADMIN = 2;
+
+function BorhanSiteRestrictionType()
+{
+}
+BorhanSiteRestrictionType.prototype.RESTRICT_SITE_LIST = 0;
+BorhanSiteRestrictionType.prototype.ALLOW_SITE_LIST = 1;
+
+function BorhanSourceType()
+{
+}
+BorhanSourceType.prototype.FILE = 1;
+BorhanSourceType.prototype.WEBCAM = 2;
+BorhanSourceType.prototype.URL = 5;
+BorhanSourceType.prototype.SEARCH_PROVIDER = 6;
+
+function BorhanStatsEventType()
+{
+}
+BorhanStatsEventType.prototype.WIDGET_LOADED = 1;
+BorhanStatsEventType.prototype.MEDIA_LOADED = 2;
+BorhanStatsEventType.prototype.PLAY = 3;
+BorhanStatsEventType.prototype.PLAY_REACHED_25 = 4;
+BorhanStatsEventType.prototype.PLAY_REACHED_50 = 5;
+BorhanStatsEventType.prototype.PLAY_REACHED_75 = 6;
+BorhanStatsEventType.prototype.PLAY_REACHED_100 = 7;
+BorhanStatsEventType.prototype.OPEN_EDIT = 8;
+BorhanStatsEventType.prototype.OPEN_VIRAL = 9;
+BorhanStatsEventType.prototype.OPEN_DOWNLOAD = 10;
+BorhanStatsEventType.prototype.OPEN_REPORT = 11;
+BorhanStatsEventType.prototype.BUFFER_START = 12;
+BorhanStatsEventType.prototype.BUFFER_END = 13;
+BorhanStatsEventType.prototype.OPEN_FULL_SCREEN = 14;
+BorhanStatsEventType.prototype.CLOSE_FULL_SCREEN = 15;
+BorhanStatsEventType.prototype.REPLAY = 16;
+BorhanStatsEventType.prototype.SEEK = 17;
+BorhanStatsEventType.prototype.OPEN_UPLOAD = 18;
+BorhanStatsEventType.prototype.SAVE_PUBLISH = 19;
+BorhanStatsEventType.prototype.CLOSE_EDITOR = 20;
+BorhanStatsEventType.prototype.PRE_BUMPER_PLAYED = 21;
+BorhanStatsEventType.prototype.POST_BUMPER_PLAYED = 22;
+BorhanStatsEventType.prototype.BUMPER_CLICKED = 23;
+BorhanStatsEventType.prototype.FUTURE_USE_1 = 24;
+BorhanStatsEventType.prototype.FUTURE_USE_2 = 25;
+BorhanStatsEventType.prototype.FUTURE_USE_3 = 26;
+
+function BorhanStatsBmcEventType()
+{
+}
+BorhanStatsBmcEventType.prototype.CONTENT_PAGE_VIEW = 1001;
+BorhanStatsBmcEventType.prototype.CONTENT_ADD_PLAYLIST = 1010;
+BorhanStatsBmcEventType.prototype.CONTENT_EDIT_PLAYLIST = 1011;
+BorhanStatsBmcEventType.prototype.CONTENT_DELETE_PLAYLIST = 1012;
+BorhanStatsBmcEventType.prototype.CONTENT_DELETE_ITEM = 1058;
+BorhanStatsBmcEventType.prototype.CONTENT_EDIT_ENTRY = 1013;
+BorhanStatsBmcEventType.prototype.CONTENT_CHANGE_THUMBNAIL = 1014;
+BorhanStatsBmcEventType.prototype.CONTENT_ADD_TAGS = 1015;
+BorhanStatsBmcEventType.prototype.CONTENT_REMOVE_TAGS = 1016;
+BorhanStatsBmcEventType.prototype.CONTENT_ADD_ADMIN_TAGS = 1017;
+BorhanStatsBmcEventType.prototype.CONTENT_REMOVE_ADMIN_TAGS = 1018;
+BorhanStatsBmcEventType.prototype.CONTENT_DOWNLOAD = 1019;
+BorhanStatsBmcEventType.prototype.CONTENT_APPROVE_MODERATION = 1020;
+BorhanStatsBmcEventType.prototype.CONTENT_REJECT_MODERATION = 1021;
+BorhanStatsBmcEventType.prototype.CONTENT_BULK_UPLOAD = 1022;
+BorhanStatsBmcEventType.prototype.CONTENT_ADMIN_BCW_UPLOAD = 1023;
+BorhanStatsBmcEventType.prototype.CONTENT_CONTENT_GO_TO_PAGE = 1057;
+BorhanStatsBmcEventType.prototype.ACCOUNT_CHANGE_PARTNER_INFO = 1030;
+BorhanStatsBmcEventType.prototype.ACCOUNT_CHANGE_LOGIN_INFO = 1031;
+BorhanStatsBmcEventType.prototype.ACCOUNT_CONTACT_US_USAGE = 1032;
+BorhanStatsBmcEventType.prototype.ACCOUNT_UPDATE_SERVER_SETTINGS = 1033;
+BorhanStatsBmcEventType.prototype.ACCOUNT_ACCOUNT_OVERVIEW = 1034;
+BorhanStatsBmcEventType.prototype.ACCOUNT_ACCESS_CONTROL = 1035;
+BorhanStatsBmcEventType.prototype.ACCOUNT_TRANSCODING_SETTINGS = 1036;
+BorhanStatsBmcEventType.prototype.ACCOUNT_ACCOUNT_UPGRADE = 1037;
+BorhanStatsBmcEventType.prototype.ACCOUNT_SAVE_SERVER_SETTINGS = 1038;
+BorhanStatsBmcEventType.prototype.ACCOUNT_ACCESS_CONTROL_DELETE = 1039;
+BorhanStatsBmcEventType.prototype.ACCOUNT_SAVE_TRANSCODING_SETTINGS = 1040;
+BorhanStatsBmcEventType.prototype.LOGIN = 1041;
+BorhanStatsBmcEventType.prototype.DASHBOARD_IMPORT_CONTENT = 1042;
+BorhanStatsBmcEventType.prototype.DASHBOARD_UPDATE_CONTENT = 1043;
+BorhanStatsBmcEventType.prototype.DASHBOARD_ACCOUNT_CONTACT_US = 1044;
+BorhanStatsBmcEventType.prototype.DASHBOARD_VIEW_REPORTS = 1045;
+BorhanStatsBmcEventType.prototype.DASHBOARD_EMBED_PLAYER = 1046;
+BorhanStatsBmcEventType.prototype.DASHBOARD_EMBED_PLAYLIST = 1047;
+BorhanStatsBmcEventType.prototype.DASHBOARD_CUSTOMIZE_PLAYERS = 1048;
+BorhanStatsBmcEventType.prototype.APP_STUDIO_NEW_PLAYER_SINGLE_VIDEO = 1050;
+BorhanStatsBmcEventType.prototype.APP_STUDIO_NEW_PLAYER_PLAYLIST = 1051;
+BorhanStatsBmcEventType.prototype.APP_STUDIO_NEW_PLAYER_MULTI_TAB_PLAYLIST = 1052;
+BorhanStatsBmcEventType.prototype.APP_STUDIO_EDIT_PLAYER_SINGLE_VIDEO = 1053;
+BorhanStatsBmcEventType.prototype.APP_STUDIO_EDIT_PLAYER_PLAYLIST = 1054;
+BorhanStatsBmcEventType.prototype.APP_STUDIO_EDIT_PLAYER_MULTI_TAB_PLAYLIST = 1055;
+BorhanStatsBmcEventType.prototype.APP_STUDIO_DUPLICATE_PLAYER = 1056;
+BorhanStatsBmcEventType.prototype.REPORTS_AND_ANALYTICS_BANDWIDTH_USAGE_TAB = 1070;
+BorhanStatsBmcEventType.prototype.REPORTS_AND_ANALYTICS_CONTENT_REPORTS_TAB = 1071;
+BorhanStatsBmcEventType.prototype.REPORTS_AND_ANALYTICS_USERS_AND_COMMUNITY_REPORTS_TAB = 1072;
+BorhanStatsBmcEventType.prototype.REPORTS_AND_ANALYTICS_TOP_CONTRIBUTORS = 1073;
+BorhanStatsBmcEventType.prototype.REPORTS_AND_ANALYTICS_MAP_OVERLAYS = 1074;
+BorhanStatsBmcEventType.prototype.REPORTS_AND_ANALYTICS_TOP_SYNDICATIONS = 1075;
+BorhanStatsBmcEventType.prototype.REPORTS_AND_ANALYTICS_TOP_CONTENT = 1076;
+BorhanStatsBmcEventType.prototype.REPORTS_AND_ANALYTICS_CONTENT_DROPOFF = 1077;
+BorhanStatsBmcEventType.prototype.REPORTS_AND_ANALYTICS_CONTENT_INTERACTIONS = 1078;
+BorhanStatsBmcEventType.prototype.REPORTS_AND_ANALYTICS_CONTENT_CONTRIBUTIONS = 1079;
+BorhanStatsBmcEventType.prototype.REPORTS_AND_ANALYTICS_VIDEO_DRILL_DOWN = 1080;
+BorhanStatsBmcEventType.prototype.REPORTS_AND_ANALYTICS_CONTENT_DRILL_DOWN_INTERACTION = 1081;
+BorhanStatsBmcEventType.prototype.REPORTS_AND_ANALYTICS_CONTENT_CONTRIBUTIONS_DRILLDOWN = 1082;
+BorhanStatsBmcEventType.prototype.REPORTS_AND_ANALYTICS_VIDEO_DRILL_DOWN_DROPOFF = 1083;
+BorhanStatsBmcEventType.prototype.REPORTS_AND_ANALYTICS_MAP_OVERLAYS_DRILLDOWN = 1084;
+BorhanStatsBmcEventType.prototype.REPORTS_AND_ANALYTICS_TOP_SYNDICATIONS_DRILL_DOWN = 1085;
+BorhanStatsBmcEventType.prototype.REPORTS_AND_ANALYTICS_BANDWIDTH_USAGE_VIEW_MONTHLY = 1086;
+BorhanStatsBmcEventType.prototype.REPORTS_AND_ANALYTICS_BANDWIDTH_USAGE_VIEW_YEARLY = 1087;
+
+function BorhanSyndicationFeedStatus()
+{
+}
+BorhanSyndicationFeedStatus.prototype.DELETED = -1;
+BorhanSyndicationFeedStatus.prototype.ACTIVE = 1;
 
-function KalturaSyndicationFeedType()
-{
-}
-KalturaSyndicationFeedType.prototype.GOOGLE_VIDEO = 1;
-KalturaSyndicationFeedType.prototype.YAHOO = 2;
-KalturaSyndicationFeedType.prototype.ITUNES = 3;
-KalturaSyndicationFeedType.prototype.TUBE_MOGUL = 4;
+function BorhanSyndicationFeedType()
+{
+}
+BorhanSyndicationFeedType.prototype.GOOGLE_VIDEO = 1;
+BorhanSyndicationFeedType.prototype.YAHOO = 2;
+BorhanSyndicationFeedType.prototype.ITUNES = 3;
+BorhanSyndicationFeedType.prototype.TUBE_MOGUL = 4;
 
-function KalturaSystemUserOrderBy()
+function BorhanSystemUserOrderBy()
 {
 }
-KalturaSystemUserOrderBy.prototype.ID_ASC = "+id";
-KalturaSystemUserOrderBy.prototype.ID_DESC = "-id";
-KalturaSystemUserOrderBy.prototype.STATUS_ASC = "+status";
-KalturaSystemUserOrderBy.prototype.STATUS_DESC = "-status";
+BorhanSystemUserOrderBy.prototype.ID_ASC = "+id";
+BorhanSystemUserOrderBy.prototype.ID_DESC = "-id";
+BorhanSystemUserOrderBy.prototype.STATUS_ASC = "+status";
+BorhanSystemUserOrderBy.prototype.STATUS_DESC = "-status";
 
-function KalturaSystemUserStatus()
+function BorhanSystemUserStatus()
 {
 }
-KalturaSystemUserStatus.prototype.BLOCKED = 0;
-KalturaSystemUserStatus.prototype.ACTIVE = 1;
+BorhanSystemUserStatus.prototype.BLOCKED = 0;
+BorhanSystemUserStatus.prototype.ACTIVE = 1;
 
-function KalturaTubeMogulSyndicationFeedCategories()
+function BorhanTubeMogulSyndicationFeedCategories()
 {
 }
-KalturaTubeMogulSyndicationFeedCategories.prototype.ARTS_AND_ANIMATION = "Arts &amp; Animation";
-KalturaTubeMogulSyndicationFeedCategories.prototype.COMEDY = "Comedy";
-KalturaTubeMogulSyndicationFeedCategories.prototype.ENTERTAINMENT = "Entertainment";
-KalturaTubeMogulSyndicationFeedCategories.prototype.MUSIC = "Music";
-KalturaTubeMogulSyndicationFeedCategories.prototype.NEWS_AND_BLOGS = "News &amp; Blogs";
-KalturaTubeMogulSyndicationFeedCategories.prototype.SCIENCE_AND_TECHNOLOGY = "Science &amp; Technology";
-KalturaTubeMogulSyndicationFeedCategories.prototype.SPORTS = "Sports";
-KalturaTubeMogulSyndicationFeedCategories.prototype.TRAVEL_AND_PLACES = "Travel &amp; Places";
-KalturaTubeMogulSyndicationFeedCategories.prototype.VIDEO_GAMES = "Video Games";
-KalturaTubeMogulSyndicationFeedCategories.prototype.ANIMALS_AND_PETS = "Animals &amp; Pets";
-KalturaTubeMogulSyndicationFeedCategories.prototype.AUTOS = "Autos";
-KalturaTubeMogulSyndicationFeedCategories.prototype.VLOGS_PEOPLE = "Vlogs &amp; People";
-KalturaTubeMogulSyndicationFeedCategories.prototype.HOW_TO_INSTRUCTIONAL_DIY = "How To/Instructional/DIY";
-KalturaTubeMogulSyndicationFeedCategories.prototype.COMMERCIALS_PROMOTIONAL = "Commercials/Promotional";
-KalturaTubeMogulSyndicationFeedCategories.prototype.FAMILY_AND_KIDS = "Family &amp; Kids";
+BorhanTubeMogulSyndicationFeedCategories.prototype.ARTS_AND_ANIMATION = "Arts &amp; Animation";
+BorhanTubeMogulSyndicationFeedCategories.prototype.COMEDY = "Comedy";
+BorhanTubeMogulSyndicationFeedCategories.prototype.ENTERTAINMENT = "Entertainment";
+BorhanTubeMogulSyndicationFeedCategories.prototype.MUSIC = "Music";
+BorhanTubeMogulSyndicationFeedCategories.prototype.NEWS_AND_BLOGS = "News &amp; Blogs";
+BorhanTubeMogulSyndicationFeedCategories.prototype.SCIENCE_AND_TECHNOLOGY = "Science &amp; Technology";
+BorhanTubeMogulSyndicationFeedCategories.prototype.SPORTS = "Sports";
+BorhanTubeMogulSyndicationFeedCategories.prototype.TRAVEL_AND_PLACES = "Travel &amp; Places";
+BorhanTubeMogulSyndicationFeedCategories.prototype.VIDEO_GAMES = "Video Games";
+BorhanTubeMogulSyndicationFeedCategories.prototype.ANIMALS_AND_PETS = "Animals &amp; Pets";
+BorhanTubeMogulSyndicationFeedCategories.prototype.AUTOS = "Autos";
+BorhanTubeMogulSyndicationFeedCategories.prototype.VLOGS_PEOPLE = "Vlogs &amp; People";
+BorhanTubeMogulSyndicationFeedCategories.prototype.HOW_TO_INSTRUCTIONAL_DIY = "How To/Instructional/DIY";
+BorhanTubeMogulSyndicationFeedCategories.prototype.COMMERCIALS_PROMOTIONAL = "Commercials/Promotional";
+BorhanTubeMogulSyndicationFeedCategories.prototype.FAMILY_AND_KIDS = "Family &amp; Kids";
 
-function KalturaTubeMogulSyndicationFeedOrderBy()
+function BorhanTubeMogulSyndicationFeedOrderBy()
 {
 }
-KalturaTubeMogulSyndicationFeedOrderBy.prototype.PLAYLIST_ID_ASC = "+playlistId";
-KalturaTubeMogulSyndicationFeedOrderBy.prototype.PLAYLIST_ID_DESC = "-playlistId";
-KalturaTubeMogulSyndicationFeedOrderBy.prototype.NAME_ASC = "+name";
-KalturaTubeMogulSyndicationFeedOrderBy.prototype.NAME_DESC = "-name";
-KalturaTubeMogulSyndicationFeedOrderBy.prototype.TYPE_ASC = "+type";
-KalturaTubeMogulSyndicationFeedOrderBy.prototype.TYPE_DESC = "-type";
-KalturaTubeMogulSyndicationFeedOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaTubeMogulSyndicationFeedOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanTubeMogulSyndicationFeedOrderBy.prototype.PLAYLIST_ID_ASC = "+playlistId";
+BorhanTubeMogulSyndicationFeedOrderBy.prototype.PLAYLIST_ID_DESC = "-playlistId";
+BorhanTubeMogulSyndicationFeedOrderBy.prototype.NAME_ASC = "+name";
+BorhanTubeMogulSyndicationFeedOrderBy.prototype.NAME_DESC = "-name";
+BorhanTubeMogulSyndicationFeedOrderBy.prototype.TYPE_ASC = "+type";
+BorhanTubeMogulSyndicationFeedOrderBy.prototype.TYPE_DESC = "-type";
+BorhanTubeMogulSyndicationFeedOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanTubeMogulSyndicationFeedOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
 
-function KalturaUiConfCreationMode()
+function BorhanUiConfCreationMode()
 {
 }
-KalturaUiConfCreationMode.prototype.WIZARD = 2;
-KalturaUiConfCreationMode.prototype.ADVANCED = 3;
+BorhanUiConfCreationMode.prototype.WIZARD = 2;
+BorhanUiConfCreationMode.prototype.ADVANCED = 3;
 
-function KalturaUiConfObjType()
+function BorhanUiConfObjType()
 {
 }
-KalturaUiConfObjType.prototype.PLAYER = 1;
-KalturaUiConfObjType.prototype.CONTRIBUTION_WIZARD = 2;
-KalturaUiConfObjType.prototype.SIMPLE_EDITOR = 3;
-KalturaUiConfObjType.prototype.ADVANCED_EDITOR = 4;
-KalturaUiConfObjType.prototype.PLAYLIST = 5;
-KalturaUiConfObjType.prototype.APP_STUDIO = 6;
+BorhanUiConfObjType.prototype.PLAYER = 1;
+BorhanUiConfObjType.prototype.CONTRIBUTION_WIZARD = 2;
+BorhanUiConfObjType.prototype.SIMPLE_EDITOR = 3;
+BorhanUiConfObjType.prototype.ADVANCED_EDITOR = 4;
+BorhanUiConfObjType.prototype.PLAYLIST = 5;
+BorhanUiConfObjType.prototype.APP_STUDIO = 6;
 
-function KalturaUiConfOrderBy()
+function BorhanUiConfOrderBy()
 {
 }
-KalturaUiConfOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaUiConfOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanUiConfOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanUiConfOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
 
-function KalturaUploadErrorCode()
+function BorhanUploadErrorCode()
 {
 }
-KalturaUploadErrorCode.prototype.NO_ERROR = 0;
-KalturaUploadErrorCode.prototype.GENERAL_ERROR = 1;
-KalturaUploadErrorCode.prototype.PARTIAL_UPLOAD = 2;
+BorhanUploadErrorCode.prototype.NO_ERROR = 0;
+BorhanUploadErrorCode.prototype.GENERAL_ERROR = 1;
+BorhanUploadErrorCode.prototype.PARTIAL_UPLOAD = 2;
 
-function KalturaUserOrderBy()
+function BorhanUserOrderBy()
 {
 }
-KalturaUserOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaUserOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanUserOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanUserOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
 
-function KalturaUserStatus()
+function BorhanUserStatus()
 {
 }
-KalturaUserStatus.prototype.BLOCKED = 0;
-KalturaUserStatus.prototype.ACTIVE = 1;
-KalturaUserStatus.prototype.DELETED = 2;
+BorhanUserStatus.prototype.BLOCKED = 0;
+BorhanUserStatus.prototype.ACTIVE = 1;
+BorhanUserStatus.prototype.DELETED = 2;
 
-function KalturaVideoCodec()
+function BorhanVideoCodec()
 {
 }
-KalturaVideoCodec.prototype.NONE = "";
-KalturaVideoCodec.prototype.VP6 = "vp6";
-KalturaVideoCodec.prototype.H263 = "h263";
-KalturaVideoCodec.prototype.H264 = "h264";
-KalturaVideoCodec.prototype.FLV = "flv";
+BorhanVideoCodec.prototype.NONE = "";
+BorhanVideoCodec.prototype.VP6 = "vp6";
+BorhanVideoCodec.prototype.H263 = "h263";
+BorhanVideoCodec.prototype.H264 = "h264";
+BorhanVideoCodec.prototype.FLV = "flv";
 
-function KalturaWidgetOrderBy()
+function BorhanWidgetOrderBy()
 {
 }
-KalturaWidgetOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaWidgetOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanWidgetOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanWidgetOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
 
-function KalturaWidgetSecurityType()
+function BorhanWidgetSecurityType()
 {
 }
-KalturaWidgetSecurityType.prototype.NONE = 1;
-KalturaWidgetSecurityType.prototype.TIMEHASH = 2;
+BorhanWidgetSecurityType.prototype.NONE = 1;
+BorhanWidgetSecurityType.prototype.TIMEHASH = 2;
 
-function KalturaYahooSyndicationFeedAdultValues()
+function BorhanYahooSyndicationFeedAdultValues()
 {
 }
-KalturaYahooSyndicationFeedAdultValues.prototype.ADULT = "adult";
-KalturaYahooSyndicationFeedAdultValues.prototype.NON_ADULT = "nonadult";
+BorhanYahooSyndicationFeedAdultValues.prototype.ADULT = "adult";
+BorhanYahooSyndicationFeedAdultValues.prototype.NON_ADULT = "nonadult";
 
-function KalturaYahooSyndicationFeedCategories()
+function BorhanYahooSyndicationFeedCategories()
 {
 }
-KalturaYahooSyndicationFeedCategories.prototype.ACTION = "Action";
-KalturaYahooSyndicationFeedCategories.prototype.ART_AND_ANIMATION = "Art &amp; Animation";
-KalturaYahooSyndicationFeedCategories.prototype.ENTERTAINMENT_AND_TV = "Entertainment &amp; TV";
-KalturaYahooSyndicationFeedCategories.prototype.FOOD = "Food";
-KalturaYahooSyndicationFeedCategories.prototype.GAMES = "Games";
-KalturaYahooSyndicationFeedCategories.prototype.HOW_TO = "How-To";
-KalturaYahooSyndicationFeedCategories.prototype.MUSIC = "Music";
-KalturaYahooSyndicationFeedCategories.prototype.PEOPLE_AND_VLOGS = "People &amp; Vlogs";
-KalturaYahooSyndicationFeedCategories.prototype.SCIENCE_AND_ENVIRONMENT = "Science &amp; Environment";
-KalturaYahooSyndicationFeedCategories.prototype.TRANSPORTATION = "Transportation";
-KalturaYahooSyndicationFeedCategories.prototype.ANIMALS = "Animals";
-KalturaYahooSyndicationFeedCategories.prototype.COMMERCIALS = "Commercials";
-KalturaYahooSyndicationFeedCategories.prototype.FAMILY = "Family";
-KalturaYahooSyndicationFeedCategories.prototype.FUNNY_VIDEOS = "Funny Videos";
-KalturaYahooSyndicationFeedCategories.prototype.HEALTH_AND_BEAUTY = "Health &amp; Beauty";
-KalturaYahooSyndicationFeedCategories.prototype.MOVIES_AND_SHORTS = "Movies &amp; Shorts";
-KalturaYahooSyndicationFeedCategories.prototype.NEWS_AND_POLITICS = "News &amp; Politics";
-KalturaYahooSyndicationFeedCategories.prototype.PRODUCTS_AND_TECH = "Products &amp; Tech.";
-KalturaYahooSyndicationFeedCategories.prototype.SPORTS = "Sports";
-KalturaYahooSyndicationFeedCategories.prototype.TRAVEL = "Travel";
+BorhanYahooSyndicationFeedCategories.prototype.ACTION = "Action";
+BorhanYahooSyndicationFeedCategories.prototype.ART_AND_ANIMATION = "Art &amp; Animation";
+BorhanYahooSyndicationFeedCategories.prototype.ENTERTAINMENT_AND_TV = "Entertainment &amp; TV";
+BorhanYahooSyndicationFeedCategories.prototype.FOOD = "Food";
+BorhanYahooSyndicationFeedCategories.prototype.GAMES = "Games";
+BorhanYahooSyndicationFeedCategories.prototype.HOW_TO = "How-To";
+BorhanYahooSyndicationFeedCategories.prototype.MUSIC = "Music";
+BorhanYahooSyndicationFeedCategories.prototype.PEOPLE_AND_VLOGS = "People &amp; Vlogs";
+BorhanYahooSyndicationFeedCategories.prototype.SCIENCE_AND_ENVIRONMENT = "Science &amp; Environment";
+BorhanYahooSyndicationFeedCategories.prototype.TRANSPORTATION = "Transportation";
+BorhanYahooSyndicationFeedCategories.prototype.ANIMALS = "Animals";
+BorhanYahooSyndicationFeedCategories.prototype.COMMERCIALS = "Commercials";
+BorhanYahooSyndicationFeedCategories.prototype.FAMILY = "Family";
+BorhanYahooSyndicationFeedCategories.prototype.FUNNY_VIDEOS = "Funny Videos";
+BorhanYahooSyndicationFeedCategories.prototype.HEALTH_AND_BEAUTY = "Health &amp; Beauty";
+BorhanYahooSyndicationFeedCategories.prototype.MOVIES_AND_SHORTS = "Movies &amp; Shorts";
+BorhanYahooSyndicationFeedCategories.prototype.NEWS_AND_POLITICS = "News &amp; Politics";
+BorhanYahooSyndicationFeedCategories.prototype.PRODUCTS_AND_TECH = "Products &amp; Tech.";
+BorhanYahooSyndicationFeedCategories.prototype.SPORTS = "Sports";
+BorhanYahooSyndicationFeedCategories.prototype.TRAVEL = "Travel";
 
-function KalturaYahooSyndicationFeedOrderBy()
+function BorhanYahooSyndicationFeedOrderBy()
 {
 }
-KalturaYahooSyndicationFeedOrderBy.prototype.PLAYLIST_ID_ASC = "+playlistId";
-KalturaYahooSyndicationFeedOrderBy.prototype.PLAYLIST_ID_DESC = "-playlistId";
-KalturaYahooSyndicationFeedOrderBy.prototype.NAME_ASC = "+name";
-KalturaYahooSyndicationFeedOrderBy.prototype.NAME_DESC = "-name";
-KalturaYahooSyndicationFeedOrderBy.prototype.TYPE_ASC = "+type";
-KalturaYahooSyndicationFeedOrderBy.prototype.TYPE_DESC = "-type";
-KalturaYahooSyndicationFeedOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
-KalturaYahooSyndicationFeedOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
+BorhanYahooSyndicationFeedOrderBy.prototype.PLAYLIST_ID_ASC = "+playlistId";
+BorhanYahooSyndicationFeedOrderBy.prototype.PLAYLIST_ID_DESC = "-playlistId";
+BorhanYahooSyndicationFeedOrderBy.prototype.NAME_ASC = "+name";
+BorhanYahooSyndicationFeedOrderBy.prototype.NAME_DESC = "-name";
+BorhanYahooSyndicationFeedOrderBy.prototype.TYPE_ASC = "+type";
+BorhanYahooSyndicationFeedOrderBy.prototype.TYPE_DESC = "-type";
+BorhanYahooSyndicationFeedOrderBy.prototype.CREATED_AT_ASC = "+createdAt";
+BorhanYahooSyndicationFeedOrderBy.prototype.CREATED_AT_DESC = "-createdAt";
 
-function KalturaAccessControl()
+function BorhanAccessControl()
 {
 }
-KalturaAccessControl.prototype = new KalturaObjectBase();
+BorhanAccessControl.prototype = new BorhanObjectBase();
 /**
  * The id of the Access Control Profile
 	 * 
@@ -936,7 +936,7 @@ KalturaAccessControl.prototype = new KalturaObjectBase();
  * @var int
  * @readonly
  */
-KalturaAccessControl.prototype.id = null;
+BorhanAccessControl.prototype.id = null;
 
 /**
  * 
@@ -944,7 +944,7 @@ KalturaAccessControl.prototype.id = null;
  * @var int
  * @readonly
  */
-KalturaAccessControl.prototype.partnerId = null;
+BorhanAccessControl.prototype.partnerId = null;
 
 /**
  * The name of the Access Control Profile
@@ -952,7 +952,7 @@ KalturaAccessControl.prototype.partnerId = null;
  *
  * @var string
  */
-KalturaAccessControl.prototype.name = null;
+BorhanAccessControl.prototype.name = null;
 
 /**
  * The description of the Access Control Profile
@@ -960,7 +960,7 @@ KalturaAccessControl.prototype.name = null;
  *
  * @var string
  */
-KalturaAccessControl.prototype.description = null;
+BorhanAccessControl.prototype.description = null;
 
 /**
  * Creation date as Unix timestamp (In seconds) 
@@ -969,81 +969,81 @@ KalturaAccessControl.prototype.description = null;
  * @var int
  * @readonly
  */
-KalturaAccessControl.prototype.createdAt = null;
+BorhanAccessControl.prototype.createdAt = null;
 
 /**
  * True if this Conversion Profile is the default
 	 * 
  *
- * @var KalturaNullableBoolean
+ * @var BorhanNullableBoolean
  */
-KalturaAccessControl.prototype.isDefault = null;
+BorhanAccessControl.prototype.isDefault = null;
 
 /**
  * Array of Access Control Restrictions
 	 * 
  *
- * @var KalturaRestrictionArray
+ * @var BorhanRestrictionArray
  */
-KalturaAccessControl.prototype.restrictions = null;
+BorhanAccessControl.prototype.restrictions = null;
 
 
-function KalturaFilter()
+function BorhanFilter()
 {
 }
-KalturaFilter.prototype = new KalturaObjectBase();
+BorhanFilter.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var string
  */
-KalturaFilter.prototype.orderBy = null;
+BorhanFilter.prototype.orderBy = null;
 
 
-function KalturaAccessControlFilter()
+function BorhanAccessControlFilter()
 {
 }
-KalturaAccessControlFilter.prototype = new KalturaFilter();
+BorhanAccessControlFilter.prototype = new BorhanFilter();
 /**
  * 
  *
  * @var int
  */
-KalturaAccessControlFilter.prototype.idEqual = null;
+BorhanAccessControlFilter.prototype.idEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaAccessControlFilter.prototype.idIn = null;
-
-/**
- * 
- *
- * @var int
- */
-KalturaAccessControlFilter.prototype.createdAtGreaterThanOrEqual = null;
+BorhanAccessControlFilter.prototype.idIn = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaAccessControlFilter.prototype.createdAtLessThanOrEqual = null;
+BorhanAccessControlFilter.prototype.createdAtGreaterThanOrEqual = null;
 
-
-function KalturaAccessControlListResponse()
-{
-}
-KalturaAccessControlListResponse.prototype = new KalturaObjectBase();
 /**
  * 
  *
- * @var KalturaAccessControlArray
+ * @var int
+ */
+BorhanAccessControlFilter.prototype.createdAtLessThanOrEqual = null;
+
+
+function BorhanAccessControlListResponse()
+{
+}
+BorhanAccessControlListResponse.prototype = new BorhanObjectBase();
+/**
+ * 
+ *
+ * @var BorhanAccessControlArray
  * @readonly
  */
-KalturaAccessControlListResponse.prototype.objects = null;
+BorhanAccessControlListResponse.prototype.objects = null;
 
 /**
  * 
@@ -1051,20 +1051,20 @@ KalturaAccessControlListResponse.prototype.objects = null;
  * @var int
  * @readonly
  */
-KalturaAccessControlListResponse.prototype.totalCount = null;
+BorhanAccessControlListResponse.prototype.totalCount = null;
 
 
-function KalturaAdminUser()
+function BorhanAdminUser()
 {
 }
-KalturaAdminUser.prototype = new KalturaObjectBase();
+BorhanAdminUser.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var string
  * @readonly
  */
-KalturaAdminUser.prototype.password = null;
+BorhanAdminUser.prototype.password = null;
 
 /**
  * 
@@ -1072,20 +1072,20 @@ KalturaAdminUser.prototype.password = null;
  * @var string
  * @readonly
  */
-KalturaAdminUser.prototype.email = null;
+BorhanAdminUser.prototype.email = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaAdminUser.prototype.screenName = null;
+BorhanAdminUser.prototype.screenName = null;
 
 
-function KalturaBaseEntry()
+function BorhanBaseEntry()
 {
 }
-KalturaBaseEntry.prototype = new KalturaObjectBase();
+BorhanBaseEntry.prototype = new BorhanObjectBase();
 /**
  * Auto generated 10 characters alphanumeric string
 	 * 
@@ -1093,7 +1093,7 @@ KalturaBaseEntry.prototype = new KalturaObjectBase();
  * @var string
  * @readonly
  */
-KalturaBaseEntry.prototype.id = null;
+BorhanBaseEntry.prototype.id = null;
 
 /**
  * Entry name (Min 1 chars)
@@ -1101,7 +1101,7 @@ KalturaBaseEntry.prototype.id = null;
  *
  * @var string
  */
-KalturaBaseEntry.prototype.name = null;
+BorhanBaseEntry.prototype.name = null;
 
 /**
  * Entry description
@@ -1109,7 +1109,7 @@ KalturaBaseEntry.prototype.name = null;
  *
  * @var string
  */
-KalturaBaseEntry.prototype.description = null;
+BorhanBaseEntry.prototype.description = null;
 
 /**
  * 
@@ -1117,7 +1117,7 @@ KalturaBaseEntry.prototype.description = null;
  * @var int
  * @readonly
  */
-KalturaBaseEntry.prototype.partnerId = null;
+BorhanBaseEntry.prototype.partnerId = null;
 
 /**
  * The ID of the user who is the owner of this entry 
@@ -1125,7 +1125,7 @@ KalturaBaseEntry.prototype.partnerId = null;
  *
  * @var string
  */
-KalturaBaseEntry.prototype.userId = null;
+BorhanBaseEntry.prototype.userId = null;
 
 /**
  * Entry tags
@@ -1133,7 +1133,7 @@ KalturaBaseEntry.prototype.userId = null;
  *
  * @var string
  */
-KalturaBaseEntry.prototype.tags = null;
+BorhanBaseEntry.prototype.tags = null;
 
 /**
  * Entry admin tags can be updated only by administrators
@@ -1141,31 +1141,31 @@ KalturaBaseEntry.prototype.tags = null;
  *
  * @var string
  */
-KalturaBaseEntry.prototype.adminTags = null;
+BorhanBaseEntry.prototype.adminTags = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBaseEntry.prototype.categories = null;
+BorhanBaseEntry.prototype.categories = null;
 
 /**
  * 
  *
- * @var KalturaEntryStatus
+ * @var BorhanEntryStatus
  * @readonly
  */
-KalturaBaseEntry.prototype.status = null;
+BorhanBaseEntry.prototype.status = null;
 
 /**
  * Entry moderation status
 	 * 
  *
- * @var KalturaEntryModerationStatus
+ * @var BorhanEntryModerationStatus
  * @readonly
  */
-KalturaBaseEntry.prototype.moderationStatus = null;
+BorhanBaseEntry.prototype.moderationStatus = null;
 
 /**
  * Number of moderation requests waiting for this entry
@@ -1174,16 +1174,16 @@ KalturaBaseEntry.prototype.moderationStatus = null;
  * @var int
  * @readonly
  */
-KalturaBaseEntry.prototype.moderationCount = null;
+BorhanBaseEntry.prototype.moderationCount = null;
 
 /**
  * The type of the entry, this is auto filled by the derived entry object
 	 * 
  *
- * @var KalturaEntryType
+ * @var BorhanEntryType
  * @readonly
  */
-KalturaBaseEntry.prototype.type = null;
+BorhanBaseEntry.prototype.type = null;
 
 /**
  * Entry creation date as Unix timestamp (In seconds)
@@ -1192,7 +1192,7 @@ KalturaBaseEntry.prototype.type = null;
  * @var int
  * @readonly
  */
-KalturaBaseEntry.prototype.createdAt = null;
+BorhanBaseEntry.prototype.createdAt = null;
 
 /**
  * Calculated rank
@@ -1201,7 +1201,7 @@ KalturaBaseEntry.prototype.createdAt = null;
  * @var float
  * @readonly
  */
-KalturaBaseEntry.prototype.rank = null;
+BorhanBaseEntry.prototype.rank = null;
 
 /**
  * The total (sum) of all votes
@@ -1210,7 +1210,7 @@ KalturaBaseEntry.prototype.rank = null;
  * @var int
  * @readonly
  */
-KalturaBaseEntry.prototype.totalRank = null;
+BorhanBaseEntry.prototype.totalRank = null;
 
 /**
  * Number of votes
@@ -1219,14 +1219,14 @@ KalturaBaseEntry.prototype.totalRank = null;
  * @var int
  * @readonly
  */
-KalturaBaseEntry.prototype.votes = null;
+BorhanBaseEntry.prototype.votes = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBaseEntry.prototype.groupId = null;
+BorhanBaseEntry.prototype.groupId = null;
 
 /**
  * Can be used to store various partner related data as a string 
@@ -1234,7 +1234,7 @@ KalturaBaseEntry.prototype.groupId = null;
  *
  * @var string
  */
-KalturaBaseEntry.prototype.partnerData = null;
+BorhanBaseEntry.prototype.partnerData = null;
 
 /**
  * Download URL for the entry
@@ -1243,7 +1243,7 @@ KalturaBaseEntry.prototype.partnerData = null;
  * @var string
  * @readonly
  */
-KalturaBaseEntry.prototype.downloadUrl = null;
+BorhanBaseEntry.prototype.downloadUrl = null;
 
 /**
  * Indexed search text for full text search
@@ -1251,15 +1251,15 @@ KalturaBaseEntry.prototype.downloadUrl = null;
  * @var string
  * @readonly
  */
-KalturaBaseEntry.prototype.searchText = null;
+BorhanBaseEntry.prototype.searchText = null;
 
 /**
  * License type used for this entry
 	 * 
  *
- * @var KalturaLicenseType
+ * @var BorhanLicenseType
  */
-KalturaBaseEntry.prototype.licenseType = null;
+BorhanBaseEntry.prototype.licenseType = null;
 
 /**
  * Version of the entry data
@@ -1267,7 +1267,7 @@ KalturaBaseEntry.prototype.licenseType = null;
  * @var int
  * @readonly
  */
-KalturaBaseEntry.prototype.version = null;
+BorhanBaseEntry.prototype.version = null;
 
 /**
  * Thumbnail URL
@@ -1276,7 +1276,7 @@ KalturaBaseEntry.prototype.version = null;
  * @var string
  * @readonly
  */
-KalturaBaseEntry.prototype.thumbnailUrl = null;
+BorhanBaseEntry.prototype.thumbnailUrl = null;
 
 /**
  * The Access Control ID assigned to this entry (null when not set, send -1 to remove)  
@@ -1284,7 +1284,7 @@ KalturaBaseEntry.prototype.thumbnailUrl = null;
  *
  * @var int
  */
-KalturaBaseEntry.prototype.accessControlId = null;
+BorhanBaseEntry.prototype.accessControlId = null;
 
 /**
  * Entry scheduling start date (null when not set, send -1 to remove)
@@ -1292,7 +1292,7 @@ KalturaBaseEntry.prototype.accessControlId = null;
  *
  * @var int
  */
-KalturaBaseEntry.prototype.startDate = null;
+BorhanBaseEntry.prototype.startDate = null;
 
 /**
  * Entry scheduling end date (null when not set, send -1 to remove)
@@ -1300,20 +1300,20 @@ KalturaBaseEntry.prototype.startDate = null;
  *
  * @var int
  */
-KalturaBaseEntry.prototype.endDate = null;
+BorhanBaseEntry.prototype.endDate = null;
 
 
-function KalturaBaseEntryFilter()
+function BorhanBaseEntryFilter()
 {
 }
-KalturaBaseEntryFilter.prototype = new KalturaFilter();
+BorhanBaseEntryFilter.prototype = new BorhanFilter();
 /**
  * This filter should be in use for retrieving only a specific entry (identified by its entryId).
 	 * @var string
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.idEqual = null;
+BorhanBaseEntryFilter.prototype.idEqual = null;
 
 /**
  * This filter should be in use for retrieving few specific entries (string should include comma separated list of entryId strings).
@@ -1321,7 +1321,7 @@ KalturaBaseEntryFilter.prototype.idEqual = null;
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.idIn = null;
+BorhanBaseEntryFilter.prototype.idIn = null;
 
 /**
  * This filter should be in use for retrieving specific entries while applying an SQL 'LIKE' pattern matching on entry names. It should include only one pattern for matching entry names against.
@@ -1329,7 +1329,7 @@ KalturaBaseEntryFilter.prototype.idIn = null;
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.nameLike = null;
+BorhanBaseEntryFilter.prototype.nameLike = null;
 
 /**
  * This filter should be in use for retrieving specific entries, while applying an SQL 'LIKE' pattern matching on entry names. It could include few (comma separated) patterns for matching entry names against, while applying an OR logic to retrieve entries that match at least one input pattern.
@@ -1337,7 +1337,7 @@ KalturaBaseEntryFilter.prototype.nameLike = null;
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.nameMultiLikeOr = null;
+BorhanBaseEntryFilter.prototype.nameMultiLikeOr = null;
 
 /**
  * This filter should be in use for retrieving specific entries, while applying an SQL 'LIKE' pattern matching on entry names. It could include few (comma separated) patterns for matching entry names against, while applying an AND logic to retrieve entries that match all input patterns.
@@ -1345,7 +1345,7 @@ KalturaBaseEntryFilter.prototype.nameMultiLikeOr = null;
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.nameMultiLikeAnd = null;
+BorhanBaseEntryFilter.prototype.nameMultiLikeAnd = null;
 
 /**
  * This filter should be in use for retrieving entries with a specific name.
@@ -1353,23 +1353,23 @@ KalturaBaseEntryFilter.prototype.nameMultiLikeAnd = null;
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.nameEqual = null;
+BorhanBaseEntryFilter.prototype.nameEqual = null;
 
 /**
- * This filter should be in use for retrieving only entries which were uploaded by/assigned to users of a specific Kaltura Partner (identified by Partner ID).
+ * This filter should be in use for retrieving only entries which were uploaded by/assigned to users of a specific Borhan Partner (identified by Partner ID).
 	 * @var int
  *
  * @var int
  */
-KalturaBaseEntryFilter.prototype.partnerIdEqual = null;
+BorhanBaseEntryFilter.prototype.partnerIdEqual = null;
 
 /**
- * This filter should be in use for retrieving only entries within Kaltura network which were uploaded by/assigned to users of few Kaltura Partners  (string should include comma separated list of PartnerIDs)
+ * This filter should be in use for retrieving only entries within Borhan network which were uploaded by/assigned to users of few Borhan Partners  (string should include comma separated list of PartnerIDs)
 	 * @var string
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.partnerIdIn = null;
+BorhanBaseEntryFilter.prototype.partnerIdIn = null;
 
 /**
  * This filter parameter should be in use for retrieving only entries, uploaded by/assigned to a specific user (identified by user Id).
@@ -1377,7 +1377,7 @@ KalturaBaseEntryFilter.prototype.partnerIdIn = null;
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.userIdEqual = null;
+BorhanBaseEntryFilter.prototype.userIdEqual = null;
 
 /**
  * This filter should be in use for retrieving specific entries while applying an SQL 'LIKE' pattern matching on entry tags. It should include only one pattern for matching entry tags against.
@@ -1385,7 +1385,7 @@ KalturaBaseEntryFilter.prototype.userIdEqual = null;
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.tagsLike = null;
+BorhanBaseEntryFilter.prototype.tagsLike = null;
 
 /**
  * This filter should be in use for retrieving specific entries, while applying an SQL 'LIKE' pattern matching on tags.  It could include few (comma separated) patterns for matching entry tags against, while applying an OR logic to retrieve entries that match at least one input pattern.
@@ -1393,7 +1393,7 @@ KalturaBaseEntryFilter.prototype.tagsLike = null;
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.tagsMultiLikeOr = null;
+BorhanBaseEntryFilter.prototype.tagsMultiLikeOr = null;
 
 /**
  * This filter should be in use for retrieving specific entries, while applying an SQL 'LIKE' pattern matching on tags.  It could include few (comma separated) patterns for matching entry tags against, while applying an AND logic to retrieve entries that match all input patterns.
@@ -1401,7 +1401,7 @@ KalturaBaseEntryFilter.prototype.tagsMultiLikeOr = null;
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.tagsMultiLikeAnd = null;
+BorhanBaseEntryFilter.prototype.tagsMultiLikeAnd = null;
 
 /**
  * This filter should be in use for retrieving specific entries while applying an SQL 'LIKE' pattern matching on entry tags, set by an ADMIN user. It should include only one pattern for matching entry tags against.
@@ -1409,7 +1409,7 @@ KalturaBaseEntryFilter.prototype.tagsMultiLikeAnd = null;
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.adminTagsLike = null;
+BorhanBaseEntryFilter.prototype.adminTagsLike = null;
 
 /**
  * This filter should be in use for retrieving specific entries, while applying an SQL 'LIKE' pattern matching on tags, set by an ADMIN user.  It could include few (comma separated) patterns for matching entry tags against, while applying an OR logic to retrieve entries that match at least one input pattern.
@@ -1417,7 +1417,7 @@ KalturaBaseEntryFilter.prototype.adminTagsLike = null;
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.adminTagsMultiLikeOr = null;
+BorhanBaseEntryFilter.prototype.adminTagsMultiLikeOr = null;
 
 /**
  * This filter should be in use for retrieving specific entries, while applying an SQL 'LIKE' pattern matching on tags, set by an ADMIN user.  It could include few (comma separated) patterns for matching entry tags against, while applying an AND logic to retrieve entries that match all input patterns.
@@ -1425,119 +1425,119 @@ KalturaBaseEntryFilter.prototype.adminTagsMultiLikeOr = null;
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.adminTagsMultiLikeAnd = null;
+BorhanBaseEntryFilter.prototype.adminTagsMultiLikeAnd = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.categoriesMatchAnd = null;
+BorhanBaseEntryFilter.prototype.categoriesMatchAnd = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.categoriesMatchOr = null;
+BorhanBaseEntryFilter.prototype.categoriesMatchOr = null;
 
 /**
- * This filter should be in use for retrieving only entries, at a specific {@link ?object=KalturaEntryStatus KalturaEntryStatus}.
-	 * @var KalturaEntryStatus
+ * This filter should be in use for retrieving only entries, at a specific {@link ?object=BorhanEntryStatus BorhanEntryStatus}.
+	 * @var BorhanEntryStatus
  *
- * @var KalturaEntryStatus
+ * @var BorhanEntryStatus
  */
-KalturaBaseEntryFilter.prototype.statusEqual = null;
+BorhanBaseEntryFilter.prototype.statusEqual = null;
 
 /**
- * This filter should be in use for retrieving only entries, not at a specific {@link ?object=KalturaEntryStatus KalturaEntryStatus}.
-	 * @var KalturaEntryStatus
+ * This filter should be in use for retrieving only entries, not at a specific {@link ?object=BorhanEntryStatus BorhanEntryStatus}.
+	 * @var BorhanEntryStatus
  *
- * @var KalturaEntryStatus
+ * @var BorhanEntryStatus
  */
-KalturaBaseEntryFilter.prototype.statusNotEqual = null;
+BorhanBaseEntryFilter.prototype.statusNotEqual = null;
 
 /**
- * This filter should be in use for retrieving only entries, at few specific {@link ?object=KalturaEntryStatus KalturaEntryStatus} (comma separated).
+ * This filter should be in use for retrieving only entries, at few specific {@link ?object=BorhanEntryStatus BorhanEntryStatus} (comma separated).
 	 * @var string
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.statusIn = null;
+BorhanBaseEntryFilter.prototype.statusIn = null;
 
 /**
- * This filter should be in use for retrieving only entries, not at few specific {@link ?object=KalturaEntryStatus KalturaEntryStatus} (comma separated).
-	 * @var KalturaEntryStatus
+ * This filter should be in use for retrieving only entries, not at few specific {@link ?object=BorhanEntryStatus BorhanEntryStatus} (comma separated).
+	 * @var BorhanEntryStatus
  *
- * @var KalturaEntryStatus
+ * @var BorhanEntryStatus
  */
-KalturaBaseEntryFilter.prototype.statusNotIn = null;
-
-/**
- * 
- *
- * @var KalturaEntryModerationStatus
- */
-KalturaBaseEntryFilter.prototype.moderationStatusEqual = null;
+BorhanBaseEntryFilter.prototype.statusNotIn = null;
 
 /**
  * 
  *
- * @var KalturaEntryModerationStatus
+ * @var BorhanEntryModerationStatus
  */
-KalturaBaseEntryFilter.prototype.moderationStatusNotEqual = null;
+BorhanBaseEntryFilter.prototype.moderationStatusEqual = null;
+
+/**
+ * 
+ *
+ * @var BorhanEntryModerationStatus
+ */
+BorhanBaseEntryFilter.prototype.moderationStatusNotEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.moderationStatusIn = null;
+BorhanBaseEntryFilter.prototype.moderationStatusIn = null;
 
 /**
  * 
  *
- * @var KalturaEntryModerationStatus
+ * @var BorhanEntryModerationStatus
  */
-KalturaBaseEntryFilter.prototype.moderationStatusNotIn = null;
+BorhanBaseEntryFilter.prototype.moderationStatusNotIn = null;
 
 /**
  * 
  *
- * @var KalturaEntryType
+ * @var BorhanEntryType
  */
-KalturaBaseEntryFilter.prototype.typeEqual = null;
+BorhanBaseEntryFilter.prototype.typeEqual = null;
 
 /**
- * This filter should be in use for retrieving entries of few {@link ?object=KalturaEntryType KalturaEntryType} (string should include a comma separated list of {@link ?object=KalturaEntryType KalturaEntryType} enumerated parameters).
+ * This filter should be in use for retrieving entries of few {@link ?object=BorhanEntryType BorhanEntryType} (string should include a comma separated list of {@link ?object=BorhanEntryType BorhanEntryType} enumerated parameters).
 	 * @var string
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.typeIn = null;
+BorhanBaseEntryFilter.prototype.typeIn = null;
 
 /**
- * This filter parameter should be in use for retrieving only entries which were created at Kaltura system after a specific time/date (standard timestamp format).
+ * This filter parameter should be in use for retrieving only entries which were created at Borhan system after a specific time/date (standard timestamp format).
 	 * @var int
  *
  * @var int
  */
-KalturaBaseEntryFilter.prototype.createdAtGreaterThanOrEqual = null;
+BorhanBaseEntryFilter.prototype.createdAtGreaterThanOrEqual = null;
 
 /**
- * This filter parameter should be in use for retrieving only entries which were created at Kaltura system before a specific time/date (standard timestamp format).
+ * This filter parameter should be in use for retrieving only entries which were created at Borhan system before a specific time/date (standard timestamp format).
 	 * @var int
  *
  * @var int
  */
-KalturaBaseEntryFilter.prototype.createdAtLessThanOrEqual = null;
+BorhanBaseEntryFilter.prototype.createdAtLessThanOrEqual = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBaseEntryFilter.prototype.groupIdEqual = null;
+BorhanBaseEntryFilter.prototype.groupIdEqual = null;
 
 /**
  * This filter should be in use for retrieving specific entries while search match the input string within all of the following metadata attributes: name, description, tags, adminTags.
@@ -1545,7 +1545,7 @@ KalturaBaseEntryFilter.prototype.groupIdEqual = null;
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.searchTextMatchAnd = null;
+BorhanBaseEntryFilter.prototype.searchTextMatchAnd = null;
 
 /**
  * This filter should be in use for retrieving specific entries while search match the input string within at least one of the following metadata attributes: name, description, tags, adminTags.
@@ -1553,132 +1553,132 @@ KalturaBaseEntryFilter.prototype.searchTextMatchAnd = null;
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.searchTextMatchOr = null;
+BorhanBaseEntryFilter.prototype.searchTextMatchOr = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBaseEntryFilter.prototype.accessControlIdEqual = null;
+BorhanBaseEntryFilter.prototype.accessControlIdEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.accessControlIdIn = null;
+BorhanBaseEntryFilter.prototype.accessControlIdIn = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBaseEntryFilter.prototype.startDateGreaterThanOrEqual = null;
+BorhanBaseEntryFilter.prototype.startDateGreaterThanOrEqual = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBaseEntryFilter.prototype.startDateLessThanOrEqual = null;
+BorhanBaseEntryFilter.prototype.startDateLessThanOrEqual = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBaseEntryFilter.prototype.startDateGreaterThanOrEqualOrNull = null;
+BorhanBaseEntryFilter.prototype.startDateGreaterThanOrEqualOrNull = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBaseEntryFilter.prototype.startDateLessThanOrEqualOrNull = null;
+BorhanBaseEntryFilter.prototype.startDateLessThanOrEqualOrNull = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBaseEntryFilter.prototype.endDateGreaterThanOrEqual = null;
+BorhanBaseEntryFilter.prototype.endDateGreaterThanOrEqual = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBaseEntryFilter.prototype.endDateLessThanOrEqual = null;
+BorhanBaseEntryFilter.prototype.endDateLessThanOrEqual = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBaseEntryFilter.prototype.endDateGreaterThanOrEqualOrNull = null;
+BorhanBaseEntryFilter.prototype.endDateGreaterThanOrEqualOrNull = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBaseEntryFilter.prototype.endDateLessThanOrEqualOrNull = null;
+BorhanBaseEntryFilter.prototype.endDateLessThanOrEqualOrNull = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.tagsNameMultiLikeOr = null;
+BorhanBaseEntryFilter.prototype.tagsNameMultiLikeOr = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.tagsAdminTagsMultiLikeOr = null;
+BorhanBaseEntryFilter.prototype.tagsAdminTagsMultiLikeOr = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.tagsAdminTagsNameMultiLikeOr = null;
+BorhanBaseEntryFilter.prototype.tagsAdminTagsNameMultiLikeOr = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.tagsNameMultiLikeAnd = null;
+BorhanBaseEntryFilter.prototype.tagsNameMultiLikeAnd = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.tagsAdminTagsMultiLikeAnd = null;
+BorhanBaseEntryFilter.prototype.tagsAdminTagsMultiLikeAnd = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBaseEntryFilter.prototype.tagsAdminTagsNameMultiLikeAnd = null;
+BorhanBaseEntryFilter.prototype.tagsAdminTagsNameMultiLikeAnd = null;
 
 
-function KalturaBaseEntryListResponse()
+function BorhanBaseEntryListResponse()
 {
 }
-KalturaBaseEntryListResponse.prototype = new KalturaObjectBase();
+BorhanBaseEntryListResponse.prototype = new BorhanObjectBase();
 /**
  * 
  *
- * @var KalturaBaseEntryArray
+ * @var BorhanBaseEntryArray
  * @readonly
  */
-KalturaBaseEntryListResponse.prototype.objects = null;
+BorhanBaseEntryListResponse.prototype.objects = null;
 
 /**
  * 
@@ -1686,28 +1686,20 @@ KalturaBaseEntryListResponse.prototype.objects = null;
  * @var int
  * @readonly
  */
-KalturaBaseEntryListResponse.prototype.totalCount = null;
+BorhanBaseEntryListResponse.prototype.totalCount = null;
 
 
-function KalturaBaseJob()
+function BorhanBaseJob()
 {
 }
-KalturaBaseJob.prototype = new KalturaObjectBase();
+BorhanBaseJob.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var int
  * @readonly
  */
-KalturaBaseJob.prototype.id = null;
-
-/**
- * 
- *
- * @var int
- * @readonly
- */
-KalturaBaseJob.prototype.partnerId = null;
+BorhanBaseJob.prototype.id = null;
 
 /**
  * 
@@ -1715,7 +1707,7 @@ KalturaBaseJob.prototype.partnerId = null;
  * @var int
  * @readonly
  */
-KalturaBaseJob.prototype.createdAt = null;
+BorhanBaseJob.prototype.partnerId = null;
 
 /**
  * 
@@ -1723,7 +1715,7 @@ KalturaBaseJob.prototype.createdAt = null;
  * @var int
  * @readonly
  */
-KalturaBaseJob.prototype.updatedAt = null;
+BorhanBaseJob.prototype.createdAt = null;
 
 /**
  * 
@@ -1731,7 +1723,7 @@ KalturaBaseJob.prototype.updatedAt = null;
  * @var int
  * @readonly
  */
-KalturaBaseJob.prototype.processorExpiration = null;
+BorhanBaseJob.prototype.updatedAt = null;
 
 /**
  * 
@@ -1739,72 +1731,80 @@ KalturaBaseJob.prototype.processorExpiration = null;
  * @var int
  * @readonly
  */
-KalturaBaseJob.prototype.executionAttempts = null;
+BorhanBaseJob.prototype.processorExpiration = null;
+
+/**
+ * 
+ *
+ * @var int
+ * @readonly
+ */
+BorhanBaseJob.prototype.executionAttempts = null;
 
 
-function KalturaBaseJobFilter()
+function BorhanBaseJobFilter()
 {
 }
-KalturaBaseJobFilter.prototype = new KalturaFilter();
+BorhanBaseJobFilter.prototype = new BorhanFilter();
 /**
  * 
  *
  * @var int
  */
-KalturaBaseJobFilter.prototype.idEqual = null;
+BorhanBaseJobFilter.prototype.idEqual = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBaseJobFilter.prototype.idGreaterThanOrEqual = null;
+BorhanBaseJobFilter.prototype.idGreaterThanOrEqual = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBaseJobFilter.prototype.partnerIdEqual = null;
+BorhanBaseJobFilter.prototype.partnerIdEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBaseJobFilter.prototype.partnerIdIn = null;
+BorhanBaseJobFilter.prototype.partnerIdIn = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBaseJobFilter.prototype.createdAtGreaterThanOrEqual = null;
+BorhanBaseJobFilter.prototype.createdAtGreaterThanOrEqual = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBaseJobFilter.prototype.createdAtLessThanOrEqual = null;
+BorhanBaseJobFilter.prototype.createdAtLessThanOrEqual = null;
 
 
-function KalturaBaseRestriction()
+function BorhanBaseRestriction()
 {
 }
-KalturaBaseRestriction.prototype = new KalturaObjectBase();
+BorhanBaseRestriction.prototype = new BorhanObjectBase();
 
-function KalturaBaseSyndicationFeed()
+function BorhanBaseSyndicationFeed()
 {
 }
-KalturaBaseSyndicationFeed.prototype = new KalturaObjectBase();
+BorhanBaseSyndicationFeed.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var string
  * @readonly
  */
-KalturaBaseSyndicationFeed.prototype.id = null;
+BorhanBaseSyndicationFeed.prototype.id = null;
 
 /**
  * 
@@ -1812,7 +1812,7 @@ KalturaBaseSyndicationFeed.prototype.id = null;
  * @var string
  * @readonly
  */
-KalturaBaseSyndicationFeed.prototype.feedUrl = null;
+BorhanBaseSyndicationFeed.prototype.feedUrl = null;
 
 /**
  * 
@@ -1820,7 +1820,7 @@ KalturaBaseSyndicationFeed.prototype.feedUrl = null;
  * @var int
  * @readonly
  */
-KalturaBaseSyndicationFeed.prototype.partnerId = null;
+BorhanBaseSyndicationFeed.prototype.partnerId = null;
 
 /**
  * link a playlist that will set what content the feed will include
@@ -1829,7 +1829,7 @@ KalturaBaseSyndicationFeed.prototype.partnerId = null;
  *
  * @var string
  */
-KalturaBaseSyndicationFeed.prototype.playlistId = null;
+BorhanBaseSyndicationFeed.prototype.playlistId = null;
 
 /**
  * feed name
@@ -1837,25 +1837,25 @@ KalturaBaseSyndicationFeed.prototype.playlistId = null;
  *
  * @var string
  */
-KalturaBaseSyndicationFeed.prototype.name = null;
+BorhanBaseSyndicationFeed.prototype.name = null;
 
 /**
  * feed status
 	 * 
  *
- * @var KalturaSyndicationFeedStatus
+ * @var BorhanSyndicationFeedStatus
  * @readonly
  */
-KalturaBaseSyndicationFeed.prototype.status = null;
+BorhanBaseSyndicationFeed.prototype.status = null;
 
 /**
  * feed type
 	 * 
  *
- * @var KalturaSyndicationFeedType
+ * @var BorhanSyndicationFeedType
  * @readonly
  */
-KalturaBaseSyndicationFeed.prototype.type = null;
+BorhanBaseSyndicationFeed.prototype.type = null;
 
 /**
  * Base URL for each video, on the partners site
@@ -1863,7 +1863,7 @@ KalturaBaseSyndicationFeed.prototype.type = null;
  *
  * @var string
  */
-KalturaBaseSyndicationFeed.prototype.landingPage = null;
+BorhanBaseSyndicationFeed.prototype.landingPage = null;
 
 /**
  * Creation date as Unix timestamp (In seconds)
@@ -1872,7 +1872,7 @@ KalturaBaseSyndicationFeed.prototype.landingPage = null;
  * @var int
  * @readonly
  */
-KalturaBaseSyndicationFeed.prototype.createdAt = null;
+BorhanBaseSyndicationFeed.prototype.createdAt = null;
 
 /**
  * allow_embed tells google OR yahoo weather to allow embedding the video on google OR yahoo video results
@@ -1882,60 +1882,60 @@ KalturaBaseSyndicationFeed.prototype.createdAt = null;
  *
  * @var bool
  */
-KalturaBaseSyndicationFeed.prototype.allowEmbed = null;
+BorhanBaseSyndicationFeed.prototype.allowEmbed = null;
 
 /**
- * Select a uiconf ID as player skin to include in the kwidget url
+ * Select a uiconf ID as player skin to include in the bwidget url
  *
  * @var int
  */
-KalturaBaseSyndicationFeed.prototype.playerUiconfId = null;
+BorhanBaseSyndicationFeed.prototype.playerUiconfId = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBaseSyndicationFeed.prototype.flavorParamId = null;
+BorhanBaseSyndicationFeed.prototype.flavorParamId = null;
 
 /**
  * 
  *
  * @var bool
  */
-KalturaBaseSyndicationFeed.prototype.transcodeExistingContent = null;
+BorhanBaseSyndicationFeed.prototype.transcodeExistingContent = null;
 
 /**
  * 
  *
  * @var bool
  */
-KalturaBaseSyndicationFeed.prototype.addToDefaultConversionProfile = null;
+BorhanBaseSyndicationFeed.prototype.addToDefaultConversionProfile = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBaseSyndicationFeed.prototype.categories = null;
+BorhanBaseSyndicationFeed.prototype.categories = null;
 
 
-function KalturaBaseSyndicationFeedFilter()
+function BorhanBaseSyndicationFeedFilter()
 {
 }
-KalturaBaseSyndicationFeedFilter.prototype = new KalturaFilter();
+BorhanBaseSyndicationFeedFilter.prototype = new BorhanFilter();
 
-function KalturaBaseSyndicationFeedListResponse()
+function BorhanBaseSyndicationFeedListResponse()
 {
 }
-KalturaBaseSyndicationFeedListResponse.prototype = new KalturaObjectBase();
+BorhanBaseSyndicationFeedListResponse.prototype = new BorhanObjectBase();
 /**
  * 
  *
- * @var KalturaBaseSyndicationFeedArray
+ * @var BorhanBaseSyndicationFeedArray
  * @readonly
  */
-KalturaBaseSyndicationFeedListResponse.prototype.objects = null;
+BorhanBaseSyndicationFeedListResponse.prototype.objects = null;
 
 /**
  * 
@@ -1943,290 +1943,290 @@ KalturaBaseSyndicationFeedListResponse.prototype.objects = null;
  * @var int
  * @readonly
  */
-KalturaBaseSyndicationFeedListResponse.prototype.totalCount = null;
+BorhanBaseSyndicationFeedListResponse.prototype.totalCount = null;
 
 
-function KalturaBatchJob()
+function BorhanBatchJob()
 {
 }
-KalturaBatchJob.prototype = new KalturaBaseJob();
+BorhanBatchJob.prototype = new BorhanBaseJob();
 /**
  * 
  *
  * @var string
  */
-KalturaBatchJob.prototype.entryId = null;
+BorhanBatchJob.prototype.entryId = null;
 
 /**
  * 
  *
- * @var KalturaBatchJobType
+ * @var BorhanBatchJobType
  * @readonly
  */
-KalturaBatchJob.prototype.jobType = null;
+BorhanBatchJob.prototype.jobType = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBatchJob.prototype.jobSubType = null;
+BorhanBatchJob.prototype.jobSubType = null;
 
 /**
  * 
  *
- * @var KalturaJobData
+ * @var BorhanJobData
  */
-KalturaBatchJob.prototype.data = null;
+BorhanBatchJob.prototype.data = null;
 
 /**
  * 
  *
- * @var KalturaBatchJobStatus
+ * @var BorhanBatchJobStatus
  */
-KalturaBatchJob.prototype.status = null;
-
-/**
- * 
- *
- * @var int
- */
-KalturaBatchJob.prototype.abort = null;
+BorhanBatchJob.prototype.status = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBatchJob.prototype.checkAgainTimeout = null;
+BorhanBatchJob.prototype.abort = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBatchJob.prototype.progress = null;
+BorhanBatchJob.prototype.checkAgainTimeout = null;
+
+/**
+ * 
+ *
+ * @var int
+ */
+BorhanBatchJob.prototype.progress = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBatchJob.prototype.message = null;
+BorhanBatchJob.prototype.message = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBatchJob.prototype.description = null;
+BorhanBatchJob.prototype.description = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBatchJob.prototype.updatesCount = null;
+BorhanBatchJob.prototype.updatesCount = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBatchJob.prototype.priority = null;
+BorhanBatchJob.prototype.priority = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBatchJob.prototype.workGroupId = null;
+BorhanBatchJob.prototype.workGroupId = null;
 
 /**
  * The id of the bulk upload job that initiated this job
  *
  * @var int
  */
-KalturaBatchJob.prototype.bulkJobId = null;
+BorhanBatchJob.prototype.bulkJobId = null;
 
 /**
  * When one job creates another - the parent should set this parentJobId to be its own id.
  *
  * @var int
  */
-KalturaBatchJob.prototype.parentJobId = null;
+BorhanBatchJob.prototype.parentJobId = null;
 
 /**
  * The id of the root parent job
  *
  * @var int
  */
-KalturaBatchJob.prototype.rootJobId = null;
+BorhanBatchJob.prototype.rootJobId = null;
 
 /**
  * The time that the job was pulled from the queue
  *
  * @var int
  */
-KalturaBatchJob.prototype.queueTime = null;
+BorhanBatchJob.prototype.queueTime = null;
 
 /**
  * The time that the job was finished or closed as failed
  *
  * @var int
  */
-KalturaBatchJob.prototype.finishTime = null;
+BorhanBatchJob.prototype.finishTime = null;
 
 /**
  * 
  *
- * @var KalturaBatchJobErrorTypes
+ * @var BorhanBatchJobErrorTypes
  */
-KalturaBatchJob.prototype.errType = null;
-
-/**
- * 
- *
- * @var int
- */
-KalturaBatchJob.prototype.errNumber = null;
+BorhanBatchJob.prototype.errType = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBatchJob.prototype.fileSize = null;
+BorhanBatchJob.prototype.errNumber = null;
+
+/**
+ * 
+ *
+ * @var int
+ */
+BorhanBatchJob.prototype.fileSize = null;
 
 /**
  * 
  *
  * @var bool
  */
-KalturaBatchJob.prototype.lastWorkerRemote = null;
+BorhanBatchJob.prototype.lastWorkerRemote = null;
 
 
-function KalturaBatchJobFilter()
+function BorhanBatchJobFilter()
 {
 }
-KalturaBatchJobFilter.prototype = new KalturaBaseJobFilter();
+BorhanBatchJobFilter.prototype = new BorhanBaseJobFilter();
 /**
  * 
  *
  * @var string
  */
-KalturaBatchJobFilter.prototype.entryIdEqual = null;
+BorhanBatchJobFilter.prototype.entryIdEqual = null;
 
 /**
  * 
  *
- * @var KalturaBatchJobType
+ * @var BorhanBatchJobType
  */
-KalturaBatchJobFilter.prototype.jobTypeEqual = null;
-
-/**
- * 
- *
- * @var string
- */
-KalturaBatchJobFilter.prototype.jobTypeIn = null;
-
-/**
- * 
- *
- * @var int
- */
-KalturaBatchJobFilter.prototype.jobSubTypeEqual = null;
+BorhanBatchJobFilter.prototype.jobTypeEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBatchJobFilter.prototype.jobSubTypeIn = null;
+BorhanBatchJobFilter.prototype.jobTypeIn = null;
 
 /**
  * 
  *
- * @var KalturaBatchJobStatus
+ * @var int
  */
-KalturaBatchJobFilter.prototype.statusEqual = null;
+BorhanBatchJobFilter.prototype.jobSubTypeEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBatchJobFilter.prototype.statusIn = null;
+BorhanBatchJobFilter.prototype.jobSubTypeIn = null;
+
+/**
+ * 
+ *
+ * @var BorhanBatchJobStatus
+ */
+BorhanBatchJobFilter.prototype.statusEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBatchJobFilter.prototype.workGroupIdIn = null;
-
-/**
- * 
- *
- * @var int
- */
-KalturaBatchJobFilter.prototype.queueTimeGreaterThanOrEqual = null;
-
-/**
- * 
- *
- * @var int
- */
-KalturaBatchJobFilter.prototype.queueTimeLessThanOrEqual = null;
-
-/**
- * 
- *
- * @var int
- */
-KalturaBatchJobFilter.prototype.finishTimeGreaterThanOrEqual = null;
-
-/**
- * 
- *
- * @var int
- */
-KalturaBatchJobFilter.prototype.finishTimeLessThanOrEqual = null;
+BorhanBatchJobFilter.prototype.statusIn = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBatchJobFilter.prototype.errTypeIn = null;
+BorhanBatchJobFilter.prototype.workGroupIdIn = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBatchJobFilter.prototype.fileSizeLessThan = null;
+BorhanBatchJobFilter.prototype.queueTimeGreaterThanOrEqual = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBatchJobFilter.prototype.fileSizeGreaterThan = null;
+BorhanBatchJobFilter.prototype.queueTimeLessThanOrEqual = null;
+
+/**
+ * 
+ *
+ * @var int
+ */
+BorhanBatchJobFilter.prototype.finishTimeGreaterThanOrEqual = null;
+
+/**
+ * 
+ *
+ * @var int
+ */
+BorhanBatchJobFilter.prototype.finishTimeLessThanOrEqual = null;
+
+/**
+ * 
+ *
+ * @var string
+ */
+BorhanBatchJobFilter.prototype.errTypeIn = null;
+
+/**
+ * 
+ *
+ * @var int
+ */
+BorhanBatchJobFilter.prototype.fileSizeLessThan = null;
+
+/**
+ * 
+ *
+ * @var int
+ */
+BorhanBatchJobFilter.prototype.fileSizeGreaterThan = null;
 
 
-function KalturaBatchJobListResponse()
+function BorhanBatchJobListResponse()
 {
 }
-KalturaBatchJobListResponse.prototype = new KalturaObjectBase();
+BorhanBatchJobListResponse.prototype = new BorhanObjectBase();
 /**
  * 
  *
- * @var KalturaBatchJobArray
+ * @var BorhanBatchJobArray
  * @readonly
  */
-KalturaBatchJobListResponse.prototype.objects = null;
+BorhanBatchJobListResponse.prototype.objects = null;
 
 /**
  * 
@@ -2234,46 +2234,46 @@ KalturaBatchJobListResponse.prototype.objects = null;
  * @var int
  * @readonly
  */
-KalturaBatchJobListResponse.prototype.totalCount = null;
+BorhanBatchJobListResponse.prototype.totalCount = null;
 
 
-function KalturaBatchJobResponse()
+function BorhanBatchJobResponse()
 {
 }
-KalturaBatchJobResponse.prototype = new KalturaObjectBase();
+BorhanBatchJobResponse.prototype = new BorhanObjectBase();
 /**
  * The main batch job
 	 * 
  *
- * @var KalturaBatchJob
+ * @var BorhanBatchJob
  */
-KalturaBatchJobResponse.prototype.batchJob = null;
+BorhanBatchJobResponse.prototype.batchJob = null;
 
 /**
  * All batch jobs that reference the main job as root
 	 * 
  *
- * @var KalturaBatchJobArray
+ * @var BorhanBatchJobArray
  */
-KalturaBatchJobResponse.prototype.childBatchJobs = null;
+BorhanBatchJobResponse.prototype.childBatchJobs = null;
 
 
-function KalturaJobData()
+function BorhanJobData()
 {
 }
-KalturaJobData.prototype = new KalturaObjectBase();
+BorhanJobData.prototype = new BorhanObjectBase();
 
-function KalturaBulkDownloadJobData()
+function BorhanBulkDownloadJobData()
 {
 }
-KalturaBulkDownloadJobData.prototype = new KalturaJobData();
+BorhanBulkDownloadJobData.prototype = new BorhanJobData();
 /**
  * Comma separated list of entry ids
 	 * 
  *
  * @var string
  */
-KalturaBulkDownloadJobData.prototype.entryIds = null;
+BorhanBulkDownloadJobData.prototype.entryIds = null;
 
 /**
  * Flavor params id to use for conversion
@@ -2281,7 +2281,7 @@ KalturaBulkDownloadJobData.prototype.entryIds = null;
  *
  * @var int
  */
-KalturaBulkDownloadJobData.prototype.flavorParamsId = null;
+BorhanBulkDownloadJobData.prototype.flavorParamsId = null;
 
 /**
  * The id of the requesting user
@@ -2289,80 +2289,80 @@ KalturaBulkDownloadJobData.prototype.flavorParamsId = null;
  *
  * @var string
  */
-KalturaBulkDownloadJobData.prototype.puserId = null;
+BorhanBulkDownloadJobData.prototype.puserId = null;
 
 
-function KalturaBulkUpload()
+function BorhanBulkUpload()
 {
 }
-KalturaBulkUpload.prototype = new KalturaObjectBase();
+BorhanBulkUpload.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var int
  */
-KalturaBulkUpload.prototype.id = null;
+BorhanBulkUpload.prototype.id = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBulkUpload.prototype.uploadedBy = null;
+BorhanBulkUpload.prototype.uploadedBy = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBulkUpload.prototype.uploadedOn = null;
+BorhanBulkUpload.prototype.uploadedOn = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBulkUpload.prototype.numOfEntries = null;
+BorhanBulkUpload.prototype.numOfEntries = null;
 
 /**
  * 
  *
- * @var KalturaBatchJobStatus
+ * @var BorhanBatchJobStatus
  */
-KalturaBulkUpload.prototype.status = null;
-
-/**
- * 
- *
- * @var string
- */
-KalturaBulkUpload.prototype.logFileUrl = null;
+BorhanBulkUpload.prototype.status = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBulkUpload.prototype.csvFileUrl = null;
+BorhanBulkUpload.prototype.logFileUrl = null;
 
 /**
  * 
  *
- * @var KalturaBulkUploadResultArray
+ * @var string
  */
-KalturaBulkUpload.prototype.results = null;
+BorhanBulkUpload.prototype.csvFileUrl = null;
+
+/**
+ * 
+ *
+ * @var BorhanBulkUploadResultArray
+ */
+BorhanBulkUpload.prototype.results = null;
 
 
-function KalturaBulkUploadJobData()
+function BorhanBulkUploadJobData()
 {
 }
-KalturaBulkUploadJobData.prototype = new KalturaJobData();
+BorhanBulkUploadJobData.prototype = new BorhanJobData();
 /**
  * 
  *
  * @var int
  */
-KalturaBulkUploadJobData.prototype.userId = null;
+BorhanBulkUploadJobData.prototype.userId = null;
 
 /**
  * The screen name of the user
@@ -2370,7 +2370,7 @@ KalturaBulkUploadJobData.prototype.userId = null;
  *
  * @var string
  */
-KalturaBulkUploadJobData.prototype.uploadedBy = null;
+BorhanBulkUploadJobData.prototype.uploadedBy = null;
 
 /**
  * Selected profile id for all bulk entries
@@ -2378,7 +2378,7 @@ KalturaBulkUploadJobData.prototype.uploadedBy = null;
  *
  * @var int
  */
-KalturaBulkUploadJobData.prototype.conversionProfileId = null;
+BorhanBulkUploadJobData.prototype.conversionProfileId = null;
 
 /**
  * Created by the API
@@ -2386,7 +2386,7 @@ KalturaBulkUploadJobData.prototype.conversionProfileId = null;
  *
  * @var string
  */
-KalturaBulkUploadJobData.prototype.csvFilePath = null;
+BorhanBulkUploadJobData.prototype.csvFilePath = null;
 
 /**
  * Created by the API
@@ -2394,7 +2394,7 @@ KalturaBulkUploadJobData.prototype.csvFilePath = null;
  *
  * @var string
  */
-KalturaBulkUploadJobData.prototype.resultsFileLocalPath = null;
+BorhanBulkUploadJobData.prototype.resultsFileLocalPath = null;
 
 /**
  * Created by the API
@@ -2402,7 +2402,7 @@ KalturaBulkUploadJobData.prototype.resultsFileLocalPath = null;
  *
  * @var string
  */
-KalturaBulkUploadJobData.prototype.resultsFileUrl = null;
+BorhanBulkUploadJobData.prototype.resultsFileUrl = null;
 
 /**
  * Number of created entries
@@ -2410,28 +2410,28 @@ KalturaBulkUploadJobData.prototype.resultsFileUrl = null;
  *
  * @var int
  */
-KalturaBulkUploadJobData.prototype.numOfEntries = null;
+BorhanBulkUploadJobData.prototype.numOfEntries = null;
 
 /**
  * The version of the csv file
 	 * 
  *
- * @var KalturaBulkUploadCsvVersion
+ * @var BorhanBulkUploadCsvVersion
  */
-KalturaBulkUploadJobData.prototype.csvVersion = null;
+BorhanBulkUploadJobData.prototype.csvVersion = null;
 
 
-function KalturaBulkUploadListResponse()
+function BorhanBulkUploadListResponse()
 {
 }
-KalturaBulkUploadListResponse.prototype = new KalturaObjectBase();
+BorhanBulkUploadListResponse.prototype = new BorhanObjectBase();
 /**
  * 
  *
- * @var KalturaBulkUploads
+ * @var BorhanBulkUploads
  * @readonly
  */
-KalturaBulkUploadListResponse.prototype.objects = null;
+BorhanBulkUploadListResponse.prototype.objects = null;
 
 /**
  * 
@@ -2439,13 +2439,13 @@ KalturaBulkUploadListResponse.prototype.objects = null;
  * @var int
  * @readonly
  */
-KalturaBulkUploadListResponse.prototype.totalCount = null;
+BorhanBulkUploadListResponse.prototype.totalCount = null;
 
 
-function KalturaBulkUploadResult()
+function BorhanBulkUploadResult()
 {
 }
-KalturaBulkUploadResult.prototype = new KalturaObjectBase();
+BorhanBulkUploadResult.prototype = new BorhanObjectBase();
 /**
  * The id of the result
 	 * 
@@ -2453,7 +2453,7 @@ KalturaBulkUploadResult.prototype = new KalturaObjectBase();
  * @var int
  * @readonly
  */
-KalturaBulkUploadResult.prototype.id = null;
+BorhanBulkUploadResult.prototype.id = null;
 
 /**
  * The id of the parent job
@@ -2461,7 +2461,7 @@ KalturaBulkUploadResult.prototype.id = null;
  *
  * @var int
  */
-KalturaBulkUploadResult.prototype.bulkUploadJobId = null;
+BorhanBulkUploadResult.prototype.bulkUploadJobId = null;
 
 /**
  * The index of the line in the CSV
@@ -2469,28 +2469,28 @@ KalturaBulkUploadResult.prototype.bulkUploadJobId = null;
  *
  * @var int
  */
-KalturaBulkUploadResult.prototype.lineIndex = null;
+BorhanBulkUploadResult.prototype.lineIndex = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBulkUploadResult.prototype.partnerId = null;
+BorhanBulkUploadResult.prototype.partnerId = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBulkUploadResult.prototype.entryId = null;
+BorhanBulkUploadResult.prototype.entryId = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBulkUploadResult.prototype.entryStatus = null;
+BorhanBulkUploadResult.prototype.entryStatus = null;
 
 /**
  * The data as recieved in the csv
@@ -2498,187 +2498,187 @@ KalturaBulkUploadResult.prototype.entryStatus = null;
  *
  * @var string
  */
-KalturaBulkUploadResult.prototype.rowData = null;
+BorhanBulkUploadResult.prototype.rowData = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBulkUploadResult.prototype.title = null;
+BorhanBulkUploadResult.prototype.title = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBulkUploadResult.prototype.description = null;
+BorhanBulkUploadResult.prototype.description = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBulkUploadResult.prototype.tags = null;
+BorhanBulkUploadResult.prototype.tags = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBulkUploadResult.prototype.url = null;
+BorhanBulkUploadResult.prototype.url = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBulkUploadResult.prototype.contentType = null;
+BorhanBulkUploadResult.prototype.contentType = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBulkUploadResult.prototype.conversionProfileId = null;
+BorhanBulkUploadResult.prototype.conversionProfileId = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBulkUploadResult.prototype.accessControlProfileId = null;
+BorhanBulkUploadResult.prototype.accessControlProfileId = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBulkUploadResult.prototype.category = null;
+BorhanBulkUploadResult.prototype.category = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBulkUploadResult.prototype.scheduleStartDate = null;
+BorhanBulkUploadResult.prototype.scheduleStartDate = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaBulkUploadResult.prototype.scheduleEndDate = null;
+BorhanBulkUploadResult.prototype.scheduleEndDate = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBulkUploadResult.prototype.thumbnailUrl = null;
+BorhanBulkUploadResult.prototype.thumbnailUrl = null;
 
 /**
  * 
  *
  * @var bool
  */
-KalturaBulkUploadResult.prototype.thumbnailSaved = null;
+BorhanBulkUploadResult.prototype.thumbnailSaved = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBulkUploadResult.prototype.partnerData = null;
+BorhanBulkUploadResult.prototype.partnerData = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaBulkUploadResult.prototype.errorDescription = null;
+BorhanBulkUploadResult.prototype.errorDescription = null;
 
 
-function KalturaCEError()
+function BorhanCEError()
 {
 }
-KalturaCEError.prototype = new KalturaObjectBase();
+BorhanCEError.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var string
  * @readonly
  */
-KalturaCEError.prototype.id = null;
+BorhanCEError.prototype.id = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaCEError.prototype.partnerId = null;
+BorhanCEError.prototype.partnerId = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaCEError.prototype.browser = null;
+BorhanCEError.prototype.browser = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaCEError.prototype.serverIp = null;
+BorhanCEError.prototype.serverIp = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaCEError.prototype.serverOs = null;
+BorhanCEError.prototype.serverOs = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaCEError.prototype.phpVersion = null;
+BorhanCEError.prototype.phpVersion = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaCEError.prototype.ceAdminEmail = null;
+BorhanCEError.prototype.ceAdminEmail = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaCEError.prototype.type = null;
+BorhanCEError.prototype.type = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaCEError.prototype.description = null;
+BorhanCEError.prototype.description = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaCEError.prototype.data = null;
+BorhanCEError.prototype.data = null;
 
 
-function KalturaCategory()
+function BorhanCategory()
 {
 }
-KalturaCategory.prototype = new KalturaObjectBase();
+BorhanCategory.prototype = new BorhanObjectBase();
 /**
  * The id of the Category
 	 * 
@@ -2686,22 +2686,14 @@ KalturaCategory.prototype = new KalturaObjectBase();
  * @var int
  * @readonly
  */
-KalturaCategory.prototype.id = null;
+BorhanCategory.prototype.id = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaCategory.prototype.parentId = null;
-
-/**
- * 
- *
- * @var int
- * @readonly
- */
-KalturaCategory.prototype.depth = null;
+BorhanCategory.prototype.parentId = null;
 
 /**
  * 
@@ -2709,7 +2701,15 @@ KalturaCategory.prototype.depth = null;
  * @var int
  * @readonly
  */
-KalturaCategory.prototype.partnerId = null;
+BorhanCategory.prototype.depth = null;
+
+/**
+ * 
+ *
+ * @var int
+ * @readonly
+ */
+BorhanCategory.prototype.partnerId = null;
 
 /**
  * The name of the Category. 
@@ -2718,7 +2718,7 @@ KalturaCategory.prototype.partnerId = null;
  *
  * @var string
  */
-KalturaCategory.prototype.name = null;
+BorhanCategory.prototype.name = null;
 
 /**
  * The full name of the Category
@@ -2727,7 +2727,7 @@ KalturaCategory.prototype.name = null;
  * @var string
  * @readonly
  */
-KalturaCategory.prototype.fullName = null;
+BorhanCategory.prototype.fullName = null;
 
 /**
  * Number of entries in this Category (including child categories)
@@ -2736,7 +2736,7 @@ KalturaCategory.prototype.fullName = null;
  * @var int
  * @readonly
  */
-KalturaCategory.prototype.entriesCount = null;
+BorhanCategory.prototype.entriesCount = null;
 
 /**
  * Creation date as Unix timestamp (In seconds)
@@ -2745,74 +2745,74 @@ KalturaCategory.prototype.entriesCount = null;
  * @var int
  * @readonly
  */
-KalturaCategory.prototype.createdAt = null;
+BorhanCategory.prototype.createdAt = null;
 
 
-function KalturaCategoryFilter()
+function BorhanCategoryFilter()
 {
 }
-KalturaCategoryFilter.prototype = new KalturaFilter();
+BorhanCategoryFilter.prototype = new BorhanFilter();
 /**
  * 
  *
  * @var int
  */
-KalturaCategoryFilter.prototype.idEqual = null;
+BorhanCategoryFilter.prototype.idEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaCategoryFilter.prototype.idIn = null;
-
-/**
- * 
- *
- * @var int
- */
-KalturaCategoryFilter.prototype.parentIdEqual = null;
-
-/**
- * 
- *
- * @var string
- */
-KalturaCategoryFilter.prototype.parentIdIn = null;
+BorhanCategoryFilter.prototype.idIn = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaCategoryFilter.prototype.depthEqual = null;
+BorhanCategoryFilter.prototype.parentIdEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaCategoryFilter.prototype.fullNameEqual = null;
+BorhanCategoryFilter.prototype.parentIdIn = null;
+
+/**
+ * 
+ *
+ * @var int
+ */
+BorhanCategoryFilter.prototype.depthEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaCategoryFilter.prototype.fullNameStartsWith = null;
+BorhanCategoryFilter.prototype.fullNameEqual = null;
+
+/**
+ * 
+ *
+ * @var string
+ */
+BorhanCategoryFilter.prototype.fullNameStartsWith = null;
 
 
-function KalturaCategoryListResponse()
+function BorhanCategoryListResponse()
 {
 }
-KalturaCategoryListResponse.prototype = new KalturaObjectBase();
+BorhanCategoryListResponse.prototype = new BorhanObjectBase();
 /**
  * 
  *
- * @var KalturaCategoryArray
+ * @var BorhanCategoryArray
  * @readonly
  */
-KalturaCategoryListResponse.prototype.objects = null;
+BorhanCategoryListResponse.prototype.objects = null;
 
 /**
  * 
@@ -2820,72 +2820,72 @@ KalturaCategoryListResponse.prototype.objects = null;
  * @var int
  * @readonly
  */
-KalturaCategoryListResponse.prototype.totalCount = null;
+BorhanCategoryListResponse.prototype.totalCount = null;
 
 
-function KalturaClientNotification()
+function BorhanClientNotification()
 {
 }
-KalturaClientNotification.prototype = new KalturaObjectBase();
+BorhanClientNotification.prototype = new BorhanObjectBase();
 /**
  * The URL where the notification should be sent to 
  *
  * @var string
  */
-KalturaClientNotification.prototype.url = null;
+BorhanClientNotification.prototype.url = null;
 
 /**
  * The serialized notification data to send
  *
  * @var string
  */
-KalturaClientNotification.prototype.data = null;
+BorhanClientNotification.prototype.data = null;
 
 
-function KalturaConvartableJobData()
+function BorhanConvartableJobData()
 {
 }
-KalturaConvartableJobData.prototype = new KalturaJobData();
+BorhanConvartableJobData.prototype = new BorhanJobData();
 /**
  * 
  *
  * @var string
  */
-KalturaConvartableJobData.prototype.srcFileSyncLocalPath = null;
+BorhanConvartableJobData.prototype.srcFileSyncLocalPath = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaConvartableJobData.prototype.srcFileSyncRemoteUrl = null;
+BorhanConvartableJobData.prototype.srcFileSyncRemoteUrl = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaConvartableJobData.prototype.flavorParamsOutputId = null;
+BorhanConvartableJobData.prototype.flavorParamsOutputId = null;
 
 /**
  * 
  *
- * @var KalturaFlavorParamsOutput
+ * @var BorhanFlavorParamsOutput
  */
-KalturaConvartableJobData.prototype.flavorParamsOutput = null;
+BorhanConvartableJobData.prototype.flavorParamsOutput = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaConvartableJobData.prototype.mediaInfoId = null;
+BorhanConvartableJobData.prototype.mediaInfoId = null;
 
 
-function KalturaConversionProfile()
+function BorhanConversionProfile()
 {
 }
-KalturaConversionProfile.prototype = new KalturaObjectBase();
+BorhanConversionProfile.prototype = new BorhanObjectBase();
 /**
  * The id of the Conversion Profile
 	 * 
@@ -2893,7 +2893,7 @@ KalturaConversionProfile.prototype = new KalturaObjectBase();
  * @var int
  * @readonly
  */
-KalturaConversionProfile.prototype.id = null;
+BorhanConversionProfile.prototype.id = null;
 
 /**
  * 
@@ -2901,7 +2901,7 @@ KalturaConversionProfile.prototype.id = null;
  * @var int
  * @readonly
  */
-KalturaConversionProfile.prototype.partnerId = null;
+BorhanConversionProfile.prototype.partnerId = null;
 
 /**
  * The name of the Conversion Profile
@@ -2909,7 +2909,7 @@ KalturaConversionProfile.prototype.partnerId = null;
  *
  * @var string
  */
-KalturaConversionProfile.prototype.name = null;
+BorhanConversionProfile.prototype.name = null;
 
 /**
  * The description of the Conversion Profile
@@ -2917,7 +2917,7 @@ KalturaConversionProfile.prototype.name = null;
  *
  * @var string
  */
-KalturaConversionProfile.prototype.description = null;
+BorhanConversionProfile.prototype.description = null;
 
 /**
  * Creation date as Unix timestamp (In seconds) 
@@ -2926,7 +2926,7 @@ KalturaConversionProfile.prototype.description = null;
  * @var int
  * @readonly
  */
-KalturaConversionProfile.prototype.createdAt = null;
+BorhanConversionProfile.prototype.createdAt = null;
 
 /**
  * List of included flavor ids (comma separated)
@@ -2934,23 +2934,23 @@ KalturaConversionProfile.prototype.createdAt = null;
  *
  * @var string
  */
-KalturaConversionProfile.prototype.flavorParamsIds = null;
+BorhanConversionProfile.prototype.flavorParamsIds = null;
 
 /**
  * True if this Conversion Profile is the default
 	 * 
  *
- * @var KalturaNullableBoolean
+ * @var BorhanNullableBoolean
  */
-KalturaConversionProfile.prototype.isDefault = null;
+BorhanConversionProfile.prototype.isDefault = null;
 
 /**
  * Cropping dimensions
 	 * 
  *
- * @var KalturaCropDimensions
+ * @var BorhanCropDimensions
  */
-KalturaConversionProfile.prototype.cropDimensions = null;
+BorhanConversionProfile.prototype.cropDimensions = null;
 
 /**
  * Clipping start position (in miliseconds)
@@ -2958,7 +2958,7 @@ KalturaConversionProfile.prototype.cropDimensions = null;
  *
  * @var int
  */
-KalturaConversionProfile.prototype.clipStart = null;
+BorhanConversionProfile.prototype.clipStart = null;
 
 /**
  * Clipping duration (in miliseconds)
@@ -2966,39 +2966,39 @@ KalturaConversionProfile.prototype.clipStart = null;
  *
  * @var int
  */
-KalturaConversionProfile.prototype.clipDuration = null;
+BorhanConversionProfile.prototype.clipDuration = null;
 
 
-function KalturaConversionProfileFilter()
+function BorhanConversionProfileFilter()
 {
 }
-KalturaConversionProfileFilter.prototype = new KalturaFilter();
+BorhanConversionProfileFilter.prototype = new BorhanFilter();
 /**
  * 
  *
  * @var int
  */
-KalturaConversionProfileFilter.prototype.idEqual = null;
+BorhanConversionProfileFilter.prototype.idEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaConversionProfileFilter.prototype.idIn = null;
+BorhanConversionProfileFilter.prototype.idIn = null;
 
 
-function KalturaConversionProfileListResponse()
+function BorhanConversionProfileListResponse()
 {
 }
-KalturaConversionProfileListResponse.prototype = new KalturaObjectBase();
+BorhanConversionProfileListResponse.prototype = new BorhanObjectBase();
 /**
  * 
  *
- * @var KalturaConversionProfileArray
+ * @var BorhanConversionProfileArray
  * @readonly
  */
-KalturaConversionProfileListResponse.prototype.objects = null;
+BorhanConversionProfileListResponse.prototype.objects = null;
 
 /**
  * 
@@ -3006,59 +3006,59 @@ KalturaConversionProfileListResponse.prototype.objects = null;
  * @var int
  * @readonly
  */
-KalturaConversionProfileListResponse.prototype.totalCount = null;
+BorhanConversionProfileListResponse.prototype.totalCount = null;
 
 
-function KalturaConvertJobData()
+function BorhanConvertJobData()
 {
 }
-KalturaConvertJobData.prototype = new KalturaConvartableJobData();
+BorhanConvertJobData.prototype = new BorhanConvartableJobData();
 /**
  * 
  *
  * @var string
  */
-KalturaConvertJobData.prototype.destFileSyncLocalPath = null;
-
-/**
- * 
- *
- * @var string
- */
-KalturaConvertJobData.prototype.destFileSyncRemoteUrl = null;
+BorhanConvertJobData.prototype.destFileSyncLocalPath = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaConvertJobData.prototype.logFileSyncLocalPath = null;
+BorhanConvertJobData.prototype.destFileSyncRemoteUrl = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaConvertJobData.prototype.flavorAssetId = null;
+BorhanConvertJobData.prototype.logFileSyncLocalPath = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaConvertJobData.prototype.remoteMediaId = null;
+BorhanConvertJobData.prototype.flavorAssetId = null;
+
+/**
+ * 
+ *
+ * @var string
+ */
+BorhanConvertJobData.prototype.remoteMediaId = null;
 
 
-function KalturaConvertProfileJobData()
+function BorhanConvertProfileJobData()
 {
 }
-KalturaConvertProfileJobData.prototype = new KalturaJobData();
+BorhanConvertProfileJobData.prototype = new BorhanJobData();
 /**
  * 
  *
  * @var string
  */
-KalturaConvertProfileJobData.prototype.inputFileSyncLocalPath = null;
+BorhanConvertProfileJobData.prototype.inputFileSyncLocalPath = null;
 
 /**
  * The height of last created thumbnail, will be used to comapare if this thumbnail is the best we can have
@@ -3066,7 +3066,7 @@ KalturaConvertProfileJobData.prototype.inputFileSyncLocalPath = null;
  *
  * @var int
  */
-KalturaConvertProfileJobData.prototype.thumbHeight = null;
+BorhanConvertProfileJobData.prototype.thumbHeight = null;
 
 /**
  * The bit rate of last created thumbnail, will be used to comapare if this thumbnail is the best we can have
@@ -3074,20 +3074,20 @@ KalturaConvertProfileJobData.prototype.thumbHeight = null;
  *
  * @var int
  */
-KalturaConvertProfileJobData.prototype.thumbBitrate = null;
+BorhanConvertProfileJobData.prototype.thumbBitrate = null;
 
 
-function KalturaCountryRestriction()
+function BorhanCountryRestriction()
 {
 }
-KalturaCountryRestriction.prototype = new KalturaBaseRestriction();
+BorhanCountryRestriction.prototype = new BorhanBaseRestriction();
 /**
  * Country restriction type (Allow or deny)
 	 * 
  *
- * @var KalturaCountryRestrictionType
+ * @var BorhanCountryRestrictionType
  */
-KalturaCountryRestriction.prototype.countryRestrictionType = null;
+BorhanCountryRestriction.prototype.countryRestrictionType = null;
 
 /**
  * Comma separated list of country codes to allow to deny 
@@ -3095,20 +3095,20 @@ KalturaCountryRestriction.prototype.countryRestrictionType = null;
  *
  * @var string
  */
-KalturaCountryRestriction.prototype.countryList = null;
+BorhanCountryRestriction.prototype.countryList = null;
 
 
-function KalturaCropDimensions()
+function BorhanCropDimensions()
 {
 }
-KalturaCropDimensions.prototype = new KalturaObjectBase();
+BorhanCropDimensions.prototype = new BorhanObjectBase();
 /**
  * Crop left point
 	 * 
  *
  * @var int
  */
-KalturaCropDimensions.prototype.left = null;
+BorhanCropDimensions.prototype.left = null;
 
 /**
  * Crop top point
@@ -3116,7 +3116,7 @@ KalturaCropDimensions.prototype.left = null;
  *
  * @var int
  */
-KalturaCropDimensions.prototype.top = null;
+BorhanCropDimensions.prototype.top = null;
 
 /**
  * Crop width
@@ -3124,7 +3124,7 @@ KalturaCropDimensions.prototype.top = null;
  *
  * @var int
  */
-KalturaCropDimensions.prototype.width = null;
+BorhanCropDimensions.prototype.width = null;
 
 /**
  * Crop height
@@ -3132,37 +3132,37 @@ KalturaCropDimensions.prototype.width = null;
  *
  * @var int
  */
-KalturaCropDimensions.prototype.height = null;
+BorhanCropDimensions.prototype.height = null;
 
 
-function KalturaDataEntry()
+function BorhanDataEntry()
 {
 }
-KalturaDataEntry.prototype = new KalturaBaseEntry();
+BorhanDataEntry.prototype = new BorhanBaseEntry();
 /**
  * The data of the entry
  *
  * @var string
  */
-KalturaDataEntry.prototype.dataContent = null;
+BorhanDataEntry.prototype.dataContent = null;
 
 
-function KalturaDataEntryFilter()
+function BorhanDataEntryFilter()
 {
 }
-KalturaDataEntryFilter.prototype = new KalturaBaseEntryFilter();
+BorhanDataEntryFilter.prototype = new BorhanBaseEntryFilter();
 
-function KalturaDataListResponse()
+function BorhanDataListResponse()
 {
 }
-KalturaDataListResponse.prototype = new KalturaObjectBase();
+BorhanDataListResponse.prototype = new BorhanObjectBase();
 /**
  * 
  *
- * @var KalturaDataEntryArray
+ * @var BorhanDataEntryArray
  * @readonly
  */
-KalturaDataListResponse.prototype.objects = null;
+BorhanDataListResponse.prototype.objects = null;
 
 /**
  * 
@@ -3170,136 +3170,136 @@ KalturaDataListResponse.prototype.objects = null;
  * @var int
  * @readonly
  */
-KalturaDataListResponse.prototype.totalCount = null;
+BorhanDataListResponse.prototype.totalCount = null;
 
 
-function KalturaDirectoryRestriction()
+function BorhanDirectoryRestriction()
 {
 }
-KalturaDirectoryRestriction.prototype = new KalturaBaseRestriction();
+BorhanDirectoryRestriction.prototype = new BorhanBaseRestriction();
 /**
- * Kaltura directory restriction type
+ * Borhan directory restriction type
 	 * 
  *
- * @var KalturaDirectoryRestrictionType
+ * @var BorhanDirectoryRestrictionType
  */
-KalturaDirectoryRestriction.prototype.directoryRestrictionType = null;
+BorhanDirectoryRestriction.prototype.directoryRestrictionType = null;
 
 
-function KalturaDocumentEntry()
+function BorhanDocumentEntry()
 {
 }
-KalturaDocumentEntry.prototype = new KalturaBaseEntry();
+BorhanDocumentEntry.prototype = new BorhanBaseEntry();
 /**
  * The type of the document
  *
- * @var KalturaDocumentType
+ * @var BorhanDocumentType
  * @insertonly
  */
-KalturaDocumentEntry.prototype.documentType = null;
+BorhanDocumentEntry.prototype.documentType = null;
 
 
-function KalturaDocumentEntryFilter()
+function BorhanDocumentEntryFilter()
 {
 }
-KalturaDocumentEntryFilter.prototype = new KalturaBaseEntryFilter();
+BorhanDocumentEntryFilter.prototype = new BorhanBaseEntryFilter();
 /**
  * 
  *
- * @var KalturaDocumentType
+ * @var BorhanDocumentType
  */
-KalturaDocumentEntryFilter.prototype.documentTypeEqual = null;
+BorhanDocumentEntryFilter.prototype.documentTypeEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaDocumentEntryFilter.prototype.documentTypeIn = null;
+BorhanDocumentEntryFilter.prototype.documentTypeIn = null;
 
 
-function KalturaEntryExtraDataParams()
+function BorhanEntryExtraDataParams()
 {
 }
-KalturaEntryExtraDataParams.prototype = new KalturaObjectBase();
+BorhanEntryExtraDataParams.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var string
  */
-KalturaEntryExtraDataParams.prototype.referrer = null;
+BorhanEntryExtraDataParams.prototype.referrer = null;
 
 
-function KalturaEntryExtraDataResult()
+function BorhanEntryExtraDataResult()
 {
 }
-KalturaEntryExtraDataResult.prototype = new KalturaObjectBase();
+BorhanEntryExtraDataResult.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var bool
  */
-KalturaEntryExtraDataResult.prototype.isSiteRestricted = null;
+BorhanEntryExtraDataResult.prototype.isSiteRestricted = null;
 
 /**
  * 
  *
  * @var bool
  */
-KalturaEntryExtraDataResult.prototype.isCountryRestricted = null;
+BorhanEntryExtraDataResult.prototype.isCountryRestricted = null;
 
 /**
  * 
  *
  * @var bool
  */
-KalturaEntryExtraDataResult.prototype.isSessionRestricted = null;
+BorhanEntryExtraDataResult.prototype.isSessionRestricted = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaEntryExtraDataResult.prototype.previewLength = null;
+BorhanEntryExtraDataResult.prototype.previewLength = null;
 
 /**
  * 
  *
  * @var bool
  */
-KalturaEntryExtraDataResult.prototype.isScheduledNow = null;
+BorhanEntryExtraDataResult.prototype.isScheduledNow = null;
 
 /**
  * 
  *
  * @var bool
  */
-KalturaEntryExtraDataResult.prototype.isAdmin = null;
+BorhanEntryExtraDataResult.prototype.isAdmin = null;
 
 
-function KalturaExtractMediaJobData()
+function BorhanExtractMediaJobData()
 {
 }
-KalturaExtractMediaJobData.prototype = new KalturaConvartableJobData();
+BorhanExtractMediaJobData.prototype = new BorhanConvartableJobData();
 /**
  * 
  *
  * @var string
  */
-KalturaExtractMediaJobData.prototype.flavorAssetId = null;
+BorhanExtractMediaJobData.prototype.flavorAssetId = null;
 
 
-function KalturaFilterPager()
+function BorhanFilterPager()
 {
 }
-KalturaFilterPager.prototype = new KalturaObjectBase();
+BorhanFilterPager.prototype = new BorhanObjectBase();
 /**
  * The number of objects to retrieve. (Default is 30, maximum page size is 500).
 	 * 
  *
  * @var int
  */
-KalturaFilterPager.prototype.pageSize = null;
+BorhanFilterPager.prototype.pageSize = null;
 
 /**
  * The page number for which {pageSize} of objects should be retrieved (Default is 1).
@@ -3307,18 +3307,18 @@ KalturaFilterPager.prototype.pageSize = null;
  *
  * @var int
  */
-KalturaFilterPager.prototype.pageIndex = null;
+BorhanFilterPager.prototype.pageIndex = null;
 
 
-function KalturaFlattenJobData()
+function BorhanFlattenJobData()
 {
 }
-KalturaFlattenJobData.prototype = new KalturaJobData();
+BorhanFlattenJobData.prototype = new BorhanJobData();
 
-function KalturaFlavorAsset()
+function BorhanFlavorAsset()
 {
 }
-KalturaFlavorAsset.prototype = new KalturaObjectBase();
+BorhanFlavorAsset.prototype = new BorhanObjectBase();
 /**
  * The ID of the Flavor Asset
 	 * 
@@ -3326,7 +3326,7 @@ KalturaFlavorAsset.prototype = new KalturaObjectBase();
  * @var string
  * @readonly
  */
-KalturaFlavorAsset.prototype.id = null;
+BorhanFlavorAsset.prototype.id = null;
 
 /**
  * The entry ID of the Flavor Asset
@@ -3335,7 +3335,7 @@ KalturaFlavorAsset.prototype.id = null;
  * @var string
  * @readonly
  */
-KalturaFlavorAsset.prototype.entryId = null;
+BorhanFlavorAsset.prototype.entryId = null;
 
 /**
  * 
@@ -3343,16 +3343,16 @@ KalturaFlavorAsset.prototype.entryId = null;
  * @var string
  * @readonly
  */
-KalturaFlavorAsset.prototype.partnerId = null;
+BorhanFlavorAsset.prototype.partnerId = null;
 
 /**
  * The status of the Flavor Asset
 	 * 
  *
- * @var KalturaFlavorAssetStatus
+ * @var BorhanFlavorAssetStatus
  * @readonly
  */
-KalturaFlavorAsset.prototype.status = null;
+BorhanFlavorAsset.prototype.status = null;
 
 /**
  * The Flavor Params used to create this Flavor Asset
@@ -3361,7 +3361,7 @@ KalturaFlavorAsset.prototype.status = null;
  * @var int
  * @readonly
  */
-KalturaFlavorAsset.prototype.flavorParamsId = null;
+BorhanFlavorAsset.prototype.flavorParamsId = null;
 
 /**
  * The version of the Flavor Asset
@@ -3370,7 +3370,7 @@ KalturaFlavorAsset.prototype.flavorParamsId = null;
  * @var int
  * @readonly
  */
-KalturaFlavorAsset.prototype.version = null;
+BorhanFlavorAsset.prototype.version = null;
 
 /**
  * The width of the Flavor Asset 
@@ -3379,7 +3379,7 @@ KalturaFlavorAsset.prototype.version = null;
  * @var int
  * @readonly
  */
-KalturaFlavorAsset.prototype.width = null;
+BorhanFlavorAsset.prototype.width = null;
 
 /**
  * The height of the Flavor Asset
@@ -3388,7 +3388,7 @@ KalturaFlavorAsset.prototype.width = null;
  * @var int
  * @readonly
  */
-KalturaFlavorAsset.prototype.height = null;
+BorhanFlavorAsset.prototype.height = null;
 
 /**
  * The overall bitrate (in KBits) of the Flavor Asset 
@@ -3397,7 +3397,7 @@ KalturaFlavorAsset.prototype.height = null;
  * @var int
  * @readonly
  */
-KalturaFlavorAsset.prototype.bitrate = null;
+BorhanFlavorAsset.prototype.bitrate = null;
 
 /**
  * The frame rate (in FPS) of the Flavor Asset
@@ -3406,7 +3406,7 @@ KalturaFlavorAsset.prototype.bitrate = null;
  * @var int
  * @readonly
  */
-KalturaFlavorAsset.prototype.frameRate = null;
+BorhanFlavorAsset.prototype.frameRate = null;
 
 /**
  * The size (in KBytes) of the Flavor Asset
@@ -3415,7 +3415,7 @@ KalturaFlavorAsset.prototype.frameRate = null;
  * @var int
  * @readonly
  */
-KalturaFlavorAsset.prototype.size = null;
+BorhanFlavorAsset.prototype.size = null;
 
 /**
  * True if this Flavor Asset is the original source
@@ -3423,7 +3423,7 @@ KalturaFlavorAsset.prototype.size = null;
  *
  * @var bool
  */
-KalturaFlavorAsset.prototype.isOriginal = null;
+BorhanFlavorAsset.prototype.isOriginal = null;
 
 /**
  * Tags used to identify the Flavor Asset in various scenarios
@@ -3431,15 +3431,15 @@ KalturaFlavorAsset.prototype.isOriginal = null;
  *
  * @var string
  */
-KalturaFlavorAsset.prototype.tags = null;
+BorhanFlavorAsset.prototype.tags = null;
 
 /**
- * True if this Flavor Asset is playable in KDP
+ * True if this Flavor Asset is playable in BDP
 	 * 
  *
  * @var bool
  */
-KalturaFlavorAsset.prototype.isWeb = null;
+BorhanFlavorAsset.prototype.isWeb = null;
 
 /**
  * The file extension
@@ -3447,7 +3447,7 @@ KalturaFlavorAsset.prototype.isWeb = null;
  *
  * @var string
  */
-KalturaFlavorAsset.prototype.fileExt = null;
+BorhanFlavorAsset.prototype.fileExt = null;
 
 /**
  * The container format
@@ -3455,7 +3455,7 @@ KalturaFlavorAsset.prototype.fileExt = null;
  *
  * @var string
  */
-KalturaFlavorAsset.prototype.containerFormat = null;
+BorhanFlavorAsset.prototype.containerFormat = null;
 
 /**
  * The video codec
@@ -3463,28 +3463,28 @@ KalturaFlavorAsset.prototype.containerFormat = null;
  *
  * @var string
  */
-KalturaFlavorAsset.prototype.videoCodecId = null;
+BorhanFlavorAsset.prototype.videoCodecId = null;
 
 
-function KalturaFlavorAssetWithParams()
+function BorhanFlavorAssetWithParams()
 {
 }
-KalturaFlavorAssetWithParams.prototype = new KalturaObjectBase();
+BorhanFlavorAssetWithParams.prototype = new BorhanObjectBase();
 /**
  * The Flavor Asset (Can be null when there are params without asset)
 	 * 
  *
- * @var KalturaFlavorAsset
+ * @var BorhanFlavorAsset
  */
-KalturaFlavorAssetWithParams.prototype.flavorAsset = null;
+BorhanFlavorAssetWithParams.prototype.flavorAsset = null;
 
 /**
  * The Flavor Params
 	 * 
  *
- * @var KalturaFlavorParams
+ * @var BorhanFlavorParams
  */
-KalturaFlavorAssetWithParams.prototype.flavorParams = null;
+BorhanFlavorAssetWithParams.prototype.flavorParams = null;
 
 /**
  * The entry id
@@ -3492,13 +3492,13 @@ KalturaFlavorAssetWithParams.prototype.flavorParams = null;
  *
  * @var string
  */
-KalturaFlavorAssetWithParams.prototype.entryId = null;
+BorhanFlavorAssetWithParams.prototype.entryId = null;
 
 
-function KalturaFlavorParams()
+function BorhanFlavorParams()
 {
 }
-KalturaFlavorParams.prototype = new KalturaObjectBase();
+BorhanFlavorParams.prototype = new BorhanObjectBase();
 /**
  * The id of the Flavor Params
 	 * 
@@ -3506,7 +3506,7 @@ KalturaFlavorParams.prototype = new KalturaObjectBase();
  * @var int
  * @readonly
  */
-KalturaFlavorParams.prototype.id = null;
+BorhanFlavorParams.prototype.id = null;
 
 /**
  * 
@@ -3514,7 +3514,7 @@ KalturaFlavorParams.prototype.id = null;
  * @var int
  * @readonly
  */
-KalturaFlavorParams.prototype.partnerId = null;
+BorhanFlavorParams.prototype.partnerId = null;
 
 /**
  * The name of the Flavor Params
@@ -3522,7 +3522,7 @@ KalturaFlavorParams.prototype.partnerId = null;
  *
  * @var string
  */
-KalturaFlavorParams.prototype.name = null;
+BorhanFlavorParams.prototype.name = null;
 
 /**
  * The description of the Flavor Params
@@ -3530,7 +3530,7 @@ KalturaFlavorParams.prototype.name = null;
  *
  * @var string
  */
-KalturaFlavorParams.prototype.description = null;
+BorhanFlavorParams.prototype.description = null;
 
 /**
  * Creation date as Unix timestamp (In seconds)
@@ -3539,16 +3539,16 @@ KalturaFlavorParams.prototype.description = null;
  * @var int
  * @readonly
  */
-KalturaFlavorParams.prototype.createdAt = null;
+BorhanFlavorParams.prototype.createdAt = null;
 
 /**
  * True if those Flavor Params are part of system defaults
 	 * 
  *
- * @var KalturaNullableBoolean
+ * @var BorhanNullableBoolean
  * @readonly
  */
-KalturaFlavorParams.prototype.isSystemDefault = null;
+BorhanFlavorParams.prototype.isSystemDefault = null;
 
 /**
  * The Flavor Params tags are used to identify the flavor for different usage (e.g. web, hd, mobile)
@@ -3556,23 +3556,23 @@ KalturaFlavorParams.prototype.isSystemDefault = null;
  *
  * @var string
  */
-KalturaFlavorParams.prototype.tags = null;
+BorhanFlavorParams.prototype.tags = null;
 
 /**
  * The container format of the Flavor Params
 	 * 
  *
- * @var KalturaContainerFormat
+ * @var BorhanContainerFormat
  */
-KalturaFlavorParams.prototype.format = null;
+BorhanFlavorParams.prototype.format = null;
 
 /**
  * The video codec of the Flavor Params
 	 * 
  *
- * @var KalturaVideoCodec
+ * @var BorhanVideoCodec
  */
-KalturaFlavorParams.prototype.videoCodec = null;
+BorhanFlavorParams.prototype.videoCodec = null;
 
 /**
  * The video bitrate (in KBits) of the Flavor Params
@@ -3580,15 +3580,15 @@ KalturaFlavorParams.prototype.videoCodec = null;
  *
  * @var int
  */
-KalturaFlavorParams.prototype.videoBitrate = null;
+BorhanFlavorParams.prototype.videoBitrate = null;
 
 /**
  * The audio codec of the Flavor Params
 	 * 
  *
- * @var KalturaAudioCodec
+ * @var BorhanAudioCodec
  */
-KalturaFlavorParams.prototype.audioCodec = null;
+BorhanFlavorParams.prototype.audioCodec = null;
 
 /**
  * The audio bitrate (in KBits) of the Flavor Params
@@ -3596,7 +3596,7 @@ KalturaFlavorParams.prototype.audioCodec = null;
  *
  * @var int
  */
-KalturaFlavorParams.prototype.audioBitrate = null;
+BorhanFlavorParams.prototype.audioBitrate = null;
 
 /**
  * The number of audio channels for "downmixing"
@@ -3604,7 +3604,7 @@ KalturaFlavorParams.prototype.audioBitrate = null;
  *
  * @var int
  */
-KalturaFlavorParams.prototype.audioChannels = null;
+BorhanFlavorParams.prototype.audioChannels = null;
 
 /**
  * The audio sample rate of the Flavor Params
@@ -3612,7 +3612,7 @@ KalturaFlavorParams.prototype.audioChannels = null;
  *
  * @var int
  */
-KalturaFlavorParams.prototype.audioSampleRate = null;
+BorhanFlavorParams.prototype.audioSampleRate = null;
 
 /**
  * The desired width of the Flavor Params
@@ -3620,7 +3620,7 @@ KalturaFlavorParams.prototype.audioSampleRate = null;
  *
  * @var int
  */
-KalturaFlavorParams.prototype.width = null;
+BorhanFlavorParams.prototype.width = null;
 
 /**
  * The desired height of the Flavor Params
@@ -3628,7 +3628,7 @@ KalturaFlavorParams.prototype.width = null;
  *
  * @var int
  */
-KalturaFlavorParams.prototype.height = null;
+BorhanFlavorParams.prototype.height = null;
 
 /**
  * The frame rate of the Flavor Params
@@ -3636,7 +3636,7 @@ KalturaFlavorParams.prototype.height = null;
  *
  * @var int
  */
-KalturaFlavorParams.prototype.frameRate = null;
+BorhanFlavorParams.prototype.frameRate = null;
 
 /**
  * The gop size of the Flavor Params
@@ -3644,7 +3644,7 @@ KalturaFlavorParams.prototype.frameRate = null;
  *
  * @var int
  */
-KalturaFlavorParams.prototype.gopSize = null;
+BorhanFlavorParams.prototype.gopSize = null;
 
 /**
  * The list of conversion engines (comma separated)
@@ -3652,7 +3652,7 @@ KalturaFlavorParams.prototype.gopSize = null;
  *
  * @var string
  */
-KalturaFlavorParams.prototype.conversionEngines = null;
+BorhanFlavorParams.prototype.conversionEngines = null;
 
 /**
  * The list of conversion engines extra params (separated with "|")
@@ -3660,39 +3660,39 @@ KalturaFlavorParams.prototype.conversionEngines = null;
  *
  * @var string
  */
-KalturaFlavorParams.prototype.conversionEnginesExtraParams = null;
+BorhanFlavorParams.prototype.conversionEnginesExtraParams = null;
 
 /**
  * 
  *
  * @var bool
  */
-KalturaFlavorParams.prototype.twoPass = null;
+BorhanFlavorParams.prototype.twoPass = null;
 
 
-function KalturaFlavorParamsFilter()
+function BorhanFlavorParamsFilter()
 {
 }
-KalturaFlavorParamsFilter.prototype = new KalturaFilter();
+BorhanFlavorParamsFilter.prototype = new BorhanFilter();
 /**
  * 
  *
- * @var KalturaNullableBoolean
+ * @var BorhanNullableBoolean
  */
-KalturaFlavorParamsFilter.prototype.isSystemDefaultEqual = null;
+BorhanFlavorParamsFilter.prototype.isSystemDefaultEqual = null;
 
 
-function KalturaFlavorParamsListResponse()
+function BorhanFlavorParamsListResponse()
 {
 }
-KalturaFlavorParamsListResponse.prototype = new KalturaObjectBase();
+BorhanFlavorParamsListResponse.prototype = new BorhanObjectBase();
 /**
  * 
  *
- * @var KalturaFlavorParamsArray
+ * @var BorhanFlavorParamsArray
  * @readonly
  */
-KalturaFlavorParamsListResponse.prototype.objects = null;
+BorhanFlavorParamsListResponse.prototype.objects = null;
 
 /**
  * 
@@ -3700,61 +3700,61 @@ KalturaFlavorParamsListResponse.prototype.objects = null;
  * @var int
  * @readonly
  */
-KalturaFlavorParamsListResponse.prototype.totalCount = null;
+BorhanFlavorParamsListResponse.prototype.totalCount = null;
 
 
-function KalturaFlavorParamsOutput()
+function BorhanFlavorParamsOutput()
 {
 }
-KalturaFlavorParamsOutput.prototype = new KalturaFlavorParams();
+BorhanFlavorParamsOutput.prototype = new BorhanFlavorParams();
 /**
  * 
  *
  * @var int
  */
-KalturaFlavorParamsOutput.prototype.flavorParamsId = null;
+BorhanFlavorParamsOutput.prototype.flavorParamsId = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaFlavorParamsOutput.prototype.commandLinesStr = null;
+BorhanFlavorParamsOutput.prototype.commandLinesStr = null;
 
 
-function KalturaFlavorParamsOutputFilter()
+function BorhanFlavorParamsOutputFilter()
 {
 }
-KalturaFlavorParamsOutputFilter.prototype = new KalturaFlavorParamsFilter();
+BorhanFlavorParamsOutputFilter.prototype = new BorhanFlavorParamsFilter();
 
-function KalturaGoogleVideoSyndicationFeed()
+function BorhanGoogleVideoSyndicationFeed()
 {
 }
-KalturaGoogleVideoSyndicationFeed.prototype = new KalturaBaseSyndicationFeed();
+BorhanGoogleVideoSyndicationFeed.prototype = new BorhanBaseSyndicationFeed();
 /**
  * 
  *
- * @var KalturaGoogleSyndicationFeedAdultValues
+ * @var BorhanGoogleSyndicationFeedAdultValues
  */
-KalturaGoogleVideoSyndicationFeed.prototype.adultContent = null;
+BorhanGoogleVideoSyndicationFeed.prototype.adultContent = null;
 
 
-function KalturaGoogleVideoSyndicationFeedFilter()
+function BorhanGoogleVideoSyndicationFeedFilter()
 {
 }
-KalturaGoogleVideoSyndicationFeedFilter.prototype = new KalturaBaseSyndicationFeedFilter();
+BorhanGoogleVideoSyndicationFeedFilter.prototype = new BorhanBaseSyndicationFeedFilter();
 
-function KalturaITunesSyndicationFeed()
+function BorhanITunesSyndicationFeed()
 {
 }
-KalturaITunesSyndicationFeed.prototype = new KalturaBaseSyndicationFeed();
+BorhanITunesSyndicationFeed.prototype = new BorhanBaseSyndicationFeed();
 /**
  * feed description
 	 * 
  *
  * @var string
  */
-KalturaITunesSyndicationFeed.prototype.feedDescription = null;
+BorhanITunesSyndicationFeed.prototype.feedDescription = null;
 
 /**
  * feed language
@@ -3762,7 +3762,7 @@ KalturaITunesSyndicationFeed.prototype.feedDescription = null;
  *
  * @var string
  */
-KalturaITunesSyndicationFeed.prototype.language = null;
+BorhanITunesSyndicationFeed.prototype.language = null;
 
 /**
  * feed landing page (i.e publisher website)
@@ -3770,7 +3770,7 @@ KalturaITunesSyndicationFeed.prototype.language = null;
  *
  * @var string
  */
-KalturaITunesSyndicationFeed.prototype.feedLandingPage = null;
+BorhanITunesSyndicationFeed.prototype.feedLandingPage = null;
 
 /**
  * author/publisher name
@@ -3778,7 +3778,7 @@ KalturaITunesSyndicationFeed.prototype.feedLandingPage = null;
  *
  * @var string
  */
-KalturaITunesSyndicationFeed.prototype.ownerName = null;
+BorhanITunesSyndicationFeed.prototype.ownerName = null;
 
 /**
  * publisher email
@@ -3786,7 +3786,7 @@ KalturaITunesSyndicationFeed.prototype.ownerName = null;
  *
  * @var string
  */
-KalturaITunesSyndicationFeed.prototype.ownerEmail = null;
+BorhanITunesSyndicationFeed.prototype.ownerEmail = null;
 
 /**
  * podcast thumbnail
@@ -3794,284 +3794,284 @@ KalturaITunesSyndicationFeed.prototype.ownerEmail = null;
  *
  * @var string
  */
-KalturaITunesSyndicationFeed.prototype.feedImageUrl = null;
+BorhanITunesSyndicationFeed.prototype.feedImageUrl = null;
 
 /**
  * 
  *
- * @var KalturaITunesSyndicationFeedCategories
+ * @var BorhanITunesSyndicationFeedCategories
  * @readonly
  */
-KalturaITunesSyndicationFeed.prototype.category = null;
+BorhanITunesSyndicationFeed.prototype.category = null;
 
 /**
  * 
  *
- * @var KalturaITunesSyndicationFeedAdultValues
+ * @var BorhanITunesSyndicationFeedAdultValues
  */
-KalturaITunesSyndicationFeed.prototype.adultContent = null;
+BorhanITunesSyndicationFeed.prototype.adultContent = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaITunesSyndicationFeed.prototype.feedAuthor = null;
+BorhanITunesSyndicationFeed.prototype.feedAuthor = null;
 
 
-function KalturaITunesSyndicationFeedFilter()
+function BorhanITunesSyndicationFeedFilter()
 {
 }
-KalturaITunesSyndicationFeedFilter.prototype = new KalturaBaseSyndicationFeedFilter();
+BorhanITunesSyndicationFeedFilter.prototype = new BorhanBaseSyndicationFeedFilter();
 
-function KalturaImportJobData()
+function BorhanImportJobData()
 {
 }
-KalturaImportJobData.prototype = new KalturaJobData();
+BorhanImportJobData.prototype = new BorhanJobData();
 /**
  * 
  *
  * @var string
  */
-KalturaImportJobData.prototype.srcFileUrl = null;
-
-/**
- * 
- *
- * @var string
- */
-KalturaImportJobData.prototype.destFileLocalPath = null;
+BorhanImportJobData.prototype.srcFileUrl = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaImportJobData.prototype.flavorAssetId = null;
+BorhanImportJobData.prototype.destFileLocalPath = null;
+
+/**
+ * 
+ *
+ * @var string
+ */
+BorhanImportJobData.prototype.flavorAssetId = null;
 
 
-function KalturaMailJob()
+function BorhanMailJob()
 {
 }
-KalturaMailJob.prototype = new KalturaBaseJob();
+BorhanMailJob.prototype = new BorhanBaseJob();
 /**
  * 
  *
- * @var KalturaMailType
+ * @var BorhanMailType
  */
-KalturaMailJob.prototype.mailType = null;
+BorhanMailJob.prototype.mailType = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaMailJob.prototype.mailPriority = null;
+BorhanMailJob.prototype.mailPriority = null;
 
 /**
  * 
  *
- * @var KalturaMailJobStatus
+ * @var BorhanMailJobStatus
  */
-KalturaMailJob.prototype.status = null;
-
-/**
- * 
- *
- * @var string
- */
-KalturaMailJob.prototype.recipientName = null;
+BorhanMailJob.prototype.status = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaMailJob.prototype.recipientEmail = null;
+BorhanMailJob.prototype.recipientName = null;
+
+/**
+ * 
+ *
+ * @var string
+ */
+BorhanMailJob.prototype.recipientEmail = null;
 
 /**
  * kuserId  
  *
  * @var int
  */
-KalturaMailJob.prototype.recipientId = null;
+BorhanMailJob.prototype.recipientId = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaMailJob.prototype.fromName = null;
+BorhanMailJob.prototype.fromName = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaMailJob.prototype.fromEmail = null;
+BorhanMailJob.prototype.fromEmail = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaMailJob.prototype.bodyParams = null;
+BorhanMailJob.prototype.bodyParams = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaMailJob.prototype.subjectParams = null;
+BorhanMailJob.prototype.subjectParams = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaMailJob.prototype.templatePath = null;
+BorhanMailJob.prototype.templatePath = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaMailJob.prototype.culture = null;
+BorhanMailJob.prototype.culture = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaMailJob.prototype.campaignId = null;
+BorhanMailJob.prototype.campaignId = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaMailJob.prototype.minSendDate = null;
+BorhanMailJob.prototype.minSendDate = null;
 
 
-function KalturaMailJobData()
+function BorhanMailJobData()
 {
 }
-KalturaMailJobData.prototype = new KalturaJobData();
+BorhanMailJobData.prototype = new BorhanJobData();
 /**
  * 
  *
- * @var KalturaMailType
+ * @var BorhanMailType
  */
-KalturaMailJobData.prototype.mailType = null;
+BorhanMailJobData.prototype.mailType = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaMailJobData.prototype.mailPriority = null;
+BorhanMailJobData.prototype.mailPriority = null;
 
 /**
  * 
  *
- * @var KalturaMailJobStatus
+ * @var BorhanMailJobStatus
  */
-KalturaMailJobData.prototype.status = null;
-
-/**
- * 
- *
- * @var string
- */
-KalturaMailJobData.prototype.recipientName = null;
+BorhanMailJobData.prototype.status = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaMailJobData.prototype.recipientEmail = null;
+BorhanMailJobData.prototype.recipientName = null;
+
+/**
+ * 
+ *
+ * @var string
+ */
+BorhanMailJobData.prototype.recipientEmail = null;
 
 /**
  * kuserId  
  *
  * @var int
  */
-KalturaMailJobData.prototype.recipientId = null;
+BorhanMailJobData.prototype.recipientId = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaMailJobData.prototype.fromName = null;
+BorhanMailJobData.prototype.fromName = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaMailJobData.prototype.fromEmail = null;
+BorhanMailJobData.prototype.fromEmail = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaMailJobData.prototype.bodyParams = null;
+BorhanMailJobData.prototype.bodyParams = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaMailJobData.prototype.subjectParams = null;
+BorhanMailJobData.prototype.subjectParams = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaMailJobData.prototype.templatePath = null;
+BorhanMailJobData.prototype.templatePath = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaMailJobData.prototype.culture = null;
+BorhanMailJobData.prototype.culture = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaMailJobData.prototype.campaignId = null;
+BorhanMailJobData.prototype.campaignId = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaMailJobData.prototype.minSendDate = null;
+BorhanMailJobData.prototype.minSendDate = null;
 
 /**
  * 
  *
  * @var bool
  */
-KalturaMailJobData.prototype.isHtml = null;
+BorhanMailJobData.prototype.isHtml = null;
 
 
-function KalturaMailJobFilter()
+function BorhanMailJobFilter()
 {
 }
-KalturaMailJobFilter.prototype = new KalturaBaseJobFilter();
+BorhanMailJobFilter.prototype = new BorhanBaseJobFilter();
 
-function KalturaPlayableEntry()
+function BorhanPlayableEntry()
 {
 }
-KalturaPlayableEntry.prototype = new KalturaBaseEntry();
+BorhanPlayableEntry.prototype = new BorhanBaseEntry();
 /**
  * Number of plays
 	 * 
@@ -4079,7 +4079,7 @@ KalturaPlayableEntry.prototype = new KalturaBaseEntry();
  * @var int
  * @readonly
  */
-KalturaPlayableEntry.prototype.plays = null;
+BorhanPlayableEntry.prototype.plays = null;
 
 /**
  * Number of views
@@ -4088,7 +4088,7 @@ KalturaPlayableEntry.prototype.plays = null;
  * @var int
  * @readonly
  */
-KalturaPlayableEntry.prototype.views = null;
+BorhanPlayableEntry.prototype.views = null;
 
 /**
  * The width in pixels
@@ -4097,7 +4097,7 @@ KalturaPlayableEntry.prototype.views = null;
  * @var int
  * @readonly
  */
-KalturaPlayableEntry.prototype.width = null;
+BorhanPlayableEntry.prototype.width = null;
 
 /**
  * The height in pixels
@@ -4106,7 +4106,7 @@ KalturaPlayableEntry.prototype.width = null;
  * @var int
  * @readonly
  */
-KalturaPlayableEntry.prototype.height = null;
+BorhanPlayableEntry.prototype.height = null;
 
 /**
  * The duration in seconds
@@ -4115,30 +4115,30 @@ KalturaPlayableEntry.prototype.height = null;
  * @var int
  * @readonly
  */
-KalturaPlayableEntry.prototype.duration = null;
+BorhanPlayableEntry.prototype.duration = null;
 
 /**
  * The duration type (short for 0-4 mins, medium for 4-20 mins, long for 20+ mins)
 	 * 
  *
- * @var KalturaDurationType
+ * @var BorhanDurationType
  * @readonly
  */
-KalturaPlayableEntry.prototype.durationType = null;
+BorhanPlayableEntry.prototype.durationType = null;
 
 
-function KalturaMediaEntry()
+function BorhanMediaEntry()
 {
 }
-KalturaMediaEntry.prototype = new KalturaPlayableEntry();
+BorhanMediaEntry.prototype = new BorhanPlayableEntry();
 /**
  * The media type of the entry
 	 * 
  *
- * @var KalturaMediaType
+ * @var BorhanMediaType
  * @insertonly
  */
-KalturaMediaEntry.prototype.mediaType = null;
+BorhanMediaEntry.prototype.mediaType = null;
 
 /**
  * Override the default conversion quality  
@@ -4147,23 +4147,23 @@ KalturaMediaEntry.prototype.mediaType = null;
  * @var string
  * @insertonly
  */
-KalturaMediaEntry.prototype.conversionQuality = null;
+BorhanMediaEntry.prototype.conversionQuality = null;
 
 /**
  * The source type of the entry 
  *
- * @var KalturaSourceType
+ * @var BorhanSourceType
  * @readonly
  */
-KalturaMediaEntry.prototype.sourceType = null;
+BorhanMediaEntry.prototype.sourceType = null;
 
 /**
  * The search provider type used to import this entry
  *
- * @var KalturaSearchProviderType
+ * @var BorhanSearchProviderType
  * @readonly
  */
-KalturaMediaEntry.prototype.searchProviderType = null;
+BorhanMediaEntry.prototype.searchProviderType = null;
 
 /**
  * The ID of the media in the importing site
@@ -4171,21 +4171,21 @@ KalturaMediaEntry.prototype.searchProviderType = null;
  * @var string
  * @readonly
  */
-KalturaMediaEntry.prototype.searchProviderId = null;
+BorhanMediaEntry.prototype.searchProviderId = null;
 
 /**
  * The user name used for credits
  *
  * @var string
  */
-KalturaMediaEntry.prototype.creditUserName = null;
+BorhanMediaEntry.prototype.creditUserName = null;
 
 /**
  * The URL for credits
  *
  * @var string
  */
-KalturaMediaEntry.prototype.creditUrl = null;
+BorhanMediaEntry.prototype.creditUrl = null;
 
 /**
  * The media date extracted from EXIF data (For images) as Unix timestamp (In seconds)
@@ -4193,7 +4193,7 @@ KalturaMediaEntry.prototype.creditUrl = null;
  * @var int
  * @readonly
  */
-KalturaMediaEntry.prototype.mediaDate = null;
+BorhanMediaEntry.prototype.mediaDate = null;
 
 /**
  * The URL used for playback. This is not the download URL.
@@ -4201,7 +4201,7 @@ KalturaMediaEntry.prototype.mediaDate = null;
  * @var string
  * @readonly
  */
-KalturaMediaEntry.prototype.dataUrl = null;
+BorhanMediaEntry.prototype.dataUrl = null;
 
 /**
  * Comma separated flavor params ids that exists for this media entry
@@ -4210,119 +4210,119 @@ KalturaMediaEntry.prototype.dataUrl = null;
  * @var string
  * @readonly
  */
-KalturaMediaEntry.prototype.flavorParamsIds = null;
+BorhanMediaEntry.prototype.flavorParamsIds = null;
 
 
-function KalturaPlayableEntryFilter()
+function BorhanPlayableEntryFilter()
 {
 }
-KalturaPlayableEntryFilter.prototype = new KalturaBaseEntryFilter();
+BorhanPlayableEntryFilter.prototype = new BorhanBaseEntryFilter();
 /**
  * 
  *
  * @var int
  */
-KalturaPlayableEntryFilter.prototype.durationLessThan = null;
+BorhanPlayableEntryFilter.prototype.durationLessThan = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaPlayableEntryFilter.prototype.durationGreaterThan = null;
+BorhanPlayableEntryFilter.prototype.durationGreaterThan = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaPlayableEntryFilter.prototype.durationLessThanOrEqual = null;
+BorhanPlayableEntryFilter.prototype.durationLessThanOrEqual = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaPlayableEntryFilter.prototype.durationGreaterThanOrEqual = null;
+BorhanPlayableEntryFilter.prototype.durationGreaterThanOrEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaPlayableEntryFilter.prototype.durationTypeMatchOr = null;
+BorhanPlayableEntryFilter.prototype.durationTypeMatchOr = null;
 
 
-function KalturaMediaEntryFilter()
+function BorhanMediaEntryFilter()
 {
 }
-KalturaMediaEntryFilter.prototype = new KalturaPlayableEntryFilter();
+BorhanMediaEntryFilter.prototype = new BorhanPlayableEntryFilter();
 /**
  * 
  *
- * @var KalturaMediaType
+ * @var BorhanMediaType
  */
-KalturaMediaEntryFilter.prototype.mediaTypeEqual = null;
+BorhanMediaEntryFilter.prototype.mediaTypeEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaMediaEntryFilter.prototype.mediaTypeIn = null;
+BorhanMediaEntryFilter.prototype.mediaTypeIn = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaMediaEntryFilter.prototype.mediaDateGreaterThanOrEqual = null;
+BorhanMediaEntryFilter.prototype.mediaDateGreaterThanOrEqual = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaMediaEntryFilter.prototype.mediaDateLessThanOrEqual = null;
+BorhanMediaEntryFilter.prototype.mediaDateLessThanOrEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaMediaEntryFilter.prototype.flavorParamsIdsMatchOr = null;
+BorhanMediaEntryFilter.prototype.flavorParamsIdsMatchOr = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaMediaEntryFilter.prototype.flavorParamsIdsMatchAnd = null;
+BorhanMediaEntryFilter.prototype.flavorParamsIdsMatchAnd = null;
 
 
-function KalturaMediaEntryFilterForPlaylist()
+function BorhanMediaEntryFilterForPlaylist()
 {
 }
-KalturaMediaEntryFilterForPlaylist.prototype = new KalturaMediaEntryFilter();
+BorhanMediaEntryFilterForPlaylist.prototype = new BorhanMediaEntryFilter();
 /**
  * 
  *
  * @var int
  */
-KalturaMediaEntryFilterForPlaylist.prototype.limit = null;
+BorhanMediaEntryFilterForPlaylist.prototype.limit = null;
 
 
-function KalturaMediaListResponse()
+function BorhanMediaListResponse()
 {
 }
-KalturaMediaListResponse.prototype = new KalturaObjectBase();
+BorhanMediaListResponse.prototype = new BorhanObjectBase();
 /**
  * 
  *
- * @var KalturaMediaEntryArray
+ * @var BorhanMediaEntryArray
  * @readonly
  */
-KalturaMediaListResponse.prototype.objects = null;
+BorhanMediaListResponse.prototype.objects = null;
 
 /**
  * 
@@ -4330,13 +4330,13 @@ KalturaMediaListResponse.prototype.objects = null;
  * @var int
  * @readonly
  */
-KalturaMediaListResponse.prototype.totalCount = null;
+BorhanMediaListResponse.prototype.totalCount = null;
 
 
-function KalturaMixEntry()
+function BorhanMixEntry()
 {
 }
-KalturaMixEntry.prototype = new KalturaPlayableEntry();
+BorhanMixEntry.prototype = new BorhanPlayableEntry();
 /**
  * Indicates whether the user has submited a real thumbnail to the mix (Not the one that was generated automaticaly)
 	 * 
@@ -4344,40 +4344,40 @@ KalturaMixEntry.prototype = new KalturaPlayableEntry();
  * @var bool
  * @readonly
  */
-KalturaMixEntry.prototype.hasRealThumbnail = null;
+BorhanMixEntry.prototype.hasRealThumbnail = null;
 
 /**
  * The editor type used to edit the metadata
 	 * 
  *
- * @var KalturaEditorType
+ * @var BorhanEditorType
  */
-KalturaMixEntry.prototype.editorType = null;
+BorhanMixEntry.prototype.editorType = null;
 
 /**
  * The xml data of the mix
  *
  * @var string
  */
-KalturaMixEntry.prototype.dataContent = null;
+BorhanMixEntry.prototype.dataContent = null;
 
 
-function KalturaMixEntryFilter()
+function BorhanMixEntryFilter()
 {
 }
-KalturaMixEntryFilter.prototype = new KalturaPlayableEntryFilter();
+BorhanMixEntryFilter.prototype = new BorhanPlayableEntryFilter();
 
-function KalturaMixListResponse()
+function BorhanMixListResponse()
 {
 }
-KalturaMixListResponse.prototype = new KalturaObjectBase();
+BorhanMixListResponse.prototype = new BorhanObjectBase();
 /**
  * 
  *
- * @var KalturaMixEntryArray
+ * @var BorhanMixEntryArray
  * @readonly
  */
-KalturaMixListResponse.prototype.objects = null;
+BorhanMixListResponse.prototype.objects = null;
 
 /**
  * 
@@ -4385,20 +4385,20 @@ KalturaMixListResponse.prototype.objects = null;
  * @var int
  * @readonly
  */
-KalturaMixListResponse.prototype.totalCount = null;
+BorhanMixListResponse.prototype.totalCount = null;
 
 
-function KalturaModerationFlag()
+function BorhanModerationFlag()
 {
 }
-KalturaModerationFlag.prototype = new KalturaObjectBase();
+BorhanModerationFlag.prototype = new BorhanObjectBase();
 /**
  * Moderation flag id
  *
  * @var int
  * @readonly
  */
-KalturaModerationFlag.prototype.id = null;
+BorhanModerationFlag.prototype.id = null;
 
 /**
  * 
@@ -4406,7 +4406,7 @@ KalturaModerationFlag.prototype.id = null;
  * @var int
  * @readonly
  */
-KalturaModerationFlag.prototype.partnerId = null;
+BorhanModerationFlag.prototype.partnerId = null;
 
 /**
  * The user id that added the moderation flag
@@ -4414,59 +4414,51 @@ KalturaModerationFlag.prototype.partnerId = null;
  * @var string
  * @readonly
  */
-KalturaModerationFlag.prototype.userId = null;
+BorhanModerationFlag.prototype.userId = null;
 
 /**
  * The type of the moderation flag (entry or user)
  *
- * @var KalturaModerationObjectType
+ * @var BorhanModerationObjectType
  * @readonly
  */
-KalturaModerationFlag.prototype.moderationObjectType = null;
+BorhanModerationFlag.prototype.moderationObjectType = null;
 
 /**
  * If moderation flag is set for entry, this is the flagged entry id
  *
  * @var string
  */
-KalturaModerationFlag.prototype.flaggedEntryId = null;
+BorhanModerationFlag.prototype.flaggedEntryId = null;
 
 /**
  * If moderation flag is set for user, this is the flagged user id
  *
  * @var string
  */
-KalturaModerationFlag.prototype.flaggedUserId = null;
+BorhanModerationFlag.prototype.flaggedUserId = null;
 
 /**
  * The moderation flag status
  *
- * @var KalturaModerationFlagStatus
+ * @var BorhanModerationFlagStatus
  * @readonly
  */
-KalturaModerationFlag.prototype.status = null;
+BorhanModerationFlag.prototype.status = null;
 
 /**
  * The comment that was added to the flag
  *
  * @var string
  */
-KalturaModerationFlag.prototype.comments = null;
+BorhanModerationFlag.prototype.comments = null;
 
 /**
  * 
  *
- * @var KalturaModerationFlagType
+ * @var BorhanModerationFlagType
  */
-KalturaModerationFlag.prototype.flagType = null;
-
-/**
- * 
- *
- * @var int
- * @readonly
- */
-KalturaModerationFlag.prototype.createdAt = null;
+BorhanModerationFlag.prototype.flagType = null;
 
 /**
  * 
@@ -4474,20 +4466,28 @@ KalturaModerationFlag.prototype.createdAt = null;
  * @var int
  * @readonly
  */
-KalturaModerationFlag.prototype.updatedAt = null;
+BorhanModerationFlag.prototype.createdAt = null;
+
+/**
+ * 
+ *
+ * @var int
+ * @readonly
+ */
+BorhanModerationFlag.prototype.updatedAt = null;
 
 
-function KalturaModerationFlagListResponse()
+function BorhanModerationFlagListResponse()
 {
 }
-KalturaModerationFlagListResponse.prototype = new KalturaObjectBase();
+BorhanModerationFlagListResponse.prototype = new BorhanObjectBase();
 /**
  * 
  *
- * @var KalturaModerationFlagArray
+ * @var BorhanModerationFlagArray
  * @readonly
  */
-KalturaModerationFlagListResponse.prototype.objects = null;
+BorhanModerationFlagListResponse.prototype.objects = null;
 
 /**
  * 
@@ -4495,176 +4495,176 @@ KalturaModerationFlagListResponse.prototype.objects = null;
  * @var int
  * @readonly
  */
-KalturaModerationFlagListResponse.prototype.totalCount = null;
+BorhanModerationFlagListResponse.prototype.totalCount = null;
 
 
-function KalturaNotification()
+function BorhanNotification()
 {
 }
-KalturaNotification.prototype = new KalturaBaseJob();
+BorhanNotification.prototype = new BorhanBaseJob();
 /**
  * 
  *
  * @var string
  */
-KalturaNotification.prototype.puserId = null;
+BorhanNotification.prototype.puserId = null;
 
 /**
  * 
  *
- * @var KalturaNotificationType
+ * @var BorhanNotificationType
  */
-KalturaNotification.prototype.type = null;
-
-/**
- * 
- *
- * @var string
- */
-KalturaNotification.prototype.objectId = null;
-
-/**
- * 
- *
- * @var KalturaNotificationStatus
- */
-KalturaNotification.prototype.status = null;
+BorhanNotification.prototype.type = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaNotification.prototype.notificationData = null;
+BorhanNotification.prototype.objectId = null;
+
+/**
+ * 
+ *
+ * @var BorhanNotificationStatus
+ */
+BorhanNotification.prototype.status = null;
+
+/**
+ * 
+ *
+ * @var string
+ */
+BorhanNotification.prototype.notificationData = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaNotification.prototype.numberOfAttempts = null;
+BorhanNotification.prototype.numberOfAttempts = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaNotification.prototype.notificationResult = null;
+BorhanNotification.prototype.notificationResult = null;
 
 /**
  * 
  *
- * @var KalturaNotificationObjectType
+ * @var BorhanNotificationObjectType
  */
-KalturaNotification.prototype.objType = null;
+BorhanNotification.prototype.objType = null;
 
-function KalturaNotificationJobData()
+function BorhanNotificationJobData()
 {
 }
-KalturaNotificationJobData.prototype = new KalturaJobData();
+BorhanNotificationJobData.prototype = new BorhanJobData();
 /**
  * 
  *
  * @var string
  */
-KalturaNotificationJobData.prototype.userId = null;
+BorhanNotificationJobData.prototype.userId = null;
 
 /**
  * 
  *
- * @var KalturaNotificationType
+ * @var BorhanNotificationType
  */
-KalturaNotificationJobData.prototype.type = null;
-
-/**
- * 
- *
- * @var string
- */
-KalturaNotificationJobData.prototype.typeAsString = null;
+BorhanNotificationJobData.prototype.type = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaNotificationJobData.prototype.objectId = null;
-
-/**
- * 
- *
- * @var KalturaNotificationStatus
- */
-KalturaNotificationJobData.prototype.status = null;
+BorhanNotificationJobData.prototype.typeAsString = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaNotificationJobData.prototype.data = null;
+BorhanNotificationJobData.prototype.objectId = null;
+
+/**
+ * 
+ *
+ * @var BorhanNotificationStatus
+ */
+BorhanNotificationJobData.prototype.status = null;
+
+/**
+ * 
+ *
+ * @var string
+ */
+BorhanNotificationJobData.prototype.data = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaNotificationJobData.prototype.numberOfAttempts = null;
+BorhanNotificationJobData.prototype.numberOfAttempts = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaNotificationJobData.prototype.notificationResult = null;
+BorhanNotificationJobData.prototype.notificationResult = null;
 
 /**
  * 
  *
- * @var KalturaNotificationObjectType
+ * @var BorhanNotificationObjectType
  */
-KalturaNotificationJobData.prototype.objType = null;
+BorhanNotificationJobData.prototype.objType = null;
 
 
-function KalturaPartner()
+function BorhanPartner()
 {
 }
-KalturaPartner.prototype = new KalturaObjectBase();
+BorhanPartner.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var int
  * @readonly
  */
-KalturaPartner.prototype.id = null;
+BorhanPartner.prototype.id = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaPartner.prototype.name = null;
+BorhanPartner.prototype.name = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaPartner.prototype.website = null;
+BorhanPartner.prototype.website = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaPartner.prototype.notificationUrl = null;
+BorhanPartner.prototype.notificationUrl = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaPartner.prototype.appearInSearch = null;
+BorhanPartner.prototype.appearInSearch = null;
 
 /**
  * 
@@ -4672,98 +4672,98 @@ KalturaPartner.prototype.appearInSearch = null;
  * @var string
  * @readonly
  */
-KalturaPartner.prototype.createdAt = null;
+BorhanPartner.prototype.createdAt = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaPartner.prototype.adminName = null;
+BorhanPartner.prototype.adminName = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaPartner.prototype.adminEmail = null;
+BorhanPartner.prototype.adminEmail = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaPartner.prototype.description = null;
+BorhanPartner.prototype.description = null;
 
 /**
  * 
  *
- * @var KalturaCommercialUseType
+ * @var BorhanCommercialUseType
  */
-KalturaPartner.prototype.commercialUse = null;
-
-/**
- * 
- *
- * @var string
- */
-KalturaPartner.prototype.landingPage = null;
+BorhanPartner.prototype.commercialUse = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaPartner.prototype.userLandingPage = null;
+BorhanPartner.prototype.landingPage = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaPartner.prototype.contentCategories = null;
-
-/**
- * 
- *
- * @var KalturaPartnerType
- */
-KalturaPartner.prototype.type = null;
+BorhanPartner.prototype.userLandingPage = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaPartner.prototype.phone = null;
+BorhanPartner.prototype.contentCategories = null;
+
+/**
+ * 
+ *
+ * @var BorhanPartnerType
+ */
+BorhanPartner.prototype.type = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaPartner.prototype.describeYourself = null;
+BorhanPartner.prototype.phone = null;
+
+/**
+ * 
+ *
+ * @var string
+ */
+BorhanPartner.prototype.describeYourself = null;
 
 /**
  * 
  *
  * @var bool
  */
-KalturaPartner.prototype.adultContent = null;
+BorhanPartner.prototype.adultContent = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaPartner.prototype.defConversionProfileType = null;
+BorhanPartner.prototype.defConversionProfileType = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaPartner.prototype.notify = null;
+BorhanPartner.prototype.notify = null;
 
 /**
  * 
@@ -4771,56 +4771,56 @@ KalturaPartner.prototype.notify = null;
  * @var int
  * @readonly
  */
-KalturaPartner.prototype.status = null;
+BorhanPartner.prototype.status = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaPartner.prototype.allowQuickEdit = null;
+BorhanPartner.prototype.allowQuickEdit = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaPartner.prototype.mergeEntryLists = null;
+BorhanPartner.prototype.mergeEntryLists = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaPartner.prototype.notificationsConfig = null;
+BorhanPartner.prototype.notificationsConfig = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaPartner.prototype.maxUploadSize = null;
+BorhanPartner.prototype.maxUploadSize = null;
 
 /**
  * readonly
  *
  * @var int
  */
-KalturaPartner.prototype.partnerPackage = null;
+BorhanPartner.prototype.partnerPackage = null;
 
 /**
  * readonly
  *
  * @var string
  */
-KalturaPartner.prototype.secret = null;
+BorhanPartner.prototype.secret = null;
 
 /**
  * readonly
  *
  * @var string
  */
-KalturaPartner.prototype.adminSecret = null;
+BorhanPartner.prototype.adminSecret = null;
 
 /**
  * 
@@ -4828,74 +4828,74 @@ KalturaPartner.prototype.adminSecret = null;
  * @var string
  * @readonly
  */
-KalturaPartner.prototype.cmsPassword = null;
+BorhanPartner.prototype.cmsPassword = null;
 
 /**
  * readonly
  *
  * @var int
  */
-KalturaPartner.prototype.allowMultiNotification = null;
+BorhanPartner.prototype.allowMultiNotification = null;
 
 
-function KalturaPartnerFilter()
+function BorhanPartnerFilter()
 {
 }
-KalturaPartnerFilter.prototype = new KalturaFilter();
+BorhanPartnerFilter.prototype = new BorhanFilter();
 /**
  * 
  *
  * @var string
  */
-KalturaPartnerFilter.prototype.nameLike = null;
+BorhanPartnerFilter.prototype.nameLike = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaPartnerFilter.prototype.nameMultiLikeOr = null;
+BorhanPartnerFilter.prototype.nameMultiLikeOr = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaPartnerFilter.prototype.nameMultiLikeAnd = null;
+BorhanPartnerFilter.prototype.nameMultiLikeAnd = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaPartnerFilter.prototype.nameEqual = null;
+BorhanPartnerFilter.prototype.nameEqual = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaPartnerFilter.prototype.statusEqual = null;
+BorhanPartnerFilter.prototype.statusEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaPartnerFilter.prototype.statusIn = null;
+BorhanPartnerFilter.prototype.statusIn = null;
 
 
-function KalturaPartnerUsage()
+function BorhanPartnerUsage()
 {
 }
-KalturaPartnerUsage.prototype = new KalturaObjectBase();
+BorhanPartnerUsage.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var float
  * @readonly
  */
-KalturaPartnerUsage.prototype.hostingGB = null;
+BorhanPartnerUsage.prototype.hostingGB = null;
 
 /**
  * 
@@ -4903,7 +4903,7 @@ KalturaPartnerUsage.prototype.hostingGB = null;
  * @var float
  * @readonly
  */
-KalturaPartnerUsage.prototype.Percent = null;
+BorhanPartnerUsage.prototype.Percent = null;
 
 /**
  * 
@@ -4911,7 +4911,7 @@ KalturaPartnerUsage.prototype.Percent = null;
  * @var int
  * @readonly
  */
-KalturaPartnerUsage.prototype.packageBW = null;
+BorhanPartnerUsage.prototype.packageBW = null;
 
 /**
  * 
@@ -4919,7 +4919,7 @@ KalturaPartnerUsage.prototype.packageBW = null;
  * @var int
  * @readonly
  */
-KalturaPartnerUsage.prototype.usageGB = null;
+BorhanPartnerUsage.prototype.usageGB = null;
 
 /**
  * 
@@ -4927,7 +4927,7 @@ KalturaPartnerUsage.prototype.usageGB = null;
  * @var int
  * @readonly
  */
-KalturaPartnerUsage.prototype.reachedLimitDate = null;
+BorhanPartnerUsage.prototype.reachedLimitDate = null;
 
 /**
  * 
@@ -4935,13 +4935,13 @@ KalturaPartnerUsage.prototype.reachedLimitDate = null;
  * @var string
  * @readonly
  */
-KalturaPartnerUsage.prototype.usageGraph = null;
+BorhanPartnerUsage.prototype.usageGraph = null;
 
 
-function KalturaPlaylist()
+function BorhanPlaylist()
 {
 }
-KalturaPlaylist.prototype = new KalturaBaseEntry();
+BorhanPlaylist.prototype = new BorhanBaseEntry();
 /**
  * Content of the playlist - 
 	 * XML if the playlistType is dynamic 
@@ -4950,28 +4950,28 @@ KalturaPlaylist.prototype = new KalturaBaseEntry();
  *
  * @var string
  */
-KalturaPlaylist.prototype.playlistContent = null;
+BorhanPlaylist.prototype.playlistContent = null;
 
 /**
  * 
  *
- * @var KalturaMediaEntryFilterForPlaylistArray
+ * @var BorhanMediaEntryFilterForPlaylistArray
  */
-KalturaPlaylist.prototype.filters = null;
+BorhanPlaylist.prototype.filters = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaPlaylist.prototype.totalResults = null;
+BorhanPlaylist.prototype.totalResults = null;
 
 /**
  * Type of playlist  
  *
- * @var KalturaPlaylistType
+ * @var BorhanPlaylistType
  */
-KalturaPlaylist.prototype.playlistType = null;
+BorhanPlaylist.prototype.playlistType = null;
 
 /**
  * Number of plays
@@ -4979,7 +4979,7 @@ KalturaPlaylist.prototype.playlistType = null;
  * @var int
  * @readonly
  */
-KalturaPlaylist.prototype.plays = null;
+BorhanPlaylist.prototype.plays = null;
 
 /**
  * Number of views
@@ -4987,7 +4987,7 @@ KalturaPlaylist.prototype.plays = null;
  * @var int
  * @readonly
  */
-KalturaPlaylist.prototype.views = null;
+BorhanPlaylist.prototype.views = null;
 
 /**
  * The duration in seconds
@@ -4995,25 +4995,25 @@ KalturaPlaylist.prototype.views = null;
  * @var int
  * @readonly
  */
-KalturaPlaylist.prototype.duration = null;
+BorhanPlaylist.prototype.duration = null;
 
 
-function KalturaPlaylistFilter()
+function BorhanPlaylistFilter()
 {
 }
-KalturaPlaylistFilter.prototype = new KalturaBaseEntryFilter();
+BorhanPlaylistFilter.prototype = new BorhanBaseEntryFilter();
 
-function KalturaPlaylistListResponse()
+function BorhanPlaylistListResponse()
 {
 }
-KalturaPlaylistListResponse.prototype = new KalturaObjectBase();
+BorhanPlaylistListResponse.prototype = new BorhanObjectBase();
 /**
  * 
  *
- * @var KalturaPlaylistArray
+ * @var BorhanPlaylistArray
  * @readonly
  */
-KalturaPlaylistListResponse.prototype.objects = null;
+BorhanPlaylistListResponse.prototype.objects = null;
 
 /**
  * 
@@ -5021,26 +5021,26 @@ KalturaPlaylistListResponse.prototype.objects = null;
  * @var int
  * @readonly
  */
-KalturaPlaylistListResponse.prototype.totalCount = null;
+BorhanPlaylistListResponse.prototype.totalCount = null;
 
 
-function KalturaPostConvertJobData()
+function BorhanPostConvertJobData()
 {
 }
-KalturaPostConvertJobData.prototype = new KalturaJobData();
+BorhanPostConvertJobData.prototype = new BorhanJobData();
 /**
  * 
  *
  * @var string
  */
-KalturaPostConvertJobData.prototype.srcFileSyncLocalPath = null;
+BorhanPostConvertJobData.prototype.srcFileSyncLocalPath = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaPostConvertJobData.prototype.flavorAssetId = null;
+BorhanPostConvertJobData.prototype.flavorAssetId = null;
 
 /**
  * Indicates if a thumbnail should be created
@@ -5048,7 +5048,7 @@ KalturaPostConvertJobData.prototype.flavorAssetId = null;
  *
  * @var bool
  */
-KalturaPostConvertJobData.prototype.createThumb = null;
+BorhanPostConvertJobData.prototype.createThumb = null;
 
 /**
  * The path of the created thumbnail
@@ -5056,7 +5056,7 @@ KalturaPostConvertJobData.prototype.createThumb = null;
  *
  * @var string
  */
-KalturaPostConvertJobData.prototype.thumbPath = null;
+BorhanPostConvertJobData.prototype.thumbPath = null;
 
 /**
  * The position of the thumbnail in the media file
@@ -5064,7 +5064,7 @@ KalturaPostConvertJobData.prototype.thumbPath = null;
  *
  * @var int
  */
-KalturaPostConvertJobData.prototype.thumbOffset = null;
+BorhanPostConvertJobData.prototype.thumbOffset = null;
 
 /**
  * The height of the movie, will be used to comapare if this thumbnail is the best we can have
@@ -5072,7 +5072,7 @@ KalturaPostConvertJobData.prototype.thumbOffset = null;
  *
  * @var int
  */
-KalturaPostConvertJobData.prototype.thumbHeight = null;
+BorhanPostConvertJobData.prototype.thumbHeight = null;
 
 /**
  * The bit rate of the movie, will be used to comapare if this thumbnail is the best we can have
@@ -5080,63 +5080,63 @@ KalturaPostConvertJobData.prototype.thumbHeight = null;
  *
  * @var int
  */
-KalturaPostConvertJobData.prototype.thumbBitrate = null;
+BorhanPostConvertJobData.prototype.thumbBitrate = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaPostConvertJobData.prototype.flavorParamsOutputId = null;
+BorhanPostConvertJobData.prototype.flavorParamsOutputId = null;
 
 
-function KalturaSessionRestriction()
+function BorhanSessionRestriction()
 {
 }
-KalturaSessionRestriction.prototype = new KalturaBaseRestriction();
+BorhanSessionRestriction.prototype = new BorhanBaseRestriction();
 
-function KalturaPreviewRestriction()
+function BorhanPreviewRestriction()
 {
 }
-KalturaPreviewRestriction.prototype = new KalturaSessionRestriction();
+BorhanPreviewRestriction.prototype = new BorhanSessionRestriction();
 /**
  * The preview restriction length 
 	 * 
  *
  * @var int
  */
-KalturaPreviewRestriction.prototype.previewLength = null;
+BorhanPreviewRestriction.prototype.previewLength = null;
 
 
-function KalturaPullJobData()
+function BorhanPullJobData()
 {
 }
-KalturaPullJobData.prototype = new KalturaJobData();
+BorhanPullJobData.prototype = new BorhanJobData();
 /**
  * 
  *
  * @var string
  */
-KalturaPullJobData.prototype.srcFileUrl = null;
+BorhanPullJobData.prototype.srcFileUrl = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaPullJobData.prototype.destFileLocalPath = null;
+BorhanPullJobData.prototype.destFileLocalPath = null;
 
 
-function KalturaRemoteConvertJobData()
+function BorhanRemoteConvertJobData()
 {
 }
-KalturaRemoteConvertJobData.prototype = new KalturaConvartableJobData();
+BorhanRemoteConvertJobData.prototype = new BorhanConvartableJobData();
 /**
  * 
  *
  * @var string
  */
-KalturaRemoteConvertJobData.prototype.srcFileUrl = null;
+BorhanRemoteConvertJobData.prototype.srcFileUrl = null;
 
 /**
  * Should be set by the API
@@ -5144,86 +5144,86 @@ KalturaRemoteConvertJobData.prototype.srcFileUrl = null;
  *
  * @var string
  */
-KalturaRemoteConvertJobData.prototype.destFileUrl = null;
+BorhanRemoteConvertJobData.prototype.destFileUrl = null;
 
 
-function KalturaReportGraph()
+function BorhanReportGraph()
 {
 }
-KalturaReportGraph.prototype = new KalturaObjectBase();
+BorhanReportGraph.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var string
  */
-KalturaReportGraph.prototype.id = null;
+BorhanReportGraph.prototype.id = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaReportGraph.prototype.data = null;
+BorhanReportGraph.prototype.data = null;
 
 
-function KalturaReportInputFilter()
+function BorhanReportInputFilter()
 {
 }
-KalturaReportInputFilter.prototype = new KalturaObjectBase();
+BorhanReportInputFilter.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var int
  */
-KalturaReportInputFilter.prototype.fromDate = null;
+BorhanReportInputFilter.prototype.fromDate = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaReportInputFilter.prototype.toDate = null;
+BorhanReportInputFilter.prototype.toDate = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaReportInputFilter.prototype.keywords = null;
+BorhanReportInputFilter.prototype.keywords = null;
 
 /**
  * 
  *
  * @var bool
  */
-KalturaReportInputFilter.prototype.searchInTags = null;
+BorhanReportInputFilter.prototype.searchInTags = null;
 
 /**
  * 
  *
  * @var bool
  */
-KalturaReportInputFilter.prototype.searchInAdminTags = null;
+BorhanReportInputFilter.prototype.searchInAdminTags = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaReportInputFilter.prototype.categories = null;
+BorhanReportInputFilter.prototype.categories = null;
 
 
-function KalturaReportTable()
+function BorhanReportTable()
 {
 }
-KalturaReportTable.prototype = new KalturaObjectBase();
+BorhanReportTable.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var string
  * @readonly
  */
-KalturaReportTable.prototype.header = null;
+BorhanReportTable.prototype.header = null;
 
 /**
  * 
@@ -5231,7 +5231,7 @@ KalturaReportTable.prototype.header = null;
  * @var string
  * @readonly
  */
-KalturaReportTable.prototype.data = null;
+BorhanReportTable.prototype.data = null;
 
 /**
  * 
@@ -5239,52 +5239,52 @@ KalturaReportTable.prototype.data = null;
  * @var int
  * @readonly
  */
-KalturaReportTable.prototype.totalCount = null;
+BorhanReportTable.prototype.totalCount = null;
 
 
-function KalturaReportTotal()
+function BorhanReportTotal()
 {
 }
-KalturaReportTotal.prototype = new KalturaObjectBase();
+BorhanReportTotal.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var string
  */
-KalturaReportTotal.prototype.header = null;
+BorhanReportTotal.prototype.header = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaReportTotal.prototype.data = null;
+BorhanReportTotal.prototype.data = null;
 
 
-function KalturaSearch()
+function BorhanSearch()
 {
 }
-KalturaSearch.prototype = new KalturaObjectBase();
+BorhanSearch.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var string
  */
-KalturaSearch.prototype.keyWords = null;
+BorhanSearch.prototype.keyWords = null;
 
 /**
  * 
  *
- * @var KalturaSearchProviderType
+ * @var BorhanSearchProviderType
  */
-KalturaSearch.prototype.searchSource = null;
+BorhanSearch.prototype.searchSource = null;
 
 /**
  * 
  *
- * @var KalturaMediaType
+ * @var BorhanMediaType
  */
-KalturaSearch.prototype.mediaType = null;
+BorhanSearch.prototype.mediaType = null;
 
 /**
  * Use this field to pass dynamic data for searching
@@ -5294,129 +5294,129 @@ KalturaSearch.prototype.mediaType = null;
  *
  * @var string
  */
-KalturaSearch.prototype.extraData = null;
+BorhanSearch.prototype.extraData = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaSearch.prototype.authData = null;
+BorhanSearch.prototype.authData = null;
 
 
-function KalturaSearchAuthData()
+function BorhanSearchAuthData()
 {
 }
-KalturaSearchAuthData.prototype = new KalturaObjectBase();
+BorhanSearchAuthData.prototype = new BorhanObjectBase();
 /**
  * The authentication data that further should be used for search
 	 * 
  *
  * @var string
  */
-KalturaSearchAuthData.prototype.authData = null;
+BorhanSearchAuthData.prototype.authData = null;
 
 /**
  * Login URL when user need to sign-in and authorize the search
  *
  * @var string
  */
-KalturaSearchAuthData.prototype.loginUrl = null;
+BorhanSearchAuthData.prototype.loginUrl = null;
 
 /**
  * Information when there was an error
  *
  * @var string
  */
-KalturaSearchAuthData.prototype.message = null;
+BorhanSearchAuthData.prototype.message = null;
 
 
-function KalturaSearchResult()
+function BorhanSearchResult()
 {
 }
-KalturaSearchResult.prototype = new KalturaSearch();
+BorhanSearchResult.prototype = new BorhanSearch();
 /**
  * 
  *
  * @var string
  */
-KalturaSearchResult.prototype.id = null;
-
-/**
- * 
- *
- * @var string
- */
-KalturaSearchResult.prototype.title = null;
+BorhanSearchResult.prototype.id = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaSearchResult.prototype.thumbUrl = null;
+BorhanSearchResult.prototype.title = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaSearchResult.prototype.description = null;
+BorhanSearchResult.prototype.thumbUrl = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaSearchResult.prototype.tags = null;
+BorhanSearchResult.prototype.description = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaSearchResult.prototype.url = null;
+BorhanSearchResult.prototype.tags = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaSearchResult.prototype.sourceLink = null;
+BorhanSearchResult.prototype.url = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaSearchResult.prototype.credit = null;
-
-/**
- * 
- *
- * @var KalturaLicenseType
- */
-KalturaSearchResult.prototype.licenseType = null;
+BorhanSearchResult.prototype.sourceLink = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaSearchResult.prototype.flashPlaybackType = null;
+BorhanSearchResult.prototype.credit = null;
+
+/**
+ * 
+ *
+ * @var BorhanLicenseType
+ */
+BorhanSearchResult.prototype.licenseType = null;
+
+/**
+ * 
+ *
+ * @var string
+ */
+BorhanSearchResult.prototype.flashPlaybackType = null;
 
 
-function KalturaSearchResultResponse()
+function BorhanSearchResultResponse()
 {
 }
-KalturaSearchResultResponse.prototype = new KalturaObjectBase();
+BorhanSearchResultResponse.prototype = new BorhanObjectBase();
 /**
  * 
  *
- * @var KalturaSearchResultArray
+ * @var BorhanSearchResultArray
  * @readonly
  */
-KalturaSearchResultResponse.prototype.objects = null;
+BorhanSearchResultResponse.prototype.objects = null;
 
 /**
  * 
@@ -5424,20 +5424,20 @@ KalturaSearchResultResponse.prototype.objects = null;
  * @var bool
  * @readonly
  */
-KalturaSearchResultResponse.prototype.needMediaInfo = null;
+BorhanSearchResultResponse.prototype.needMediaInfo = null;
 
 
-function KalturaSiteRestriction()
+function BorhanSiteRestriction()
 {
 }
-KalturaSiteRestriction.prototype = new KalturaBaseRestriction();
+BorhanSiteRestriction.prototype = new BorhanBaseRestriction();
 /**
  * The site restriction type (allow or deny)
 	 * 
  *
- * @var KalturaSiteRestrictionType
+ * @var BorhanSiteRestrictionType
  */
-KalturaSiteRestriction.prototype.siteRestrictionType = null;
+BorhanSiteRestriction.prototype.siteRestrictionType = null;
 
 /**
  * Comma separated list of sites (domains) to allow or deny
@@ -5445,20 +5445,20 @@ KalturaSiteRestriction.prototype.siteRestrictionType = null;
  *
  * @var string
  */
-KalturaSiteRestriction.prototype.siteList = null;
+BorhanSiteRestriction.prototype.siteList = null;
 
 
-function KalturaStartWidgetSessionResponse()
+function BorhanStartWidgetSessionResponse()
 {
 }
-KalturaStartWidgetSessionResponse.prototype = new KalturaObjectBase();
+BorhanStartWidgetSessionResponse.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var int
  * @readonly
  */
-KalturaStartWidgetSessionResponse.prototype.partnerId = null;
+BorhanStartWidgetSessionResponse.prototype.partnerId = null;
 
 /**
  * 
@@ -5466,7 +5466,7 @@ KalturaStartWidgetSessionResponse.prototype.partnerId = null;
  * @var string
  * @readonly
  */
-KalturaStartWidgetSessionResponse.prototype.ks = null;
+BorhanStartWidgetSessionResponse.prototype.ks = null;
 
 /**
  * 
@@ -5474,26 +5474,26 @@ KalturaStartWidgetSessionResponse.prototype.ks = null;
  * @var string
  * @readonly
  */
-KalturaStartWidgetSessionResponse.prototype.userId = null;
+BorhanStartWidgetSessionResponse.prototype.userId = null;
 
 
-function KalturaStatsEvent()
+function BorhanStatsEvent()
 {
 }
-KalturaStatsEvent.prototype = new KalturaObjectBase();
+BorhanStatsEvent.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var string
  */
-KalturaStatsEvent.prototype.clientVer = null;
+BorhanStatsEvent.prototype.clientVer = null;
 
 /**
  * 
  *
- * @var KalturaStatsEventType
+ * @var BorhanStatsEventType
  */
-KalturaStatsEvent.prototype.eventType = null;
+BorhanStatsEvent.prototype.eventType = null;
 
 /**
  * the client's timestamp of this event
@@ -5501,70 +5501,70 @@ KalturaStatsEvent.prototype.eventType = null;
  *
  * @var float
  */
-KalturaStatsEvent.prototype.eventTimestamp = null;
+BorhanStatsEvent.prototype.eventTimestamp = null;
 
 /**
  * a unique string generated by the client that will represent the client-side session: the primary component will pass it on to other components that sprout from it
  *
  * @var string
  */
-KalturaStatsEvent.prototype.sessionId = null;
+BorhanStatsEvent.prototype.sessionId = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaStatsEvent.prototype.partnerId = null;
+BorhanStatsEvent.prototype.partnerId = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaStatsEvent.prototype.entryId = null;
+BorhanStatsEvent.prototype.entryId = null;
 
 /**
  * the UV cookie - creates in the operational system and should be passed on ofr every event 
  *
  * @var string
  */
-KalturaStatsEvent.prototype.uniqueViewer = null;
+BorhanStatsEvent.prototype.uniqueViewer = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaStatsEvent.prototype.widgetId = null;
+BorhanStatsEvent.prototype.widgetId = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaStatsEvent.prototype.uiconfId = null;
+BorhanStatsEvent.prototype.uiconfId = null;
 
 /**
  * the partner's user id 
  *
  * @var string
  */
-KalturaStatsEvent.prototype.userId = null;
+BorhanStatsEvent.prototype.userId = null;
 
 /**
  * the timestamp along the video when the event happend 
  *
  * @var int
  */
-KalturaStatsEvent.prototype.currentPoint = null;
+BorhanStatsEvent.prototype.currentPoint = null;
 
 /**
  * the duration of the video in milliseconds - will make it much faster than quering the db for each entry 
  *
  * @var int
  */
-KalturaStatsEvent.prototype.duration = null;
+BorhanStatsEvent.prototype.duration = null;
 
 /**
  * will be retrieved from the request of the user 
@@ -5572,75 +5572,75 @@ KalturaStatsEvent.prototype.duration = null;
  * @var string
  * @readonly
  */
-KalturaStatsEvent.prototype.userIp = null;
+BorhanStatsEvent.prototype.userIp = null;
 
 /**
  * the time in milliseconds the event took
  *
  * @var int
  */
-KalturaStatsEvent.prototype.processDuration = null;
+BorhanStatsEvent.prototype.processDuration = null;
 
 /**
  * the id of the GUI control - will be used in the future to better understand what the user clicked
  *
  * @var string
  */
-KalturaStatsEvent.prototype.controlId = null;
+BorhanStatsEvent.prototype.controlId = null;
 
 /**
  * true if the user ever used seek in this session 
  *
  * @var bool
  */
-KalturaStatsEvent.prototype.seek = null;
+BorhanStatsEvent.prototype.seek = null;
 
 /**
  * timestamp of the new point on the timeline of the video after the user seeks 
  *
  * @var int
  */
-KalturaStatsEvent.prototype.newPoint = null;
+BorhanStatsEvent.prototype.newPoint = null;
 
 /**
  * the referrer of the client
  *
  * @var string
  */
-KalturaStatsEvent.prototype.referrer = null;
+BorhanStatsEvent.prototype.referrer = null;
 
 /**
  * will indicate if the event is thrown for the first video in the session
  *
  * @var bool
  */
-KalturaStatsEvent.prototype.isFirstInSession = null;
+BorhanStatsEvent.prototype.isFirstInSession = null;
 
 
-function KalturaStatsKmcEvent()
+function BorhanStatsBmcEvent()
 {
 }
-KalturaStatsKmcEvent.prototype = new KalturaObjectBase();
+BorhanStatsBmcEvent.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var string
  */
-KalturaStatsKmcEvent.prototype.clientVer = null;
+BorhanStatsBmcEvent.prototype.clientVer = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaStatsKmcEvent.prototype.kmcEventActionPath = null;
+BorhanStatsBmcEvent.prototype.bmcEventActionPath = null;
 
 /**
  * 
  *
- * @var KalturaStatsKmcEventType
+ * @var BorhanStatsBmcEventType
  */
-KalturaStatsKmcEvent.prototype.kmcEventType = null;
+BorhanStatsBmcEvent.prototype.bmcEventType = null;
 
 /**
  * the client's timestamp of this event
@@ -5648,49 +5648,49 @@ KalturaStatsKmcEvent.prototype.kmcEventType = null;
  *
  * @var float
  */
-KalturaStatsKmcEvent.prototype.eventTimestamp = null;
+BorhanStatsBmcEvent.prototype.eventTimestamp = null;
 
 /**
  * a unique string generated by the client that will represent the client-side session: the primary component will pass it on to other components that sprout from it
  *
  * @var string
  */
-KalturaStatsKmcEvent.prototype.sessionId = null;
+BorhanStatsBmcEvent.prototype.sessionId = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaStatsKmcEvent.prototype.partnerId = null;
+BorhanStatsBmcEvent.prototype.partnerId = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaStatsKmcEvent.prototype.entryId = null;
+BorhanStatsBmcEvent.prototype.entryId = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaStatsKmcEvent.prototype.widgetId = null;
+BorhanStatsBmcEvent.prototype.widgetId = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaStatsKmcEvent.prototype.uiconfId = null;
+BorhanStatsBmcEvent.prototype.uiconfId = null;
 
 /**
  * the partner's user id 
  *
  * @var string
  */
-KalturaStatsKmcEvent.prototype.userId = null;
+BorhanStatsBmcEvent.prototype.userId = null;
 
 /**
  * will be retrieved from the request of the user 
@@ -5698,74 +5698,74 @@ KalturaStatsKmcEvent.prototype.userId = null;
  * @var string
  * @readonly
  */
-KalturaStatsKmcEvent.prototype.userIp = null;
+BorhanStatsBmcEvent.prototype.userIp = null;
 
 
-function KalturaSyndicationFeedEntryCount()
+function BorhanSyndicationFeedEntryCount()
 {
 }
-KalturaSyndicationFeedEntryCount.prototype = new KalturaObjectBase();
+BorhanSyndicationFeedEntryCount.prototype = new BorhanObjectBase();
 /**
  * the total count of entries that should appear in the feed without flavor filtering
  *
  * @var int
  */
-KalturaSyndicationFeedEntryCount.prototype.totalEntryCount = null;
+BorhanSyndicationFeedEntryCount.prototype.totalEntryCount = null;
 
 /**
  * count of entries that will appear in the feed (including all relevant filters)
  *
  * @var int
  */
-KalturaSyndicationFeedEntryCount.prototype.actualEntryCount = null;
+BorhanSyndicationFeedEntryCount.prototype.actualEntryCount = null;
 
 /**
  * count of entries that requires transcoding in order to be included in feed
  *
  * @var int
  */
-KalturaSyndicationFeedEntryCount.prototype.requireTranscodingCount = null;
+BorhanSyndicationFeedEntryCount.prototype.requireTranscodingCount = null;
 
 
-function KalturaSystemUser()
+function BorhanSystemUser()
 {
 }
-KalturaSystemUser.prototype = new KalturaObjectBase();
+BorhanSystemUser.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var int
  * @readonly
  */
-KalturaSystemUser.prototype.id = null;
+BorhanSystemUser.prototype.id = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaSystemUser.prototype.email = null;
+BorhanSystemUser.prototype.email = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaSystemUser.prototype.firstName = null;
+BorhanSystemUser.prototype.firstName = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaSystemUser.prototype.lastName = null;
+BorhanSystemUser.prototype.lastName = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaSystemUser.prototype.password = null;
+BorhanSystemUser.prototype.password = null;
 
 /**
  * 
@@ -5773,22 +5773,14 @@ KalturaSystemUser.prototype.password = null;
  * @var int
  * @readonly
  */
-KalturaSystemUser.prototype.createdBy = null;
+BorhanSystemUser.prototype.createdBy = null;
 
 /**
  * 
  *
- * @var KalturaSystemUserStatus
+ * @var BorhanSystemUserStatus
  */
-KalturaSystemUser.prototype.status = null;
-
-/**
- * 
- *
- * @var int
- * @readonly
- */
-KalturaSystemUser.prototype.statusUpdatedAt = null;
+BorhanSystemUser.prototype.status = null;
 
 /**
  * 
@@ -5796,25 +5788,7 @@ KalturaSystemUser.prototype.statusUpdatedAt = null;
  * @var int
  * @readonly
  */
-KalturaSystemUser.prototype.createdAt = null;
-
-
-function KalturaSystemUserFilter()
-{
-}
-KalturaSystemUserFilter.prototype = new KalturaFilter();
-
-function KalturaSystemUserListResponse()
-{
-}
-KalturaSystemUserListResponse.prototype = new KalturaObjectBase();
-/**
- * 
- *
- * @var KalturaSystemUserArray
- * @readonly
- */
-KalturaSystemUserListResponse.prototype.objects = null;
+BorhanSystemUser.prototype.statusUpdatedAt = null;
 
 /**
  * 
@@ -5822,52 +5796,78 @@ KalturaSystemUserListResponse.prototype.objects = null;
  * @var int
  * @readonly
  */
-KalturaSystemUserListResponse.prototype.totalCount = null;
+BorhanSystemUser.prototype.createdAt = null;
 
 
-function KalturaTubeMogulSyndicationFeed()
+function BorhanSystemUserFilter()
 {
 }
-KalturaTubeMogulSyndicationFeed.prototype = new KalturaBaseSyndicationFeed();
+BorhanSystemUserFilter.prototype = new BorhanFilter();
+
+function BorhanSystemUserListResponse()
+{
+}
+BorhanSystemUserListResponse.prototype = new BorhanObjectBase();
 /**
  * 
  *
- * @var KalturaTubeMogulSyndicationFeedCategories
+ * @var BorhanSystemUserArray
  * @readonly
  */
-KalturaTubeMogulSyndicationFeed.prototype.category = null;
+BorhanSystemUserListResponse.prototype.objects = null;
 
-
-function KalturaTubeMogulSyndicationFeedFilter()
-{
-}
-KalturaTubeMogulSyndicationFeedFilter.prototype = new KalturaBaseSyndicationFeedFilter();
-
-function KalturaUiConf()
-{
-}
-KalturaUiConf.prototype = new KalturaObjectBase();
 /**
  * 
  *
  * @var int
  * @readonly
  */
-KalturaUiConf.prototype.id = null;
+BorhanSystemUserListResponse.prototype.totalCount = null;
+
+
+function BorhanTubeMogulSyndicationFeed()
+{
+}
+BorhanTubeMogulSyndicationFeed.prototype = new BorhanBaseSyndicationFeed();
+/**
+ * 
+ *
+ * @var BorhanTubeMogulSyndicationFeedCategories
+ * @readonly
+ */
+BorhanTubeMogulSyndicationFeed.prototype.category = null;
+
+
+function BorhanTubeMogulSyndicationFeedFilter()
+{
+}
+BorhanTubeMogulSyndicationFeedFilter.prototype = new BorhanBaseSyndicationFeedFilter();
+
+function BorhanUiConf()
+{
+}
+BorhanUiConf.prototype = new BorhanObjectBase();
+/**
+ * 
+ *
+ * @var int
+ * @readonly
+ */
+BorhanUiConf.prototype.id = null;
 
 /**
  * Name of the uiConf, this is not a primary key
  *
  * @var string
  */
-KalturaUiConf.prototype.name = null;
+BorhanUiConf.prototype.name = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUiConf.prototype.description = null;
+BorhanUiConf.prototype.description = null;
 
 /**
  * 
@@ -5875,50 +5875,14 @@ KalturaUiConf.prototype.description = null;
  * @var int
  * @readonly
  */
-KalturaUiConf.prototype.partnerId = null;
+BorhanUiConf.prototype.partnerId = null;
 
 /**
  * 
  *
- * @var KalturaUiConfObjType
+ * @var BorhanUiConfObjType
  */
-KalturaUiConf.prototype.objType = null;
-
-/**
- * 
- *
- * @var string
- * @readonly
- */
-KalturaUiConf.prototype.objTypeAsString = null;
-
-/**
- * 
- *
- * @var int
- */
-KalturaUiConf.prototype.width = null;
-
-/**
- * 
- *
- * @var int
- */
-KalturaUiConf.prototype.height = null;
-
-/**
- * 
- *
- * @var string
- */
-KalturaUiConf.prototype.htmlParams = null;
-
-/**
- * 
- *
- * @var string
- */
-KalturaUiConf.prototype.swfUrl = null;
+BorhanUiConf.prototype.objType = null;
 
 /**
  * 
@@ -5926,49 +5890,85 @@ KalturaUiConf.prototype.swfUrl = null;
  * @var string
  * @readonly
  */
-KalturaUiConf.prototype.confFilePath = null;
+BorhanUiConf.prototype.objTypeAsString = null;
+
+/**
+ * 
+ *
+ * @var int
+ */
+BorhanUiConf.prototype.width = null;
+
+/**
+ * 
+ *
+ * @var int
+ */
+BorhanUiConf.prototype.height = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUiConf.prototype.confFile = null;
+BorhanUiConf.prototype.htmlParams = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUiConf.prototype.confFileFeatures = null;
+BorhanUiConf.prototype.swfUrl = null;
+
+/**
+ * 
+ *
+ * @var string
+ * @readonly
+ */
+BorhanUiConf.prototype.confFilePath = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUiConf.prototype.confVars = null;
+BorhanUiConf.prototype.confFile = null;
+
+/**
+ * 
+ *
+ * @var string
+ */
+BorhanUiConf.prototype.confFileFeatures = null;
+
+/**
+ * 
+ *
+ * @var string
+ */
+BorhanUiConf.prototype.confVars = null;
 
 /**
  * 
  *
  * @var bool
  */
-KalturaUiConf.prototype.useCdn = null;
+BorhanUiConf.prototype.useCdn = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUiConf.prototype.tags = null;
+BorhanUiConf.prototype.tags = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUiConf.prototype.swfUrlVersion = null;
+BorhanUiConf.prototype.swfUrlVersion = null;
 
 /**
  * Entry creation date as Unix timestamp (In seconds)
@@ -5976,7 +5976,7 @@ KalturaUiConf.prototype.swfUrlVersion = null;
  * @var int
  * @readonly
  */
-KalturaUiConf.prototype.createdAt = null;
+BorhanUiConf.prototype.createdAt = null;
 
 /**
  * Entry creation date as Unix timestamp (In seconds)
@@ -5984,155 +5984,102 @@ KalturaUiConf.prototype.createdAt = null;
  * @var int
  * @readonly
  */
-KalturaUiConf.prototype.updatedAt = null;
+BorhanUiConf.prototype.updatedAt = null;
 
 /**
  * 
  *
- * @var KalturaUiConfCreationMode
+ * @var BorhanUiConfCreationMode
  */
-KalturaUiConf.prototype.creationMode = null;
+BorhanUiConf.prototype.creationMode = null;
 
 
-function KalturaUiConfFilter()
+function BorhanUiConfFilter()
 {
 }
-KalturaUiConfFilter.prototype = new KalturaFilter();
+BorhanUiConfFilter.prototype = new BorhanFilter();
 /**
  * 
  *
  * @var int
  */
-KalturaUiConfFilter.prototype.idEqual = null;
+BorhanUiConfFilter.prototype.idEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUiConfFilter.prototype.idIn = null;
+BorhanUiConfFilter.prototype.idIn = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUiConfFilter.prototype.nameLike = null;
+BorhanUiConfFilter.prototype.nameLike = null;
 
 /**
  * 
  *
- * @var KalturaUiConfObjType
+ * @var BorhanUiConfObjType
  */
-KalturaUiConfFilter.prototype.objTypeEqual = null;
-
-/**
- * 
- *
- * @var string
- */
-KalturaUiConfFilter.prototype.tagsMultiLikeOr = null;
+BorhanUiConfFilter.prototype.objTypeEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUiConfFilter.prototype.tagsMultiLikeAnd = null;
+BorhanUiConfFilter.prototype.tagsMultiLikeOr = null;
+
+/**
+ * 
+ *
+ * @var string
+ */
+BorhanUiConfFilter.prototype.tagsMultiLikeAnd = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaUiConfFilter.prototype.createdAtGreaterThanOrEqual = null;
+BorhanUiConfFilter.prototype.createdAtGreaterThanOrEqual = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaUiConfFilter.prototype.createdAtLessThanOrEqual = null;
+BorhanUiConfFilter.prototype.createdAtLessThanOrEqual = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaUiConfFilter.prototype.updatedAtGreaterThanOrEqual = null;
+BorhanUiConfFilter.prototype.updatedAtGreaterThanOrEqual = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaUiConfFilter.prototype.updatedAtLessThanOrEqual = null;
+BorhanUiConfFilter.prototype.updatedAtLessThanOrEqual = null;
 
 
-function KalturaUiConfListResponse()
+function BorhanUiConfListResponse()
 {
 }
-KalturaUiConfListResponse.prototype = new KalturaObjectBase();
+BorhanUiConfListResponse.prototype = new BorhanObjectBase();
 /**
  * 
  *
- * @var KalturaUiConfArray
+ * @var BorhanUiConfArray
  * @readonly
  */
-KalturaUiConfListResponse.prototype.objects = null;
-
-/**
- * 
- *
- * @var int
- * @readonly
- */
-KalturaUiConfListResponse.prototype.totalCount = null;
-
-
-function KalturaUploadResponse()
-{
-}
-KalturaUploadResponse.prototype = new KalturaObjectBase();
-/**
- * 
- *
- * @var string
- */
-KalturaUploadResponse.prototype.uploadTokenId = null;
-
-/**
- * 
- *
- * @var int
- */
-KalturaUploadResponse.prototype.fileSize = null;
-
-/**
- * 
- *
- * @var KalturaUploadErrorCode
- */
-KalturaUploadResponse.prototype.errorCode = null;
-
-/**
- * 
- *
- * @var string
- */
-KalturaUploadResponse.prototype.errorDescription = null;
-
-
-function KalturaUser()
-{
-}
-KalturaUser.prototype = new KalturaObjectBase();
-/**
- * 
- *
- * @var string
- */
-KalturaUser.prototype.id = null;
+BorhanUiConfListResponse.prototype.objects = null;
 
 /**
  * 
@@ -6140,105 +6087,158 @@ KalturaUser.prototype.id = null;
  * @var int
  * @readonly
  */
-KalturaUser.prototype.partnerId = null;
+BorhanUiConfListResponse.prototype.totalCount = null;
 
+
+function BorhanUploadResponse()
+{
+}
+BorhanUploadResponse.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var string
  */
-KalturaUser.prototype.screenName = null;
-
-/**
- * 
- *
- * @var string
- */
-KalturaUser.prototype.fullName = null;
-
-/**
- * 
- *
- * @var string
- */
-KalturaUser.prototype.email = null;
+BorhanUploadResponse.prototype.uploadTokenId = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaUser.prototype.dateOfBirth = null;
+BorhanUploadResponse.prototype.fileSize = null;
+
+/**
+ * 
+ *
+ * @var BorhanUploadErrorCode
+ */
+BorhanUploadResponse.prototype.errorCode = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUser.prototype.country = null;
+BorhanUploadResponse.prototype.errorDescription = null;
+
+
+function BorhanUser()
+{
+}
+BorhanUser.prototype = new BorhanObjectBase();
+/**
+ * 
+ *
+ * @var string
+ */
+BorhanUser.prototype.id = null;
+
+/**
+ * 
+ *
+ * @var int
+ * @readonly
+ */
+BorhanUser.prototype.partnerId = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUser.prototype.state = null;
+BorhanUser.prototype.screenName = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUser.prototype.city = null;
+BorhanUser.prototype.fullName = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUser.prototype.zip = null;
+BorhanUser.prototype.email = null;
+
+/**
+ * 
+ *
+ * @var int
+ */
+BorhanUser.prototype.dateOfBirth = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUser.prototype.thumbnailUrl = null;
+BorhanUser.prototype.country = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUser.prototype.description = null;
+BorhanUser.prototype.state = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUser.prototype.tags = null;
+BorhanUser.prototype.city = null;
+
+/**
+ * 
+ *
+ * @var string
+ */
+BorhanUser.prototype.zip = null;
+
+/**
+ * 
+ *
+ * @var string
+ */
+BorhanUser.prototype.thumbnailUrl = null;
+
+/**
+ * 
+ *
+ * @var string
+ */
+BorhanUser.prototype.description = null;
+
+/**
+ * 
+ *
+ * @var string
+ */
+BorhanUser.prototype.tags = null;
 
 /**
  * Admin tags can be updated only by using an admin session
  *
  * @var string
  */
-KalturaUser.prototype.adminTags = null;
+BorhanUser.prototype.adminTags = null;
 
 /**
  * 
  *
- * @var KalturaGender
+ * @var BorhanGender
  */
-KalturaUser.prototype.gender = null;
+BorhanUser.prototype.gender = null;
 
 /**
  * 
  *
- * @var KalturaUserStatus
+ * @var BorhanUserStatus
  */
-KalturaUser.prototype.status = null;
+BorhanUser.prototype.status = null;
 
 /**
  * Creation date as Unix timestamp (In seconds)
@@ -6246,7 +6246,7 @@ KalturaUser.prototype.status = null;
  * @var int
  * @readonly
  */
-KalturaUser.prototype.createdAt = null;
+BorhanUser.prototype.createdAt = null;
 
 /**
  * Last update date as Unix timestamp (In seconds)
@@ -6254,28 +6254,28 @@ KalturaUser.prototype.createdAt = null;
  * @var int
  * @readonly
  */
-KalturaUser.prototype.updatedAt = null;
+BorhanUser.prototype.updatedAt = null;
 
 /**
  * Can be used to store various partner related data as a string 
  *
  * @var string
  */
-KalturaUser.prototype.partnerData = null;
+BorhanUser.prototype.partnerData = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaUser.prototype.indexedPartnerDataInt = null;
+BorhanUser.prototype.indexedPartnerDataInt = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUser.prototype.indexedPartnerDataString = null;
+BorhanUser.prototype.indexedPartnerDataString = null;
 
 /**
  * 
@@ -6283,102 +6283,102 @@ KalturaUser.prototype.indexedPartnerDataString = null;
  * @var int
  * @readonly
  */
-KalturaUser.prototype.storageSize = null;
+BorhanUser.prototype.storageSize = null;
 
 
-function KalturaUserFilter()
+function BorhanUserFilter()
 {
 }
-KalturaUserFilter.prototype = new KalturaFilter();
+BorhanUserFilter.prototype = new BorhanFilter();
 /**
  * 
  *
  * @var string
  */
-KalturaUserFilter.prototype.idEqual = null;
+BorhanUserFilter.prototype.idEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUserFilter.prototype.idIn = null;
+BorhanUserFilter.prototype.idIn = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaUserFilter.prototype.partnerIdEqual = null;
+BorhanUserFilter.prototype.partnerIdEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUserFilter.prototype.screenNameLike = null;
+BorhanUserFilter.prototype.screenNameLike = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUserFilter.prototype.screenNameStartsWith = null;
+BorhanUserFilter.prototype.screenNameStartsWith = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUserFilter.prototype.emailLike = null;
+BorhanUserFilter.prototype.emailLike = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUserFilter.prototype.emailStartsWith = null;
+BorhanUserFilter.prototype.emailStartsWith = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUserFilter.prototype.tagsMultiLikeOr = null;
+BorhanUserFilter.prototype.tagsMultiLikeOr = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaUserFilter.prototype.tagsMultiLikeAnd = null;
+BorhanUserFilter.prototype.tagsMultiLikeAnd = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaUserFilter.prototype.createdAtGreaterThanOrEqual = null;
+BorhanUserFilter.prototype.createdAtGreaterThanOrEqual = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaUserFilter.prototype.createdAtLessThanOrEqual = null;
+BorhanUserFilter.prototype.createdAtLessThanOrEqual = null;
 
 
-function KalturaUserListResponse()
+function BorhanUserListResponse()
 {
 }
-KalturaUserListResponse.prototype = new KalturaObjectBase();
+BorhanUserListResponse.prototype = new BorhanObjectBase();
 /**
  * 
  *
- * @var KalturaUserArray
+ * @var BorhanUserArray
  * @readonly
  */
-KalturaUserListResponse.prototype.objects = null;
+BorhanUserListResponse.prototype.objects = null;
 
 /**
  * 
@@ -6386,27 +6386,27 @@ KalturaUserListResponse.prototype.objects = null;
  * @var int
  * @readonly
  */
-KalturaUserListResponse.prototype.totalCount = null;
+BorhanUserListResponse.prototype.totalCount = null;
 
 
-function KalturaWidget()
+function BorhanWidget()
 {
 }
-KalturaWidget.prototype = new KalturaObjectBase();
+BorhanWidget.prototype = new BorhanObjectBase();
 /**
  * 
  *
  * @var string
  * @readonly
  */
-KalturaWidget.prototype.id = null;
+BorhanWidget.prototype.id = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaWidget.prototype.sourceWidgetId = null;
+BorhanWidget.prototype.sourceWidgetId = null;
 
 /**
  * 
@@ -6414,7 +6414,7 @@ KalturaWidget.prototype.sourceWidgetId = null;
  * @var string
  * @readonly
  */
-KalturaWidget.prototype.rootWidgetId = null;
+BorhanWidget.prototype.rootWidgetId = null;
 
 /**
  * 
@@ -6422,43 +6422,35 @@ KalturaWidget.prototype.rootWidgetId = null;
  * @var int
  * @readonly
  */
-KalturaWidget.prototype.partnerId = null;
+BorhanWidget.prototype.partnerId = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaWidget.prototype.entryId = null;
+BorhanWidget.prototype.entryId = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaWidget.prototype.uiConfId = null;
+BorhanWidget.prototype.uiConfId = null;
 
 /**
  * 
  *
- * @var KalturaWidgetSecurityType
+ * @var BorhanWidgetSecurityType
  */
-KalturaWidget.prototype.securityType = null;
-
-/**
- * 
- *
- * @var int
- */
-KalturaWidget.prototype.securityPolicy = null;
+BorhanWidget.prototype.securityType = null;
 
 /**
  * 
  *
  * @var int
- * @readonly
  */
-KalturaWidget.prototype.createdAt = null;
+BorhanWidget.prototype.securityPolicy = null;
 
 /**
  * 
@@ -6466,14 +6458,22 @@ KalturaWidget.prototype.createdAt = null;
  * @var int
  * @readonly
  */
-KalturaWidget.prototype.updatedAt = null;
+BorhanWidget.prototype.createdAt = null;
+
+/**
+ * 
+ *
+ * @var int
+ * @readonly
+ */
+BorhanWidget.prototype.updatedAt = null;
 
 /**
  * Can be used to store various partner related data as a string 
  *
  * @var string
  */
-KalturaWidget.prototype.partnerData = null;
+BorhanWidget.prototype.partnerData = null;
 
 /**
  * 
@@ -6481,109 +6481,109 @@ KalturaWidget.prototype.partnerData = null;
  * @var string
  * @readonly
  */
-KalturaWidget.prototype.widgetHTML = null;
+BorhanWidget.prototype.widgetHTML = null;
 
 
-function KalturaWidgetFilter()
+function BorhanWidgetFilter()
 {
 }
-KalturaWidgetFilter.prototype = new KalturaFilter();
+BorhanWidgetFilter.prototype = new BorhanFilter();
 /**
  * 
  *
  * @var string
  */
-KalturaWidgetFilter.prototype.idEqual = null;
-
-/**
- * 
- *
- * @var string
- */
-KalturaWidgetFilter.prototype.idIn = null;
+BorhanWidgetFilter.prototype.idEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaWidgetFilter.prototype.sourceWidgetIdEqual = null;
+BorhanWidgetFilter.prototype.idIn = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaWidgetFilter.prototype.rootWidgetIdEqual = null;
-
-/**
- * 
- *
- * @var int
- */
-KalturaWidgetFilter.prototype.partnerIdEqual = null;
+BorhanWidgetFilter.prototype.sourceWidgetIdEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaWidgetFilter.prototype.entryIdEqual = null;
+BorhanWidgetFilter.prototype.rootWidgetIdEqual = null;
 
 /**
  * 
  *
  * @var int
  */
-KalturaWidgetFilter.prototype.uiConfIdEqual = null;
-
-/**
- * 
- *
- * @var int
- */
-KalturaWidgetFilter.prototype.createdAtGreaterThanOrEqual = null;
-
-/**
- * 
- *
- * @var int
- */
-KalturaWidgetFilter.prototype.createdAtLessThanOrEqual = null;
-
-/**
- * 
- *
- * @var int
- */
-KalturaWidgetFilter.prototype.updatedAtGreaterThanOrEqual = null;
-
-/**
- * 
- *
- * @var int
- */
-KalturaWidgetFilter.prototype.updatedAtLessThanOrEqual = null;
+BorhanWidgetFilter.prototype.partnerIdEqual = null;
 
 /**
  * 
  *
  * @var string
  */
-KalturaWidgetFilter.prototype.partnerDataLike = null;
+BorhanWidgetFilter.prototype.entryIdEqual = null;
+
+/**
+ * 
+ *
+ * @var int
+ */
+BorhanWidgetFilter.prototype.uiConfIdEqual = null;
+
+/**
+ * 
+ *
+ * @var int
+ */
+BorhanWidgetFilter.prototype.createdAtGreaterThanOrEqual = null;
+
+/**
+ * 
+ *
+ * @var int
+ */
+BorhanWidgetFilter.prototype.createdAtLessThanOrEqual = null;
+
+/**
+ * 
+ *
+ * @var int
+ */
+BorhanWidgetFilter.prototype.updatedAtGreaterThanOrEqual = null;
+
+/**
+ * 
+ *
+ * @var int
+ */
+BorhanWidgetFilter.prototype.updatedAtLessThanOrEqual = null;
+
+/**
+ * 
+ *
+ * @var string
+ */
+BorhanWidgetFilter.prototype.partnerDataLike = null;
 
 
-function KalturaWidgetListResponse()
+function BorhanWidgetListResponse()
 {
 }
-KalturaWidgetListResponse.prototype = new KalturaObjectBase();
+BorhanWidgetListResponse.prototype = new BorhanObjectBase();
 /**
  * 
  *
- * @var KalturaWidgetArray
+ * @var BorhanWidgetArray
  * @readonly
  */
-KalturaWidgetListResponse.prototype.objects = null;
+BorhanWidgetListResponse.prototype.objects = null;
 
 /**
  * 
@@ -6591,27 +6591,27 @@ KalturaWidgetListResponse.prototype.objects = null;
  * @var int
  * @readonly
  */
-KalturaWidgetListResponse.prototype.totalCount = null;
+BorhanWidgetListResponse.prototype.totalCount = null;
 
 
-function KalturaYahooSyndicationFeed()
+function BorhanYahooSyndicationFeed()
 {
 }
-KalturaYahooSyndicationFeed.prototype = new KalturaBaseSyndicationFeed();
+BorhanYahooSyndicationFeed.prototype = new BorhanBaseSyndicationFeed();
 /**
  * 
  *
- * @var KalturaYahooSyndicationFeedCategories
+ * @var BorhanYahooSyndicationFeedCategories
  * @readonly
  */
-KalturaYahooSyndicationFeed.prototype.category = null;
+BorhanYahooSyndicationFeed.prototype.category = null;
 
 /**
  * 
  *
- * @var KalturaYahooSyndicationFeedAdultValues
+ * @var BorhanYahooSyndicationFeedAdultValues
  */
-KalturaYahooSyndicationFeed.prototype.adultContent = null;
+BorhanYahooSyndicationFeed.prototype.adultContent = null;
 
 /**
  * feed description
@@ -6619,7 +6619,7 @@ KalturaYahooSyndicationFeed.prototype.adultContent = null;
  *
  * @var string
  */
-KalturaYahooSyndicationFeed.prototype.feedDescription = null;
+BorhanYahooSyndicationFeed.prototype.feedDescription = null;
 
 /**
  * feed landing page (i.e publisher website)
@@ -6627,23 +6627,23 @@ KalturaYahooSyndicationFeed.prototype.feedDescription = null;
  *
  * @var string
  */
-KalturaYahooSyndicationFeed.prototype.feedLandingPage = null;
+BorhanYahooSyndicationFeed.prototype.feedLandingPage = null;
 
 
-function KalturaYahooSyndicationFeedFilter()
+function BorhanYahooSyndicationFeedFilter()
 {
 }
-KalturaYahooSyndicationFeedFilter.prototype = new KalturaBaseSyndicationFeedFilter();
+BorhanYahooSyndicationFeedFilter.prototype = new BorhanBaseSyndicationFeedFilter();
 
 
-function KalturaAccessControlService(client)
+function BorhanAccessControlService(client)
 {
 	this.init(client);
 }
 
-KalturaAccessControlService.prototype = new KalturaServiceBase();
+BorhanAccessControlService.prototype = new BorhanServiceBase();
 
-KalturaAccessControlService.prototype.add = function(callback, accessControl)
+BorhanAccessControlService.prototype.add = function(callback, accessControl)
 {
 
 	kparams = new Object();
@@ -6653,7 +6653,7 @@ KalturaAccessControlService.prototype.add = function(callback, accessControl)
 		this.client.doQueue(callback);
 };
 
-KalturaAccessControlService.prototype.get = function(callback, id)
+BorhanAccessControlService.prototype.get = function(callback, id)
 {
 
 	kparams = new Object();
@@ -6663,7 +6663,7 @@ KalturaAccessControlService.prototype.get = function(callback, id)
 		this.client.doQueue(callback);
 };
 
-KalturaAccessControlService.prototype.update = function(callback, id, accessControl)
+BorhanAccessControlService.prototype.update = function(callback, id, accessControl)
 {
 
 	kparams = new Object();
@@ -6674,7 +6674,7 @@ KalturaAccessControlService.prototype.update = function(callback, id, accessCont
 		this.client.doQueue(callback);
 };
 
-KalturaAccessControlService.prototype.delete = function(callback, id)
+BorhanAccessControlService.prototype.delete = function(callback, id)
 {
 
 	kparams = new Object();
@@ -6684,7 +6684,7 @@ KalturaAccessControlService.prototype.delete = function(callback, id)
 		this.client.doQueue(callback);
 };
 
-KalturaAccessControlService.prototype.listAction = function(callback, filter, pager)
+BorhanAccessControlService.prototype.listAction = function(callback, filter, pager)
 {
 	if(!filter)
 		filter = null;
@@ -6701,14 +6701,14 @@ KalturaAccessControlService.prototype.listAction = function(callback, filter, pa
 		this.client.doQueue(callback);
 };
 
-function KalturaAdminconsoleService(client)
+function BorhanAdminconsoleService(client)
 {
 	this.init(client);
 }
 
-KalturaAdminconsoleService.prototype = new KalturaServiceBase();
+BorhanAdminconsoleService.prototype = new BorhanServiceBase();
 
-KalturaAdminconsoleService.prototype.listBatchJobs = function(callback, filter, pager)
+BorhanAdminconsoleService.prototype.listBatchJobs = function(callback, filter, pager)
 {
 	if(!filter)
 		filter = null;
@@ -6725,14 +6725,14 @@ KalturaAdminconsoleService.prototype.listBatchJobs = function(callback, filter, 
 		this.client.doQueue(callback);
 };
 
-function KalturaAdminUserService(client)
+function BorhanAdminUserService(client)
 {
 	this.init(client);
 }
 
-KalturaAdminUserService.prototype = new KalturaServiceBase();
+BorhanAdminUserService.prototype = new BorhanServiceBase();
 
-KalturaAdminUserService.prototype.updatePassword = function(callback, email, password, newEmail, newPassword)
+BorhanAdminUserService.prototype.updatePassword = function(callback, email, password, newEmail, newPassword)
 {
 	if(!newEmail)
 		newEmail = "";
@@ -6749,7 +6749,7 @@ KalturaAdminUserService.prototype.updatePassword = function(callback, email, pas
 		this.client.doQueue(callback);
 };
 
-KalturaAdminUserService.prototype.resetPassword = function(callback, email)
+BorhanAdminUserService.prototype.resetPassword = function(callback, email)
 {
 
 	kparams = new Object();
@@ -6759,7 +6759,7 @@ KalturaAdminUserService.prototype.resetPassword = function(callback, email)
 		this.client.doQueue(callback);
 };
 
-KalturaAdminUserService.prototype.login = function(callback, email, password)
+BorhanAdminUserService.prototype.login = function(callback, email, password)
 {
 
 	kparams = new Object();
@@ -6770,14 +6770,14 @@ KalturaAdminUserService.prototype.login = function(callback, email, password)
 		this.client.doQueue(callback);
 };
 
-function KalturaBaseEntryService(client)
+function BorhanBaseEntryService(client)
 {
 	this.init(client);
 }
 
-KalturaBaseEntryService.prototype = new KalturaServiceBase();
+BorhanBaseEntryService.prototype = new BorhanServiceBase();
 
-KalturaBaseEntryService.prototype.addFromUploadedFile = function(callback, entry, uploadTokenId, type)
+BorhanBaseEntryService.prototype.addFromUploadedFile = function(callback, entry, uploadTokenId, type)
 {
 	if(!type)
 		type = -1;
@@ -6791,7 +6791,7 @@ KalturaBaseEntryService.prototype.addFromUploadedFile = function(callback, entry
 		this.client.doQueue(callback);
 };
 
-KalturaBaseEntryService.prototype.get = function(callback, entryId, version)
+BorhanBaseEntryService.prototype.get = function(callback, entryId, version)
 {
 	if(!version)
 		version = -1;
@@ -6804,7 +6804,7 @@ KalturaBaseEntryService.prototype.get = function(callback, entryId, version)
 		this.client.doQueue(callback);
 };
 
-KalturaBaseEntryService.prototype.update = function(callback, entryId, baseEntry)
+BorhanBaseEntryService.prototype.update = function(callback, entryId, baseEntry)
 {
 
 	kparams = new Object();
@@ -6815,7 +6815,7 @@ KalturaBaseEntryService.prototype.update = function(callback, entryId, baseEntry
 		this.client.doQueue(callback);
 };
 
-KalturaBaseEntryService.prototype.getByIds = function(callback, entryIds)
+BorhanBaseEntryService.prototype.getByIds = function(callback, entryIds)
 {
 
 	kparams = new Object();
@@ -6825,7 +6825,7 @@ KalturaBaseEntryService.prototype.getByIds = function(callback, entryIds)
 		this.client.doQueue(callback);
 };
 
-KalturaBaseEntryService.prototype.delete = function(callback, entryId)
+BorhanBaseEntryService.prototype.delete = function(callback, entryId)
 {
 
 	kparams = new Object();
@@ -6835,7 +6835,7 @@ KalturaBaseEntryService.prototype.delete = function(callback, entryId)
 		this.client.doQueue(callback);
 };
 
-KalturaBaseEntryService.prototype.listAction = function(callback, filter, pager)
+BorhanBaseEntryService.prototype.listAction = function(callback, filter, pager)
 {
 	if(!filter)
 		filter = null;
@@ -6852,7 +6852,7 @@ KalturaBaseEntryService.prototype.listAction = function(callback, filter, pager)
 		this.client.doQueue(callback);
 };
 
-KalturaBaseEntryService.prototype.count = function(callback, filter)
+BorhanBaseEntryService.prototype.count = function(callback, filter)
 {
 	if(!filter)
 		filter = null;
@@ -6865,7 +6865,7 @@ KalturaBaseEntryService.prototype.count = function(callback, filter)
 		this.client.doQueue(callback);
 };
 
-KalturaBaseEntryService.prototype.upload = function(callback, fileData)
+BorhanBaseEntryService.prototype.upload = function(callback, fileData)
 {
 
 	kparams = new Object();
@@ -6876,7 +6876,7 @@ KalturaBaseEntryService.prototype.upload = function(callback, fileData)
 		this.client.doQueue(callback);
 };
 
-KalturaBaseEntryService.prototype.updateThumbnailJpeg = function(callback, entryId, fileData)
+BorhanBaseEntryService.prototype.updateThumbnailJpeg = function(callback, entryId, fileData)
 {
 
 	kparams = new Object();
@@ -6888,7 +6888,7 @@ KalturaBaseEntryService.prototype.updateThumbnailJpeg = function(callback, entry
 		this.client.doQueue(callback);
 };
 
-KalturaBaseEntryService.prototype.updateThumbnailFromUrl = function(callback, entryId, url)
+BorhanBaseEntryService.prototype.updateThumbnailFromUrl = function(callback, entryId, url)
 {
 
 	kparams = new Object();
@@ -6899,7 +6899,7 @@ KalturaBaseEntryService.prototype.updateThumbnailFromUrl = function(callback, en
 		this.client.doQueue(callback);
 };
 
-KalturaBaseEntryService.prototype.updateThumbnailFromSourceEntry = function(callback, entryId, sourceEntryId, timeOffset)
+BorhanBaseEntryService.prototype.updateThumbnailFromSourceEntry = function(callback, entryId, sourceEntryId, timeOffset)
 {
 
 	kparams = new Object();
@@ -6911,7 +6911,7 @@ KalturaBaseEntryService.prototype.updateThumbnailFromSourceEntry = function(call
 		this.client.doQueue(callback);
 };
 
-KalturaBaseEntryService.prototype.flag = function(callback, moderationFlag)
+BorhanBaseEntryService.prototype.flag = function(callback, moderationFlag)
 {
 
 	kparams = new Object();
@@ -6921,7 +6921,7 @@ KalturaBaseEntryService.prototype.flag = function(callback, moderationFlag)
 		this.client.doQueue(callback);
 };
 
-KalturaBaseEntryService.prototype.reject = function(callback, entryId)
+BorhanBaseEntryService.prototype.reject = function(callback, entryId)
 {
 
 	kparams = new Object();
@@ -6931,7 +6931,7 @@ KalturaBaseEntryService.prototype.reject = function(callback, entryId)
 		this.client.doQueue(callback);
 };
 
-KalturaBaseEntryService.prototype.approve = function(callback, entryId)
+BorhanBaseEntryService.prototype.approve = function(callback, entryId)
 {
 
 	kparams = new Object();
@@ -6941,7 +6941,7 @@ KalturaBaseEntryService.prototype.approve = function(callback, entryId)
 		this.client.doQueue(callback);
 };
 
-KalturaBaseEntryService.prototype.listFlags = function(callback, entryId, pager)
+BorhanBaseEntryService.prototype.listFlags = function(callback, entryId, pager)
 {
 	if(!pager)
 		pager = null;
@@ -6955,7 +6955,7 @@ KalturaBaseEntryService.prototype.listFlags = function(callback, entryId, pager)
 		this.client.doQueue(callback);
 };
 
-KalturaBaseEntryService.prototype.anonymousRank = function(callback, entryId, rank)
+BorhanBaseEntryService.prototype.anonymousRank = function(callback, entryId, rank)
 {
 
 	kparams = new Object();
@@ -6966,7 +6966,7 @@ KalturaBaseEntryService.prototype.anonymousRank = function(callback, entryId, ra
 		this.client.doQueue(callback);
 };
 
-KalturaBaseEntryService.prototype.getExtraData = function(callback, entryId, extraDataParams)
+BorhanBaseEntryService.prototype.getExtraData = function(callback, entryId, extraDataParams)
 {
 
 	kparams = new Object();
@@ -6977,14 +6977,14 @@ KalturaBaseEntryService.prototype.getExtraData = function(callback, entryId, ext
 		this.client.doQueue(callback);
 };
 
-function KalturaBulkUploadService(client)
+function BorhanBulkUploadService(client)
 {
 	this.init(client);
 }
 
-KalturaBulkUploadService.prototype = new KalturaServiceBase();
+BorhanBulkUploadService.prototype = new BorhanServiceBase();
 
-KalturaBulkUploadService.prototype.add = function(callback, conversionProfileId, csvFileData)
+BorhanBulkUploadService.prototype.add = function(callback, conversionProfileId, csvFileData)
 {
 
 	kparams = new Object();
@@ -6996,7 +6996,7 @@ KalturaBulkUploadService.prototype.add = function(callback, conversionProfileId,
 		this.client.doQueue(callback);
 };
 
-KalturaBulkUploadService.prototype.get = function(callback, id)
+BorhanBulkUploadService.prototype.get = function(callback, id)
 {
 
 	kparams = new Object();
@@ -7006,7 +7006,7 @@ KalturaBulkUploadService.prototype.get = function(callback, id)
 		this.client.doQueue(callback);
 };
 
-KalturaBulkUploadService.prototype.listAction = function(callback, pager)
+BorhanBulkUploadService.prototype.listAction = function(callback, pager)
 {
 	if(!pager)
 		pager = null;
@@ -7019,14 +7019,14 @@ KalturaBulkUploadService.prototype.listAction = function(callback, pager)
 		this.client.doQueue(callback);
 };
 
-function KalturaCategoryService(client)
+function BorhanCategoryService(client)
 {
 	this.init(client);
 }
 
-KalturaCategoryService.prototype = new KalturaServiceBase();
+BorhanCategoryService.prototype = new BorhanServiceBase();
 
-KalturaCategoryService.prototype.add = function(callback, category)
+BorhanCategoryService.prototype.add = function(callback, category)
 {
 
 	kparams = new Object();
@@ -7036,7 +7036,7 @@ KalturaCategoryService.prototype.add = function(callback, category)
 		this.client.doQueue(callback);
 };
 
-KalturaCategoryService.prototype.get = function(callback, id)
+BorhanCategoryService.prototype.get = function(callback, id)
 {
 
 	kparams = new Object();
@@ -7046,7 +7046,7 @@ KalturaCategoryService.prototype.get = function(callback, id)
 		this.client.doQueue(callback);
 };
 
-KalturaCategoryService.prototype.update = function(callback, id, category)
+BorhanCategoryService.prototype.update = function(callback, id, category)
 {
 
 	kparams = new Object();
@@ -7057,7 +7057,7 @@ KalturaCategoryService.prototype.update = function(callback, id, category)
 		this.client.doQueue(callback);
 };
 
-KalturaCategoryService.prototype.delete = function(callback, id)
+BorhanCategoryService.prototype.delete = function(callback, id)
 {
 
 	kparams = new Object();
@@ -7067,7 +7067,7 @@ KalturaCategoryService.prototype.delete = function(callback, id)
 		this.client.doQueue(callback);
 };
 
-KalturaCategoryService.prototype.listAction = function(callback, filter)
+BorhanCategoryService.prototype.listAction = function(callback, filter)
 {
 	if(!filter)
 		filter = null;
@@ -7080,14 +7080,14 @@ KalturaCategoryService.prototype.listAction = function(callback, filter)
 		this.client.doQueue(callback);
 };
 
-function KalturaConversionProfileService(client)
+function BorhanConversionProfileService(client)
 {
 	this.init(client);
 }
 
-KalturaConversionProfileService.prototype = new KalturaServiceBase();
+BorhanConversionProfileService.prototype = new BorhanServiceBase();
 
-KalturaConversionProfileService.prototype.add = function(callback, conversionProfile)
+BorhanConversionProfileService.prototype.add = function(callback, conversionProfile)
 {
 
 	kparams = new Object();
@@ -7097,7 +7097,7 @@ KalturaConversionProfileService.prototype.add = function(callback, conversionPro
 		this.client.doQueue(callback);
 };
 
-KalturaConversionProfileService.prototype.get = function(callback, id)
+BorhanConversionProfileService.prototype.get = function(callback, id)
 {
 
 	kparams = new Object();
@@ -7107,7 +7107,7 @@ KalturaConversionProfileService.prototype.get = function(callback, id)
 		this.client.doQueue(callback);
 };
 
-KalturaConversionProfileService.prototype.update = function(callback, id, conversionProfile)
+BorhanConversionProfileService.prototype.update = function(callback, id, conversionProfile)
 {
 
 	kparams = new Object();
@@ -7118,7 +7118,7 @@ KalturaConversionProfileService.prototype.update = function(callback, id, conver
 		this.client.doQueue(callback);
 };
 
-KalturaConversionProfileService.prototype.delete = function(callback, id)
+BorhanConversionProfileService.prototype.delete = function(callback, id)
 {
 
 	kparams = new Object();
@@ -7128,7 +7128,7 @@ KalturaConversionProfileService.prototype.delete = function(callback, id)
 		this.client.doQueue(callback);
 };
 
-KalturaConversionProfileService.prototype.listAction = function(callback, filter, pager)
+BorhanConversionProfileService.prototype.listAction = function(callback, filter, pager)
 {
 	if(!filter)
 		filter = null;
@@ -7145,14 +7145,14 @@ KalturaConversionProfileService.prototype.listAction = function(callback, filter
 		this.client.doQueue(callback);
 };
 
-function KalturaDataService(client)
+function BorhanDataService(client)
 {
 	this.init(client);
 }
 
-KalturaDataService.prototype = new KalturaServiceBase();
+BorhanDataService.prototype = new BorhanServiceBase();
 
-KalturaDataService.prototype.add = function(callback, dataEntry)
+BorhanDataService.prototype.add = function(callback, dataEntry)
 {
 
 	kparams = new Object();
@@ -7162,7 +7162,7 @@ KalturaDataService.prototype.add = function(callback, dataEntry)
 		this.client.doQueue(callback);
 };
 
-KalturaDataService.prototype.get = function(callback, entryId, version)
+BorhanDataService.prototype.get = function(callback, entryId, version)
 {
 	if(!version)
 		version = -1;
@@ -7175,7 +7175,7 @@ KalturaDataService.prototype.get = function(callback, entryId, version)
 		this.client.doQueue(callback);
 };
 
-KalturaDataService.prototype.update = function(callback, entryId, documentEntry)
+BorhanDataService.prototype.update = function(callback, entryId, documentEntry)
 {
 
 	kparams = new Object();
@@ -7186,7 +7186,7 @@ KalturaDataService.prototype.update = function(callback, entryId, documentEntry)
 		this.client.doQueue(callback);
 };
 
-KalturaDataService.prototype.delete = function(callback, entryId)
+BorhanDataService.prototype.delete = function(callback, entryId)
 {
 
 	kparams = new Object();
@@ -7196,7 +7196,7 @@ KalturaDataService.prototype.delete = function(callback, entryId)
 		this.client.doQueue(callback);
 };
 
-KalturaDataService.prototype.listAction = function(callback, filter, pager)
+BorhanDataService.prototype.listAction = function(callback, filter, pager)
 {
 	if(!filter)
 		filter = null;
@@ -7213,14 +7213,14 @@ KalturaDataService.prototype.listAction = function(callback, filter, pager)
 		this.client.doQueue(callback);
 };
 
-function KalturaFlavorAssetService(client)
+function BorhanFlavorAssetService(client)
 {
 	this.init(client);
 }
 
-KalturaFlavorAssetService.prototype = new KalturaServiceBase();
+BorhanFlavorAssetService.prototype = new BorhanServiceBase();
 
-KalturaFlavorAssetService.prototype.get = function(callback, id)
+BorhanFlavorAssetService.prototype.get = function(callback, id)
 {
 
 	kparams = new Object();
@@ -7230,7 +7230,7 @@ KalturaFlavorAssetService.prototype.get = function(callback, id)
 		this.client.doQueue(callback);
 };
 
-KalturaFlavorAssetService.prototype.getByEntryId = function(callback, entryId)
+BorhanFlavorAssetService.prototype.getByEntryId = function(callback, entryId)
 {
 
 	kparams = new Object();
@@ -7240,7 +7240,7 @@ KalturaFlavorAssetService.prototype.getByEntryId = function(callback, entryId)
 		this.client.doQueue(callback);
 };
 
-KalturaFlavorAssetService.prototype.getWebPlayableByEntryId = function(callback, entryId)
+BorhanFlavorAssetService.prototype.getWebPlayableByEntryId = function(callback, entryId)
 {
 
 	kparams = new Object();
@@ -7250,7 +7250,7 @@ KalturaFlavorAssetService.prototype.getWebPlayableByEntryId = function(callback,
 		this.client.doQueue(callback);
 };
 
-KalturaFlavorAssetService.prototype.convert = function(callback, entryId, flavorParamsId)
+BorhanFlavorAssetService.prototype.convert = function(callback, entryId, flavorParamsId)
 {
 
 	kparams = new Object();
@@ -7261,7 +7261,7 @@ KalturaFlavorAssetService.prototype.convert = function(callback, entryId, flavor
 		this.client.doQueue(callback);
 };
 
-KalturaFlavorAssetService.prototype.reconvert = function(callback, id)
+BorhanFlavorAssetService.prototype.reconvert = function(callback, id)
 {
 
 	kparams = new Object();
@@ -7271,7 +7271,7 @@ KalturaFlavorAssetService.prototype.reconvert = function(callback, id)
 		this.client.doQueue(callback);
 };
 
-KalturaFlavorAssetService.prototype.delete = function(callback, id)
+BorhanFlavorAssetService.prototype.delete = function(callback, id)
 {
 
 	kparams = new Object();
@@ -7281,7 +7281,7 @@ KalturaFlavorAssetService.prototype.delete = function(callback, id)
 		this.client.doQueue(callback);
 };
 
-KalturaFlavorAssetService.prototype.getDownloadUrl = function(callback, id)
+BorhanFlavorAssetService.prototype.getDownloadUrl = function(callback, id)
 {
 
 	kparams = new Object();
@@ -7291,7 +7291,7 @@ KalturaFlavorAssetService.prototype.getDownloadUrl = function(callback, id)
 		this.client.doQueue(callback);
 };
 
-KalturaFlavorAssetService.prototype.getFlavorAssetsWithParams = function(callback, entryId)
+BorhanFlavorAssetService.prototype.getFlavorAssetsWithParams = function(callback, entryId)
 {
 
 	kparams = new Object();
@@ -7301,14 +7301,14 @@ KalturaFlavorAssetService.prototype.getFlavorAssetsWithParams = function(callbac
 		this.client.doQueue(callback);
 };
 
-function KalturaFlavorParamsService(client)
+function BorhanFlavorParamsService(client)
 {
 	this.init(client);
 }
 
-KalturaFlavorParamsService.prototype = new KalturaServiceBase();
+BorhanFlavorParamsService.prototype = new BorhanServiceBase();
 
-KalturaFlavorParamsService.prototype.add = function(callback, flavorParams)
+BorhanFlavorParamsService.prototype.add = function(callback, flavorParams)
 {
 
 	kparams = new Object();
@@ -7318,7 +7318,7 @@ KalturaFlavorParamsService.prototype.add = function(callback, flavorParams)
 		this.client.doQueue(callback);
 };
 
-KalturaFlavorParamsService.prototype.get = function(callback, id)
+BorhanFlavorParamsService.prototype.get = function(callback, id)
 {
 
 	kparams = new Object();
@@ -7328,7 +7328,7 @@ KalturaFlavorParamsService.prototype.get = function(callback, id)
 		this.client.doQueue(callback);
 };
 
-KalturaFlavorParamsService.prototype.update = function(callback, id, flavorParams)
+BorhanFlavorParamsService.prototype.update = function(callback, id, flavorParams)
 {
 
 	kparams = new Object();
@@ -7339,7 +7339,7 @@ KalturaFlavorParamsService.prototype.update = function(callback, id, flavorParam
 		this.client.doQueue(callback);
 };
 
-KalturaFlavorParamsService.prototype.delete = function(callback, id)
+BorhanFlavorParamsService.prototype.delete = function(callback, id)
 {
 
 	kparams = new Object();
@@ -7349,7 +7349,7 @@ KalturaFlavorParamsService.prototype.delete = function(callback, id)
 		this.client.doQueue(callback);
 };
 
-KalturaFlavorParamsService.prototype.listAction = function(callback, filter, pager)
+BorhanFlavorParamsService.prototype.listAction = function(callback, filter, pager)
 {
 	if(!filter)
 		filter = null;
@@ -7366,7 +7366,7 @@ KalturaFlavorParamsService.prototype.listAction = function(callback, filter, pag
 		this.client.doQueue(callback);
 };
 
-KalturaFlavorParamsService.prototype.getByConversionProfileId = function(callback, conversionProfileId)
+BorhanFlavorParamsService.prototype.getByConversionProfileId = function(callback, conversionProfileId)
 {
 
 	kparams = new Object();
@@ -7376,14 +7376,14 @@ KalturaFlavorParamsService.prototype.getByConversionProfileId = function(callbac
 		this.client.doQueue(callback);
 };
 
-function KalturaJobsService(client)
+function BorhanJobsService(client)
 {
 	this.init(client);
 }
 
-KalturaJobsService.prototype = new KalturaServiceBase();
+BorhanJobsService.prototype = new BorhanServiceBase();
 
-KalturaJobsService.prototype.getImportStatus = function(callback, jobId)
+BorhanJobsService.prototype.getImportStatus = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7393,7 +7393,7 @@ KalturaJobsService.prototype.getImportStatus = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.deleteImport = function(callback, jobId)
+BorhanJobsService.prototype.deleteImport = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7403,7 +7403,7 @@ KalturaJobsService.prototype.deleteImport = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.abortImport = function(callback, jobId)
+BorhanJobsService.prototype.abortImport = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7413,7 +7413,7 @@ KalturaJobsService.prototype.abortImport = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.retryImport = function(callback, jobId)
+BorhanJobsService.prototype.retryImport = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7423,7 +7423,7 @@ KalturaJobsService.prototype.retryImport = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.getBulkUploadStatus = function(callback, jobId)
+BorhanJobsService.prototype.getBulkUploadStatus = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7433,7 +7433,7 @@ KalturaJobsService.prototype.getBulkUploadStatus = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.deleteBulkUpload = function(callback, jobId)
+BorhanJobsService.prototype.deleteBulkUpload = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7443,7 +7443,7 @@ KalturaJobsService.prototype.deleteBulkUpload = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.abortBulkUpload = function(callback, jobId)
+BorhanJobsService.prototype.abortBulkUpload = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7453,7 +7453,7 @@ KalturaJobsService.prototype.abortBulkUpload = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.retryBulkUpload = function(callback, jobId)
+BorhanJobsService.prototype.retryBulkUpload = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7463,7 +7463,7 @@ KalturaJobsService.prototype.retryBulkUpload = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.getConvertStatus = function(callback, jobId)
+BorhanJobsService.prototype.getConvertStatus = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7473,7 +7473,7 @@ KalturaJobsService.prototype.getConvertStatus = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.getConvertProfileStatus = function(callback, jobId)
+BorhanJobsService.prototype.getConvertProfileStatus = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7483,7 +7483,7 @@ KalturaJobsService.prototype.getConvertProfileStatus = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.getRemoteConvertStatus = function(callback, jobId)
+BorhanJobsService.prototype.getRemoteConvertStatus = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7493,7 +7493,7 @@ KalturaJobsService.prototype.getRemoteConvertStatus = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.deleteConvert = function(callback, jobId)
+BorhanJobsService.prototype.deleteConvert = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7503,7 +7503,7 @@ KalturaJobsService.prototype.deleteConvert = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.abortConvert = function(callback, jobId)
+BorhanJobsService.prototype.abortConvert = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7513,7 +7513,7 @@ KalturaJobsService.prototype.abortConvert = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.retryConvert = function(callback, jobId)
+BorhanJobsService.prototype.retryConvert = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7523,7 +7523,7 @@ KalturaJobsService.prototype.retryConvert = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.deleteRemoteConvert = function(callback, jobId)
+BorhanJobsService.prototype.deleteRemoteConvert = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7533,7 +7533,7 @@ KalturaJobsService.prototype.deleteRemoteConvert = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.abortRemoteConvert = function(callback, jobId)
+BorhanJobsService.prototype.abortRemoteConvert = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7543,7 +7543,7 @@ KalturaJobsService.prototype.abortRemoteConvert = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.retryRemoteConvert = function(callback, jobId)
+BorhanJobsService.prototype.retryRemoteConvert = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7553,7 +7553,7 @@ KalturaJobsService.prototype.retryRemoteConvert = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.deleteConvertProfile = function(callback, jobId)
+BorhanJobsService.prototype.deleteConvertProfile = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7563,7 +7563,7 @@ KalturaJobsService.prototype.deleteConvertProfile = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.abortConvertProfile = function(callback, jobId)
+BorhanJobsService.prototype.abortConvertProfile = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7573,7 +7573,7 @@ KalturaJobsService.prototype.abortConvertProfile = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.retryConvertProfile = function(callback, jobId)
+BorhanJobsService.prototype.retryConvertProfile = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7583,7 +7583,7 @@ KalturaJobsService.prototype.retryConvertProfile = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.getPostConvertStatus = function(callback, jobId)
+BorhanJobsService.prototype.getPostConvertStatus = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7593,7 +7593,7 @@ KalturaJobsService.prototype.getPostConvertStatus = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.deletePostConvert = function(callback, jobId)
+BorhanJobsService.prototype.deletePostConvert = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7603,7 +7603,7 @@ KalturaJobsService.prototype.deletePostConvert = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.abortPostConvert = function(callback, jobId)
+BorhanJobsService.prototype.abortPostConvert = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7613,7 +7613,7 @@ KalturaJobsService.prototype.abortPostConvert = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.retryPostConvert = function(callback, jobId)
+BorhanJobsService.prototype.retryPostConvert = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7623,7 +7623,7 @@ KalturaJobsService.prototype.retryPostConvert = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.getPullStatus = function(callback, jobId)
+BorhanJobsService.prototype.getPullStatus = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7633,7 +7633,7 @@ KalturaJobsService.prototype.getPullStatus = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.deletePull = function(callback, jobId)
+BorhanJobsService.prototype.deletePull = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7643,7 +7643,7 @@ KalturaJobsService.prototype.deletePull = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.abortPull = function(callback, jobId)
+BorhanJobsService.prototype.abortPull = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7653,7 +7653,7 @@ KalturaJobsService.prototype.abortPull = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.retryPull = function(callback, jobId)
+BorhanJobsService.prototype.retryPull = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7663,7 +7663,7 @@ KalturaJobsService.prototype.retryPull = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.getExtractMediaStatus = function(callback, jobId)
+BorhanJobsService.prototype.getExtractMediaStatus = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7673,7 +7673,7 @@ KalturaJobsService.prototype.getExtractMediaStatus = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.deleteExtractMedia = function(callback, jobId)
+BorhanJobsService.prototype.deleteExtractMedia = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7683,7 +7683,7 @@ KalturaJobsService.prototype.deleteExtractMedia = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.abortExtractMedia = function(callback, jobId)
+BorhanJobsService.prototype.abortExtractMedia = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7693,7 +7693,7 @@ KalturaJobsService.prototype.abortExtractMedia = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.retryExtractMedia = function(callback, jobId)
+BorhanJobsService.prototype.retryExtractMedia = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7703,7 +7703,7 @@ KalturaJobsService.prototype.retryExtractMedia = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.getNotificationStatus = function(callback, jobId)
+BorhanJobsService.prototype.getNotificationStatus = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7713,7 +7713,7 @@ KalturaJobsService.prototype.getNotificationStatus = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.deleteNotification = function(callback, jobId)
+BorhanJobsService.prototype.deleteNotification = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7723,7 +7723,7 @@ KalturaJobsService.prototype.deleteNotification = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.abortNotification = function(callback, jobId)
+BorhanJobsService.prototype.abortNotification = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7733,7 +7733,7 @@ KalturaJobsService.prototype.abortNotification = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.retryNotification = function(callback, jobId)
+BorhanJobsService.prototype.retryNotification = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7743,7 +7743,7 @@ KalturaJobsService.prototype.retryNotification = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.getMailStatus = function(callback, jobId)
+BorhanJobsService.prototype.getMailStatus = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7753,7 +7753,7 @@ KalturaJobsService.prototype.getMailStatus = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.deleteMail = function(callback, jobId)
+BorhanJobsService.prototype.deleteMail = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7763,7 +7763,7 @@ KalturaJobsService.prototype.deleteMail = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.abortMail = function(callback, jobId)
+BorhanJobsService.prototype.abortMail = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7773,7 +7773,7 @@ KalturaJobsService.prototype.abortMail = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.retryMail = function(callback, jobId)
+BorhanJobsService.prototype.retryMail = function(callback, jobId)
 {
 
 	kparams = new Object();
@@ -7783,7 +7783,7 @@ KalturaJobsService.prototype.retryMail = function(callback, jobId)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.addMailJob = function(callback, mailJobData)
+BorhanJobsService.prototype.addMailJob = function(callback, mailJobData)
 {
 
 	kparams = new Object();
@@ -7793,7 +7793,7 @@ KalturaJobsService.prototype.addMailJob = function(callback, mailJobData)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.addBatchJob = function(callback, batchJob)
+BorhanJobsService.prototype.addBatchJob = function(callback, batchJob)
 {
 
 	kparams = new Object();
@@ -7803,7 +7803,7 @@ KalturaJobsService.prototype.addBatchJob = function(callback, batchJob)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.getStatus = function(callback, jobId, jobType)
+BorhanJobsService.prototype.getStatus = function(callback, jobId, jobType)
 {
 
 	kparams = new Object();
@@ -7814,7 +7814,7 @@ KalturaJobsService.prototype.getStatus = function(callback, jobId, jobType)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.deleteJob = function(callback, jobId, jobType)
+BorhanJobsService.prototype.deleteJob = function(callback, jobId, jobType)
 {
 
 	kparams = new Object();
@@ -7825,7 +7825,7 @@ KalturaJobsService.prototype.deleteJob = function(callback, jobId, jobType)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.abortJob = function(callback, jobId, jobType)
+BorhanJobsService.prototype.abortJob = function(callback, jobId, jobType)
 {
 
 	kparams = new Object();
@@ -7836,7 +7836,7 @@ KalturaJobsService.prototype.abortJob = function(callback, jobId, jobType)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.retryJob = function(callback, jobId, jobType)
+BorhanJobsService.prototype.retryJob = function(callback, jobId, jobType)
 {
 
 	kparams = new Object();
@@ -7847,7 +7847,7 @@ KalturaJobsService.prototype.retryJob = function(callback, jobId, jobType)
 		this.client.doQueue(callback);
 };
 
-KalturaJobsService.prototype.listBatchJobs = function(callback, filter, pager)
+BorhanJobsService.prototype.listBatchJobs = function(callback, filter, pager)
 {
 	if(!filter)
 		filter = null;
@@ -7864,14 +7864,14 @@ KalturaJobsService.prototype.listBatchJobs = function(callback, filter, pager)
 		this.client.doQueue(callback);
 };
 
-function KalturaMediaService(client)
+function BorhanMediaService(client)
 {
 	this.init(client);
 }
 
-KalturaMediaService.prototype = new KalturaServiceBase();
+BorhanMediaService.prototype = new BorhanServiceBase();
 
-KalturaMediaService.prototype.addFromBulk = function(callback, mediaEntry, url, bulkUploadId)
+BorhanMediaService.prototype.addFromBulk = function(callback, mediaEntry, url, bulkUploadId)
 {
 
 	kparams = new Object();
@@ -7883,7 +7883,7 @@ KalturaMediaService.prototype.addFromBulk = function(callback, mediaEntry, url, 
 		this.client.doQueue(callback);
 };
 
-KalturaMediaService.prototype.addFromUrl = function(callback, mediaEntry, url)
+BorhanMediaService.prototype.addFromUrl = function(callback, mediaEntry, url)
 {
 
 	kparams = new Object();
@@ -7894,7 +7894,7 @@ KalturaMediaService.prototype.addFromUrl = function(callback, mediaEntry, url)
 		this.client.doQueue(callback);
 };
 
-KalturaMediaService.prototype.addFromSearchResult = function(callback, mediaEntry, searchResult)
+BorhanMediaService.prototype.addFromSearchResult = function(callback, mediaEntry, searchResult)
 {
 	if(!mediaEntry)
 		mediaEntry = null;
@@ -7911,7 +7911,7 @@ KalturaMediaService.prototype.addFromSearchResult = function(callback, mediaEntr
 		this.client.doQueue(callback);
 };
 
-KalturaMediaService.prototype.addFromUploadedFile = function(callback, mediaEntry, uploadTokenId)
+BorhanMediaService.prototype.addFromUploadedFile = function(callback, mediaEntry, uploadTokenId)
 {
 
 	kparams = new Object();
@@ -7922,7 +7922,7 @@ KalturaMediaService.prototype.addFromUploadedFile = function(callback, mediaEntr
 		this.client.doQueue(callback);
 };
 
-KalturaMediaService.prototype.addFromRecordedWebcam = function(callback, mediaEntry, webcamTokenId)
+BorhanMediaService.prototype.addFromRecordedWebcam = function(callback, mediaEntry, webcamTokenId)
 {
 
 	kparams = new Object();
@@ -7933,7 +7933,7 @@ KalturaMediaService.prototype.addFromRecordedWebcam = function(callback, mediaEn
 		this.client.doQueue(callback);
 };
 
-KalturaMediaService.prototype.get = function(callback, entryId, version)
+BorhanMediaService.prototype.get = function(callback, entryId, version)
 {
 	if(!version)
 		version = -1;
@@ -7946,7 +7946,7 @@ KalturaMediaService.prototype.get = function(callback, entryId, version)
 		this.client.doQueue(callback);
 };
 
-KalturaMediaService.prototype.update = function(callback, entryId, mediaEntry)
+BorhanMediaService.prototype.update = function(callback, entryId, mediaEntry)
 {
 
 	kparams = new Object();
@@ -7957,7 +7957,7 @@ KalturaMediaService.prototype.update = function(callback, entryId, mediaEntry)
 		this.client.doQueue(callback);
 };
 
-KalturaMediaService.prototype.delete = function(callback, entryId)
+BorhanMediaService.prototype.delete = function(callback, entryId)
 {
 
 	kparams = new Object();
@@ -7967,7 +7967,7 @@ KalturaMediaService.prototype.delete = function(callback, entryId)
 		this.client.doQueue(callback);
 };
 
-KalturaMediaService.prototype.listAction = function(callback, filter, pager)
+BorhanMediaService.prototype.listAction = function(callback, filter, pager)
 {
 	if(!filter)
 		filter = null;
@@ -7984,7 +7984,7 @@ KalturaMediaService.prototype.listAction = function(callback, filter, pager)
 		this.client.doQueue(callback);
 };
 
-KalturaMediaService.prototype.count = function(callback, filter)
+BorhanMediaService.prototype.count = function(callback, filter)
 {
 	if(!filter)
 		filter = null;
@@ -7997,7 +7997,7 @@ KalturaMediaService.prototype.count = function(callback, filter)
 		this.client.doQueue(callback);
 };
 
-KalturaMediaService.prototype.upload = function(callback, fileData)
+BorhanMediaService.prototype.upload = function(callback, fileData)
 {
 
 	kparams = new Object();
@@ -8008,7 +8008,7 @@ KalturaMediaService.prototype.upload = function(callback, fileData)
 		this.client.doQueue(callback);
 };
 
-KalturaMediaService.prototype.updateThumbnail = function(callback, entryId, timeOffset)
+BorhanMediaService.prototype.updateThumbnail = function(callback, entryId, timeOffset)
 {
 
 	kparams = new Object();
@@ -8019,7 +8019,7 @@ KalturaMediaService.prototype.updateThumbnail = function(callback, entryId, time
 		this.client.doQueue(callback);
 };
 
-KalturaMediaService.prototype.updateThumbnailFromSourceEntry = function(callback, entryId, sourceEntryId, timeOffset)
+BorhanMediaService.prototype.updateThumbnailFromSourceEntry = function(callback, entryId, sourceEntryId, timeOffset)
 {
 
 	kparams = new Object();
@@ -8031,7 +8031,7 @@ KalturaMediaService.prototype.updateThumbnailFromSourceEntry = function(callback
 		this.client.doQueue(callback);
 };
 
-KalturaMediaService.prototype.updateThumbnailJpeg = function(callback, entryId, fileData)
+BorhanMediaService.prototype.updateThumbnailJpeg = function(callback, entryId, fileData)
 {
 
 	kparams = new Object();
@@ -8043,7 +8043,7 @@ KalturaMediaService.prototype.updateThumbnailJpeg = function(callback, entryId, 
 		this.client.doQueue(callback);
 };
 
-KalturaMediaService.prototype.updateThumbnailFromUrl = function(callback, entryId, url)
+BorhanMediaService.prototype.updateThumbnailFromUrl = function(callback, entryId, url)
 {
 
 	kparams = new Object();
@@ -8054,7 +8054,7 @@ KalturaMediaService.prototype.updateThumbnailFromUrl = function(callback, entryI
 		this.client.doQueue(callback);
 };
 
-KalturaMediaService.prototype.requestConversion = function(callback, entryId, fileFormat)
+BorhanMediaService.prototype.requestConversion = function(callback, entryId, fileFormat)
 {
 
 	kparams = new Object();
@@ -8065,7 +8065,7 @@ KalturaMediaService.prototype.requestConversion = function(callback, entryId, fi
 		this.client.doQueue(callback);
 };
 
-KalturaMediaService.prototype.flag = function(callback, moderationFlag)
+BorhanMediaService.prototype.flag = function(callback, moderationFlag)
 {
 
 	kparams = new Object();
@@ -8075,7 +8075,7 @@ KalturaMediaService.prototype.flag = function(callback, moderationFlag)
 		this.client.doQueue(callback);
 };
 
-KalturaMediaService.prototype.reject = function(callback, entryId)
+BorhanMediaService.prototype.reject = function(callback, entryId)
 {
 
 	kparams = new Object();
@@ -8085,7 +8085,7 @@ KalturaMediaService.prototype.reject = function(callback, entryId)
 		this.client.doQueue(callback);
 };
 
-KalturaMediaService.prototype.approve = function(callback, entryId)
+BorhanMediaService.prototype.approve = function(callback, entryId)
 {
 
 	kparams = new Object();
@@ -8095,7 +8095,7 @@ KalturaMediaService.prototype.approve = function(callback, entryId)
 		this.client.doQueue(callback);
 };
 
-KalturaMediaService.prototype.listFlags = function(callback, entryId, pager)
+BorhanMediaService.prototype.listFlags = function(callback, entryId, pager)
 {
 	if(!pager)
 		pager = null;
@@ -8109,7 +8109,7 @@ KalturaMediaService.prototype.listFlags = function(callback, entryId, pager)
 		this.client.doQueue(callback);
 };
 
-KalturaMediaService.prototype.anonymousRank = function(callback, entryId, rank)
+BorhanMediaService.prototype.anonymousRank = function(callback, entryId, rank)
 {
 
 	kparams = new Object();
@@ -8120,14 +8120,14 @@ KalturaMediaService.prototype.anonymousRank = function(callback, entryId, rank)
 		this.client.doQueue(callback);
 };
 
-function KalturaMixingService(client)
+function BorhanMixingService(client)
 {
 	this.init(client);
 }
 
-KalturaMixingService.prototype = new KalturaServiceBase();
+BorhanMixingService.prototype = new BorhanServiceBase();
 
-KalturaMixingService.prototype.add = function(callback, mixEntry)
+BorhanMixingService.prototype.add = function(callback, mixEntry)
 {
 
 	kparams = new Object();
@@ -8137,7 +8137,7 @@ KalturaMixingService.prototype.add = function(callback, mixEntry)
 		this.client.doQueue(callback);
 };
 
-KalturaMixingService.prototype.get = function(callback, entryId, version)
+BorhanMixingService.prototype.get = function(callback, entryId, version)
 {
 	if(!version)
 		version = -1;
@@ -8150,7 +8150,7 @@ KalturaMixingService.prototype.get = function(callback, entryId, version)
 		this.client.doQueue(callback);
 };
 
-KalturaMixingService.prototype.update = function(callback, entryId, mixEntry)
+BorhanMixingService.prototype.update = function(callback, entryId, mixEntry)
 {
 
 	kparams = new Object();
@@ -8161,7 +8161,7 @@ KalturaMixingService.prototype.update = function(callback, entryId, mixEntry)
 		this.client.doQueue(callback);
 };
 
-KalturaMixingService.prototype.delete = function(callback, entryId)
+BorhanMixingService.prototype.delete = function(callback, entryId)
 {
 
 	kparams = new Object();
@@ -8171,7 +8171,7 @@ KalturaMixingService.prototype.delete = function(callback, entryId)
 		this.client.doQueue(callback);
 };
 
-KalturaMixingService.prototype.listAction = function(callback, filter, pager)
+BorhanMixingService.prototype.listAction = function(callback, filter, pager)
 {
 	if(!filter)
 		filter = null;
@@ -8188,7 +8188,7 @@ KalturaMixingService.prototype.listAction = function(callback, filter, pager)
 		this.client.doQueue(callback);
 };
 
-KalturaMixingService.prototype.count = function(callback, filter)
+BorhanMixingService.prototype.count = function(callback, filter)
 {
 	if(!filter)
 		filter = null;
@@ -8201,7 +8201,7 @@ KalturaMixingService.prototype.count = function(callback, filter)
 		this.client.doQueue(callback);
 };
 
-KalturaMixingService.prototype.cloneAction = function(callback, entryId)
+BorhanMixingService.prototype.cloneAction = function(callback, entryId)
 {
 
 	kparams = new Object();
@@ -8211,7 +8211,7 @@ KalturaMixingService.prototype.cloneAction = function(callback, entryId)
 		this.client.doQueue(callback);
 };
 
-KalturaMixingService.prototype.appendMediaEntry = function(callback, mixEntryId, mediaEntryId)
+BorhanMixingService.prototype.appendMediaEntry = function(callback, mixEntryId, mediaEntryId)
 {
 
 	kparams = new Object();
@@ -8222,7 +8222,7 @@ KalturaMixingService.prototype.appendMediaEntry = function(callback, mixEntryId,
 		this.client.doQueue(callback);
 };
 
-KalturaMixingService.prototype.requestFlattening = function(callback, entryId, fileFormat, version)
+BorhanMixingService.prototype.requestFlattening = function(callback, entryId, fileFormat, version)
 {
 	if(!version)
 		version = -1;
@@ -8236,7 +8236,7 @@ KalturaMixingService.prototype.requestFlattening = function(callback, entryId, f
 		this.client.doQueue(callback);
 };
 
-KalturaMixingService.prototype.getMixesByMediaId = function(callback, mediaEntryId)
+BorhanMixingService.prototype.getMixesByMediaId = function(callback, mediaEntryId)
 {
 
 	kparams = new Object();
@@ -8246,7 +8246,7 @@ KalturaMixingService.prototype.getMixesByMediaId = function(callback, mediaEntry
 		this.client.doQueue(callback);
 };
 
-KalturaMixingService.prototype.getReadyMediaEntries = function(callback, mixId, version)
+BorhanMixingService.prototype.getReadyMediaEntries = function(callback, mixId, version)
 {
 	if(!version)
 		version = -1;
@@ -8259,7 +8259,7 @@ KalturaMixingService.prototype.getReadyMediaEntries = function(callback, mixId, 
 		this.client.doQueue(callback);
 };
 
-KalturaMixingService.prototype.anonymousRank = function(callback, entryId, rank)
+BorhanMixingService.prototype.anonymousRank = function(callback, entryId, rank)
 {
 
 	kparams = new Object();
@@ -8270,14 +8270,14 @@ KalturaMixingService.prototype.anonymousRank = function(callback, entryId, rank)
 		this.client.doQueue(callback);
 };
 
-function KalturaNotificationService(client)
+function BorhanNotificationService(client)
 {
 	this.init(client);
 }
 
-KalturaNotificationService.prototype = new KalturaServiceBase();
+BorhanNotificationService.prototype = new BorhanServiceBase();
 
-KalturaNotificationService.prototype.getClientNotification = function(callback, entryId, type)
+BorhanNotificationService.prototype.getClientNotification = function(callback, entryId, type)
 {
 
 	kparams = new Object();
@@ -8288,14 +8288,14 @@ KalturaNotificationService.prototype.getClientNotification = function(callback, 
 		this.client.doQueue(callback);
 };
 
-function KalturaPartnerService(client)
+function BorhanPartnerService(client)
 {
 	this.init(client);
 }
 
-KalturaPartnerService.prototype = new KalturaServiceBase();
+BorhanPartnerService.prototype = new BorhanServiceBase();
 
-KalturaPartnerService.prototype.register = function(callback, partner, cmsPassword)
+BorhanPartnerService.prototype.register = function(callback, partner, cmsPassword)
 {
 	if(!cmsPassword)
 		cmsPassword = "";
@@ -8308,7 +8308,7 @@ KalturaPartnerService.prototype.register = function(callback, partner, cmsPasswo
 		this.client.doQueue(callback);
 };
 
-KalturaPartnerService.prototype.update = function(callback, partner, allowEmpty)
+BorhanPartnerService.prototype.update = function(callback, partner, allowEmpty)
 {
 	if(!allowEmpty)
 		allowEmpty = false;
@@ -8321,7 +8321,7 @@ KalturaPartnerService.prototype.update = function(callback, partner, allowEmpty)
 		this.client.doQueue(callback);
 };
 
-KalturaPartnerService.prototype.getSecrets = function(callback, partnerId, adminEmail, cmsPassword)
+BorhanPartnerService.prototype.getSecrets = function(callback, partnerId, adminEmail, cmsPassword)
 {
 
 	kparams = new Object();
@@ -8333,7 +8333,7 @@ KalturaPartnerService.prototype.getSecrets = function(callback, partnerId, admin
 		this.client.doQueue(callback);
 };
 
-KalturaPartnerService.prototype.getInfo = function(callback)
+BorhanPartnerService.prototype.getInfo = function(callback)
 {
 
 	kparams = new Object();
@@ -8342,7 +8342,7 @@ KalturaPartnerService.prototype.getInfo = function(callback)
 		this.client.doQueue(callback);
 };
 
-KalturaPartnerService.prototype.get = function(callback, partnerId)
+BorhanPartnerService.prototype.get = function(callback, partnerId)
 {
 
 	kparams = new Object();
@@ -8352,7 +8352,7 @@ KalturaPartnerService.prototype.get = function(callback, partnerId)
 		this.client.doQueue(callback);
 };
 
-KalturaPartnerService.prototype.getUsage = function(callback, year, month, resolution)
+BorhanPartnerService.prototype.getUsage = function(callback, year, month, resolution)
 {
 	if(!year)
 		year = "";
@@ -8370,14 +8370,14 @@ KalturaPartnerService.prototype.getUsage = function(callback, year, month, resol
 		this.client.doQueue(callback);
 };
 
-function KalturaPlaylistService(client)
+function BorhanPlaylistService(client)
 {
 	this.init(client);
 }
 
-KalturaPlaylistService.prototype = new KalturaServiceBase();
+BorhanPlaylistService.prototype = new BorhanServiceBase();
 
-KalturaPlaylistService.prototype.add = function(callback, playlist, updateStats)
+BorhanPlaylistService.prototype.add = function(callback, playlist, updateStats)
 {
 	if(!updateStats)
 		updateStats = false;
@@ -8390,7 +8390,7 @@ KalturaPlaylistService.prototype.add = function(callback, playlist, updateStats)
 		this.client.doQueue(callback);
 };
 
-KalturaPlaylistService.prototype.get = function(callback, id, version)
+BorhanPlaylistService.prototype.get = function(callback, id, version)
 {
 	if(!version)
 		version = -1;
@@ -8403,7 +8403,7 @@ KalturaPlaylistService.prototype.get = function(callback, id, version)
 		this.client.doQueue(callback);
 };
 
-KalturaPlaylistService.prototype.update = function(callback, id, playlist, updateStats)
+BorhanPlaylistService.prototype.update = function(callback, id, playlist, updateStats)
 {
 	if(!updateStats)
 		updateStats = false;
@@ -8417,7 +8417,7 @@ KalturaPlaylistService.prototype.update = function(callback, id, playlist, updat
 		this.client.doQueue(callback);
 };
 
-KalturaPlaylistService.prototype.delete = function(callback, id)
+BorhanPlaylistService.prototype.delete = function(callback, id)
 {
 
 	kparams = new Object();
@@ -8427,7 +8427,7 @@ KalturaPlaylistService.prototype.delete = function(callback, id)
 		this.client.doQueue(callback);
 };
 
-KalturaPlaylistService.prototype.listAction = function(callback, filter, pager)
+BorhanPlaylistService.prototype.listAction = function(callback, filter, pager)
 {
 	if(!filter)
 		filter = null;
@@ -8444,7 +8444,7 @@ KalturaPlaylistService.prototype.listAction = function(callback, filter, pager)
 		this.client.doQueue(callback);
 };
 
-KalturaPlaylistService.prototype.execute = function(callback, id, detailed)
+BorhanPlaylistService.prototype.execute = function(callback, id, detailed)
 {
 	if(!detailed)
 		detailed = false;
@@ -8457,7 +8457,7 @@ KalturaPlaylistService.prototype.execute = function(callback, id, detailed)
 		this.client.doQueue(callback);
 };
 
-KalturaPlaylistService.prototype.executeFromContent = function(callback, playlistType, playlistContent, detailed)
+BorhanPlaylistService.prototype.executeFromContent = function(callback, playlistType, playlistContent, detailed)
 {
 	if(!detailed)
 		detailed = false;
@@ -8471,7 +8471,7 @@ KalturaPlaylistService.prototype.executeFromContent = function(callback, playlis
 		this.client.doQueue(callback);
 };
 
-KalturaPlaylistService.prototype.executeFromFilters = function(callback, filters, totalResults, detailed)
+BorhanPlaylistService.prototype.executeFromFilters = function(callback, filters, totalResults, detailed)
 {
 	if(!detailed)
 		detailed = false;
@@ -8489,7 +8489,7 @@ KalturaPlaylistService.prototype.executeFromFilters = function(callback, filters
 		this.client.doQueue(callback);
 };
 
-KalturaPlaylistService.prototype.getStatsFromContent = function(callback, playlistType, playlistContent)
+BorhanPlaylistService.prototype.getStatsFromContent = function(callback, playlistType, playlistContent)
 {
 
 	kparams = new Object();
@@ -8500,14 +8500,14 @@ KalturaPlaylistService.prototype.getStatsFromContent = function(callback, playli
 		this.client.doQueue(callback);
 };
 
-function KalturaReportService(client)
+function BorhanReportService(client)
 {
 	this.init(client);
 }
 
-KalturaReportService.prototype = new KalturaServiceBase();
+BorhanReportService.prototype = new BorhanServiceBase();
 
-KalturaReportService.prototype.getGraphs = function(callback, reportType, reportInputFilter, dimension, objectIds)
+BorhanReportService.prototype.getGraphs = function(callback, reportType, reportInputFilter, dimension, objectIds)
 {
 	if(!dimension)
 		dimension = null;
@@ -8524,7 +8524,7 @@ KalturaReportService.prototype.getGraphs = function(callback, reportType, report
 		this.client.doQueue(callback);
 };
 
-KalturaReportService.prototype.getTotal = function(callback, reportType, reportInputFilter, objectIds)
+BorhanReportService.prototype.getTotal = function(callback, reportType, reportInputFilter, objectIds)
 {
 	if(!objectIds)
 		objectIds = null;
@@ -8538,7 +8538,7 @@ KalturaReportService.prototype.getTotal = function(callback, reportType, reportI
 		this.client.doQueue(callback);
 };
 
-KalturaReportService.prototype.getTable = function(callback, reportType, reportInputFilter, pager, order, objectIds)
+BorhanReportService.prototype.getTable = function(callback, reportType, reportInputFilter, pager, order, objectIds)
 {
 	if(!order)
 		order = null;
@@ -8556,7 +8556,7 @@ KalturaReportService.prototype.getTable = function(callback, reportType, reportI
 		this.client.doQueue(callback);
 };
 
-KalturaReportService.prototype.getUrlForReportAsCsv = function(callback, reportTitle, reportText, headers, reportType, reportInputFilter, dimension, pager, order, objectIds)
+BorhanReportService.prototype.getUrlForReportAsCsv = function(callback, reportTitle, reportText, headers, reportType, reportInputFilter, dimension, pager, order, objectIds)
 {
 	if(!dimension)
 		dimension = null;
@@ -8583,14 +8583,14 @@ KalturaReportService.prototype.getUrlForReportAsCsv = function(callback, reportT
 		this.client.doQueue(callback);
 };
 
-function KalturaSearchService(client)
+function BorhanSearchService(client)
 {
 	this.init(client);
 }
 
-KalturaSearchService.prototype = new KalturaServiceBase();
+BorhanSearchService.prototype = new BorhanServiceBase();
 
-KalturaSearchService.prototype.search = function(callback, search, pager)
+BorhanSearchService.prototype.search = function(callback, search, pager)
 {
 	if(!pager)
 		pager = null;
@@ -8604,7 +8604,7 @@ KalturaSearchService.prototype.search = function(callback, search, pager)
 		this.client.doQueue(callback);
 };
 
-KalturaSearchService.prototype.getMediaInfo = function(callback, searchResult)
+BorhanSearchService.prototype.getMediaInfo = function(callback, searchResult)
 {
 
 	kparams = new Object();
@@ -8614,7 +8614,7 @@ KalturaSearchService.prototype.getMediaInfo = function(callback, searchResult)
 		this.client.doQueue(callback);
 };
 
-KalturaSearchService.prototype.searchUrl = function(callback, mediaType, url)
+BorhanSearchService.prototype.searchUrl = function(callback, mediaType, url)
 {
 
 	kparams = new Object();
@@ -8625,7 +8625,7 @@ KalturaSearchService.prototype.searchUrl = function(callback, mediaType, url)
 		this.client.doQueue(callback);
 };
 
-KalturaSearchService.prototype.externalLogin = function(callback, searchSource, userName, password)
+BorhanSearchService.prototype.externalLogin = function(callback, searchSource, userName, password)
 {
 
 	kparams = new Object();
@@ -8637,14 +8637,14 @@ KalturaSearchService.prototype.externalLogin = function(callback, searchSource, 
 		this.client.doQueue(callback);
 };
 
-function KalturaSessionService(client)
+function BorhanSessionService(client)
 {
 	this.init(client);
 }
 
-KalturaSessionService.prototype = new KalturaServiceBase();
+BorhanSessionService.prototype = new BorhanServiceBase();
 
-KalturaSessionService.prototype.start = function(callback, secret, userId, type, partnerId, expiry, privileges)
+BorhanSessionService.prototype.start = function(callback, secret, userId, type, partnerId, expiry, privileges)
 {
 	if(!userId)
 		userId = "";
@@ -8669,7 +8669,7 @@ KalturaSessionService.prototype.start = function(callback, secret, userId, type,
 		this.client.doQueue(callback);
 };
 
-KalturaSessionService.prototype.startWidgetSession = function(callback, widgetId, expiry)
+BorhanSessionService.prototype.startWidgetSession = function(callback, widgetId, expiry)
 {
 	if(!expiry)
 		expiry = 86400;
@@ -8682,14 +8682,14 @@ KalturaSessionService.prototype.startWidgetSession = function(callback, widgetId
 		this.client.doQueue(callback);
 };
 
-function KalturaStatsService(client)
+function BorhanStatsService(client)
 {
 	this.init(client);
 }
 
-KalturaStatsService.prototype = new KalturaServiceBase();
+BorhanStatsService.prototype = new BorhanServiceBase();
 
-KalturaStatsService.prototype.collect = function(callback, event)
+BorhanStatsService.prototype.collect = function(callback, event)
 {
 
 	kparams = new Object();
@@ -8699,34 +8699,34 @@ KalturaStatsService.prototype.collect = function(callback, event)
 		this.client.doQueue(callback);
 };
 
-KalturaStatsService.prototype.kmcCollect = function(callback, kmcEvent)
+BorhanStatsService.prototype.bmcCollect = function(callback, bmcEvent)
 {
 
 	kparams = new Object();
-	this.client.addParam(kparams, "kmcEvent", kmcEvent.toParams());
-	this.client.queueServiceActionCall("stats", "kmcCollect", kparams);
+	this.client.addParam(kparams, "bmcEvent", bmcEvent.toParams());
+	this.client.queueServiceActionCall("stats", "bmcCollect", kparams);
 	if (!this.client.isMultiRequest())
 		this.client.doQueue(callback);
 };
 
-KalturaStatsService.prototype.reportKceError = function(callback, kalturaCEError)
+BorhanStatsService.prototype.reportKceError = function(callback, borhanCEError)
 {
 
 	kparams = new Object();
-	this.client.addParam(kparams, "kalturaCEError", kalturaCEError.toParams());
+	this.client.addParam(kparams, "borhanCEError", borhanCEError.toParams());
 	this.client.queueServiceActionCall("stats", "reportKceError", kparams);
 	if (!this.client.isMultiRequest())
 		this.client.doQueue(callback);
 };
 
-function KalturaSyndicationFeedService(client)
+function BorhanSyndicationFeedService(client)
 {
 	this.init(client);
 }
 
-KalturaSyndicationFeedService.prototype = new KalturaServiceBase();
+BorhanSyndicationFeedService.prototype = new BorhanServiceBase();
 
-KalturaSyndicationFeedService.prototype.add = function(callback, syndicationFeed)
+BorhanSyndicationFeedService.prototype.add = function(callback, syndicationFeed)
 {
 
 	kparams = new Object();
@@ -8736,7 +8736,7 @@ KalturaSyndicationFeedService.prototype.add = function(callback, syndicationFeed
 		this.client.doQueue(callback);
 };
 
-KalturaSyndicationFeedService.prototype.get = function(callback, id)
+BorhanSyndicationFeedService.prototype.get = function(callback, id)
 {
 
 	kparams = new Object();
@@ -8746,7 +8746,7 @@ KalturaSyndicationFeedService.prototype.get = function(callback, id)
 		this.client.doQueue(callback);
 };
 
-KalturaSyndicationFeedService.prototype.update = function(callback, id, syndicationFeed)
+BorhanSyndicationFeedService.prototype.update = function(callback, id, syndicationFeed)
 {
 
 	kparams = new Object();
@@ -8757,7 +8757,7 @@ KalturaSyndicationFeedService.prototype.update = function(callback, id, syndicat
 		this.client.doQueue(callback);
 };
 
-KalturaSyndicationFeedService.prototype.delete = function(callback, id)
+BorhanSyndicationFeedService.prototype.delete = function(callback, id)
 {
 
 	kparams = new Object();
@@ -8767,7 +8767,7 @@ KalturaSyndicationFeedService.prototype.delete = function(callback, id)
 		this.client.doQueue(callback);
 };
 
-KalturaSyndicationFeedService.prototype.listAction = function(callback, filter, pager)
+BorhanSyndicationFeedService.prototype.listAction = function(callback, filter, pager)
 {
 	if(!filter)
 		filter = null;
@@ -8784,7 +8784,7 @@ KalturaSyndicationFeedService.prototype.listAction = function(callback, filter, 
 		this.client.doQueue(callback);
 };
 
-KalturaSyndicationFeedService.prototype.getEntryCount = function(callback, feedId)
+BorhanSyndicationFeedService.prototype.getEntryCount = function(callback, feedId)
 {
 
 	kparams = new Object();
@@ -8794,7 +8794,7 @@ KalturaSyndicationFeedService.prototype.getEntryCount = function(callback, feedI
 		this.client.doQueue(callback);
 };
 
-KalturaSyndicationFeedService.prototype.requestConversion = function(callback, feedId)
+BorhanSyndicationFeedService.prototype.requestConversion = function(callback, feedId)
 {
 
 	kparams = new Object();
@@ -8804,14 +8804,14 @@ KalturaSyndicationFeedService.prototype.requestConversion = function(callback, f
 		this.client.doQueue(callback);
 };
 
-function KalturaSystemService(client)
+function BorhanSystemService(client)
 {
 	this.init(client);
 }
 
-KalturaSystemService.prototype = new KalturaServiceBase();
+BorhanSystemService.prototype = new BorhanServiceBase();
 
-KalturaSystemService.prototype.ping = function(callback)
+BorhanSystemService.prototype.ping = function(callback)
 {
 
 	kparams = new Object();
@@ -8820,14 +8820,14 @@ KalturaSystemService.prototype.ping = function(callback)
 		this.client.doQueue(callback);
 };
 
-function KalturaUiConfService(client)
+function BorhanUiConfService(client)
 {
 	this.init(client);
 }
 
-KalturaUiConfService.prototype = new KalturaServiceBase();
+BorhanUiConfService.prototype = new BorhanServiceBase();
 
-KalturaUiConfService.prototype.add = function(callback, uiConf)
+BorhanUiConfService.prototype.add = function(callback, uiConf)
 {
 
 	kparams = new Object();
@@ -8837,7 +8837,7 @@ KalturaUiConfService.prototype.add = function(callback, uiConf)
 		this.client.doQueue(callback);
 };
 
-KalturaUiConfService.prototype.update = function(callback, id, uiConf)
+BorhanUiConfService.prototype.update = function(callback, id, uiConf)
 {
 
 	kparams = new Object();
@@ -8848,7 +8848,7 @@ KalturaUiConfService.prototype.update = function(callback, id, uiConf)
 		this.client.doQueue(callback);
 };
 
-KalturaUiConfService.prototype.get = function(callback, id)
+BorhanUiConfService.prototype.get = function(callback, id)
 {
 
 	kparams = new Object();
@@ -8858,7 +8858,7 @@ KalturaUiConfService.prototype.get = function(callback, id)
 		this.client.doQueue(callback);
 };
 
-KalturaUiConfService.prototype.delete = function(callback, id)
+BorhanUiConfService.prototype.delete = function(callback, id)
 {
 
 	kparams = new Object();
@@ -8868,7 +8868,7 @@ KalturaUiConfService.prototype.delete = function(callback, id)
 		this.client.doQueue(callback);
 };
 
-KalturaUiConfService.prototype.cloneAction = function(callback, id)
+BorhanUiConfService.prototype.cloneAction = function(callback, id)
 {
 
 	kparams = new Object();
@@ -8878,7 +8878,7 @@ KalturaUiConfService.prototype.cloneAction = function(callback, id)
 		this.client.doQueue(callback);
 };
 
-KalturaUiConfService.prototype.listTemplates = function(callback, filter, pager)
+BorhanUiConfService.prototype.listTemplates = function(callback, filter, pager)
 {
 	if(!filter)
 		filter = null;
@@ -8895,7 +8895,7 @@ KalturaUiConfService.prototype.listTemplates = function(callback, filter, pager)
 		this.client.doQueue(callback);
 };
 
-KalturaUiConfService.prototype.listAction = function(callback, filter, pager)
+BorhanUiConfService.prototype.listAction = function(callback, filter, pager)
 {
 	if(!filter)
 		filter = null;
@@ -8912,14 +8912,14 @@ KalturaUiConfService.prototype.listAction = function(callback, filter, pager)
 		this.client.doQueue(callback);
 };
 
-function KalturaUploadService(client)
+function BorhanUploadService(client)
 {
 	this.init(client);
 }
 
-KalturaUploadService.prototype = new KalturaServiceBase();
+BorhanUploadService.prototype = new BorhanServiceBase();
 
-KalturaUploadService.prototype.getUploadTokenId = function(callback)
+BorhanUploadService.prototype.getUploadTokenId = function(callback)
 {
 
 	kparams = new Object();
@@ -8928,7 +8928,7 @@ KalturaUploadService.prototype.getUploadTokenId = function(callback)
 		this.client.doQueue(callback);
 };
 
-KalturaUploadService.prototype.uploadByTokenId = function(callback, fileData, uploadTokenId)
+BorhanUploadService.prototype.uploadByTokenId = function(callback, fileData, uploadTokenId)
 {
 
 	kparams = new Object();
@@ -8940,7 +8940,7 @@ KalturaUploadService.prototype.uploadByTokenId = function(callback, fileData, up
 		this.client.doQueue(callback);
 };
 
-KalturaUploadService.prototype.getUploadedFileStatusByTokenId = function(callback, uploadTokenId)
+BorhanUploadService.prototype.getUploadedFileStatusByTokenId = function(callback, uploadTokenId)
 {
 
 	kparams = new Object();
@@ -8950,7 +8950,7 @@ KalturaUploadService.prototype.getUploadedFileStatusByTokenId = function(callbac
 		this.client.doQueue(callback);
 };
 
-KalturaUploadService.prototype.upload = function(callback, fileData)
+BorhanUploadService.prototype.upload = function(callback, fileData)
 {
 
 	kparams = new Object();
@@ -8961,14 +8961,14 @@ KalturaUploadService.prototype.upload = function(callback, fileData)
 		this.client.doQueue(callback);
 };
 
-function KalturaUserService(client)
+function BorhanUserService(client)
 {
 	this.init(client);
 }
 
-KalturaUserService.prototype = new KalturaServiceBase();
+BorhanUserService.prototype = new BorhanServiceBase();
 
-KalturaUserService.prototype.add = function(callback, user)
+BorhanUserService.prototype.add = function(callback, user)
 {
 
 	kparams = new Object();
@@ -8978,7 +8978,7 @@ KalturaUserService.prototype.add = function(callback, user)
 		this.client.doQueue(callback);
 };
 
-KalturaUserService.prototype.update = function(callback, userId, user)
+BorhanUserService.prototype.update = function(callback, userId, user)
 {
 
 	kparams = new Object();
@@ -8989,7 +8989,7 @@ KalturaUserService.prototype.update = function(callback, userId, user)
 		this.client.doQueue(callback);
 };
 
-KalturaUserService.prototype.get = function(callback, userId)
+BorhanUserService.prototype.get = function(callback, userId)
 {
 
 	kparams = new Object();
@@ -8999,7 +8999,7 @@ KalturaUserService.prototype.get = function(callback, userId)
 		this.client.doQueue(callback);
 };
 
-KalturaUserService.prototype.delete = function(callback, userId)
+BorhanUserService.prototype.delete = function(callback, userId)
 {
 
 	kparams = new Object();
@@ -9009,7 +9009,7 @@ KalturaUserService.prototype.delete = function(callback, userId)
 		this.client.doQueue(callback);
 };
 
-KalturaUserService.prototype.listAction = function(callback, filter, pager)
+BorhanUserService.prototype.listAction = function(callback, filter, pager)
 {
 	if(!filter)
 		filter = null;
@@ -9026,7 +9026,7 @@ KalturaUserService.prototype.listAction = function(callback, filter, pager)
 		this.client.doQueue(callback);
 };
 
-KalturaUserService.prototype.notifyBan = function(callback, userId)
+BorhanUserService.prototype.notifyBan = function(callback, userId)
 {
 
 	kparams = new Object();
@@ -9036,14 +9036,14 @@ KalturaUserService.prototype.notifyBan = function(callback, userId)
 		this.client.doQueue(callback);
 };
 
-function KalturaWidgetService(client)
+function BorhanWidgetService(client)
 {
 	this.init(client);
 }
 
-KalturaWidgetService.prototype = new KalturaServiceBase();
+BorhanWidgetService.prototype = new BorhanServiceBase();
 
-KalturaWidgetService.prototype.add = function(callback, widget)
+BorhanWidgetService.prototype.add = function(callback, widget)
 {
 
 	kparams = new Object();
@@ -9053,7 +9053,7 @@ KalturaWidgetService.prototype.add = function(callback, widget)
 		this.client.doQueue(callback);
 };
 
-KalturaWidgetService.prototype.update = function(callback, id, widget)
+BorhanWidgetService.prototype.update = function(callback, id, widget)
 {
 
 	kparams = new Object();
@@ -9064,7 +9064,7 @@ KalturaWidgetService.prototype.update = function(callback, id, widget)
 		this.client.doQueue(callback);
 };
 
-KalturaWidgetService.prototype.get = function(callback, id)
+BorhanWidgetService.prototype.get = function(callback, id)
 {
 
 	kparams = new Object();
@@ -9074,7 +9074,7 @@ KalturaWidgetService.prototype.get = function(callback, id)
 		this.client.doQueue(callback);
 };
 
-KalturaWidgetService.prototype.cloneAction = function(callback, widget)
+BorhanWidgetService.prototype.cloneAction = function(callback, widget)
 {
 
 	kparams = new Object();
@@ -9084,7 +9084,7 @@ KalturaWidgetService.prototype.cloneAction = function(callback, widget)
 		this.client.doQueue(callback);
 };
 
-KalturaWidgetService.prototype.listAction = function(callback, filter, pager)
+BorhanWidgetService.prototype.listAction = function(callback, filter, pager)
 {
 	if(!filter)
 		filter = null;
@@ -9101,14 +9101,14 @@ KalturaWidgetService.prototype.listAction = function(callback, filter, pager)
 		this.client.doQueue(callback);
 };
 
-function KalturaXInternalService(client)
+function BorhanXInternalService(client)
 {
 	this.init(client);
 }
 
-KalturaXInternalService.prototype = new KalturaServiceBase();
+BorhanXInternalService.prototype = new BorhanServiceBase();
 
-KalturaXInternalService.prototype.xAddBulkDownload = function(callback, entryIds, flavorParamsId)
+BorhanXInternalService.prototype.xAddBulkDownload = function(callback, entryIds, flavorParamsId)
 {
 	if(!flavorParamsId)
 		flavorParamsId = "";
@@ -9121,14 +9121,14 @@ KalturaXInternalService.prototype.xAddBulkDownload = function(callback, entryIds
 		this.client.doQueue(callback);
 };
 
-function KalturaSystemUserService(client)
+function BorhanSystemUserService(client)
 {
 	this.init(client);
 }
 
-KalturaSystemUserService.prototype = new KalturaServiceBase();
+BorhanSystemUserService.prototype = new BorhanServiceBase();
 
-KalturaSystemUserService.prototype.verifyPassword = function(callback, email, password)
+BorhanSystemUserService.prototype.verifyPassword = function(callback, email, password)
 {
 
 	kparams = new Object();
@@ -9139,7 +9139,7 @@ KalturaSystemUserService.prototype.verifyPassword = function(callback, email, pa
 		this.client.doQueue(callback);
 };
 
-KalturaSystemUserService.prototype.generateNewPassword = function(callback)
+BorhanSystemUserService.prototype.generateNewPassword = function(callback)
 {
 
 	kparams = new Object();
@@ -9148,7 +9148,7 @@ KalturaSystemUserService.prototype.generateNewPassword = function(callback)
 		this.client.doQueue(callback);
 };
 
-KalturaSystemUserService.prototype.setNewPassword = function(callback, userId, password)
+BorhanSystemUserService.prototype.setNewPassword = function(callback, userId, password)
 {
 
 	kparams = new Object();
@@ -9159,7 +9159,7 @@ KalturaSystemUserService.prototype.setNewPassword = function(callback, userId, p
 		this.client.doQueue(callback);
 };
 
-KalturaSystemUserService.prototype.add = function(callback, systemUser)
+BorhanSystemUserService.prototype.add = function(callback, systemUser)
 {
 
 	kparams = new Object();
@@ -9169,7 +9169,7 @@ KalturaSystemUserService.prototype.add = function(callback, systemUser)
 		this.client.doQueue(callback);
 };
 
-KalturaSystemUserService.prototype.get = function(callback, userId)
+BorhanSystemUserService.prototype.get = function(callback, userId)
 {
 
 	kparams = new Object();
@@ -9179,7 +9179,7 @@ KalturaSystemUserService.prototype.get = function(callback, userId)
 		this.client.doQueue(callback);
 };
 
-KalturaSystemUserService.prototype.getByEmail = function(callback, email)
+BorhanSystemUserService.prototype.getByEmail = function(callback, email)
 {
 
 	kparams = new Object();
@@ -9189,7 +9189,7 @@ KalturaSystemUserService.prototype.getByEmail = function(callback, email)
 		this.client.doQueue(callback);
 };
 
-KalturaSystemUserService.prototype.update = function(callback, userId, systemUser)
+BorhanSystemUserService.prototype.update = function(callback, userId, systemUser)
 {
 
 	kparams = new Object();
@@ -9200,7 +9200,7 @@ KalturaSystemUserService.prototype.update = function(callback, userId, systemUse
 		this.client.doQueue(callback);
 };
 
-KalturaSystemUserService.prototype.delete = function(callback, userId)
+BorhanSystemUserService.prototype.delete = function(callback, userId)
 {
 
 	kparams = new Object();
@@ -9210,7 +9210,7 @@ KalturaSystemUserService.prototype.delete = function(callback, userId)
 		this.client.doQueue(callback);
 };
 
-KalturaSystemUserService.prototype.listAction = function(callback, filter, pager)
+BorhanSystemUserService.prototype.listAction = function(callback, filter, pager)
 {
 	if(!filter)
 		filter = null;
@@ -9227,82 +9227,82 @@ KalturaSystemUserService.prototype.listAction = function(callback, filter, pager
 		this.client.doQueue(callback);
 };
 
-function KalturaClient(config)
+function BorhanClient(config)
 {
 	this.init(config);
 }
 
-KalturaClient.prototype = new KalturaClientBase()
+BorhanClient.prototype = new BorhanClientBase()
 /**
  * Add & Manage Access Controls
  *
- * @var KalturaAccessControlService
+ * @var BorhanAccessControlService
  */
-KalturaClient.prototype.accessControl = null;
+BorhanClient.prototype.accessControl = null;
 
 /**
  * admin console service lets you manage cross partner reports, activity, status and config. 
 	 * 
  *
- * @var KalturaAdminconsoleService
+ * @var BorhanAdminconsoleService
  */
-KalturaClient.prototype.adminconsole = null;
+BorhanClient.prototype.adminconsole = null;
 
 /**
  * Manage details for the administrative user
  *
- * @var KalturaAdminUserService
+ * @var BorhanAdminUserService
  */
-KalturaClient.prototype.adminUser = null;
+BorhanClient.prototype.adminUser = null;
 
 /**
  * Base Entry Service
  *
- * @var KalturaBaseEntryService
+ * @var BorhanBaseEntryService
  */
-KalturaClient.prototype.baseEntry = null;
+BorhanClient.prototype.baseEntry = null;
 
 /**
  * Bulk upload service is used to upload & manage bulk uploads using CSV files
  *
- * @var KalturaBulkUploadService
+ * @var BorhanBulkUploadService
  */
-KalturaClient.prototype.bulkUpload = null;
+BorhanClient.prototype.bulkUpload = null;
 
 /**
  * Add & Manage Categories
  *
- * @var KalturaCategoryService
+ * @var BorhanCategoryService
  */
-KalturaClient.prototype.category = null;
+BorhanClient.prototype.category = null;
 
 /**
  * Add & Manage Conversion Profiles
  *
- * @var KalturaConversionProfileService
+ * @var BorhanConversionProfileService
  */
-KalturaClient.prototype.conversionProfile = null;
+BorhanClient.prototype.conversionProfile = null;
 
 /**
  * Data service lets you manage data content (textual content)
  *
- * @var KalturaDataService
+ * @var BorhanDataService
  */
-KalturaClient.prototype.data = null;
+BorhanClient.prototype.data = null;
 
 /**
  * Retrieve information and invoke actions on Flavor Asset
  *
- * @var KalturaFlavorAssetService
+ * @var BorhanFlavorAssetService
  */
-KalturaClient.prototype.flavorAsset = null;
+BorhanClient.prototype.flavorAsset = null;
 
 /**
  * Add & Manage Flavor Params
  *
- * @var KalturaFlavorParamsService
+ * @var BorhanFlavorParamsService
  */
-KalturaClient.prototype.flavorParams = null;
+BorhanClient.prototype.flavorParams = null;
 
 /**
  * batch service lets you handle different batch process from remote machines.
@@ -9313,165 +9313,165 @@ KalturaClient.prototype.flavorParams = null;
 	 * If an object was aquired and should be returned to the pool in it's initial state - use the FreeExclusiveXX action 
 	 * 
  *
- * @var KalturaJobsService
+ * @var BorhanJobsService
  */
-KalturaClient.prototype.jobs = null;
+BorhanClient.prototype.jobs = null;
 
 /**
  * Media service lets you upload and manage media files (images / videos & audio)
  *
- * @var KalturaMediaService
+ * @var BorhanMediaService
  */
-KalturaClient.prototype.media = null;
+BorhanClient.prototype.media = null;
 
 /**
- * A Mix is an XML unique format invented by Kaltura, it allows the user to create a mix of videos and images, in and out points, transitions, text overlays, soundtrack, effects and much more...
+ * A Mix is an XML unique format invented by Borhan, it allows the user to create a mix of videos and images, in and out points, transitions, text overlays, soundtrack, effects and much more...
 	 * Mixing service lets you create a new mix, manage its metadata and make basic manipulations.   
  *
- * @var KalturaMixingService
+ * @var BorhanMixingService
  */
-KalturaClient.prototype.mixing = null;
+BorhanClient.prototype.mixing = null;
 
 /**
  * Notification Service
  *
- * @var KalturaNotificationService
+ * @var BorhanNotificationService
  */
-KalturaClient.prototype.notification = null;
+BorhanClient.prototype.notification = null;
 
 /**
  * partner service allows you to change/manage your partner personal details and settings as well
  *
- * @var KalturaPartnerService
+ * @var BorhanPartnerService
  */
-KalturaClient.prototype.partner = null;
+BorhanClient.prototype.partner = null;
 
 /**
  * Playlist service lets you create,manage and play your playlists
 	 * Playlists could be static (containing a fixed list of entries) or dynamic (baseed on a filter)
  *
- * @var KalturaPlaylistService
+ * @var BorhanPlaylistService
  */
-KalturaClient.prototype.playlist = null;
+BorhanClient.prototype.playlist = null;
 
 /**
  * api for getting reports data by the report type and some inputFilter
  *
- * @var KalturaReportService
+ * @var BorhanReportService
  */
-KalturaClient.prototype.report = null;
+BorhanClient.prototype.report = null;
 
 /**
  * Search service allows you to search for media in various media providers
 	 * This service is being used mostly by the CW component
  *
- * @var KalturaSearchService
+ * @var BorhanSearchService
  */
-KalturaClient.prototype.search = null;
+BorhanClient.prototype.search = null;
 
 /**
  * Session service
  *
- * @var KalturaSessionService
+ * @var BorhanSessionService
  */
-KalturaClient.prototype.session = null;
+BorhanClient.prototype.session = null;
 
 /**
  * Stats Service
  *
- * @var KalturaStatsService
+ * @var BorhanStatsService
  */
-KalturaClient.prototype.stats = null;
+BorhanClient.prototype.stats = null;
 
 /**
  * Add & Manage Syndication Feeds
  *
- * @var KalturaSyndicationFeedService
+ * @var BorhanSyndicationFeedService
  */
-KalturaClient.prototype.syndicationFeed = null;
+BorhanClient.prototype.syndicationFeed = null;
 
 /**
  * System service is used for internal system helpers & to retrieve system level information
  *
- * @var KalturaSystemService
+ * @var BorhanSystemService
  */
-KalturaClient.prototype.system = null;
+BorhanClient.prototype.system = null;
 
 /**
  * UiConf service lets you create and manage your UIConfs for the various flash components
-	 * This service is used by the KMC-ApplicationStudio
+	 * This service is used by the BMC-ApplicationStudio
  *
- * @var KalturaUiConfService
+ * @var BorhanUiConfService
  */
-KalturaClient.prototype.uiConf = null;
+BorhanClient.prototype.uiConf = null;
 
 /**
  * Upload service is used to upload files and get the token that can be later used as a reference to the uploaded file
 	 * 
  *
- * @var KalturaUploadService
+ * @var BorhanUploadService
  */
-KalturaClient.prototype.upload = null;
+BorhanClient.prototype.upload = null;
 
 /**
- * Manage partner users on Kaltura's side
-	 * The userId in kaltura is the unique Id in the partner's system, and the [partnerId,Id] couple are unique key in kaltura's DB
+ * Manage partner users on Borhan's side
+	 * The userId in borhan is the unique Id in the partner's system, and the [partnerId,Id] couple are unique key in borhan's DB
  *
- * @var KalturaUserService
+ * @var BorhanUserService
  */
-KalturaClient.prototype.user = null;
+BorhanClient.prototype.user = null;
 
 /**
  * widget service for full widget management
  *
- * @var KalturaWidgetService
+ * @var BorhanWidgetService
  */
-KalturaClient.prototype.widget = null;
+BorhanClient.prototype.widget = null;
 
 /**
- * Internal Service is used for actions that are used internally in Kaltura applications and might be changed in the future without any notice.
+ * Internal Service is used for actions that are used internally in Borhan applications and might be changed in the future without any notice.
  *
- * @var KalturaXInternalService
+ * @var BorhanXInternalService
  */
-KalturaClient.prototype.xInternal = null;
+BorhanClient.prototype.xInternal = null;
 
 /**
  * System user service
  *
- * @var KalturaSystemUserService
+ * @var BorhanSystemUserService
  */
-KalturaClient.prototype.systemUser = null;
+BorhanClient.prototype.systemUser = null;
 
 
-KalturaClient.prototype.init = function(config)
+BorhanClient.prototype.init = function(config)
 {
-	KalturaClientBase.prototype.init.apply(this, arguments);
-	this.accessControl = new KalturaAccessControlService(this);
-	this.adminconsole = new KalturaAdminconsoleService(this);
-	this.adminUser = new KalturaAdminUserService(this);
-	this.baseEntry = new KalturaBaseEntryService(this);
-	this.bulkUpload = new KalturaBulkUploadService(this);
-	this.category = new KalturaCategoryService(this);
-	this.conversionProfile = new KalturaConversionProfileService(this);
-	this.data = new KalturaDataService(this);
-	this.flavorAsset = new KalturaFlavorAssetService(this);
-	this.flavorParams = new KalturaFlavorParamsService(this);
-	this.jobs = new KalturaJobsService(this);
-	this.media = new KalturaMediaService(this);
-	this.mixing = new KalturaMixingService(this);
-	this.notification = new KalturaNotificationService(this);
-	this.partner = new KalturaPartnerService(this);
-	this.playlist = new KalturaPlaylistService(this);
-	this.report = new KalturaReportService(this);
-	this.search = new KalturaSearchService(this);
-	this.session = new KalturaSessionService(this);
-	this.stats = new KalturaStatsService(this);
-	this.syndicationFeed = new KalturaSyndicationFeedService(this);
-	this.system = new KalturaSystemService(this);
-	this.uiConf = new KalturaUiConfService(this);
-	this.upload = new KalturaUploadService(this);
-	this.user = new KalturaUserService(this);
-	this.widget = new KalturaWidgetService(this);
-	this.xInternal = new KalturaXInternalService(this);
-	this.systemUser = new KalturaSystemUserService(this);
+	BorhanClientBase.prototype.init.apply(this, arguments);
+	this.accessControl = new BorhanAccessControlService(this);
+	this.adminconsole = new BorhanAdminconsoleService(this);
+	this.adminUser = new BorhanAdminUserService(this);
+	this.baseEntry = new BorhanBaseEntryService(this);
+	this.bulkUpload = new BorhanBulkUploadService(this);
+	this.category = new BorhanCategoryService(this);
+	this.conversionProfile = new BorhanConversionProfileService(this);
+	this.data = new BorhanDataService(this);
+	this.flavorAsset = new BorhanFlavorAssetService(this);
+	this.flavorParams = new BorhanFlavorParamsService(this);
+	this.jobs = new BorhanJobsService(this);
+	this.media = new BorhanMediaService(this);
+	this.mixing = new BorhanMixingService(this);
+	this.notification = new BorhanNotificationService(this);
+	this.partner = new BorhanPartnerService(this);
+	this.playlist = new BorhanPlaylistService(this);
+	this.report = new BorhanReportService(this);
+	this.search = new BorhanSearchService(this);
+	this.session = new BorhanSessionService(this);
+	this.stats = new BorhanStatsService(this);
+	this.syndicationFeed = new BorhanSyndicationFeedService(this);
+	this.system = new BorhanSystemService(this);
+	this.uiConf = new BorhanUiConfService(this);
+	this.upload = new BorhanUploadService(this);
+	this.user = new BorhanUserService(this);
+	this.widget = new BorhanWidgetService(this);
+	this.xInternal = new BorhanXInternalService(this);
+	this.systemUser = new BorhanSystemUserService(this);
 }

@@ -3,11 +3,11 @@
  * @package api
  * @subpackage objects
  */
-class KalturaBulkUploadPluginDataArray extends KalturaTypedArray
+class BorhanBulkUploadPluginDataArray extends BorhanTypedArray
 {
 	public function __construct()
 	{
-		return parent::__construct("KalturaBulkUploadPluginData");
+		return parent::__construct("BorhanBulkUploadPluginData");
 	}
 	
 	public function toValuesArray()

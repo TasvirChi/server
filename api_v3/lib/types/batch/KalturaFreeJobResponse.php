@@ -3,16 +3,16 @@
  * @package api
  * @subpackage objects
  */
-class KalturaFreeJobResponse extends KalturaObject
+class BorhanFreeJobResponse extends BorhanObject
 {
 	/**
-	 * @var KalturaBatchJob
+	 * @var BorhanBatchJob
 	 * @readonly 
 	 */
 	public $job;
 
 	/**
-	 * @var KalturaBatchJobType
+	 * @var BorhanBatchJobType
 	 * @readonly 
 	 */
     public $jobType;

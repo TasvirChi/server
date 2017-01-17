@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaDeliveryProfileGenericRtmpBaseFilter extends KalturaDeliveryProfileRtmpFilter
+abstract class BorhanDeliveryProfileGenericRtmpBaseFilter extends BorhanDeliveryProfileRtmpFilter
 {
 	static private $map_between_objects = array
 	(

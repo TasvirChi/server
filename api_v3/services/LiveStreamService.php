@@ -7,11 +7,11 @@
  * @package api
  * @subpackage services
  */
-class LiveStreamService extends KalturaLiveEntryService
+class LiveStreamService extends BorhanLiveEntryService
 {
 	const ISLIVE_ACTION_CACHE_EXPIRY_WHEN_NOT_LIVE = 10;
 	const ISLIVE_ACTION_CACHE_EXPIRY_WHEN_LIVE = 30;
-	const ISLIVE_ACTION_NON_KALTURA_LIVE_CONDITIONAL_CACHE_EXPIRY = 10;
+	const ISLIVE_ACTION_NON_BORHAN_LIVE_CONDITIONAL_CACHE_EXPIRY = 10;
 	const HLS_LIVE_STREAM_CONTENT_TYPE = 'application/vnd.apple.mpegurl';
 
 	public function initService($serviceId, $serviceName, $actionName)
@@ -19,7 +19,7 @@ class LiveStreamService extends KalturaLiveEntryService
 		parent::initService($serviceId, $serviceName, $actionName);
 
 		if($this->getPartnerId() > 0 && !PermissionPeer::isValidForPartner(PermissionName::FEATURE_LIVE_STREAM, $this->getPartnerId()))
-			throw new KalturaAPIException(KalturaErrors::SERVICE_FORBIDDEN, $this->serviceName.'->'.$this->actionName);
+			throw new BorhanAPIException(BorhanErrors::SERVICE_FORBIDDEN, $this->serviceName.'->'.$this->actionName);
 	}
 	
 	
@@ -36,13 +36,13 @@ class LiveStreamService extends KalturaLiveEntryService
 	 * The entry will be queued for provision.
 	 * 
 	 * @action add
-	 * @param KalturaLiveStreamEntry $liveStreamEntry Live stream entry metadata  
-	 * @param KalturaSourceType $sourceType  Live stream source type
-	 * @return KalturaLiveStreamEntry The new live stream entry
+	 * @param BorhanLiveStreamEntry $liveStreamEntry Live stream entry metadata  
+	 * @param BorhanSourceType $sourceType  Live stream source type
+	 * @return BorhanLiveStreamEntry The new live stream entry
 	 * 
-	 * @throws KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
+	 * @throws BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
 	 */
-	function addAction(KalturaLiveStreamEntry $liveStreamEntry, $sourceType = null)
+	function addAction(BorhanLiveStreamEntry $liveStreamEntry, $sourceType = null)
 	{
 		if($sourceType) {
 			$liveStreamEntry->sourceType = $sourceType;	
@@ -89,12 +89,12 @@ class LiveStreamService extends KalturaLiveEntryService
 		return $liveStreamEntry;
 	}
 
-	protected function prepareEntryForInsert(KalturaBaseEntry $entry, entry $dbEntry = null)
+	protected function prepareEntryForInsert(BorhanBaseEntry $entry, entry $dbEntry = null)
 	{
 		$dbEntry = parent::prepareEntryForInsert($entry, $dbEntry);
 		/* @var $dbEntry LiveStreamEntry */
 				
-		if(in_array($entry->sourceType, array(KalturaSourceType::LIVE_STREAM, KalturaSourceType::LIVE_STREAM_ONTEXTDATA_CAPTIONS)))
+		if(in_array($entry->sourceType, array(BorhanSourceType::LIVE_STREAM, BorhanSourceType::LIVE_STREAM_ONTEXTDATA_CAPTIONS)))
 		{
 			if(!$entry->conversionProfileId)
 			{
@@ -118,13 +118,13 @@ class LiveStreamService extends KalturaLiveEntryService
 	 * @action get
 	 * @param string $entryId Live stream entry id
 	 * @param int $version Desired version of the data
-	 * @return KalturaLiveStreamEntry The requested live stream entry
+	 * @return BorhanLiveStreamEntry The requested live stream entry
 	 * 
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
 	function getAction($entryId, $version = -1)
 	{
-		return $this->getEntry($entryId, $version, KalturaEntryType::LIVE_STREAM);
+		return $this->getEntry($entryId, $version, BorhanEntryType::LIVE_STREAM);
 	}
 	
 	/**
@@ -134,32 +134,32 @@ class LiveStreamService extends KalturaLiveEntryService
 	 * @param string $entryId Live stream entry id
 	 * @param string $token Live stream broadcasting token
 	 * @param string $hostname Media server host name
-	 * @param KalturaEntryServerNodeType $mediaServerIndex Media server index primary / secondary
+	 * @param BorhanEntryServerNodeType $mediaServerIndex Media server index primary / secondary
 	 * @param string $applicationName the application to which entry is being broadcast
-	 * @return KalturaLiveStreamEntry The authenticated live stream entry
+	 * @return BorhanLiveStreamEntry The authenticated live stream entry
 	 * 
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::LIVE_STREAM_INVALID_TOKEN
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::LIVE_STREAM_INVALID_TOKEN
 	 */
 	function authenticateAction($entryId, $token, $hostname = null, $mediaServerIndex = null, $applicationName = null)
 	{
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbEntry || $dbEntry->getType() != entryType::LIVE_STREAM)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 		
 		/* @var $dbEntry LiveStreamEntry */
 		if ($dbEntry->getStreamPassword() != $token)
-			throw new KalturaAPIException(KalturaErrors::LIVE_STREAM_INVALID_TOKEN, $entryId);
+			throw new BorhanAPIException(BorhanErrors::LIVE_STREAM_INVALID_TOKEN, $entryId);
 
 		/*
 		Patch for autenticate error while performing an immidiate stop/start. Checkup for duplicate streams moved to
 		media-server for the moment. 
 		if($dbEntry->isStreamAlreadyBroadcasting())
-			throw new KalturaAPIException(KalturaErrors::LIVE_STREAM_ALREADY_BROADCASTING, $entryId, $mediaServer->getHostname());
+			throw new BorhanAPIException(BorhanErrors::LIVE_STREAM_ALREADY_BROADCASTING, $entryId, $mediaServer->getHostname());
 		*/
 		
 		if($hostname && isset($mediaServerIndex))
-			$this->setMediaServerWrapper($dbEntry, $mediaServerIndex, $hostname, KalturaEntryServerNodeStatus::AUTHENTICATED, $applicationName);
+			$this->setMediaServerWrapper($dbEntry, $mediaServerIndex, $hostname, BorhanEntryServerNodeStatus::AUTHENTICATED, $applicationName);
 		
 		// fetch current stream live params
 		$liveParamsIds = flavorParamsConversionProfilePeer::getFlavorIdsByProfileId($dbEntry->getConversionProfileId());
@@ -170,11 +170,11 @@ class LiveStreamService extends KalturaLiveEntryService
 		}
 			
 		// fetch all live entries that currently are live
-		$baseCriteria = KalturaCriteria::create(entryPeer::OM_CLASS);
+		$baseCriteria = BorhanCriteria::create(entryPeer::OM_CLASS);
 		$filter = new entryFilter();
 		$filter->setIsLive(true);
 		$filter->setIdNotIn(array($entryId));
-		$filter->setPartnerSearchScope(baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE);
+		$filter->setPartnerSearchScope(baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE);
 		$filter->attachToCriteria($baseCriteria);
 		
 		$entries = entryPeer::doSelect($baseCriteria);
@@ -182,22 +182,22 @@ class LiveStreamService extends KalturaLiveEntryService
 		$maxInputStreams = $this->getPartner()->getMaxLiveStreamInputs();
 		if(!$maxInputStreams)
 			$maxInputStreams = kConf::get('partner_max_live_stream_inputs', 'local', 10);
-		KalturaLog::debug("Max live stream inputs [$maxInputStreams]");
+		BorhanLog::debug("Max live stream inputs [$maxInputStreams]");
 			
 		$maxTranscodedStreams = 0;
-		if(PermissionPeer::isValidForPartner(PermissionName::FEATURE_KALTURA_LIVE_STREAM_TRANSCODE, $this->getPartnerId()))
+		if(PermissionPeer::isValidForPartner(PermissionName::FEATURE_BORHAN_LIVE_STREAM_TRANSCODE, $this->getPartnerId()))
 		{
 			$maxTranscodedStreams = $this->getPartner()->getMaxLiveStreamOutputs();
 			if(!$maxTranscodedStreams)
 				$maxTranscodedStreams = kConf::get('partner_max_live_stream_outputs', 'local', 10);
 		}
-		KalturaLog::debug("Max live stream outputs [$maxTranscodedStreams]");
+		BorhanLog::debug("Max live stream outputs [$maxTranscodedStreams]");
 		
 		$totalInputStreams = count($entries) + 1;
 		if($totalInputStreams > ($maxInputStreams + $maxTranscodedStreams))
 		{
-			KalturaLog::debug("Live input stream [$totalInputStreams]");
-			throw new KalturaAPIException(KalturaErrors::LIVE_STREAM_EXCEEDED_MAX_PASSTHRU, $entryId);
+			BorhanLog::debug("Live input stream [$totalInputStreams]");
+			throw new BorhanAPIException(BorhanErrors::LIVE_STREAM_EXCEEDED_MAX_PASSTHRU, $entryId);
 		}
 		
 		$entryIds = array($entryId);
@@ -240,16 +240,16 @@ class LiveStreamService extends KalturaLiveEntryService
 		$passthruEntriesCount = count($passthruEntries);
 		$transcodedEntriesCount = count($transcodedEntries);
 		
-		KalturaLog::debug("Live transcoded entries [$transcodedEntriesCount], max live transcoded streams [$maxTranscodedStreams]");
+		BorhanLog::debug("Live transcoded entries [$transcodedEntriesCount], max live transcoded streams [$maxTranscodedStreams]");
 		if($transcodedEntriesCount > $maxTranscodedStreams)
-			throw new KalturaAPIException(KalturaErrors::LIVE_STREAM_EXCEEDED_MAX_TRANSCODED, $entryId);
+			throw new BorhanAPIException(BorhanErrors::LIVE_STREAM_EXCEEDED_MAX_TRANSCODED, $entryId);
 		
 		$maxInputStreams += ($maxTranscodedStreams - $transcodedEntriesCount);
-		KalturaLog::debug("Live params inputs [$passthruEntriesCount], max live stream inputs [$maxInputStreams]");
+		BorhanLog::debug("Live params inputs [$passthruEntriesCount], max live stream inputs [$maxInputStreams]");
 		if($passthruEntriesCount > $maxInputStreams)
-			throw new KalturaAPIException(KalturaErrors::LIVE_STREAM_EXCEEDED_MAX_PASSTHRU, $entryId);
+			throw new BorhanAPIException(BorhanErrors::LIVE_STREAM_EXCEEDED_MAX_PASSTHRU, $entryId);
 
-		$entry = KalturaEntryFactory::getInstanceByType($dbEntry->getType());
+		$entry = BorhanEntryFactory::getInstanceByType($dbEntry->getType());
 		$entry->fromObject($dbEntry, $this->getResponseProfile());
 		return $entry;
 	}
@@ -259,16 +259,16 @@ class LiveStreamService extends KalturaLiveEntryService
 	 * 
 	 * @action update
 	 * @param string $entryId Live stream entry id to update
-	 * @param KalturaLiveStreamEntry $liveStreamEntry Live stream entry metadata to update
-	 * @return KalturaLiveStreamEntry The updated live stream entry
+	 * @param BorhanLiveStreamEntry $liveStreamEntry Live stream entry metadata to update
+	 * @return BorhanLiveStreamEntry The updated live stream entry
 	 * 
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 * @validateUser entry entryId edit
 	 */
-	function updateAction($entryId, KalturaLiveStreamEntry $liveStreamEntry)
+	function updateAction($entryId, BorhanLiveStreamEntry $liveStreamEntry)
 	{
 		$this->dumpApiRequest($entryId);
-		return $this->updateEntry($entryId, $liveStreamEntry, KalturaEntryType::LIVE_STREAM);
+		return $this->updateEntry($entryId, $liveStreamEntry, BorhanEntryType::LIVE_STREAM);
 	}
 
 	/**
@@ -277,32 +277,32 @@ class LiveStreamService extends KalturaLiveEntryService
 	 * @action delete
 	 * @param string $entryId Live stream entry id to delete
 	 * 
- 	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+ 	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
  	 * @validateUser entry entryId edit
 	 */
 	function deleteAction($entryId)
 	{
-		$this->deleteEntry($entryId, KalturaEntryType::LIVE_STREAM);
+		$this->deleteEntry($entryId, BorhanEntryType::LIVE_STREAM);
 	}
 	
 	/**
 	 * List live stream entries by filter with paging support.
 	 * 
 	 * @action list
-     * @param KalturaLiveStreamEntryFilter $filter live stream entry filter
-	 * @param KalturaFilterPager $pager Pager
-	 * @return KalturaLiveStreamListResponse Wrapper for array of live stream entries and total count
+     * @param BorhanLiveStreamEntryFilter $filter live stream entry filter
+	 * @param BorhanFilterPager $pager Pager
+	 * @return BorhanLiveStreamListResponse Wrapper for array of live stream entries and total count
 	 */
-	function listAction(KalturaLiveStreamEntryFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanLiveStreamEntryFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 	    if (!$filter)
-			$filter = new KalturaLiveStreamEntryFilter();
+			$filter = new BorhanLiveStreamEntryFilter();
 			
-	    $filter->typeEqual = KalturaEntryType::LIVE_STREAM;
+	    $filter->typeEqual = BorhanEntryType::LIVE_STREAM;
 	    list($list, $totalCount) = parent::listEntriesByFilter($filter, $pager);
 	    
-	    $newList = KalturaLiveStreamEntryArray::fromDbArray($list, $this->getResponseProfile());
-		$response = new KalturaLiveStreamListResponse();
+	    $newList = BorhanLiveStreamEntryArray::fromDbArray($list, $this->getResponseProfile());
+		$response = new BorhanLiveStreamListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $totalCount;
 		return $response;
@@ -316,14 +316,14 @@ class LiveStreamService extends KalturaLiveEntryService
 	 * @action updateOfflineThumbnailJpeg
 	 * @param string $entryId live stream entry id
 	 * @param file $fileData Jpeg file data
-	 * @return KalturaLiveStreamEntry The live stream entry
+	 * @return BorhanLiveStreamEntry The live stream entry
 	 * 
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::PERMISSION_DENIED_TO_UPDATE_ENTRY
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::PERMISSION_DENIED_TO_UPDATE_ENTRY
 	 */
 	function updateOfflineThumbnailJpegAction($entryId, $fileData)
 	{
-		return parent::updateThumbnailJpegForEntry($entryId, $fileData, KalturaEntryType::LIVE_STREAM, entry::FILE_SYNC_ENTRY_SUB_TYPE_OFFLINE_THUMB);
+		return parent::updateThumbnailJpegForEntry($entryId, $fileData, BorhanEntryType::LIVE_STREAM, entry::FILE_SYNC_ENTRY_SUB_TYPE_OFFLINE_THUMB);
 	}
 	
 	/**
@@ -332,14 +332,14 @@ class LiveStreamService extends KalturaLiveEntryService
 	 * @action updateOfflineThumbnailFromUrl
 	 * @param string $entryId live stream entry id
 	 * @param string $url file url
-	 * @return KalturaLiveStreamEntry The live stream entry
+	 * @return BorhanLiveStreamEntry The live stream entry
 	 * 
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::PERMISSION_DENIED_TO_UPDATE_ENTRY
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::PERMISSION_DENIED_TO_UPDATE_ENTRY
 	 */
 	function updateOfflineThumbnailFromUrlAction($entryId, $url)
 	{
-		return parent::updateThumbnailForEntryFromUrl($entryId, $url, KalturaEntryType::LIVE_STREAM, entry::FILE_SYNC_ENTRY_SUB_TYPE_OFFLINE_THUMB);
+		return parent::updateThumbnailForEntryFromUrl($entryId, $url, BorhanEntryType::LIVE_STREAM, entry::FILE_SYNC_ENTRY_SUB_TYPE_OFFLINE_THUMB);
 	}
 	
 	/**
@@ -347,11 +347,11 @@ class LiveStreamService extends KalturaLiveEntryService
 	 * 
 	 * @action isLive
 	 * @param string $id ID of the live stream
-	 * @param KalturaPlaybackProtocol $protocol protocol of the stream to test.
+	 * @param BorhanPlaybackProtocol $protocol protocol of the stream to test.
 	 * @return bool
 	 * 
-	 * @throws KalturaErrors::LIVE_STREAM_STATUS_CANNOT_BE_DETERMINED
-	 * @throws KalturaErrors::INVALID_ENTRY_ID
+	 * @throws BorhanErrors::LIVE_STREAM_STATUS_CANNOT_BE_DETERMINED
+	 * @throws BorhanErrors::INVALID_ENTRY_ID
 	 */
 	public function isLiveAction ($id, $protocol)
 	{
@@ -360,7 +360,7 @@ class LiveStreamService extends KalturaLiveEntryService
 			kEntitlementUtils::initEntitlementEnforcement(null, false);
 			$liveStreamEntry = kCurrentContext::initPartnerByEntryId($id);
 			if (!$liveStreamEntry || $liveStreamEntry->getStatus() == entryStatus::DELETED)
-				throw new KalturaAPIException(KalturaErrors::INVALID_ENTRY_ID, $id);
+				throw new BorhanAPIException(BorhanErrors::INVALID_ENTRY_ID, $id);
 
 			// enforce entitlement
 			$this->setPartnerFilters(kCurrentContext::getCurrentPartnerId());
@@ -371,14 +371,14 @@ class LiveStreamService extends KalturaLiveEntryService
 		}
 		
 		if (!$liveStreamEntry || ($liveStreamEntry->getType() != entryType::LIVE_STREAM))
-			throw new KalturaAPIException(KalturaErrors::INVALID_ENTRY_ID, $id);
+			throw new BorhanAPIException(BorhanErrors::INVALID_ENTRY_ID, $id);
 
-		if (!in_array($liveStreamEntry->getSource(), LiveEntry::$kalturaLiveSourceTypes))
-			KalturaResponseCacher::setConditionalCacheExpiry(self::ISLIVE_ACTION_NON_KALTURA_LIVE_CONDITIONAL_CACHE_EXPIRY);
+		if (!in_array($liveStreamEntry->getSource(), LiveEntry::$borhanLiveSourceTypes))
+			BorhanResponseCacher::setConditionalCacheExpiry(self::ISLIVE_ACTION_NON_BORHAN_LIVE_CONDITIONAL_CACHE_EXPIRY);
 
 		/* @var $liveStreamEntry LiveStreamEntry */
 	
-		if(in_array($liveStreamEntry->getSource(), array(KalturaSourceType::LIVE_STREAM, KalturaSourceType::LIVE_STREAM_ONTEXTDATA_CAPTIONS)))
+		if(in_array($liveStreamEntry->getSource(), array(BorhanSourceType::LIVE_STREAM, BorhanSourceType::LIVE_STREAM_ONTEXTDATA_CAPTIONS)))
 		{
 			return $this->responseHandlingIsLive($liveStreamEntry->hasMediaServer());
 		}
@@ -389,11 +389,11 @@ class LiveStreamService extends KalturaLiveEntryService
 		
 		switch ($protocol)
 		{
-			case KalturaPlaybackProtocol::HLS:
-			case KalturaPlaybackProtocol::APPLE_HTTP:
+			case BorhanPlaybackProtocol::HLS:
+			case BorhanPlaybackProtocol::APPLE_HTTP:
 				$url = $liveStreamEntry->getHlsStreamUrl();
 				
-				foreach (array(KalturaPlaybackProtocol::HLS, KalturaPlaybackProtocol::APPLE_HTTP) as $hlsProtocol){
+				foreach (array(BorhanPlaybackProtocol::HLS, BorhanPlaybackProtocol::APPLE_HTTP) as $hlsProtocol){
 					$config = $liveStreamEntry->getLiveStreamConfigurationByProtocol($hlsProtocol, requestUtils::getProtocol());
 					if ($config){
 						$url = $config->getUrl();
@@ -401,20 +401,20 @@ class LiveStreamService extends KalturaLiveEntryService
 						break;
 					}
 				}
-				KalturaLog::info('Determining status of live stream URL [' .$url. ']');
+				BorhanLog::info('Determining status of live stream URL [' .$url. ']');
 				
 				$urlManager = DeliveryProfilePeer::getLiveDeliveryProfileByHostName(parse_url($url, PHP_URL_HOST), $dpda);
 				if($urlManager)
 					return $this->responseHandlingIsLive($urlManager->isLive($url));
 				break;
 				
-			case KalturaPlaybackProtocol::HDS:
-			case KalturaPlaybackProtocol::AKAMAI_HDS:
+			case BorhanPlaybackProtocol::HDS:
+			case BorhanPlaybackProtocol::AKAMAI_HDS:
 				$config = $liveStreamEntry->getLiveStreamConfigurationByProtocol($protocol, requestUtils::getProtocol());
 				if ($config)
 				{
 					$url = $config->getUrl();
-					KalturaLog::info('Determining status of live stream URL [' .$url . ']');
+					BorhanLog::info('Determining status of live stream URL [' .$url . ']');
 					$urlManager = DeliveryProfilePeer::getLiveDeliveryProfileByHostName(parse_url($url, PHP_URL_HOST), $dpda);
 					if($urlManager)
 						return $this->responseHandlingIsLive($urlManager->isLive($url));
@@ -422,17 +422,17 @@ class LiveStreamService extends KalturaLiveEntryService
 				break;
 		}
 		
-		throw new KalturaAPIException(KalturaErrors::LIVE_STREAM_STATUS_CANNOT_BE_DETERMINED, $protocol);
+		throw new BorhanAPIException(BorhanErrors::LIVE_STREAM_STATUS_CANNOT_BE_DETERMINED, $protocol);
 	}
 
 	private function responseHandlingIsLive($isLive)
 	{
 		if (!$isLive){
-			KalturaResponseCacher::setExpiry(self::ISLIVE_ACTION_CACHE_EXPIRY_WHEN_NOT_LIVE);
-			KalturaResponseCacher::setHeadersCacheExpiry(self::ISLIVE_ACTION_CACHE_EXPIRY_WHEN_NOT_LIVE);
+			BorhanResponseCacher::setExpiry(self::ISLIVE_ACTION_CACHE_EXPIRY_WHEN_NOT_LIVE);
+			BorhanResponseCacher::setHeadersCacheExpiry(self::ISLIVE_ACTION_CACHE_EXPIRY_WHEN_NOT_LIVE);
 		} else {
-			KalturaResponseCacher::setExpiry(self::ISLIVE_ACTION_CACHE_EXPIRY_WHEN_LIVE);
-			KalturaResponseCacher::setHeadersCacheExpiry(self::ISLIVE_ACTION_CACHE_EXPIRY_WHEN_LIVE);
+			BorhanResponseCacher::setExpiry(self::ISLIVE_ACTION_CACHE_EXPIRY_WHEN_LIVE);
+			BorhanResponseCacher::setHeadersCacheExpiry(self::ISLIVE_ACTION_CACHE_EXPIRY_WHEN_LIVE);
 		}
 
 		return $isLive;
@@ -444,23 +444,23 @@ class LiveStreamService extends KalturaLiveEntryService
 	 * 
 	 * @action addLiveStreamPushPublishConfiguration
 	 * @param string $entryId
-	 * @param KalturaPlaybackProtocol $protocol
+	 * @param BorhanPlaybackProtocol $protocol
 	 * @param string $url
-	 * @param KalturaLiveStreamConfiguration $liveStreamConfiguration
-	 * @return KalturaLiveStreamEntry
-	 * @throws KalturaErrors::INVALID_ENTRY_ID
+	 * @param BorhanLiveStreamConfiguration $liveStreamConfiguration
+	 * @return BorhanLiveStreamEntry
+	 * @throws BorhanErrors::INVALID_ENTRY_ID
 	 */
-	public function addLiveStreamPushPublishConfigurationAction ($entryId, $protocol, $url = null, KalturaLiveStreamConfiguration $liveStreamConfiguration = null)
+	public function addLiveStreamPushPublishConfigurationAction ($entryId, $protocol, $url = null, BorhanLiveStreamConfiguration $liveStreamConfiguration = null)
 	{
 		$this->dumpApiRequest($entryId);
 		
 		$entry = entryPeer::retrieveByPK($entryId);
 		if (!$entry || $entry->getType() != entryType::LIVE_STREAM)
-			throw new KalturaAPIException(KalturaErrors::INVALID_ENTRY_ID);
+			throw new BorhanAPIException(BorhanErrors::INVALID_ENTRY_ID);
 		
 		//Should not allow usage of both $url and $liveStreamConfiguration
 		if ($url && !is_null($liveStreamConfiguration))
-			throw new KalturaAPIException(KalturaErrors::SERVICE_FORBIDDEN);
+			throw new BorhanAPIException(BorhanErrors::SERVICE_FORBIDDEN);
 			
 		/* @var $entry LiveEntry */
 		$pushPublishConfigurations = $entry->getPushPublishPlaybackConfigurations();
@@ -485,7 +485,7 @@ class LiveStreamService extends KalturaLiveEntryService
 			$entry->save();
 		}
 		
-		$apiEntry = KalturaEntryFactory::getInstanceByType($entry->getType());
+		$apiEntry = BorhanEntryFactory::getInstanceByType($entry->getType());
 		$apiEntry->fromObject($entry, $this->getResponseProfile());
 		return $apiEntry;
 	}
@@ -495,9 +495,9 @@ class LiveStreamService extends KalturaLiveEntryService
 	 * 
 	 * @action removeLiveStreamPushPublishConfiguration
 	 * @param string $entryId
-	 * @param KalturaPlaybackProtocol $protocol
-	 * @return KalturaLiveStreamEntry
-	 * @throws KalturaErrors::INVALID_ENTRY_ID
+	 * @param BorhanPlaybackProtocol $protocol
+	 * @return BorhanLiveStreamEntry
+	 * @throws BorhanErrors::INVALID_ENTRY_ID
 	 */
 	public function removeLiveStreamPushPublishConfigurationAction ($entryId, $protocol)
 	{
@@ -505,7 +505,7 @@ class LiveStreamService extends KalturaLiveEntryService
 		
 		$entry = entryPeer::retrieveByPK($entryId);
 		if (!$entry || $entry->getType() != entryType::LIVE_STREAM)
-			throw new KalturaAPIException(KalturaErrors::INVALID_ENTRY_ID);
+			throw new BorhanAPIException(BorhanErrors::INVALID_ENTRY_ID);
 		
 		/* @var $entry LiveEntry */
 		$pushPublishConfigurations = $entry->getPushPublishPlaybackConfigurations();
@@ -521,7 +521,7 @@ class LiveStreamService extends KalturaLiveEntryService
 		$entry->setPushPublishPlaybackConfigurations($pushPublishConfigurations);
 		$entry->save();
 		
-		$apiEntry = KalturaEntryFactory::getInstanceByType($entry->getType());
+		$apiEntry = BorhanEntryFactory::getInstanceByType($entry->getType());
 		$apiEntry->fromObject($entry, $this->getResponseProfile());
 		return $apiEntry;
 	}
@@ -532,7 +532,7 @@ class LiveStreamService extends KalturaLiveEntryService
 	 * @action regenerateStreamToken
 	 * @param string $entryId Live stream entry id to regenerate secure token for
 	 * 
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 * @validateUser entry entryId edit
 	 */
 	public function regenerateStreamTokenAction($entryId)
@@ -542,10 +542,10 @@ class LiveStreamService extends KalturaLiveEntryService
 	
 		$liveEntry = entryPeer::retrieveByPK($entryId);
 		if (!$liveEntry || $liveEntry->getType() != entryType::LIVE_STREAM)
-			throw new KalturaAPIException(KalturaErrors::INVALID_ENTRY_ID);
+			throw new BorhanAPIException(BorhanErrors::INVALID_ENTRY_ID);
 		
-		if (!in_array($liveEntry->getSourceType(), LiveEntry::$kalturaLiveSourceTypes))
-			throw new KalturaAPIException(KalturaErrors::CANNOT_REGENERATE_STREAM_TOKEN_FOR_EXTERNAL_LIVE_STREAMS, $liveEntry->getSourceType());
+		if (!in_array($liveEntry->getSourceType(), LiveEntry::$borhanLiveSourceTypes))
+			throw new BorhanAPIException(BorhanErrors::CANNOT_REGENERATE_STREAM_TOKEN_FOR_EXTERNAL_LIVE_STREAMS, $liveEntry->getSourceType());
 		
 		$password = sha1(md5(uniqid(rand(), true)));
 		$password = substr($password, rand(0, strlen($password) - 8), 8);
@@ -556,7 +556,7 @@ class LiveStreamService extends KalturaLiveEntryService
 		
 		$liveEntry->save();
 	
-		$entry = KalturaEntryFactory::getInstanceByType($liveEntry->getType());
+		$entry = BorhanEntryFactory::getInstanceByType($liveEntry->getType());
 		$entry->fromObject($liveEntry, $this->getResponseProfile());
 		return $entry;
 	}

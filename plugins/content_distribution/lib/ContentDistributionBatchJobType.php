@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution
  * @subpackage lib.enum
  */
-class ContentDistributionBatchJobType implements IKalturaPluginEnum, BatchJobType
+class ContentDistributionBatchJobType implements IBorhanPluginEnum, BatchJobType
 {
 	const DISTRIBUTION_SUBMIT = 'DistributionSubmit';
 	const DISTRIBUTION_UPDATE = 'DistributionUpdate';

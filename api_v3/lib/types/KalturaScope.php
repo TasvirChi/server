@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaScope extends KalturaObject
+class BorhanScope extends BorhanObject
 {
 	public function toObject($objectToFill = null, $propsToSkip = array())
 	{

@@ -2,7 +2,7 @@
 /**
  * @package plugins.facebookDistribution
  */
-class FacebookDistributionPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaEnumerator, IKalturaPending, IKalturaObjectLoader, IKalturaContentDistributionProvider
+class FacebookDistributionPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanEnumerator, IBorhanPending, IBorhanObjectLoader, IBorhanContentDistributionProvider
 {
 	const PLUGIN_NAME = 'facebookDistribution';
 	const CONTENT_DISTRIBUTION_VERSION_MAJOR = 1;
@@ -16,12 +16,12 @@ class FacebookDistributionPlugin extends KalturaPlugin implements IKalturaPermis
 	
 	public static function dependsOn()
 	{
-		$contentDistributionVersion = new KalturaVersion(
+		$contentDistributionVersion = new BorhanVersion(
 			self::CONTENT_DISTRIBUTION_VERSION_MAJOR,
 			self::CONTENT_DISTRIBUTION_VERSION_MINOR,
 			self::CONTENT_DISTRIBUTION_VERSION_BUILD);
 			
-		$dependency = new KalturaDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
+		$dependency = new BorhanDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
 		return array($dependency);
 	}
 	
@@ -57,19 +57,19 @@ class FacebookDistributionPlugin extends KalturaPlugin implements IKalturaPermis
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::FACEBOOK)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::FACEBOOK)
 		{
 			if(in_array($baseClass, array('IDistributionEngineSubmit', 'IDistributionEngineDelete', 'IDistributionEngineUpdate')))
 				return new FacebookDistributionEngine();
 
-			if($baseClass == 'KalturaDistributionProfile')
-				return new KalturaFacebookDistributionProfile();
+			if($baseClass == 'BorhanDistributionProfile')
+				return new BorhanFacebookDistributionProfile();
 		
-			if($baseClass == 'KalturaDistributionJobProviderData')
-				return new KalturaFacebookDistributionJobProviderData();
+			if($baseClass == 'BorhanDistributionJobProviderData')
+				return new BorhanFacebookDistributionJobProviderData();
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::FACEBOOK)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::FACEBOOK)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 			{
@@ -78,9 +78,9 @@ class FacebookDistributionPlugin extends KalturaPlugin implements IKalturaPermis
 			}
 		}
 		
-		if($baseClass == 'KalturaDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(FacebookDistributionProviderType::FACEBOOK))
+		if($baseClass == 'BorhanDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(FacebookDistributionProviderType::FACEBOOK))
 		{
-			$reflect = new ReflectionClass('KalturaFacebookDistributionJobProviderData');
+			$reflect = new ReflectionClass('BorhanFacebookDistributionJobProviderData');
 			return $reflect->newInstanceArgs($constructorArgs);
 		}
 	
@@ -90,8 +90,8 @@ class FacebookDistributionPlugin extends KalturaPlugin implements IKalturaPermis
 			return $reflect->newInstanceArgs($constructorArgs);
 		}
 	
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(FacebookDistributionProviderType::FACEBOOK))
-			return new KalturaFacebookDistributionProfile();
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(FacebookDistributionProviderType::FACEBOOK))
+			return new BorhanFacebookDistributionProfile();
 			
 		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(FacebookDistributionProviderType::FACEBOOK))
 			return new FacebookDistributionProfile();
@@ -107,37 +107,37 @@ class FacebookDistributionPlugin extends KalturaPlugin implements IKalturaPermis
 	public static function getObjectClass($baseClass, $enumValue)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::FACEBOOK)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::FACEBOOK)
 		{
 
 			if(in_array($baseClass, array('IDistributionEngineSubmit', 'IDistributionEngineDelete', 'IDistributionEngineUpdate'))) {
 				return 'FacebookDistributionEngine';
 			}
 					
-			if($baseClass == 'KalturaDistributionProfile')
-				return 'KalturaFacebookDistributionProfile';
+			if($baseClass == 'BorhanDistributionProfile')
+				return 'BorhanFacebookDistributionProfile';
 		
-			if($baseClass == 'KalturaDistributionJobProviderData')
-				return 'KalturaFacebookDistributionJobProviderData';
+			if($baseClass == 'BorhanDistributionJobProviderData')
+				return 'BorhanFacebookDistributionJobProviderData';
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::FACEBOOK)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::FACEBOOK)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 				return 'Form_FacebookProfileConfiguration';
 				
-			if($baseClass == 'Kaltura_Client_ContentDistribution_Type_DistributionProfile')
-				return 'Kaltura_Client_FacebookDistribution_Type_FacebookDistributionProfile';
+			if($baseClass == 'Borhan_Client_ContentDistribution_Type_DistributionProfile')
+				return 'Borhan_Client_FacebookDistribution_Type_FacebookDistributionProfile';
 		}
 		
-		if($baseClass == 'KalturaDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(FacebookDistributionProviderType::FACEBOOK))
-			return 'KalturaFacebookDistributionJobProviderData';
+		if($baseClass == 'BorhanDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(FacebookDistributionProviderType::FACEBOOK))
+			return 'BorhanFacebookDistributionJobProviderData';
 	
 		if($baseClass == 'kDistributionJobProviderData' && $enumValue == self::getApiValue(FacebookDistributionProviderType::FACEBOOK))
 			return 'kFacebookDistributionJobProviderData';
 	
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(FacebookDistributionProviderType::FACEBOOK))
-			return 'KalturaFacebookDistributionProfile';
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(FacebookDistributionProviderType::FACEBOOK))
+			return 'BorhanFacebookDistributionProfile';
 			
 		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(FacebookDistributionProviderType::FACEBOOK))
 			return 'FacebookDistributionProfile';
@@ -158,11 +158,11 @@ class FacebookDistributionPlugin extends KalturaPlugin implements IKalturaPermis
 	/**
 	 * Return an API distribution provider instance
 	 * 
-	 * @return KalturaDistributionProvider
+	 * @return BorhanDistributionProvider
 	 */
-	public static function getKalturaProvider()
+	public static function getBorhanProvider()
 	{
-		$distributionProvider = new KalturaFacebookDistributionProvider();
+		$distributionProvider = new BorhanFacebookDistributionProvider();
 		$distributionProvider->fromObject(self::getProvider());
 		return $distributionProvider;
 	}
@@ -176,7 +176,7 @@ class FacebookDistributionPlugin extends KalturaPlugin implements IKalturaPermis
 	public static function contributeMRSS(EntryDistribution $entryDistribution, SimpleXMLElement $mrss)
 	{
 	    $distributionProfile = DistributionProfilePeer::retrieveByPK($entryDistribution->getDistributionProfileId());
-		if ($distributionProfile && $distributionProfile instanceof KalturaFacebookDistributionProfile)
+		if ($distributionProfile && $distributionProfile instanceof BorhanFacebookDistributionProfile)
 		{
 			$mrss->addChild(FacebookDistributionField::CALL_TO_ACTION_TYPE, $distributionProfile->getCallToActionType());
 			$mrss->addChild(FacebookDistributionField::CALL_TO_ACTION_LINK, $distributionProfile->getCallToActionLink());
@@ -193,7 +193,7 @@ class FacebookDistributionPlugin extends KalturaPlugin implements IKalturaPermis
 	 */
 	public static function getDistributionProviderTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('DistributionProviderType', $value);
 	}
 	
@@ -202,6 +202,6 @@ class FacebookDistributionPlugin extends KalturaPlugin implements IKalturaPermis
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 }

@@ -6,7 +6,7 @@
  * @package api
  * @subpackage services
  */
-class EmailIngestionProfileService extends KalturaEntryService
+class EmailIngestionProfileService extends BorhanEntryService
 {
 	
 	public function initService($serviceId, $serviceName, $actionName)
@@ -16,27 +16,27 @@ class EmailIngestionProfileService extends KalturaEntryService
 	}
 
 	/**
-	 * EmailIngestionProfile Add action allows you to add a EmailIngestionProfile to Kaltura DB
+	 * EmailIngestionProfile Add action allows you to add a EmailIngestionProfile to Borhan DB
 	 *
 	 * @action add
-	 * @param KalturaEmailIngestionProfile $EmailIP Mandatory input parameter of type KalturaEmailIngestionProfile
-	 * @return KalturaEmailIngestionProfile
+	 * @param BorhanEmailIngestionProfile $EmailIP Mandatory input parameter of type BorhanEmailIngestionProfile
+	 * @return BorhanEmailIngestionProfile
 	 *
-	 * @throws KalturaErrors::EMAIL_INGESTION_PROFILE_EMAIL_EXISTS
+	 * @throws BorhanErrors::EMAIL_INGESTION_PROFILE_EMAIL_EXISTS
 	 */
-	function addAction( KalturaEmailIngestionProfile $EmailIP )
+	function addAction( BorhanEmailIngestionProfile $EmailIP )
 	{
 		$existingEIP = EmailIngestionProfilePeer::retrieveByEmailAddressNoFilter($EmailIP->emailAddress);
 		if($existingEIP)
 		{
-			throw new KalturaAPIException(KalturaErrors::EMAIL_INGESTION_PROFILE_EMAIL_EXISTS, $EmailIP->emailAddress);
+			throw new BorhanAPIException(BorhanErrors::EMAIL_INGESTION_PROFILE_EMAIL_EXISTS, $EmailIP->emailAddress);
 		}
 
 		$dbEIP = $EmailIP->toInsertableObject();
 		$dbEIP->setPartnerId ( $this->getPartnerId() );
 		$dbEIP->save();
 
-		$savedEIP = new KalturaEmailIngestionProfile(); // start from blank
+		$savedEIP = new BorhanEmailIngestionProfile(); // start from blank
 		$savedEIP->fromObject($dbEIP, $this->getResponseProfile());
 
 		return $savedEIP;
@@ -47,17 +47,17 @@ class EmailIngestionProfileService extends KalturaEntryService
 	 *
 	 * @action getByEmailAddress
 	 * @param string $emailAddress
-	 * @return KalturaEmailIngestionProfile
+	 * @return BorhanEmailIngestionProfile
 	 *
-	 * @throws KalturaErrors::EMAIL_INGESTION_PROFILE_NOT_FOUND
+	 * @throws BorhanErrors::EMAIL_INGESTION_PROFILE_NOT_FOUND
 	 */
 	function getByEmailAddressAction($emailAddress)
 	{
 		$existingEIP = EmailIngestionProfilePeer::retrieveByEmailAddressNoFilter($emailAddress);
 		if(!$existingEIP)
-		throw new KalturaAPIException(KalturaErrors::EMAIL_INGESTION_PROFILE_NOT_FOUND, $emailAddress);
+		throw new BorhanAPIException(BorhanErrors::EMAIL_INGESTION_PROFILE_NOT_FOUND, $emailAddress);
 
-		$emailIP = new KalturaEmailIngestionProfile();
+		$emailIP = new BorhanEmailIngestionProfile();
 		$emailIP->fromObject($existingEIP, $this->getResponseProfile());
 
 		return $emailIP;
@@ -68,17 +68,17 @@ class EmailIngestionProfileService extends KalturaEntryService
 	 *
 	 * @action get
 	 * @param int $id
-	 * @return KalturaEmailIngestionProfile
+	 * @return BorhanEmailIngestionProfile
 	 *
-	 * @throws KalturaErrors::EMAIL_INGESTION_PROFILE_NOT_FOUND
+	 * @throws BorhanErrors::EMAIL_INGESTION_PROFILE_NOT_FOUND
 	 */
 	function getAction($id)
 	{
 		$existingEIP = EmailIngestionProfilePeer::retrieveByPK($id);
 		if(!$existingEIP)
-		throw new KalturaAPIException(KalturaErrors::EMAIL_INGESTION_PROFILE_NOT_FOUND, $id);
+		throw new BorhanAPIException(BorhanErrors::EMAIL_INGESTION_PROFILE_NOT_FOUND, $id);
 			
-		$emailIP = new KalturaEmailIngestionProfile();
+		$emailIP = new BorhanEmailIngestionProfile();
 		$emailIP->fromObject($existingEIP, $this->getResponseProfile());
 
 		return $emailIP;
@@ -89,17 +89,17 @@ class EmailIngestionProfileService extends KalturaEntryService
 	 *
 	 * @action update
 	 * @param int $id
-	 * @param KalturaEmailIngestionProfile $EmailIP
-	 * @return KalturaEmailIngestionProfile
+	 * @param BorhanEmailIngestionProfile $EmailIP
+	 * @return BorhanEmailIngestionProfile
 	 *
-	 * @throws KalturaErrors::EMAIL_INGESTION_PROFILE_NOT_FOUND
+	 * @throws BorhanErrors::EMAIL_INGESTION_PROFILE_NOT_FOUND
 	 */
-	function updateAction( $id , KalturaEmailIngestionProfile $EmailIP )
+	function updateAction( $id , BorhanEmailIngestionProfile $EmailIP )
 	{
 		$dbEIP = EmailIngestionProfilePeer::retrieveByPK( $id );
 
 		if ( ! $dbEIP )
-			throw new KalturaAPIException ( KalturaErrors::EMAIL_INGESTION_PROFILE_NOT_FOUND , $id );
+			throw new BorhanAPIException ( BorhanErrors::EMAIL_INGESTION_PROFILE_NOT_FOUND , $id );
 
 		$EmailIP->emailAddress = $dbEIP->getEmailAddress();
 		$updateEIP = $EmailIP->toUpdatableObject($dbEIP);
@@ -116,14 +116,14 @@ class EmailIngestionProfileService extends KalturaEntryService
 	 * @action delete
 	 * @param int $id
 	 *
-	 * @throws KalturaErrors::EMAIL_INGESTION_PROFILE_NOT_FOUND
+	 * @throws BorhanErrors::EMAIL_INGESTION_PROFILE_NOT_FOUND
 	 */
 	function deleteAction( $id )
 	{
 		$dbEIP = EmailIngestionProfilePeer::retrieveByPK( $id );
 
 		if ( ! $dbEIP )
-		throw new KalturaAPIException ( KalturaErrors::EMAIL_INGESTION_PROFILE_NOT_FOUND , $id );
+		throw new BorhanAPIException ( BorhanErrors::EMAIL_INGESTION_PROFILE_NOT_FOUND , $id );
 
 		$dbEIP->setStatus ( EmailIngestionProfile::EMAIL_INGESTION_PROFILE_STATUS_INACTIVE );
 
@@ -131,22 +131,22 @@ class EmailIngestionProfileService extends KalturaEntryService
 	}
 
 	/**
-	 * add KalturaMediaEntry from email ingestion
+	 * add BorhanMediaEntry from email ingestion
 	 *
 	 * @action addMediaEntry
-	 * @param KalturaMediaEntry $mediaEntry Media entry metadata
+	 * @param BorhanMediaEntry $mediaEntry Media entry metadata
 	 * @param string $uploadTokenId Upload token id
 	 * @param int $emailProfId
 	 * @param string $fromAddress
 	 * @param string $emailMsgId
 	 *
-	 * @return KalturaMediaEntry
+	 * @return BorhanMediaEntry
 	 *
-	 * @throws KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
-	 * @throws KalturaErrors::EMAIL_INGESTION_PROFILE_NOT_FOUND
+	 * @throws BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
+	 * @throws BorhanErrors::EMAIL_INGESTION_PROFILE_NOT_FOUND
 	 *
 	 */
-	function addMediaEntryAction(KalturaMediaEntry $mediaEntry, $uploadTokenId, $emailProfId, $fromAddress, $emailMsgId)
+	function addMediaEntryAction(BorhanMediaEntry $mediaEntry, $uploadTokenId, $emailProfId, $fromAddress, $emailMsgId)
 	{
 		try
 	    {
@@ -154,14 +154,14 @@ class EmailIngestionProfileService extends KalturaEntryService
 			$entryFullPath = kUploadTokenMgr::getFullPathByUploadTokenId($uploadTokenId);
 			
 			if (!file_exists($entryFullPath))
-				throw new KalturaAPIException(KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN);
+				throw new BorhanAPIException(BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN);
 	
 			// get the email profile by the given id
 			$existingEIP = EmailIngestionProfilePeer::retrieveByPK($emailProfId);
 			if(!$existingEIP)
-			    throw new KalturaAPIException(KalturaErrors::EMAIL_INGESTION_PROFILE_NOT_FOUND, $emailProfId);
+			    throw new BorhanAPIException(BorhanErrors::EMAIL_INGESTION_PROFILE_NOT_FOUND, $emailProfId);
 	
-			$emailIP = new KalturaEmailIngestionProfile();
+			$emailIP = new BorhanEmailIngestionProfile();
 			$emailIP->fromObject($existingEIP, $this->getResponseProfile());
 	
 	
@@ -183,12 +183,12 @@ class EmailIngestionProfileService extends KalturaEntryService
 			// first copy all the properties to the db entry, then we'll check for security stuff
 			$dbEntry = $mediaEntry->toObject(new entry());
 	
-			if($emailIP->moderationStatus == KalturaEntryModerationStatus::PENDING_MODERATION)
+			if($emailIP->moderationStatus == BorhanEntryModerationStatus::PENDING_MODERATION)
 			{
 				$dbEntry->setModerate(true);
 			}
 	
-			$dbEntry->setType(KalturaEntryType::MEDIA_CLIP);
+			$dbEntry->setType(BorhanEntryType::MEDIA_CLIP);
 			$dbEntry->setMediaType(entry::ENTRY_MEDIA_TYPE_AUTOMATIC);
 	
 			$this->checkAndSetValidUserInsert($mediaEntry, $dbEntry);
@@ -220,7 +220,7 @@ class EmailIngestionProfileService extends KalturaEntryService
 				
 			// setup the needed params for my insert entry helper
 			$paramsArray = array (
-				"entry_media_source" => KalturaSourceType::FILE,
+				"entry_media_source" => BorhanSourceType::FILE,
 				"entry_media_type" => $dbEntry->getMediaType(),
 				"entry_full_path" => $entryFullPath,
 				"entry_license" => $dbEntry->getLicenseType(),
@@ -245,7 +245,7 @@ class EmailIngestionProfileService extends KalturaEntryService
 	    catch(kCoreException $ex)
 	    {
 	    	if ($ex->getCode() == kUploadTokenException::UPLOAD_TOKEN_INVALID_STATUS);
-	    		throw new KalturaAPIException(KalturaErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY);
+	    		throw new BorhanAPIException(BorhanErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY);
 	    		
     		throw $ex;
 	    }

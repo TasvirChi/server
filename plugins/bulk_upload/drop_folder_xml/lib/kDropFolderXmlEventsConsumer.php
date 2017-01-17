@@ -28,7 +28,7 @@ class kDropFolderXmlEventsConsumer implements kBatchJobStatusEventConsumer, kObj
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err('Failed to process objectChangedEvent for drop folder file ['.$object->getDropFolderId().'] - '.$e->getMessage());
+			BorhanLog::err('Failed to process objectChangedEvent for drop folder file ['.$object->getDropFolderId().'] - '.$e->getMessage());
 		}
 		return true;
 	}
@@ -48,7 +48,7 @@ class kDropFolderXmlEventsConsumer implements kBatchJobStatusEventConsumer, kObj
 				
 				if(!$folder)
 				{
-					KalturaLog::err('Failed to process shouldConsumeChangedEvent - Failed to retrieve drop folder with ID ' . $object->getDropFolderId());
+					BorhanLog::err('Failed to process shouldConsumeChangedEvent - Failed to retrieve drop folder with ID ' . $object->getDropFolderId());
 					return false;
 				}
 				
@@ -58,7 +58,7 @@ class kDropFolderXmlEventsConsumer implements kBatchJobStatusEventConsumer, kObj
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err('Failed to process shouldConsumeChangedEvent - '.$e->getMessage());
+			BorhanLog::err('Failed to process shouldConsumeChangedEvent - '.$e->getMessage());
 		} 		
 		
 		return false;
@@ -84,7 +84,7 @@ class kDropFolderXmlEventsConsumer implements kBatchJobStatusEventConsumer, kObj
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err('Failed to process shouldConsumeJobStatusEvent - '.$e->getMessage());
+			BorhanLog::err('Failed to process shouldConsumeJobStatusEvent - '.$e->getMessage());
 		}
 		return false;	
 	}
@@ -100,7 +100,7 @@ class kDropFolderXmlEventsConsumer implements kBatchJobStatusEventConsumer, kObj
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err('Failed to process updatedJob - '.$e->getMessage());
+			BorhanLog::err('Failed to process updatedJob - '.$e->getMessage());
 		}
 		return true;
 	}
@@ -122,7 +122,7 @@ class kDropFolderXmlEventsConsumer implements kBatchJobStatusEventConsumer, kObj
 					}
 					catch(Exception $e)
 					{
-						KalturaLog::err($e);
+						BorhanLog::err($e);
 						throw new APIException(APIErrors::BULK_UPLOAD_CREATE_CSV_FILE_SYNC_ERROR);
 					}
 					
@@ -173,7 +173,7 @@ class kDropFolderXmlEventsConsumer implements kBatchJobStatusEventConsumer, kObj
 	
 	private function setFileError(DropFolderFile $file, $status, $errorCode, $errorDescription)
 	{
-		KalturaLog::err('Error with file ['.$file->getId().'] -'.$errorDescription);
+		BorhanLog::err('Error with file ['.$file->getId().'] -'.$errorDescription);
 		
 		$file->setStatus($status);
 		$file->setErrorCode($errorCode);
@@ -211,7 +211,7 @@ class kDropFolderXmlEventsConsumer implements kBatchJobStatusEventConsumer, kObj
 		}
 		catch (Exception $e)
 		{
-			KalturaLog::err("Error in  onXmlDropFolderFileStatusChangedToPending -".$e->getMessage());
+			BorhanLog::err("Error in  onXmlDropFolderFileStatusChangedToPending -".$e->getMessage());
 			if($e->getCode() == DropFolderXmlBulkUploadPlugin::getErrorCodeCoreValue(DropFolderXmlBulkUploadErrorCode::ERROR_ADDING_BULK_UPLOAD))
 			{
 				foreach ($relatedFiles as $relatedFile) 

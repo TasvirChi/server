@@ -1,40 +1,40 @@
 <?php
 /**
- * Manage partner users on Kaltura's side
- * The userId in kaltura is the unique Id in the partner's system, and the [partnerId,Id] couple are unique key in kaltura's DB
+ * Manage partner users on Borhan's side
+ * The userId in borhan is the unique Id in the partner's system, and the [partnerId,Id] couple are unique key in borhan's DB
  *
  * @service user
  * @package api
  * @subpackage services
  */
-class UserService extends KalturaBaseUserService 
+class UserService extends BorhanBaseUserService 
 {
 
 	/**
-	 * Adds a new user to an existing account in the Kaltura database.
+	 * Adds a new user to an existing account in the Borhan database.
 	 * Input param $id is the unique identifier in the partner's system.
 	 *
 	 * @action add
-	 * @param KalturaUser $user The new user
-	 * @return KalturaUser The new user
+	 * @param BorhanUser $user The new user
+	 * @return BorhanUser The new user
 	 *
-	 * @throws KalturaErrors::DUPLICATE_USER_BY_ID
-	 * @throws KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
-	 * @throws KalturaErrors::INVALID_FIELD_VALUE
-	 * @throws KalturaErrors::UNKNOWN_PARTNER_ID
-	 * @throws KalturaErrors::ADMIN_LOGIN_USERS_QUOTA_EXCEEDED
-	 * @throws KalturaErrors::PASSWORD_STRUCTURE_INVALID
-	 * @throws KalturaErrors::DUPLICATE_USER_BY_LOGIN_ID
-	 * @throws KalturaErrors::USER_ROLE_NOT_FOUND
+	 * @throws BorhanErrors::DUPLICATE_USER_BY_ID
+	 * @throws BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
+	 * @throws BorhanErrors::INVALID_FIELD_VALUE
+	 * @throws BorhanErrors::UNKNOWN_PARTNER_ID
+	 * @throws BorhanErrors::ADMIN_LOGIN_USERS_QUOTA_EXCEEDED
+	 * @throws BorhanErrors::PASSWORD_STRUCTURE_INVALID
+	 * @throws BorhanErrors::DUPLICATE_USER_BY_LOGIN_ID
+	 * @throws BorhanErrors::USER_ROLE_NOT_FOUND
 	 */
-	function addAction(KalturaUser $user)
+	function addAction(BorhanUser $user)
 	{
 		if (!preg_match(kuser::PUSER_ID_REGEXP, $user->id))
 		{
-			throw new KalturaAPIException(KalturaErrors::INVALID_FIELD_VALUE, 'id');
+			throw new BorhanAPIException(BorhanErrors::INVALID_FIELD_VALUE, 'id');
 		}
 
-		if ($user instanceof KalturaAdminUser)
+		if ($user instanceof BorhanAdminUser)
 		{
 			$user->isAdmin = true;
 		}
@@ -57,29 +57,29 @@ class UserService extends KalturaBaseUserService
 		catch (kUserException $e) {
 			$code = $e->getCode();
 			if ($code == kUserException::USER_ALREADY_EXISTS) {
-				throw new KalturaAPIException(KalturaErrors::DUPLICATE_USER_BY_ID, $user->id); //backward compatibility
+				throw new BorhanAPIException(BorhanErrors::DUPLICATE_USER_BY_ID, $user->id); //backward compatibility
 			}
 			if ($code == kUserException::LOGIN_ID_ALREADY_USED) {
-				throw new KalturaAPIException(KalturaErrors::DUPLICATE_USER_BY_LOGIN_ID, $user->email); //backward compatibility
+				throw new BorhanAPIException(BorhanErrors::DUPLICATE_USER_BY_LOGIN_ID, $user->email); //backward compatibility
 			}
 			else if ($code == kUserException::USER_ID_MISSING) {
-				throw new KalturaAPIException(KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, $user->getFormattedPropertyNameWithClassName('id'));
+				throw new BorhanAPIException(BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, $user->getFormattedPropertyNameWithClassName('id'));
 			}
 			else if ($code == kUserException::INVALID_EMAIL) {
-				throw new KalturaAPIException(KalturaErrors::INVALID_FIELD_VALUE, 'email');
+				throw new BorhanAPIException(BorhanErrors::INVALID_FIELD_VALUE, 'email');
 			}
 			else if ($code == kUserException::INVALID_PARTNER) {
-				throw new KalturaAPIException(KalturaErrors::UNKNOWN_PARTNER_ID);
+				throw new BorhanAPIException(BorhanErrors::UNKNOWN_PARTNER_ID);
 			}
 			else if ($code == kUserException::ADMIN_LOGIN_USERS_QUOTA_EXCEEDED) {
-				throw new KalturaAPIException(KalturaErrors::ADMIN_LOGIN_USERS_QUOTA_EXCEEDED);
+				throw new BorhanAPIException(BorhanErrors::ADMIN_LOGIN_USERS_QUOTA_EXCEEDED);
 			}
 			else if ($code == kUserException::PASSWORD_STRUCTURE_INVALID) {
 				$partner = $dbUser->getPartner();
 				$invalidPasswordStructureMessage='';
 				if($partner && $partner->getInvalidPasswordStructureMessage())
 					$invalidPasswordStructureMessage = $partner->getInvalidPasswordStructureMessage();
-				throw new KalturaAPIException(KalturaErrors::PASSWORD_STRUCTURE_INVALID,$invalidPasswordStructureMessage);
+				throw new BorhanAPIException(BorhanErrors::PASSWORD_STRUCTURE_INVALID,$invalidPasswordStructureMessage);
 			}
 			throw $e;			
 		}
@@ -87,18 +87,18 @@ class UserService extends KalturaBaseUserService
 		{
 			$code = $e->getCode();
 			if ($code == kPermissionException::ROLE_ID_MISSING) {
-				throw new KalturaAPIException(KalturaErrors::ROLE_ID_MISSING);
+				throw new BorhanAPIException(BorhanErrors::ROLE_ID_MISSING);
 			}
 			if ($code == kPermissionException::ONLY_ONE_ROLE_PER_USER_ALLOWED) {
-				throw new KalturaAPIException(KalturaErrors::ONLY_ONE_ROLE_PER_USER_ALLOWED);
+				throw new BorhanAPIException(BorhanErrors::ONLY_ONE_ROLE_PER_USER_ALLOWED);
 			}
 			else if ($code == kPermissionException::USER_ROLE_NOT_FOUND) {
-				throw new KalturaAPIException(KalturaErrors::USER_ROLE_NOT_FOUND);
+				throw new BorhanAPIException(BorhanErrors::USER_ROLE_NOT_FOUND);
 			}
 			throw $e;
 		}
 
-		$newUser = new KalturaUser();
+		$newUser = new BorhanUser();
 		$newUser->fromObject($dbUser, $this->getResponseProfile());
 		
 		return $newUser;
@@ -110,23 +110,23 @@ class UserService extends KalturaBaseUserService
 	 * 
 	 * @action update
 	 * @param string $userId The user's unique identifier in the partner's system
-	 * @param KalturaUser $user The user parameters to update
-	 * @return KalturaUser The updated user object
+	 * @param BorhanUser $user The user parameters to update
+	 * @return BorhanUser The updated user object
 	 *
-	 * @throws KalturaErrors::INVALID_USER_ID
-	 * @throws KalturaErrors::CANNOT_DELETE_OR_BLOCK_ROOT_ADMIN_USER
-	 * @throws KalturaErrors::USER_ROLE_NOT_FOUND
-	 * @throws KalturaErrors::ACCOUNT_OWNER_NEEDS_PARTNER_ADMIN_ROLE
+	 * @throws BorhanErrors::INVALID_USER_ID
+	 * @throws BorhanErrors::CANNOT_DELETE_OR_BLOCK_ROOT_ADMIN_USER
+	 * @throws BorhanErrors::USER_ROLE_NOT_FOUND
+	 * @throws BorhanErrors::ACCOUNT_OWNER_NEEDS_PARTNER_ADMIN_ROLE
 	 */
-	public function updateAction($userId, KalturaUser $user)
+	public function updateAction($userId, BorhanUser $user)
 	{		
 		$dbUser = kuserPeer::getKuserByPartnerAndUid($this->getPartnerId(), $userId);
 		
 		if (!$dbUser)
-			throw new KalturaAPIException(KalturaErrors::INVALID_USER_ID, $userId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_USER_ID, $userId);
 
 		if ($dbUser->getIsAdmin() && !is_null($user->isAdmin) && !$user->isAdmin) {
-			throw new KalturaAPIException(KalturaErrors::CANNOT_SET_ROOT_ADMIN_AS_NO_ADMIN);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_SET_ROOT_ADMIN_AS_NO_ADMIN);
 		}
 			
 		// update user
@@ -136,17 +136,17 @@ class UserService extends KalturaBaseUserService
 				UserRolePeer::testValidRolesForUser($user->roleIds, $this->getPartnerId());
 				if ($user->roleIds != $dbUser->getRoleIds() &&
 					$dbUser->getId() == $this->getKuser()->getId()) {
-					throw new KalturaAPIException(KalturaErrors::CANNOT_CHANGE_OWN_ROLE);
+					throw new BorhanAPIException(BorhanErrors::CANNOT_CHANGE_OWN_ROLE);
 				}
 			}
 			if (!is_null($user->id) && $user->id != $userId) {
 				if(!preg_match(kuser::PUSER_ID_REGEXP, $user->id)) {
-					throw new KalturaAPIException(KalturaErrors::INVALID_FIELD_VALUE, 'id');
+					throw new BorhanAPIException(BorhanErrors::INVALID_FIELD_VALUE, 'id');
 				} 
 				
 				$existingUser = kuserPeer::getKuserByPartnerAndUid($this->getPartnerId(), $user->id);
 				if ($existingUser) {
-					throw new KalturaAPIException(KalturaErrors::DUPLICATE_USER_BY_ID, $user->id);
+					throw new BorhanAPIException(BorhanErrors::DUPLICATE_USER_BY_ID, $user->id);
 				}
 			}			
 			$dbUser = $user->toUpdatableObject($dbUser);
@@ -156,28 +156,28 @@ class UserService extends KalturaBaseUserService
 		{
 			$code = $e->getCode();
 			if ($code == kPermissionException::ROLE_ID_MISSING) {
-				throw new KalturaAPIException(KalturaErrors::ROLE_ID_MISSING);
+				throw new BorhanAPIException(BorhanErrors::ROLE_ID_MISSING);
 			}
 			if ($code == kPermissionException::ONLY_ONE_ROLE_PER_USER_ALLOWED) {
-				throw new KalturaAPIException(KalturaErrors::ONLY_ONE_ROLE_PER_USER_ALLOWED);
+				throw new BorhanAPIException(BorhanErrors::ONLY_ONE_ROLE_PER_USER_ALLOWED);
 			}
 			if ($code == kPermissionException::USER_ROLE_NOT_FOUND) {
-				throw new KalturaAPIException(KalturaErrors::USER_ROLE_NOT_FOUND);
+				throw new BorhanAPIException(BorhanErrors::USER_ROLE_NOT_FOUND);
 			}
 			if ($code == kPermissionException::ACCOUNT_OWNER_NEEDS_PARTNER_ADMIN_ROLE) {
-				throw new KalturaAPIException(KalturaErrors::ACCOUNT_OWNER_NEEDS_PARTNER_ADMIN_ROLE);
+				throw new BorhanAPIException(BorhanErrors::ACCOUNT_OWNER_NEEDS_PARTNER_ADMIN_ROLE);
 			}
 			throw $e;
 		}
 		catch (kUserException $e) {
 			$code = $e->getCode();
 			if ($code == kUserException::CANNOT_DELETE_OR_BLOCK_ROOT_ADMIN_USER) {
-				throw new KalturaAPIException(KalturaErrors::CANNOT_DELETE_OR_BLOCK_ROOT_ADMIN_USER);
+				throw new BorhanAPIException(BorhanErrors::CANNOT_DELETE_OR_BLOCK_ROOT_ADMIN_USER);
 			}
 			throw $e;			
 		}
 				
-		$user = new KalturaUser();
+		$user = new BorhanUser();
 		$user->fromObject($dbUser, $this->getResponseProfile());
 		
 		return $user;
@@ -189,9 +189,9 @@ class UserService extends KalturaBaseUserService
 	 * 
 	 * @action get
 	 * @param string $userId The user's unique identifier in the partner's system
-	 * @return KalturaUser The specified user object
+	 * @return BorhanUser The specified user object
 	 *
-	 * @throws KalturaErrors::INVALID_USER_ID
+	 * @throws BorhanErrors::INVALID_USER_ID
 	 */		
 	public function getAction($userId = null)
 	{
@@ -201,14 +201,14 @@ class UserService extends KalturaBaseUserService
 	    }
 
 		if (!kCurrentContext::$is_admin_session && kCurrentContext::$ks_uid != $userId)
-			throw new KalturaAPIException(KalturaErrors::CANNOT_RETRIEVE_ANOTHER_USER_USING_NON_ADMIN_SESSION, $userId);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_RETRIEVE_ANOTHER_USER_USING_NON_ADMIN_SESSION, $userId);
 
 		$dbUser = kuserPeer::getKuserByPartnerAndUid($this->getPartnerId(), $userId);
 	
 		if (!$dbUser)
-			throw new KalturaAPIException(KalturaErrors::INVALID_USER_ID, $userId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_USER_ID, $userId);
 
-		$user = new KalturaUser();
+		$user = new BorhanUser();
 		$user->fromObject($dbUser, $this->getResponseProfile());
 		
 		return $user;
@@ -220,28 +220,28 @@ class UserService extends KalturaBaseUserService
 	 * 
 	 * @action getByLoginId
 	 * @param string $loginId The user's email address that identifies the user for login
-	 * @return KalturaUser The user object represented by the login and partner IDs
+	 * @return BorhanUser The user object represented by the login and partner IDs
 	 * 
-	 * @throws KalturaErrors::LOGIN_DATA_NOT_FOUND
-	 * @throws KalturaErrors::USER_NOT_FOUND
+	 * @throws BorhanErrors::LOGIN_DATA_NOT_FOUND
+	 * @throws BorhanErrors::USER_NOT_FOUND
 	 */
 	public function getByLoginIdAction($loginId)
 	{
 		$loginData = UserLoginDataPeer::getByEmail($loginId);
 		if (!$loginData) {
-			throw new KalturaAPIException(KalturaErrors::LOGIN_DATA_NOT_FOUND);
+			throw new BorhanAPIException(BorhanErrors::LOGIN_DATA_NOT_FOUND);
 		}
 		
 		$kuser = kuserPeer::getByLoginDataAndPartner($loginData->getId(), $this->getPartnerId());
 		if (!$kuser) {
-			throw new KalturaAPIException(KalturaErrors::USER_NOT_FOUND);
+			throw new BorhanAPIException(BorhanErrors::USER_NOT_FOUND);
 		}
 
 		// users that are not publisher administrator are only allowed to get their own object   
 		if ($kuser->getId() != kCurrentContext::getCurrentKsKuserId() && !in_array(PermissionName::MANAGE_ADMIN_USERS, kPermissionManager::getCurrentPermissions()))
-			throw new KalturaAPIException(KalturaErrors::INVALID_USER_ID, $loginId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_USER_ID, $loginId);
 		
-		$user = new KalturaUser();
+		$user = new BorhanUser();
 		$user->fromObject($kuser, $this->getResponseProfile());
 		
 		return $user;
@@ -252,31 +252,31 @@ class UserService extends KalturaBaseUserService
 	 * 
 	 * @action delete
 	 * @param string $userId The user's unique identifier in the partner's system
-	 * @return KalturaUser The deleted user object
+	 * @return BorhanUser The deleted user object
 	 *
-	 * @throws KalturaErrors::INVALID_USER_ID
+	 * @throws BorhanErrors::INVALID_USER_ID
 	 */		
 	public function deleteAction($userId)
 	{
 		$dbUser = kuserPeer::getKuserByPartnerAndUid($this->getPartnerId(), $userId);
 	
 		if (!$dbUser) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_USER_ID, $userId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_USER_ID, $userId);
 		}
 					
 		try {
-			$dbUser->setStatus(KalturaUserStatus::DELETED);
+			$dbUser->setStatus(BorhanUserStatus::DELETED);
 		}
 		catch (kUserException $e) {
 			$code = $e->getCode();
 			if ($code == kUserException::CANNOT_DELETE_OR_BLOCK_ROOT_ADMIN_USER) {
-				throw new KalturaAPIException(KalturaErrors::CANNOT_DELETE_OR_BLOCK_ROOT_ADMIN_USER);
+				throw new BorhanAPIException(BorhanErrors::CANNOT_DELETE_OR_BLOCK_ROOT_ADMIN_USER);
 			}
 			throw $e;			
 		}
 		$dbUser->save();
 		
-		$user = new KalturaUser();
+		$user = new BorhanUser();
 		$user->fromObject($dbUser, $this->getResponseProfile());
 		
 		return $user;
@@ -288,17 +288,17 @@ class UserService extends KalturaBaseUserService
 	 * Deleted users are not listed unless you use a filter to include them.
 	 * 
 	 * @action list
-	 * @param KalturaUserFilter $filter A filter used to exclude specific types of users
-	 * @param KalturaFilterPager $pager A limit for the number of records to display on a page
-	 * @return KalturaUserListResponse The list of user objects
+	 * @param BorhanUserFilter $filter A filter used to exclude specific types of users
+	 * @param BorhanFilterPager $pager A limit for the number of records to display on a page
+	 * @return BorhanUserListResponse The list of user objects
 	 */
-	public function listAction(KalturaUserFilter $filter = null, KalturaFilterPager $pager = null)
+	public function listAction(BorhanUserFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaUserFilter();
+			$filter = new BorhanUserFilter();
 			
 		if(!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 			
 		return $filter->getListResponse($pager, $this->getResponseProfile());
 	}
@@ -309,13 +309,13 @@ class UserService extends KalturaBaseUserService
 	 * @action notifyBan
 	 * @param string $userId The user's unique identifier in the partner's system
 	 *
-	 * @throws KalturaErrors::INVALID_USER_ID
+	 * @throws BorhanErrors::INVALID_USER_ID
 	 */		
 	public function notifyBan($userId)
 	{
 		$dbUser = kuserPeer::getKuserByPartnerAndUid($this->getPartnerId(), $userId);
 		if (!$dbUser)
-			throw new KalturaAPIException(KalturaErrors::INVALID_USER_ID, $userId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_USER_ID, $userId);
 		
 		myNotificationMgr::createNotification(kNotificationJobData::NOTIFICATION_TYPE_USER_BANNED, $dbUser);
 	}
@@ -331,13 +331,13 @@ class UserService extends KalturaBaseUserService
 	 * @param string $privileges Special privileges
 	 * @return string A session KS for the user
 	 *
-	 * @throws KalturaErrors::USER_NOT_FOUND
-	 * @throws KalturaErrors::USER_WRONG_PASSWORD
-	 * @throws KalturaErrors::INVALID_PARTNER_ID
-	 * @throws KalturaErrors::LOGIN_RETRIES_EXCEEDED
-	 * @throws KalturaErrors::LOGIN_BLOCKED
-	 * @throws KalturaErrors::PASSWORD_EXPIRED
-	 * @throws KalturaErrors::USER_IS_BLOCKED
+	 * @throws BorhanErrors::USER_NOT_FOUND
+	 * @throws BorhanErrors::USER_WRONG_PASSWORD
+	 * @throws BorhanErrors::INVALID_PARTNER_ID
+	 * @throws BorhanErrors::LOGIN_RETRIES_EXCEEDED
+	 * @throws BorhanErrors::LOGIN_BLOCKED
+	 * @throws BorhanErrors::PASSWORD_EXPIRED
+	 * @throws BorhanErrors::USER_IS_BLOCKED
 	 */		
 	public function loginAction($partnerId, $userId, $password, $expiry = 86400, $privileges = '*')
 	{
@@ -358,13 +358,13 @@ class UserService extends KalturaBaseUserService
 	 * @param string $otp the user's one-time password
 	 * @return string A session KS for the user
 	 *
-	 * @throws KalturaErrors::USER_NOT_FOUND
-	 * @throws KalturaErrors::USER_WRONG_PASSWORD
-	 * @throws KalturaErrors::INVALID_PARTNER_ID
-	 * @throws KalturaErrors::LOGIN_RETRIES_EXCEEDED
-	 * @throws KalturaErrors::LOGIN_BLOCKED
-	 * @throws KalturaErrors::PASSWORD_EXPIRED
-	 * @throws KalturaErrors::USER_IS_BLOCKED
+	 * @throws BorhanErrors::USER_NOT_FOUND
+	 * @throws BorhanErrors::USER_WRONG_PASSWORD
+	 * @throws BorhanErrors::INVALID_PARTNER_ID
+	 * @throws BorhanErrors::LOGIN_RETRIES_EXCEEDED
+	 * @throws BorhanErrors::LOGIN_BLOCKED
+	 * @throws BorhanErrors::PASSWORD_EXPIRED
+	 * @throws BorhanErrors::USER_IS_BLOCKED
 	 */		
 	public function loginByLoginIdAction($loginId, $password, $partnerId = null, $expiry = 86400, $privileges = '*', $otp = null)
 	{
@@ -385,12 +385,12 @@ class UserService extends KalturaBaseUserService
 	 * @param string $newFirstName Optional, The user's new first name
 	 * @param string $newLastName Optional, The user's new last name
 	 *
-	 * @throws KalturaErrors::INVALID_FIELD_VALUE
-	 * @throws KalturaErrors::LOGIN_DATA_NOT_FOUND
-	 * @throws KalturaErrors::WRONG_OLD_PASSWORD
-	 * @throws KalturaErrors::PASSWORD_STRUCTURE_INVALID
-	 * @throws KalturaErrors::PASSWORD_ALREADY_USED
-	 * @throws KalturaErrors::LOGIN_ID_ALREADY_USED
+	 * @throws BorhanErrors::INVALID_FIELD_VALUE
+	 * @throws BorhanErrors::LOGIN_DATA_NOT_FOUND
+	 * @throws BorhanErrors::WRONG_OLD_PASSWORD
+	 * @throws BorhanErrors::PASSWORD_STRUCTURE_INVALID
+	 * @throws BorhanErrors::PASSWORD_ALREADY_USED
+	 * @throws BorhanErrors::LOGIN_ID_ALREADY_USED
 	 */
 	public function updateLoginDataAction( $oldLoginId , $password , $newLoginId = "" , $newPassword = "", $newFirstName = null, $newLastName = null)
 	{	
@@ -404,11 +404,11 @@ class UserService extends KalturaBaseUserService
 	 * 
 	 * @param string $email The user's email address (login email)
 	 *
-	 * @throws KalturaErrors::LOGIN_DATA_NOT_FOUND
-	 * @throws KalturaErrors::PASSWORD_STRUCTURE_INVALID
-	 * @throws KalturaErrors::PASSWORD_ALREADY_USED
-	 * @throws KalturaErrors::INVALID_FIELD_VALUE
-	 * @throws KalturaErrors::LOGIN_ID_ALREADY_USED
+	 * @throws BorhanErrors::LOGIN_DATA_NOT_FOUND
+	 * @throws BorhanErrors::PASSWORD_STRUCTURE_INVALID
+	 * @throws BorhanErrors::PASSWORD_ALREADY_USED
+	 * @throws BorhanErrors::INVALID_FIELD_VALUE
+	 * @throws BorhanErrors::LOGIN_ID_ALREADY_USED
 	 */	
 	public function resetPasswordAction($email)
 	{
@@ -423,12 +423,12 @@ class UserService extends KalturaBaseUserService
 	 * @param string $hashKey The hash key used to identify the user (retrieved by email)
 	 * @param string $newPassword The new password to set for the user
 	 *
-	 * @throws KalturaErrors::LOGIN_DATA_NOT_FOUND
-	 * @throws KalturaErrors::PASSWORD_STRUCTURE_INVALID
-	 * @throws KalturaErrors::NEW_PASSWORD_HASH_KEY_EXPIRED
-	 * @throws KalturaErrors::NEW_PASSWORD_HASH_KEY_INVALID
-	 * @throws KalturaErrors::PASSWORD_ALREADY_USED
-	 * @throws KalturaErrors::INTERNAL_SERVERL_ERROR
+	 * @throws BorhanErrors::LOGIN_DATA_NOT_FOUND
+	 * @throws BorhanErrors::PASSWORD_STRUCTURE_INVALID
+	 * @throws BorhanErrors::NEW_PASSWORD_HASH_KEY_EXPIRED
+	 * @throws BorhanErrors::NEW_PASSWORD_HASH_KEY_INVALID
+	 * @throws BorhanErrors::PASSWORD_ALREADY_USED
+	 * @throws BorhanErrors::INTERNAL_SERVERL_ERROR
 	 */	
 	public function setInitialPasswordAction($hashKey, $newPassword)
 	{
@@ -443,13 +443,13 @@ class UserService extends KalturaBaseUserService
 	 * @param string $userId The user's unique identifier in the partner's system
 	 * @param string $loginId The user's email address that identifies the user for login
 	 * @param string $password The user's password
-	 * @return KalturaUser The user object represented by the user and login IDs
+	 * @return BorhanUser The user object represented by the user and login IDs
 	 * 
-	 * @throws KalturaErrors::USER_LOGIN_ALREADY_ENABLED
-	 * @throws KalturaErrors::USER_NOT_FOUND
-	 * @throws KalturaErrors::ADMIN_LOGIN_USERS_QUOTA_EXCEEDED
-	 * @throws KalturaErrors::PASSWORD_STRUCTURE_INVALID
-	 * @throws KalturaErrors::LOGIN_ID_ALREADY_USED
+	 * @throws BorhanErrors::USER_LOGIN_ALREADY_ENABLED
+	 * @throws BorhanErrors::USER_NOT_FOUND
+	 * @throws BorhanErrors::ADMIN_LOGIN_USERS_QUOTA_EXCEEDED
+	 * @throws BorhanErrors::PASSWORD_STRUCTURE_INVALID
+	 * @throws BorhanErrors::LOGIN_ID_ALREADY_USED
 	 *
 	 */	
 	public function enableLoginAction($userId, $loginId, $password = null)
@@ -460,11 +460,11 @@ class UserService extends KalturaBaseUserService
 			
 			if (!$user)
 			{
-				throw new KalturaAPIException(KalturaErrors::USER_NOT_FOUND);
+				throw new BorhanAPIException(BorhanErrors::USER_NOT_FOUND);
 			}
 			
 			if (!$user->getIsAdmin() && !$password) {
-				throw new KalturaAPIException(KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, 'password');
+				throw new BorhanAPIException(BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, 'password');
 			}
 			
 			// Gonen 2011-05-29 : NOTE - 3rd party uses this action and expect that email notification will not be sent by default
@@ -476,30 +476,30 @@ class UserService extends KalturaBaseUserService
 		{
 			$code = $e->getCode();
 			if ($code == kUserException::USER_LOGIN_ALREADY_ENABLED) {
-				throw new KalturaAPIException(KalturaErrors::USER_LOGIN_ALREADY_ENABLED);
+				throw new BorhanAPIException(BorhanErrors::USER_LOGIN_ALREADY_ENABLED);
 			}
 			if ($code == kUserException::INVALID_EMAIL) {
-				throw new KalturaAPIException(KalturaErrors::USER_NOT_FOUND);
+				throw new BorhanAPIException(BorhanErrors::USER_NOT_FOUND);
 			}
 			else if ($code == kUserException::INVALID_PARTNER) {
-				throw new KalturaAPIException(KalturaErrors::USER_NOT_FOUND);
+				throw new BorhanAPIException(BorhanErrors::USER_NOT_FOUND);
 			}
 			else if ($code == kUserException::ADMIN_LOGIN_USERS_QUOTA_EXCEEDED) {
-				throw new KalturaAPIException(KalturaErrors::ADMIN_LOGIN_USERS_QUOTA_EXCEEDED);
+				throw new BorhanAPIException(BorhanErrors::ADMIN_LOGIN_USERS_QUOTA_EXCEEDED);
 			}
 			else if ($code == kUserException::PASSWORD_STRUCTURE_INVALID) {
-				throw new KalturaAPIException(KalturaErrors::PASSWORD_STRUCTURE_INVALID);
+				throw new BorhanAPIException(BorhanErrors::PASSWORD_STRUCTURE_INVALID);
 			}
 			else if ($code == kUserException::LOGIN_ID_ALREADY_USED) {
-				throw new KalturaAPIException(KalturaErrors::LOGIN_ID_ALREADY_USED);
+				throw new BorhanAPIException(BorhanErrors::LOGIN_ID_ALREADY_USED);
 			}
 			else if ($code == kUserException::ADMIN_LOGIN_USERS_QUOTA_EXCEEDED) {
-				throw new KalturaAPIException(KalturaErrors::ADMIN_LOGIN_USERS_QUOTA_EXCEEDED);
+				throw new BorhanAPIException(BorhanErrors::ADMIN_LOGIN_USERS_QUOTA_EXCEEDED);
 			}
 			throw $e;
 		}
 		
-		$apiUser = new KalturaUser();
+		$apiUser = new BorhanUser();
 		$apiUser->fromObject($user, $this->getResponseProfile());
 		return $apiUser;
 	}
@@ -515,19 +515,19 @@ class UserService extends KalturaBaseUserService
 	 * @param string $userId The user's unique identifier in the partner's system
 	 * @param string $loginId The user's email address that identifies the user for login
 	 * 
-	 * @return KalturaUser The user object represented by the user and login IDs
+	 * @return BorhanUser The user object represented by the user and login IDs
 	 * 
-	 * @throws KalturaErrors::USER_LOGIN_ALREADY_DISABLED
-	 * @throws KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
-	 * @throws KalturaErrors::USER_NOT_FOUND
-	 * @throws KalturaErrors::CANNOT_DISABLE_LOGIN_FOR_ADMIN_USER
+	 * @throws BorhanErrors::USER_LOGIN_ALREADY_DISABLED
+	 * @throws BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
+	 * @throws BorhanErrors::USER_NOT_FOUND
+	 * @throws BorhanErrors::CANNOT_DISABLE_LOGIN_FOR_ADMIN_USER
 	 *
 	 */	
 	public function disableLoginAction($userId = null, $loginId = null)
 	{
 		if (!$loginId && !$userId)
 		{
-			throw new KalturaAPIException(KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, 'userId');
+			throw new BorhanAPIException(BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, 'userId');
 		}
 		
 		$user = null;
@@ -537,7 +537,7 @@ class UserService extends KalturaBaseUserService
 			{
 				$loginData = UserLoginDataPeer::getByEmail($loginId);
 				if (!$loginData) {
-					throw new KalturaAPIException(KalturaErrors::USER_NOT_FOUND);
+					throw new BorhanAPIException(BorhanErrors::USER_NOT_FOUND);
 				}
 				$user = kuserPeer::getByLoginDataAndPartner($loginData->getId(), $this->getPartnerId());
 			}
@@ -548,7 +548,7 @@ class UserService extends KalturaBaseUserService
 			
 			if (!$user)
 			{
-				throw new KalturaAPIException(KalturaErrors::USER_NOT_FOUND);
+				throw new BorhanAPIException(BorhanErrors::USER_NOT_FOUND);
 			}
 			
 			$user->disableLogin();
@@ -557,15 +557,15 @@ class UserService extends KalturaBaseUserService
 		{
 			$code = $e->getCode();
 			if ($code == kUserException::USER_LOGIN_ALREADY_DISABLED) {
-				throw new KalturaAPIException(KalturaErrors::USER_LOGIN_ALREADY_DISABLED);
+				throw new BorhanAPIException(BorhanErrors::USER_LOGIN_ALREADY_DISABLED);
 			}
 			if ($code == kUserException::CANNOT_DISABLE_LOGIN_FOR_ADMIN_USER) {
-				throw new KalturaAPIException(KalturaErrors::CANNOT_DISABLE_LOGIN_FOR_ADMIN_USER);
+				throw new BorhanAPIException(BorhanErrors::CANNOT_DISABLE_LOGIN_FOR_ADMIN_USER);
 			}
 			throw $e;
 		}
 		
-		$apiUser = new KalturaUser();
+		$apiUser = new BorhanUser();
 		$apiUser->fromObject($user, $this->getResponseProfile());
 		return $apiUser;
 	}
@@ -577,14 +577,14 @@ class UserService extends KalturaBaseUserService
 	 * @param string $id
 	 * @param bool $shouldUpdate
 	 * @return string 
-	 * @throws KalturaErrors::USER_NOT_FOUND
+	 * @throws BorhanErrors::USER_NOT_FOUND
 	 */
 	function indexAction($id, $shouldUpdate = true)
 	{
 		$kuser = kuserPeer::getActiveKuserByPartnerAndUid(kCurrentContext::getCurrentPartnerId(), $id);
 		
 		if (!$kuser)
-			throw new KalturaAPIException(KalturaErrors::USER_NOT_FOUND);
+			throw new BorhanAPIException(BorhanErrors::USER_NOT_FOUND);
 		
 		$kuser->indexToSearchIndex();
 			

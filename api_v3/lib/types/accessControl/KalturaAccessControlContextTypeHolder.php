@@ -2,9 +2,9 @@
 /**
  * @package api
  * @subpackage objects
- * @deprecated use KalturaContextTypeHolder
+ * @deprecated use BorhanContextTypeHolder
  */
-class KalturaAccessControlContextTypeHolder extends KalturaContextTypeHolder
+class BorhanAccessControlContextTypeHolder extends BorhanContextTypeHolder
 {
 
 }

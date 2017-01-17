@@ -2,7 +2,7 @@
 chdir(dirname(__FILE__));
 require_once(__DIR__ . '/../../bootstrap.php');
 
-$c = KalturaCriteria::create(TagPeer::OM_CLASS);
+$c = BorhanCriteria::create(TagPeer::OM_CLASS);
 $filter = new TagFilter();
 $filter->set('_eq_instance_count', 0);
 $filter->attachToCriteria($c);
@@ -32,7 +32,7 @@ foreach ($tagsForDelete as $tag)
 
 function resolveEntryTag (Tag $tag)
 {
-    $c = KalturaCriteria::create(entryPeer::OM_CLASS);
+    $c = BorhanCriteria::create(entryPeer::OM_CLASS);
     $c->add(entryPeer::PARTNER_ID, $tag->getPartnerId());
     if ($tag->getPrivacyContext() != kTagFlowManager::NULL_PC)
     	$c->addAnd(entryPeer::PRIVACY_BY_CONTEXTS, $tag->getPrivacyContext(), Criteria::LIKE);
@@ -50,7 +50,7 @@ function resolveEntryTag (Tag $tag)
     
 function resolveCategoryTag (Tag $tag)
 {
-    $c = KalturaCriteria::create(categoryPeer::OM_CLASS);
+    $c = BorhanCriteria::create(categoryPeer::OM_CLASS);
     $c->add(categoryPeer::PARTNER_ID, $tag->getPartnerId());
     $categoryFilter = new categoryFilter();
     $categoryFilter->set('_mlikeand_tags', $tag->getTag());

@@ -4,7 +4,7 @@
  * @package infra
  * @subpackage Plugins
  */
-interface IKalturaReportProvider {
+interface IBorhanReportProvider {
 
     /**
      * Receives the data needed in order to generate the total report of said plugin

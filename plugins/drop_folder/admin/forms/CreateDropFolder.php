@@ -20,11 +20,11 @@ class Form_CreateDropFolder extends Infra_Form
 			'filters'		=> array('StringTrim'),
 		));	
 
-		$newDropFolderType = new Kaltura_Form_Element_EnumSelect('newDropFolderType', array(
-			'enum' => 'Kaltura_Client_DropFolder_Enum_DropFolderType',
+		$newDropFolderType = new Borhan_Form_Element_EnumSelect('newDropFolderType', array(
+			'enum' => 'Borhan_Client_DropFolder_Enum_DropFolderType',
 			'excludes' => array(
-				Kaltura_Client_DropFolder_Enum_DropFolderType::S3,
-				Kaltura_Client_DropFolder_Enum_DropFolderType::SCP,
+				Borhan_Client_DropFolder_Enum_DropFolderType::S3,
+				Borhan_Client_DropFolder_Enum_DropFolderType::SCP,
 			)
 		));
 		

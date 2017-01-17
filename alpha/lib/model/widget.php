@@ -19,23 +19,23 @@ class widget extends Basewidget implements IBaseObject
 	const WIDGET_SECURITY_POLICY_ROOT= 2; // security_type is always the same as the root widget's and can never be modified  
 	
 	
-	public static function createDefaultWidgetForPartner ( $partner_id , $subp_id , $kdp_ui_conf_id = 200 )
+	public static function createDefaultWidgetForPartner ( $partner_id , $subp_id , $bdp_ui_conf_id = 200 )
 	{
-		if ( ! $kdp_ui_conf_id ) $kdp_ui_conf_id = 200;
+		if ( ! $bdp_ui_conf_id ) $bdp_ui_conf_id = 200;
 		
 		$partner = PartnerPeer::retrieveByPK( $partner_id );
 		$widget_id = $partner->getDefaultWidgetId(); 
 		
-		if ( $kdp_ui_conf_id != null && $kdp_ui_conf_id != 200 ) $widget_id .= "_{$kdp_ui_conf_id}";
+		if ( $bdp_ui_conf_id != null && $bdp_ui_conf_id != 200 ) $widget_id .= "_{$bdp_ui_conf_id}";
 		
 		try
 		{
-			// create widget associated with the kdp_ui_conf
+			// create widget associated with the bdp_ui_conf
 			$widget = new widget();
 			$widget->setId ( $widget_id ); 
 			$widget->setPartnerId( $partner_id);
 			$widget->setSubpId( $subp_id );
-			$widget->setUiConfId( $kdp_ui_conf_id );
+			$widget->setUiConfId( $bdp_ui_conf_id );
 			$widget->save();
 			return $widget;
 		}
@@ -201,7 +201,7 @@ class widget extends Basewidget implements IBaseObject
 			//throw new APIException( APIErrors::INVALID_UI_CONF_ID , $this->getUiConfId() ); //
 		}
 
-		$swf_url = "/index.php/kwidget/wid/{$this->getId()}" ; 
+		$swf_url = "/index.php/bwidget/wid/{$this->getId()}" ; 
 		
 		if ( $ui_conf )
 			$swf_url .= "/uiconf_id/" . $this->getUiConfId();
@@ -223,14 +223,14 @@ class widget extends Basewidget implements IBaseObject
 	   	}
 	   	else if (!$partner->getIgnoreSeoLinks())
 	   	{
-		   	$seo_hidden = '<a href="http://corp.kaltura.com">video platform</a>' .
-		   		'<a href="http://corp.kaltura.com/video_platform/video_management">video management</a>' .
-		   		'<a href="http://corp.kaltura.com/solutions/video_solution">video solutions</a>' .
-		   		'<a href="http://corp.kaltura.com/video_platform/video_publishing">video player</a>' ;
+		   	$seo_hidden = '<a href="http://corp.borhan.com">video platform</a>' .
+		   		'<a href="http://corp.borhan.com/video_platform/video_management">video management</a>' .
+		   		'<a href="http://corp.borhan.com/solutions/video_solution">video solutions</a>' .
+		   		'<a href="http://corp.borhan.com/video_platform/video_publishing">video player</a>' ;
 	   	}
 	   	
 	   	if ( $player_name == null )
-	   		$player_name = 'kaltura_player_' . (int)microtime(true);
+	   		$player_name = 'borhan_player_' . (int)microtime(true);
 		
 	   	$widget = "";
 	   	if ($this->getAddEmbedHtml5Support()) {

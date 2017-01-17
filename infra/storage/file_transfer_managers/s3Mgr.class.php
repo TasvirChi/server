@@ -1,7 +1,7 @@
 <?php
 
 // AWS SDK PHP Client Library
-require_once(KAutoloader::buildPath(KALTURA_ROOT_PATH, 'vendor', 'aws', 'aws-autoloader.php'));
+require_once(KAutoloader::buildPath(BORHAN_ROOT_PATH, 'vendor', 'aws', 'aws-autoloader.php'));
 
 use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
@@ -90,7 +90,7 @@ class s3Mgr extends kFileTransferMgr
 	{
 		if(!class_exists('Aws\S3\S3Client')) 
 		{
-			KalturaLog::err('Class Aws\S3\S3Client was not found!!');
+			BorhanLog::err('Class Aws\S3\S3Client was not found!!');
 			return false;
 		}
 
@@ -129,7 +129,7 @@ class s3Mgr extends kFileTransferMgr
 	protected function doPutFile ($remote_file , $local_file)
 	{
 		list($bucket, $remote_file) = explode("/",ltrim($remote_file,"/"),2);
-		KalturaLog::debug("remote_file: ".$remote_file);
+		BorhanLog::debug("remote_file: ".$remote_file);
 		
 		try
 		{
@@ -154,12 +154,12 @@ class s3Mgr extends kFileTransferMgr
 			
 			$res = $this->s3->putObject($params);
 
-			KalturaLog::debug("File uploaded to Amazon, info: " . print_r($res, true));
+			BorhanLog::debug("File uploaded to Amazon, info: " . print_r($res, true));
 			return true;
  		}
 		catch ( Exception $e )
 		{
-			KalturaLog::err("error uploading file ".$local_file." s3 info: ".$e->getMessage());
+			BorhanLog::err("error uploading file ".$local_file." s3 info: ".$e->getMessage());
 			return false;
 		}
 	}
@@ -168,7 +168,7 @@ class s3Mgr extends kFileTransferMgr
 	protected function doGetFile ($remote_file, $local_file = null)
 	{
 		list($bucket, $remote_file) = explode("/",ltrim($remote_file,"/"),2);
-		KalturaLog::debug("remote_file: ".$remote_file);
+		BorhanLog::debug("remote_file: ".$remote_file);
 
 		$params = array(
 				'Bucket' => $bucket,
@@ -209,7 +209,7 @@ class s3Mgr extends kFileTransferMgr
 		{
 			return true;
 		}
-		KalturaLog::debug("remote_file: ".$remote_file);
+		BorhanLog::debug("remote_file: ".$remote_file);
 
 		$exists = $this->s3->doesObjectExist($bucket, $remote_file);
 		return $exists;
@@ -230,7 +230,7 @@ class s3Mgr extends kFileTransferMgr
 	protected function doDelFile ($remote_file)
 	{
 		list($bucket, $remote_file) = explode("/",ltrim($remote_file,"/"),2);
-		KalturaLog::debug("remote_file: ".$remote_file);
+		BorhanLog::debug("remote_file: ".$remote_file);
 
 		$deleted = false;
 		try
@@ -244,7 +244,7 @@ class s3Mgr extends kFileTransferMgr
 		}
 		catch ( Exception $e )
 		{
-			KalturaLog::err("Couldn't delete file [$remote_file] from bucket [$bucket]: {$e->getMessage()}");
+			BorhanLog::err("Couldn't delete file [$remote_file] from bucket [$bucket]: {$e->getMessage()}");
 		}
 		
 		return $deleted;

@@ -12,7 +12,7 @@ class debugUtils
 	
 	public static  function log ( $str )
 	{
-		KalturaLog::log($str);
+		BorhanLog::log($str);
 	}
 	
 	// stack trace
@@ -43,10 +43,10 @@ class debugUtils
 			$str .= " args: " . count ( @$func["args"] ) . "$line_break";
 
 /*			
-			           [file] => F:\web\kaltura\alpha\apps\kaltura\lib\kalturaAction.class.php
+			           [file] => F:\web\borhan\alpha\apps\borhan\lib\borhanAction.class.php
             [line] => 76
             [function] => debug
-            [class] => kalturaAction
+            [class] => borhanAction
 */
 		}
 		if ( $should_return_as_string)

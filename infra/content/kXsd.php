@@ -18,19 +18,19 @@ class kXsd
 	{
 		$toName = $to->getAttribute('name');
 		$fromName = $from->getAttribute('name');
-		KalturaLog::debug("Compare elements [$fromName] [$toName]");
+		BorhanLog::debug("Compare elements [$fromName] [$toName]");
 		
 		$xPath = $parentXPath . "/*[local-name()='$fromName']";
 						
 		if($from->getAttribute('type') != $to->getAttribute('type'))
 		{
-			KalturaLog::debug("Elements types are different [" . $from->getAttribute('type') . "] [" . $to->getAttribute('type') . "]");
+			BorhanLog::debug("Elements types are different [" . $from->getAttribute('type') . "] [" . $to->getAttribute('type') . "]");
 			throw new kXsdException(kXsdException::CAN_NOT_CHANGE_ELEMENT_TYPE, $from->getAttribute('type'), $to->getAttribute('type'), $xPath);
 		}
 			
 		if($from->getAttribute('maxOccurs') > $to->getAttribute('maxOccurs'))
 		{
-			KalturaLog::debug("Elements max occurs reduced [" . $from->getAttribute('maxOccurs') . "] [" . $to->getAttribute('maxOccurs') . "]");
+			BorhanLog::debug("Elements max occurs reduced [" . $from->getAttribute('maxOccurs') . "] [" . $to->getAttribute('maxOccurs') . "]");
 			throw new kXsdException(kXsdException::CAN_NOT_REDUCE_ELEMENT_MAX_OCCURS, $from->getAttribute('maxOccurs'), $to->getAttribute('maxOccurs'), $xPath);
 		}
 			
@@ -86,7 +86,7 @@ class kXsd
 		{
 			if(!$to->hasAttribute('default'))
 			{
-				KalturaLog::debug("Elements min occurs increased [" . $from->getAttribute('minOccurs') . "] [" . $to->getAttribute('minOccurs') . "]");
+				BorhanLog::debug("Elements min occurs increased [" . $from->getAttribute('minOccurs') . "] [" . $to->getAttribute('minOccurs') . "]");
 				throw new kXsdException(kXsdException::CAN_NOT_INCREASE_ELEMENT_MIN_OCCURS, $from->getAttribute('minOccurs'), $to->getAttribute('minOccurs'), $xPath);
 			}
 				
@@ -96,7 +96,7 @@ class kXsd
 			' . $tabs . '</xsl:element>';
 					
 			$isIdentical = false;
-			KalturaLog::info("Node [$toName] minimum occurs changed from [" . $from->getAttribute('minOccurs') . "] to [" . $to->getAttribute('minOccurs') . "]");
+			BorhanLog::info("Node [$toName] minimum occurs changed from [" . $from->getAttribute('minOccurs') . "] to [" . $to->getAttribute('minOccurs') . "]");
 		}
 		
 		if($isIdentical)
@@ -110,7 +110,7 @@ class kXsd
 		$xpath = new DOMXPath($doc);
 
 		$path = "//*[@id='$id']";
-		KalturaLog::debug("Query xpath [$path]");
+		BorhanLog::debug("Query xpath [$path]");
 		$elements = $xpath->query($path);
 		if(is_null($elements))
 			return null;
@@ -201,7 +201,7 @@ class kXsd
 	{
 		$toName = strtolower($to->localName);
 		$fromName = strtolower($from->localName);
-		KalturaLog::debug("Compare nodes [$toName] [$fromName]");
+		BorhanLog::debug("Compare nodes [$toName] [$fromName]");
 		if($toName != $fromName)
 			throw new kXsdException(kXsdException::CAN_NOT_CHANGE_NODE, $fromName, $toName, $xPath);
 		
@@ -228,7 +228,7 @@ class kXsd
 				$fromChildrenArr[] = $child;
 			}
 		}
-		KalturaLog::debug("From nodes [" . count($fromChildrenArr) . "]");
+		BorhanLog::debug("From nodes [" . count($fromChildrenArr) . "]");
 		
 		// build an array of to children
 		$toChildren = $to->childNodes;
@@ -247,7 +247,7 @@ class kXsd
 				$toChildrenArr[] = $child;
 			}
 		}
-		KalturaLog::debug("To nodes [" . count($toChildrenArr) . "]");
+		BorhanLog::debug("To nodes [" . count($toChildrenArr) . "]");
 		
 		// detect new nodes + order change
 		$lastFromIndex = null;
@@ -272,7 +272,7 @@ class kXsd
 						
 					$xsl .= $childXsl;
 					$isIdentical = false;
-					KalturaLog::info("Nodes [$fromName] [$toName] are different");
+					BorhanLog::info("Nodes [$fromName] [$toName] are different");
 					continue;
 				}
 				$fromChildName = strtolower($toChild->localName);
@@ -282,7 +282,7 @@ class kXsd
 				
 				if (!is_null($lastFromIndex) && $fromIndex < $lastFromIndex)
 				{
-					KalturaLog::info("Node id=[". $toChild->getAttribute('id') ."] name=[$toElementName] index changed from original schema");
+					BorhanLog::info("Node id=[". $toChild->getAttribute('id') ."] name=[$toElementName] index changed from original schema");
 					$isIdentical = false;
 				}
 				
@@ -292,7 +292,7 @@ class kXsd
 				$childXsl = self::compareElement($fromChild, $toChild, $xPath, $level);
 				if($childXsl === true)
 				{
-					KalturaLog::debug("Element [$fromElementName] is identical");
+					BorhanLog::debug("Element [$fromElementName] is identical");
 
 					$xsl .= '
 	' . $tabs . '<xsl:copy-of select="' . $xPath  .'/*[local-name()=\'' . $fromElementName . '\']"/>';
@@ -301,14 +301,14 @@ class kXsd
 				{
 					$xsl .= $childXsl;
 					$isIdentical = false;
-					KalturaLog::info("Elements [$toChildName] [$fromChildName] are different");
+					BorhanLog::info("Elements [$toChildName] [$fromChildName] are different");
 				}
 
 				continue;
 			}
 			else
 			{
-				KalturaLog::debug("Node [". $toChild->getAttribute('id') ."] is new");
+				BorhanLog::debug("Node [". $toChild->getAttribute('id') ."] is new");
 				
 				if($toChild->hasAttribute('minOccurs') && $toChild->getAttribute('minOccurs') > 0)
 				{
@@ -316,7 +316,7 @@ class kXsd
 						throw new kXsdException(kXsdException::CAN_NOT_ADD_REQUIRED_ELEMENT, $toChild->hasAttribute('minOccurs'), $xPath);
 					
 					$isIdentical = false;
-					KalturaLog::info("Node [" . $toChild->getAttribute('name') . "] added with minimum occurs [" . $toChild->getAttribute('minOccurs') . "]");
+					BorhanLog::info("Node [" . $toChild->getAttribute('name') . "] added with minimum occurs [" . $toChild->getAttribute('minOccurs') . "]");
 						$xsl .= '
 			' . $tabs . '<xsl:element name="' . $toElementName . '">' . $toChild->getAttribute('default') . '</xsl:element>';
 				}
@@ -338,7 +338,7 @@ class kXsd
 			if (!$toChild)
 			{
 				$isIdentical = false;
-				KalturaLog::info("Node [". $fromChild->getAttribute('id') ."] deleted");
+				BorhanLog::info("Node [". $fromChild->getAttribute('id') ."] deleted");
 				continue;
 			}
 		}

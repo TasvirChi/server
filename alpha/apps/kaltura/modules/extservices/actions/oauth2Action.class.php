@@ -48,13 +48,13 @@ abstract class oauth2Action extends sfAction{
 		}
 		catch(Exception $ex)
 		{
-			KalturaLog::err($ex);
+			BorhanLog::err($ex);
 			return false;
 		}
 
 		if (kCurrentContext::$ks_object->type != ks::SESSION_TYPE_ADMIN)
 		{
-			KalturaLog::err('Ks is not admin');
+			BorhanLog::err('Ks is not admin');
 			return false;
 		}
 
@@ -66,7 +66,7 @@ abstract class oauth2Action extends sfAction{
 		{
 			if (strpos($ex->getCode(), 'INVALID_ACTIONS_LIMIT') === false) // allow using limited ks
 			{
-				KalturaLog::err($ex);
+				BorhanLog::err($ex);
 				return false;
 			}
 		}
@@ -74,7 +74,7 @@ abstract class oauth2Action extends sfAction{
 		{
 			if (!kPermissionManager::isPermitted(PermissionName::ADMIN_PUBLISHER_MANAGE))
 			{
-				KalturaLog::err('Ks is missing "ADMIN_PUBLISHER_MANAGE" permission');
+				BorhanLog::err('Ks is missing "ADMIN_PUBLISHER_MANAGE" permission');
 				return false;
 			}
 		}

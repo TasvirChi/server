@@ -57,7 +57,7 @@ class kSessionUtils
 	}
 		
 	/*
-	* will validate the partner_id, secret & key and return a kaltura-session string (KS)
+	* will validate the partner_id, secret & key and return a borhan-session string (KS)
 	* the ks will be a 2-way hashed string that expires after a given period of time and holds data about the partner
 	* if the partner is a "strong" partner, we may want to return the ks to allow him maipulate other partners (sub partners)
 	* this will be done by storing the partner_id_list / partner_id_pattern in the ks.
@@ -130,7 +130,7 @@ class kSessionUtils
 	}
 	
 	/**
-	* will validate the partner_id, secret & key and return a kaltura-admin-session string (KAS)
+	* will validate the partner_id, secret & key and return a borhan-admin-session string (KAS)
 	* this key will be good for the admin part of the API, such as reports/lists of data/batch deletion
 	*/
 	public static function startKAdminSession ( $partner_id , $partner_secret , $puser_id , &$ks_str  ,
@@ -700,7 +700,7 @@ class ks extends kSessionBase
 	
 	protected function logError($msg)
 	{
-		KalturaLog::err($msg);
+		BorhanLog::err($msg);
 	}
 		
 	public function kill()

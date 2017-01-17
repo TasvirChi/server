@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaBulkDownloadJobData extends KalturaJobData
+class BorhanBulkDownloadJobData extends BorhanJobData
 {
 	/**
 	 * Comma separated list of entry ids

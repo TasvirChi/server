@@ -28,14 +28,14 @@ class FtpDistributionEngine extends DistributionEngine implements
 		else
 		{
 			$this->tempFilePath = sys_get_temp_dir();
-			KalturaLog::info('params.tempFilePath configuration not supplied, using default system directory ['.$this->tempFilePath.']');
+			BorhanLog::info('params.tempFilePath configuration not supplied, using default system directory ['.$this->tempFilePath.']');
 		}
 	}
 	
 	/**
 	 * @see IDistributionEngineSubmit::submit()
 	 */
-	public function submit(KalturaDistributionSubmitJobData $data)
+	public function submit(BorhanDistributionSubmitJobData $data)
 	{
 		return $this->submitOrUpdate($data);
 	}
@@ -43,7 +43,7 @@ class FtpDistributionEngine extends DistributionEngine implements
 	/**
 	 * @see IDistributionEngineUpdate::update()
 	 */
-	public function update(KalturaDistributionUpdateJobData $data)
+	public function update(BorhanDistributionUpdateJobData $data)
 	{
 		return $this->submitOrUpdate($data);
 	}
@@ -51,42 +51,42 @@ class FtpDistributionEngine extends DistributionEngine implements
 	/**
 	 * @see IDistributionEngineDelete::delete()
 	 */
-	public function delete(KalturaDistributionDeleteJobData $data)
+	public function delete(BorhanDistributionDeleteJobData $data)
 	{
 		$this->validateObjects($data);
 		
 		$fileManager = $this->getFileTransferManager($data->distributionProfile);
-		KalturaLog::info('Using '.get_class($fileManager).' file transfer manager');
+		BorhanLog::info('Using '.get_class($fileManager).' file transfer manager');
 		
 		foreach($data->mediaFiles as $remoteFile)
 		{
-			/* @var $remoteFile KalturaDistributionRemoteMediaFile */
-			KalturaLog::info('Trying to delete file ['.$remoteFile->remoteId.'], version ['.$remoteFile->version.'] for asset id ['.$remoteFile->assetId.']');
+			/* @var $remoteFile BorhanDistributionRemoteMediaFile */
+			BorhanLog::info('Trying to delete file ['.$remoteFile->remoteId.'], version ['.$remoteFile->version.'] for asset id ['.$remoteFile->assetId.']');
 			try
 			{
 				$fileManager->delFile($remoteFile->remoteId);
 			}
 			catch(Exception $ex)
 			{
-				KalturaLog::err($ex);
-				KalturaLog::err('Failed to delete file ['.$remoteFile->remoteId.']');
+				BorhanLog::err($ex);
+				BorhanLog::err('Failed to delete file ['.$remoteFile->remoteId.']');
 			}
 		}
 		
 		return true;
 	}
 	
-	public function submitOrUpdate(KalturaDistributionJobData $data)
+	public function submitOrUpdate(BorhanDistributionJobData $data)
 	{
 		$this->validateObjects($data);
 		
 		$fileManager = $this->getFileTransferManager($data->distributionProfile);
-		KalturaLog::info('Using '.get_class($fileManager).' file transfer manager');
+		BorhanLog::info('Using '.get_class($fileManager).' file transfer manager');
 		
-		/* @var $providerData KalturaFtpDistributionJobProviderData */
+		/* @var $providerData BorhanFtpDistributionJobProviderData */
 		$providerData = $data->providerData;
 		
-		/* @var $distributionProfile KalturaFtpDistributionProfile */
+		/* @var $distributionProfile BorhanFtpDistributionProfile */
 		$distributionProfile = $data->distributionProfile;
 		
 		if (!is_array($providerData->filesForDistribution) || count($providerData->filesForDistribution) == 0)
@@ -101,11 +101,11 @@ class FtpDistributionEngine extends DistributionEngine implements
 		return true;
 	}
 	
-	public function syncFiles(kFileTransferMgr $fileManager, &$remoteFiles, $filesForDistribution, KalturaFtpDistributionProfile $distributionProfile)
+	public function syncFiles(kFileTransferMgr $fileManager, &$remoteFiles, $filesForDistribution, BorhanFtpDistributionProfile $distributionProfile)
 	{
 		foreach($filesForDistribution as $file)
 		{
-			/* @var $file KalturaFtpDistributionFile */
+			/* @var $file BorhanFtpDistributionFile */
 			if ($file->assetId == 'metadata')
 			{
 				$newestRemoteFile = $this->getNewestRemoteFileById($remoteFiles, 'metadata');
@@ -159,29 +159,29 @@ class FtpDistributionEngine extends DistributionEngine implements
 	
 	/**
 	 * @param kFileTransferMgr $fileManager
-	 * @param KalturaFtpDistributionFile $file
-	 * @param KalturaFtpDistributionProfile $distributionProfile
-	 * @return KalturaDistributionRemoteMediaFile
+	 * @param BorhanFtpDistributionFile $file
+	 * @param BorhanFtpDistributionProfile $distributionProfile
+	 * @return BorhanDistributionRemoteMediaFile
 	 */
-	protected function distributeFile(kFileTransferMgr $fileManager, KalturaFtpDistributionFile $file, KalturaFtpDistributionProfile $distributionProfile)
+	protected function distributeFile(kFileTransferMgr $fileManager, BorhanFtpDistributionFile $file, BorhanFtpDistributionProfile $distributionProfile)
 	{
 		$remoteFilePath = $this->cleanPath($distributionProfile->basePath . '/' . $file->filename);
 		if ($file->contents)
 		{
 			$filename = uniqid(null, true) . '.' . pathinfo($file->filename, PATHINFO_EXTENSION);
 			$localTempFilePath = $this->tempFilePath . '/' . $filename;
-			KalturaLog::info('Sending contents, using temp path ['.$localTempFilePath.']');
+			BorhanLog::info('Sending contents, using temp path ['.$localTempFilePath.']');
 			file_put_contents($localTempFilePath, $file->contents);
 			$fileManager->putFile($remoteFilePath, $localTempFilePath);
 			unlink($localTempFilePath);
 		}
 		else
 		{
-			KalturaLog::info('Sending local file ['.$file->localFilePath.']');
+			BorhanLog::info('Sending local file ['.$file->localFilePath.']');
 			$fileManager->putFile($remoteFilePath, $file->localFilePath);
 		}
 		
-		$remoteFile = new KalturaDistributionRemoteMediaFile();
+		$remoteFile = new BorhanDistributionRemoteMediaFile();
 		if ($file->hash)
 			$remoteFile->version = $file->version . '_' . $file->hash;
 		else
@@ -205,7 +205,7 @@ class FtpDistributionEngine extends DistributionEngine implements
 		$newestRemoteFile = null;
 		foreach($remoteFiles as $remoteFile)
 		{
-			/* @var $remoteFile KalturaDistributionRemoteMediaFile */
+			/* @var $remoteFile BorhanDistributionRemoteMediaFile */
 			if ($remoteFile->assetId === $id)
 			{
 				if (is_null($newestRemoteFile)) {
@@ -225,7 +225,7 @@ class FtpDistributionEngine extends DistributionEngine implements
 		$remoteFiles = array();
 		foreach($remoteFiles as $remoteFile)
 		{
-			/* @var $remoteFile KalturaDistributionRemoteMediaFile */
+			/* @var $remoteFile BorhanDistributionRemoteMediaFile */
 			if ($remoteFile->assetId === 'metadata')
 				$remoteFiles[] = $remoteFile;
 		}
@@ -233,31 +233,31 @@ class FtpDistributionEngine extends DistributionEngine implements
 	}
 	
 	/**
-	 * @param KalturaDistributionJobData $data
+	 * @param BorhanDistributionJobData $data
 	 * @throws Exception
 	 */
-	protected function validateObjects(KalturaDistributionJobData $data)
+	protected function validateObjects(BorhanDistributionJobData $data)
 	{
-		if(!$data->distributionProfile instanceof KalturaFtpDistributionProfile)
-			throw new Exception('Distribution profile must be of type KalturaFtpDistributionProfile');
+		if(!$data->distributionProfile instanceof BorhanFtpDistributionProfile)
+			throw new Exception('Distribution profile must be of type BorhanFtpDistributionProfile');
 	
-		if (!$data->providerData instanceof KalturaFtpDistributionJobProviderData)
-			throw new Exception('Provider data must be of type KalturaFtpDistributionJobProviderData');
+		if (!$data->providerData instanceof BorhanFtpDistributionJobProviderData)
+			throw new Exception('Provider data must be of type BorhanFtpDistributionJobProviderData');
 	}
 	
 	/**
 	 * 
-	 * @param KalturaFtpDistributionProfile $distributionProfile
+	 * @param BorhanFtpDistributionProfile $distributionProfile
 	 * @return kFileTransferMgr
 	 */
-	protected function getFileTransferManager(KalturaFtpDistributionProfile $distributionProfile)
+	protected function getFileTransferManager(BorhanFtpDistributionProfile $distributionProfile)
 	{
 		$host = $distributionProfile->host;
 		$port = $distributionProfile->port;
 		$protocol = $distributionProfile->protocol;
 		$username = $distributionProfile->username;
 		$password = $distributionProfile->password;
-		if ($protocol == KalturaDistributionProtocol::ASPERA)
+		if ($protocol == BorhanDistributionProtocol::ASPERA)
 		{
 			$publicKey = $distributionProfile->asperaPublicKey;
         	$privateKey = $distributionProfile->asperaPrivateKey;
@@ -295,13 +295,13 @@ class FtpDistributionEngine extends DistributionEngine implements
 		return $fileTransferManager;
 	}
 
-    private function storeMetadataFileAsSentData(KalturaDistributionJobData $data, $filesForDistribution)
+    private function storeMetadataFileAsSentData(BorhanDistributionJobData $data, $filesForDistribution)
     {
         if (is_array($filesForDistribution))
         {
             foreach($filesForDistribution as $file)
             {
-                /* @var $file KalturaFtpDistributionFile */
+                /* @var $file BorhanFtpDistributionFile */
                 if ($file->assetId == 'metadata')
                 {
                     $data->sentData = $file->contents;

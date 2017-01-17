@@ -3,7 +3,7 @@
  * Enable event notifications on metadata objects
  * @package plugins.metadataEventNotifications
  */
-class MetadataEventNotificationsPlugin extends KalturaPlugin implements IKalturaPending, IKalturaEnumerator, IKalturaObjectLoader, IKalturaEventNotificationContentEditor
+class MetadataEventNotificationsPlugin extends BorhanPlugin implements IBorhanPending, IBorhanEnumerator, IBorhanObjectLoader, IBorhanEventNotificationContentEditor
 {
 	const PLUGIN_NAME = 'metadataEventNotifications';
 	
@@ -17,7 +17,7 @@ class MetadataEventNotificationsPlugin extends KalturaPlugin implements IKaltura
 	const METADATA_EMAIL_NOTIFICATION_REGEX = '/\{metadata\:[^:]+\:[^}]+\}/';
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -25,20 +25,20 @@ class MetadataEventNotificationsPlugin extends KalturaPlugin implements IKaltura
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$eventNotificationVersion = new KalturaVersion(self::EVENT_NOTIFICATION_PLUGIN_VERSION_MAJOR, self::EVENT_NOTIFICATION_PLUGIN_VERSION_MINOR, self::EVENT_NOTIFICATION_PLUGIN_VERSION_BUILD);
+		$eventNotificationVersion = new BorhanVersion(self::EVENT_NOTIFICATION_PLUGIN_VERSION_MAJOR, self::EVENT_NOTIFICATION_PLUGIN_VERSION_MINOR, self::EVENT_NOTIFICATION_PLUGIN_VERSION_BUILD);
 		
-		$metadataDependency = new KalturaDependency(self::METADATA_PLUGIN_NAME);
-		$eventNotificationDependency = new KalturaDependency(self::EVENT_NOTIFICATION_PLUGIN_NAME, $eventNotificationVersion);
+		$metadataDependency = new BorhanDependency(self::METADATA_PLUGIN_NAME);
+		$eventNotificationDependency = new BorhanDependency(self::EVENT_NOTIFICATION_PLUGIN_NAME, $eventNotificationVersion);
 		
 		return array($metadataDependency, $eventNotificationDependency);
 	}
 			
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -52,7 +52,7 @@ class MetadataEventNotificationsPlugin extends KalturaPlugin implements IKaltura
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
@@ -60,7 +60,7 @@ class MetadataEventNotificationsPlugin extends KalturaPlugin implements IKaltura
 	}
 		
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
@@ -77,7 +77,7 @@ class MetadataEventNotificationsPlugin extends KalturaPlugin implements IKaltura
 	 */
 	public static function getEventNotificationEventObjectTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('EventNotificationEventObjectType', $value);
 	}
 	
@@ -86,7 +86,7 @@ class MetadataEventNotificationsPlugin extends KalturaPlugin implements IKaltura
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	/**
@@ -115,7 +115,7 @@ class MetadataEventNotificationsPlugin extends KalturaPlugin implements IKaltura
 				$profile = MetadataProfilePeer::retrieveBySystemName($profileSystemName, $partnerId);
 				if (!$profile)
 				{
-					KalturaLog::info("Metadata profile with system name $profileSystemName not found for this partner. Token will be replaced with empty string.");
+					BorhanLog::info("Metadata profile with system name $profileSystemName not found for this partner. Token will be replaced with empty string.");
 					$metadataContentParameters[$match] = '';
 					continue;
 				}
@@ -125,7 +125,7 @@ class MetadataEventNotificationsPlugin extends KalturaPlugin implements IKaltura
 				//If the metadataProfileobjectType matches the one on the emailNotification, we can proceed
 				//If the objectType of the email template is 'asset' we can use the entryId
 				//If the objectType of the email template is a metadata object we can use its id
-				if (kMetadataManager::getObjectTypeName($profile->getObjectType()) == KalturaPluginManager::getObjectClass('EventNotificationEventObjectType', $objectType))
+				if (kMetadataManager::getObjectTypeName($profile->getObjectType()) == BorhanPluginManager::getObjectClass('EventNotificationEventObjectType', $objectType))
 				{
 					$objectId = $scope->getObject()->getId();
 				}
@@ -138,11 +138,11 @@ class MetadataEventNotificationsPlugin extends KalturaPlugin implements IKaltura
 				{
 					$profileObject = kMetadataManager::getObjectTypeName($profile->getObjectType());
 					$getter = "get{$profileObject}Id";
-					KalturaLog::info ("Using $getter in order to retrieve the metadata object ID");
+					BorhanLog::info ("Using $getter in order to retrieve the metadata object ID");
 					$categoryEntry = $scope->getObject();
 					$objectId = $categoryEntry->$getter();
 				}
-				elseif (KalturaPluginManager::getObjectClass('EventNotificationEventObjectType', $objectType) == MetadataPeer::OM_CLASS)
+				elseif (BorhanPluginManager::getObjectClass('EventNotificationEventObjectType', $objectType) == MetadataPeer::OM_CLASS)
 				{
 					$metadataObjectId = $scope->getObject()->getId();
 				}
@@ -159,14 +159,14 @@ class MetadataEventNotificationsPlugin extends KalturaPlugin implements IKaltura
 				else 
 				{
 					//There is not enough specification regarding the required metadataObject, abort.
-					KalturaLog::info("The template does not contain an object Id for which custom metadata can be retrieved. Token will be replaced with empty string.");
+					BorhanLog::info("The template does not contain an object Id for which custom metadata can be retrieved. Token will be replaced with empty string.");
 					$metadataContentParameters[$match] = '';
 					continue;	
 				}
 				
 				if (!$result)
 				{
-					KalturaLog::info("Metadata object could not be retrieved. Token will be replaced with empty string.");
+					BorhanLog::info("Metadata object could not be retrieved. Token will be replaced with empty string.");
 					$metadataContentParameters[$match] = '';
 					continue;
 				}

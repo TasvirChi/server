@@ -2,7 +2,7 @@
 /**
  * @package plugins.bulkUploadCsv
  */
-class BulkUploadCsvPlugin extends KalturaPlugin implements IKalturaBulkUpload, IKalturaPending
+class BulkUploadCsvPlugin extends BorhanPlugin implements IBorhanBulkUpload, IBorhanPending
 {
 	const PLUGIN_NAME = 'bulkUploadCsv';
 
@@ -17,11 +17,11 @@ class BulkUploadCsvPlugin extends KalturaPlugin implements IKalturaBulkUpload, I
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$drmDependency = new KalturaDependency(BulkUploadPlugin::PLUGIN_NAME);
+		$drmDependency = new BorhanDependency(BulkUploadPlugin::PLUGIN_NAME);
 		
 		return array($drmDependency);
 	}
@@ -53,23 +53,23 @@ class BulkUploadCsvPlugin extends KalturaPlugin implements IKalturaBulkUpload, I
 			return new kBulkUploadCsvJobData();
 		
 		 //Gets the right job for the engine
-		if($baseClass == 'KalturaBulkUploadJobData' && (!$enumValue || $enumValue == self::getBulkUploadTypeCoreValue(BulkUploadCsvType::CSV)))
-			return new KalturaBulkUploadCsvJobData();
+		if($baseClass == 'BorhanBulkUploadJobData' && (!$enumValue || $enumValue == self::getBulkUploadTypeCoreValue(BulkUploadCsvType::CSV)))
+			return new BorhanBulkUploadCsvJobData();
 		
 		//Gets the engine (only for clients)
-		if($baseClass == 'KBulkUploadEngine' && class_exists('KalturaClient') && (!$enumValue || $enumValue == KalturaBulkUploadType::CSV))
+		if($baseClass == 'KBulkUploadEngine' && class_exists('BorhanClient') && (!$enumValue || $enumValue == BorhanBulkUploadType::CSV))
 		{
 			list($job) = $constructorArgs;
-			/* @var $job KalturaBatchJob */
+			/* @var $job BorhanBatchJob */
 			switch ($job->data->bulkUploadObjectType)
 			{
-			    case KalturaBulkUploadObjectType::ENTRY:
+			    case BorhanBulkUploadObjectType::ENTRY:
 			        return new BulkUploadEntryEngineCsv($job);
-			    case KalturaBulkUploadObjectType::CATEGORY:
+			    case BorhanBulkUploadObjectType::CATEGORY:
 			        return new BulkUploadCategoryEngineCsv($job);
-			    case KalturaBulkUploadObjectType::USER:
+			    case BorhanBulkUploadObjectType::USER:
 			        return new BulkUploadUserEngineCsv($job);
-			    case KalturaBulkUploadObjectType::CATEGORY_USER:
+			    case BorhanBulkUploadObjectType::CATEGORY_USER:
 			        return new BulkUploadCategoryUserEngineCsv($job);
 			}
 			
@@ -339,7 +339,7 @@ class BulkUploadCsvPlugin extends KalturaPlugin implements IKalturaBulkUpload, I
 	 */
 	public static function getBulkUploadTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('BulkUploadType', $value);
 	}
 	
@@ -348,6 +348,6 @@ class BulkUploadCsvPlugin extends KalturaPlugin implements IKalturaBulkUpload, I
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 }

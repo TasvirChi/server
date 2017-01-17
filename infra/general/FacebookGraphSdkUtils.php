@@ -1,6 +1,6 @@
 <?php
 
-require_once KALTURA_ROOT_PATH.'/vendor/facebook-sdk-php-v5-customized/autoload.php';
+require_once BORHAN_ROOT_PATH.'/vendor/facebook-sdk-php-v5-customized/autoload.php';
 
 /**
  *  This class is a helper class for the use of Facebook's PHP client (see location in the require php file)
@@ -32,7 +32,7 @@ class FacebookGraphSdkUtils
 		if (!$userAccessToken->isLongLived())
 		{
 			// Exchanges a short-lived access token for a long-lived one
-			KalturaLog::debug('Getting long lived access token for '.$accessTokenValue);
+			BorhanLog::debug('Getting long lived access token for '.$accessTokenValue);
 			$oAuth2Client = $fb->getOAuth2Client();
 			$longLivedAccessToken = $oAuth2Client->getLongLivedAccessToken($userAccessToken);
 			if(isset($longLivedAccessToken))
@@ -94,14 +94,14 @@ class FacebookGraphSdkUtils
 		$fb = self::createFacebookInstance($appId, $appSecret, $dataHandler);
 
 		$response = $fb->get('/me/accounts?fields=id,access_token', $userAccessToken);
-		KalturaLog::debug("page token response:".print_r($response, true));
+		BorhanLog::debug("page token response:".print_r($response, true));
 
 		$pages = $response->getGraphEdge();
 		foreach ($pages as $page)
 		{
 			if($page['id'] == $pageId)
 			{
-				KalturaLog::debug('Found token for page Id: '.$pageId);
+				BorhanLog::debug('Found token for page Id: '.$pageId);
 				return $page['access_token'];
 			}
 		}
@@ -295,16 +295,16 @@ class FacebookGraphSdkUtils
 			{
 				$errorMessage = "Error: ".$loginHelper->getError()." Error Code: ".$loginHelper->getErrorCode() .
 					" Error Reason: ".$loginHelper->getErrorReason()." Error Description: ".$loginHelper->getErrorDescription();
-				KalturaLog::err($errorMessage);
+				BorhanLog::err($errorMessage);
 				throw new Exception($errorMessage);
 			}
 			else
 			{
-				KalturaLog::err($errorMessage);
+				BorhanLog::err($errorMessage);
 				throw new Exception($errorMessage);
 			}
 		}
-		KalturaLog::debug('User access token: '.$accessToken->getValue().' expiration: '.print_r($accessToken->getExpiresAt(),true));
+		BorhanLog::debug('User access token: '.$accessToken->getValue().' expiration: '.print_r($accessToken->getExpiresAt(),true));
 		self::doValidateAccessToken($fb, $appId, $accessToken, $permissions);
 		return $accessToken;
 	}
@@ -320,11 +320,11 @@ class FacebookGraphSdkUtils
 	 */
 	private static function doValidateAccessToken($fb, $appId, $accessToken, $permissions = array())
 	{
-		KalturaLog::debug('Validating user access token: '.$accessToken->getValue());
+		BorhanLog::debug('Validating user access token: '.$accessToken->getValue());
 
 		$oAuth2Client = $fb->getOAuth2Client();
 		$tokenMetadata = $oAuth2Client->debugToken($accessToken);
-		KalturaLog::debug('token metadata: '.print_r($tokenMetadata, true));
+		BorhanLog::debug('token metadata: '.print_r($tokenMetadata, true));
 
 		$tokenMetadata->validateAppId($appId);
 		$grantedPermissions = $tokenMetadata->getScopes();
@@ -333,11 +333,11 @@ class FacebookGraphSdkUtils
 			if(!in_array($permission, $grantedPermissions))
 			{
 				$errorMessage = 'Token missing required permission ['.$permission.']';
-				KalturaLog::debug($errorMessage);
+				BorhanLog::debug($errorMessage);
 				throw new Exception($errorMessage);
 			}
 		}
-		KalturaLog::debug('Token is valid');
+		BorhanLog::debug('Token is valid');
 		return true;
 	}
 

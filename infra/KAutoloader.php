@@ -1,6 +1,6 @@
 <?php
 
-defined('KALTURA_ROOT_PATH') ||  define('KALTURA_ROOT_PATH', realpath(__DIR__ . '/../'));
+defined('BORHAN_ROOT_PATH') ||  define('BORHAN_ROOT_PATH', realpath(__DIR__ . '/../'));
 
 /**
  * @package infra
@@ -42,7 +42,7 @@ class KAutoloader
 		if (strpos($class, "Zend_") === 0)
 		{
 			$zendLoaderClass = "Zend_Loader.php";
-			require_once(self::buildPath(KALTURA_ROOT_PATH, "vendor", "ZendFramework", "library").DIRECTORY_SEPARATOR.str_replace("_", DIRECTORY_SEPARATOR, $zendLoaderClass));
+			require_once(self::buildPath(BORHAN_ROOT_PATH, "vendor", "ZendFramework", "library").DIRECTORY_SEPARATOR.str_replace("_", DIRECTORY_SEPARATOR, $zendLoaderClass));
 			Zend_Loader::loadClass($class);
 			return;
 		}
@@ -302,11 +302,11 @@ class KAutoloader
 	private static function setDefaultClassPath()
 	{
 		self::$_classPath = array(
-			self::buildPath(KALTURA_ROOT_PATH, 'infra', '*'),
-	   		self::buildPath(KALTURA_ROOT_PATH, 'vendor', 'symfony', '*'),
-	   		self::buildPath(KALTURA_ROOT_PATH, 'alpha', 'lib', '*'),
-	   		self::buildPath(KALTURA_ROOT_PATH, 'alpha', 'config'),
-	   		self::buildPath(KALTURA_ROOT_PATH, 'alpha', 'apps', 'kaltura', 'lib', '*'),
+			self::buildPath(BORHAN_ROOT_PATH, 'infra', '*'),
+	   		self::buildPath(BORHAN_ROOT_PATH, 'vendor', 'symfony', '*'),
+	   		self::buildPath(BORHAN_ROOT_PATH, 'alpha', 'lib', '*'),
+	   		self::buildPath(BORHAN_ROOT_PATH, 'alpha', 'config'),
+	   		self::buildPath(BORHAN_ROOT_PATH, 'alpha', 'apps', 'borhan', 'lib', '*'),
 		);
 	}
 
@@ -316,13 +316,13 @@ class KAutoloader
 	private static function setDefaultIncludePath()
 	{
 		self::$_includePath = array(
-			self::buildPath(KALTURA_ROOT_PATH),
-			self::buildPath(KALTURA_ROOT_PATH, 'vendor', 'symfony'),
-			self::buildPath(KALTURA_ROOT_PATH, 'vendor', 'symfony', 'vendor'),
-			self::buildPath(KALTURA_ROOT_PATH, 'vendor', 'ZendFramework', 'library'),
-			self::buildPath(KALTURA_ROOT_PATH, 'alpha'),
-			self::buildPath(KALTURA_ROOT_PATH, 'alpha', 'lib'),
-			self::buildPath(KALTURA_ROOT_PATH, 'alpha', 'apps', 'kaltura', 'lib'),
+			self::buildPath(BORHAN_ROOT_PATH),
+			self::buildPath(BORHAN_ROOT_PATH, 'vendor', 'symfony'),
+			self::buildPath(BORHAN_ROOT_PATH, 'vendor', 'symfony', 'vendor'),
+			self::buildPath(BORHAN_ROOT_PATH, 'vendor', 'ZendFramework', 'library'),
+			self::buildPath(BORHAN_ROOT_PATH, 'alpha'),
+			self::buildPath(BORHAN_ROOT_PATH, 'alpha', 'lib'),
+			self::buildPath(BORHAN_ROOT_PATH, 'alpha', 'apps', 'borhan', 'lib'),
 		);
 	}
 

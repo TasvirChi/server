@@ -75,14 +75,14 @@ class kshowPeer extends BasekshowPeer
 	 * @param int $page = the requested page
 	 * @return the pager object
 	 */
-	public static function getOrderedPager($order, $pageSize, $page, $producer_id = null, $kaltura_part_of_flag = null )
+	public static function getOrderedPager($order, $pageSize, $page, $producer_id = null, $borhan_part_of_flag = null )
 	{
 		$c = new Criteria();
 		self::setOrder($c, $order);
 
 		$c->addJoin(self::PRODUCER_ID, kuserPeer::ID, Criteria::INNER_JOIN);
 
-		if( $kaltura_part_of_flag )
+		if( $borhan_part_of_flag )
 		{
 			// in this case we get the user-id in the $producer_id field
 			$c->addJoin(self::ID, entryPeer::KSHOW_ID, Criteria::INNER_JOIN);

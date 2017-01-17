@@ -7,11 +7,11 @@
 class KObjectTaskModifyCategoriesEngine extends KObjectTaskEntryEngineBase
 {
 	/**
-	 * @param KalturaBaseEntry $object
+	 * @param BorhanBaseEntry $object
 	 */
 	function processObject($object)
 	{
-		/** @var KalturaModifyCategoriesObjectTask $objectTask */
+		/** @var BorhanModifyCategoriesObjectTask $objectTask */
 		$objectTask = $this->getObjectTask();
 		if (is_null($objectTask))
 			return;
@@ -23,12 +23,12 @@ class KObjectTaskModifyCategoriesEngine extends KObjectTaskEntryEngineBase
 			$objectTask->categoryIds = array();
 		foreach($objectTask->categoryIds as $categoryIntValue)
 		{
-			/** @var KalturaString $categoryIntValue */
+			/** @var BorhanString $categoryIntValue */
 			$taskCategoryIds[] = $categoryIntValue->value;
 		}
 
 		// remove all categories if nothing was configured in the list
-		if (count($taskCategoryIds) == 0 && $addRemoveType == KalturaScheduledTaskAddOrRemoveType::REMOVE)
+		if (count($taskCategoryIds) == 0 && $addRemoveType == BorhanScheduledTaskAddOrRemoveType::REMOVE)
 		{
 			try
 			{
@@ -39,7 +39,7 @@ class KObjectTaskModifyCategoriesEngine extends KObjectTaskEntryEngineBase
 			catch(Exception $ex)
 			{
 				$this->unimpersonate();
-				KalturaLog::err($ex);
+				BorhanLog::err($ex);
 			}
 		}
 		else
@@ -55,7 +55,7 @@ class KObjectTaskModifyCategoriesEngine extends KObjectTaskEntryEngineBase
 				catch(Exception $ex)
 				{
 					$this->unimpersonate();
-					KalturaLog::err($ex);
+					BorhanLog::err($ex);
 				}
 			}
 		}
@@ -70,22 +70,22 @@ class KObjectTaskModifyCategoriesEngine extends KObjectTaskEntryEngineBase
 	{
 		$client = $this->getClient();
 		$categoryEntry = null;
-		$filter = new KalturaCategoryEntryFilter();
+		$filter = new BorhanCategoryEntryFilter();
 		$filter->entryIdEqual = $entryId;
 		$filter->categoryIdEqual = $categoryId;
 		$categoryEntryListResponse = $client->categoryEntry->listAction($filter);
-		/** @var KalturaCategoryEntry $categoryEntry */
+		/** @var BorhanCategoryEntry $categoryEntry */
 		if (count($categoryEntryListResponse->objects))
 			$categoryEntry = $categoryEntryListResponse->objects[0];
 
-		if (is_null($categoryEntry) && $addRemoveType == KalturaScheduledTaskAddOrRemoveType::ADD)
+		if (is_null($categoryEntry) && $addRemoveType == BorhanScheduledTaskAddOrRemoveType::ADD)
 		{
-			$categoryEntry = new KalturaCategoryEntry();
+			$categoryEntry = new BorhanCategoryEntry();
 			$categoryEntry->entryId = $entryId;
 			$categoryEntry->categoryId = $categoryId;
 			$client->categoryEntry->add($categoryEntry);
 		}
-		elseif (!is_null($categoryEntry) && $addRemoveType == KalturaScheduledTaskAddOrRemoveType::REMOVE)
+		elseif (!is_null($categoryEntry) && $addRemoveType == BorhanScheduledTaskAddOrRemoveType::REMOVE)
 		{
 			$client->categoryEntry->delete($entryId, $categoryId);
 		}
@@ -97,12 +97,12 @@ class KObjectTaskModifyCategoriesEngine extends KObjectTaskEntryEngineBase
 	public function removeAllCategories($entryId)
 	{
 		$client = $this->getClient();
-		$filter = new KalturaCategoryEntryFilter();
+		$filter = new BorhanCategoryEntryFilter();
 		$filter->entryIdEqual = $entryId;
 		$categoryEntryListResponse = $client->categoryEntry->listAction($filter);
 		foreach($categoryEntryListResponse->objects as $categoryEntry)
 		{
-			/** @var $categoryEntry KalturaCategoryEntry */
+			/** @var $categoryEntry BorhanCategoryEntry */
 			$client->categoryEntry->delete($entryId, $categoryEntry->categoryId);
 		}
 	}

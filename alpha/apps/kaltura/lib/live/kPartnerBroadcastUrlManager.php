@@ -6,7 +6,7 @@ class kPartnerBroadcastUrlManager extends kBroadcastUrlManager
 		$partner  = PartnerPeer::retrieveByPK($this->partnerId);
 		if (!$partner)
 		{
-			KalturaLog::info("Partner with id [{$this->partnerId}] was not found");
+			BorhanLog::info("Partner with id [{$this->partnerId}] was not found");
 			return;
 		}
 		

@@ -2,19 +2,19 @@
 /**
  * @package api
  * @subpackage objects
- * @deprecated use KalturaAccessControlProfileArray instead
+ * @deprecated use BorhanAccessControlProfileArray instead
  */
-class KalturaAccessControlArray extends KalturaTypedArray
+class BorhanAccessControlArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaAccessControlArray();
+		$newArr = new BorhanAccessControlArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-    		$nObj = new KalturaAccessControl();
+    		$nObj = new BorhanAccessControl();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -24,6 +24,6 @@ class KalturaAccessControlArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaAccessControl");	
+		parent::__construct("BorhanAccessControl");	
 	}
 }

@@ -3,7 +3,7 @@
  * @package plugins.businessProcessNotification
  * @subpackage api.objects
  */
-class KalturaBusinessProcessCase extends KalturaObject
+class BorhanBusinessProcessCase extends BorhanObject
 {
 	/**
 	 * @var string
@@ -39,7 +39,7 @@ class KalturaBusinessProcessCase extends KalturaObject
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{

@@ -5,7 +5,7 @@
  * @package plugins.integration
  * @subpackage api.services
  */
-class IntegrationService extends KalturaBaseService
+class IntegrationService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -13,7 +13,7 @@ class IntegrationService extends KalturaBaseService
 		
 		$partnerId = $this->getPartnerId();
 		if (!EventNotificationPlugin::isAllowedPartner($partnerId))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, EventNotificationPlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, EventNotificationPlugin::PLUGIN_NAME);
 			
 		$this->applyPartnerFilterForClass('EventNotificationTemplate');
 	}
@@ -22,19 +22,19 @@ class IntegrationService extends KalturaBaseService
 	 * Dispatch integration task
 	 * 
 	 * @action dispatch
-	 * @param KalturaIntegrationJobData $data
-	 * @param KalturaBatchJobObjectType $objectType
+	 * @param BorhanIntegrationJobData $data
+	 * @param BorhanBatchJobObjectType $objectType
 	 * @param string $objectId
-	 * @throws KalturaIntegrationErrors::INTEGRATION_DISPATCH_FAILED
+	 * @throws BorhanIntegrationErrors::INTEGRATION_DISPATCH_FAILED
 	 * @return int
 	 */		
-	public function dispatchAction(KalturaIntegrationJobData $data, $objectType, $objectId)
+	public function dispatchAction(BorhanIntegrationJobData $data, $objectType, $objectId)
 	{
 		$jobData = $data->toObject();
 		$coreObjectType = kPluginableEnumsManager::apiToCore('BatchJobObjectType', $objectType);
 		$job = kIntegrationFlowManager::addintegrationJob($coreObjectType, $objectId, $jobData);
 		if(!$job)
-			throw new KalturaAPIException(KalturaIntegrationErrors::INTEGRATION_DISPATCH_FAILED, $objectType);
+			throw new BorhanAPIException(BorhanIntegrationErrors::INTEGRATION_DISPATCH_FAILED, $objectType);
 			
 		return $job->getId();
 	}
@@ -54,39 +54,39 @@ class IntegrationService extends KalturaBaseService
 		if(!self::validateKs($batchJob))
 		{
 			$invalidKs = true;
-			KalturaLog::err("ks not valid for notifying job [$id]");
+			BorhanLog::err("ks not valid for notifying job [$id]");
 		}
 		elseif(!$batchJob)
 		{
 			$invalidJobId = true;
-			KalturaLog::err("Job [$id] not found");
+			BorhanLog::err("Job [$id] not found");
 		}
 		elseif($batchJob->getJobType() != $coreType)
 		{
 			$invalidJobId = true;
-			KalturaLog::err("Job [$id] wrong type [" . $batchJob->getJobType() . "] expected [" . $coreType . "]");
+			BorhanLog::err("Job [$id] wrong type [" . $batchJob->getJobType() . "] expected [" . $coreType . "]");
 		}
-		elseif($batchJob->getStatus() != KalturaBatchJobStatus::ALMOST_DONE)
+		elseif($batchJob->getStatus() != BorhanBatchJobStatus::ALMOST_DONE)
 		{
 			$invalidJobId = true;
-			KalturaLog::err("Job [$id] wrong status [" . $batchJob->getStatus() . "] expected [" . KalturaBatchJobStatus::ALMOST_DONE . "]");
+			BorhanLog::err("Job [$id] wrong status [" . $batchJob->getStatus() . "] expected [" . BorhanBatchJobStatus::ALMOST_DONE . "]");
 		}
 		elseif($batchJob->getPartnerId() != kCurrentContext::getCurrentPartnerId())
 		{
 			$invalidKs = true;
-			KalturaLog::err("Job [$id] of wrong partner [" . $batchJob->getPartnerId() . "] expected [" . kCurrentContext::getCurrentPartnerId() . "]");
+			BorhanLog::err("Job [$id] of wrong partner [" . $batchJob->getPartnerId() . "] expected [" . kCurrentContext::getCurrentPartnerId() . "]");
 		}
 
 		if($invalidJobId)
 		{
-			throw new KalturaAPIException(KalturaErrors::INVALID_BATCHJOB_ID, $id);
+			throw new BorhanAPIException(BorhanErrors::INVALID_BATCHJOB_ID, $id);
 		}
 		if($invalidKs)
 		{
-			throw new KalturaAPIException(KalturaIntegrationErrors::INTEGRATION_NOTIFY_FAILED);
+			throw new BorhanAPIException(BorhanIntegrationErrors::INTEGRATION_NOTIFY_FAILED);
 		}
 			
-		kJobsManager::updateBatchJob($batchJob, KalturaBatchJobStatus::FINISHED);
+		kJobsManager::updateBatchJob($batchJob, BorhanBatchJobStatus::FINISHED);
 	}
 
 	public static function validateKs($job)

@@ -6,7 +6,7 @@
  * @package plugins.wowza
  * @subpackage api.services
  */
-class LiveConversionProfileService extends KalturaBaseService
+class LiveConversionProfileService extends BorhanBaseService
 {
 	const MINIMAL_DEFAULT_FRAME_RATE = 12.5;
 	const WIDTH = 'width';
@@ -15,7 +15,7 @@ class LiveConversionProfileService extends KalturaBaseService
 	const KILO = 1000;
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseService::initService()
+	 * @see BorhanBaseService::initService()
 	 */
 
 	public function initService($serviceId, $serviceName, $actionName)
@@ -27,7 +27,7 @@ class LiveConversionProfileService extends KalturaBaseService
 	}
 
 	/**
-	 * Serve XML rendition of the Kaltura Live Transcoding Profile usable by the Wowza transcoding add-on
+	 * Serve XML rendition of the Borhan Live Transcoding Profile usable by the Wowza transcoding add-on
 	 *
 	 * @action serve
 	 * @param string $streamName the id of the live entry with it's stream suffix
@@ -35,9 +35,9 @@ class LiveConversionProfileService extends KalturaBaseService
 	 * @param string $extraParams is a json object containing the stream parameters transfered by the encoder
 	 * @return file
 	 *
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 * @throws WowzaErrors::INVALID_STREAM_NAME
-	 * @throws KalturaErrors::INGEST_NOT_FOUND_IN_CONVERSION_PROFILE
+	 * @throws BorhanErrors::INGEST_NOT_FOUND_IN_CONVERSION_PROFILE
 	 */
 	public function serveAction($streamName, $hostname = null, $extraParams = null)
 	{
@@ -55,7 +55,7 @@ class LiveConversionProfileService extends KalturaBaseService
 		
 		$matches = null;
 		if(!preg_match('/^(\d_.{8})_(\d+)$/', $streamName, $matches))
-			throw new KalturaAPIException(WowzaErrors::INVALID_STREAM_NAME, $streamName);
+			throw new BorhanAPIException(WowzaErrors::INVALID_STREAM_NAME, $streamName);
 		
 		$entryId = $matches[1];
 		$suffix = $matches[2];
@@ -67,7 +67,7 @@ class LiveConversionProfileService extends KalturaBaseService
 			$entry = kCurrentContext::initPartnerByEntryId($entryId);
 			
 			if (!$entry || $entry->getStatus() == entryStatus::DELETED)
-				throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+				throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 			
 			// enforce entitlement
 			$this->setPartnerFilters(kCurrentContext::getCurrentPartnerId());
@@ -78,14 +78,14 @@ class LiveConversionProfileService extends KalturaBaseService
 		}
 		
 		// Check if to perform smart transcoding for partner
-		$isSmartTranscodingDisabled = PermissionPeer::isValidForPartner(PermissionName::FEATURE_KALTURA_LIVE_DISABLE_SMART_TRANSCODING, kCurrentContext::getCurrentPartnerId());
+		$isSmartTranscodingDisabled = PermissionPeer::isValidForPartner(PermissionName::FEATURE_BORHAN_LIVE_DISABLE_SMART_TRANSCODING, kCurrentContext::getCurrentPartnerId());
 		if ($extraParams !== "" && $this->isValidJson($extraParams) && !$isSmartTranscodingDisabled)
 		{
 			$streamParametersArray = array_merge($streamParametersArray, json_decode($extraParams, true));
 		}
 		
-		if (!$entry || $entry->getType() != KalturaEntryType::LIVE_STREAM || !in_array($entry->getSource(), array(KalturaSourceType::LIVE_STREAM, KalturaSourceType::LIVE_STREAM_ONTEXTDATA_CAPTIONS)))
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+		if (!$entry || $entry->getType() != BorhanEntryType::LIVE_STREAM || !in_array($entry->getSource(), array(BorhanSourceType::LIVE_STREAM, BorhanSourceType::LIVE_STREAM_ONTEXTDATA_CAPTIONS)))
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 		
 		$mediaServer = null;
 		if($hostname)
@@ -113,7 +113,7 @@ class LiveConversionProfileService extends KalturaBaseService
 		
 		if (!$liveParamsInput)
 		{
-			throw new KalturaAPIException(KalturaErrors::INGEST_NOT_FOUND_IN_CONVERSION_PROFILE, $streamName);
+			throw new BorhanAPIException(BorhanErrors::INGEST_NOT_FOUND_IN_CONVERSION_PROFILE, $streamName);
 		}
 		
 		$ignoreLiveParamsIds = array();
@@ -148,7 +148,7 @@ class LiveConversionProfileService extends KalturaBaseService
 			{
 				if ($liveParamsItem->getFrameRate() >= self::MINIMAL_DEFAULT_FRAME_RATE)
 				{
-					KalturaLog::debug("Setting default frame rate to " . $liveParamsItem->getFrameRate());
+					BorhanLog::debug("Setting default frame rate to " . $liveParamsItem->getFrameRate());
 					$defaultFrameRate = $liveParamsItem->getFrameRate();
 				}
 			}
@@ -231,7 +231,7 @@ class LiveConversionProfileService extends KalturaBaseService
 				$flavorHeight = $flavorResolution[self::HEIGHT];
 				break;
 			case 'fit-width':
-				// Flavor's height is not defined in KMC, calculate it according to ingest/flavor ratio
+				// Flavor's height is not defined in BMC, calculate it according to ingest/flavor ratio
 				$flavorHeight = $this->calculateFlavorHeight($flavorResolution, $ingestParameters);
 				break;
 		}
@@ -240,12 +240,12 @@ class LiveConversionProfileService extends KalturaBaseService
 		{
 			$ingestResolutionString = $ingestParameters[self::WIDTH] . 'x' . $ingestParameters[self::HEIGHT];
 			$flavorResolutionString = $flavorResolution[self::WIDTH] . 'x' . $flavorHeight;
-			KalturaLog::info('Flavor [' . $flavorId . '] rejected due to Resolution; Ingest: [' . $ingestResolutionString . '], Flavor: [' . $flavorResolutionString . ']');
+			BorhanLog::info('Flavor [' . $flavorId . '] rejected due to Resolution; Ingest: [' . $ingestResolutionString . '], Flavor: [' . $flavorResolutionString . ']');
 			return false;
 		}
 		else if ($this->checkFlavorsDataRate($ingestParameters['videodatarate'], $flavorBitrate))
 		{
-			KalturaLog::info('Flavor [' . $flavorId . '] rejected due to VideoBitrate; Ingest: [' . $ingestParameters['videodatarate'] * self::KILO . '], Flavor: [' . $flavorBitrate . ']');
+			BorhanLog::info('Flavor [' . $flavorId . '] rejected due to VideoBitrate; Ingest: [' . $ingestParameters['videodatarate'] * self::KILO . '], Flavor: [' . $flavorBitrate . ']');
 			return false;
 		}
 		
@@ -359,7 +359,7 @@ class LiveConversionProfileService extends KalturaBaseService
 					break;
 				
 				default:
-					KalturaLog::err("Live params video codec id [" . $liveParams->getVideoCodec() . "] is not expected");
+					BorhanLog::err("Live params video codec id [" . $liveParams->getVideoCodec() . "] is not expected");
 					break;
 			}
 
@@ -373,7 +373,7 @@ class LiveConversionProfileService extends KalturaBaseService
 						break;
 					
 					default:
-						KalturaLog::err("Live params audio codec id [" . $liveParams->getAudioCodec() . "] is not expected");
+						BorhanLog::err("Live params audio codec id [" . $liveParams->getAudioCodec() . "] is not expected");
 						break;
 				}
 			}

@@ -8,11 +8,11 @@ class KObjectTaskStorageExportEngine extends KObjectTaskEntryEngineBase
 {
 
 	/**
-	 * @param KalturaBaseEntry $object
+	 * @param BorhanBaseEntry $object
 	 */
 	function processObject($object)
 	{
-		/** @var KalturaStorageExportObjectTask $objectTask */
+		/** @var BorhanStorageExportObjectTask $objectTask */
 		$objectTask = $this->getObjectTask();
 		if (is_null($objectTask))
 			return;
@@ -22,7 +22,7 @@ class KObjectTaskStorageExportEngine extends KObjectTaskEntryEngineBase
 		if (!$storageId)
 			throw new Exception('Storage profile was not configured');
 
-		KalturaLog::info("Submitting entry export for entry $entryId to remote storage $storageId");
+		BorhanLog::info("Submitting entry export for entry $entryId to remote storage $storageId");
 
 		$client = $this->getClient();
 		$this->impersonate($object->partnerId);

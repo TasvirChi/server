@@ -2,7 +2,7 @@
 /**
  * @package plugins.shortLink
  */
-class ShortLinkPlugin extends KalturaPlugin implements IKalturaServices, IKalturaEventConsumers
+class ShortLinkPlugin extends BorhanPlugin implements IBorhanServices, IBorhanEventConsumers
 {
 	const PLUGIN_NAME = 'shortLink';
 	const SHORT_LINK_FLOW_MANAGER_CLASS = 'kShortLinkFlowManager';

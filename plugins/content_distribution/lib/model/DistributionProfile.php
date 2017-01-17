@@ -145,7 +145,7 @@ abstract class DistributionProfile extends BaseDistributionProfile implements IS
 				$requiredThumbDimensions = unserialize($requiredThumbDimensionsStr);
 			}
 			catch(Exception $e){
-				KalturaLog::err("Unable to unserialize [$requiredThumbDimensionsStr]");
+				BorhanLog::err("Unable to unserialize [$requiredThumbDimensionsStr]");
 			}
 		}
 			
@@ -189,7 +189,7 @@ abstract class DistributionProfile extends BaseDistributionProfile implements IS
 				$optionalThumbDimensions = unserialize($optionalThumbDimensionsStr);
 			}
 			catch(Exception $e){
-				KalturaLog::err("Unable to unserialize [$optionalThumbDimensionsStr]");
+				BorhanLog::err("Unable to unserialize [$optionalThumbDimensionsStr]");
 			}
 		}
 			
@@ -293,7 +293,7 @@ abstract class DistributionProfile extends BaseDistributionProfile implements IS
 		$distributionProvider = $this->getProvider();
 		if(!$distributionProvider)
 		{
-			KalturaLog::err("Entry distribution [" . $entryDistribution->getId() . "] provider [" . $this->getProviderType() . "] not found");
+			BorhanLog::err("Entry distribution [" . $entryDistribution->getId() . "] provider [" . $this->getProviderType() . "] not found");
 			return $validationErrors;
 		}
 		
@@ -301,13 +301,13 @@ abstract class DistributionProfile extends BaseDistributionProfile implements IS
 		{
 			if(!$distributionProvider->isUpdateEnabled() || !$distributionProvider->isMediaUpdateEnabled())
 			{
-				KalturaLog::log("Entry distribution [" . $entryDistribution->getId() . "] provider [" . $distributionProvider->getName() . "] does not support update");
+				BorhanLog::log("Entry distribution [" . $entryDistribution->getId() . "] provider [" . $distributionProvider->getName() . "] does not support update");
 				return $validationErrors;
 			}
 		}
 		
 		$requiredFlavorParamsIds = $this->getRequiredFlavorParamsIdsArray();
-		KalturaLog::log("Required Flavor Params Ids [" . print_r($requiredFlavorParamsIds, true) . "]");
+		BorhanLog::log("Required Flavor Params Ids [" . print_r($requiredFlavorParamsIds, true) . "]");
 		$entryFlavorAssets = assetPeer::retrieveReadyFlavorsByEntryId($entryDistribution->getEntryId());
 		
 		$requiredFlavorParamsIdsKeys = array_flip($requiredFlavorParamsIds);
@@ -322,7 +322,7 @@ abstract class DistributionProfile extends BaseDistributionProfile implements IS
 			$validationErrors[] = $this->createValidationError($action, DistributionErrorType::MISSING_FLAVOR, $requiredFlavorParamsId);
 		
 		$requiredThumbDimensions = $this->getRequiredThumbDimensionsObjects();
-		KalturaLog::log("Required Thumb Dimensions [" . print_r($requiredThumbDimensions, true) . "]");
+		BorhanLog::log("Required Thumb Dimensions [" . print_r($requiredThumbDimensions, true) . "]");
 		$entryThumbAssets = assetPeer::retrieveReadyThumbnailsByEntryId($entryDistribution->getEntryId());
 		
 		$requiredThumbDimensionsWithKeys = array();

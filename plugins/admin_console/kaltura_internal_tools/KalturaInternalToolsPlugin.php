@@ -1,10 +1,10 @@
 <?php
 /**
- * @package plugins.KalturaInternalTools
+ * @package plugins.BorhanInternalTools
  */
-class KalturaInternalToolsPlugin extends KalturaPlugin implements IKalturaServices, IKalturaAdminConsolePages
+class BorhanInternalToolsPlugin extends BorhanPlugin implements IBorhanServices, IBorhanAdminConsolePages
 {
-	const PLUGIN_NAME = 'KalturaInternalTools';
+	const PLUGIN_NAME = 'BorhanInternalTools';
 	
 	public static function getPluginName()
 	{
@@ -17,19 +17,19 @@ class KalturaInternalToolsPlugin extends KalturaPlugin implements IKalturaServic
 	public static function getServicesMap()
 	{
 		$map = array(
-			'KalturaInternalTools' => 'KalturaInternalToolsService',
-			'KalturaInternalToolsSystemHelper' => 'KalturaInternalToolsSystemHelperService',
+			'BorhanInternalTools' => 'BorhanInternalToolsService',
+			'BorhanInternalToolsSystemHelper' => 'BorhanInternalToolsSystemHelperService',
 		);
 		return $map;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaAdminConsolePages::getApplicationPages()
+	 * @see IBorhanAdminConsolePages::getApplicationPages()
 	 */
 	public static function getApplicationPages()
 	{
-		$KalturaInternalTools = array(new KalturaInternalToolsPluginSystemHelperAction(),new KalturaInternalToolsPluginFlavorParams());
-		return $KalturaInternalTools;
+		$BorhanInternalTools = array(new BorhanInternalToolsPluginSystemHelperAction(),new BorhanInternalToolsPluginFlavorParams());
+		return $BorhanInternalTools;
 	}
 	
 	public static function isAllowedPartner($partnerId)

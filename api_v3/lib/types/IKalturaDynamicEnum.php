@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-interface IKalturaDynamicEnum extends IKalturaEnum
+interface IBorhanDynamicEnum extends IBorhanEnum
 {
 	/**
 	 * @return array

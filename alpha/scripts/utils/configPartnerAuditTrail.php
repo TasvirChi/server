@@ -6,11 +6,11 @@ chdir(dirname(__FILE__));
 require_once(dirname(__FILE__) . '/../bootstrap.php');
 
 $objectsToTrack = array(
-	KalturaAuditTrailObjectType::ACCESS_CONTROL => array(
+	BorhanAuditTrailObjectType::ACCESS_CONTROL => array(
 		'actions' => array(
-			KalturaAuditTrailAction::CREATED,
-			KalturaAuditTrailAction::CHANGED,
-			KalturaAuditTrailAction::DELETED,
+			BorhanAuditTrailAction::CREATED,
+			BorhanAuditTrailAction::CHANGED,
+			BorhanAuditTrailAction::DELETED,
 		),
 		'descriptors' => array(
 			accessControlPeer::NAME,
@@ -24,26 +24,26 @@ $objectsToTrack = array(
 			accessControlPeer::KDIR_RESTRICT_TYPE,
 		),
 	),
-	KalturaAuditTrailObjectType::CONVERSION_PROFILE_2 => array(
+	BorhanAuditTrailObjectType::CONVERSION_PROFILE_2 => array(
 		'actions' => array(
-			KalturaAuditTrailAction::CREATED,
-			KalturaAuditTrailAction::CHANGED,
-			KalturaAuditTrailAction::DELETED,
+			BorhanAuditTrailAction::CREATED,
+			BorhanAuditTrailAction::CHANGED,
+			BorhanAuditTrailAction::DELETED,
 		),
 		'descriptors' => array(
 			conversionProfile2Peer::NAME,
 		),
 	),
-	KalturaAuditTrailObjectType::ENTRY => array(
+	BorhanAuditTrailObjectType::ENTRY => array(
 		'actions' => array(
-			KalturaAuditTrailAction::CREATED,
-			KalturaAuditTrailAction::COPIED,
-			KalturaAuditTrailAction::CHANGED,
-			KalturaAuditTrailAction::DELETED,
-			KalturaAuditTrailAction::VIEWED,
-			KalturaAuditTrailAction::CONTENT_VIEWED,
-			KalturaAuditTrailAction::RELATION_ADDED,
-			KalturaAuditTrailAction::RELATION_REMOVED,
+			BorhanAuditTrailAction::CREATED,
+			BorhanAuditTrailAction::COPIED,
+			BorhanAuditTrailAction::CHANGED,
+			BorhanAuditTrailAction::DELETED,
+			BorhanAuditTrailAction::VIEWED,
+			BorhanAuditTrailAction::CONTENT_VIEWED,
+			BorhanAuditTrailAction::RELATION_ADDED,
+			BorhanAuditTrailAction::RELATION_REMOVED,
 		),
 		'descriptors' => array(
 			entryPeer::NAME,
@@ -79,15 +79,15 @@ $objectsToTrack = array(
 			"thumb_offset",
 		),
 	),
-	KalturaAuditTrailObjectType::FLAVOR_ASSET => array(
+	BorhanAuditTrailObjectType::FLAVOR_ASSET => array(
 		'actions' => array(
-			KalturaAuditTrailAction::CREATED,
-			KalturaAuditTrailAction::CHANGED,
-			KalturaAuditTrailAction::DELETED,
-			KalturaAuditTrailAction::VIEWED,
-			KalturaAuditTrailAction::CONTENT_VIEWED,
-			KalturaAuditTrailAction::RELATION_ADDED,
-			KalturaAuditTrailAction::RELATION_REMOVED,
+			BorhanAuditTrailAction::CREATED,
+			BorhanAuditTrailAction::CHANGED,
+			BorhanAuditTrailAction::DELETED,
+			BorhanAuditTrailAction::VIEWED,
+			BorhanAuditTrailAction::CONTENT_VIEWED,
+			BorhanAuditTrailAction::RELATION_ADDED,
+			BorhanAuditTrailAction::RELATION_REMOVED,
 		),
 		'descriptors' => array(
 			assetPeer::TAGS,
@@ -104,39 +104,39 @@ $objectsToTrack = array(
 			assetPeer::VIDEO_CODEC_ID,
 		),
 	),
-	KalturaAuditTrailObjectType::FLAVOR_PARAMS_CONVERSION_PROFILE => array(
+	BorhanAuditTrailObjectType::FLAVOR_PARAMS_CONVERSION_PROFILE => array(
 		'actions' => array(
-			KalturaAuditTrailAction::CREATED,
-			KalturaAuditTrailAction::CHANGED,
-			KalturaAuditTrailAction::DELETED,
+			BorhanAuditTrailAction::CREATED,
+			BorhanAuditTrailAction::CHANGED,
+			BorhanAuditTrailAction::DELETED,
 		),
 		'descriptors' => array(
 			flavorParamsConversionProfilePeer::READY_BEHAVIOR,
 			flavorParamsConversionProfilePeer::FORCE_NONE_COMPLIED,
 		),
 	),
-	KalturaAuditTrailObjectType::KSHOW_KUSER => array(
+	BorhanAuditTrailObjectType::KSHOW_KUSER => array(
 		'actions' => array(
-			KalturaAuditTrailAction::CREATED,
-			KalturaAuditTrailAction::CHANGED,
-			KalturaAuditTrailAction::DELETED,
+			BorhanAuditTrailAction::CREATED,
+			BorhanAuditTrailAction::CHANGED,
+			BorhanAuditTrailAction::DELETED,
 		),
 		'descriptors' => array(
 			KshowKuserPeer::SUBSCRIPTION_TYPE,
 			KshowKuserPeer::ALERT_TYPE,
 		),
 	),
-	KalturaAuditTrailObjectType::MEDIA_INFO => array(
+	BorhanAuditTrailObjectType::MEDIA_INFO => array(
 		'actions' => array(
-			KalturaAuditTrailAction::CREATED,
+			BorhanAuditTrailAction::CREATED,
 		),
 		'descriptors' => array(
 		),
 	),
-	KalturaAuditTrailObjectType::PARTNER => array(
+	BorhanAuditTrailObjectType::PARTNER => array(
 		'actions' => array(
-			KalturaAuditTrailAction::CHANGED,
-			KalturaAuditTrailAction::DELETED,
+			BorhanAuditTrailAction::CHANGED,
+			BorhanAuditTrailAction::DELETED,
 		),
 		'descriptors' => array(
 			PartnerPeer::PARTNER_NAME,
@@ -163,22 +163,22 @@ $objectsToTrack = array(
 			"userLandingPage",
 		),
 	),
-	KalturaAuditTrailObjectType::METADATA => array(
+	BorhanAuditTrailObjectType::METADATA => array(
 		'actions' => array(
-			KalturaAuditTrailAction::CREATED,
-			KalturaAuditTrailAction::CHANGED,
-			KalturaAuditTrailAction::DELETED,
+			BorhanAuditTrailAction::CREATED,
+			BorhanAuditTrailAction::CHANGED,
+			BorhanAuditTrailAction::DELETED,
 		),
 		'descriptors' => array(
 			MetadataPeer::VERSION,
 			MetadataPeer::STATUS,
 		),
 	),
-	KalturaAuditTrailObjectType::METADATA_PROFILE => array(
+	BorhanAuditTrailObjectType::METADATA_PROFILE => array(
 		'actions' => array(
-			KalturaAuditTrailAction::CREATED,
-			KalturaAuditTrailAction::CHANGED,
-			KalturaAuditTrailAction::DELETED,
+			BorhanAuditTrailAction::CREATED,
+			BorhanAuditTrailAction::CHANGED,
+			BorhanAuditTrailAction::DELETED,
 		),
 		'descriptors' => array(
 			MetadataProfilePeer::VERSION,
@@ -187,7 +187,7 @@ $objectsToTrack = array(
 	),
 );
 
-KalturaLog::setLogger(new KalturaStdoutLogger());
+BorhanLog::setLogger(new BorhanStdoutLogger());
 
 $dbConf = kConf::getDB();
 DbManager::setConfig($dbConf);

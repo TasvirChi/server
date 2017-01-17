@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaFlavorAssetBaseFilter extends KalturaAssetFilter
+abstract class BorhanFlavorAssetBaseFilter extends BorhanAssetFilter
 {
 	static private $map_between_objects = array
 	(
@@ -40,7 +40,7 @@ abstract class KalturaFlavorAssetBaseFilter extends KalturaAssetFilter
 	public $flavorParamsIdIn;
 
 	/**
-	 * @var KalturaFlavorAssetStatus
+	 * @var BorhanFlavorAssetStatus
 	 */
 	public $statusEqual;
 

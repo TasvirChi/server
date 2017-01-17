@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaIndexObjectType extends KalturaDynamicEnum implements IndexObjectType
+class BorhanIndexObjectType extends BorhanDynamicEnum implements IndexObjectType
 {
 	public static function getEnumClass()
 	{

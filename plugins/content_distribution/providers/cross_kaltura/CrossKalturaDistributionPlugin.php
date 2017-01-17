@@ -1,12 +1,12 @@
 <?php
 /**
- * @package plugins.crossKalturaDistribution
+ * @package plugins.crossBorhanDistribution
  */
-class CrossKalturaDistributionPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaEnumerator, IKalturaPending, IKalturaObjectLoader, IKalturaContentDistributionProvider, IKalturaEventConsumers
+class CrossBorhanDistributionPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanEnumerator, IBorhanPending, IBorhanObjectLoader, IBorhanContentDistributionProvider, IBorhanEventConsumers
 {
     
-	const PLUGIN_NAME = 'crossKalturaDistribution';
-	const CROSS_KALTURA_EVENT_CONSUMER = 'kCrossKalturaDistributionEventsConsumer';
+	const PLUGIN_NAME = 'crossBorhanDistribution';
+	const CROSS_BORHAN_EVENT_CONSUMER = 'kCrossBorhanDistributionEventsConsumer';
 	const CONTENT_DSTRIBUTION_VERSION_MAJOR = 2;
 	const CONTENT_DSTRIBUTION_VERSION_MINOR = 0;
 	const CONTENT_DSTRIBUTION_VERSION_BUILD = 0;
@@ -18,12 +18,12 @@ class CrossKalturaDistributionPlugin extends KalturaPlugin implements IKalturaPe
 	
 	public static function dependsOn()
 	{
-		$contentDistributionVersion = new KalturaVersion(
+		$contentDistributionVersion = new BorhanVersion(
 			self::CONTENT_DSTRIBUTION_VERSION_MAJOR,
 			self::CONTENT_DSTRIBUTION_VERSION_MINOR,
 			self::CONTENT_DSTRIBUTION_VERSION_BUILD);
 			
-		$dependency = new KalturaDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
+		$dependency = new BorhanDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
 		return array($dependency);
 	}
 	
@@ -42,16 +42,16 @@ class CrossKalturaDistributionPlugin extends KalturaPlugin implements IKalturaPe
 	public static function getEnums($baseEnumName = null)
 	{
 		if(is_null($baseEnumName))
-			return array('CrossKalturaDistributionProviderType');
+			return array('CrossBorhanDistributionProviderType');
 			
 		if($baseEnumName == 'DistributionProviderType')
-			return array('CrossKalturaDistributionProviderType');
+			return array('CrossBorhanDistributionProviderType');
 			
 		return array();
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{			
@@ -73,53 +73,53 @@ class CrossKalturaDistributionPlugin extends KalturaPlugin implements IKalturaPe
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::CROSS_KALTURA)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::CROSS_BORHAN)
 		{
 			if($baseClass == 'IDistributionEngineDelete')
-				return 'CrossKalturaDistributionEngine';
+				return 'CrossBorhanDistributionEngine';
 					
 			if($baseClass == 'IDistributionEngineSubmit')
-				return 'CrossKalturaDistributionEngine';
+				return 'CrossBorhanDistributionEngine';
 					
 			if($baseClass == 'IDistributionEngineUpdate')
-				return 'CrossKalturaDistributionEngine';
+				return 'CrossBorhanDistributionEngine';
 
-			if($baseClass == 'KalturaDistributionJobProviderData')
-				return 'KalturaCrossKalturaDistributionJobProviderData';
+			if($baseClass == 'BorhanDistributionJobProviderData')
+				return 'BorhanCrossBorhanDistributionJobProviderData';
 								
-			if($baseClass == 'KalturaDistributionProfile')
-				return 'KalturaCrossKalturaDistributionProfile';
+			if($baseClass == 'BorhanDistributionProfile')
+				return 'BorhanCrossBorhanDistributionProfile';
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::CROSS_KALTURA)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::CROSS_BORHAN)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
-				return 'Form_CrossKalturaProfileConfiguration';
+				return 'Form_CrossBorhanProfileConfiguration';
 				
-			if($baseClass == 'Kaltura_Client_ContentDistribution_Type_DistributionProfile')
-				return 'Kaltura_Client_CrossKalturaDistribution_Type_CrossKalturaDistributionProfile';
+			if($baseClass == 'Borhan_Client_ContentDistribution_Type_DistributionProfile')
+				return 'Borhan_Client_CrossBorhanDistribution_Type_CrossBorhanDistributionProfile';
 		}
 		
 		// content distribution does not work in partner services 2 context because it uses dynamic enums
 		if (!class_exists('kCurrentContext') || kCurrentContext::$ps_vesion != 'ps3')
 			return null;
 		
-		if($baseClass == 'KalturaDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(CrossKalturaDistributionProviderType::CROSS_KALTURA))
-			return 'KalturaCrossKalturaDistributionJobProviderData';
+		if($baseClass == 'BorhanDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(CrossBorhanDistributionProviderType::CROSS_BORHAN))
+			return 'BorhanCrossBorhanDistributionJobProviderData';
 	
-		if($baseClass == 'kDistributionJobProviderData' && $enumValue == self::getApiValue(CrossKalturaDistributionProviderType::CROSS_KALTURA))
-			return 'kCrossKalturaDistributionJobProviderData';
+		if($baseClass == 'kDistributionJobProviderData' && $enumValue == self::getApiValue(CrossBorhanDistributionProviderType::CROSS_BORHAN))
+			return 'kCrossBorhanDistributionJobProviderData';
 	
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(CrossKalturaDistributionProviderType::CROSS_KALTURA))
-			return 'KalturaCrossKalturaDistributionProfile';
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(CrossBorhanDistributionProviderType::CROSS_BORHAN))
+			return 'BorhanCrossBorhanDistributionProfile';
 			
-		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(CrossKalturaDistributionProviderType::CROSS_KALTURA))
-			return 'CrossKalturaDistributionProfile';
+		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(CrossBorhanDistributionProviderType::CROSS_BORHAN))
+			return 'CrossBorhanDistributionProfile';
 			
 		return null;
 	}
@@ -131,17 +131,17 @@ class CrossKalturaDistributionPlugin extends KalturaPlugin implements IKalturaPe
 	 */
 	public static function getProvider()
 	{
-		return CrossKalturaDistributionProvider::get();
+		return CrossBorhanDistributionProvider::get();
 	}
 	
 	/**
 	 * Return an API distribution provider instance
 	 * 
-	 * @return KalturaDistributionProvider
+	 * @return BorhanDistributionProvider
 	 */
-	public static function getKalturaProvider()
+	public static function getBorhanProvider()
 	{
-		$distributionProvider = new KalturaCrossKalturaDistributionProvider();
+		$distributionProvider = new BorhanCrossBorhanDistributionProvider();
 		$distributionProvider->fromObject(self::getProvider());
 		return $distributionProvider;
 	}
@@ -162,7 +162,7 @@ class CrossKalturaDistributionPlugin extends KalturaPlugin implements IKalturaPe
 	 */
 	public static function getDistributionProviderTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('DistributionProviderType', $value);
 	}
 	
@@ -171,16 +171,16 @@ class CrossKalturaDistributionPlugin extends KalturaPlugin implements IKalturaPe
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	 */
 	public static function getEventConsumers()
 	{
 		return array(
-			self::CROSS_KALTURA_EVENT_CONSUMER,
+			self::CROSS_BORHAN_EVENT_CONSUMER,
 		);
 	}
 }

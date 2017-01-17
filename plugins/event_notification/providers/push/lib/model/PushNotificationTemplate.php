@@ -29,7 +29,7 @@ class PushNotificationTemplate extends EventNotificationTemplate
         $queueProvider = QueueProvider::getInstance();
         if (!$queueProvider->exists($queueKey))
         {
-            KalturaLog::info("Queue [$queueKey] doesn't exist.");
+            BorhanLog::info("Queue [$queueKey] doesn't exist.");
             return false;
         }
         return true;
@@ -114,7 +114,7 @@ class PushNotificationTemplate extends EventNotificationTemplate
     {
         if (!$scope || !($scope instanceof kEventScope))
         {
-            KalturaLog::err('Failed to dispatch due to incorrect scope [' .$scope . ']');
+            BorhanLog::err('Failed to dispatch due to incorrect scope [' .$scope . ']');
             return;
         }
         

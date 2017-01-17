@@ -16,7 +16,7 @@ class kYoutubeApiDistributionJobProviderData extends kConfigurableDistributionJo
 	private $thumbAssetFilePath;
 	
 	/**
-	 * @var KalturaYouTubeApiCaptionDistributionInfoArray
+	 * @var BorhanYouTubeApiCaptionDistributionInfoArray
 	 */
 	private $captionsInfo;
 	
@@ -74,7 +74,7 @@ class kYoutubeApiDistributionJobProviderData extends kConfigurableDistributionJo
 	}	
 	
 	/**
-	 * @return KalturaYouTubeApiCaptionDistributionInfoArray $captionsInfo
+	 * @return BorhanYouTubeApiCaptionDistributionInfoArray $captionsInfo
 	 */
 	public function getCaptionsInfo()
 	{
@@ -82,7 +82,7 @@ class kYoutubeApiDistributionJobProviderData extends kConfigurableDistributionJo
 	}
 
 	/**
-	 * @param KalturaYouTubeApiCaptionDistributionInfoArray $captionsInfo
+	 * @param BorhanYouTubeApiCaptionDistributionInfoArray $captionsInfo
 	 */
 	public function setCaptionsInfo($captionsInfo)
 	{

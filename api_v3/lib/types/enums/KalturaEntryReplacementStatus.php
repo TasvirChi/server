@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaEntryReplacementStatus extends KalturaDynamicEnum implements entryReplacementStatus
+class BorhanEntryReplacementStatus extends BorhanDynamicEnum implements entryReplacementStatus
 {
 	public static function getEnumClass()
 	{

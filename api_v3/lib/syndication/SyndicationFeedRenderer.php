@@ -51,7 +51,7 @@ abstract class SyndicationFeedRenderer {
 		else
 		{
 			$uiconfId = ($this->syndicationFeed->playerUiconfId)? '/ui_conf_id/'.$this->syndicationFeed->playerUiconfId: '';
-			$url .= '/kwidget/wid/_'.$partnerId. '/entry_id/'.$entryId.$uiconfId;
+			$url .= '/bwidget/wid/_'.$partnerId. '/entry_id/'.$entryId.$uiconfId;
 		}
 
 		$url = htmlEntities($url);

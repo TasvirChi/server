@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaDeliveryProfileAkamaiHds extends KalturaDeliveryProfile {
+class BorhanDeliveryProfileAkamaiHds extends BorhanDeliveryProfile {
 	
 	/**
 	 * Should we use timing parameters - clipTo / seekFrom

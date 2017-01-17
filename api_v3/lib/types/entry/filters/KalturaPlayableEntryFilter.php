@@ -3,14 +3,14 @@
  * @package api
  * @subpackage filters
  */
-class KalturaPlayableEntryFilter extends KalturaPlayableEntryBaseFilter
+class BorhanPlayableEntryFilter extends BorhanPlayableEntryBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaBaseEntryFilter::prepareEntriesCriteriaFilter()
+	 * @see BorhanBaseEntryFilter::prepareEntriesCriteriaFilter()
 	 * 
 	 * Convert duration in seconds to msecs (because the duration field is mapped to length_in_msec)
 	 */
-	public function prepareEntriesCriteriaFilter(KalturaFilterPager $pager = null)
+	public function prepareEntriesCriteriaFilter(BorhanFilterPager $pager = null)
 	{
 		if ($this->durationGreaterThan !== null)
 			$this->durationGreaterThan = $this->durationGreaterThan * 1000;
@@ -31,6 +31,6 @@ class KalturaPlayableEntryFilter extends KalturaPlayableEntryBaseFilter
 	
 	public function __construct()
 	{
-		$this->typeIn = KalturaEntryType::MEDIA_CLIP . ',' . KalturaEntryType::MIX . ',' . KalturaEntryType::LIVE_STREAM;
+		$this->typeIn = BorhanEntryType::MEDIA_CLIP . ',' . BorhanEntryType::MIX . ',' . BorhanEntryType::LIVE_STREAM;
 	}
 }

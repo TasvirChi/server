@@ -7,9 +7,9 @@
  * @package api
  * @subpackage services
  */
-class FlavorAssetService extends KalturaAssetService
+class FlavorAssetService extends BorhanAssetService
 {
-	protected function kalturaNetworkAllowed($actionName)
+	protected function borhanNetworkAllowed($actionName)
 	{
 		if(
 			$actionName == 'add' ||
@@ -30,7 +30,7 @@ class FlavorAssetService extends KalturaAssetService
 			return true;
 		}
 			
-		return parent::kalturaNetworkAllowed($actionName);
+		return parent::borhanNetworkAllowed($actionName);
 	}
 	
     /**
@@ -38,23 +38,23 @@ class FlavorAssetService extends KalturaAssetService
      *
      * @action add
      * @param string $entryId
-     * @param KalturaFlavorAsset $flavorAsset
-     * @return KalturaFlavorAsset
-     * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-     * @throws KalturaErrors::FLAVOR_ASSET_ALREADY_EXISTS
+     * @param BorhanFlavorAsset $flavorAsset
+     * @return BorhanFlavorAsset
+     * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+     * @throws BorhanErrors::FLAVOR_ASSET_ALREADY_EXISTS
      * @validateUser entry entryId edit
      */
-    function addAction($entryId, KalturaFlavorAsset $flavorAsset)
+    function addAction($entryId, BorhanFlavorAsset $flavorAsset)
     {
     	$dbEntry = entryPeer::retrieveByPK($entryId);
-    	if(!$dbEntry || $dbEntry->getType() != KalturaEntryType::MEDIA_CLIP || !in_array($dbEntry->getMediaType(), array(KalturaMediaType::VIDEO, KalturaMediaType::AUDIO)))
-    		throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+    	if(!$dbEntry || $dbEntry->getType() != BorhanEntryType::MEDIA_CLIP || !in_array($dbEntry->getMediaType(), array(BorhanMediaType::VIDEO, BorhanMediaType::AUDIO)))
+    		throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 		
     	if(!is_null($flavorAsset->flavorParamsId))
     	{
     		$dbFlavorAsset = assetPeer::retrieveByEntryIdAndParams($entryId, $flavorAsset->flavorParamsId);
     		if($dbFlavorAsset)
-    			throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ALREADY_EXISTS, $dbFlavorAsset->getId(), $flavorAsset->flavorParamsId);
+    			throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ALREADY_EXISTS, $dbFlavorAsset->getId(), $flavorAsset->flavorParamsId);
     	}
     	
     	if(!is_null($flavorAsset->flavorParamsId))
@@ -80,7 +80,7 @@ class FlavorAssetService extends KalturaAssetService
 		$dbFlavorAsset->setStatus(flavorAsset::FLAVOR_ASSET_STATUS_QUEUED);
 		$dbFlavorAsset->save();
     	
-		$flavorAsset = KalturaFlavorAsset::getInstance($dbFlavorAsset, $this->getResponseProfile());
+		$flavorAsset = BorhanFlavorAsset::getInstance($dbFlavorAsset, $this->getResponseProfile());
 		return $flavorAsset;
     }
     
@@ -89,27 +89,27 @@ class FlavorAssetService extends KalturaAssetService
      *
      * @action update
      * @param string $id
-     * @param KalturaFlavorAsset $flavorAsset
-     * @return KalturaFlavorAsset
-     * @throws KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND
+     * @param BorhanFlavorAsset $flavorAsset
+     * @return BorhanFlavorAsset
+     * @throws BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND
      * @validateUser asset::entry id edit
      */
-    function updateAction($id, KalturaFlavorAsset $flavorAsset)
+    function updateAction($id, BorhanFlavorAsset $flavorAsset)
     {
    		$dbFlavorAsset = assetPeer::retrieveById($id);
    		if (!$dbFlavorAsset || !($dbFlavorAsset instanceof flavorAsset))
-   			throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND, $id);
+   			throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND, $id);
     	
 		$dbEntry = $dbFlavorAsset->getentry();
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $dbFlavorAsset->getEntryId());
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $dbFlavorAsset->getEntryId());
 			
 		
 		
     	$dbFlavorAsset = $flavorAsset->toUpdatableObject($dbFlavorAsset);
    		$dbFlavorAsset->save();
 		
-		$flavorAsset = KalturaFlavorAsset::getInstance($dbFlavorAsset, $this->getResponseProfile());
+		$flavorAsset = BorhanFlavorAsset::getInstance($dbFlavorAsset, $this->getResponseProfile());
 		return $flavorAsset;
     }
     
@@ -118,26 +118,26 @@ class FlavorAssetService extends KalturaAssetService
      *
      * @action setContent
      * @param string $id
-     * @param KalturaContentResource $contentResource
-     * @return KalturaFlavorAsset
-     * @throws KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
-	 * @throws KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
-	 * @throws KalturaErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
-	 * @throws KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND
-	 * @throws KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED 
+     * @param BorhanContentResource $contentResource
+     * @return BorhanFlavorAsset
+     * @throws BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
+	 * @throws BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
+	 * @throws BorhanErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
+	 * @throws BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED 
 	 * @validateUser asset::entry id edit
      */
-    function setContentAction($id, KalturaContentResource $contentResource)
+    function setContentAction($id, BorhanContentResource $contentResource)
     {
    		$dbFlavorAsset = assetPeer::retrieveById($id);
    		if (!$dbFlavorAsset || !($dbFlavorAsset instanceof flavorAsset))
-   			throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND, $id);
+   			throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND, $id);
     	
 		$dbEntry = $dbFlavorAsset->getentry();
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $dbFlavorAsset->getEntryId());
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $dbFlavorAsset->getEntryId());
 			
 		
 		
@@ -158,7 +158,7 @@ class FlavorAssetService extends KalturaAssetService
     	if(in_array($dbFlavorAsset->getStatus(), $newStatuses))
    			kEventsManager::raiseEvent(new kObjectAddedEvent($dbFlavorAsset));
    		
-		$flavorAsset = KalturaFlavorAsset::getInstance($dbFlavorAsset, $this->getResponseProfile());
+		$flavorAsset = BorhanFlavorAsset::getInstance($dbFlavorAsset, $this->getResponseProfile());
 		return $flavorAsset;
     }
     
@@ -221,18 +221,18 @@ class FlavorAssetService extends KalturaAssetService
     
 	/**
 	 * @param flavorAsset $flavorAsset
-	 * @param KalturaSearchResultsResource $contentResource
+	 * @param BorhanSearchResultsResource $contentResource
 	 */
-	protected function KalturaSearchResultsResource(flavorAsset $flavorAsset, KalturaSearchResultsResource $contentResource)
+	protected function BorhanSearchResultsResource(flavorAsset $flavorAsset, BorhanSearchResultsResource $contentResource)
 	{
     	$contentResource->validatePropertyNotNull('result');
      	$contentResource->result->validatePropertyNotNull("searchSource");
      	
-		if ($contentResource->result->searchSource == entry::ENTRY_MEDIA_SOURCE_KALTURA ||
-			$contentResource->result->searchSource == entry::ENTRY_MEDIA_SOURCE_KALTURA_PARTNER ||
-			$contentResource->result->searchSource == entry::ENTRY_MEDIA_SOURCE_KALTURA_PARTNER_KSHOW ||
-			$contentResource->result->searchSource == entry::ENTRY_MEDIA_SOURCE_KALTURA_KSHOW ||
-			$contentResource->result->searchSource == entry::ENTRY_MEDIA_SOURCE_KALTURA_USER_CLIPS)
+		if ($contentResource->result->searchSource == entry::ENTRY_MEDIA_SOURCE_BORHAN ||
+			$contentResource->result->searchSource == entry::ENTRY_MEDIA_SOURCE_BORHAN_PARTNER ||
+			$contentResource->result->searchSource == entry::ENTRY_MEDIA_SOURCE_BORHAN_PARTNER_KSHOW ||
+			$contentResource->result->searchSource == entry::ENTRY_MEDIA_SOURCE_BORHAN_KSHOW ||
+			$contentResource->result->searchSource == entry::ENTRY_MEDIA_SOURCE_BORHAN_USER_CLIPS)
 		{
 			$srcFlavorAsset = assetPeer::retrieveOriginalByEntryId($contentResource->result->id); 
 			$this->attachAsset($flavorAsset, $srcFlavorAsset);
@@ -311,7 +311,7 @@ class FlavorAssetService extends KalturaAssetService
 	/**
 	 * @param flavorAsset $flavorAsset
 	 * @param IRemoteStorageResource $contentResource
-	 * @throws KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND
 	 */
 	protected function attachRemoteStorageResource(flavorAsset $flavorAsset, IRemoteStorageResource $contentResource)
 	{
@@ -340,12 +340,12 @@ class FlavorAssetService extends KalturaAssetService
 	/**
 	 * @param flavorAsset $flavorAsset
 	 * @param kContentResource $contentResource
-	 * @throws KalturaErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
-	 * @throws KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
-	 * @throws KalturaErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
-	 * @throws KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND
-	 * @throws KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED
+	 * @throws BorhanErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
+	 * @throws BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
+	 * @throws BorhanErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
+	 * @throws BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED
 	 */
 	protected function attachContentResource(flavorAsset $flavorAsset, kContentResource $contentResource)
 	{
@@ -366,7 +366,7 @@ class FlavorAssetService extends KalturaAssetService
 				
 			default:
 				$msg = "Resource of type [" . get_class($contentResource) . "] is not supported";
-				KalturaLog::err($msg);
+				BorhanLog::err($msg);
 				
 				if($flavorAsset->getStatus() == flavorAsset::FLAVOR_ASSET_STATUS_QUEUED || $flavorAsset->getStatus() == flavorAsset::FLAVOR_ASSET_STATUS_NOT_APPLICABLE)
 				{
@@ -375,7 +375,7 @@ class FlavorAssetService extends KalturaAssetService
 					$flavorAsset->save();
 				}
 				
-				throw new KalturaAPIException(KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($contentResource));
+				throw new BorhanAPIException(BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($contentResource));
     	}
     }
     
@@ -392,15 +392,15 @@ class FlavorAssetService extends KalturaAssetService
 	 * 
 	 * @action get
 	 * @param string $id
-	 * @return KalturaFlavorAsset
+	 * @return BorhanFlavorAsset
 	 */
 	public function getAction($id)
 	{
 		$flavorAssetDb = assetPeer::retrieveById($id);
 		if (!$flavorAssetDb || !($flavorAssetDb instanceof flavorAsset))
-			throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND, $id);
 			
-		$flavorAsset = KalturaFlavorAsset::getInstance($flavorAssetDb, $this->getResponseProfile());
+		$flavorAsset = BorhanFlavorAsset::getInstance($flavorAssetDb, $this->getResponseProfile());
 		return $flavorAsset;
 	}
 	
@@ -409,25 +409,25 @@ class FlavorAssetService extends KalturaAssetService
 	 * 
 	 * @action getByEntryId
 	 * @param string $entryId
-	 * @return KalturaFlavorAssetArray
+	 * @return BorhanFlavorAssetArray
 	 * @deprecated Use thumbAsset.list instead
 	 */
 	public function getByEntryIdAction($entryId)
 	{
 		// entry could be "display_in_search = 2" - in that case we want to pull it although KN is off in services.ct for this action
-		$c = KalturaCriteria::create(entryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(entryPeer::OM_CLASS);
 		$c->addAnd(entryPeer::ID, $entryId);
 		$criterionPartnerOrKn = $c->getNewCriterion(entryPeer::PARTNER_ID, $this->getPartnerId());
-		$criterionPartnerOrKn->addOr($c->getNewCriterion(entryPeer::DISPLAY_IN_SEARCH, mySearchUtils::DISPLAY_IN_SEARCH_KALTURA_NETWORK));
+		$criterionPartnerOrKn->addOr($c->getNewCriterion(entryPeer::DISPLAY_IN_SEARCH, mySearchUtils::DISPLAY_IN_SEARCH_BORHAN_NETWORK));
 		$c->addAnd($criterionPartnerOrKn);
 		// there could only be one entry because the query is by primary key.
 		// so using doSelectOne is safe.
 		$dbEntry = entryPeer::doSelectOne($c);
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 					
 		$flavorAssetsDb = assetPeer::retrieveFlavorsByEntryId($entryId);
-		$flavorAssets = KalturaFlavorAssetArray::fromDbArray($flavorAssetsDb, $this->getResponseProfile());
+		$flavorAssets = BorhanFlavorAssetArray::fromDbArray($flavorAssetsDb, $this->getResponseProfile());
 		return $flavorAssets;
 	}
 	
@@ -435,24 +435,24 @@ class FlavorAssetService extends KalturaAssetService
 	 * List Flavor Assets by filter and pager
 	 * 
 	 * @action list
-	 * @param KalturaAssetFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaFlavorAssetListResponse
+	 * @param BorhanAssetFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanFlavorAssetListResponse
 	 */
-	function listAction(KalturaAssetFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanAssetFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if(!$filter)
 		{
-			$filter = new KalturaFlavorAssetFilter();
+			$filter = new BorhanFlavorAssetFilter();
 		}
-		elseif(! $filter instanceof KalturaFlavorAssetFilter)
+		elseif(! $filter instanceof BorhanFlavorAssetFilter)
 		{
-			$filter = $filter->cast('KalturaFlavorAssetFilter');
+			$filter = $filter->cast('BorhanFlavorAssetFilter');
 		}
 			
 		if(!$pager)
 		{
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 		}
 		
 		$types = assetPeer::retrieveAllFlavorsTypes();
@@ -464,29 +464,29 @@ class FlavorAssetService extends KalturaAssetService
 	 * 
 	 * @action getWebPlayableByEntryId
 	 * @param string $entryId
-	 * @return KalturaFlavorAssetArray
+	 * @return BorhanFlavorAssetArray
 	 * 
 	 * @deprecated use baseEntry.getContextData instead
 	 */
 	public function getWebPlayableByEntryIdAction($entryId)
 	{
 		// entry could be "display_in_search = 2" - in that case we want to pull it although KN is off in services.ct for this action
-		$c = KalturaCriteria::create(entryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(entryPeer::OM_CLASS);
 		$c->addAnd(entryPeer::ID, $entryId);
 		$criterionPartnerOrKn = $c->getNewCriterion(entryPeer::PARTNER_ID, $this->getPartnerId());
-		$criterionPartnerOrKn->addOr($c->getNewCriterion(entryPeer::DISPLAY_IN_SEARCH, mySearchUtils::DISPLAY_IN_SEARCH_KALTURA_NETWORK));
+		$criterionPartnerOrKn->addOr($c->getNewCriterion(entryPeer::DISPLAY_IN_SEARCH, mySearchUtils::DISPLAY_IN_SEARCH_BORHAN_NETWORK));
 		$c->addAnd($criterionPartnerOrKn);
 		// there could only be one entry because the query is by primary key.
 		// so using doSelectOne is safe.
 		$dbEntry = entryPeer::doSelectOne($c);
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 		
 		$flavorAssetsDb = assetPeer::retrieveReadyWebByEntryId($entryId);
 		if (count($flavorAssetsDb) == 0)
-			throw new KalturaAPIException(KalturaErrors::NO_FLAVORS_FOUND);
+			throw new BorhanAPIException(BorhanErrors::NO_FLAVORS_FOUND);
 			
-		$flavorAssets = KalturaFlavorAssetArray::fromDbArray($flavorAssetsDb, $this->getResponseProfile());
+		$flavorAssets = BorhanFlavorAssetArray::fromDbArray($flavorAssetsDb, $this->getResponseProfile());
 		
 		return $flavorAssets;
 	}
@@ -504,14 +504,14 @@ class FlavorAssetService extends KalturaAssetService
 	{
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 			
 		
 		
 		$flavorParamsDb = assetParamsPeer::retrieveByPK($flavorParamsId);
 		assetParamsPeer::setUseCriteriaFilter(false);
 		if (!$flavorParamsDb)
-			throw new KalturaAPIException(KalturaErrors::FLAVOR_PARAMS_ID_NOT_FOUND, $flavorParamsId);
+			throw new BorhanAPIException(BorhanErrors::FLAVOR_PARAMS_ID_NOT_FOUND, $flavorParamsId);
 				
 		$validStatuses = array(
 			entryStatus::ERROR_CONVERTING,
@@ -520,15 +520,15 @@ class FlavorAssetService extends KalturaAssetService
 		);
 		
 		if (!in_array($dbEntry->getStatus(), $validStatuses))
-			throw new KalturaAPIException(KalturaErrors::INVALID_ENTRY_STATUS);
+			throw new BorhanAPIException(BorhanErrors::INVALID_ENTRY_STATUS);
 			
 		$conversionProfile = $dbEntry->getconversionProfile2();
 		if(!$conversionProfile)
-			throw new KalturaAPIException(KalturaErrors::CONVERSION_PROFILE_ID_NOT_FOUND, $dbEntry->getConversionProfileId());
+			throw new BorhanAPIException(BorhanErrors::CONVERSION_PROFILE_ID_NOT_FOUND, $dbEntry->getConversionProfileId());
 		
 		$originalFlavorAsset = assetPeer::retrieveOriginalByEntryId($entryId);
 		if (is_null($originalFlavorAsset) || !$originalFlavorAsset->isLocalReadyStatus())
-			throw new KalturaAPIException(KalturaErrors::ORIGINAL_FLAVOR_ASSET_IS_MISSING);
+			throw new BorhanAPIException(BorhanErrors::ORIGINAL_FLAVOR_ASSET_IS_MISSING);
 
 		$srcSyncKey = $originalFlavorAsset->getSyncKey(flavorAsset::FILE_SYNC_FLAVOR_ASSET_SUB_TYPE_ASSET);
 		// if the file sync isn't local (wasn't synced yet) proxy request to other datacenter
@@ -536,7 +536,7 @@ class FlavorAssetService extends KalturaAssetService
 		/* @var $fileSync FileSync */
 		if(!$fileSync)
 		{
-			throw new KalturaAPIException(KalturaErrors::FILE_DOESNT_EXIST);
+			throw new BorhanAPIException(BorhanErrors::FILE_DOESNT_EXIST);
 		}
 		
 		if(!$local && $fileSync->getFileType() != FileSync::FILE_SYNC_FILE_TYPE_URL)
@@ -561,10 +561,10 @@ class FlavorAssetService extends KalturaAssetService
 	{
 		$flavorAssetDb = assetPeer::retrieveById($id);
 		if (!$flavorAssetDb || !($flavorAssetDb instanceof flavorAsset))
-			throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND, $id);
 			
 		if ($flavorAssetDb->getIsOriginal())
-			throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_RECONVERT_ORIGINAL);
+			throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_RECONVERT_ORIGINAL);
 			
 		$flavorParamsId = $flavorAssetDb->getFlavorParamsId();
 		$entryId = $flavorAssetDb->getEntryId();
@@ -583,11 +583,11 @@ class FlavorAssetService extends KalturaAssetService
 	{
 		$flavorAssetDb = assetPeer::retrieveById($id);
 		if (!$flavorAssetDb || !($flavorAssetDb instanceof flavorAsset))
-			throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND, $id);
 			
 		$entry = $flavorAssetDb->getEntry();
 		if (!$entry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $flavorAssetDb->getEntryId());
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $flavorAssetDb->getEntryId());
 			
 		$flavorAssetDb->setStatus(flavorAsset::FLAVOR_ASSET_STATUS_DELETED);
 		$flavorAssetDb->setDeletedAt(time());
@@ -601,26 +601,26 @@ class FlavorAssetService extends KalturaAssetService
 	 * @param string $id
 	 * @param int $storageId
 	 * @param bool $forceProxy
-	 * @param KalturaFlavorAssetUrlOptions $options
+	 * @param BorhanFlavorAssetUrlOptions $options
 	 * @return string
-	 * @throws KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::FLAVOR_ASSET_IS_NOT_READY
+	 * @throws BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::FLAVOR_ASSET_IS_NOT_READY
 	 */
-	public function getUrlAction($id, $storageId = null, $forceProxy = false, KalturaFlavorAssetUrlOptions $options = null)
+	public function getUrlAction($id, $storageId = null, $forceProxy = false, BorhanFlavorAssetUrlOptions $options = null)
 	{
 		if (!$options)
 		{
-			$options = new KalturaFlavorAssetUrlOptions();
+			$options = new BorhanFlavorAssetUrlOptions();
 		}
 		
 		$assetDb = assetPeer::retrieveById($id);
 		if (!$assetDb || !($assetDb instanceof flavorAsset))
-			throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND, $id);
 
 		$this->validateEntryEntitlement($assetDb->getEntryId(), $id);
 		
 		if (!$assetDb->isLocalReadyStatus())
-			throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_IS_NOT_READY);
+			throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_IS_NOT_READY);
 	
 		if($storageId)
 			return $assetDb->getExternalUrl($storageId, $options->fileName);
@@ -628,7 +628,7 @@ class FlavorAssetService extends KalturaAssetService
 		// Validate for download
 		$entryDb = entryPeer::retrieveByPK($assetDb->getEntryId());
 		if(is_null($entryDb))
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $assetDb->getEntryId());
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $assetDb->getEntryId());
 		
 		$shouldServeFlavor = false;
 		if($entryDb->getType() == entryType::MEDIA_CLIP &&!in_array($assetDb->getPartnerId(),kConf::get('legacy_get_url_partners', 'local', array())))
@@ -658,7 +658,7 @@ class FlavorAssetService extends KalturaAssetService
 			$secureEntryHelper->validateForDownload();
 		
 		if (!$secureEntryHelper->isAssetAllowed($assetDb))
-			throw new KalturaAPIException(KalturaErrors::ASSET_NOT_ALLOWED, $id);
+			throw new BorhanAPIException(BorhanErrors::ASSET_NOT_ALLOWED, $id);
  
 		if ($shouldServeFlavor)
 			return $assetDb->getServeFlavorUrl($preview, $options->fileName);
@@ -671,18 +671,18 @@ class FlavorAssetService extends KalturaAssetService
 	 * 
 	 * @action getRemotePaths
 	 * @param string $id
-	 * @return KalturaRemotePathListResponse
-	 * @throws KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::FLAVOR_ASSET_IS_NOT_READY
+	 * @return BorhanRemotePathListResponse
+	 * @throws BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::FLAVOR_ASSET_IS_NOT_READY
 	 */
 	public function getRemotePathsAction($id)
 	{
 		$assetDb = assetPeer::retrieveById($id);
 		if (!$assetDb || !($assetDb instanceof flavorAsset))
-			throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND, $id);
 
 		if ($assetDb->getStatus() != asset::FLAVOR_ASSET_STATUS_READY)
-			throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_IS_NOT_READY);
+			throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_IS_NOT_READY);
 
 		$c = new Criteria();
 		$c->add(FileSyncPeer::OBJECT_TYPE, FileSyncObjectType::FLAVOR_ASSET);
@@ -694,8 +694,8 @@ class FlavorAssetService extends KalturaAssetService
 		$c->add(FileSyncPeer::FILE_TYPE, FileSync::FILE_SYNC_FILE_TYPE_URL);
 		$fileSyncs = FileSyncPeer::doSelect($c);
 			
-		$listResponse = new KalturaRemotePathListResponse();
-		$listResponse->objects = KalturaRemotePathArray::fromDbArray($fileSyncs, $this->getResponseProfile());
+		$listResponse = new BorhanRemotePathListResponse();
+		$listResponse->objects = BorhanRemotePathArray::fromDbArray($fileSyncs, $this->getResponseProfile());
 		$listResponse->totalCount = count($listResponse->objects);
 		return $listResponse;
 	}
@@ -713,17 +713,17 @@ class FlavorAssetService extends KalturaAssetService
 	{
 		$flavorAssetDb = assetPeer::retrieveById($id);
 		if (!$flavorAssetDb || !($flavorAssetDb instanceof flavorAsset))
-			throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND, $id);
 
 		$this->validateEntryEntitlement($flavorAssetDb->getEntryId(), $id);		
 			
 		if ($flavorAssetDb->getStatus() != flavorAsset::FLAVOR_ASSET_STATUS_READY)
-			throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_IS_NOT_READY);
+			throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_IS_NOT_READY);
 		
 		// Validate for download
 		$entryDb = entryPeer::retrieveByPK($flavorAssetDb->getEntryId());
 		if(is_null($entryDb))
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $flavorAssetDb->getEntryId());
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $flavorAssetDb->getEntryId());
 		
 		$preview = null;
 		$ksObj = $this->getKs();
@@ -743,13 +743,13 @@ class FlavorAssetService extends KalturaAssetService
 	 * 
 	 * @action getFlavorAssetsWithParams
 	 * @param string $entryId
-	 * @return KalturaFlavorAssetWithParamsArray
+	 * @return BorhanFlavorAssetWithParamsArray
 	 */
 	public function getFlavorAssetsWithParamsAction($entryId)
 	{
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 		
 		// get all the flavor params of partner 0 and the current partner (note that partner 0 is defined as partner group in service.ct)
 		$c = new Criteria();
@@ -797,18 +797,18 @@ class FlavorAssetService extends KalturaAssetService
 		$usedFlavorParams = array();
 		
 		// loop over the flavor assets and add them, if it has flavor params add them too
-		$flavorAssetWithParamsArray = new KalturaFlavorAssetWithParamsArray();
+		$flavorAssetWithParamsArray = new BorhanFlavorAssetWithParamsArray();
 		foreach($flavorAssetsDb as $flavorAssetDb)
 		{
 			$flavorParamsId = $flavorAssetDb->getFlavorParamsId();
-			$flavorAssetWithParams = new KalturaFlavorAssetWithParams();
+			$flavorAssetWithParams = new BorhanFlavorAssetWithParams();
 			$flavorAssetWithParams->entryId = $entryId;
-			$flavorAsset = KalturaFlavorAsset::getInstance($flavorAssetDb, $this->getResponseProfile());
+			$flavorAsset = BorhanFlavorAsset::getInstance($flavorAssetDb, $this->getResponseProfile());
 			$flavorAssetWithParams->flavorAsset = $flavorAsset;
 			if (isset($flavorParamsArray[$flavorParamsId]))
 			{
 				$flavorParamsDb = $flavorParamsArray[$flavorParamsId];
-				$flavorParams = KalturaFlavorParamsFactory::getFlavorParamsInstance($flavorParamsDb->getType());
+				$flavorParams = BorhanFlavorParamsFactory::getFlavorParamsInstance($flavorParamsDb->getType());
 				$flavorParams->fromObject($flavorParamsDb, $this->getResponseProfile());
 				$flavorAssetWithParams->flavorParams = $flavorParams;
 
@@ -819,7 +819,7 @@ class FlavorAssetService extends KalturaAssetService
 //			else if ($flavorAssetDb->getIsOriginal())
 //			{
 //				// create a dummy flavor params
-//				$flavorParams = new KalturaFlavorParams();
+//				$flavorParams = new BorhanFlavorParams();
 //				$flavorParams->name = "Original source";
 //				$flavorAssetWithParams->flavorParams = $flavorParams;
 //			}
@@ -836,10 +836,10 @@ class FlavorAssetService extends KalturaAssetService
 				// to list it one more time
 				continue;
 			}
-			$flavorParams = KalturaFlavorParamsFactory::getFlavorParamsInstance($flavorParamsDb->getType());
+			$flavorParams = BorhanFlavorParamsFactory::getFlavorParamsInstance($flavorParamsDb->getType());
 			$flavorParams->fromObject($flavorParamsDb, $this->getResponseProfile());
 			
-			$flavorAssetWithParams = new KalturaFlavorAssetWithParams();
+			$flavorAssetWithParams = new BorhanFlavorAssetWithParams();
 			$flavorAssetWithParams->entryId = $entryId;
 			$flavorAssetWithParams->flavorParams = $flavorParams;
 			$flavorAssetWithParamsArray[] = $flavorAssetWithParams;
@@ -855,10 +855,10 @@ class FlavorAssetService extends KalturaAssetService
 	 * @action export
 	 * @param string $assetId
 	 * @param int $storageProfileId
-	 * @throws KalturaErrors::INVALID_FLAVOR_ASSET_ID
-	 * @throws KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND
-	 * @throws KalturaErrors::INTERNAL_SERVERL_ERROR
-	 * @return KalturaFlavorAsset The exported asset
+	 * @throws BorhanErrors::INVALID_FLAVOR_ASSET_ID
+	 * @throws BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::INTERNAL_SERVERL_ERROR
+	 * @return BorhanFlavorAsset The exported asset
 	 */
 	public function exportAction ( $assetId , $storageProfileId )
 	{
@@ -871,14 +871,14 @@ class FlavorAssetService extends KalturaAssetService
 	 * @action setAsSource
 	 * @param string $assetId
 	 * @validateUser entry entryId edit
-	 * @throws KalturaErrors::ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::ASSET_ID_NOT_FOUND
 	 */
 	public function setAsSourceAction($assetId)
 	{
 		// Retrieve required
 		$asset = assetPeer::retrieveById($assetId);
 		if(is_null($asset)) 
-			throw new KalturaAPIException(KalturaErrors::ASSET_ID_NOT_FOUND, $assetId);
+			throw new BorhanAPIException(BorhanErrors::ASSET_ID_NOT_FOUND, $assetId);
 		
 		if($asset->getIsOriginal())
 			return;
@@ -902,20 +902,20 @@ class FlavorAssetService extends KalturaAssetService
 	 * @action deleteLocalContent
 	 * @param string $assetId
 	 * @validateUser asset::entry assetId edit
-	 * @throws KalturaAPIException
+	 * @throws BorhanAPIException
 	 */
 	public function deleteLocalContentAction($assetId)
 	{
 		// Retrieve required
 		$asset = assetPeer::retrieveById($assetId);
 		if(is_null($asset))
-			throw new KalturaAPIException(KalturaErrors::ASSET_ID_NOT_FOUND, $assetId);
+			throw new BorhanAPIException(BorhanErrors::ASSET_ID_NOT_FOUND, $assetId);
 
 		$srcSyncKey = $asset->getSyncKey(asset::FILE_SYNC_ASSET_SUB_TYPE_ASSET);
 
 		$externalFileSyncs = kFileSyncUtils::getReadyExternalFileSyncForKey($srcSyncKey);
 		if (!$externalFileSyncs)
-			throw new KalturaAPIException(KalturaErrors::NO_EXTERNAL_CONTENT_EXISTS);
+			throw new BorhanAPIException(BorhanErrors::NO_EXTERNAL_CONTENT_EXISTS);
 
 		$fileSyncs = kFileSyncUtils::getReadyInternalFileSyncsForKey($srcSyncKey);
 		foreach ($fileSyncs as $fileSync){
@@ -933,35 +933,35 @@ class FlavorAssetService extends KalturaAssetService
 	 * @param string $ffprobeJson
 	 * @param string $duration
 	 *
-	 * @throws KalturaAPIException
+	 * @throws BorhanAPIException
 	 * @return string command to transcode with
 	 */
 	public function serveAdStitchCmdAction($assetId, $ffprobeJson = null ,$duration = null)
 	{
 		$asset = assetPeer::retrieveById($assetId);
 		if(is_null($asset))
-			throw new KalturaAPIException(KalturaErrors::ASSET_ID_NOT_FOUND, $assetId);
+			throw new BorhanAPIException(BorhanErrors::ASSET_ID_NOT_FOUND, $assetId);
 
 		$flavorParamsId = $asset->getFlavorParamsId();
 
 		$flavorParamsDb = assetParamsPeer::retrieveByPK($flavorParamsId);
 
 		if (!$flavorParamsDb)
-			throw new KalturaAPIException(KalturaErrors::FLAVOR_PARAMS_ID_NOT_FOUND, $flavorParamsId);
+			throw new BorhanAPIException(BorhanErrors::FLAVOR_PARAMS_ID_NOT_FOUND, $flavorParamsId);
 
 		$flavorParamsOutputDb = assetParamsOutputPeer::retrieveByAssetId($assetId);
 
 		if (!$flavorParamsOutputDb)
-			throw new KalturaAPIException(KalturaErrors::FLAVOR_PARAMS_OUTPUT_ID_NOT_FOUND, $assetId);
+			throw new BorhanAPIException(BorhanErrors::FLAVOR_PARAMS_OUTPUT_ID_NOT_FOUND, $assetId);
 
 		try
 		{
 			$cmdLine = kBusinessConvertDL::generateAdStitchingCmdline($flavorParamsDb, $flavorParamsOutputDb, $ffprobeJson, $duration);
 			if (empty($cmdLine))
-				throw new KalturaAPIException(KalturaErrors::GENERATE_TRANSCODING_COMMAND_FAIL, $assetId, $ffprobeJson, 'Got null as response');
+				throw new BorhanAPIException(BorhanErrors::GENERATE_TRANSCODING_COMMAND_FAIL, $assetId, $ffprobeJson, 'Got null as response');
 			return $cmdLine;
 		} catch (kCoreException $e) {
-			throw new KalturaAPIException(KalturaErrors::GENERATE_TRANSCODING_COMMAND_FAIL, $assetId, $ffprobeJson, $e->getMessage());
+			throw new BorhanAPIException(BorhanErrors::GENERATE_TRANSCODING_COMMAND_FAIL, $assetId, $ffprobeJson, $e->getMessage());
 		}
 	}
 }

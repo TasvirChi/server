@@ -3,13 +3,13 @@
  * @package plugins.varConsole
  * @subpackage api.objects
  */
-class KalturaVarPartnerUsageTotalItem extends KalturaVarPartnerUsageItem
+class BorhanVarPartnerUsageTotalItem extends BorhanVarPartnerUsageItem
 {
 	/**
 	 * Function which parses a report line into an object
 	 * @param string $header - comma separated fields names	
 	 * @param string $str - comma separated fields
-	 * @return KalturaVarPartnerUsageItem
+	 * @return BorhanVarPartnerUsageItem
 	 */
 	public function fromString ( $header , $arr )
 	{

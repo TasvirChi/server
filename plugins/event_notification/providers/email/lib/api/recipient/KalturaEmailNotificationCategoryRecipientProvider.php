@@ -5,17 +5,17 @@
  * @package plugins.emailNotification
  * @subpackage model.data
  */
-class KalturaEmailNotificationCategoryRecipientProvider extends KalturaEmailNotificationRecipientProvider
+class BorhanEmailNotificationCategoryRecipientProvider extends BorhanEmailNotificationRecipientProvider
 {
 	/**
 	 * The ID of the category whose subscribers should receive the email notification.
-	 * @var KalturaStringValue
+	 * @var BorhanStringValue
 	 */
 	public $categoryId;
 	
 	/**
 	 * 
-	 * @var KalturaCategoryUserProviderFilter
+	 * @var BorhanCategoryUserProviderFilter
 	 */
 	public $categoryUserFilter;
 
@@ -25,7 +25,7 @@ class KalturaEmailNotificationCategoryRecipientProvider extends KalturaEmailNoti
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -33,7 +33,7 @@ class KalturaEmailNotificationCategoryRecipientProvider extends KalturaEmailNoti
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($dbObject = null, $propertiesToSkip = array())
 	{
@@ -46,7 +46,7 @@ class KalturaEmailNotificationCategoryRecipientProvider extends KalturaEmailNoti
 	
 	/**
 	 * Validation function
-	 * @throws KalturaEmailNotificationErrors::INVALID_FILTER_PROPERTY
+	 * @throws BorhanEmailNotificationErrors::INVALID_FILTER_PROPERTY
 	 */
 	protected function validate ()
 	{
@@ -54,33 +54,33 @@ class KalturaEmailNotificationCategoryRecipientProvider extends KalturaEmailNoti
 		{
 			if (isset ($this->categoryUserFilter->categoryIdEqual))
 			{
-				throw new KalturaAPIException(KalturaEmailNotificationErrors::INVALID_FILTER_PROPERTY, 'categoryIdEqual');
+				throw new BorhanAPIException(BorhanEmailNotificationErrors::INVALID_FILTER_PROPERTY, 'categoryIdEqual');
 			}
 		}
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject($source_object)
+	 * @see BorhanObject::fromObject($source_object)
 	 */
-	public function doFromObject($dbObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($dbObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($dbObject, $responseProfile);
 		/* @var $dbObject kEmailNotificationCategoryRecipientProvider */
 		$categoryIdFieldType = get_class($dbObject->getCategoryId());
-		KalturaLog::info("Retrieving API object for categoryId fild of type [$categoryIdFieldType]");
+		BorhanLog::info("Retrieving API object for categoryId fild of type [$categoryIdFieldType]");
 		switch ($categoryIdFieldType)
 		{
 			case 'kObjectIdField':
-				$this->categoryId = new KalturaObjectIdField();
+				$this->categoryId = new BorhanObjectIdField();
 				break;
 			case 'kEvalStringField':
-				$this->categoryId = new KalturaEvalStringField();
+				$this->categoryId = new BorhanEvalStringField();
 				break;
 			case 'kStringValue':
-				$this->categoryId = new KalturaStringValue();
+				$this->categoryId = new BorhanStringValue();
 				break;
 			default:
-				$this->categoryId = KalturaPluginManager::loadObject('KalturaStringValue', $categoryIdFieldType);
+				$this->categoryId = BorhanPluginManager::loadObject('BorhanStringValue', $categoryIdFieldType);
 				break;
 		}
 		
@@ -91,7 +91,7 @@ class KalturaEmailNotificationCategoryRecipientProvider extends KalturaEmailNoti
 		
 		if ($dbObject->getCategoryUserFilter())
 		{
-			$this->categoryUserFilter = new KalturaCategoryUserProviderFilter();
+			$this->categoryUserFilter = new BorhanCategoryUserProviderFilter();
 			$this->categoryUserFilter->fromObject($dbObject->getCategoryUserFilter());
 		}
 

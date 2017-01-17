@@ -2,7 +2,7 @@
 /**
  * @package plugins.limeLight
  */
-class LimeLightPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaEnumerator, IKalturaEventConsumers
+class LimeLightPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanEnumerator, IBorhanEventConsumers
 {
 	const PLUGIN_NAME = 'limeLight';
 	const LIMELIGHT_LIVE_EVENT_CONSUMER = 'kLimeLightLiveFlowManager';
@@ -42,7 +42,7 @@ class LimeLightPlugin extends KalturaPlugin implements IKalturaPermissions, IKal
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	//get real source_type_value from DB. 

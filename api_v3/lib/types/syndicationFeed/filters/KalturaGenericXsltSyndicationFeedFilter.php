@@ -3,6 +3,6 @@
  * @package api
  * @subpackage filters
  */
-class KalturaGenericXsltSyndicationFeedFilter extends KalturaGenericXsltSyndicationFeedBaseFilter
+class BorhanGenericXsltSyndicationFeedFilter extends BorhanGenericXsltSyndicationFeedBaseFilter
 {
 }

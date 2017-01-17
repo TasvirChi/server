@@ -1,11 +1,11 @@
 <?php
 /**
- * Represents the current time context on Kaltura servers
+ * Represents the current time context on Borhan servers
  * 
  * @package api
  * @subpackage objects
  */
-class KalturaTimeContextField extends KalturaIntegerField
+class BorhanTimeContextField extends BorhanIntegerField
 {
 	/**
 	 * Time offset in seconds since current time
@@ -24,7 +24,7 @@ class KalturaTimeContextField extends KalturaIntegerField
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

@@ -3,6 +3,6 @@
  * @package api
  * @subpackage filters
  */
-class KalturaMediaFlavorParamsFilter extends KalturaMediaFlavorParamsBaseFilter
+class BorhanMediaFlavorParamsFilter extends BorhanMediaFlavorParamsBaseFilter
 {
 }

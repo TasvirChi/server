@@ -3,7 +3,7 @@
  * @package plugins.fairplay
  * @subpackage model.enum
  */
-class FairplayProviderType implements IKalturaPluginEnum, DrmProviderType
+class FairplayProviderType implements IBorhanPluginEnum, DrmProviderType
 {
 	const FAIRPLAY = 'FAIRPLAY';
 	

@@ -5,16 +5,16 @@
  * @package api
  * @subpackage objects
  */
-class KalturaOperationResource extends KalturaContentResource
+class BorhanOperationResource extends BorhanContentResource
 {
 	/**
-	 * Only KalturaEntryResource and KalturaAssetResource are supported
-	 * @var KalturaContentResource
+	 * Only BorhanEntryResource and BorhanAssetResource are supported
+	 * @var BorhanContentResource
 	 */
 	public $resource;
 	
 	/**
-	 * @var KalturaOperationAttributesArray
+	 * @var BorhanOperationAttributesArray
 	 */
 	public $operationAttributes;
 	
@@ -25,7 +25,7 @@ class KalturaOperationResource extends KalturaContentResource
 	public $assetParamsId;
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUsage($sourceObject, $propertiesToSkip)
+	 * @see BorhanObject::validateForUsage($sourceObject, $propertiesToSkip)
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -33,12 +33,12 @@ class KalturaOperationResource extends KalturaContentResource
 		
 		$this->validatePropertyNotNull('resource');
 		
-		if(!($this->resource instanceof KalturaEntryResource) && !($this->resource instanceof KalturaAssetResource))
-			throw new KalturaAPIException(KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($this->resource));
+		if(!($this->resource instanceof BorhanEntryResource) && !($this->resource instanceof BorhanAssetResource))
+			throw new BorhanAPIException(BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($this->resource));
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaResource::validateEntry()
+	 * @see BorhanResource::validateEntry()
 	 */
 	public function validateEntry(entry $dbEntry)
 	{
@@ -48,7 +48,7 @@ class KalturaOperationResource extends KalturaContentResource
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaResource::entryHandled()
+	 * @see BorhanResource::entryHandled()
 	 */
 	public function entryHandled(entry $dbEntry)
 	{
@@ -59,7 +59,7 @@ class KalturaOperationResource extends KalturaContentResource
 	private static $map_between_objects = array('assetParamsId');
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -67,7 +67,7 @@ class KalturaOperationResource extends KalturaContentResource
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($object_to_fill = null, $props_to_skip = array())
 	{

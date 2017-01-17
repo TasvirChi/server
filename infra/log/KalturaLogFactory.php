@@ -4,7 +4,7 @@
  * @package infra
  * @subpackage log
  */
-class KalturaLogFactory
+class BorhanLogFactory
 {
 	public static function getLogger(Zend_Config $config = null)
 	{
@@ -56,7 +56,7 @@ class KalturaLogFactory
 				if ($config->mode === null)
 					$mode = 'a';
 					
-				$writer = new KalturaSerializableStream($config->stream, $mode);
+				$writer = new BorhanSerializableStream($config->stream, $mode);
 				break;
 		}
 		
@@ -139,16 +139,16 @@ class KalturaLogFactory
 					$filter->suppress($config->suppress);
 				}
 				break;
-			case "KalturaLogPartnerFilter":
+			case "BorhanLogPartnerFilter":
 				if ($config->partnerId !== null)
 				{
-					$filter = new KalturaLogPartnerFilter($config->partnerId);
+					$filter = new BorhanLogPartnerFilter($config->partnerId);
 				}
 				break;
-			case "KalturaLogFilterType":
+			case "BorhanLogFilterType":
 				if ($config->type !== null)
 				{
-					$filter = new KalturaLogFilterType($config->type);
+					$filter = new BorhanLogFilterType($config->type);
 				}
 				break;
 		}

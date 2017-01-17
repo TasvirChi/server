@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaReport extends KalturaObject implements IFilterable 
+class BorhanReport extends BorhanObject implements IFilterable 
 {
 	/**
 	 * Report id
@@ -116,6 +116,6 @@ class KalturaReport extends KalturaObject implements IFilterable
 	protected function validatePartnerId()
 	{
 		if (!PartnerPeer::retrieveByPK($this->partnerId))
-			throw new KalturaAPIException(KalturaErrors::INVALID_PARTNER_ID, $this->partnerId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_PARTNER_ID, $this->partnerId);
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * @package plugins.adminConsoleGallery
  */
-class AdminConsoleGalleryPlugin extends KalturaPlugin implements IKalturaAdminConsolePages
+class AdminConsoleGalleryPlugin extends BorhanPlugin implements IBorhanAdminConsolePages
 {
 	const PLUGIN_NAME = 'adminConsoleGallery';
 	
@@ -12,7 +12,7 @@ class AdminConsoleGalleryPlugin extends KalturaPlugin implements IKalturaAdminCo
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaAdminConsolePages::getApplicationPages()
+	 * @see IBorhanAdminConsolePages::getApplicationPages()
 	 */
 	public static function getApplicationPages()
 	{

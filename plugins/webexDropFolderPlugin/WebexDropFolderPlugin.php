@@ -2,7 +2,7 @@
 /**
  * @package plugins.WebexDropFolder
  */
-class WebexDropFolderPlugin extends KalturaPlugin implements IKalturaPending, IKalturaPermissions, IKalturaObjectLoader, IKalturaEnumerator
+class WebexDropFolderPlugin extends BorhanPlugin implements IBorhanPending, IBorhanPermissions, IBorhanObjectLoader, IBorhanEnumerator
 {
 	const PLUGIN_NAME = 'WebexDropFolder';
 	const DROP_FOLDER_PLUGIN_NAME = 'dropFolder';
@@ -14,7 +14,7 @@ class WebexDropFolderPlugin extends KalturaPlugin implements IKalturaPending, IK
 	
 	public static function dependsOn()
 	{
-		$dropFolderDependency = new KalturaDependency(self::DROP_FOLDER_PLUGIN_NAME);
+		$dropFolderDependency = new BorhanDependency(self::DROP_FOLDER_PLUGIN_NAME);
 		
 		return array($dropFolderDependency);
 	}
@@ -33,21 +33,21 @@ class WebexDropFolderPlugin extends KalturaPlugin implements IKalturaPending, IK
 		switch ($baseClass)
 		{
 			case 'KDropFolderEngine':
-				if ($enumValue == KalturaDropFolderType::WEBEX)
+				if ($enumValue == BorhanDropFolderType::WEBEX)
 				{
 					return new KWebexDropFolderEngine();
 				}
 				break;
-			case ('KalturaDropFolder'):
+			case ('BorhanDropFolder'):
 				if ($enumValue == self::getDropFolderTypeCoreValue(WebexDropFolderType::WEBEX) )
 				{
-					return new KalturaWebexDropFolder();
+					return new BorhanWebexDropFolder();
 				}
 				break;
-			case ('KalturaDropFolderFile'):
+			case ('BorhanDropFolderFile'):
 				if ($enumValue == self::getDropFolderTypeCoreValue(WebexDropFolderType::WEBEX) )
 				{
-					return new KalturaWebexDropFolderFile();
+					return new BorhanWebexDropFolderFile();
 				}
 				break;
 			case 'kDropFolderContentProcessorJobData':
@@ -56,24 +56,24 @@ class WebexDropFolderPlugin extends KalturaPlugin implements IKalturaPending, IK
 					return new kWebexDropFolderContentProcessorJobData();
 				}
 				break;
-			case 'KalturaJobData':
+			case 'BorhanJobData':
 				$jobSubType = $constructorArgs["coreJobSubType"];
 			    if ($enumValue == DropFolderPlugin::getApiValue(DropFolderBatchType::DROP_FOLDER_CONTENT_PROCESSOR) &&
 					$jobSubType == self::getDropFolderTypeCoreValue(WebexDropFolderType::WEBEX) )
 				{
-					return new KalturaWebexDropFolderContentProcessorJobData();
+					return new BorhanWebexDropFolderContentProcessorJobData();
 				}
 				break;
 			case 'Form_DropFolderConfigureExtend_SubForm':
-				if ($enumValue == Kaltura_Client_DropFolder_Enum_DropFolderType::WEBEX)
+				if ($enumValue == Borhan_Client_DropFolder_Enum_DropFolderType::WEBEX)
 				{
 					return new Form_WebexDropFolderConfigureExtend_SubForm();
 				}
 				break;
-			case 'Kaltura_Client_DropFolder_Type_DropFolder':
-				if ($enumValue == Kaltura_Client_DropFolder_Enum_DropFolderType::WEBEX)
+			case 'Borhan_Client_DropFolder_Type_DropFolder':
+				if ($enumValue == Borhan_Client_DropFolder_Enum_DropFolderType::WEBEX)
 				{
-					return new Kaltura_Client_WebexDropFolder_Type_WebexDropFolder();
+					return new Borhan_Client_WebexDropFolder_Type_WebexDropFolder();
 				}
 				break;
 				break;
@@ -115,12 +115,12 @@ class WebexDropFolderPlugin extends KalturaPlugin implements IKalturaPending, IK
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 
 	public static function getDropFolderTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('DropFolderType', $value);
 	}
 }

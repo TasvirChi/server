@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaThumbParamsOutputBaseFilter extends KalturaThumbParamsFilter
+abstract class BorhanThumbParamsOutputBaseFilter extends BorhanThumbParamsFilter
 {
 	static private $map_between_objects = array
 	(

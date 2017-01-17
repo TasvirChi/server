@@ -3,10 +3,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaRemotePathListResponse extends KalturaListResponse
+class BorhanRemotePathListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaRemotePathArray
+	 * @var BorhanRemotePathArray
 	 * @readonly
 	 */
 	public $objects;

@@ -3,7 +3,7 @@
  * Enable time based cue point objects management on entry objects
  * @package plugins.cuePoint
  */
-class CuePointPlugin extends KalturaPlugin implements IKalturaServices, IKalturaPermissions, IKalturaEventConsumers, IKalturaVersion, IKalturaEnumerator, IKalturaSchemaContributor, IKalturaSchemaDefiner, IKalturaMrssContributor, IKalturaSearchDataContributor
+class CuePointPlugin extends BorhanPlugin implements IBorhanServices, IBorhanPermissions, IBorhanEventConsumers, IBorhanVersion, IBorhanEnumerator, IBorhanSchemaContributor, IBorhanSchemaDefiner, IBorhanMrssContributor, IBorhanSearchDataContributor
 {
 	const PLUGIN_NAME = 'cuePoint';
 	const PLUGIN_VERSION_MAJOR = 1;
@@ -20,7 +20,7 @@ class CuePointPlugin extends KalturaPlugin implements IKalturaServices, IKaltura
 	
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -28,11 +28,11 @@ class CuePointPlugin extends KalturaPlugin implements IKalturaServices, IKaltura
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaVersion::getVersion()
+	 * @see IBorhanVersion::getVersion()
 	 */
 	public static function getVersion()
 	{
-		return new KalturaVersion(
+		return new BorhanVersion(
 			self::PLUGIN_VERSION_MAJOR,
 			self::PLUGIN_VERSION_MINOR,
 			self::PLUGIN_VERSION_BUILD
@@ -40,7 +40,7 @@ class CuePointPlugin extends KalturaPlugin implements IKalturaServices, IKaltura
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissions::isAllowedPartner()
+	 * @see IBorhanPermissions::isAllowedPartner()
 	 */
 	public static function isAllowedPartner($partnerId)
 	{
@@ -49,7 +49,7 @@ class CuePointPlugin extends KalturaPlugin implements IKalturaServices, IKaltura
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaServices::getServicesMap()
+	 * @see IBorhanServices::getServicesMap()
 	 */
 	public static function getServicesMap()
 	{
@@ -61,7 +61,7 @@ class CuePointPlugin extends KalturaPlugin implements IKalturaServices, IKaltura
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	 */
 	public static function getEventConsumers()
 	{
@@ -71,7 +71,7 @@ class CuePointPlugin extends KalturaPlugin implements IKalturaServices, IKaltura
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -88,7 +88,7 @@ class CuePointPlugin extends KalturaPlugin implements IKalturaServices, IKaltura
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSchemaContributor::contributeToSchema()
+	 * @see IBorhanSchemaContributor::contributeToSchema()
 	 */
 	public static function contributeToSchema($type)
 	{
@@ -197,7 +197,7 @@ class CuePointPlugin extends KalturaPlugin implements IKalturaServices, IKaltura
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaMrssContributor::contribute()
+	 * @see IBorhanMrssContributor::contribute()
 	 */
 	public function contribute(BaseObject $object, SimpleXMLElement $mrss, kMrssParameters $mrssParams = null)
 	{
@@ -213,7 +213,7 @@ class CuePointPlugin extends KalturaPlugin implements IKalturaServices, IKaltura
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSchemaContributor::contributeToSchema()
+	 * @see IBorhanSchemaContributor::contributeToSchema()
 	 */
 	public static function getPluginSchema($type)
 	{
@@ -233,7 +233,7 @@ class CuePointPlugin extends KalturaPlugin implements IKalturaServices, IKaltura
 	 */
 	public static function getSchemaTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('SchemaType', $value);
 	}
 	
@@ -242,7 +242,7 @@ class CuePointPlugin extends KalturaPlugin implements IKalturaServices, IKaltura
 	 */
 	public static function getObjectFeatureTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('ObjectFeatureType', $value);
 	}
 	
@@ -251,11 +251,11 @@ class CuePointPlugin extends KalturaPlugin implements IKalturaServices, IKaltura
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaMrssContributor::getObjectFeatureType()
+	 * @see IBorhanMrssContributor::getObjectFeatureType()
 	 */
 	public function getObjectFeatureType ()
 	{
@@ -263,7 +263,7 @@ class CuePointPlugin extends KalturaPlugin implements IKalturaServices, IKaltura
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSearchDataContributor::getSearchData()
+	 * @see IBorhanSearchDataContributor::getSearchData()
 	 */
 	public static function getSearchData(BaseObject $object)
 	{
@@ -338,7 +338,7 @@ class CuePointPlugin extends KalturaPlugin implements IKalturaServices, IKaltura
 	{
 		$indexOnEntryTypes = array();
 		
-		$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaCuePoint');
+		$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanCuePoint');
 		foreach ($pluginInstances as $pluginInstance)
 		{
 			$currIndexOnEntryTypes = $pluginInstance::getTypesToIndexOnEntry();

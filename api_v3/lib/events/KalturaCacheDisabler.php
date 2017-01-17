@@ -5,15 +5,15 @@
  * @package api
  * @subpackage cache
  */
-class KalturaCacheDisabler implements kObjectSavedEventConsumer
+class BorhanCacheDisabler implements kObjectSavedEventConsumer
 {
 	public function objectSaved(BaseObject $object)
 	{
-		KalturaResponseCacher::disableCache();
+		BorhanResponseCacher::disableCache();
 	}
 	
 	public function shouldConsumeSavedEvent(BaseObject $object)
 	{
-		return KalturaResponseCacher::isCacheEnabled();
+		return BorhanResponseCacher::isCacheEnabled();
 	}
 }

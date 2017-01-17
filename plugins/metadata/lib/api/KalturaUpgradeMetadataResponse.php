@@ -3,7 +3,7 @@
  * @package plugins.metadata
  * @subpackage api.objects
  */
-class KalturaUpgradeMetadataResponse extends KalturaObject
+class BorhanUpgradeMetadataResponse extends BorhanObject
 {
 	/**
 	 * @var int

@@ -20,7 +20,7 @@ class KParseEngineEncodingCom
 	
 	public function getType()
 	{
-		return KalturaConversionEngineType::ENCODING_COM;
+		return BorhanConversionEngineType::ENCODING_COM;
 	}
 	
 	public function getLogData()
@@ -49,11 +49,11 @@ class KParseEngineEncodingCom
 	}
 	
 	/**
-	 * @param KalturaConvertJobData $data
+	 * @param BorhanConvertJobData $data
 	 * @param string $errMessage
 	 * @return number
 	 */
-	public function parse ( KalturaConvertJobData &$data, &$errMessage )
+	public function parse ( BorhanConvertJobData &$data, &$errMessage )
 	{
 		$sendData = new KEncodingComData();
 		
@@ -70,7 +70,7 @@ class KParseEngineEncodingCom
 		if(!$responseXml)
 		{
 			$errMessage = "Error: $err";
-			return KalturaBatchJobStatus::ALMOST_DONE;
+			return BorhanBatchJobStatus::ALMOST_DONE;
 		}		
 		
 		preg_match('/\<status\>([\w\s]*)\<\/status\>/', $responseXml, $status);
@@ -78,27 +78,27 @@ class KParseEngineEncodingCom
 		if (!$status)
 		{
 			$errMessage = 'status not found';
-			return KalturaBatchJobStatus::ALMOST_DONE;
+			return BorhanBatchJobStatus::ALMOST_DONE;
 		}
 		
 		if(strtolower($status) == "error")
 		{
 			preg_match_all('/\<description\>([^<]*)\<\/description\>/', $responseXml, $description);
 			$errMessage = implode("\n", $description[1]);
-			return KalturaBatchJobStatus::FAILED;
+			return BorhanBatchJobStatus::FAILED;
 		}
 		
 		if(strtolower($status) != "finished")
 		{
 			$errMessage = $status;
-			return KalturaBatchJobStatus::ALMOST_DONE;
+			return BorhanBatchJobStatus::ALMOST_DONE;
 		}
 		
 		preg_match('/\<s3_destination\>(.*)\<\/s3_destination\>/', $responseXml, $s3_destination);
 		$s3_destination = (isset($s3_destination[1]) ? $s3_destination[1] : null);
 		$data->destFileSyncRemoteUrl = $s3_destination;
 		$errMessage = "Remote url: $s3_destination";
-		return KalturaBatchJobStatus::FINISHED;
+		return BorhanBatchJobStatus::FINISHED;
 	}
 	
 	/**
@@ -108,7 +108,7 @@ class KParseEngineEncodingCom
 	 */
 	private function sendRequest($requestXml, &$err)
 	{
-		KalturaLog::info("sendRequest($requestXml)");
+		BorhanLog::info("sendRequest($requestXml)");
 
 		$url = $this->getUrl();
 		
@@ -136,7 +136,7 @@ class KParseEngineEncodingCom
 		
 		curl_close($ch);
 		
-		KalturaLog::info("request results: ($result)");
+		BorhanLog::info("request results: ($result)");
 		return $result;
 	}
 }

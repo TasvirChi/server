@@ -5,26 +5,26 @@
  *
  * @service categoryUser
  */
-class CategoryUserService extends KalturaBaseService
+class CategoryUserService extends BorhanBaseService
 {
 	/**
 	 * Add new CategoryUser
 	 * 
 	 * @action add
-	 * @param KalturaCategoryUser $categoryUser
-	 * @return KalturaCategoryUser
+	 * @param BorhanCategoryUser $categoryUser
+	 * @return BorhanCategoryUser
 	 */
-	function addAction(KalturaCategoryUser $categoryUser)
+	function addAction(BorhanCategoryUser $categoryUser)
 	{
 		$dbCategoryKuser = $categoryUser->toInsertableObject();
 		/* @var $dbCategoryKuser categoryKuser */
 		$category = categoryPeer::retrieveByPK($categoryUser->categoryId);
 		if (!$category)
-			throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $categoryUser->categoryId);
+			throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $categoryUser->categoryId);
 
 		$maxUserPerCategory=kConf::get('max_users_per_category');
 		if($category->getMembersCount() >= $maxUserPerCategory)
-			throw new KalturaAPIException(KalturaErrors::CATEGORY_MAX_USER_REACHED,$maxUserPerCategory);
+			throw new BorhanAPIException(BorhanErrors::CATEGORY_MAX_USER_REACHED,$maxUserPerCategory);
 
 		$currentKuserCategoryKuser = categoryKuserPeer::retrievePermittedKuserInCategory($categoryUser->categoryId, kCurrentContext::getCurrentKsKuserId());
 		if (!kEntitlementUtils::getEntitlementEnforcement())
@@ -49,7 +49,7 @@ class CategoryUserService extends KalturaBaseService
 		}
 		else
 		{
-			throw new KalturaAPIException(KalturaErrors::CATEGORY_USER_JOIN_NOT_ALLOWED, $categoryUser->categoryId);	
+			throw new BorhanAPIException(BorhanErrors::CATEGORY_USER_JOIN_NOT_ALLOWED, $categoryUser->categoryId);	
 		}
 				
 		$dbCategoryKuser->setCategoryFullIds($category->getFullIds());
@@ -66,27 +66,27 @@ class CategoryUserService extends KalturaBaseService
 	 * @action get
 	 * @param int $categoryId
 	 * @param string $userId
-	 * @return KalturaCategoryUser
+	 * @return BorhanCategoryUser
 	 */
 	function getAction($categoryId, $userId)
 	{
 		$partnerId = kCurrentContext::$partner_id ? kCurrentContext::$partner_id : kCurrentContext::$ks_partner_id;
 		$kuser = kuserPeer::getKuserByPartnerAndUid($partnerId, $userId);
 		if (!$kuser)
-			throw new KalturaAPIException(KalturaErrors::INVALID_USER_ID, $userId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_USER_ID, $userId);
 			
 		$category = categoryPeer::retrieveByPK($categoryId);
 		if (!$category)
-			throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $categoryId);						
+			throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $categoryId);						
 
 		if($category->getInheritanceType() == InheritanceType::INHERIT)
 			$categoryId = $category->getInheritedParentId();
 					
 		$dbCategoryKuser = categoryKuserPeer::retrieveByCategoryIdAndKuserId($categoryId, $kuser->getId());
 		if (!$dbCategoryKuser)
-			throw new KalturaAPIException(KalturaErrors::INVALID_CATEGORY_USER_ID, $categoryId, $userId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_CATEGORY_USER_ID, $categoryId, $userId);
 			
-		$categoryUser = new KalturaCategoryUser();
+		$categoryUser = new BorhanCategoryUser();
 		$categoryUser->fromObject($dbCategoryKuser, $this->getResponseProfile());
 		
 		return $categoryUser;
@@ -98,25 +98,25 @@ class CategoryUserService extends KalturaBaseService
 	 * @action update
 	 * @param int $categoryId
 	 * @param string $userId
-	 * @param KalturaCategoryUser $categoryUser
+	 * @param BorhanCategoryUser $categoryUser
 	 * @param bool $override - to override manual changes
-	 * @return KalturaCategoryUser
+	 * @return BorhanCategoryUser
 	 */
-	function updateAction($categoryId, $userId, KalturaCategoryUser $categoryUser, $override = false)
+	function updateAction($categoryId, $userId, BorhanCategoryUser $categoryUser, $override = false)
 	{
 		$partnerId = kCurrentContext::$partner_id ? kCurrentContext::$partner_id : kCurrentContext::$ks_partner_id;
 		$kuser = kuserPeer::getKuserByPartnerAndUid($partnerId, $userId);
 		if (!$kuser)
-			throw new KalturaAPIException(KalturaErrors::INVALID_USER_ID, $userId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_USER_ID, $userId);
 		
 		$dbCategoryKuser = categoryKuserPeer::retrieveByCategoryIdAndKuserId($categoryId, $kuser->getId());
 		if (!$dbCategoryKuser)
-			throw new KalturaAPIException(KalturaErrors::INVALID_CATEGORY_USER_ID, $categoryId, $userId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_CATEGORY_USER_ID, $categoryId, $userId);
 			
 		if(!$override && 
-			($categoryUser->updateMethod == null || $categoryUser->updateMethod == KalturaUpdateMethodType::AUTOMATIC) && 
-			$dbCategoryKuser->getUpdateMethod() == KalturaUpdateMethodType::MANUAL)
-			throw new KalturaAPIException(KalturaErrors::CANNOT_OVERRIDE_MANUAL_CHANGES);
+			($categoryUser->updateMethod == null || $categoryUser->updateMethod == BorhanUpdateMethodType::AUTOMATIC) && 
+			$dbCategoryKuser->getUpdateMethod() == BorhanUpdateMethodType::MANUAL)
+			throw new BorhanAPIException(BorhanErrors::CANNOT_OVERRIDE_MANUAL_CHANGES);
 		
 		$dbCategoryKuser = $categoryUser->toUpdatableObject($dbCategoryKuser);
 				
@@ -142,27 +142,27 @@ class CategoryUserService extends KalturaBaseService
 		if (!$kuser)
 		{	
 			if (kCurrentContext::$master_partner_id != Partner::BATCH_PARTNER_ID)
-				throw new KalturaAPIException(KalturaErrors::INVALID_USER_ID, $userId);
+				throw new BorhanAPIException(BorhanErrors::INVALID_USER_ID, $userId);
 			
 			kuserPeer::setUseCriteriaFilter(false);
 			$kuser = kuserPeer::getKuserByPartnerAndUid($partnerId, $userId);
 			kuserPeer::setUseCriteriaFilter(true);
 			
 			if (!$kuser)
-				throw new KalturaAPIException(KalturaErrors::INVALID_USER_ID, $userId);
+				throw new BorhanAPIException(BorhanErrors::INVALID_USER_ID, $userId);
 		}
 			
 		$dbCategoryKuser = categoryKuserPeer::retrieveByCategoryIdAndKuserId($categoryId, $kuser->getId());
 		/* @var $dbCategoryKuser categoryKuser */
 		if (!$dbCategoryKuser)
-			throw new KalturaAPIException(KalturaErrors::INVALID_CATEGORY_USER_ID, $categoryId, $userId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_CATEGORY_USER_ID, $categoryId, $userId);
 			
 		$category = categoryPeer::retrieveByPK($categoryId);
 		if (!$category)
-			throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $categoryId);						
+			throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $categoryId);						
 
 		if ($category->getInheritanceType() == InheritanceType::INHERIT && kCurrentContext::$master_partner_id != Partner::BATCH_PARTNER_ID)
-			throw new KalturaAPIException(KalturaErrors::CATEGORY_INHERIT_MEMBERS, $categoryId);		
+			throw new BorhanAPIException(BorhanErrors::CATEGORY_INHERIT_MEMBERS, $categoryId);		
 		
 		// only manager can remove memnger or users remove himself
 		$currentKuserCategoryKuser = categoryKuserPeer::retrievePermittedKuserInCategory($dbCategoryKuser->getCategoryId());
@@ -171,11 +171,11 @@ class CategoryUserService extends KalturaBaseService
 			 kCurrentContext::$ks_uid != $userId)) &&
 			 kCurrentContext::$ks_partner_id != Partner::BATCH_PARTNER_ID &&
 			 kEntitlementUtils::getEntitlementEnforcement())
-			throw new KalturaAPIException(KalturaErrors::CANNOT_UPDATE_CATEGORY_USER);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_UPDATE_CATEGORY_USER);
 		
 		if($dbCategoryKuser->getKuserId() == $category->getKuserId() &&
 			kCurrentContext::$ks_partner_id != Partner::BATCH_PARTNER_ID)
-			throw new KalturaAPIException(KalturaErrors::CANNOT_UPDATE_CATEGORY_USER_OWNER);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_UPDATE_CATEGORY_USER_OWNER);
 			
 		$dbCategoryKuser->setStatus(CategoryKuserStatus::DELETED);
 		$dbCategoryKuser->save();
@@ -187,28 +187,28 @@ class CategoryUserService extends KalturaBaseService
 	 * @action activate
 	 * @param int $categoryId
 	 * @param string $userId
-	 * @return KalturaCategoryUser
+	 * @return BorhanCategoryUser
 	 */
 	function activateAction($categoryId, $userId)
 	{
 		$partnerId = kCurrentContext::$partner_id ? kCurrentContext::$partner_id : kCurrentContext::$ks_partner_id;
 		$kuser = kuserPeer::getKuserByPartnerAndUid($partnerId, $userId);
 		if (!$kuser)
-			throw new KalturaAPIException(KalturaErrors::INVALID_USER_ID, $userId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_USER_ID, $userId);
 			
 		$dbCategoryKuser = categoryKuserPeer::retrieveByCategoryIdAndKuserId($categoryId, $kuser->getId());
 		if (!$dbCategoryKuser)
-			throw new KalturaAPIException(KalturaErrors::INVALID_CATEGORY_USER_ID, $categoryId, $userId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_CATEGORY_USER_ID, $categoryId, $userId);
 		
 		$currentKuserCategoryKuser = categoryKuserPeer::retrievePermittedKuserInCategory($dbCategoryKuser->getCategoryId(), kCurrentContext::getCurrentKsKuserId());
 		if(kEntitlementUtils::getEntitlementEnforcement() &&
 			(!$currentKuserCategoryKuser || $currentKuserCategoryKuser->getPermissionLevel() != CategoryKuserPermissionLevel::MANAGER))
-			throw new KalturaAPIException(KalturaErrors::CANNOT_UPDATE_CATEGORY_USER);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_UPDATE_CATEGORY_USER);
 		
 		$dbCategoryKuser->setStatus(CategoryKuserStatus::ACTIVE);
 		$dbCategoryKuser->save();
 		
-		$categoryUser = new KalturaCategoryUser();
+		$categoryUser = new BorhanCategoryUser();
 		$categoryUser->fromObject($dbCategoryKuser, $this->getResponseProfile());
 		return $categoryUser;
 	} 
@@ -219,30 +219,30 @@ class CategoryUserService extends KalturaBaseService
 	 * @action deactivate
 	 * @param int $categoryId
 	 * @param string $userId
-	 * @return KalturaCategoryUser
+	 * @return BorhanCategoryUser
 	 */
 	function deactivateAction($categoryId, $userId)
 	{
 		$partnerId = kCurrentContext::$partner_id ? kCurrentContext::$partner_id : kCurrentContext::$ks_partner_id;
 		$kuser = kuserPeer::getKuserByPartnerAndUid($partnerId, $userId);
 		if (!$kuser)
-			throw new KalturaAPIException(KalturaErrors::INVALID_USER_ID, $userId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_USER_ID, $userId);
 			
 		$dbCategoryKuser = categoryKuserPeer::retrieveByCategoryIdAndKuserId($categoryId, $kuser->getId());
 		if (!$dbCategoryKuser)
-			throw new KalturaAPIException(KalturaErrors::INVALID_CATEGORY_USER_ID, $categoryId, $userId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_CATEGORY_USER_ID, $categoryId, $userId);
 		
 		$currentKuserCategoryKuser = categoryKuserPeer::retrievePermittedKuserInCategory($dbCategoryKuser->getCategoryId(), kCurrentContext::getCurrentKsKuserId());
 		if(kEntitlementUtils::getEntitlementEnforcement() &&
 			(!$currentKuserCategoryKuser || 
 			($currentKuserCategoryKuser->getPermissionLevel() != CategoryKuserPermissionLevel::MANAGER &&
 			 kCurrentContext::$ks_uid != $userId)))
-			throw new KalturaAPIException(KalturaErrors::CANNOT_UPDATE_CATEGORY_USER);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_UPDATE_CATEGORY_USER);
 		
 		$dbCategoryKuser->setStatus(CategoryKuserStatus::NOT_ACTIVE);
 		$dbCategoryKuser->save();
 		
-		$categoryUser = new KalturaCategoryUser();
+		$categoryUser = new BorhanCategoryUser();
 		$categoryUser->fromObject($dbCategoryKuser, $this->getResponseProfile());
 		return $categoryUser;
 	} 
@@ -252,18 +252,18 @@ class CategoryUserService extends KalturaBaseService
 	 * List all categories
 	 * 
 	 * @action list
-	 * @param KalturaCategoryUserFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaCategoryUserListResponse
-	 * @throws KalturaErrors::MUST_FILTER_USERS_OR_CATEGORY
+	 * @param BorhanCategoryUserFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanCategoryUserListResponse
+	 * @throws BorhanErrors::MUST_FILTER_USERS_OR_CATEGORY
 	 */
-	function listAction(KalturaCategoryUserFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanCategoryUserFilter $filter = null, BorhanFilterPager $pager = null)
 	{	
 		if (!$filter || !($filter->categoryIdEqual || $filter->categoryIdIn || $filter->categoryFullIdsStartsWith || $filter->categoryFullIdsEqual || $filter->userIdIn || $filter->userIdEqual || $filter->relatedGroupsByUserId))
-			throw new KalturaAPIException(KalturaErrors::MUST_FILTER_USERS_OR_CATEGORY);	
+			throw new BorhanAPIException(BorhanErrors::MUST_FILTER_USERS_OR_CATEGORY);	
 			
 		if(!$pager)
-			$pager = new KalturaFilterPager();		
+			$pager = new BorhanFilterPager();		
 			
 		return $filter->getListResponse($pager, $this->getResponseProfile());
 	}
@@ -277,14 +277,14 @@ class CategoryUserService extends KalturaBaseService
 	public function copyFromCategoryAction($categoryId)
 	{
 		if (kEntitlementUtils::getEntitlementEnforcement())
-			throw new KalturaAPIException(KalturaErrors::CANNOT_UPDATE_CATEGORY_USER);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_UPDATE_CATEGORY_USER);
 		
 		$categoryDb = categoryPeer::retrieveByPK($categoryId);
 		if (!$categoryDb)
-			throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $categoryId);
+			throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $categoryId);
 
 		if($categoryDb->getParentId() == null)
-			throw new KalturaAPIException(KalturaErrors::CATEGORY_DOES_NOT_HAVE_PARENT_CATEGORY);
+			throw new BorhanAPIException(BorhanErrors::CATEGORY_DOES_NOT_HAVE_PARENT_CATEGORY);
 		
 		$categoryDb->copyCategoryUsersFromParent($categoryDb->getParentId());
 	}
@@ -296,23 +296,23 @@ class CategoryUserService extends KalturaBaseService
 	 * @param string $userId
 	 * @param int $categoryId
 	 * @param bool $shouldUpdate
-	 * @throws KalturaErrors::INVALID_CATEGORY_USER_ID
+	 * @throws BorhanErrors::INVALID_CATEGORY_USER_ID
 	 * @return int
 	 */
 	public function indexAction($userId, $categoryId, $shouldUpdate = true)
 	{
 		if(kEntitlementUtils::getEntitlementEnforcement())
-			throw new KalturaAPIException(KalturaErrors::CANNOT_INDEX_OBJECT_WHEN_ENTITLEMENT_IS_ENABLE);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_INDEX_OBJECT_WHEN_ENTITLEMENT_IS_ENABLE);
 		
 		$partnerId = kCurrentContext::$partner_id ? kCurrentContext::$partner_id : kCurrentContext::$ks_partner_id;
 		$kuser = kuserPeer::getActiveKuserByPartnerAndUid($partnerId, $userId);
 
 		if(!$kuser)
-			throw new KalturaAPIException(KalturaErrors::INVALID_USER_ID);
+			throw new BorhanAPIException(BorhanErrors::INVALID_USER_ID);
 			
 		$dbCategoryKuser = categoryKuserPeer::retrievePermittedKuserInCategory($categoryId, $kuser->getId(), null, false);
 		if(!$dbCategoryKuser)
-			throw new KalturaAPIException(KalturaErrors::INVALID_CATEGORY_USER_ID);
+			throw new BorhanAPIException(BorhanErrors::INVALID_CATEGORY_USER_ID);
 			
 		if (!$shouldUpdate)
 		{

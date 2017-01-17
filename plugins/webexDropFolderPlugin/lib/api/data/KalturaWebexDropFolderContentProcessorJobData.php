@@ -3,7 +3,7 @@
  * @package plugins.WebexDropFolder
  * @subpackage api.objects
  */
-class KalturaWebexDropFolderContentProcessorJobData extends KalturaDropFolderContentProcessorJobData
+class BorhanWebexDropFolderContentProcessorJobData extends BorhanDropFolderContentProcessorJobData
 {
 	/**
 	 * @var string

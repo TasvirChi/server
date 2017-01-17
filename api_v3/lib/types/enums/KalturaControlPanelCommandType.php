@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaControlPanelCommandType extends KalturaEnum
+class BorhanControlPanelCommandType extends BorhanEnum
 {
 	const KILL = 4;
 }

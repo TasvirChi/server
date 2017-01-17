@@ -34,7 +34,7 @@ class generatewidgetAction extends addkshowAction
 
 	protected function ticketType ()
 	{
-		// validate for all partners that are not kaltura (partner_id=0)
+		// validate for all partners that are not borhan (partner_id=0)
 		$partner_id = $this->getP ( "partner_id");
 		return ( $partner_id != 0 ? self::REQUIED_TICKET_ADMIN : self::REQUIED_TICKET_NONE );
 	}

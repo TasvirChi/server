@@ -12,7 +12,7 @@ $criteria->add(PermissionPeer::PARTNER_ID, array(0, -1, -2, -3), Criteria::IN);
 $criteria->add(PermissionPeer::STATUS, PermissionStatus::ACTIVE);
 $criteria->addAscendingOrderByColumn(PermissionPeer::NAME);
 $permissions = PermissionPeer::doSelect($criteria);
-KalturaLog::debug("Found [" . count($permissions) . "] permissions");
+BorhanLog::debug("Found [" . count($permissions) . "] permissions");
 
 $files = array();
 $permissionArray = array();
@@ -59,7 +59,7 @@ $criteria->add(PermissionItemPeer::TYPE, PermissionItemType::API_ACTION_ITEM);
 $criteria->addAscendingOrderByColumn(PermissionItemPeer::PARAM_1);
 $criteria->addAscendingOrderByColumn(PermissionItemPeer::PARAM_2);
 $permissionItems = PermissionItemPeer::doSelect($criteria);
-KalturaLog::debug("Found [" . count($permissionItems) . "] action permission items");
+BorhanLog::debug("Found [" . count($permissionItems) . "] action permission items");
 
 $file = null;
 $currentIndex = null;
@@ -135,7 +135,7 @@ $criteria->add(PermissionItemPeer::TYPE, PermissionItemType::API_PARAMETER_ITEM)
 $criteria->addAscendingOrderByColumn(PermissionItemPeer::PARAM_1);
 $criteria->addAscendingOrderByColumn(PermissionItemPeer::PARAM_2);
 $permissionItems = PermissionItemPeer::doSelect($criteria);
-KalturaLog::debug("Found [" . count($permissionItems) . "] parameter permission items");
+BorhanLog::debug("Found [" . count($permissionItems) . "] parameter permission items");
 
 $file = null;
 $currentIndex = null;

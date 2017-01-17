@@ -3,10 +3,10 @@
  * @package api
  * @subpackage filters
  */
-class KalturaThumbParamsOutputFilter extends KalturaThumbParamsOutputBaseFilter
+class BorhanThumbParamsOutputFilter extends BorhanThumbParamsOutputBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -14,14 +14,14 @@ class KalturaThumbParamsOutputFilter extends KalturaThumbParamsOutputBaseFilter
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaAssetParamsFilter::getTypeListResponse()
+	 * @see BorhanAssetParamsFilter::getTypeListResponse()
 	 */
-	public function getTypeListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null, array $types = null)
+	public function getTypeListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null, array $types = null)
 	{
 		list($list, $totalCount) = $this->doGetListResponse($pager, $types);
 		
-		$response = new KalturaThumbParamsOutputListResponse();
-		$response->objects = KalturaThumbParamsOutputArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanThumbParamsOutputListResponse();
+		$response->objects = BorhanThumbParamsOutputArray::fromDbArray($list, $responseProfile);
 		$response->totalCount = $totalCount;
 		return $response;  
 	}

@@ -1,10 +1,10 @@
 <?php
-class kmcUtils
+class bmcUtils
 {
 	public static function getJWPlayerUIConfs()
 	{
 		$c = new Criteria();
-		$c->addAnd( uiConfPeer::DISPLAY_IN_SEARCH , mySearchUtils::DISPLAY_IN_SEARCH_KALTURA_NETWORK , Criteria::GREATER_EQUAL );
+		$c->addAnd( uiConfPeer::DISPLAY_IN_SEARCH , mySearchUtils::DISPLAY_IN_SEARCH_BORHAN_NETWORK , Criteria::GREATER_EQUAL );
 		$c->addAnd ( uiConfPeer::STATUS , uiConf::UI_CONF_STATUS_READY );
 		$c->addAnd ( uiConfPeer::OBJ_TYPE , uiConf::UI_CONF_TYPE_WIDGET );
 		$c->addAnd ( uiConfPeer::TAGS, 'jwplayer', Criteria::LIKE);
@@ -39,7 +39,7 @@ class kmcUtils
 	public static function getJWPlaylistUIConfs()
 	{
 		$c = new Criteria();
-		$c->addAnd( uiConfPeer::DISPLAY_IN_SEARCH , mySearchUtils::DISPLAY_IN_SEARCH_KALTURA_NETWORK , Criteria::GREATER_EQUAL );
+		$c->addAnd( uiConfPeer::DISPLAY_IN_SEARCH , mySearchUtils::DISPLAY_IN_SEARCH_BORHAN_NETWORK , Criteria::GREATER_EQUAL );
 		$c->addAnd ( uiConfPeer::STATUS , uiConf::UI_CONF_STATUS_READY );
 		$c->addAnd ( uiConfPeer::OBJ_TYPE , uiConf::UI_CONF_TYPE_WIDGET );
 		$c->addAnd ( uiConfPeer::TAGS, 'jwplaylist', Criteria::LIKE);
@@ -74,27 +74,27 @@ class kmcUtils
 		return $conf_playlist;
 	}
 
-	public static function redirectPartnerToCorrectKmc(Partner $partner, $ks, $uid=null, $screenName=null, $email=null, $validatingKmc)
+	public static function redirectPartnerToCorrectBmc(Partner $partner, $ks, $uid=null, $screenName=null, $email=null, $validatingBmc)
 	{
-		if($validatingKmc == $partner->getKmcVersion())
+		if($validatingBmc == $partner->getBmcVersion())
 		{
 			return true;
 		}
 		$subpId = $partner->getId()*100;
-		switch($partner->getKmcVersion())
+		switch($partner->getBmcVersion())
 		{
 		    case 1: 
-			$kmc1 = "/index.php/kmc/kmc1?partner_id=".$partner->getId()."&subp_id=".$subpId."&ks=".$ks."&uid=".$uid."&screen_name=".$screenName."&email=".$email ;
-			header("Location: ".$kmc1);
+			$bmc1 = "/index.php/bmc/bmc1?partner_id=".$partner->getId()."&subp_id=".$subpId."&ks=".$ks."&uid=".$uid."&screen_name=".$screenName."&email=".$email ;
+			header("Location: ".$bmc1);
 			die;
 			break;
 		    case 2:
 		    case 3:
 		    case 4:
 		    default:
-			$ver = $partner->getKmcVersion();
-			$kmc_url = "/index.php/kmc/kmc$ver";
-			header("Location: ".$kmc_url);
+			$ver = $partner->getBmcVersion();
+			$bmc_url = "/index.php/bmc/bmc$ver";
+			header("Location: ".$bmc_url);
 			die;
 			break;
 		}
@@ -104,7 +104,7 @@ class kmcUtils
 	{
 		$c = new Criteria();
 		$c->addAnd(uiConfPeer::PARTNER_ID, $partner_id);
-		$c->addAnd(uiConfPeer::OBJ_TYPE, array(uiConf::UI_CONF_TYPE_WIDGET, uiConf::UI_CONF_TYPE_KDP3), Criteria::IN);
+		$c->addAnd(uiConfPeer::OBJ_TYPE, array(uiConf::UI_CONF_TYPE_WIDGET, uiConf::UI_CONF_TYPE_BDP3), Criteria::IN);
 		$c->addAnd ( uiConfPeer::STATUS , uiConf::UI_CONF_STATUS_READY );
 		$c->addAnd ( uiConfPeer::TAGS, '%'.$tag.'%', Criteria::LIKE );
 		$c->addAnd ( uiConfPeer::TAGS, '%jw'.$tag.'%', Criteria::NOT_LIKE );
@@ -141,7 +141,7 @@ class kmcUtils
 		$confs = uiConfPeer::doSelect($c);
 		return $confs;
 	}	
-	public static function getAllKMCUiconfs($module_tag, $module_version, $template_partner_id)
+	public static function getAllBMCUiconfs($module_tag, $module_version, $template_partner_id)
 	{
 		$c = new Criteria();
 		$c->addAnd(uiConfPeer::PARTNER_ID, $template_partner_id);
@@ -156,7 +156,7 @@ class kmcUtils
 	  foreach($confs as $uiconf)
 	  {
 	    $tags = explode(",", $uiconf->getTags());
-	    $trimmed_tags = kmcUtils::TrimArray($tags);
+	    $trimmed_tags = bmcUtils::TrimArray($tags);
 	    if(in_array($tag, $trimmed_tags))
 	    {
 		if($allow_array)
@@ -202,10 +202,10 @@ class kmcUtils
 
 		// implement query to get uiconfs from DB
 		$c = new Criteria();
-		$c->addAnd( uiConfPeer::DISPLAY_IN_SEARCH , mySearchUtils::DISPLAY_IN_SEARCH_KALTURA_NETWORK , Criteria::GREATER_EQUAL );
+		$c->addAnd( uiConfPeer::DISPLAY_IN_SEARCH , mySearchUtils::DISPLAY_IN_SEARCH_BORHAN_NETWORK , Criteria::GREATER_EQUAL );
 		$c->addAnd ( uiConfPeer::PARTNER_ID, 0 );
 		$c->addAnd ( uiConfPeer::STATUS , uiConf::UI_CONF_STATUS_READY );
-		$c->addAnd ( uiConfPeer::OBJ_TYPE , uiConf::UI_CONF_TYPE_KDP3);
+		$c->addAnd ( uiConfPeer::OBJ_TYPE , uiConf::UI_CONF_TYPE_BDP3);
 		$c->addAnd ( uiConfPeer::TAGS, $tag, Criteria::LIKE);
 		$c->addAscendingOrderByColumn(uiConfPeer::ID);
 
@@ -231,7 +231,7 @@ class kmcUtils
 		$confs = array();
 		// implement query to get uiconfs from DB
 		$c = new Criteria();
-		$c->addAnd( uiConfPeer::DISPLAY_IN_SEARCH , mySearchUtils::DISPLAY_IN_SEARCH_KALTURA_NETWORK , Criteria::GREATER_EQUAL );
+		$c->addAnd( uiConfPeer::DISPLAY_IN_SEARCH , mySearchUtils::DISPLAY_IN_SEARCH_BORHAN_NETWORK , Criteria::GREATER_EQUAL );
 		$c->addAnd ( uiConfPeer::STATUS , uiConf::UI_CONF_STATUS_READY );
 		$c->addAnd ( uiConfPeer::OBJ_TYPE , uiConf::UI_CONF_TYPE_SLP );
 		$c->addAnd ( uiConfPeer::TAGS, $tag, Criteria::LIKE);
@@ -277,7 +277,7 @@ class kmcUtils
 	
 	    while (list($key, $value) = each($arr)){
 		if (is_array($value)){
-		    $arr[$key] = kmcUtils::TrimArray($value);
+		    $arr[$key] = bmcUtils::TrimArray($value);
 		}
 		else {
 		    $arr[$key] = trim($value);

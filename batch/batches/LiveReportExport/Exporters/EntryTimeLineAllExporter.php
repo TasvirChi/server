@@ -2,7 +2,7 @@
 
 class EntryTimeLineAllExporter extends LiveReportEntryExporter {
 
-	public function __construct(KalturaLiveReportExportJobData $data) {
+	public function __construct(BorhanLiveReportExportJobData $data) {
 		parent::__construct($data, "audience-@ENTRY_ID@-%s-%s.csv", LiveReportConstants::SECONDS_36_HOURS);
 	}
 	

@@ -43,7 +43,7 @@ class kMetadataField extends kStringField
 		
 		if(is_null($profileId))
 		{
-			KalturaLog::err("No metadata profile found matching input values of profileId [{$this->profileId}] systemName [{$this->profileSystemName}]");
+			BorhanLog::err("No metadata profile found matching input values of profileId [{$this->profileId}] systemName [{$this->profileSystemName}]");
 			return null;
 		}
 		
@@ -68,7 +68,7 @@ class kMetadataField extends kStringField
 			{
 				$profileObject = kMetadataManager::getObjectTypeName($profile->getObjectType());
 				$getter = "get{$profileObject}Id";
-				KalturaLog::info ("Using $getter in order to retrieve the metadata object ID");
+				BorhanLog::info ("Using $getter in order to retrieve the metadata object ID");
 				$categoryEntry = $scope->getEvent()->getObject();
 				$objectId = $categoryEntry->$getter();
 				$metadata = MetadataPeer::retrieveByObject($profileId, $profile->getObjectType(), $objectId);
@@ -88,7 +88,7 @@ class kMetadataField extends kStringField
 			}
 		}
 		
-		KalturaLog::notice("Metadata object not found for scope [" . get_class($scope) . "]");
+		BorhanLog::notice("Metadata object not found for scope [" . get_class($scope) . "]");
 		return null;
 	}
 	

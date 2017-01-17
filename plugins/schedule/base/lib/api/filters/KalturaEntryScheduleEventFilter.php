@@ -3,7 +3,7 @@
  * @package plugins.schedule
  * @subpackage api.filters
  */
-class KalturaEntryScheduleEventFilter extends KalturaEntryScheduleEventBaseFilter
+class BorhanEntryScheduleEventFilter extends BorhanEntryScheduleEventBaseFilter
 {
 	static private $map_between_objects = array
 	(

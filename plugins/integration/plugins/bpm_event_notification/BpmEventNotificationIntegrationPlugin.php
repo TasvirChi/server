@@ -2,7 +2,7 @@
 /**
  * @package plugins.bpmEventNotificationIntegration
  */
-class BpmEventNotificationIntegrationPlugin extends KalturaPlugin implements IKalturaEnumerator, IKalturaPending, IKalturaObjectLoader, IKalturaEventConsumers
+class BpmEventNotificationIntegrationPlugin extends BorhanPlugin implements IBorhanEnumerator, IBorhanPending, IBorhanObjectLoader, IBorhanEventConsumers
 {
 	const PLUGIN_NAME = 'bpmEventNotificationIntegration';
 	const FLOW_MANAGER = 'kBpmEventNotificationIntegrationFlowManager';
@@ -16,7 +16,7 @@ class BpmEventNotificationIntegrationPlugin extends KalturaPlugin implements IKa
 	const BPM_PLUGIN_VERSION_BUILD = 0;
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -24,29 +24,29 @@ class BpmEventNotificationIntegrationPlugin extends KalturaPlugin implements IKa
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$integrationVersion = new KalturaVersion(
+		$integrationVersion = new BorhanVersion(
 			self::INTEGRATION_PLUGIN_VERSION_MAJOR,
 			self::INTEGRATION_PLUGIN_VERSION_MINOR,
 			self::INTEGRATION_PLUGIN_VERSION_BUILD
 		);
-		$integrationDependency = new KalturaDependency(IntegrationPlugin::getPluginName(), $integrationVersion);
+		$integrationDependency = new BorhanDependency(IntegrationPlugin::getPluginName(), $integrationVersion);
 		
-		$bpmVersion = new KalturaVersion(
+		$bpmVersion = new BorhanVersion(
 			self::BPM_PLUGIN_VERSION_MAJOR,
 			self::BPM_PLUGIN_VERSION_MINOR,
 			self::BPM_PLUGIN_VERSION_BUILD
 		);
-		$bpmDependency = new KalturaDependency(BusinessProcessNotificationPlugin::getPluginName(), $bpmVersion);
+		$bpmDependency = new BorhanDependency(BusinessProcessNotificationPlugin::getPluginName(), $bpmVersion);
 		
 		return array($integrationDependency, $bpmDependency);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	 */
 	public static function getEventConsumers()
 	{
@@ -56,7 +56,7 @@ class BpmEventNotificationIntegrationPlugin extends KalturaPlugin implements IKa
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -70,7 +70,7 @@ class BpmEventNotificationIntegrationPlugin extends KalturaPlugin implements IKa
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{			
@@ -92,7 +92,7 @@ class BpmEventNotificationIntegrationPlugin extends KalturaPlugin implements IKa
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
@@ -101,10 +101,10 @@ class BpmEventNotificationIntegrationPlugin extends KalturaPlugin implements IKa
 			return 'kBpmEventNotificationIntegrationJobTriggerData';
 		}
 	
-		if($baseClass == 'KalturaIntegrationJobTriggerData')
+		if($baseClass == 'BorhanIntegrationJobTriggerData')
 		{
 			if($enumValue == self::getApiValue(BpmEventNotificationIntegrationTrigger::BPM_EVENT_NOTIFICATION) || $enumValue == self::getIntegrationTriggerCoreValue(BpmEventNotificationIntegrationTrigger::BPM_EVENT_NOTIFICATION))
-				return 'KalturaBpmEventNotificationIntegrationJobTriggerData';
+				return 'BorhanBpmEventNotificationIntegrationJobTriggerData';
 		}
 	}
 
@@ -113,7 +113,7 @@ class BpmEventNotificationIntegrationPlugin extends KalturaPlugin implements IKa
 	 */
 	public static function getIntegrationTriggerCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('IntegrationTriggerType', $value);
 	}
 	
@@ -122,6 +122,6 @@ class BpmEventNotificationIntegrationPlugin extends KalturaPlugin implements IKa
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 }

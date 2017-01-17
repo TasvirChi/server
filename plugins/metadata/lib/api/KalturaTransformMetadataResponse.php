@@ -3,10 +3,10 @@
  * @package plugins.metadata
  * @subpackage api.objects
  */
-class KalturaTransformMetadataResponse extends KalturaObject
+class BorhanTransformMetadataResponse extends BorhanObject
 {
 	/**
-	 * @var KalturaMetadataArray
+	 * @var BorhanMetadataArray
 	 * @readonly
 	 */
 	public $objects;

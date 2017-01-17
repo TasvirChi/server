@@ -29,13 +29,13 @@ while(count($entries))
 	foreach($entries as $entry)
 	{
 	    /* @var $entry CuePoint */
-		KalturaLog::log('cue point id ' . $entry->getId() . ' updated at '. $entry->getUpdatedAt(null));
+		BorhanLog::log('cue point id ' . $entry->getId() . ' updated at '. $entry->getUpdatedAt(null));
 		
 		try {
 			$ret = $sphinx->saveToSphinx($entry, true);
 		}
 		catch(Exception $e){
-			KalturaLog::err($e->getMessage());
+			BorhanLog::err($e->getMessage());
 			exit -1;
 		}
 	}
@@ -45,5 +45,5 @@ while(count($entries))
 	$entries = CuePointPeer::doSelect($c, $con);
 }
 
-KalturaLog::log('Done. Cureent time: ' . time());
+BorhanLog::log('Done. Cureent time: ' . time());
 exit(0);

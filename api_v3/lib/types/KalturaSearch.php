@@ -4,7 +4,7 @@
  * @subpackage objects
  * @deprecated
  */
-class KalturaSearch extends KalturaObject
+class BorhanSearch extends BorhanObject
 {
 	/**
 	 * @var string
@@ -12,12 +12,12 @@ class KalturaSearch extends KalturaObject
 	public $keyWords;
 	
 	/**
-	 * @var KalturaSearchProviderType
+	 * @var BorhanSearchProviderType
 	 */
 	public $searchSource;
 	
 	/**
-	 * @var KalturaMediaType
+	 * @var BorhanMediaType
 	 */
 	public $mediaType;
 	

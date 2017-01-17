@@ -3,12 +3,12 @@
  * Enable attachment assets management for entry objects
  * @package plugins.attachment
  */
-class AttachmentPlugin extends KalturaPlugin implements IKalturaServices, IKalturaPermissions, IKalturaEnumerator, IKalturaObjectLoader, IKalturaApplicationPartialView, IKalturaSchemaContributor, IKalturaMrssContributor
+class AttachmentPlugin extends BorhanPlugin implements IBorhanServices, IBorhanPermissions, IBorhanEnumerator, IBorhanObjectLoader, IBorhanApplicationPartialView, IBorhanSchemaContributor, IBorhanMrssContributor
 {
 	const PLUGIN_NAME = 'attachment';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -16,7 +16,7 @@ class AttachmentPlugin extends KalturaPlugin implements IKalturaServices, IKaltu
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissions::isAllowedPartner()
+	 * @see IBorhanPermissions::isAllowedPartner()
 	 */
 	public static function isAllowedPartner($partnerId)
 	{
@@ -25,7 +25,7 @@ class AttachmentPlugin extends KalturaPlugin implements IKalturaServices, IKaltu
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaServices::getServicesMap()
+	 * @see IBorhanServices::getServicesMap()
 	 */
 	public static function getServicesMap()
 	{
@@ -36,7 +36,7 @@ class AttachmentPlugin extends KalturaPlugin implements IKalturaServices, IKaltu
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -53,18 +53,18 @@ class AttachmentPlugin extends KalturaPlugin implements IKalturaServices, IKaltu
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if($baseClass == 'KalturaAsset' && $enumValue == self::getAssetTypeCoreValue(AttachmentAssetType::ATTACHMENT))
-			return new KalturaAttachmentAsset();
+		if($baseClass == 'BorhanAsset' && $enumValue == self::getAssetTypeCoreValue(AttachmentAssetType::ATTACHMENT))
+			return new BorhanAttachmentAsset();
 	
 		return null;
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
@@ -75,14 +75,14 @@ class AttachmentPlugin extends KalturaPlugin implements IKalturaServices, IKaltu
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaApplicationPartialView::getApplicationPartialViews()
+	 * @see IBorhanApplicationPartialView::getApplicationPartialViews()
 	 */
 	public static function getApplicationPartialViews($controller, $action)
 	{
 		if($controller == 'batch' && $action == 'entryInvestigation')
 		{
 			return array(
-				new Kaltura_View_Helper_EntryInvestigateAttachmentAssets(),
+				new Borhan_View_Helper_EntryInvestigateAttachmentAssets(),
 			);
 		}
 		
@@ -90,7 +90,7 @@ class AttachmentPlugin extends KalturaPlugin implements IKalturaServices, IKaltu
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSchemaContributor::contributeToSchema()
+	 * @see IBorhanSchemaContributor::contributeToSchema()
 	 */
 	public static function contributeToSchema($type)
 	{
@@ -132,7 +132,7 @@ class AttachmentPlugin extends KalturaPlugin implements IKalturaServices, IKaltu
 				<xs:documentation>The asset unique id</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="format" type="KalturaAttachmentType" use="optional">
+		<xs:attribute name="format" type="BorhanAttachmentType" use="optional">
 			<xs:annotation>
 				<xs:documentation>Attachment asset file format</xs:documentation>
 			</xs:annotation>
@@ -151,7 +151,7 @@ class AttachmentPlugin extends KalturaPlugin implements IKalturaServices, IKaltu
 			<xs:documentation>Attachment asset element</xs:documentation>
 			<xs:appinfo>
 				<example>
-					<attachment url="http://kaltura.domain/path/to/attachment/asset/file.txt" attachmentAssetId="{attachment asset id}" format="1">
+					<attachment url="http://borhan.domain/path/to/attachment/asset/file.txt" attachmentAssetId="{attachment asset id}" format="1">
 						<tags>
 							<tag>example</tag>
 							<tag>my_tag</tag>
@@ -170,14 +170,14 @@ class AttachmentPlugin extends KalturaPlugin implements IKalturaServices, IKaltu
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaMrssContributor::contribute()
+	 * @see IBorhanMrssContributor::contribute()
 	 */
 	public function contribute(BaseObject $object, SimpleXMLElement $mrss, kMrssParameters $mrssParams = null)
 	{
 		if(!($object instanceof entry))
 			return;
 			
-		$types = KalturaPluginManager::getExtendedTypes(assetPeer::OM_CLASS, AttachmentPlugin::getAssetTypeCoreValue(AttachmentAssetType::ATTACHMENT));
+		$types = BorhanPluginManager::getExtendedTypes(assetPeer::OM_CLASS, AttachmentPlugin::getAssetTypeCoreValue(AttachmentAssetType::ATTACHMENT));
 		$attachmentAssets = assetPeer::retrieveByEntryId($object->getId(), $types);
 		
 		foreach($attachmentAssets as $attachmentAsset)
@@ -210,7 +210,7 @@ class AttachmentPlugin extends KalturaPlugin implements IKalturaServices, IKaltu
 	 */
 	public static function getAssetTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('assetType', $value);
 	}
 	
@@ -219,7 +219,7 @@ class AttachmentPlugin extends KalturaPlugin implements IKalturaServices, IKaltu
 	 */
 	public static function getObjectFeatureTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('ObjectFeatureType', $value);
 	}
 	
@@ -228,11 +228,11 @@ class AttachmentPlugin extends KalturaPlugin implements IKalturaServices, IKaltu
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaMrssContributor::getObjectFeatureType()
+	 * @see IBorhanMrssContributor::getObjectFeatureType()
 	 */
 	public function getObjectFeatureType ()
 	{

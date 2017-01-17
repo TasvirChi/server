@@ -3,18 +3,18 @@
  * @package api
  * @subpackage objects
  */
-class KalturaBaseEntryCloneOptionComponent extends KalturaBaseEntryCloneOptionItem
+class BorhanBaseEntryCloneOptionComponent extends BorhanBaseEntryCloneOptionItem
 {
     /**
      *
-     * @var KalturaBaseEntryCloneOptions
+     * @var BorhanBaseEntryCloneOptions
      */
     public $itemType;
 
     /**
      * condition rule (include/exclude)
      *
-     * @var KalturaCloneComponentSelectorType
+     * @var BorhanCloneComponentSelectorType
      */
     public $rule;
 
@@ -43,9 +43,9 @@ class KalturaBaseEntryCloneOptionComponent extends KalturaBaseEntryCloneOptionIt
     }
 
     /* (non-PHPdoc)
- * @see KalturaObject::fromObject()
+ * @see BorhanObject::fromObject()
  */
-    public function doFromObject($dbObject, KalturaDetachedResponseProfile $responseProfile = null)
+    public function doFromObject($dbObject, BorhanDetachedResponseProfile $responseProfile = null)
     {
         /** @var $dbObject kBaseEntryCloneOptionComponent */
         parent::doFromObject($dbObject, $responseProfile);

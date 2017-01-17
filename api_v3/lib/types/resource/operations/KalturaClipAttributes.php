@@ -5,7 +5,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaClipAttributes extends KalturaOperationAttributes
+class BorhanClipAttributes extends BorhanOperationAttributes
 {
 	/**
 	 * Offset in milliseconds

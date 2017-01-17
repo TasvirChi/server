@@ -4,7 +4,7 @@
  * @package infra
  * @subpackage Plugins
  */
-interface IKalturaDatabaseConfig extends IKalturaBase
+interface IBorhanDatabaseConfig extends IBorhanBase
 {
 	/**
 	 * @return array

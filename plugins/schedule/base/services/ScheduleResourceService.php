@@ -6,10 +6,10 @@
  * @package plugins.schedule
  * @subpackage api.services
  */
-class ScheduleResourceService extends KalturaBaseService
+class ScheduleResourceService extends BorhanBaseService
 {
 	/* (non-PHPdoc)
-	 * @see KalturaBaseService::initService()
+	 * @see BorhanBaseService::initService()
 	 */
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -21,116 +21,116 @@ class ScheduleResourceService extends KalturaBaseService
 	}
 	
 	/**
-	 * Allows you to add a new KalturaScheduleResource object
+	 * Allows you to add a new BorhanScheduleResource object
 	 * 
 	 * @action add
-	 * @param KalturaScheduleResource $scheduleResource
-	 * @return KalturaScheduleResource
+	 * @param BorhanScheduleResource $scheduleResource
+	 * @return BorhanScheduleResource
 	 */
-	public function addAction(KalturaScheduleResource $scheduleResource)
+	public function addAction(BorhanScheduleResource $scheduleResource)
 	{
 		// save in database
 		$dbScheduleResource = $scheduleResource->toInsertableObject();
 		$dbScheduleResource->save();
 		
 		// return the saved object
-		$scheduleResource = KalturaScheduleResource::getInstance($dbScheduleResource, $this->getResponseProfile());
+		$scheduleResource = BorhanScheduleResource::getInstance($dbScheduleResource, $this->getResponseProfile());
 		$scheduleResource->fromObject($dbScheduleResource, $this->getResponseProfile());
 		return $scheduleResource;
 	
 	}
 	
 	/**
-	 * Retrieve a KalturaScheduleResource object by ID
+	 * Retrieve a BorhanScheduleResource object by ID
 	 * 
 	 * @action get
 	 * @param int $scheduleResourceId 
-	 * @return KalturaScheduleResource
+	 * @return BorhanScheduleResource
 	 * 
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */
 	public function getAction($scheduleResourceId)
 	{
 		$dbScheduleResource = ScheduleResourcePeer::retrieveByPK($scheduleResourceId);
 		if(!$dbScheduleResource)
 		{
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $scheduleResourceId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $scheduleResourceId);
 		}
 		
-		$scheduleResource = KalturaScheduleResource::getInstance($dbScheduleResource, $this->getResponseProfile());
+		$scheduleResource = BorhanScheduleResource::getInstance($dbScheduleResource, $this->getResponseProfile());
 		$scheduleResource->fromObject($dbScheduleResource, $this->getResponseProfile());
 		
 		return $scheduleResource;
 	}
 	
 	/**
-	 * Update an existing KalturaScheduleResource object
+	 * Update an existing BorhanScheduleResource object
 	 * 
 	 * @action update
 	 * @param int $scheduleResourceId
-	 * @param KalturaScheduleResource $scheduleResource
-	 * @return KalturaScheduleResource
+	 * @param BorhanScheduleResource $scheduleResource
+	 * @return BorhanScheduleResource
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */
-	public function updateAction($scheduleResourceId, KalturaScheduleResource $scheduleResource)
+	public function updateAction($scheduleResourceId, BorhanScheduleResource $scheduleResource)
 	{
 		$dbScheduleResource = ScheduleResourcePeer::retrieveByPK($scheduleResourceId);
 		if(!$dbScheduleResource)
 		{
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $scheduleResourceId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $scheduleResourceId);
 		}
 		
 		$dbScheduleResource = $scheduleResource->toUpdatableObject($dbScheduleResource);
 		$dbScheduleResource->save();
 		
-		$scheduleResource = KalturaScheduleResource::getInstance($dbScheduleResource, $this->getResponseProfile());
+		$scheduleResource = BorhanScheduleResource::getInstance($dbScheduleResource, $this->getResponseProfile());
 		$scheduleResource->fromObject($dbScheduleResource, $this->getResponseProfile());
 		
 		return $scheduleResource;
 	}
 	
 	/**
-	 * Mark the KalturaScheduleResource object as deleted
+	 * Mark the BorhanScheduleResource object as deleted
 	 * 
 	 * @action delete
 	 * @param int $scheduleResourceId 
-	 * @return KalturaScheduleResource
+	 * @return BorhanScheduleResource
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */
 	public function deleteAction($scheduleResourceId)
 	{
 		$dbScheduleResource = ScheduleResourcePeer::retrieveByPK($scheduleResourceId);
 		if(!$dbScheduleResource)
 		{
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $scheduleResourceId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $scheduleResourceId);
 		}
 		
 		$dbScheduleResource->setStatus(ScheduleResourceStatus::DELETED);
 		$dbScheduleResource->save();
 		
-		$scheduleResource = KalturaScheduleResource::getInstance($dbScheduleResource, $this->getResponseProfile());
+		$scheduleResource = BorhanScheduleResource::getInstance($dbScheduleResource, $this->getResponseProfile());
 		$scheduleResource->fromObject($dbScheduleResource, $this->getResponseProfile());
 		
 		return $scheduleResource;
 	}
 	
 	/**
-	 * List KalturaScheduleResource objects
+	 * List BorhanScheduleResource objects
 	 * 
 	 * @action list
-	 * @param KalturaScheduleResourceFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaScheduleResourceListResponse
+	 * @param BorhanScheduleResourceFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanScheduleResourceListResponse
 	 */
-	public function listAction(KalturaScheduleResourceFilter $filter = null, KalturaFilterPager $pager = null)
+	public function listAction(BorhanScheduleResourceFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaScheduleResourceFilter();
+			$filter = new BorhanScheduleResourceFilter();
 			
 		if(!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 			
 		return $filter->getListResponse($pager, $this->getResponseProfile());
 	}

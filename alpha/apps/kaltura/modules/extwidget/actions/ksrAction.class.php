@@ -1,8 +1,8 @@
 <?php
 /**
- * KSR - Kaltura Screencast Recorder
+ * KSR - Borhan Screencast Recorder
  * This action is used for integrating the KSR widget into web pages, by returning a JS code that provides everything the integrator needs in order to load the widget
- * the KSR widget is a JAVA applet that allows the user to record the screen, and then it uploads the recording to Kaltura.
+ * the KSR widget is a JAVA applet that allows the user to record the screen, and then it uploads the recording to Borhan.
  * the JS code which is returned to the page is constructed from a template which is part of a version of the widget (e.g. flash/ksr/v1.0.32/js/*) and it is constructed with values stored in the uiconf XML.
  *
  * @package Core
@@ -13,13 +13,13 @@ class ksrAction extends sfAction
 {
     const SOM_JS_FILENAME = 'som.js';
     const SOM_DETECT_JS_FILENAME = 'som-detect.js';
-    const KALTURA_LIB_JS_FILENAME = 'lib.js';
-    const KALTURA_LIB_API_JS_FILENAME = 'api.js';
+    const BORHAN_LIB_JS_FILENAME = 'lib.js';
+    const BORHAN_LIB_API_JS_FILENAME = 'api.js';
     const JS_PATH_IN_JARS_FOLDER = 'js';
     
     private $jsTemplateParams = array(
         /** environment options **/
-        'KALTURA_SERVER' => array( 'method' => '_getKalturaHost', ), // comes from local.ini
+        'BORHAN_SERVER' => array( 'method' => '_getBorhanHost', ), // comes from local.ini
         'JAR_HOST_PATH' => array( 'method' => '_buildJarsHostPath' ), // CDN host + swf_url [ conf object +  ]
         'SOM_PARTNER_ID' => array( 'method' => '_getSomPartnerInfo', 'param' => 'id', ), // comes from local.ini
         'SOM_PARTNER_SITE' => array( 'method' => '_getSomPartnerInfo', 'param' => 'site', ), // comes from local.ini, empty by default
@@ -29,17 +29,17 @@ class ksrAction extends sfAction
         'SOM_JAR_RUN' => array( 'method' => '_getRunJarNameFromSwfUrl' ), // parse swf_url for filename.jar
 
         /** uiconf XML originated options **/
-        'KALTURA_VIDEOBITRATE' => array( 'value' => 0, 'method' => '_getFromXml', 'param' => '/uiconf/kaltura/videoBitRate', ),
-        'KALTURA_CATEGORY' => array( 'method' => '_getFromXml', 'param' => '/uiconf/kaltura/category', ),
-        'KALTURA_CONVERSIONPROFILEID' => array( 'method' => '_getFromXml', 'param' => '/uiconf/kaltura/conversionProfileId', ),
-        'KALTURA_SUBMIT_TITLE_VALUE' => array( 'method' => '_getFromXml', 'param' => '/uiconf/kaltura/submit/title/value', ),
-        'KALTURA_SUBMIT_DESCRIPTION_VALUE' => array( 'method' => '_getFromXml', 'param' => '/uiconf/kaltura/submit/description/value', ),
-        'KALTURA_SUBMIT_TAGS_VALUE' => array( 'method' => '_getFromXml', 'param' => '/uiconf/kaltura/submit/tags/value', ),
-        'KALTURA_SUBMIT_TITLE_ENABLED' => array( 'method' => '_getFromXml', 'param' => '/uiconf/kaltura/submit/title/enabled', ),
-        'KALTURA_SUBMIT_DESCRIPTION_ENABLED' => array( 'method' => '_getFromXml', 'param' => '/uiconf/kaltura/submit/description/enabled', ),
-        'KALTURA_SUBMIT_TAGS_ENABLED' => array( 'method' => '_getFromXml', 'param' => '/uiconf/kaltura/submit/tags/enabled', ),
+        'BORHAN_VIDEOBITRATE' => array( 'value' => 0, 'method' => '_getFromXml', 'param' => '/uiconf/borhan/videoBitRate', ),
+        'BORHAN_CATEGORY' => array( 'method' => '_getFromXml', 'param' => '/uiconf/borhan/category', ),
+        'BORHAN_CONVERSIONPROFILEID' => array( 'method' => '_getFromXml', 'param' => '/uiconf/borhan/conversionProfileId', ),
+        'BORHAN_SUBMIT_TITLE_VALUE' => array( 'method' => '_getFromXml', 'param' => '/uiconf/borhan/submit/title/value', ),
+        'BORHAN_SUBMIT_DESCRIPTION_VALUE' => array( 'method' => '_getFromXml', 'param' => '/uiconf/borhan/submit/description/value', ),
+        'BORHAN_SUBMIT_TAGS_VALUE' => array( 'method' => '_getFromXml', 'param' => '/uiconf/borhan/submit/tags/value', ),
+        'BORHAN_SUBMIT_TITLE_ENABLED' => array( 'method' => '_getFromXml', 'param' => '/uiconf/borhan/submit/title/enabled', ),
+        'BORHAN_SUBMIT_DESCRIPTION_ENABLED' => array( 'method' => '_getFromXml', 'param' => '/uiconf/borhan/submit/description/enabled', ),
+        'BORHAN_SUBMIT_TAGS_ENABLED' => array( 'method' => '_getFromXml', 'param' => '/uiconf/borhan/submit/tags/enabled', ),
         
-        'KALTURA_ERROR_MESSAGES' => array( 'value' => '', 'method' => '_getErrorMessagesFromXml'),
+        'BORHAN_ERROR_MESSAGES' => array( 'value' => '', 'method' => '_getErrorMessagesFromXml'),
         'SOM_CAPTURE_ID' => array( 'method' => '_getFromXml', 'param' => '/uiconf/som/captureId', ),
         'SOM_MAC_NAME' => array( 'method' => '_getFromXml', 'param' => '/uiconf/som/macName', ),
         'SOM_SIDE_PANEL_ONLY' => array(
@@ -89,7 +89,7 @@ class ksrAction extends sfAction
         }
         catch(Exception $e)
         {
-            KalturaLog::err("malformed uiconf XML - base64 encoded: [".base64_encode(trim($this->uiconfObj->getConfFile()))."]");
+            BorhanLog::err("malformed uiconf XML - base64 encoded: [".base64_encode(trim($this->uiconfObj->getConfFile()))."]");
         }
         if(!($this->uiconfXmlObj instanceof SimpleXMLElement))
         {
@@ -156,17 +156,17 @@ class ksrAction extends sfAction
         }
     }
 
-    private function _getKalturaHost()
+    private function _getBorhanHost()
     {
         $proto='http';
-        $kalturaHost = kConf::get('www_host');
+        $borhanHost = kConf::get('www_host');
         if (infraRequestUtils::getProtocol() == infraRequestUtils::PROTOCOL_HTTPS){
             $proto='https';
             if(kConf::hasParam('www_host_https')){
-                $kalturaHost = kConf::get('www_host_https');
+                $borhanHost = kConf::get('www_host_https');
             }
         }
-        $url = $proto .'://'. $kalturaHost;
+        $url = $proto .'://'. $borhanHost;
         return $url;
     }
 
@@ -214,7 +214,7 @@ class ksrAction extends sfAction
     private function _getErrorMessagesFromXml()
     {
         $errormsgs = array();
-        $xpath = '/uiconf/kaltura/errorMessages/*';
+        $xpath = '/uiconf/borhan/errorMessages/*';
 
         $xpathArr = $this->uiconfXmlObj->xpath($xpath);
         if (is_array($xpathArr) && count($xpathArr))
@@ -226,10 +226,10 @@ class ksrAction extends sfAction
                 {
                     $starts = $msgDetails['starts'];
                     $replace = $msgDetails['replace'];
-                    $errormsgs[] = 'name = "kaltura.error.messages.'.$key.'.starts";'.PHP_EOL;
-                    $errormsgs[] = "kalturaScreenRecord.errorMessages[name] = '".$starts."';".PHP_EOL;
-                    $errormsgs[] = 'name = "kaltura.error.messages.'.$key.'.replace";'.PHP_EOL;
-                    $errormsgs[] = "kalturaScreenRecord.errorMessages[name] = '".$replace."';".PHP_EOL;
+                    $errormsgs[] = 'name = "borhan.error.messages.'.$key.'.starts";'.PHP_EOL;
+                    $errormsgs[] = "borhanScreenRecord.errorMessages[name] = '".$starts."';".PHP_EOL;
+                    $errormsgs[] = 'name = "borhan.error.messages.'.$key.'.replace";'.PHP_EOL;
+                    $errormsgs[] = "borhanScreenRecord.errorMessages[name] = '".$replace."';".PHP_EOL;
                 }
             }
         }
@@ -255,7 +255,7 @@ class ksrAction extends sfAction
     
     private function _prepareLibJs()
     {
-	$filePath = $this->_getJsFilesPath(). self::KALTURA_LIB_JS_FILENAME;
+	$filePath = $this->_getJsFilesPath(). self::BORHAN_LIB_JS_FILENAME;
 	if(!file_exists($filePath))
 	{
 		KExternalErrors::dieError(KExternalErrors::ILLEGAL_UI_CONF, "Required file is missing");
@@ -274,7 +274,7 @@ class ksrAction extends sfAction
 	$baseFilePath = $this->_getJsFilesPath();
 	$somDetectJsPath = $baseFilePath. self::SOM_DETECT_JS_FILENAME;
 	$somJsPath = $baseFilePath. self::SOM_JS_FILENAME;
-	$apiJsPath = $baseFilePath. self::KALTURA_LIB_API_JS_FILENAME;
+	$apiJsPath = $baseFilePath. self::BORHAN_LIB_API_JS_FILENAME;
 	
 	if(!file_exists($somDetectJsPath) || !file_exists($somJsPath) || !file_exists($apiJsPath))
 	{

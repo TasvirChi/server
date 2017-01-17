@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaBulkUploadJobData extends KalturaJobData
+class BorhanBulkUploadJobData extends BorhanJobData
 {
 	/**
 	 * @var string
@@ -20,7 +20,7 @@ class KalturaBulkUploadJobData extends KalturaJobData
 	
 	/**
 	 * Selected profile id for all bulk entries
-	 * @deprecated set this parameter on the KalturaBulkUploadEntryData instead
+	 * @deprecated set this parameter on the BorhanBulkUploadEntryData instead
 	 * @readonly
 	 * @var int
 	 */
@@ -66,7 +66,7 @@ class KalturaBulkUploadJobData extends KalturaJobData
 	
 	/**
 	 * Type of object for bulk upload
-	 * @var KalturaBulkUploadObjectType
+	 * @var BorhanBulkUploadObjectType
 	 * @readonly
 	 */
 	public $bulkUploadObjectType;
@@ -80,13 +80,13 @@ class KalturaBulkUploadJobData extends KalturaJobData
 	/**
 	 * Data pertaining to the objects being uploaded
 	 * @readonly
-	 * @var KalturaBulkUploadObjectData
+	 * @var BorhanBulkUploadObjectData
 	 */
 	public $objectData;
 	
 	/**
 	 * Type of bulk upload
-	 * @var KalturaBulkUploadType
+	 * @var BorhanBulkUploadType
 	 * @readonly
 	 */
 	public $type;
@@ -123,7 +123,7 @@ class KalturaBulkUploadJobData extends KalturaJobData
 
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -131,22 +131,22 @@ class KalturaBulkUploadJobData extends KalturaJobData
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($object_to_fill = null, $props_to_skip = array())
 	{
 		if (is_null($object_to_fill))
 		{
-			throw new KalturaAPIException(KalturaErrors::OBJECT_TYPE_ABSTRACT, "KalturaBulkUploadJobData");
+			throw new BorhanAPIException(BorhanErrors::OBJECT_TYPE_ABSTRACT, "BorhanBulkUploadJobData");
 		}
 		
 		return parent::toObject($object_to_fill, $props_to_skip);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject()
+	 * @see BorhanObject::fromObject()
 	 */
-	public function doFromObject($source_object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($source_object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($source_object, $responseProfile);
 		
@@ -158,19 +158,19 @@ class KalturaBulkUploadJobData extends KalturaJobData
 		    switch (get_class($source_object->getObjectData()))
 		    {
 		        case 'kBulkUploadEntryData':
-		            $this->objectData = new KalturaBulkUploadEntryData();
+		            $this->objectData = new BorhanBulkUploadEntryData();
 		            break;
 		        case 'kBulkUploadCategoryData':
-		            $this->objectData = new KalturaBulkUploadCategoryData();
+		            $this->objectData = new BorhanBulkUploadCategoryData();
 		            break;
 		        case 'kBulkUploadCategoryUserData':
-		            $this->objectData = new KalturaBulkUploadCategoryUserData();
+		            $this->objectData = new BorhanBulkUploadCategoryUserData();
 		            break;
 		        case 'kBulkUploadUserData':
-		            $this->objectData = new KalturaBulkUploadUserData();
+		            $this->objectData = new BorhanBulkUploadUserData();
 		            break;
 		        case 'kBulkUploadCategoryEntryData':
-		            $this->objectData = new KalturaBulkUploadCategoryEntryData();
+		            $this->objectData = new BorhanBulkUploadCategoryEntryData();
 		            break;
 		        default:
 		            break;

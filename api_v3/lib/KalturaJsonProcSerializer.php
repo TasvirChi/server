@@ -3,7 +3,7 @@
  * @package api
  * @subpackage v3
  */
-class KalturaJsonProcSerializer extends KalturaJsonSerializer
+class BorhanJsonProcSerializer extends BorhanJsonSerializer
 {
 	public function setHttpHeaders()
 	{

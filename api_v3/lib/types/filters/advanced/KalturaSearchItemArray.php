@@ -3,28 +3,28 @@
  * @package api
  * @subpackage filters
  */
-class KalturaSearchItemArray extends KalturaTypedArray
+class BorhanSearchItemArray extends BorhanTypedArray
 {
 	/**
 	 * @param array $arr
-	 * @return KalturaSearchItemArray
+	 * @return BorhanSearchItemArray
 	 */
-	public static function fromDbArray(array $arr = null, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $arr = null, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaSearchItemArray();
+		$newArr = new BorhanSearchItemArray();
 		if(!$arr || !count($arr))
 			return $newArr;
 			
 		foreach ( $arr as $obj )
 		{
-			$kalturaClass = $obj->getKalturaClass();
-			if(!class_exists($kalturaClass))
+			$borhanClass = $obj->getBorhanClass();
+			if(!class_exists($borhanClass))
 			{
-				KalturaLog::err("Class [$kalturaClass] not found");
+				BorhanLog::err("Class [$borhanClass] not found");
 				continue;
 			}
 				
-			$nObj = new $kalturaClass();
+			$nObj = new $borhanClass();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -48,7 +48,7 @@ class KalturaSearchItemArray extends KalturaTypedArray
 	
 	public function __construct( )
 	{
-		return parent::__construct ( "KalturaSearchItem" );
+		return parent::__construct ( "BorhanSearchItem" );
 	}
 }
 ?>

@@ -28,9 +28,9 @@ class Form_DailymotionProfileConfiguration extends Form_ConfigurableProfileConfi
 			'label'			=> 'Geo Blocking Mapping:',
 			'filters'		=> array('StringTrim'),
 			'multiOptions'	=> array(
-				Kaltura_Client_DailymotionDistribution_Enum_DailymotionGeoBlockingMapping::DISABLED => 'Disabled',
-				Kaltura_Client_DailymotionDistribution_Enum_DailymotionGeoBlockingMapping::ACCESS_CONTROL => 'Access Control',
-				Kaltura_Client_DailymotionDistribution_Enum_DailymotionGeoBlockingMapping::METADATA => 'Custom Data',
+				Borhan_Client_DailymotionDistribution_Enum_DailymotionGeoBlockingMapping::DISABLED => 'Disabled',
+				Borhan_Client_DailymotionDistribution_Enum_DailymotionGeoBlockingMapping::ACCESS_CONTROL => 'Access Control',
+				Borhan_Client_DailymotionDistribution_Enum_DailymotionGeoBlockingMapping::METADATA => 'Custom Data',
 			)
 		));
 	}

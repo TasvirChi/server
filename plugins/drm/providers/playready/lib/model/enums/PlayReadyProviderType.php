@@ -3,7 +3,7 @@
  * @package plugins.playReady
  * @subpackage model.enum
  */
-class PlayReadyProviderType implements IKalturaPluginEnum, DrmProviderType
+class PlayReadyProviderType implements IBorhanPluginEnum, DrmProviderType
 {
 	const PLAY_READY = 'PLAY_READY';
 	

@@ -4,25 +4,25 @@
  * @package plugins.adminConsole
  * @subpackage api.services
  */
-class ReportAdminService extends KalturaBaseService
+class ReportAdminService extends BorhanBaseService
 {
     /* (non-PHPdoc)
-     * @see KalturaBaseService::initService()
+     * @see BorhanBaseService::initService()
      */
     public function initService($serviceId, $serviceName, $actionName)
     {
         parent::initService($serviceId, $serviceName, $actionName);
 
 		if(!AdminConsolePlugin::isAllowedPartner($this->getPartnerId()))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, AdminConsolePlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, AdminConsolePlugin::PLUGIN_NAME);
 	}
     
 	/**
 	 * @action add
-	 * @param KalturaReport $report
-	 * @return KalturaReport
+	 * @param BorhanReport $report
+	 * @return BorhanReport
 	 */
-	function addAction(KalturaReport $report)
+	function addAction(BorhanReport $report)
 	{
 		$dbReport = new Report();
 		$report->toInsertableObject($dbReport);
@@ -35,32 +35,32 @@ class ReportAdminService extends KalturaBaseService
 	/**
 	 * @action get
 	 * @param int $id
-	 * @return KalturaReport
+	 * @return BorhanReport
 	 */
 	function getAction($id)
 	{
 		$dbReport = ReportPeer::retrieveByPK($id);
 		if (is_null($dbReport))
-			throw new KalturaAPIException(KalturaErrors::REPORT_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::REPORT_NOT_FOUND, $id);
 			
-		$report = new KalturaReport();
+		$report = new BorhanReport();
 		$report->fromObject($dbReport, $this->getResponseProfile());
 		return $report;
 	}
 	
 	/**
 	 * @action list
-	 * @param KalturaReportFilter $filter
-	 * @param KalturaReport $report
-	 * @return KalturaReportListResponse
+	 * @param BorhanReportFilter $filter
+	 * @param BorhanReport $report
+	 * @return BorhanReportListResponse
 	 */
-	function listAction(KalturaReportFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanReportFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaReportFilter();
+			$filter = new BorhanReportFilter();
 			
 		if (!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 			
 		$reportFilter = new ReportFilter();
 		
@@ -73,8 +73,8 @@ class ReportAdminService extends KalturaBaseService
 		$c->setLimit(null);
 		$totalCount = ReportPeer::doCount($c);
 
-		$list = KalturaReportArray::fromDbArray($dbList, $this->getResponseProfile());
-		$response = new KalturaReportListResponse();
+		$list = BorhanReportArray::fromDbArray($dbList, $this->getResponseProfile());
+		$response = new BorhanReportListResponse();
 		$response->objects = $list;
 		$response->totalCount = $totalCount;
 		return $response;    
@@ -83,14 +83,14 @@ class ReportAdminService extends KalturaBaseService
 	/**
 	 * @action update
 	 * @param int $id
-	 * @param KalturaReport $report
-	 * @return KalturaReport
+	 * @param BorhanReport $report
+	 * @return BorhanReport
 	 */
-	function updateAction($id, KalturaReport $report)
+	function updateAction($id, BorhanReport $report)
 	{
 		$dbReport = ReportPeer::retrieveByPK($id);
 		if (is_null($dbReport))
-			throw new KalturaAPIException(KalturaErrors::REPORT_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::REPORT_NOT_FOUND, $id);
 			
 		$report->toUpdatableObject($dbReport);
 		$dbReport->save();
@@ -107,7 +107,7 @@ class ReportAdminService extends KalturaBaseService
 	{
 		$dbReport = ReportPeer::retrieveByPK($id);
 		if (is_null($dbReport))
-			throw new KalturaAPIException(KalturaErrors::REPORT_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::REPORT_NOT_FOUND, $id);
 			
 		$dbReport->setDeletedAt(time());
 		$dbReport->save();
@@ -116,18 +116,18 @@ class ReportAdminService extends KalturaBaseService
 	/**
 	 * @action executeDebug
 	 * @param int $id
-	 * @param KalturaKeyValueArray $params
-	 * @return KalturaReportResponse
+	 * @param BorhanKeyValueArray $params
+	 * @return BorhanReportResponse
 	 */
-	function executeDebugAction($id, KalturaKeyValueArray $params = null)
+	function executeDebugAction($id, BorhanKeyValueArray $params = null)
 	{
 		$dbReport = ReportPeer::retrieveByPK($id);
 		if (is_null($dbReport))
-			throw new KalturaAPIException(KalturaErrors::REPORT_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::REPORT_NOT_FOUND, $id);
 			
 		$query = $dbReport->getQuery();
 		$matches = null;
-		$execParams = KalturaReportHelper::getValidateExecutionParameters($dbReport, $params);
+		$execParams = BorhanReportHelper::getValidateExecutionParameters($dbReport, $params);
 		
 		try 
 		{
@@ -136,11 +136,11 @@ class ReportAdminService extends KalturaBaseService
 		}
 		catch(Exception $ex)
 		{
-			KalturaLog::err($ex);
-			throw new KalturaAPIException(KalturaErrors::INTERNAL_SERVERL_ERROR_DEBUG, $ex->getMessage());
+			BorhanLog::err($ex);
+			throw new BorhanAPIException(BorhanErrors::INTERNAL_SERVERL_ERROR_DEBUG, $ex->getMessage());
 		}
 		
-		$reportResponse = KalturaReportResponse::fromColumnsAndRows($columns, $rows);
+		$reportResponse = BorhanReportResponse::fromColumnsAndRows($columns, $rows);
 		
 		return $reportResponse;
 	}
@@ -148,15 +148,15 @@ class ReportAdminService extends KalturaBaseService
 	/**
 	 * @action getParameters
 	 * @param int $id
-	 * @return KalturaStringArray
+	 * @return BorhanStringArray
 	 */
 	function getParametersAction($id)
 	{
 		$dbReport = ReportPeer::retrieveByPK($id);
 		if (is_null($dbReport))
-			throw new KalturaAPIException(KalturaErrors::REPORT_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::REPORT_NOT_FOUND, $id);
 			
-		return KalturaStringArray::fromStringArray($dbReport->getParameters());
+		return BorhanStringArray::fromStringArray($dbReport->getParameters());
 	}
 	
 	/**
@@ -169,15 +169,15 @@ class ReportAdminService extends KalturaBaseService
 	{
 		$dbReport = ReportPeer::retrieveByPK($id);
 		if (is_null($dbReport))
-			throw new KalturaAPIException(KalturaErrors::REPORT_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::REPORT_NOT_FOUND, $id);
 
 		$dbPartner = PartnerPeer::retrieveByPK($reportPartnerId);
 		if (is_null($dbPartner))
-			throw new KalturaAPIException(KalturaErrors::INVALID_PARTNER_ID, $reportPartnerId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_PARTNER_ID, $reportPartnerId);
 
 		// allow creating urls for reports that are associated with partner 0 and the report owner
 		if ($dbReport->getPartnerId() !== 0 && $dbReport->getPartnerId() !== $reportPartnerId) 
-			throw new KalturaAPIException(KalturaErrors::REPORT_NOT_PUBLIC, $id); 
+			throw new BorhanAPIException(BorhanErrors::REPORT_NOT_PUBLIC, $id); 
 		
 		$ks = new ks();
 		$ks->valid_until = time() + 2 * 365 * 24 * 60 * 60; // 2 years 

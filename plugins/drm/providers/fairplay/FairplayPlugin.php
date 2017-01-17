@@ -2,14 +2,14 @@
 /**
  * @package plugins.fairplay
  */
-class FairplayPlugin extends KalturaPlugin implements IKalturaEnumerator, IKalturaObjectLoader, IKalturaEntryContextDataContributor, IKalturaPending, IKalturaPlayManifestContributor, IKalturaPlaybackContextDataContributor
+class FairplayPlugin extends BorhanPlugin implements IBorhanEnumerator, IBorhanObjectLoader, IBorhanEntryContextDataContributor, IBorhanPending, IBorhanPlayManifestContributor, IBorhanPlaybackContextDataContributor
 {
 	const PLUGIN_NAME = 'fairplay';
 	const URL_NAME = 'fps';
 	const SEARCH_DATA_SUFFIX = 's';
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -17,7 +17,7 @@ class FairplayPlugin extends KalturaPlugin implements IKalturaEnumerator, IKaltu
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getUrlName()
 	{
@@ -25,7 +25,7 @@ class FairplayPlugin extends KalturaPlugin implements IKalturaEnumerator, IKaltu
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -39,56 +39,56 @@ class FairplayPlugin extends KalturaPlugin implements IKalturaEnumerator, IKaltu
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if ($baseClass == 'KalturaDrmProfile' && $enumValue == FairplayPlugin::getFairplayProviderCoreValue() )
-			return new KalturaFairplayDrmProfile();
+		if ($baseClass == 'BorhanDrmProfile' && $enumValue == FairplayPlugin::getFairplayProviderCoreValue() )
+			return new BorhanFairplayDrmProfile();
 		if ($baseClass == 'DrmProfile' && $enumValue ==  FairplayPlugin::getFairplayProviderCoreValue())
 			return new FairplayDrmProfile();
 
-		if (class_exists('Kaltura_Client_Client'))
+		if (class_exists('Borhan_Client_Client'))
 		{
-			if ($baseClass == 'Kaltura_Client_Drm_Type_DrmProfile' && $enumValue == Kaltura_Client_Drm_Enum_DrmProviderType::FAIRPLAY)
+			if ($baseClass == 'Borhan_Client_Drm_Type_DrmProfile' && $enumValue == Borhan_Client_Drm_Enum_DrmProviderType::FAIRPLAY)
 			{
-				return new Kaltura_Client_Fairplay_Type_FairplayDrmProfile();
+				return new Borhan_Client_Fairplay_Type_FairplayDrmProfile();
 			}
-			if ($baseClass == 'Form_DrmProfileConfigureExtend_SubForm' && $enumValue == Kaltura_Client_Drm_Enum_DrmProviderType::FAIRPLAY)
+			if ($baseClass == 'Form_DrmProfileConfigureExtend_SubForm' && $enumValue == Borhan_Client_Drm_Enum_DrmProviderType::FAIRPLAY)
 			{
 				return new Form_FairplayProfileConfigureExtend_SubForm();
 			}
 		}
-		if ($baseClass == 'KalturaPluginData' && $enumValue == self::getPluginName())
-			return new KalturaFairplayEntryContextPluginData();
-		if ($baseClass == 'KalturaDrmPlaybackPluginData' && $enumValue == 'kFairPlayPlaybackPluginData')
-			return new KalturaFairPlayPlaybackPluginData();
+		if ($baseClass == 'BorhanPluginData' && $enumValue == self::getPluginName())
+			return new BorhanFairplayEntryContextPluginData();
+		if ($baseClass == 'BorhanDrmPlaybackPluginData' && $enumValue == 'kFairPlayPlaybackPluginData')
+			return new BorhanFairPlayPlaybackPluginData();
 		return null;
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
-		if ($baseClass == 'KalturaDrmProfile' && $enumValue == FairplayPlugin::getFairplayProviderCoreValue() )
-			return 'KalturaFairplayDrmProfile';
+		if ($baseClass == 'BorhanDrmProfile' && $enumValue == FairplayPlugin::getFairplayProviderCoreValue() )
+			return 'BorhanFairplayDrmProfile';
 		if ($baseClass == 'DrmProfile' && $enumValue ==  FairplayPlugin::getFairplayProviderCoreValue())
 			return 'FairplayDrmProfile';
 
-		if (class_exists('Kaltura_Client_Client'))
+		if (class_exists('Borhan_Client_Client'))
 		{
-			if ($baseClass == 'Kaltura_Client_Drm_Type_DrmProfile' && $enumValue == Kaltura_Client_Drm_Enum_DrmProviderType::FAIRPLAY)
+			if ($baseClass == 'Borhan_Client_Drm_Type_DrmProfile' && $enumValue == Borhan_Client_Drm_Enum_DrmProviderType::FAIRPLAY)
 			{
-				return 'Kaltura_Client_Fairplay_Type_FairplayDrmProfile';
+				return 'Borhan_Client_Fairplay_Type_FairplayDrmProfile';
 			}
-			if ($baseClass == 'Form_DrmProfileConfigureExtend_SubForm' && $enumValue == Kaltura_Client_Drm_Enum_DrmProviderType::FAIRPLAY)
+			if ($baseClass == 'Form_DrmProfileConfigureExtend_SubForm' && $enumValue == Borhan_Client_Drm_Enum_DrmProviderType::FAIRPLAY)
 			{
 				return 'Form_FairplayProfileConfigureExtend_SubForm';
 			}
 		}
-		if ($baseClass == 'KalturaPluginData' && $enumValue == self::getPluginName())
-			return 'KalturaFairplayEntryContextPluginData';
+		if ($baseClass == 'BorhanPluginData' && $enumValue == self::getPluginName())
+			return 'BorhanFairplayEntryContextPluginData';
 		return null;
 	}
 
@@ -97,12 +97,12 @@ class FairplayPlugin extends KalturaPlugin implements IKalturaEnumerator, IKaltu
 	 */
 	public static function getFairplayProviderCoreValue()
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . FairplayProviderType::FAIRPLAY;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . FairplayProviderType::FAIRPLAY;
 		return kPluginableEnumsManager::apiToCore('DrmProviderType', $value);
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissions::isAllowedPartner()
+	 * @see IBorhanPermissions::isAllowedPartner()
 	 */
 	public static function isAllowedPartner($partnerId) {
 		return DrmPlugin::isAllowedPartner($partnerId);
@@ -155,13 +155,13 @@ class FairplayPlugin extends KalturaPlugin implements IKalturaEnumerator, IKaltu
 	}
 
 	/**
-	 * Returns a Kaltura dependency object that defines the relationship between two plugins.
+	 * Returns a Borhan dependency object that defines the relationship between two plugins.
 	 *
-	 * @return array<KalturaDependency> The Kaltura dependency object
+	 * @return array<BorhanDependency> The Borhan dependency object
 	 */
 	public static function dependsOn()
 	{
-		$drmDependency = new KalturaDependency(DrmPlugin::getPluginName());
+		$drmDependency = new BorhanDependency(DrmPlugin::getPluginName());
 
 		return array($drmDependency);
 	}
@@ -215,7 +215,7 @@ class FairplayPlugin extends KalturaPlugin implements IKalturaEnumerator, IKaltu
 	 */
 	public static function getDrmSchemeCoreValue()
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . FairplaySchemeName::FAIRPLAY;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . FairplaySchemeName::FAIRPLAY;
 		return kPluginableEnumsManager::apiToCore('DrmSchemeName', $value);
 	}
 

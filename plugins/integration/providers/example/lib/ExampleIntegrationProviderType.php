@@ -3,7 +3,7 @@
  * @package plugins.exampleIntegration
  * @subpackage lib.enum
  */
-class ExampleIntegrationProviderType implements IKalturaPluginEnum, IntegrationProviderType
+class ExampleIntegrationProviderType implements IBorhanPluginEnum, IntegrationProviderType
 {
 	const EXAMPLE = 'Example';
 	

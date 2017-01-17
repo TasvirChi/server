@@ -39,7 +39,7 @@ class Partner extends BasePartner
 	const MAX_NUMBER_OF_CATEGORIES = 1500;
 	
 	// added by Tan-Tan, 06/10/09
-	const PARTNER_TYPE_KMC = 1;
+	const PARTNER_TYPE_BMC = 1;
 	const PARTNER_TYPE_OTHER = 2;
 	const PARTNER_TYPE_BATCH = 3;
 	
@@ -607,11 +607,11 @@ class Partner extends BasePartner
 	public function getMaxBulkSize() { return $this->getFromCustomData("maxBulk", null, null); }
 	public function setMaxBulkSize( $v ) { $this->putInCustomData("maxBulk", (int)$v); } 
 
-	public function getStorageServePriority() { return $this->getFromCustomData("storageServePriority", null, StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_ONLY); }
+	public function getStorageServePriority() { return $this->getFromCustomData("storageServePriority", null, StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_ONLY); }
 	public function setStorageServePriority( $v ) { $this->putInCustomData("storageServePriority", (int)$v); } 
 	
-	public function getStorageDeleteFromKaltura() { return $this->getFromCustomData("storageDeleteFromKaltura", null, 0); }
-	public function setStorageDeleteFromKaltura( $v ) { $this->putInCustomData("storageDeleteFromKaltura", (int)$v); } 
+	public function getStorageDeleteFromBorhan() { return $this->getFromCustomData("storageDeleteFromBorhan", null, 0); }
+	public function setStorageDeleteFromBorhan( $v ) { $this->putInCustomData("storageDeleteFromBorhan", (int)$v); } 
 	
 	public function getAppStudioExampleEntry() { return $this->getFromCustomData("appStudioExampleEntry", null); }
 	public function setAppStudioExampleEntry( $v ) { $this->putInCustomData("appStudioExampleEntry", $v); } 
@@ -644,7 +644,7 @@ class Partner extends BasePartner
 	public function getInternalUse() { return $this->getFromCustomData("internalUse", false); }
 	public function setInternalUse( $v ) { $this->putInCustomData("internalUse", $v); }	
 	
-	/** added disableAkamaiHDNetwork param for having per-partner ability to disable Akamai HD Network feature (GUI in KMC preview & embed) **/
+	/** added disableAkamaiHDNetwork param for having per-partner ability to disable Akamai HD Network feature (GUI in BMC preview & embed) **/
 	public function getDisableAkamaiHDNetwork() { return $this->getFromCustomData("disableAkamaiHDNetwork", null); }
 	public function setDisableAkamaiHDNetwork( $v ) { $this->putInCustomData("disableAkamaiHDNetwork", $v); }
 
@@ -832,9 +832,9 @@ class Partner extends BasePartner
 	public function getStatusChangeReason() { return $this->getFromCustomData('statusChangeReason'); }	
 	public function setStatusChangeReason( $v ) { return $this->putInCustomData('statusChangeReason', $v); }
 	
-	//kmc language
-	public function setKMCLanguage($v) { $this->putInCustomData('language', $v, 'KMC');}
-	public function getKMCLanguage() { return $this->getFromCustomData('language', 'KMC', null);}
+	//bmc language
+	public function setBMCLanguage($v) { $this->putInCustomData('language', $v, 'BMC');}
+	public function getBMCLanguage() { return $this->getFromCustomData('language', 'BMC', null);}
 	
 	//default entitlement scope for ks
 	public function setDefaultEntitlementEnforcement($v) { $this->putInCustomData('defaultEntitlementEnforcement', $v, 'entitlement');}
@@ -888,7 +888,7 @@ class Partner extends BasePartner
 
 	public function getOpenId ()
 	{
-		return "http://www.kaltura.com/openid/pid/" . $this->getId();
+		return "http://www.borhan.com/openid/pid/" . $this->getId();
 	}
 	
 	public function getServiceConfig ()
@@ -1137,7 +1137,7 @@ class Partner extends BasePartner
 
 	private static function getAdminUserCriteria($partnerId)
 	{
-		$c = KalturaCriteria::create(kuserPeer::OM_CLASS);
+		$c = BorhanCriteria::create(kuserPeer::OM_CLASS);
 		$c->addAnd(kuserPeer::PARTNER_ID, $partnerId);
 		$c->addAnd(kuserPeer::LOGIN_DATA_ID, NULL, Criteria::NOT_EQUAL);
 		$c->addAnd(kuserPeer::IS_ADMIN , true);
@@ -1477,7 +1477,7 @@ class Partner extends BasePartner
 		}
 		$ownerKuser = kuserPeer::retrieveByPK($ownerKuserId);
 		if (!$ownerKuser) {
-			KalturaLog::err('Cannot find kuser with id ['.$ownerKuserId.'] set as account of partner id ['.$this->getId().']');
+			BorhanLog::err('Cannot find kuser with id ['.$ownerKuserId.'] set as account of partner id ['.$this->getId().']');
 			return null;
 		}
 		return $ownerKuser->getPuserId();
@@ -1638,7 +1638,7 @@ class Partner extends BasePartner
 
 		if ($this->getEnforceHttpsApi() && infraRequestUtils::getProtocol() != infraRequestUtils::PROTOCOL_HTTPS)
 		{
-			KalturaLog::err('Action was accessed over HTTP while the partner is configured for HTTPS access only');
+			BorhanLog::err('Action was accessed over HTTP while the partner is configured for HTTPS access only');
 			return false;
 		}
 
@@ -1658,7 +1658,7 @@ class Partner extends BasePartner
 
 		if(count($context->getMessages()))
 		{
-			header("X-Kaltura-API-Access-Control: ".implode(', ', $context->getMessages()));
+			header("X-Borhan-API-Access-Control: ".implode(', ', $context->getMessages()));
 		}
 
 		if(count($context->getActions()))
@@ -1669,7 +1669,7 @@ class Partner extends BasePartner
 				/* @var $action kAccessControlAction */
 				if($action->getType() == RuleActionType::BLOCK)
 				{
-					KalturaLog::err('Action was blocked by API access control');
+					BorhanLog::err('Action was blocked by API access control');
 					return false;
 				}
 			}
@@ -1722,7 +1722,7 @@ class Partner extends BasePartner
 
 	public function isInCDNWhiteList($host)
 	{
-		KalturaLog::debug("Checking host [$host] is in partner CDN white list");
+		BorhanLog::debug("Checking host [$host] is in partner CDN white list");
 		$whiteList = $this->getCdnHostWhiteListArray();
 		foreach ($whiteList as $regEx)
 		{

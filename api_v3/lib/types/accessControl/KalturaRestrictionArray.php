@@ -2,13 +2,13 @@
 /**
  * @package api
  * @subpackage objects
- * @deprecated use KalturaRuleArray instead
+ * @deprecated use BorhanRuleArray instead
  */
-class KalturaRestrictionArray extends KalturaTypedArray
+class BorhanRestrictionArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaRestrictionArray();
+		$newArr = new BorhanRestrictionArray();
 		if ($arr == null)
 			return $newArr;
 
@@ -28,27 +28,27 @@ class KalturaRestrictionArray extends KalturaTypedArray
 		switch($objectClass)
 		{
 			case "kAccessControlSiteRestriction":
-				return new KalturaSiteRestriction();
+				return new BorhanSiteRestriction();
 			case "kAccessControlCountryRestriction":
-				return new KalturaCountryRestriction();
+				return new BorhanCountryRestriction();
 			case "kAccessControlSessionRestriction":
-				return new KalturaSessionRestriction();
+				return new BorhanSessionRestriction();
 			case "kAccessControlPreviewRestriction":
-				return new KalturaPreviewRestriction();
+				return new BorhanPreviewRestriction();
 			case "kAccessControlIpAddressRestriction":
-				return new KalturaIpAddressRestriction();
+				return new BorhanIpAddressRestriction();
 			case "kAccessControlUserAgentRestriction":
-				return new KalturaUserAgentRestriction();
+				return new BorhanUserAgentRestriction();
 			case "kAccessControlLimitFlavorsRestriction":
-				return new KalturaLimitFlavorsRestriction();
+				return new BorhanLimitFlavorsRestriction();
 			default:
-				KalturaLog::err("Access control rule type [$objectClass] could not be loaded");
+				BorhanLog::err("Access control rule type [$objectClass] could not be loaded");
 				return null;
 		}
 	}
 	
 	public function __construct()
 	{
-		parent::__construct("KalturaBaseRestriction");	
+		parent::__construct("BorhanBaseRestriction");	
 	}
 }

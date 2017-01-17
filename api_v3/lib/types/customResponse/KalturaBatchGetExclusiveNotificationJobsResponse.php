@@ -3,16 +3,16 @@
  * @package api
  * @subpackage objects
  */
-class KalturaBatchGetExclusiveNotificationJobsResponse extends KalturaObject
+class BorhanBatchGetExclusiveNotificationJobsResponse extends BorhanObject
 {
 	/**
-	 * @var KalturaBatchJobArray
+	 * @var BorhanBatchJobArray
 	 * @readonly
 	 */
 	public $notifications;
 
 	/**
-	 * @var KalturaPartnerArray
+	 * @var BorhanPartnerArray
 	 * @readonly
 	 */
 	public $partners;

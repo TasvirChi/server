@@ -12,12 +12,12 @@ class facebookoauth2Action extends oauth2Action
 	const SUB_ACTION_PROCESS_OAUTH2_RESPONSE = 'process-oauth2-response';
 	const SUB_ACTION_LOGIN_SCREEN = 'login-screen';
 
-	const FACEBOOK_DISTRIBUTION_ACCESS_URL = "/api_v3/index.php?service=contentdistribution_distributionprofile&distributionProfile%3AobjectType=KalturaFacebookDistributionProfile";
+	const FACEBOOK_DISTRIBUTION_ACCESS_URL = "/api_v3/index.php?service=contentdistribution_distributionprofile&distributionProfile%3AobjectType=BorhanFacebookDistributionProfile";
 
 
 	public function execute()
 	{
-		set_include_path(get_include_path().PATH_SEPARATOR.KALTURA_ROOT_PATH.'/infra/general/');
+		set_include_path(get_include_path().PATH_SEPARATOR.BORHAN_ROOT_PATH.'/infra/general/');
 		require_once 'FacebookGraphSdkUtils.php';
 		require_once 'kDistributionPersistentDataHandler.php';
 

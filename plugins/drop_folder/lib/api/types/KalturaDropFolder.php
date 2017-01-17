@@ -3,7 +3,7 @@
  * @package plugins.dropFolder
  * @subpackage api.objects
  */
-class KalturaDropFolder extends KalturaObject implements IFilterable
+class BorhanDropFolder extends BorhanObject implements IFilterable
 {	
 	/**
 	 * @var int
@@ -31,13 +31,13 @@ class KalturaDropFolder extends KalturaObject implements IFilterable
 	public $description;
 	
 	/**
-	 * @var KalturaDropFolderType
+	 * @var BorhanDropFolderType
 	 * @filter eq,in
 	 */
 	public $type;
 	
 	/**
-	 * @var KalturaDropFolderStatus
+	 * @var BorhanDropFolderStatus
 	 * @filter eq,in
 	 */
 	public $status;
@@ -67,7 +67,7 @@ class KalturaDropFolder extends KalturaObject implements IFilterable
 	public $fileSizeCheckInterval;
 	
 	/**
-	 * @var KalturaDropFolderFileDeletePolicy
+	 * @var BorhanDropFolderFileDeletePolicy
 	 */
 	public $fileDeletePolicy;
 	
@@ -78,7 +78,7 @@ class KalturaDropFolder extends KalturaObject implements IFilterable
 	
 	
 	/**
-	 * @var KalturaDropFolderFileHandlerType
+	 * @var BorhanDropFolderFileHandlerType
 	 * @filter eq,in
 	 */
 	public $fileHandlerType;
@@ -90,7 +90,7 @@ class KalturaDropFolder extends KalturaObject implements IFilterable
 	public $fileNamePatterns;
 	
 	/**
-	 * @var KalturaDropFolderFileHandlerConfig
+	 * @var BorhanDropFolderFileHandlerConfig
 	 */
 	public $fileHandlerConfig;
 
@@ -101,7 +101,7 @@ class KalturaDropFolder extends KalturaObject implements IFilterable
 	public $tags;
 	
 	/**
-	 * @var KalturaDropFolderErrorCode
+	 * @var BorhanDropFolderErrorCode
 	 * @filter eq,in
 	 */
 	public $errorCode;
@@ -218,7 +218,7 @@ class KalturaDropFolder extends KalturaObject implements IFilterable
 		return $dbObject;
 	}
 	
-	public function doFromObject($source_object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($source_object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($source_object, $responseProfile);
 		
@@ -227,7 +227,7 @@ class KalturaDropFolder extends KalturaObject implements IFilterable
 			$dbFileHandlerConfig = $source_object->getFileHandlerConfig();
 			if ($dbFileHandlerConfig)
 			{
-				$apiFileHandlerConfig = KalturaPluginManager::loadObject('KalturaDropFolderFileHandlerConfig', $source_object->getFileHandlerType());
+				$apiFileHandlerConfig = BorhanPluginManager::loadObject('BorhanDropFolderFileHandlerConfig', $source_object->getFileHandlerType());
 				if($apiFileHandlerConfig)
 				{
 					$apiFileHandlerConfig->fromObject($dbFileHandlerConfig);
@@ -235,7 +235,7 @@ class KalturaDropFolder extends KalturaObject implements IFilterable
 				}
 				else
 				{
-					KalturaLog::err("Cannot load API object for core file handler config type [" . $dbFileHandlerConfig->getHandlerType() . "]");
+					BorhanLog::err("Cannot load API object for core file handler config type [" . $dbFileHandlerConfig->getHandlerType() . "]");
 				}
 			}
 		}
@@ -287,30 +287,30 @@ class KalturaDropFolder extends KalturaObject implements IFilterable
 	
 	/**
 	 * @param int $type
-	 * @return KalturaDropFolder
+	 * @return BorhanDropFolder
 	 */
 	static function getInstanceByType ($type)
 	{
 		switch ($type) 
 		{
-			case KalturaDropFolderType::LOCAL:
-			    $obj = new KalturaDropFolder();
+			case BorhanDropFolderType::LOCAL:
+			    $obj = new BorhanDropFolder();
 				break;
 		    
-		    case KalturaDropFolderType::FTP:
-				$obj = new KalturaFtpDropFolder();
+		    case BorhanDropFolderType::FTP:
+				$obj = new BorhanFtpDropFolder();
 				break;
 				
-			case KalturaDropFolderType::SFTP:
-			    $obj = new KalturaSftpDropFolder();
+			case BorhanDropFolderType::SFTP:
+			    $obj = new BorhanSftpDropFolder();
 				break;
 			    
-			case KalturaDropFolderType::SCP:
-			    $obj = new KalturaScpDropFolder();
+			case BorhanDropFolderType::SCP:
+			    $obj = new BorhanScpDropFolder();
 				break;
 			    
 			default:
-				$obj = KalturaPluginManager::loadObject('KalturaDropFolder', $type);
+				$obj = BorhanPluginManager::loadObject('BorhanDropFolder', $type);
 				break;
 		}
 		

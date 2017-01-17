@@ -85,24 +85,24 @@ abstract class kCompareCondition extends kCondition
 		switch($this->comparison)
 		{
 			case searchConditionComparison::GREATER_THAN:
-				KalturaLog::debug("Compares field[$field] > value[$value]");
+				BorhanLog::debug("Compares field[$field] > value[$value]");
 				return ($field > $value);
 				
 			case searchConditionComparison::GREATER_THAN_OR_EQUAL:
-				KalturaLog::debug("Compares field[$field] >= value[$value]");
+				BorhanLog::debug("Compares field[$field] >= value[$value]");
 				return ($field >= $value);
 				
 			case searchConditionComparison::LESS_THAN:
-				KalturaLog::debug("Compares field[$field] < value[$value]");
+				BorhanLog::debug("Compares field[$field] < value[$value]");
 				return ($field < $value);
 				
 			case searchConditionComparison::LESS_THAN_OR_EQUAL:
-				KalturaLog::debug("Compares field[$field] <= value[$value]");
+				BorhanLog::debug("Compares field[$field] <= value[$value]");
 				return ($field <= $value);
 				
 			case searchConditionComparison::EQUAL:
 			default:
-				KalturaLog::debug("Compares field[$field] == value[$value]");
+				BorhanLog::debug("Compares field[$field] == value[$value]");
 				return ($field == $value);
 		}
 	}
@@ -115,16 +115,16 @@ abstract class kCompareCondition extends kCondition
 		$field = $this->getFieldValue($scope);
 		$value = $this->getIntegerValue($scope);
 		
-		KalturaLog::debug("Copares field [$field] to value [$value]");
+		BorhanLog::debug("Copares field [$field] to value [$value]");
 		if (is_null($value))
 		{
-			KalturaLog::debug("Value is null, condition is true");
+			BorhanLog::debug("Value is null, condition is true");
 			return true;
 		}
 		
 		if (!$field)
 		{
-			KalturaLog::debug("Field is empty, condition is false");
+			BorhanLog::debug("Field is empty, condition is false");
 			return false;
 		}
 
@@ -134,11 +134,11 @@ abstract class kCompareCondition extends kCondition
 			{
 				if(!$this->fieldFulfilled($fieldItem, $value))
 				{
-					KalturaLog::debug("Field item [$fieldItem] does not fulfill, condition is false");
+					BorhanLog::debug("Field item [$fieldItem] does not fulfill, condition is false");
 					return false;
 				}
 			}
-			KalturaLog::debug("All field items fulfilled, condition is true");
+			BorhanLog::debug("All field items fulfilled, condition is true");
 			return true;
 		}
 		

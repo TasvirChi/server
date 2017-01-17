@@ -9,7 +9,7 @@ class kSyndicationFeedManager
 		$xsl = new DOMDocument();
 		if(!@$xsl->loadXML($xsltStr))
 		{
-			KalturaLog::err("Invalid XSLT structure");
+			BorhanLog::err("Invalid XSLT structure");
 			throw new kCoreException("Invalid XSLT", kCoreException::INVALID_XSLT);
 		}
 		

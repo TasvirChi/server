@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaUrlTokenizerVelocix extends KalturaUrlTokenizer {
+class BorhanUrlTokenizerVelocix extends BorhanUrlTokenizer {
 	
 	/**
 	 * hdsPaths

@@ -3,12 +3,12 @@
  * @package plugins.kontiki
  *  @subpackage model.enum
  */
-class KontikiStorageProfileProtocol implements IKalturaPluginEnum, StorageProfileProtocol
+class KontikiStorageProfileProtocol implements IBorhanPluginEnum, StorageProfileProtocol
 {
 	const KONTIKI = 'KONTIKI';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPluginEnum::getAdditionalValues()
+	 * @see IBorhanPluginEnum::getAdditionalValues()
 	 */
 	public static function getAdditionalValues() {
 		return array('KONTIKI' => self::KONTIKI);
@@ -16,7 +16,7 @@ class KontikiStorageProfileProtocol implements IKalturaPluginEnum, StorageProfil
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPluginEnum::getAdditionalDescriptions()
+	 * @see IBorhanPluginEnum::getAdditionalDescriptions()
 	 */
 	public static function getAdditionalDescriptions() {
 		return array();

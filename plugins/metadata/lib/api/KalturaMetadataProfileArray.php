@@ -3,17 +3,17 @@
  * @package plugins.metadata
  * @subpackage api.objects
  */
-class KalturaMetadataProfileArray extends KalturaTypedArray
+class BorhanMetadataProfileArray extends BorhanTypedArray
 {
-	public static function fromDbArray(array $arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaMetadataProfileArray();
+		$newArr = new BorhanMetadataProfileArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-    		$nObj = new KalturaMetadataProfile();
+    		$nObj = new BorhanMetadataProfile();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaMetadataProfileArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaMetadataProfile");	
+		parent::__construct("BorhanMetadataProfile");	
 	}
 }

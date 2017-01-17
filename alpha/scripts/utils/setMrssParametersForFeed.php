@@ -15,7 +15,7 @@ $metadataFieldNames = array(
 
 
 require_once(dirname(__FILE__).'/../bootstrap.php');
-KAutoloader::addClassPath(KAutoloader::buildPath(KALTURA_ROOT_PATH, "plugins", "*"));
+KAutoloader::addClassPath(KAutoloader::buildPath(BORHAN_ROOT_PATH, "plugins", "*"));
 KAutoloader::setClassMapFilePath(kConf::get("cache_root_path") . '/scripts/' . basename(__FILE__) . '.cache');
 KAutoloader::register();
 

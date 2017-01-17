@@ -127,13 +127,13 @@ class kRule
 	{
 		if(!$this->isInContext())
 		{
-			KalturaLog::debug("Rule is not in context");
+			BorhanLog::debug("Rule is not in context");
 			return false;
 		}
 			
 		if(!is_array($this->conditions) || !count($this->conditions))
 		{
-			KalturaLog::debug("No conditions found");
+			BorhanLog::debug("No conditions found");
 			return true;
 		}
 			
@@ -141,12 +141,12 @@ class kRule
 		{
 			if(!$condition->fulfilled($this->scope))
 			{
-				KalturaLog::debug("Condition [" . get_class($condition) . "] not  fulfilled");
+				BorhanLog::debug("Condition [" . get_class($condition) . "] not  fulfilled");
 				return false;
 			}
 		}
 				
-		KalturaLog::debug("All conditions fulfilled");
+		BorhanLog::debug("All conditions fulfilled");
 		return true;
 	}	
 	
@@ -179,11 +179,11 @@ class kRule
 	{
 		if(!$this->fulfilled())
 		{
-			KalturaLog::debug("Rule conditions NOT fulfilled");
+			BorhanLog::debug("Rule conditions NOT fulfilled");
 			return false;
 		}
 			
-		KalturaLog::debug("Rule conditions fulfilled");
+		BorhanLog::debug("Rule conditions fulfilled");
 		if ($this->message)
 		{
 			$context->addMessage($this->message);

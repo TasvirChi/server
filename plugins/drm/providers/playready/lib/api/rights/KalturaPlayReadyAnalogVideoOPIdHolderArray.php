@@ -3,17 +3,17 @@
  * @package plugins.playReady
  * @subpackage api.objects
  */
-class KalturaPlayReadyAnalogVideoOPIdHolderArray extends KalturaTypedArray
+class BorhanPlayReadyAnalogVideoOPIdHolderArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaPlayReadyAnalogVideoOPIdHolderArray();
+		$newArr = new BorhanPlayReadyAnalogVideoOPIdHolderArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $type)
 		{
-    		$nObj = new KalturaPlayReadyAnalogVideoOPIdHolder();
+    		$nObj = new BorhanPlayReadyAnalogVideoOPIdHolder();
 			$nObj->type = $type;
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaPlayReadyAnalogVideoOPIdHolderArray extends KalturaTypedArray
 	
 	public function __construct()
 	{
-		parent::__construct("KalturaPlayReadyAnalogVideoOPIdHolder");	
+		parent::__construct("BorhanPlayReadyAnalogVideoOPIdHolder");	
 	}
 }

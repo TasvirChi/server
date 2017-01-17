@@ -2,8 +2,8 @@
 /**
  * @package api
  * @subpackage enum
- * @deprecated use KalturaContextType
+ * @deprecated use BorhanContextType
  */
-class KalturaAccessControlContextType extends KalturaContextType
+class BorhanAccessControlContextType extends BorhanContextType
 {
 }

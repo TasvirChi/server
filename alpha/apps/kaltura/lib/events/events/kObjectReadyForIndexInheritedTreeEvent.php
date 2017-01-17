@@ -2,7 +2,7 @@
 /**
  * Applicative event that raised by the developer when indexed object is ready for indexing inherited tree in the index server
  */
-class kObjectReadyForIndexInheritedTreeEvent extends kApplicativeEvent implements IKalturaMultiDeferredEvent
+class kObjectReadyForIndexInheritedTreeEvent extends kApplicativeEvent implements IBorhanMultiDeferredEvent
 {
 	const EVENT_CONSUMER = 'kObjectReadyForIndexInheritedTreeEventConsumer';
 
@@ -14,7 +14,7 @@ class kObjectReadyForIndexInheritedTreeEvent extends kApplicativeEvent implement
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaMultiDeferredEvent::setPartnerCriteriaParams()
+	 * @see IBorhanMultiDeferredEvent::setPartnerCriteriaParams()
 	 */
 	public function setPartnerCriteriaParams(array $partnerCriteriaParams)
 	{
@@ -25,7 +25,7 @@ class kObjectReadyForIndexInheritedTreeEvent extends kApplicativeEvent implement
 	 * @param kObjectAddedEventConsumer $consumer
 	 * @return bool true if should continue to the next consumer
 	 */
-	protected function doConsume(KalturaEventConsumer $consumer)
+	protected function doConsume(BorhanEventConsumer $consumer)
 	{
 		if(!$consumer->shouldConsumeReadyForIndexInheritedTreeEvent($this->object))
 			return true;
@@ -34,9 +34,9 @@ class kObjectReadyForIndexInheritedTreeEvent extends kApplicativeEvent implement
 		if(method_exists($this->object, 'getId'))
 			$additionalLog .= 'id [' . $this->object->getId() . ']';
 
-		KalturaLog::debug('consumer [' . get_class($consumer) . '] started handling [' . get_class($this) . '] object type [' . get_class($this->object) . '] ' . $additionalLog);
+		BorhanLog::debug('consumer [' . get_class($consumer) . '] started handling [' . get_class($this) . '] object type [' . get_class($this->object) . '] ' . $additionalLog);
 		$result = $consumer->objectReadyForIndexInheritedTreeEvent($this->object, $this->partnerCriteriaParams, $this->raisedJob);
-		KalturaLog::debug('consumer [' . get_class($consumer) . '] finished handling [' . get_class($this) . '] object type [' . get_class($this->object) . '] ' . $additionalLog);
+		BorhanLog::debug('consumer [' . get_class($consumer) . '] finished handling [' . get_class($this) . '] object type [' . get_class($this->object) . '] ' . $additionalLog);
 		return $result;
 	}
 

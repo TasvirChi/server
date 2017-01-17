@@ -3,7 +3,7 @@
  * Enable indexing and searching caption asset objects in sphinx
  * @package plugins.captionSphinx
  */
-class CaptionSphinxPlugin extends KalturaPlugin implements IKalturaPending, IKalturaCriteriaFactory, IKalturaSphinxConfiguration, IKalturaEventConsumers
+class CaptionSphinxPlugin extends BorhanPlugin implements IBorhanPending, IBorhanCriteriaFactory, IBorhanSphinxConfiguration, IBorhanEventConsumers
 {
 	const PLUGIN_NAME = 'captionSphinx';
 	
@@ -13,17 +13,17 @@ class CaptionSphinxPlugin extends KalturaPlugin implements IKalturaPending, IKal
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$captionSearchDependency = new KalturaDependency(CaptionSearchPlugin::getPluginName());
+		$captionSearchDependency = new BorhanDependency(CaptionSearchPlugin::getPluginName());
 		
 		return array($captionSearchDependency);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	 */
 	public static function getEventConsumers()
 	{
@@ -31,9 +31,9 @@ class CaptionSphinxPlugin extends KalturaPlugin implements IKalturaPending, IKal
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaCriteriaFactory::getKalturaCriteria()
+	 * @see IBorhanCriteriaFactory::getBorhanCriteria()
 	 */
-	public static function getKalturaCriteria($objectType)
+	public static function getBorhanCriteria($objectType)
 	{
 		if ($objectType == CaptionAssetItemPeer::OM_CLASS)
 			return new SphinxCaptionAssetItemCriteria();
@@ -69,13 +69,13 @@ class CaptionSphinxPlugin extends KalturaPlugin implements IKalturaPending, IKal
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSphinxConfiguration::getSphinxSchema()
+	 * @see IBorhanSphinxConfiguration::getSphinxSchema()
 	 */
 	public static function getSphinxSchema()
 	{
 		return array(
 			kSphinxSearchManager::getSphinxIndexName(CaptionSearchPlugin::INDEX_NAME) => array (	
-				'path'		=> '/sphinx/kaltura_caption_item_rt',
+				'path'		=> '/sphinx/borhan_caption_item_rt',
 				'fields'	=> self::getSphinxSchemaFields(),
 			)
 		);

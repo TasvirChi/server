@@ -270,11 +270,11 @@ abstract class BasePartner extends BaseObject  implements Persistent {
 	protected $partner_parent_id;
 
 	/**
-	 * The value for the kmc_version field.
+	 * The value for the bmc_version field.
 	 * Note: this column has a database default value of: '1'
 	 * @var        string
 	 */
-	protected $kmc_version;
+	protected $bmc_version;
 
 	/**
 	 * @var        kuser
@@ -360,7 +360,7 @@ abstract class BasePartner extends BaseObject  implements Persistent {
 		$this->storage_usage = 0;
 		$this->monitor_usage = 1;
 		$this->partner_group_type = 1;
-		$this->kmc_version = '1';
+		$this->bmc_version = '1';
 	}
 
 	/**
@@ -824,13 +824,13 @@ abstract class BasePartner extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Get the [kmc_version] column value.
+	 * Get the [bmc_version] column value.
 	 * 
 	 * @return     string
 	 */
-	public function getKmcVersion()
+	public function getBmcVersion()
 	{
-		return $this->kmc_version;
+		return $this->bmc_version;
 	}
 
 	/**
@@ -1784,27 +1784,27 @@ abstract class BasePartner extends BaseObject  implements Persistent {
 	} // setPartnerParentId()
 
 	/**
-	 * Set the value of [kmc_version] column.
+	 * Set the value of [bmc_version] column.
 	 * 
 	 * @param      string $v new value
 	 * @return     Partner The current object (for fluent API support)
 	 */
-	public function setKmcVersion($v)
+	public function setBmcVersion($v)
 	{
-		if(!isset($this->oldColumnsValues[PartnerPeer::KMC_VERSION]))
-			$this->oldColumnsValues[PartnerPeer::KMC_VERSION] = $this->kmc_version;
+		if(!isset($this->oldColumnsValues[PartnerPeer::BMC_VERSION]))
+			$this->oldColumnsValues[PartnerPeer::BMC_VERSION] = $this->bmc_version;
 
 		if ($v !== null) {
 			$v = (string) $v;
 		}
 
-		if ($this->kmc_version !== $v || $this->isNew()) {
-			$this->kmc_version = $v;
-			$this->modifiedColumns[] = PartnerPeer::KMC_VERSION;
+		if ($this->bmc_version !== $v || $this->isNew()) {
+			$this->bmc_version = $v;
+			$this->modifiedColumns[] = PartnerPeer::BMC_VERSION;
 		}
 
 		return $this;
-	} // setKmcVersion()
+	} // setBmcVersion()
 
 	/**
 	 * Indicates whether the columns in this object are only set to default values.
@@ -1880,7 +1880,7 @@ abstract class BasePartner extends BaseObject  implements Persistent {
 				return false;
 			}
 
-			if ($this->kmc_version !== '1') {
+			if ($this->bmc_version !== '1') {
 				return false;
 			}
 
@@ -1948,7 +1948,7 @@ abstract class BasePartner extends BaseObject  implements Persistent {
 			$this->priority_group_id = ($row[$startcol + 36] !== null) ? (int) $row[$startcol + 36] : null;
 			$this->partner_group_type = ($row[$startcol + 37] !== null) ? (int) $row[$startcol + 37] : null;
 			$this->partner_parent_id = ($row[$startcol + 38] !== null) ? (int) $row[$startcol + 38] : null;
-			$this->kmc_version = ($row[$startcol + 39] !== null) ? (string) $row[$startcol + 39] : null;
+			$this->bmc_version = ($row[$startcol + 39] !== null) ? (string) $row[$startcol + 39] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -2108,13 +2108,13 @@ abstract class BasePartner extends BaseObject  implements Persistent {
 				return 0;
 			}
 			
-			for ($retries = 1; $retries < KalturaPDO::SAVE_MAX_RETRIES; $retries++)
+			for ($retries = 1; $retries < BorhanPDO::SAVE_MAX_RETRIES; $retries++)
 			{
                $affectedRows = $this->doSave($con);
                 if ($affectedRows || !$this->isColumnModified(PartnerPeer::CUSTOM_DATA)) //ask if custom_data wasn't modified to avoid retry with atomic column 
                 	break;
 
-                KalturaLog::debug("was unable to save! retrying for the $retries time");
+                BorhanLog::debug("was unable to save! retrying for the $retries time");
                 $criteria = $this->buildPkeyCriteria();
 				$criteria->addSelectColumn(PartnerPeer::CUSTOM_DATA);
                 $stmt = BasePeer::doSelect($criteria, $con);
@@ -2643,7 +2643,7 @@ abstract class BasePartner extends BaseObject  implements Persistent {
 				return $this->getPartnerParentId();
 				break;
 			case 39:
-				return $this->getKmcVersion();
+				return $this->getBmcVersion();
 				break;
 			default:
 				return null;
@@ -2705,7 +2705,7 @@ abstract class BasePartner extends BaseObject  implements Persistent {
 			$keys[36] => $this->getPriorityGroupId(),
 			$keys[37] => $this->getPartnerGroupType(),
 			$keys[38] => $this->getPartnerParentId(),
-			$keys[39] => $this->getKmcVersion(),
+			$keys[39] => $this->getBmcVersion(),
 		);
 		return $result;
 	}
@@ -2855,7 +2855,7 @@ abstract class BasePartner extends BaseObject  implements Persistent {
 				$this->setPartnerParentId($value);
 				break;
 			case 39:
-				$this->setKmcVersion($value);
+				$this->setBmcVersion($value);
 				break;
 		} // switch()
 	}
@@ -2920,7 +2920,7 @@ abstract class BasePartner extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[36], $arr)) $this->setPriorityGroupId($arr[$keys[36]]);
 		if (array_key_exists($keys[37], $arr)) $this->setPartnerGroupType($arr[$keys[37]]);
 		if (array_key_exists($keys[38], $arr)) $this->setPartnerParentId($arr[$keys[38]]);
-		if (array_key_exists($keys[39], $arr)) $this->setKmcVersion($arr[$keys[39]]);
+		if (array_key_exists($keys[39], $arr)) $this->setBmcVersion($arr[$keys[39]]);
 	}
 
 	/**
@@ -2971,7 +2971,7 @@ abstract class BasePartner extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(PartnerPeer::PRIORITY_GROUP_ID)) $criteria->add(PartnerPeer::PRIORITY_GROUP_ID, $this->priority_group_id);
 		if ($this->isColumnModified(PartnerPeer::PARTNER_GROUP_TYPE)) $criteria->add(PartnerPeer::PARTNER_GROUP_TYPE, $this->partner_group_type);
 		if ($this->isColumnModified(PartnerPeer::PARTNER_PARENT_ID)) $criteria->add(PartnerPeer::PARTNER_PARENT_ID, $this->partner_parent_id);
-		if ($this->isColumnModified(PartnerPeer::KMC_VERSION)) $criteria->add(PartnerPeer::KMC_VERSION, $this->kmc_version);
+		if ($this->isColumnModified(PartnerPeer::BMC_VERSION)) $criteria->add(PartnerPeer::BMC_VERSION, $this->bmc_version);
 
 		return $criteria;
 	}
@@ -3126,7 +3126,7 @@ abstract class BasePartner extends BaseObject  implements Persistent {
 
 		$copyObj->setPartnerParentId($this->partner_parent_id);
 
-		$copyObj->setKmcVersion($this->kmc_version);
+		$copyObj->setBmcVersion($this->bmc_version);
 
 
 		if ($deepCopy) {

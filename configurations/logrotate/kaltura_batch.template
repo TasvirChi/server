@@ -1,4 +1,4 @@
-@LOG_DIR@/kaltura_batch.log {
+@LOG_DIR@/borhan_batch.log {
     nodateext
     compress
     rotate 40
@@ -6,12 +6,12 @@
     missingok
     notifempty
     prerotate
-        service kaltura_batch stop 2>&1 >/dev/null || true
+        service borhan_batch stop 2>&1 >/dev/null || true
     endscript
     postrotate
-        service kaltura_batch start 2>&1 >/dev/null || true
+        service borhan_batch start 2>&1 >/dev/null || true
     endscript
- su root kaltura
+ su root borhan
 }
 
 @LOG_DIR@/batch/*log {
@@ -21,6 +21,6 @@
     rotate 40
     create 644
     missingok
- su root kaltura
+ su root borhan
 }
 

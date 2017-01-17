@@ -3,12 +3,12 @@
  * @package api
  * @subpackage objects
  */
-class KalturaFlavorParams extends KalturaAssetParams 
+class BorhanFlavorParams extends BorhanAssetParams 
 {
 	/**
 	 * The video codec of the Flavor Params
 	 * 
-	 * @var KalturaVideoCodec
+	 * @var BorhanVideoCodec
 	 */
 	public $videoCodec;
 	
@@ -22,7 +22,7 @@ class KalturaFlavorParams extends KalturaAssetParams
 	/**
 	 * The audio codec of the Flavor Params
 	 * 
-	 * @var KalturaAudioCodec
+	 * @var BorhanAudioCodec
 	 */
 	public $audioCodec;
 	
@@ -117,7 +117,7 @@ class KalturaFlavorParams extends KalturaAssetParams
 	/**
 	 * The container format of the Flavor Params
 	 *  
-	 * @var KalturaContainerFormat
+	 * @var BorhanContainerFormat
 	 * @filter eq
 	 */
 	public $format;
@@ -289,7 +289,7 @@ class KalturaFlavorParams extends KalturaAssetParams
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($object = null, $skip = array())
 	{

@@ -4,7 +4,7 @@
  *
  * @package plugins.watermark
  */
-class WatermarkPlugin extends KalturaPlugin implements IKalturaPending, IKalturaAssetParamsAdjuster
+class WatermarkPlugin extends BorhanPlugin implements IBorhanPending, IBorhanAssetParamsAdjuster
 {
 	const PLUGIN_NAME = 'watermark';
 	
@@ -20,7 +20,7 @@ class WatermarkPlugin extends KalturaPlugin implements IKalturaPending, IKaltura
 	const TRANSCODING_METADATA_WATERMMARK_IMAGE_URL = 'WatermarkImageURL';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -28,55 +28,55 @@ class WatermarkPlugin extends KalturaPlugin implements IKalturaPending, IKaltura
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$metadataVersion = new KalturaVersion(self::METADATA_PLUGIN_VERSION_MAJOR, self::METADATA_PLUGIN_VERSION_MINOR, self::METADATA_PLUGIN_VERSION_BUILD);
-		$metadataDependency = new KalturaDependency(self::METADATA_PLUGIN_NAME, $metadataVersion);
+		$metadataVersion = new BorhanVersion(self::METADATA_PLUGIN_VERSION_MAJOR, self::METADATA_PLUGIN_VERSION_MINOR, self::METADATA_PLUGIN_VERSION_BUILD);
+		$metadataDependency = new BorhanDependency(self::METADATA_PLUGIN_NAME, $metadataVersion);
 		
 		return array($metadataDependency);
 	}
 		
 	/* (non-PHPdoc)
-	 * @see IKalturaAssetParamsAdjuster::adjustAssetParams()
+	 * @see IBorhanAssetParamsAdjuster::adjustAssetParams()
 	 */
 	public function adjustAssetParams($entryId, array &$flavors)
 	{
 		$entry = entryPeer::retrieveByPK($entryId);
 		if(!isset($entry)){
-			KalturaLog::warning("Bad entry id ($entryId).");
+			BorhanLog::warning("Bad entry id ($entryId).");
 			return;
 		}
 
 		$partnerId = $entry->getPartnerId();
 		$profile = MetadataProfilePeer::retrieveBySystemName(self::TRANSCODING_METADATA_PROF_SYSNAME,$partnerId);
 		if(!isset($profile)){
-			KalturaLog::log("No Transcoding Metadata Profile (sysName:".self::TRANSCODING_METADATA_PROF_SYSNAME.", partner:$partnerId). Nothing to adjust");
+			BorhanLog::log("No Transcoding Metadata Profile (sysName:".self::TRANSCODING_METADATA_PROF_SYSNAME.", partner:$partnerId). Nothing to adjust");
 			return;
 		}
 
 		$metadata = MetadataPeer::retrieveByObject($profile->getId(), MetadataObjectType::ENTRY, $entryId);
 		if(!isset($metadata)){
-			KalturaLog::log("No Metadata for entry($entryId), metadata profile (id:".$profile->getId()."). Nothing to adjust");
+			BorhanLog::log("No Metadata for entry($entryId), metadata profile (id:".$profile->getId()."). Nothing to adjust");
 			return;
 		}
 
-		KalturaLog::log("Entry ($entryId) has following metadata fields:".print_r($metadata,1));
+		BorhanLog::log("Entry ($entryId) has following metadata fields:".print_r($metadata,1));
 		
 		// Retrieve the associated XML file
 		$key = $metadata->getSyncKey(Metadata::FILE_SYNC_METADATA_DATA);
 		if(!isset($key)){
-			KalturaLog::log("Entry($entryId) metadata object misses file sync key! Nothing to adjust");
+			BorhanLog::log("Entry($entryId) metadata object misses file sync key! Nothing to adjust");
 			return;
 		}
 		$xmlStr = kFileSyncUtils::file_get_contents($key, true, false);
 		if(!isset($xmlStr)){
-			KalturaLog::log("Entry($entryId) metadata object misses valid file sync! Nothing to adjust");
+			BorhanLog::log("Entry($entryId) metadata object misses valid file sync! Nothing to adjust");
 			return;
 		}
 		
-		KalturaLog::log("Adjusting: entry($entryId),metadata profile(".self::TRANSCODING_METADATA_PROF_SYSNAME."),xml==>$xmlStr");
+		BorhanLog::log("Adjusting: entry($entryId),metadata profile(".self::TRANSCODING_METADATA_PROF_SYSNAME."),xml==>$xmlStr");
 
 		// Retrieve the custom metadata fields from the asocieted XML
 		
@@ -92,17 +92,17 @@ class WatermarkPlugin extends KalturaPlugin implements IKalturaPending, IKaltura
 
 		if(isset($xml->$fldName)) {
 			$watermarkSettingsStr =(string)$xml->$fldName;
-			KalturaLog::log("Found custom metadata - $fldName($watermarkSettingsStr)");
+			BorhanLog::log("Found custom metadata - $fldName($watermarkSettingsStr)");
 			if(isset($watermarkSettingsStr)) {
 				$watermarkSettings = json_decode($watermarkSettingsStr);
 				if(!is_array($watermarkSettings)) {
 					$watermarkSettings = array($watermarkSettings);
 				}
-				KalturaLog::log("WM($fldName) object:".serialize($watermarkSettings));
+				BorhanLog::log("WM($fldName) object:".serialize($watermarkSettings));
 			}
 		}
 		else
-			KalturaLog::log("No custom metadata - $fldName");
+			BorhanLog::log("No custom metadata - $fldName");
 
 		/*
 		 * Acquire the optional partial WM settings ('imageEntry'/'url') 
@@ -112,18 +112,18 @@ class WatermarkPlugin extends KalturaPlugin implements IKalturaPending, IKaltura
 		$fldName = self::TRANSCODING_METADATA_WATERMMARK_IMAGE_ENTRY;
 		if(isset($xml->$fldName)) {
 			$wmTmp->imageEntry =(string)$xml->$fldName;
-			KalturaLog::log("Found custom metadata - $fldName($wmTmp->imageEntry)");
+			BorhanLog::log("Found custom metadata - $fldName($wmTmp->imageEntry)");
 		}
 		else {
-			KalturaLog::log("No custom metadata - $fldName");
+			BorhanLog::log("No custom metadata - $fldName");
 			$fldName = self::TRANSCODING_METADATA_WATERMMARK_IMAGE_URL;
 			if(isset($xml->$fldName)) {
 				$fldVal = (string)$xml->$fldName;
 				$wmTmp->url =(string)$xml->$fldName;
-				KalturaLog::log("Found custom metadata - $fldName($wmTmp->url)");
+				BorhanLog::log("Found custom metadata - $fldName($wmTmp->url)");
 			}
 			else 
-				KalturaLog::log("No custom metadata - $fldName");
+				BorhanLog::log("No custom metadata - $fldName");
 		}
 		
 		/*
@@ -131,7 +131,7 @@ class WatermarkPlugin extends KalturaPlugin implements IKalturaPending, IKaltura
 		 */
 		if(isset($wmTmp))
 			$watermarkSettings = self::adjustWatermarSettings($watermarkSettings, $wmTmp);
-		KalturaLog::log("Custom meta data WM settings:".serialize($watermarkSettings));
+		BorhanLog::log("Custom meta data WM settings:".serialize($watermarkSettings));
 
 		/*
 		 * Check for valuable WM custom data.
@@ -144,7 +144,7 @@ class WatermarkPlugin extends KalturaPlugin implements IKalturaPending, IKaltura
 				}
 			}
 			if($fldCnt==0){
-				KalturaLog::log("No WM custom data to merge");
+				BorhanLog::log("No WM custom data to merge");
 				return;
 			}
 		}
@@ -154,15 +154,15 @@ class WatermarkPlugin extends KalturaPlugin implements IKalturaPending, IKaltura
 		 * if it is required.
 		 */
 		foreach($flavors as $k=>$flavor) {
-			KalturaLog::log("Processing flavor id:".$flavor->getId());
+			BorhanLog::log("Processing flavor id:".$flavor->getId());
 			$wmDataFixed = null;
 			$wmPredefined = null;
 			$wmPredefinedStr = $flavor->getWatermarkData();
 			if(!(isset($wmPredefinedStr) && ($wmPredefined=json_decode($wmPredefinedStr))!=null)){
-				KalturaLog::log("No WM data for flavor:".$flavor->getId());
+				BorhanLog::log("No WM data for flavor:".$flavor->getId());
 				continue;
 			}
-			KalturaLog::log("wmPredefined : count(".count($wmPredefined).")-".serialize($wmPredefined));
+			BorhanLog::log("wmPredefined : count(".count($wmPredefined).")-".serialize($wmPredefined));
 
 			$wmDataFixed = self::adjustWatermarSettings($wmPredefined, $watermarkSettings);
 
@@ -172,7 +172,7 @@ class WatermarkPlugin extends KalturaPlugin implements IKalturaPending, IKaltura
 			$wmJsonStr = json_encode($wmDataFixed);
 			$flavor->setWatermarkData($wmJsonStr);
 			$flavors[$k]= $flavor;
-			KalturaLog::log("Update flavor (".$flavor->getId().") WM to: $wmJsonStr");
+			BorhanLog::log("Update flavor (".$flavor->getId().") WM to: $wmJsonStr");
 		}
 	}
 
@@ -183,7 +183,7 @@ class WatermarkPlugin extends KalturaPlugin implements IKalturaPending, IKaltura
 	 */
 	protected static function adjustWatermarSettings($watermarkData, $watermarkToMerge)
 	{
-		KalturaLog::log("Merge WM (".serialize($watermarkToMerge).") into (".serialize($watermarkData).")");
+		BorhanLog::log("Merge WM (".serialize($watermarkToMerge).") into (".serialize($watermarkData).")");
 		if(is_array($watermarkData))
 			$watermarkDataArr = $watermarkData;
 		else 
@@ -195,30 +195,30 @@ class WatermarkPlugin extends KalturaPlugin implements IKalturaPending, IKaltura
 			$watermarkToMergeArr = array($watermarkToMerge);
 		
 		foreach($watermarkToMergeArr as $wmI=>$watermarkToMerge){
-			KalturaLog::log("Merging WM:$wmI");
+			BorhanLog::log("Merging WM:$wmI");
 			if(!array_key_exists($wmI, $watermarkDataArr)){
 				$watermarkDataArr[$wmI] = $watermarkToMerge;
-				KalturaLog::log("Added object ($wmI)-".serialize($watermarkToMerge));
+				BorhanLog::log("Added object ($wmI)-".serialize($watermarkToMerge));
 				continue;
 			}
 
 			foreach($watermarkToMerge as $fieldName=>$fieldValue){
 				$watermarkDataArr[$wmI]->$fieldName = $fieldValue;
-				KalturaLog::log("set($fieldName):".$fieldValue);
+				BorhanLog::log("set($fieldName):".$fieldValue);
 				switch($fieldName){
 				case "imageEntry":
-					KalturaLog::log("unset(url):".$watermarkDataArr[$wmI]->url);
+					BorhanLog::log("unset(url):".$watermarkDataArr[$wmI]->url);
 					unset($watermarkDataArr[$wmI]->url);
 					break;
 				case  "url":
-					KalturaLog::log("unset(imageEntry):".$watermarkDataArr[$wmI]->imageEntry);
+					BorhanLog::log("unset(imageEntry):".$watermarkDataArr[$wmI]->imageEntry);
 					unset($watermarkDataArr[$wmI]->imageEntry);
 					break;
 				}
 			}
 		}
 		
-		KalturaLog::log("Merged WM (".serialize($watermarkDataArr).")");
+		BorhanLog::log("Merged WM (".serialize($watermarkDataArr).")");
 		return $watermarkDataArr;
 	}
 }

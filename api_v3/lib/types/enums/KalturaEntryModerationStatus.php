@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaEntryModerationStatus extends KalturaEnum
+class BorhanEntryModerationStatus extends BorhanEnum
 {
 	const PENDING_MODERATION = 1; 
 	const APPROVED = 2;   

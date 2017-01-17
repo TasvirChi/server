@@ -3,17 +3,17 @@
  * @package plugins.metadataBulkUploadXml
  * @subpackage lib
  */
-class MetadataBulkUploadXmlEngineHandler implements IKalturaBulkUploadXmlHandler
+class MetadataBulkUploadXmlEngineHandler implements IBorhanBulkUploadXmlHandler
 {
 	/**
-	 * @var KalturaMetadataObjectType
+	 * @var BorhanMetadataObjectType
 	 */
-	private $objectType = KalturaMetadataObjectType::ENTRY;
+	private $objectType = BorhanMetadataObjectType::ENTRY;
 	
 	/**
 	 * @var string class name
 	 */
-	private $objectClass = 'KalturaBaseEntry';
+	private $objectClass = 'BorhanBaseEntry';
 	
 	
 	/**
@@ -48,7 +48,7 @@ class MetadataBulkUploadXmlEngineHandler implements IKalturaBulkUploadXmlHandler
 	{
 		if(is_null(self::$metadataProfiles))
 		{
-			$metadataPlugin = KalturaMetadataClientPlugin::get(KBatchBase::$kClient);
+			$metadataPlugin = BorhanMetadataClientPlugin::get(KBatchBase::$kClient);
 			$metadataProfileListResponse = $metadataPlugin->metadataProfile->listAction();
 			if(!is_array($metadataProfileListResponse->objects))
 				return null;
@@ -66,7 +66,7 @@ class MetadataBulkUploadXmlEngineHandler implements IKalturaBulkUploadXmlHandler
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::configureBulkUploadXmlHandler()
+	 * @see IBorhanBulkUploadXmlHandler::configureBulkUploadXmlHandler()
 	 */
 	public function configureBulkUploadXmlHandler(BulkUploadEngineXml $xmlBulkUploadEngine)
 	{
@@ -74,9 +74,9 @@ class MetadataBulkUploadXmlEngineHandler implements IKalturaBulkUploadXmlHandler
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::handleItemAdded()
+	 * @see IBorhanBulkUploadXmlHandler::handleItemAdded()
 	 */
-	public function handleItemAdded(KalturaObjectBase $object, SimpleXMLElement $item)
+	public function handleItemAdded(BorhanObjectBase $object, SimpleXMLElement $item)
 	{
 		if(!($object instanceof $this->objectClass))
 			return;
@@ -95,7 +95,7 @@ class MetadataBulkUploadXmlEngineHandler implements IKalturaBulkUploadXmlHandler
 		if(empty($metadataItems->$nodeName)) // if there is no costum data then we exit
 			return;
 			
-		KalturaLog::info("Handles custom metadata for object type [$this->objectType] class [$this->objectClass] id [$object->id] partner id [$object->partnerId]");
+		BorhanLog::info("Handles custom metadata for object type [$this->objectType] class [$this->objectClass] id [$object->id] partner id [$object->partnerId]");
 			
 		KBatchBase::impersonate($this->xmlBulkUploadEngine->getCurrentPartnerId());
 		$pluginsErrorResults = array();
@@ -105,7 +105,7 @@ class MetadataBulkUploadXmlEngineHandler implements IKalturaBulkUploadXmlHandler
 				$this->handleCustomData($object->id, $customData);
 			}catch (Exception $e)
 			{
-				KalturaLog::err($this->getContainerName() . ' failed: ' . $e->getMessage());
+				BorhanLog::err($this->getContainerName() . ' failed: ' . $e->getMessage());
 				$pluginsErrorResults[] = $e->getMessage();
 			}
 		}
@@ -118,7 +118,7 @@ class MetadataBulkUploadXmlEngineHandler implements IKalturaBulkUploadXmlHandler
 
 	public function handleCustomData($objectId, SimpleXMLElement $customData)
 	{
-		$action = KBulkUploadEngine::$actionsMap[KalturaBulkUploadAction::REPLACE];
+		$action = KBulkUploadEngine::$actionsMap[BorhanBulkUploadAction::REPLACE];
 		if(isset($customData->action))
 			$action = strtolower($customData->action);
 					
@@ -130,16 +130,16 @@ class MetadataBulkUploadXmlEngineHandler implements IKalturaBulkUploadXmlHandler
 			$metadataProfileId = $this->getMetadataProfileId($customData['metadataProfile']);
 				
 		if(!$metadataProfileId)
-			throw new KalturaBatchException("Missing custom data metadataProfile attribute", KalturaBatchJobAppErrors::BULK_MISSING_MANDATORY_PARAMETER);
+			throw new BorhanBatchException("Missing custom data metadataProfile attribute", BorhanBatchJobAppErrors::BULK_MISSING_MANDATORY_PARAMETER);
 		
-		$metadataPlugin = KalturaMetadataClientPlugin::get(KBatchBase::$kClient);
+		$metadataPlugin = BorhanMetadataClientPlugin::get(KBatchBase::$kClient);
 		
-		$metadataFilter = new KalturaMetadataFilter();
+		$metadataFilter = new BorhanMetadataFilter();
 		$metadataFilter->metadataObjectTypeEqual = $this->objectType;
 		$metadataFilter->objectIdEqual = $objectId;
 		$metadataFilter->metadataProfileIdEqual = $metadataProfileId;
 		
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageSize = 1;
 		
 		$metadataListResponse = $metadataPlugin->metadata->listAction($metadataFilter, $pager);
@@ -154,9 +154,9 @@ class MetadataBulkUploadXmlEngineHandler implements IKalturaBulkUploadXmlHandler
 				
 		switch ($action)
 		{
-			case KBulkUploadEngine::$actionsMap[KalturaBulkUploadAction::TRANSFORM_XSLT]:
+			case KBulkUploadEngine::$actionsMap[BorhanBulkUploadAction::TRANSFORM_XSLT]:
 				if(!isset($customData->xslt))
-					throw new KalturaBatchException($this->containerName . '->' . $this->nodeName . "->xslt element is missing", KalturaBatchJobAppErrors::BULK_ELEMENT_NOT_FOUND);
+					throw new BorhanBatchException($this->containerName . '->' . $this->nodeName . "->xslt element is missing", BorhanBatchJobAppErrors::BULK_ELEMENT_NOT_FOUND);
 				
 				if($metadata)
 					$metadataXml = $metadata->xml;
@@ -166,15 +166,15 @@ class MetadataBulkUploadXmlEngineHandler implements IKalturaBulkUploadXmlHandler
 				$decodedXslt = kXml::decodeXml($customData->xslt);					
 				$metadataXml = kXml::transformXmlUsingXslt($metadataXml, $decodedXslt); 
 				break;
-			case KBulkUploadEngine::$actionsMap[KalturaBulkUploadAction::REPLACE]:
+			case KBulkUploadEngine::$actionsMap[BorhanBulkUploadAction::REPLACE]:
 				if(!isset($customData->xmlData))
-					throw new KalturaBatchException($this->containerName . '->' . $this->nodeName . "->xmlData element is missing", KalturaBatchJobAppErrors::BULK_ELEMENT_NOT_FOUND);
+					throw new BorhanBatchException($this->containerName . '->' . $this->nodeName . "->xmlData element is missing", BorhanBatchJobAppErrors::BULK_ELEMENT_NOT_FOUND);
 				
 				$metadataXmlObject = $customData->xmlData->children();
 				$metadataXml = $metadataXmlObject->asXML();
 				break;
 			default:
-				throw new KalturaBatchException($this->containerName . '->' . $this->nodeName . "->action: $action is not supported", KalturaBatchJobAppErrors::BULK_ACTION_NOT_SUPPORTED);
+				throw new BorhanBatchException($this->containerName . '->' . $this->nodeName . "->action: $action is not supported", BorhanBatchJobAppErrors::BULK_ACTION_NOT_SUPPORTED);
 		}
 		
 		if($metadataId)
@@ -184,9 +184,9 @@ class MetadataBulkUploadXmlEngineHandler implements IKalturaBulkUploadXmlHandler
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::handleItemUpdated()
+	 * @see IBorhanBulkUploadXmlHandler::handleItemUpdated()
 	 */
-	public function handleItemUpdated(KalturaObjectBase $object, SimpleXMLElement $item)
+	public function handleItemUpdated(BorhanObjectBase $object, SimpleXMLElement $item)
 	{
 		if(!$this->containerName)
 			return;
@@ -197,30 +197,30 @@ class MetadataBulkUploadXmlEngineHandler implements IKalturaBulkUploadXmlHandler
 			
 		$metadataItems = $item->$containerName;
 		
-		$action = KBulkUploadEngine::$actionsMap[KalturaBulkUploadAction::UPDATE];
+		$action = KBulkUploadEngine::$actionsMap[BorhanBulkUploadAction::UPDATE];
 		if(isset($metadataItems->action))
 			$action = strtolower($metadataItems->action);
 			
 		switch ($action)
 		{
-			case KBulkUploadEngine::$actionsMap[KalturaBulkUploadAction::UPDATE]:
+			case KBulkUploadEngine::$actionsMap[BorhanBulkUploadAction::UPDATE]:
 				$this->handleItemAdded($object, $item);
 				break;
 			default:
-				throw new KalturaBatchException($containerName . "->action: $action is not supported", KalturaBatchJobAppErrors::BULK_ACTION_NOT_SUPPORTED);
+				throw new BorhanBatchException($containerName . "->action: $action is not supported", BorhanBatchJobAppErrors::BULK_ACTION_NOT_SUPPORTED);
 		}
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::handleItemDeleted()
+	 * @see IBorhanBulkUploadXmlHandler::handleItemDeleted()
 	 */
-	public function handleItemDeleted(KalturaObjectBase $object, SimpleXMLElement $item)
+	public function handleItemDeleted(BorhanObjectBase $object, SimpleXMLElement $item)
 	{
 		// No handling required
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaConfigurator::getContainerName()
+	 * @see IBorhanConfigurator::getContainerName()
 	*/
 	public function getContainerName()
 	{

@@ -1,11 +1,11 @@
 <?php
 /**
- * An array of KalturaKeyBooleanValue
+ * An array of BorhanKeyBooleanValue
  * 
  * @package api
  * @subpackage objects
  */
-class KalturaKeyBooleanValueArray extends KalturaTypedArray
+class BorhanKeyBooleanValueArray extends BorhanTypedArray
 {
 	public static function fromDbArray(array $pairs = null)
 	{
@@ -22,7 +22,7 @@ class KalturaKeyBooleanValueArray extends KalturaTypedArray
 				continue;
 			}
 			
-			$pairObject = new KalturaKeyBooleanValue();
+			$pairObject = new BorhanKeyBooleanValue();
 			$pairObject->key = $prefix . $key;
 			$pairObject->value = (bool)$value;
 			$this[] = $pairObject;
@@ -31,7 +31,7 @@ class KalturaKeyBooleanValueArray extends KalturaTypedArray
 	
 	public static function fromKeyValueArray(array $pairs = null)
 	{
-		$pairsArray = new KalturaKeyBooleanValueArray();
+		$pairsArray = new BorhanKeyBooleanValueArray();
 		if($pairs && is_array($pairs))
 		{
 			foreach($pairs as $key => $value)
@@ -42,7 +42,7 @@ class KalturaKeyBooleanValueArray extends KalturaTypedArray
 					continue;
 				}
 				
-				$pairObject = new KalturaKeyBooleanValue();
+				$pairObject = new BorhanKeyBooleanValue();
 				$pairObject->key = $key;
 				$pairObject->value = (bool)$value;
 				$pairsArray[] = $pairObject;
@@ -53,7 +53,7 @@ class KalturaKeyBooleanValueArray extends KalturaTypedArray
 	
 	public function __construct()
 	{
-		return parent::__construct("KalturaKeyBooleanValue");
+		return parent::__construct("BorhanKeyBooleanValue");
 	}
 	
 	public function toObjectsArray()
@@ -61,7 +61,7 @@ class KalturaKeyBooleanValueArray extends KalturaTypedArray
 		$ret = array();
 		foreach ($this->toArray() as $keyValueObject)
 		{
-			/* @var $keyValueObject KalturaKeyBooleanValue */
+			/* @var $keyValueObject BorhanKeyBooleanValue */
 			$ret[$keyValueObject->key] = $keyValueObject->value;
 		}
 		

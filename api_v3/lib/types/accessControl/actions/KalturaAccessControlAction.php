@@ -3,15 +3,15 @@
  * @package api
  * @subpackage objects
  * @abstract
- * @deprecated use KalturaRuleAction
+ * @deprecated use BorhanRuleAction
  */
-abstract class KalturaAccessControlAction extends KalturaObject
+abstract class BorhanAccessControlAction extends BorhanObject
 {
 	/**
 	 * The type of the access control action
 	 * 
 	 * @readonly
-	 * @var KalturaAccessControlActionType
+	 * @var BorhanAccessControlActionType
 	 */
 	public $type;
 }

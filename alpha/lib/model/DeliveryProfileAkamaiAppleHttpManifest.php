@@ -66,7 +66,7 @@ class DeliveryProfileAkamaiAppleHttpManifest extends DeliveryProfileAkamaiAppleH
 		$flavor = AkamaiDeliveryUtils::getHDN2ManifestUrl($flavors, $this->params->getMediaProtocol(), $this->getUrl(), '/master.m3u8', '/i', $params);
 		if (!$flavor)
 		{
-			KalturaLog::info(get_class() . ' failed to find flavor');
+			BorhanLog::info(get_class() . ' failed to find flavor');
 			return null;
 		}
 	

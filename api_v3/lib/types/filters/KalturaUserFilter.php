@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters
  */
-class KalturaUserFilter extends KalturaUserBaseFilter
+class BorhanUserFilter extends BorhanUserBaseFilter
 {
 	
 	static private $map_between_objects = array
@@ -35,7 +35,7 @@ class KalturaUserFilter extends KalturaUserBaseFilter
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -43,7 +43,7 @@ class KalturaUserFilter extends KalturaUserBaseFilter
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::toObject()
+	 * @see BorhanFilter::toObject()
 	 */
 	public function toObject ( $object_to_fill = null, $props_to_skip = array() )
 	{
@@ -60,7 +60,7 @@ class KalturaUserFilter extends KalturaUserBaseFilter
 		return $object_to_fill;		
 	}
 	
-	public function doFromObject($source_object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($source_object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($source_object, $responseProfile);
 		
@@ -91,7 +91,7 @@ class KalturaUserFilter extends KalturaUserBaseFilter
 	public $idIn;
 	
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $loginEnabledEqual;
 	
@@ -128,13 +128,13 @@ class KalturaUserFilter extends KalturaUserBaseFilter
 	public $permissionNamesMultiLikeAnd;
 
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::getListResponse()
+	 * @see BorhanRelatedFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$userFilter = $this->toObject();
 		
-		$c = KalturaCriteria::create(kuserPeer::OM_CLASS);
+		$c = BorhanCriteria::create(kuserPeer::OM_CLASS);
 		$userFilter->attachToCriteria($c);
 		
 		if (!is_null($this->roleIdEqual))
@@ -145,22 +145,22 @@ class KalturaUserFilter extends KalturaUserBaseFilter
 			$rs = KuserToUserRolePeer::doSelectStmt($roleCriteria);
 			$kuserIds = $rs->fetchAll(PDO::FETCH_COLUMN);
 						
-			$c->add(kuserPeer::ID, $kuserIds, KalturaCriteria::IN);
+			$c->add(kuserPeer::ID, $kuserIds, BorhanCriteria::IN);
 		}
 
 		if (is_null($this->typeEqual) && is_null($this->typeIn)){
-			$c->add(kuserPeer::TYPE, KuserType::USER, KalturaCriteria::EQUAL);
+			$c->add(kuserPeer::TYPE, KuserType::USER, BorhanCriteria::EQUAL);
 		}
 		
-		$c->addAnd(kuserPeer::PUSER_ID, NULL, KalturaCriteria::ISNOTNULL);
+		$c->addAnd(kuserPeer::PUSER_ID, NULL, BorhanCriteria::ISNOTNULL);
 		
 		$pager->attachToCriteria($c);
 		$list = kuserPeer::doSelect($c);
 		
 		$totalCount = $c->getRecordsCount();
 
-		$newList = KalturaUserArray::fromDbArray($list, $responseProfile);
-		$response = new KalturaUserListResponse();
+		$newList = BorhanUserArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanUserListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $totalCount;
 		

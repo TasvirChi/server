@@ -9,7 +9,7 @@ abstract class ClientGeneratorFromPhp
 	protected $_classMap = null;
 	protected $_typesClassMap = null;
 	
-	protected $package = 'Kaltura';
+	protected $package = 'Borhan';
 	protected $subpackage = 'Client';
 	
 	public function setPackage($package)
@@ -110,7 +110,7 @@ abstract class ClientGeneratorFromPhp
 		// services
 		foreach($this->_services as $serviceId => $serviceActionItem)
 		{
-			/* @var $serviceActionItem KalturaServiceActionItem */
+			/* @var $serviceActionItem BorhanServiceActionItem */
 			$this->writeBeforeService($serviceActionItem);
 			$serviceName = $serviceActionItem->serviceInfo->serviceName;
 			$serviceId = $serviceActionItem->serviceId;
@@ -157,7 +157,7 @@ abstract class ClientGeneratorFromPhp
 			{
 				$filterOrderByStringEnumTypeName = str_replace("Filter", "OrderBy", $typeReflector->getType());
 				if (class_exists($filterOrderByStringEnumTypeName))
-					$this->addType(KalturaTypeReflectorCacher::get($filterOrderByStringEnumTypeName));
+					$this->addType(BorhanTypeReflectorCacher::get($filterOrderByStringEnumTypeName));
 			}
 		}
 
@@ -195,10 +195,10 @@ abstract class ClientGeneratorFromPhp
 	}
 	
 	/**
-	 * @param KalturaTypeReflector $a
-	 * @param KalturaTypeReflector $b
+	 * @param BorhanTypeReflector $a
+	 * @param BorhanTypeReflector $b
 	 */
-	protected function compareTypes(KalturaTypeReflector $a, KalturaTypeReflector $b)
+	protected function compareTypes(BorhanTypeReflector $a, BorhanTypeReflector $b)
 	{
 		// enums at the begining
 		if($a->isEnum() && !$b->isEnum())
@@ -233,7 +233,7 @@ abstract class ClientGeneratorFromPhp
 	
 	protected abstract function writeBeforeServices();
 	
-	protected abstract function writeBeforeService(KalturaServiceActionItem $serviceReflector);
+	protected abstract function writeBeforeService(BorhanServiceActionItem $serviceReflector);
 	
 	/**
 	 * Called while looping the actions inside a service to write the service action description
@@ -241,11 +241,11 @@ abstract class ClientGeneratorFromPhp
 	 * @param string $serviceName
 	 * @param string $action
 	 * @param array $actionParams
-	 * @param KalturaTypeReflector $outputTypeReflector
+	 * @param BorhanTypeReflector $outputTypeReflector
 	 */
 	protected abstract function writeServiceAction($serviceId, $serviceName, $action, $actionParams, $outputTypeReflector);
 	
-	protected abstract function writeAfterService(KalturaServiceActionItem $serviceReflector);
+	protected abstract function writeAfterService(BorhanServiceActionItem $serviceReflector);
 	
 	protected abstract function writeAfterServices();
 	
@@ -256,7 +256,7 @@ abstract class ClientGeneratorFromPhp
 	 *
 	 * @param array $typeDescription
 	 */
-	protected abstract function writeType(KalturaTypeReflector $type);
+	protected abstract function writeType(BorhanTypeReflector $type);
 	
 	protected abstract function writeAfterTypes();
 	
@@ -269,15 +269,15 @@ abstract class ClientGeneratorFromPhp
 	{
 		$this->initClassMap();
 		
-		$serviceMap = KalturaServicesMap::getMap();
+		$serviceMap = BorhanServicesMap::getMap();
 		foreach($serviceMap as $serviceId => $serviceActionItem)
 		{
-		    /* @var $serviceActionItem KalturaServiceActionItem */
+		    /* @var $serviceActionItem BorhanServiceActionItem */
 			
-  			$serviceActionItemToAdd = KalturaServiceActionItem::cloneItem($serviceActionItem);
+  			$serviceActionItemToAdd = BorhanServiceActionItem::cloneItem($serviceActionItem);
 		    foreach ($serviceActionItem->actionMap as $actionId => $actionCallback)
 		    {
-      			$actionReflector = new KalturaActionReflector($serviceId, $actionId, $actionCallback);
+      			$actionReflector = new BorhanActionReflector($serviceId, $actionId, $actionCallback);
       			if ($this->shouldUseServiceAction($actionReflector))      			
       				$serviceActionItemToAdd->actionMap[$actionId] = $actionReflector;
 		    }
@@ -289,7 +289,7 @@ abstract class ClientGeneratorFromPhp
 		}
 	}
 	
-	private function getTypeDependencies(KalturaTypeReflector $typeReflector)
+	private function getTypeDependencies(BorhanTypeReflector $typeReflector)
 	{
 		$result = array();
 		
@@ -309,7 +309,7 @@ abstract class ClientGeneratorFromPhp
 		
 		if ($typeReflector->isArray() && !$typeReflector->isAbstract())
 		{
-			$arrayTypeReflector = KalturaTypeReflectorCacher::get($typeReflector->getArrayType());
+			$arrayTypeReflector = BorhanTypeReflectorCacher::get($typeReflector->getArrayType());
 			if($arrayTypeReflector)
 				$result[$arrayTypeReflector->getType()] = $arrayTypeReflector;
 		}
@@ -338,17 +338,17 @@ abstract class ClientGeneratorFromPhp
 		}
 		foreach($this->_typesClassMap as $class => $path)
 		{
-			if (strpos($class, 'Kaltura') === 0 && strpos($class, '_') === false && strpos($path, 'api') !== false) // make sure the class is api object
+			if (strpos($class, 'Borhan') === 0 && strpos($class, '_') === false && strpos($path, 'api') !== false) // make sure the class is api object
 			{
 				$reflector = new ReflectionClass($class);
-				if ($reflector->isSubclassOf('KalturaObject') || $reflector->isSubclassOf('KalturaEnum') || $reflector->isSubclassOf('KalturaStringEnum'))
+				if ($reflector->isSubclassOf('BorhanObject') || $reflector->isSubclassOf('BorhanEnum') || $reflector->isSubclassOf('BorhanStringEnum'))
 				{
-					$classTypeReflector = KalturaTypeReflectorCacher::get($class);
+					$classTypeReflector = BorhanTypeReflectorCacher::get($class);
 					if(!$classTypeReflector)
 						throw new Exception("Type [$class] reflector not found");
 						
 					$pluginName = $classTypeReflector->getPlugin();
-					if ($pluginName && !KalturaPluginManager::getPluginInstance($pluginName))
+					if ($pluginName && !BorhanPluginManager::getPluginInstance($pluginName))
 					{
 						unset($this->_typesClassMap[$class]);
 						continue;
@@ -369,26 +369,26 @@ abstract class ClientGeneratorFromPhp
 		}
 	}
 	
-	protected function shouldUseServiceAction (KalturaActionReflector $actionReflector)
+	protected function shouldUseServiceAction (BorhanActionReflector $actionReflector)
 	{
 	    $serviceId = $actionReflector->getServiceId();
 	    
 	    if ($actionReflector->getActionClassInfo()->serverOnly)
 	    {
-	        KalturaLog::info("Service [".$serviceId."] is server only");
+	        BorhanLog::info("Service [".$serviceId."] is server only");
 	        return false;
 	    }
 	    
 	    $actionId = $actionReflector->getActionId();
 	    if (strpos($actionReflector->getActionInfo()->clientgenerator, "ignore") !== false)
 	    {
-	        KalturaLog::info("Action [$actionId] in service [$serviceId] ignored by generator");
+	        BorhanLog::info("Action [$actionId] in service [$serviceId] ignored by generator");
 	        return false;
 	    }
 	    
 	    if (isset($this->_serviceActions[$serviceId]) && isset($this->_serviceActions[$serviceId][$actionId]))
 	    {
-	        KalturaLog::err("Service [$serviceId] action [$actionId] already exists!");
+	        BorhanLog::err("Service [$serviceId] action [$actionId] already exists!");
 	        return false;
 	    }
         
@@ -396,7 +396,7 @@ abstract class ClientGeneratorFromPhp
 	}
 	
 	
-	protected function addType(KalturaTypeReflector $objectReflector)
+	protected function addType(BorhanTypeReflector $objectReflector)
 	{
 		$type = $objectReflector->getType();
 	
@@ -407,7 +407,7 @@ abstract class ClientGeneratorFromPhp
 		
 		if($objectReflector->isServerOnly())
 		{
-			KalturaLog::info("Type is server only [$type]");
+			BorhanLog::info("Type is server only [$type]");
 			return;
 		}
 			

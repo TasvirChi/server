@@ -3,10 +3,10 @@
  * @package plugins.ftpDistribution
  * @subpackage api.objects
  */
-class KalturaFtpDistributionProfile extends KalturaConfigurableDistributionProfile
+class BorhanFtpDistributionProfile extends BorhanConfigurableDistributionProfile
 {
 	/**
-	 * @var KalturaDistributionProtocol
+	 * @var BorhanDistributionProtocol
 	 * @insertonly 
 	 */
 	 public $protocol;

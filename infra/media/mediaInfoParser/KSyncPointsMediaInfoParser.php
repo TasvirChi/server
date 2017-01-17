@@ -54,7 +54,7 @@ class KSyncPointsMediaInfoParser
 		$dataStreamIndex = $this->getDataStreamIndex();
 		
 		$cmd = $this->getExtrackStreamInfoCommand($dataStreamIndex);
-		KalturaLog::debug("Executing [$cmd] for extarckting id3 tags info");
+		BorhanLog::debug("Executing [$cmd] for extarckting id3 tags info");
 		$output = shell_exec($cmd);
 		if (trim($output) === "")
 			throw new kApplicativeException(KBaseMediaParser::ERROR_EXTRACT_MEDIA_FAILED, "Failed to parse media using " . get_class($this));
@@ -85,7 +85,7 @@ class KSyncPointsMediaInfoParser
 	private function getStreams()
 	{
 		$cmd = $this->getLocateDataStreamIndexCommand();
-		KalturaLog::debug("Executing [$cmd] to locate data track index");
+		BorhanLog::debug("Executing [$cmd] to locate data track index");
 		$streams = shell_exec($cmd);
 		
 		if (trim($streams) === "")
@@ -123,21 +123,21 @@ class KSyncPointsMediaInfoParser
 				
 				if(!isset($streamPtsTime) || !isset($streamId3tagTimeStamp))
 				{
-					KalturaLog::debug("Could not locate streamPtsTime [$streamPtsTime] or streamId3tagTimeStamp [$streamId3tagTimeStamp] skipping validation");
+					BorhanLog::debug("Could not locate streamPtsTime [$streamPtsTime] or streamId3tagTimeStamp [$streamId3tagTimeStamp] skipping validation");
 					continue;
 				}
 				
-				KalturaLog::debug("Testing:: time stamps to check are: streamId3tagTimeStamp [$streamId3tagTimeStamp] streamPts [$streamPtsTime]");
+				BorhanLog::debug("Testing:: time stamps to check are: streamId3tagTimeStamp [$streamId3tagTimeStamp] streamPts [$streamPtsTime]");
 				if ($streamId3tagTimeStamp >= 0 && $this->shouldSaveSyncPoint(end($syncPoints), $streamId3tagTimeStamp, $streamPtsTime))
 				{
 					$syncPoints[] = $streamPtsTime . self::TS_PTS_DELIMITER . $streamId3tagTimeStamp;
 				}
 			}
-			KalturaLog::debug("Returning syncPoints array: " . print_r($syncPoints, true));
+			BorhanLog::debug("Returning syncPoints array: " . print_r($syncPoints, true));
 		}
 		else
 		{
-			KalturaLog::warning('Failed to json_decode. returning an empty syncPoints array');
+			BorhanLog::warning('Failed to json_decode. returning an empty syncPoints array');
 		}
 		
 		return $syncPoints;
@@ -205,7 +205,7 @@ class KSyncPointsMediaInfoParser
 	{
 		if (!$lastSyncPoint)
 		{
-			KalturaLog::debug("First syncPoint, ts = [$streamId3tagTimeStamp] pts = [$streamPts]");
+			BorhanLog::debug("First syncPoint, ts = [$streamId3tagTimeStamp] pts = [$streamPts]");
 			return true;
 		}
 		
@@ -219,18 +219,18 @@ class KSyncPointsMediaInfoParser
 		{
 			if ($tsDelta > self::MIN_DIFF_BETWEEN_SYNC_POINTS_IN_MSEC)
 			{
-				KalturaLog::debug("Discontinuance found, adding syncPoint tsDelta = [$tsDelta] ptsDelta = [$ptsDelta]");
+				BorhanLog::debug("Discontinuance found, adding syncPoint tsDelta = [$tsDelta] ptsDelta = [$ptsDelta]");
 				return true;
 			}
 			else
 			{
-				KalturaLog::debug("Discontinuance found, but not adding syncPoint since time from last syncPoint is less than ["
+				BorhanLog::debug("Discontinuance found, but not adding syncPoint since time from last syncPoint is less than ["
 					. self::MIN_DIFF_BETWEEN_SYNC_POINTS_IN_MSEC . "] tsDelta = [$tsDelta] ptsDelta [$ptsDelta]");
 			}
 		}
 		else
 		{
-			KalturaLog::debug("NOT adding syncPoint, tsDelta = [$tsDelta] ptsDelta = [$ptsDelta]");
+			BorhanLog::debug("NOT adding syncPoint, tsDelta = [$tsDelta] ptsDelta = [$ptsDelta]");
 		}
 		
 		return false;

@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaBaseEntryBaseFilter extends KalturaRelatedFilter
+abstract class BorhanBaseEntryBaseFilter extends BorhanRelatedFilter
 {
 	static private $map_between_objects = array
 	(
@@ -172,14 +172,14 @@ abstract class KalturaBaseEntryBaseFilter extends KalturaRelatedFilter
 	public $nameEqual;
 
 	/**
-	 * This filter should be in use for retrieving only entries which were uploaded by/assigned to users of a specific Kaltura Partner (identified by Partner ID).
+	 * This filter should be in use for retrieving only entries which were uploaded by/assigned to users of a specific Borhan Partner (identified by Partner ID).
 	 * 
 	 * @var int
 	 */
 	public $partnerIdEqual;
 
 	/**
-	 * This filter should be in use for retrieving only entries within Kaltura network which were uploaded by/assigned to users of few Kaltura Partners  (string should include comma separated list of PartnerIDs)
+	 * This filter should be in use for retrieving only entries within Borhan network which were uploaded by/assigned to users of few Borhan Partners  (string should include comma separated list of PartnerIDs)
 	 * 
 	 * @var string
 	 */
@@ -285,47 +285,47 @@ abstract class KalturaBaseEntryBaseFilter extends KalturaRelatedFilter
 	public $categoriesIdsNotContains;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $categoriesIdsEmpty;
 
 	/**
-	 * This filter should be in use for retrieving only entries, at a specific {@link ?object=KalturaEntryStatus KalturaEntryStatus}.
+	 * This filter should be in use for retrieving only entries, at a specific {@link ?object=BorhanEntryStatus BorhanEntryStatus}.
 	 * 
-	 * @var KalturaEntryStatus
+	 * @var BorhanEntryStatus
 	 */
 	public $statusEqual;
 
 	/**
-	 * This filter should be in use for retrieving only entries, not at a specific {@link ?object=KalturaEntryStatus KalturaEntryStatus}.
+	 * This filter should be in use for retrieving only entries, not at a specific {@link ?object=BorhanEntryStatus BorhanEntryStatus}.
 	 * 
-	 * @var KalturaEntryStatus
+	 * @var BorhanEntryStatus
 	 */
 	public $statusNotEqual;
 
 	/**
-	 * This filter should be in use for retrieving only entries, at few specific {@link ?object=KalturaEntryStatus KalturaEntryStatus} (comma separated).
+	 * This filter should be in use for retrieving only entries, at few specific {@link ?object=BorhanEntryStatus BorhanEntryStatus} (comma separated).
 	 * 
-	 * @dynamicType KalturaEntryStatus
+	 * @dynamicType BorhanEntryStatus
 	 * @var string
 	 */
 	public $statusIn;
 
 	/**
-	 * This filter should be in use for retrieving only entries, not at few specific {@link ?object=KalturaEntryStatus KalturaEntryStatus} (comma separated).
+	 * This filter should be in use for retrieving only entries, not at few specific {@link ?object=BorhanEntryStatus BorhanEntryStatus} (comma separated).
 	 * 
-	 * @dynamicType KalturaEntryStatus
+	 * @dynamicType BorhanEntryStatus
 	 * @var string
 	 */
 	public $statusNotIn;
 
 	/**
-	 * @var KalturaEntryModerationStatus
+	 * @var BorhanEntryModerationStatus
 	 */
 	public $moderationStatusEqual;
 
 	/**
-	 * @var KalturaEntryModerationStatus
+	 * @var BorhanEntryModerationStatus
 	 */
 	public $moderationStatusNotEqual;
 
@@ -340,27 +340,27 @@ abstract class KalturaBaseEntryBaseFilter extends KalturaRelatedFilter
 	public $moderationStatusNotIn;
 
 	/**
-	 * @var KalturaEntryType
+	 * @var BorhanEntryType
 	 */
 	public $typeEqual;
 
 	/**
-	 * This filter should be in use for retrieving entries of few {@link ?object=KalturaEntryType KalturaEntryType} (string should include a comma separated list of {@link ?object=KalturaEntryType KalturaEntryType} enumerated parameters).
+	 * This filter should be in use for retrieving entries of few {@link ?object=BorhanEntryType BorhanEntryType} (string should include a comma separated list of {@link ?object=BorhanEntryType BorhanEntryType} enumerated parameters).
 	 * 
-	 * @dynamicType KalturaEntryType
+	 * @dynamicType BorhanEntryType
 	 * @var string
 	 */
 	public $typeIn;
 
 	/**
-	 * This filter parameter should be in use for retrieving only entries which were created at Kaltura system after a specific time/date (standard timestamp format).
+	 * This filter parameter should be in use for retrieving only entries which were created at Borhan system after a specific time/date (standard timestamp format).
 	 * 
 	 * @var time
 	 */
 	public $createdAtGreaterThanOrEqual;
 
 	/**
-	 * This filter parameter should be in use for retrieving only entries which were created at Kaltura system before a specific time/date (standard timestamp format).
+	 * This filter parameter should be in use for retrieving only entries which were created at Borhan system before a specific time/date (standard timestamp format).
 	 * 
 	 * @var time
 	 */
@@ -486,12 +486,12 @@ abstract class KalturaBaseEntryBaseFilter extends KalturaRelatedFilter
 	public $replacedEntryIdIn;
 
 	/**
-	 * @var KalturaEntryReplacementStatus
+	 * @var BorhanEntryReplacementStatus
 	 */
 	public $replacementStatusEqual;
 
 	/**
-	 * @dynamicType KalturaEntryReplacementStatus
+	 * @dynamicType BorhanEntryReplacementStatus
 	 * @var string
 	 */
 	public $replacementStatusIn;

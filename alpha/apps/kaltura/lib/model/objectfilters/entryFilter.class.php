@@ -563,7 +563,7 @@ class entryFilter extends baseObjectFilter
 	}
 	
 	/**
-	 * Will be used for the KCW's search - this is slightly different  
+	 * Will be used for the BCW's search - this is slightly different  
 	 *
 	 * @param Criteria $criteria
 	 * @param array $keys_to_search

@@ -4,7 +4,7 @@
  * @package plugins.scheduledTask
  * @subpackage api.objects.objectTasks
  */
-class KalturaConvertEntryFlavorsObjectTask extends KalturaObjectTask
+class BorhanConvertEntryFlavorsObjectTask extends BorhanObjectTask
 {
 	/**
 	 * Comma separated list of flavor param ids to convert
@@ -36,7 +36,7 @@ class KalturaConvertEntryFlavorsObjectTask extends KalturaObjectTask
 		return $dbObject;
 	}
 
-	public function doFromObject($srcObj, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($srcObj, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($srcObj, $responseProfile);
 

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaAccessControlServeRemoteEdgeServerAction extends KalturaRuleAction
+class BorhanAccessControlServeRemoteEdgeServerAction extends BorhanRuleAction
 {
 	/**
 	 * Comma separated list of edge servers playBack should be done from
@@ -30,7 +30,7 @@ class KalturaAccessControlServeRemoteEdgeServerAction extends KalturaRuleAction
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

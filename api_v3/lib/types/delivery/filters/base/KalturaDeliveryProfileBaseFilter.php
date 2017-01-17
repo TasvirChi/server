@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaDeliveryProfileBaseFilter extends KalturaFilter
+abstract class BorhanDeliveryProfileBaseFilter extends BorhanFilter
 {
 	static private $map_between_objects = array
 	(
@@ -92,12 +92,12 @@ abstract class KalturaDeliveryProfileBaseFilter extends KalturaFilter
 	public $updatedAtLessThanOrEqual;
 
 	/**
-	 * @var KalturaPlaybackProtocol
+	 * @var BorhanPlaybackProtocol
 	 */
 	public $streamerTypeEqual;
 
 	/**
-	 * @var KalturaDeliveryStatus
+	 * @var BorhanDeliveryStatus
 	 */
 	public $statusEqual;
 

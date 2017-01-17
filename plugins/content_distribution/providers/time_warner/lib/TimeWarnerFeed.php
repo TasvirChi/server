@@ -200,7 +200,7 @@ class TimeWarnerFeed
 				switch($assetType){
 					case CaptionPlugin::getAssetTypeCoreValue(CaptionAssetType::CAPTION):
 						/* @var $captionPlugin CaptionPlugin */
-						$captionPlugin = KalturaPluginManager::getPluginInstance(CaptionPlugin::PLUGIN_NAME);
+						$captionPlugin = BorhanPluginManager::getPluginInstance(CaptionPlugin::PLUGIN_NAME);
 						$dummyElement = new SimpleXMLElement('<dummy/>');
 						$captionPlugin->contributeCaptionAssets($additionalAsset, $dummyElement);
 						$dummyDom = dom_import_simplexml($dummyElement);
@@ -210,7 +210,7 @@ class TimeWarnerFeed
 						break;
 					case AttachmentPlugin::getAssetTypeCoreValue(AttachmentAssetType::ATTACHMENT):
 						/* @var $attachmentPlugin AttachmentPlugin */
-						$attachmentPlugin = KalturaPluginManager::getPluginInstance(AttachmentPlugin::PLUGIN_NAME);
+						$attachmentPlugin = BorhanPluginManager::getPluginInstance(AttachmentPlugin::PLUGIN_NAME);
 						$dummyElement = new SimpleXMLElement('<dummy/>');
 						$attachmentPlugin->contributeAttachmentAssets($additionalAsset, $dummyElement);
 						$dummyDom = dom_import_simplexml($dummyElement);
@@ -290,7 +290,7 @@ class TimeWarnerFeed
 		}
 		else
 		{
-			KalturaLog::alert('"Content-Type" header was not found for the following URL: '. $url);
+			BorhanLog::alert('"Content-Type" header was not found for the following URL: '. $url);
 			return null;
 		}
 	}

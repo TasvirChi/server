@@ -210,7 +210,7 @@ class kObjectDeleteHandler implements kObjectDeletedEventConsumer
 		//In Case Flavor Deleted Belongs To Partner 0 Exit Without Deleteing
 		if($assetParam->getPartnerId() == 0) 
 		{
-			KalturaLog::log("Deleting Flavor Param Of Partner 0 Is Restricted");
+			BorhanLog::log("Deleting Flavor Param Of Partner 0 Is Restricted");
 			return;
 		}
 		
@@ -234,7 +234,7 @@ class kObjectDeleteHandler implements kObjectDeletedEventConsumer
 			flavorParamsConversionProfilePeer::clearInstancePool();
 		}
 		
-		KalturaLog::info("Flavor Params Conversion Profile Relations were deleted for flavor param id [" . $assetParam->getId() . "]");
+		BorhanLog::info("Flavor Params Conversion Profile Relations were deleted for flavor param id [" . $assetParam->getId() . "]");
 	}
 	
 	/**
@@ -242,7 +242,7 @@ class kObjectDeleteHandler implements kObjectDeletedEventConsumer
 	 */
 	protected function syndicationFeedDeleted(syndicationFeed $syndicationFeed)
 	{
-		if($syndicationFeed->getType() == syndicationFeedType::KALTURA_XSLT)
+		if($syndicationFeed->getType() == syndicationFeedType::BORHAN_XSLT)
 			$this->syncableDeleted($syndicationFeed->getId(), FileSyncObjectType::SYNDICATION_FEED);
 	}
 	

@@ -56,7 +56,7 @@
 	<field name="created_at" indexName="created_at" type="datetime" orderable="yes"/>
 	<field name="updated_at" indexName="updated_at" type="datetime" orderable="yes"/>
 </object>
-<object name="entry" indexId="str_entry_id" id="ID" apiName="KalturaBaseEntry" >
+<object name="entry" indexId="str_entry_id" id="ID" apiName="BorhanBaseEntry" >
 	<field name="entry_id" indexName="@name" apiName="@getter" getter="id" type="string" />
 	<field name="str_entry_id" indexName="@name" getter="id" type="string" sphinxStringAttribute="string" />
 	<field name="id" indexName="int_entry_id" getter="indexedId" type="int" skipField="yes" />

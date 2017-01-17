@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-abstract class KalturaContext extends KalturaObject
+abstract class BorhanContext extends BorhanObject
 {
     /**
      * Function to validate the context.

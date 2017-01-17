@@ -4,7 +4,7 @@
  * @package api
  * @subpackage objects.factory
  */
-class KalturaDeliveryProfileFactory {
+class BorhanDeliveryProfileFactory {
 	
 	public static function getCoreDeliveryProfileInstanceByType($type) {
 		$coreType = kPluginableEnumsManager::apiToCore('DeliveryProfileType', $type); 
@@ -14,40 +14,40 @@ class KalturaDeliveryProfileFactory {
 	
 	public static function getDeliveryProfileInstanceByType($type) {
 		switch ($type) {
-			case KalturaDeliveryProfileType::GENERIC_HLS:
-			case KalturaDeliveryProfileType::GENERIC_HLS_MANIFEST:
-				return new KalturaDeliveryProfileGenericAppleHttp();
-			case KalturaDeliveryProfileType::GENERIC_HDS:
-			case KalturaDeliveryProfileType::GENERIC_HDS_MANIFEST:
-				return new KalturaDeliveryProfileGenericHds();
-			case KalturaDeliveryProfileType::GENERIC_HTTP:
-					return new KalturaDeliveryProfileGenericHttp();
-			case KalturaDeliveryProfileType::RTMP:
-			case KalturaDeliveryProfileType::LIVE_RTMP:
-				return new KalturaDeliveryProfileRtmp();
-			case KalturaDeliveryProfileType::AKAMAI_HTTP:
-				return new KalturaDeliveryProfileAkamaiHttp();
-			case KalturaDeliveryProfileType::AKAMAI_HLS_MANIFEST:
-				return new KalturaDeliveryProfileAkamaiAppleHttpManifest();
-			case KalturaDeliveryProfileType::AKAMAI_HDS:
-				return new KalturaDeliveryProfileAkamaiHds();
-			case KalturaDeliveryProfileType::LIVE_PACKAGER_HLS:
-			case KalturaDeliveryProfileType::LIVE_HLS:
-				return new KalturaDeliveryProfileLiveAppleHttp();
-			case KalturaDeliveryProfileType::GENERIC_SS:
-				return new KalturaDeliveryProfileGenericSilverLight();
-			case KalturaDeliveryProfileType::GENERIC_RTMP:
-				return new KalturaDeliveryProfileGenericRtmp();
-			case KalturaDeliveryProfileType::VOD_PACKAGER_HLS:
-				return new KalturaDeliveryProfileVodPackagerHls();
-			case KalturaDeliveryProfileType::VOD_PACKAGER_DASH:
-				return new KalturaDeliveryProfileVodPackagerPlayServer();
-			case KalturaDeliveryProfileType::VOD_PACKAGER_MSS:
-				return new KalturaDeliveryProfileVodPackagerPlayServer();
+			case BorhanDeliveryProfileType::GENERIC_HLS:
+			case BorhanDeliveryProfileType::GENERIC_HLS_MANIFEST:
+				return new BorhanDeliveryProfileGenericAppleHttp();
+			case BorhanDeliveryProfileType::GENERIC_HDS:
+			case BorhanDeliveryProfileType::GENERIC_HDS_MANIFEST:
+				return new BorhanDeliveryProfileGenericHds();
+			case BorhanDeliveryProfileType::GENERIC_HTTP:
+					return new BorhanDeliveryProfileGenericHttp();
+			case BorhanDeliveryProfileType::RTMP:
+			case BorhanDeliveryProfileType::LIVE_RTMP:
+				return new BorhanDeliveryProfileRtmp();
+			case BorhanDeliveryProfileType::AKAMAI_HTTP:
+				return new BorhanDeliveryProfileAkamaiHttp();
+			case BorhanDeliveryProfileType::AKAMAI_HLS_MANIFEST:
+				return new BorhanDeliveryProfileAkamaiAppleHttpManifest();
+			case BorhanDeliveryProfileType::AKAMAI_HDS:
+				return new BorhanDeliveryProfileAkamaiHds();
+			case BorhanDeliveryProfileType::LIVE_PACKAGER_HLS:
+			case BorhanDeliveryProfileType::LIVE_HLS:
+				return new BorhanDeliveryProfileLiveAppleHttp();
+			case BorhanDeliveryProfileType::GENERIC_SS:
+				return new BorhanDeliveryProfileGenericSilverLight();
+			case BorhanDeliveryProfileType::GENERIC_RTMP:
+				return new BorhanDeliveryProfileGenericRtmp();
+			case BorhanDeliveryProfileType::VOD_PACKAGER_HLS:
+				return new BorhanDeliveryProfileVodPackagerHls();
+			case BorhanDeliveryProfileType::VOD_PACKAGER_DASH:
+				return new BorhanDeliveryProfileVodPackagerPlayServer();
+			case BorhanDeliveryProfileType::VOD_PACKAGER_MSS:
+				return new BorhanDeliveryProfileVodPackagerPlayServer();
 			default:
-				$obj = KalturaPluginManager::loadObject('KalturaDeliveryProfile', $type);
+				$obj = BorhanPluginManager::loadObject('BorhanDeliveryProfile', $type);
 				if(!$obj)
-					$obj = new KalturaDeliveryProfile();
+					$obj = new BorhanDeliveryProfile();
 				return $obj;
 		}
 	}
@@ -55,34 +55,34 @@ class KalturaDeliveryProfileFactory {
 	public static function getTokenizerInstanceByType($type) {
 		switch ($type) {
 			case 'kLevel3UrlTokenizer':
-				return new KalturaUrlTokenizerLevel3();
+				return new BorhanUrlTokenizerLevel3();
 			case 'kLimeLightUrlTokenizer':
-				return new KalturaUrlTokenizerLimeLight();
+				return new BorhanUrlTokenizerLimeLight();
 			case 'kAkamaiHttpUrlTokenizer':
-				return new KalturaUrlTokenizerAkamaiHttp();
+				return new BorhanUrlTokenizerAkamaiHttp();
 			case 'kAkamaiRtmpUrlTokenizer':
-				return new KalturaUrlTokenizerAkamaiRtmp();
+				return new BorhanUrlTokenizerAkamaiRtmp();
 			case 'kAkamaiRtspUrlTokenizer':
-				return new KalturaUrlTokenizerAkamaiRtsp();
+				return new BorhanUrlTokenizerAkamaiRtsp();
 			case 'kAkamaiSecureHDUrlTokenizer':
-				return new KalturaUrlTokenizerAkamaiSecureHd();
+				return new BorhanUrlTokenizerAkamaiSecureHd();
 			case 'kCloudFrontUrlTokenizer':
-				return new KalturaUrlTokenizerCloudFront();
+				return new BorhanUrlTokenizerCloudFront();
 			case 'kBitGravityUrlTokenizer':
-				return new KalturaUrlTokenizerBitGravity();
+				return new BorhanUrlTokenizerBitGravity();
 			case 'kVnptUrlTokenizer':
-				return new KalturaUrlTokenizerVnpt();
+				return new BorhanUrlTokenizerVnpt();
 			case 'kChtHttpUrlTokenizer':
-				return new KalturaUrlTokenizerCht();	
+				return new BorhanUrlTokenizerCht();	
 			case 'kKsUrlTokenizer':
-				return new KalturaUrlTokenizerKs();
+				return new BorhanUrlTokenizerKs();
 
 			// Add other tokenizers here
 			default:
-				$apiObject = KalturaPluginManager::loadObject('KalturaTokenizer', $type);
+				$apiObject = BorhanPluginManager::loadObject('BorhanTokenizer', $type);
 				if($apiObject)
 					return $apiObject;
-				KalturaLog::err("Cannot load API object for core Tokenizer [" . $type . "]");
+				BorhanLog::err("Cannot load API object for core Tokenizer [" . $type . "]");
 				return null;
 		}
 	}
@@ -90,14 +90,14 @@ class KalturaDeliveryProfileFactory {
 	public static function getRecognizerByType($type) {
 		switch ($type) {
 			case 'kUrlRecognizerAkamaiG2O':
-				return new KalturaUrlRecognizerAkamaiG2O();
+				return new BorhanUrlRecognizerAkamaiG2O();
 			case 'kUrlRecognizer':
-				return new KalturaUrlRecognizer();
+				return new BorhanUrlRecognizer();
 			default:
-				$apiObject = KalturaPluginManager::loadObject('KalturaRecognizer', $type);
+				$apiObject = BorhanPluginManager::loadObject('BorhanRecognizer', $type);
 				if($apiObject)
 					return $apiObject;
-				KalturaLog::err("Cannot load API object for core Recognizer [" . $type . "]");
+				BorhanLog::err("Cannot load API object for core Recognizer [" . $type . "]");
 				return null;
 		}
 	}

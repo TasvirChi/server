@@ -7,9 +7,9 @@
  * @package api
  * @subpackage services
  */
-class MediaService extends KalturaEntryService
+class MediaService extends BorhanEntryService
 {
-	protected function kalturaNetworkAllowed($actionName)
+	protected function borhanNetworkAllowed($actionName)
 	{
 		if ($actionName === 'get') {
 			return true;
@@ -35,7 +35,7 @@ class MediaService extends KalturaEntryService
 			return true;
 		}
 
-		return parent::kalturaNetworkAllowed($actionName);
+		return parent::borhanNetworkAllowed($actionName);
 	}
 
 	protected function partnerRequired($actionName)
@@ -50,10 +50,10 @@ class MediaService extends KalturaEntryService
      * Add entry
      *
      * @action add
-     * @param KalturaMediaEntry $entry
-     * @return KalturaMediaEntry
+     * @param BorhanMediaEntry $entry
+     * @return BorhanMediaEntry
      */
-    function addAction(KalturaMediaEntry $entry)
+    function addAction(BorhanMediaEntry $entry)
     {
     	if($entry->conversionQuality && !$entry->conversionProfileId)
     		$entry->conversionProfileId = $entry->conversionQuality;
@@ -94,21 +94,21 @@ class MediaService extends KalturaEntryService
      *
      * @action addContent
      * @param string $entryId
-     * @param KalturaResource $resource
-     * @return KalturaMediaEntry
-     * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-     * @throws KalturaErrors::ENTRY_ALREADY_WITH_CONTENT
+     * @param BorhanResource $resource
+     * @return BorhanMediaEntry
+     * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+     * @throws BorhanErrors::ENTRY_ALREADY_WITH_CONTENT
      * @validateUser entry entryId edit
      */
-    function addContentAction($entryId, KalturaResource $resource = null)
+    function addContentAction($entryId, BorhanResource $resource = null)
     {
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 
-		if (!$dbEntry || $dbEntry->getType() != KalturaEntryType::MEDIA_CLIP)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+		if (!$dbEntry || $dbEntry->getType() != BorhanEntryType::MEDIA_CLIP)
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 
 		if ($dbEntry->getStatus() != entryStatus::NO_CONTENT)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ALREADY_WITH_CONTENT);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ALREADY_WITH_CONTENT);
 
 		if($resource)
 		{
@@ -123,18 +123,18 @@ class MediaService extends KalturaEntryService
     }
 
     /**
-     * @param KalturaResource $resource
+     * @param BorhanResource $resource
      * @param entry $dbEntry
      * @param int $conversionProfileId
      */
-    protected function replaceResource(KalturaResource $resource, entry $dbEntry, $conversionProfileId = null, $advancedOptions = null)
+    protected function replaceResource(BorhanResource $resource, entry $dbEntry, $conversionProfileId = null, $advancedOptions = null)
     {
     	if($advancedOptions)
     	{
     		$dbEntry->setReplacementOptions($advancedOptions->toObject());
     		$dbEntry->save();
     	}
-		if($dbEntry->getStatus() == KalturaEntryStatus::NO_CONTENT || $dbEntry->getMediaType() == KalturaMediaType::IMAGE)
+		if($dbEntry->getStatus() == BorhanEntryStatus::NO_CONTENT || $dbEntry->getMediaType() == BorhanMediaType::IMAGE)
 		{
 			$resource->validateEntry($dbEntry);
 
@@ -157,11 +157,11 @@ class MediaService extends KalturaEntryService
 					&& $dbEntry->getId() == $internalResource->getOriginEntryId()
 				)
 				{
-					throw new KalturaAPIException(KalturaErrors::ENTRY_CANNOT_BE_TRIMMED);
+					throw new BorhanAPIException(BorhanErrors::ENTRY_CANNOT_BE_TRIMMED);
 				}
 			}
 
-			$tempMediaEntry = new KalturaMediaEntry();
+			$tempMediaEntry = new BorhanMediaEntry();
 			$tempMediaEntry->type = $dbEntry->getType();
 			$tempMediaEntry->mediaType = $dbEntry->getMediaType();
 			$tempMediaEntry->sourceType = $dbEntry->getSourceType();
@@ -199,15 +199,15 @@ class MediaService extends KalturaEntryService
     	{
 			case 'kAssetsParamsResourceContainers':
 				// image entry doesn't support asset params
-				if($dbEntry->getMediaType() == KalturaMediaType::IMAGE)
-					throw new KalturaAPIException(KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($resource));
+				if($dbEntry->getMediaType() == BorhanMediaType::IMAGE)
+					throw new BorhanAPIException(BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($resource));
 
 				return $this->attachAssetsParamsResourceContainers($resource, $dbEntry);
 
 			case 'kAssetParamsResourceContainer':
 				// image entry doesn't support asset params
-				if($dbEntry->getMediaType() == KalturaMediaType::IMAGE)
-					throw new KalturaAPIException(KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($resource));
+				if($dbEntry->getMediaType() == BorhanMediaType::IMAGE)
+					throw new BorhanAPIException(BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($resource));
 
 				return $this->attachAssetParamsResourceContainer($resource, $dbEntry, $dbAsset);
 
@@ -228,17 +228,17 @@ class MediaService extends KalturaEntryService
 				return $this->attachRemoteStorageResource($resource, $dbEntry, $dbAsset);
 
 			case 'kOperationResource':
-				if($dbEntry->getMediaType() == KalturaMediaType::IMAGE)
-					throw new KalturaAPIException(KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($resource));
+				if($dbEntry->getMediaType() == BorhanMediaType::IMAGE)
+					throw new BorhanAPIException(BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($resource));
 
 				return $this->attachOperationResource($resource, $dbEntry, $dbAsset);
 
 			default:
-				KalturaLog::err("Resource of type [" . get_class($resource) . "] is not supported");
+				BorhanLog::err("Resource of type [" . get_class($resource) . "] is not supported");
 				$dbEntry->setStatus(entryStatus::ERROR_IMPORTING);
 				$dbEntry->save();
 
-				throw new KalturaAPIException(KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($resource));
+				throw new BorhanAPIException(BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($resource));
     	}
     }
 
@@ -248,17 +248,17 @@ class MediaService extends KalturaEntryService
 	 * This action should be exposed only to the batches
 	 *
 	 * @action addFromBulk
-	 * @param KalturaMediaEntry $mediaEntry Media entry metadata
+	 * @param BorhanMediaEntry $mediaEntry Media entry metadata
 	 * @param string $url An HTTP or FTP URL
 	 * @param int $bulkUploadId The id of the bulk upload job
-	 * @return KalturaMediaEntry The new media entry
+	 * @return BorhanMediaEntry The new media entry
 	 *
-	 * @throws KalturaErrors::PROPERTY_VALIDATION_MIN_LENGTH
-	 * @throws KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
+	 * @throws BorhanErrors::PROPERTY_VALIDATION_MIN_LENGTH
+	 * @throws BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
 	 *
 	 * @deprecated use media.add instead
 	 */
-	function addFromBulkAction(KalturaMediaEntry $mediaEntry, $url, $bulkUploadId)
+	function addFromBulkAction(BorhanMediaEntry $mediaEntry, $url, $bulkUploadId)
 	{
 		return $this->addDbFromUrl($mediaEntry, $url, $bulkUploadId);
 	}
@@ -268,21 +268,21 @@ class MediaService extends KalturaEntryService
 	 * The entry will be queued for import and then for conversion.
 	 *
 	 * @action addFromUrl
-	 * @param KalturaMediaEntry $mediaEntry Media entry metadata
+	 * @param BorhanMediaEntry $mediaEntry Media entry metadata
 	 * @param string $url An HTTP or FTP URL
-	 * @return KalturaMediaEntry The new media entry
+	 * @return BorhanMediaEntry The new media entry
 	 *
-	 * @throws KalturaErrors::PROPERTY_VALIDATION_MIN_LENGTH
-	 * @throws KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
+	 * @throws BorhanErrors::PROPERTY_VALIDATION_MIN_LENGTH
+	 * @throws BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
 	 *
 	 * @deprecated use media.add instead
 	 */
-	function addFromUrlAction(KalturaMediaEntry $mediaEntry, $url)
+	function addFromUrlAction(BorhanMediaEntry $mediaEntry, $url)
 	{
 		return $this->addDbFromUrl($mediaEntry, $url);
 	}
 
-	private function addDbFromUrl(KalturaMediaEntry $mediaEntry, $url, $bulkUploadId = null)
+	private function addDbFromUrl(BorhanMediaEntry $mediaEntry, $url, $bulkUploadId = null)
 	{
     	if($mediaEntry->conversionQuality && !$mediaEntry->conversionProfileId)
     		$mediaEntry->conversionProfileId = $mediaEntry->conversionQuality;
@@ -295,7 +295,7 @@ class MediaService extends KalturaEntryService
 
 		// setup the needed params for my insert entry helper
 		$paramsArray = array (
-			"entry_media_source" => KalturaSourceType::URL,
+			"entry_media_source" => BorhanSourceType::URL,
             "entry_media_type" => $dbEntry->getMediaType(),
 			"entry_url" => $url,
 			"entry_license" => $dbEntry->getLicenseType(),
@@ -322,25 +322,25 @@ class MediaService extends KalturaEntryService
 	 * This action should be used with the search service result.
 	 *
 	 * @action addFromSearchResult
-	 * @param KalturaMediaEntry $mediaEntry Media entry metadata
-	 * @param KalturaSearchResult $searchResult Result object from search service
-	 * @return KalturaMediaEntry The new media entry
+	 * @param BorhanMediaEntry $mediaEntry Media entry metadata
+	 * @param BorhanSearchResult $searchResult Result object from search service
+	 * @return BorhanMediaEntry The new media entry
 	 *
-	 * @throws KalturaErrors::PROPERTY_VALIDATION_MIN_LENGTH
-	 * @throws KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
+	 * @throws BorhanErrors::PROPERTY_VALIDATION_MIN_LENGTH
+	 * @throws BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
 	 *
 	 * @deprecated use media.add instead
 	 */
-	function addFromSearchResultAction(KalturaMediaEntry $mediaEntry = null, KalturaSearchResult $searchResult = null)
+	function addFromSearchResultAction(BorhanMediaEntry $mediaEntry = null, BorhanSearchResult $searchResult = null)
 	{
 		if($mediaEntry->conversionQuality && !$mediaEntry->conversionProfileId)
 			$mediaEntry->conversionProfileId = $mediaEntry->conversionQuality;
 
 		if ($mediaEntry === null)
-			$mediaEntry = new KalturaMediaEntry();
+			$mediaEntry = new BorhanMediaEntry();
 
 		if ($searchResult === null)
-			$searchResult = new KalturaSearchResult();
+			$searchResult = new BorhanSearchResult();
 
 		// copy the fields from search result if they are missing in media entry
 		// this should be checked before prepareEntry method call
@@ -364,7 +364,7 @@ class MediaService extends KalturaEntryService
 
      	$searchResult->validatePropertyNotNull("searchSource");
 
-    	$mediaEntry->sourceType = KalturaSourceType::SEARCH_PROVIDER;
+    	$mediaEntry->sourceType = BorhanSourceType::SEARCH_PROVIDER;
      	$mediaEntry->searchProviderType = $searchResult->searchSource;
      	$mediaEntry->searchProviderId = $searchResult->id;
 
@@ -374,18 +374,18 @@ class MediaService extends KalturaEntryService
         $kshowId = $dbEntry->getKshowId();
 
        	// $searchResult->licenseType; // FIXME, No support for licenseType
-        // FIXME - no need to clone entry if $dbEntry->getSource() == entry::ENTRY_MEDIA_SOURCE_KALTURA_USER_CLIPS
-		if ($dbEntry->getSource() == entry::ENTRY_MEDIA_SOURCE_KALTURA ||
-			$dbEntry->getSource() == entry::ENTRY_MEDIA_SOURCE_KALTURA_PARTNER ||
-			$dbEntry->getSource() == entry::ENTRY_MEDIA_SOURCE_KALTURA_PARTNER_KSHOW ||
-			$dbEntry->getSource() == entry::ENTRY_MEDIA_SOURCE_KALTURA_KSHOW ||
-			$dbEntry->getSource() == entry::ENTRY_MEDIA_SOURCE_KALTURA_USER_CLIPS)
+        // FIXME - no need to clone entry if $dbEntry->getSource() == entry::ENTRY_MEDIA_SOURCE_BORHAN_USER_CLIPS
+		if ($dbEntry->getSource() == entry::ENTRY_MEDIA_SOURCE_BORHAN ||
+			$dbEntry->getSource() == entry::ENTRY_MEDIA_SOURCE_BORHAN_PARTNER ||
+			$dbEntry->getSource() == entry::ENTRY_MEDIA_SOURCE_BORHAN_PARTNER_KSHOW ||
+			$dbEntry->getSource() == entry::ENTRY_MEDIA_SOURCE_BORHAN_KSHOW ||
+			$dbEntry->getSource() == entry::ENTRY_MEDIA_SOURCE_BORHAN_USER_CLIPS)
 		{
 			$sourceEntryId = $searchResult->id;
 			$copyDataResult = myEntryUtils::copyData($sourceEntryId, $dbEntry);
 
 			if (!$copyDataResult) // will be false when the entry id was not found
-				throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $sourceEntryId);
+				throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $sourceEntryId);
 
 			$dbEntry->setStatusReady();
 			$dbEntry->save();
@@ -420,17 +420,17 @@ class MediaService extends KalturaEntryService
 	 * Add new entry after the specific media file was uploaded and the upload token id exists
 	 *
 	 * @action addFromUploadedFile
-	 * @param KalturaMediaEntry $mediaEntry Media entry metadata
+	 * @param BorhanMediaEntry $mediaEntry Media entry metadata
 	 * @param string $uploadTokenId Upload token id
-	 * @return KalturaMediaEntry The new media entry
+	 * @return BorhanMediaEntry The new media entry
 	 *
-	 * @throws KalturaErrors::PROPERTY_VALIDATION_MIN_LENGTH
-	 * @throws KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
-	 * @throws KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
+	 * @throws BorhanErrors::PROPERTY_VALIDATION_MIN_LENGTH
+	 * @throws BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
+	 * @throws BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
 	 *
 	 * @deprecated use media.add instead
 	 */
-	function addFromUploadedFileAction(KalturaMediaEntry $mediaEntry, $uploadTokenId)
+	function addFromUploadedFileAction(BorhanMediaEntry $mediaEntry, $uploadTokenId)
 	{
     	if($mediaEntry->conversionQuality && !$mediaEntry->conversionProfileId)
     		$mediaEntry->conversionProfileId = $mediaEntry->conversionQuality;
@@ -445,14 +445,14 @@ class MediaService extends KalturaEntryService
 			$uploadPathBase = realpath( myContentStorage::getFSUploadsPath() );
 			if ( strpos( $entryRootDir, $uploadPathBase ) !== 0 ) // Composed path doesn't begin with $uploadPathBase?  
 			{
-				KalturaLog::err( "uploadTokenId [$uploadTokenId] points outside of uploads directory" );
-				throw new KalturaAPIException( KalturaErrors::INVALID_UPLOAD_TOKEN_ID );			
+				BorhanLog::err( "uploadTokenId [$uploadTokenId] points outside of uploads directory" );
+				throw new BorhanAPIException( BorhanErrors::INVALID_UPLOAD_TOKEN_ID );			
 			}
 		}
 		catch(kCoreException $ex)
 		{
 		    if ($ex->getCode() == kUploadTokenException::UPLOAD_TOKEN_INVALID_STATUS);
-			    throw new KalturaAPIException(KalturaErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY);
+			    throw new BorhanAPIException(BorhanErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY);
 
 		    throw $ex;
 		}
@@ -469,7 +469,7 @@ class MediaService extends KalturaEntryService
 			}
 			else
 			{
-				throw new KalturaAPIException(KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN);
+				throw new BorhanAPIException(BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN);
 			}
 			*/
 		}
@@ -480,7 +480,7 @@ class MediaService extends KalturaEntryService
 
 		// setup the needed params for my insert entry helper
 		$paramsArray = array (
-			"entry_media_source" => KalturaSourceType::FILE,
+			"entry_media_source" => BorhanSourceType::FILE,
 			"entry_media_type" => $dbEntry->getMediaType(),
 			"entry_full_path" => $entryFullPath,
 			"entry_license" => $dbEntry->getLicenseType(),
@@ -497,7 +497,7 @@ class MediaService extends KalturaEntryService
 
 		kUploadTokenMgr::closeUploadTokenById($uploadTokenId);
 
-		$ret = new KalturaMediaEntry();
+		$ret = new BorhanMediaEntry();
 		if($dbEntry)
 		{
 			myNotificationMgr::createNotification( kNotificationJobData::NOTIFICATION_TYPE_ENTRY_ADD, $dbEntry, $dbEntry->getPartnerId(), null, null, null, $dbEntry->getId());
@@ -511,17 +511,17 @@ class MediaService extends KalturaEntryService
 	 * Add new entry after the file was recored on the server and the token id exists
 	 *
 	 * @action addFromRecordedWebcam
-	 * @param KalturaMediaEntry $mediaEntry Media entry metadata
+	 * @param BorhanMediaEntry $mediaEntry Media entry metadata
 	 * @param string $webcamTokenId Token id for the recored webcam file
-	 * @return KalturaMediaEntry The new media entry
+	 * @return BorhanMediaEntry The new media entry
 	 *
-	 * @throws KalturaErrors::PROPERTY_VALIDATION_MIN_LENGTH
-	 * @throws KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
-	 * @throws KalturaErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
+	 * @throws BorhanErrors::PROPERTY_VALIDATION_MIN_LENGTH
+	 * @throws BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
+	 * @throws BorhanErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
 	 *
 	 * @deprecated use media.add instead
 	 */
-	function addFromRecordedWebcamAction(KalturaMediaEntry $mediaEntry, $webcamTokenId)
+	function addFromRecordedWebcamAction(BorhanMediaEntry $mediaEntry, $webcamTokenId)
 	{
     	if($mediaEntry->conversionQuality && !$mediaEntry->conversionProfileId)
     		$mediaEntry->conversionProfileId = $mediaEntry->conversionQuality;
@@ -536,15 +536,15 @@ class MediaService extends KalturaEntryService
 	    $webcamBaseRootDir = realpath( dirname( $webcamBasePath ) ); // Get realpath of target directory 
 	    if ( strpos( $webcamBaseRootDir, $webcamContentRootDir ) !== 0 ) // The uploaded file's path is different from the content path?    
 	    {
-			KalturaLog::err( "webcamTokenId [$webcamTokenId] points outside of webcam content directory" );
-	    	throw new KalturaAPIException( KalturaErrors::INVALID_WEBCAM_TOKEN_ID );
+			BorhanLog::err( "webcamTokenId [$webcamTokenId] points outside of webcam content directory" );
+	    	throw new BorhanAPIException( BorhanErrors::INVALID_WEBCAM_TOKEN_ID );
 	    }
 	     
 		if (!file_exists("$webcamBasePath.flv") && !file_exists("$webcamBasePath.f4v") && !file_exists("$webcamBasePath.f4v.mp4"))
 		{
 			if (kDataCenterMgr::dcExists(1 - kDataCenterMgr::getCurrentDcId()))
 				kFileUtils::dumpApiRequest ( kDataCenterMgr::getRemoteDcExternalUrlByDcId ( 1 - kDataCenterMgr::getCurrentDcId () ) );
-			throw new KalturaAPIException ( KalturaErrors::RECORDED_WEBCAM_FILE_NOT_FOUND );
+			throw new BorhanAPIException ( BorhanErrors::RECORDED_WEBCAM_FILE_NOT_FOUND );
 		}
 
 		$dbEntry = $this->prepareEntryForInsert($mediaEntry);
@@ -553,7 +553,7 @@ class MediaService extends KalturaEntryService
 
 		// setup the needed params for my insert entry helper
 		$paramsArray = array (
-			"entry_media_source" => KalturaSourceType::WEBCAM,
+			"entry_media_source" => BorhanSourceType::WEBCAM,
             "entry_media_type" => $dbEntry->getMediaType(),
 			"webcam_suffix" => $webcamTokenId,
 			"entry_license" => $dbEntry->getLicenseType(),
@@ -579,17 +579,17 @@ class MediaService extends KalturaEntryService
 	 *
 	 * @action addFromEntry
 	 * @param string $sourceEntryId Media entry id to copy from
-	 * @param KalturaMediaEntry $mediaEntry Media entry metadata
+	 * @param BorhanMediaEntry $mediaEntry Media entry metadata
 	 * @param int $sourceFlavorParamsId The flavor to be used as the new entry source, source flavor will be used if not specified
-	 * @return KalturaMediaEntry The new media entry
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::ORIGINAL_FLAVOR_ASSET_IS_MISSING
-	 * @throws KalturaErrors::FLAVOR_PARAMS_NOT_FOUND
-	 * @throws KalturaErrors::ORIGINAL_FLAVOR_ASSET_NOT_CREATED
+	 * @return BorhanMediaEntry The new media entry
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ORIGINAL_FLAVOR_ASSET_IS_MISSING
+	 * @throws BorhanErrors::FLAVOR_PARAMS_NOT_FOUND
+	 * @throws BorhanErrors::ORIGINAL_FLAVOR_ASSET_NOT_CREATED
 	 *
 	 * @deprecated use media.add instead
 	 */
-	function addFromEntryAction($sourceEntryId, KalturaMediaEntry $mediaEntry = null, $sourceFlavorParamsId = null)
+	function addFromEntryAction($sourceEntryId, BorhanMediaEntry $mediaEntry = null, $sourceFlavorParamsId = null)
 	{
     	if($mediaEntry->conversionQuality && !$mediaEntry->conversionProfileId)
     		$mediaEntry->conversionProfileId = $mediaEntry->conversionQuality;
@@ -597,14 +597,14 @@ class MediaService extends KalturaEntryService
 		$srcEntry = entryPeer::retrieveByPK($sourceEntryId);
 
 		if (!$srcEntry || $srcEntry->getType() != entryType::MEDIA_CLIP)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $sourceEntryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $sourceEntryId);
 
 		$srcFlavorAsset = null;
 		if(is_null($sourceFlavorParamsId))
 		{
 			$srcFlavorAsset = assetPeer::retrieveOriginalByEntryId($sourceEntryId);
 			if(!$srcFlavorAsset)
-				throw new KalturaAPIException(KalturaErrors::ORIGINAL_FLAVOR_ASSET_IS_MISSING);
+				throw new BorhanAPIException(BorhanErrors::ORIGINAL_FLAVOR_ASSET_IS_MISSING);
 		}
 		else
 		{
@@ -615,12 +615,12 @@ class MediaService extends KalturaEntryService
 			}
 			else
 			{
-				throw new KalturaAPIException(KalturaErrors::FLAVOR_PARAMS_NOT_FOUND);
+				throw new BorhanAPIException(BorhanErrors::FLAVOR_PARAMS_NOT_FOUND);
 			}
 		}
 
 		if ($mediaEntry === null)
-			$mediaEntry = new KalturaMediaEntry();
+			$mediaEntry = new BorhanMediaEntry();
 
 		$mediaEntry->mediaType = $srcEntry->getMediaType();
 
@@ -632,15 +632,15 @@ class MediaService extends KalturaEntryService
 	 *
 	 * @action addFromFlavorAsset
 	 * @param string $sourceFlavorAssetId Flavor asset id to be used as the new entry source
-	 * @param KalturaMediaEntry $mediaEntry Media entry metadata
-	 * @return KalturaMediaEntry The new media entry
-	 * @throws KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::ORIGINAL_FLAVOR_ASSET_NOT_CREATED
+	 * @param BorhanMediaEntry $mediaEntry Media entry metadata
+	 * @return BorhanMediaEntry The new media entry
+	 * @throws BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ORIGINAL_FLAVOR_ASSET_NOT_CREATED
 	 *
 	 * @deprecated use media.add instead
 	 */
-	function addFromFlavorAssetAction($sourceFlavorAssetId, KalturaMediaEntry $mediaEntry = null)
+	function addFromFlavorAssetAction($sourceFlavorAssetId, BorhanMediaEntry $mediaEntry = null)
 	{
     	if($mediaEntry->conversionQuality && !$mediaEntry->conversionProfileId)
     		$mediaEntry->conversionProfileId = $mediaEntry->conversionQuality;
@@ -648,16 +648,16 @@ class MediaService extends KalturaEntryService
 		$srcFlavorAsset = assetPeer::retrieveById($sourceFlavorAssetId);
 
 		if (!$srcFlavorAsset)
-			throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND, $sourceFlavorAssetId);
+			throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND, $sourceFlavorAssetId);
 
 		$sourceEntryId = $srcFlavorAsset->getEntryId();
 		$srcEntry = entryPeer::retrieveByPK($sourceEntryId);
 
 		if (!$srcEntry || $srcEntry->getType() != entryType::MEDIA_CLIP)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $sourceEntryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $sourceEntryId);
 
 		if ($mediaEntry === null)
-			$mediaEntry = new KalturaMediaEntry();
+			$mediaEntry = new BorhanMediaEntry();
 
 		$mediaEntry->mediaType = $srcEntry->getMediaType();
 
@@ -670,13 +670,13 @@ class MediaService extends KalturaEntryService
 	 * @action convert
 	 * @param string $entryId Media entry id
 	 * @param int $conversionProfileId
-	 * @param KalturaConversionAttributeArray $dynamicConversionAttributes
+	 * @param BorhanConversionAttributeArray $dynamicConversionAttributes
 	 * @return bigint job id
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::CONVERSION_PROFILE_ID_NOT_FOUND
-	 * @throws KalturaErrors::FLAVOR_PARAMS_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::CONVERSION_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::FLAVOR_PARAMS_NOT_FOUND
 	 */
-	function convertAction($entryId, $conversionProfileId = null, KalturaConversionAttributeArray $dynamicConversionAttributes = null)
+	function convertAction($entryId, $conversionProfileId = null, BorhanConversionAttributeArray $dynamicConversionAttributes = null)
 	{
 		return $this->convert($entryId, $conversionProfileId, $dynamicConversionAttributes);
 	}
@@ -687,13 +687,13 @@ class MediaService extends KalturaEntryService
 	 * @action get
 	 * @param string $entryId Media entry id
 	 * @param int $version Desired version of the data
-	 * @return KalturaMediaEntry The requested media entry
+	 * @return BorhanMediaEntry The requested media entry
 	 *
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
 	function getAction($entryId, $version = -1)
 	{
-		return $this->getEntry($entryId, $version, KalturaEntryType::MEDIA_CLIP);
+		return $this->getEntry($entryId, $version, BorhanEntryType::MEDIA_CLIP);
 	}
 
     /**
@@ -702,16 +702,16 @@ class MediaService extends KalturaEntryService
      *
      * @action getMrss
      * @param string $entryId Entry id
-     * @param KalturaExtendingItemMrssParameterArray $extendingItemsArray
+     * @param BorhanExtendingItemMrssParameterArray $extendingItemsArray
      * @param string $features
      * @return string
-     * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+     * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
      */
-    function getMrssAction($entryId, KalturaExtendingItemMrssParameterArray $extendingItemsArray = null, $features = null)
+    function getMrssAction($entryId, BorhanExtendingItemMrssParameterArray $extendingItemsArray = null, $features = null)
     {
         $dbEntry = entryPeer::retrieveByPKNoFilter($entryId);
-		if (!$dbEntry || $dbEntry->getType() != KalturaEntryType::MEDIA_CLIP)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+		if (!$dbEntry || $dbEntry->getType() != BorhanEntryType::MEDIA_CLIP)
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 		$mrssParams = new kMrssParameters();
 		if ($extendingItemsArray)
 		{
@@ -728,12 +728,12 @@ class MediaService extends KalturaEntryService
 	 *
 	 * @action update
 	 * @param string $entryId Media entry id to update
-	 * @param KalturaMediaEntry $mediaEntry Media entry metadata to update
-	 * @return KalturaMediaEntry The updated media entry
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @param BorhanMediaEntry $mediaEntry Media entry metadata to update
+	 * @return BorhanMediaEntry The updated media entry
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 * @validateUser entry entryId edit
 	 */
-	function updateAction($entryId, KalturaMediaEntry $mediaEntry)
+	function updateAction($entryId, BorhanMediaEntry $mediaEntry)
 	{
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbEntry)
@@ -741,14 +741,14 @@ class MediaService extends KalturaEntryService
 			$dcIndex = kDataCenterMgr::getDCByObjectId($entryId, true);
 			if ($dcIndex != kDataCenterMgr::getCurrentDcId())
 			{
-				KalturaLog::info("EntryID [$entryId] wasn't found on current DC. dumping the request to DC id [$dcIndex]");
+				BorhanLog::info("EntryID [$entryId] wasn't found on current DC. dumping the request to DC id [$dcIndex]");
 				kFileUtils::dumpApiRequest ( kDataCenterMgr::getRemoteDcExternalUrlByDcId ($dcIndex ) );
 			}
 		}
-		if (!$dbEntry || $dbEntry->getType() != KalturaEntryType::MEDIA_CLIP)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+		if (!$dbEntry || $dbEntry->getType() != BorhanEntryType::MEDIA_CLIP)
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 
-		$mediaEntry = $this->updateEntry($entryId, $mediaEntry, KalturaEntryType::MEDIA_CLIP);
+		$mediaEntry = $this->updateEntry($entryId, $mediaEntry, BorhanEntryType::MEDIA_CLIP);
 
 		return $mediaEntry;
 	}
@@ -758,27 +758,27 @@ class MediaService extends KalturaEntryService
 	 *
 	 * @action updateContent
 	 * @param string $entryId Media entry id to update
-	 * @param KalturaResource $resource Resource to be used to replace entry media content
+	 * @param BorhanResource $resource Resource to be used to replace entry media content
 	 * @param int $conversionProfileId The conversion profile id to be used on the entry
-	 * @param KalturaEntryReplacementOptions $advancedOptions Additional update content options
-	 * @return KalturaMediaEntry The updated media entry
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::ENTRY_REPLACEMENT_ALREADY_EXISTS
-     * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @param BorhanEntryReplacementOptions $advancedOptions Additional update content options
+	 * @return BorhanMediaEntry The updated media entry
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_REPLACEMENT_ALREADY_EXISTS
+     * @throws BorhanErrors::INVALID_OBJECT_ID
      * @validateUser entry entryId edit
 	 */
-	function updateContentAction($entryId, KalturaResource $resource, $conversionProfileId = null, $advancedOptions = null)
+	function updateContentAction($entryId, BorhanResource $resource, $conversionProfileId = null, $advancedOptions = null)
 	{
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 
-		if (!$dbEntry || $dbEntry->getType() != KalturaEntryType::MEDIA_CLIP)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+		if (!$dbEntry || $dbEntry->getType() != BorhanEntryType::MEDIA_CLIP)
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 		
 		//calling replaceResource only if no lock or we grabbed it
 		$lock = kLock::create("media_updateContent_{$entryId}");
 		
 	    if ($lock && !$lock->lock(self::KLOCK_MEDIA_UPDATECONTENT_GRAB_TIMEOUT , self::KLOCK_MEDIA_UPDATECONTENT_HOLD_TIMEOUT))
-     	    throw new KalturaAPIException(KalturaErrors::ENTRY_REPLACEMENT_ALREADY_EXISTS);
+     	    throw new BorhanAPIException(BorhanErrors::ENTRY_REPLACEMENT_ALREADY_EXISTS);
      	try{
        		$this->replaceResource($resource, $dbEntry, $conversionProfileId, $advancedOptions);
 		}
@@ -801,12 +801,12 @@ class MediaService extends KalturaEntryService
 	 * @action delete
 	 * @param string $entryId Media entry id to delete
 	 *
- 	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+ 	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
  	 * @validateUser entry entryId edit
 	 */
 	function deleteAction($entryId)
 	{
-		$this->deleteEntry($entryId, KalturaEntryType::MEDIA_CLIP);
+		$this->deleteEntry($entryId, BorhanEntryType::MEDIA_CLIP);
 	}
 
 	/**
@@ -814,13 +814,13 @@ class MediaService extends KalturaEntryService
 	 *
 	 * @action approveReplace
 	 * @param string $entryId Media entry id to replace
-	 * @return KalturaMediaEntry The replaced media entry
+	 * @return BorhanMediaEntry The replaced media entry
 	 *
- 	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+ 	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
 	function approveReplaceAction($entryId)
 	{
-		return $this->approveReplace($entryId, KalturaEntryType::MEDIA_CLIP);
+		return $this->approveReplace($entryId, BorhanEntryType::MEDIA_CLIP);
 	}
 
 	/**
@@ -828,36 +828,36 @@ class MediaService extends KalturaEntryService
 	 *
 	 * @action cancelReplace
 	 * @param string $entryId Media entry id to cancel
-	 * @return KalturaMediaEntry The canceled media entry
+	 * @return BorhanMediaEntry The canceled media entry
 	 *
- 	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+ 	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
 	function cancelReplaceAction($entryId)
 	{
-		return $this->cancelReplace($entryId, KalturaEntryType::MEDIA_CLIP);
+		return $this->cancelReplace($entryId, BorhanEntryType::MEDIA_CLIP);
 	}
 
 	/**
 	 * List media entries by filter with paging support.
 	 *
 	 * @action list
-     * @param KalturaMediaEntryFilter $filter Media entry filter
-	 * @param KalturaFilterPager $pager Pager
-	 * @return KalturaMediaListResponse Wrapper for array of media entries and total count
+     * @param BorhanMediaEntryFilter $filter Media entry filter
+	 * @param BorhanFilterPager $pager Pager
+	 * @return BorhanMediaListResponse Wrapper for array of media entries and total count
 	 */
-	function listAction(KalturaMediaEntryFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanMediaEntryFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 	    myDbHelper::$use_alternative_con = myDbHelper::DB_HELPER_CONN_PROPEL3;
 
 
 	    if (!$filter)
-			$filter = new KalturaMediaEntryFilter();
+			$filter = new BorhanMediaEntryFilter();
 
-	    $filter->typeEqual = KalturaEntryType::MEDIA_CLIP;
+	    $filter->typeEqual = BorhanEntryType::MEDIA_CLIP;
 	    list($list, $totalCount) = parent::listEntriesByFilter($filter, $pager);
 
-	    $newList = KalturaMediaEntryArray::fromDbArray($list, $this->getResponseProfile());
-		$response = new KalturaMediaListResponse();
+	    $newList = BorhanMediaEntryArray::fromDbArray($list, $this->getResponseProfile());
+		$response = new BorhanMediaListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $totalCount;
 		return $response;
@@ -867,21 +867,21 @@ class MediaService extends KalturaEntryService
 	 * Count media entries by filter.
 	 *
 	 * @action count
-     * @param KalturaMediaEntryFilter $filter Media entry filter
+     * @param BorhanMediaEntryFilter $filter Media entry filter
 	 * @return int
 	 */
-	function countAction(KalturaMediaEntryFilter $filter = null)
+	function countAction(BorhanMediaEntryFilter $filter = null)
 	{
 	    if (!$filter)
-			$filter = new KalturaMediaEntryFilter();
+			$filter = new BorhanMediaEntryFilter();
 
-		$filter->typeEqual = KalturaEntryType::MEDIA_CLIP;
+		$filter->typeEqual = BorhanEntryType::MEDIA_CLIP;
 
 		return parent::countEntriesByFilter($filter);
 	}
 
 	/**
-	 * Upload a media file to Kaltura, then the file can be used to create a media entry.
+	 * Upload a media file to Borhan, then the file can be used to create a media entry.
 	 *
 	 * @action upload
 	 * @param file $fileData The file data
@@ -911,16 +911,16 @@ class MediaService extends KalturaEntryService
 	 * @param string $entryId Media entry id
 	 * @param int $timeOffset Time offset (in seconds)
 	 * @param int $flavorParamsId The flavor params id to be used
-	 * @return KalturaMediaEntry The media entry
+	 * @return BorhanMediaEntry The media entry
 	 *
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::PERMISSION_DENIED_TO_UPDATE_ENTRY
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::PERMISSION_DENIED_TO_UPDATE_ENTRY
 	 *
 	 * @deprecated
 	 */
 	function updateThumbnailAction($entryId, $timeOffset, $flavorParamsId = null)
 	{
-		return parent::updateThumbnailForEntryFromSourceEntry($entryId, $entryId, $timeOffset, KalturaEntryType::MEDIA_CLIP, $flavorParamsId);
+		return parent::updateThumbnailForEntryFromSourceEntry($entryId, $entryId, $timeOffset, BorhanEntryType::MEDIA_CLIP, $flavorParamsId);
 	}
 
 	/**
@@ -932,16 +932,16 @@ class MediaService extends KalturaEntryService
 	 * @param string $sourceEntryId Media entry id
 	 * @param int $timeOffset Time offset (in seconds)
 	 * @param int $flavorParamsId The flavor params id to be used
-	 * @return KalturaMediaEntry The media entry
+	 * @return BorhanMediaEntry The media entry
 	 *
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::PERMISSION_DENIED_TO_UPDATE_ENTRY
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::PERMISSION_DENIED_TO_UPDATE_ENTRY
 	 *
 	 * @deprecated
 	 */
 	function updateThumbnailFromSourceEntryAction($entryId, $sourceEntryId, $timeOffset, $flavorParamsId = null)
 	{
-		return parent::updateThumbnailForEntryFromSourceEntry($entryId, $sourceEntryId, $timeOffset, KalturaEntryType::MEDIA_CLIP, $flavorParamsId);
+		return parent::updateThumbnailForEntryFromSourceEntry($entryId, $sourceEntryId, $timeOffset, BorhanEntryType::MEDIA_CLIP, $flavorParamsId);
 	}
 
 	/**
@@ -950,16 +950,16 @@ class MediaService extends KalturaEntryService
 	 * @action updateThumbnailJpeg
 	 * @param string $entryId Media entry id
 	 * @param file $fileData Jpeg file data
-	 * @return KalturaMediaEntry The media entry
+	 * @return BorhanMediaEntry The media entry
 	 *
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::PERMISSION_DENIED_TO_UPDATE_ENTRY
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::PERMISSION_DENIED_TO_UPDATE_ENTRY
 	 *
 	 * @deprecated
 	 */
 	function updateThumbnailJpegAction($entryId, $fileData)
 	{
-		return parent::updateThumbnailJpegForEntry($entryId, $fileData, KalturaEntryType::MEDIA_CLIP);
+		return parent::updateThumbnailJpegForEntry($entryId, $fileData, BorhanEntryType::MEDIA_CLIP);
 	}
 
 	/**
@@ -968,16 +968,16 @@ class MediaService extends KalturaEntryService
 	 * @action updateThumbnailFromUrl
 	 * @param string $entryId Media entry id
 	 * @param string $url file url
-	 * @return KalturaBaseEntry The media entry
+	 * @return BorhanBaseEntry The media entry
 	 *
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::PERMISSION_DENIED_TO_UPDATE_ENTRY
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::PERMISSION_DENIED_TO_UPDATE_ENTRY
 	 *
 	 * @deprecated
 	 */
 	function updateThumbnailFromUrlAction($entryId, $url)
 	{
-		return parent::updateThumbnailForEntryFromUrl($entryId, $url, KalturaEntryType::MEDIA_CLIP);
+		return parent::updateThumbnailForEntryFromUrl($entryId, $url, BorhanEntryType::MEDIA_CLIP);
 	}
 
 	/**
@@ -988,16 +988,16 @@ class MediaService extends KalturaEntryService
 	 * @param string $fileFormat Format to convert
 	 * @return int The queued job id
 	 *
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
 	public function requestConversionAction($entryId, $fileFormat)
 	{
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 
-		if (!$dbEntry || $dbEntry->getType() != KalturaEntryType::MEDIA_CLIP)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+		if (!$dbEntry || $dbEntry->getType() != BorhanEntryType::MEDIA_CLIP)
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 
-		if ($dbEntry->getMediaType() == KalturaMediaType::AUDIO)
+		if ($dbEntry->getMediaType() == BorhanMediaType::AUDIO)
 		{
 			// for audio - force format flv regardless what the user really asked for
 			$fileFormat = "flv";
@@ -1020,14 +1020,14 @@ class MediaService extends KalturaEntryService
 	 *
 	 * @action flag
 	 * @param string $entryId
-	 * @param KalturaModerationFlag $moderationFlag
+	 * @param BorhanModerationFlag $moderationFlag
 	 *
- 	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+ 	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
-	public function flagAction(KalturaModerationFlag $moderationFlag)
+	public function flagAction(BorhanModerationFlag $moderationFlag)
 	{
-		KalturaResponseCacher::disableCache();
-		return parent::flagEntry($moderationFlag, KalturaEntryType::MEDIA_CLIP);
+		BorhanResponseCacher::disableCache();
+		return parent::flagEntry($moderationFlag, BorhanEntryType::MEDIA_CLIP);
 	}
 
 	/**
@@ -1036,11 +1036,11 @@ class MediaService extends KalturaEntryService
 	 * @action reject
 	 * @param string $entryId
 	 *
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
 	public function rejectAction($entryId)
 	{
-		parent::rejectEntry($entryId, KalturaEntryType::MEDIA_CLIP);
+		parent::rejectEntry($entryId, BorhanEntryType::MEDIA_CLIP);
 	}
 
 	/**
@@ -1049,11 +1049,11 @@ class MediaService extends KalturaEntryService
 	 * @action approve
 	 * @param string $entryId
 	 *
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
 	public function approveAction($entryId)
 	{
-		parent::approveEntry($entryId, KalturaEntryType::MEDIA_CLIP);
+		parent::approveEntry($entryId, BorhanEntryType::MEDIA_CLIP);
 	}
 
 	/**
@@ -1061,10 +1061,10 @@ class MediaService extends KalturaEntryService
 	 *
 	 * @action listFlags
 	 * @param string $entryId
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaModerationFlagListResponse
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanModerationFlagListResponse
 	 */
-	public function listFlags($entryId, KalturaFilterPager $pager = null)
+	public function listFlags($entryId, BorhanFilterPager $pager = null)
 	{
 		return parent::listFlagsForEntry($entryId, $pager);
 	}
@@ -1078,16 +1078,16 @@ class MediaService extends KalturaEntryService
 	 */
 	public function anonymousRankAction($entryId, $rank)
 	{
-		return parent::anonymousRankEntry($entryId, KalturaEntryType::MEDIA_CLIP, $rank);
+		return parent::anonymousRankEntry($entryId, BorhanEntryType::MEDIA_CLIP, $rank);
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaEntryService::prepareEntryForInsert()
+	 * @see BorhanEntryService::prepareEntryForInsert()
 	 */
-	protected function prepareEntryForInsert(KalturaBaseEntry $entry, entry $dbEntry = null)
+	protected function prepareEntryForInsert(BorhanBaseEntry $entry, entry $dbEntry = null)
 	{
-		if(!($entry instanceof KalturaMediaEntry))
-			throw new KalturaAPIException(KalturaErrors::INVALID_ENTRY_TYPE,$entry->id, $entry->getType(), entryType::MEDIA_CLIP);
+		if(!($entry instanceof BorhanMediaEntry))
+			throw new BorhanAPIException(BorhanErrors::INVALID_ENTRY_TYPE,$entry->id, $entry->getType(), entryType::MEDIA_CLIP);
 		$entry->validatePropertyNotNull("mediaType");
 
 		$conversionQuality = $this->getConversionQuality($entry);

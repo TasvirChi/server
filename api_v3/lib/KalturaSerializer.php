@@ -4,7 +4,7 @@
  * @package api
  * @subpackage v3
  */
-abstract class KalturaSerializer
+abstract class BorhanSerializer
 {
 	protected function prepareSerializedObject($object)
 	{
@@ -35,7 +35,7 @@ abstract class KalturaSerializer
 				"objectType" => get_class($object)
 			);
 			
-			if ( $object instanceof KalturaAPIException )
+			if ( $object instanceof BorhanAPIException )
 			{
 				$error["args"] = $object->getArgs();
 			}
@@ -60,7 +60,7 @@ abstract class KalturaSerializer
 	{
 	    if (is_object($object))
     	{
-    		if ($object instanceof KalturaTypedArray)
+    		if ($object instanceof BorhanTypedArray)
 			{
     			return $this->convertTypedArraysToPhpArrays($object->toArray());
 			}

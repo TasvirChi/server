@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaStorageProfileProtocol extends KalturaDynamicEnum implements StorageProfileProtocol
+class BorhanStorageProfileProtocol extends BorhanDynamicEnum implements StorageProfileProtocol
 {
 	public static function getEnumClass()
 	{

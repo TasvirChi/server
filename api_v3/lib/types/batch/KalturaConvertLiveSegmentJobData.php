@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaConvertLiveSegmentJobData extends KalturaJobData
+class BorhanConvertLiveSegmentJobData extends BorhanJobData
 {
 	/**
 	 * Live stream entry id
@@ -18,7 +18,7 @@ class KalturaConvertLiveSegmentJobData extends KalturaJobData
 	
 	/**
 	 * Primary or secondary media server
-	 * @var KalturaEntryServerNodeType
+	 * @var BorhanEntryServerNodeType
 	 */
 	public $mediaServerIndex;
 	
@@ -66,7 +66,7 @@ class KalturaConvertLiveSegmentJobData extends KalturaJobData
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -74,7 +74,7 @@ class KalturaConvertLiveSegmentJobData extends KalturaJobData
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbData = null, $props_to_skip = array()) 
 	{

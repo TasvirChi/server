@@ -5,7 +5,7 @@
  * @package api
  * @subpackage services
  */
-class AnalyticsService extends KalturaBaseService
+class AnalyticsService extends BorhanBaseService
 {
 
 	const PARTNER_DIMENSION = "partner";
@@ -14,47 +14,47 @@ class AnalyticsService extends KalturaBaseService
 	 * report query action allows to get a analytics data for specific query dimensions, metrics and filters.
 	 *
 	 * @action query
-	 * @param KalturaAnalyticsFilter $filter the analytics query filter
-         * @param KalturaFilterPager $pager the analytics query result pager
-	 * @return KalturaReportResponse
+	 * @param BorhanAnalyticsFilter $filter the analytics query filter
+         * @param BorhanFilterPager $pager the analytics query result pager
+	 * @return BorhanReportResponse
 	 */
-	public function queryAction($filter, KalturaFilterPager $pager = null)
+	public function queryAction($filter, BorhanFilterPager $pager = null)
 	{
                 kApiCache::disableConditionalCache();
 		$filter->validateForUsage($filter);
 		
 		$dimensionsArr = $this->extractDimensions($filter->dimensions);
-		KalturaLog::debug('Extracted dimensions: ' . var_export($dimensionsArr, true));
+		BorhanLog::debug('Extracted dimensions: ' . var_export($dimensionsArr, true));
 		$metricsArr = $this->extractMetrics($filter->metrics);
-		KalturaLog::debug('Extracted metrics: ' . var_export($metricsArr, true));
+		BorhanLog::debug('Extracted metrics: ' . var_export($metricsArr, true));
 		$filtersArr = $this->extractFilters($filter->filters);
-		KalturaLog::debug('Extracted filters: ' . var_export($filtersArr, true));
+		BorhanLog::debug('Extracted filters: ' . var_export($filtersArr, true));
                 $pagerArr = $this->extractPager($pager);
 		$internalApiRequest = $this->constructInternalRequest($filter->from_time, $filter->to_time, $dimensionsArr, $metricsArr, $filtersArr, $filter->utcOffset, $filter->orderBy, $pagerArr);
-		KalturaLog::info('Constructed request: ' . var_export($internalApiRequest, true));
+		BorhanLog::info('Constructed request: ' . var_export($internalApiRequest, true));
 
 		$internalApiServer = kConf::get('analytics_internal_API_url');
-		KalturaLog::debug('Querying against: ' . var_export($internalApiServer, true));
+		BorhanLog::debug('Querying against: ' . var_export($internalApiServer, true));
 
 		$apiCallResponse = $this->callAPI("POST", $internalApiServer, $internalApiRequest);
-		KalturaLog::info('API call response: ' . var_export($apiCallResponse, true));
+		BorhanLog::info('API call response: ' . var_export($apiCallResponse, true));
 
 		$jsonResponse = json_decode($apiCallResponse);
-		KalturaLog::debug('Response as json: ' . var_export($jsonResponse, true));
+		BorhanLog::debug('Response as json: ' . var_export($jsonResponse, true));
 
-		$res = new KalturaReportResponse();
+		$res = new BorhanReportResponse();
 		$res->columns = implode(",", $jsonResponse->headers);
 		$tempResult = array_map(array($this, 'implodeWithComma'), $jsonResponse->data);
-		$res->results = array_map(array($this, 'createKalturaString'), $tempResult);
+		$res->results = array_map(array($this, 'createBorhanString'), $tempResult);
 
-		KalturaLog::info('Response: ' . var_export($res, true));
+		BorhanLog::info('Response: ' . var_export($res, true));
 
 		return $res;
 	}
 
-	private function createKalturaString($str)
+	private function createBorhanString($str)
 	{
-		$res = new KalturaString();
+		$res = new BorhanString();
 		$res->value = $str;
 		return $res;
 	}
@@ -80,34 +80,34 @@ class AnalyticsService extends KalturaBaseService
 	{
 		if (strtolower($filter->dimension) == self::PARTNER_DIMENSION)
 		{
-			throw new APIException(KalturaErrors::ANALYTICS_FORBIDDEN_FILTER);
+			throw new APIException(BorhanErrors::ANALYTICS_FORBIDDEN_FILTER);
 		}
 
-		KalturaLog::debug('Extracting filter: ' . var_export($filter, true));
+		BorhanLog::debug('Extracting filter: ' . var_export($filter, true));
 
 		$res = array();
 		$res['dimension'] = $filter->dimension;
 		$res['values'] = $this->explodeAndTrim($filter->values);
 
-		KalturaLog::debug('Extracted filter: ' . var_export($res, true));
+		BorhanLog::debug('Extracted filter: ' . var_export($res, true));
 
 		return $res;
 	}
 
         private function extractPager($pager)
 	{
-		KalturaLog::debug('Extracting pager: ' . var_export($pager, true));
+		BorhanLog::debug('Extracting pager: ' . var_export($pager, true));
 		
 		$res = array();
 		if(!$pager)
 		{
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 		}
 
                 $res['size'] = $pager->pageSize;
                 $res['index'] = $pager->pageIndex;
 
-		KalturaLog::debug('Extracted pager: ' . var_export($res, true));
+		BorhanLog::debug('Extracted pager: ' . var_export($res, true));
 
                 return $res;
 	}
@@ -175,33 +175,33 @@ class AnalyticsService extends KalturaBaseService
 
 		if (!$result)
 		{
-			KalturaLog::err('Error querying internal API server: ' . curl_error($curl));
-			throw new APIException(KalturaErrors::ANALYTICS_QUERY_FAILURE);
+			BorhanLog::err('Error querying internal API server: ' . curl_error($curl));
+			throw new APIException(BorhanErrors::ANALYTICS_QUERY_FAILURE);
 		}
 
 		$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
 		if ($code >= 400)
 		{
-			KalturaLog::info('Erroneous response from internal API server: ' . $result);
+			BorhanLog::info('Erroneous response from internal API server: ' . $result);
 			$errorData = json_decode($result);
 			if (!$errorData)
 			{
-				throw new APIException(KalturaErrors::ANALYTICS_QUERY_FAILURE);
+				throw new APIException(BorhanErrors::ANALYTICS_QUERY_FAILURE);
 			}
 			else
 			{
 				switch ($errorData->kind) {
 					case "incorrectContentType":
-						throw new APIException(KalturaErrors::ANALYTICS_INCORRECT_INPUT_TYPE);
+						throw new APIException(BorhanErrors::ANALYTICS_INCORRECT_INPUT_TYPE);
 					case "invalidInput":
-						throw new APIException(KalturaErrors::ANALYTICS_INCORRECT_INPUT, $errorData->data);
+						throw new APIException(BorhanErrors::ANALYTICS_INCORRECT_INPUT, $errorData->data);
 					case "generalError":
-						throw new APIException(KalturaErrors::ANALYTICS_QUERY_FAILURE);
+						throw new APIException(BorhanErrors::ANALYTICS_QUERY_FAILURE);
 					case "unsupportedDimension":
-						throw new APIException(KalturaErrors::ANALYTICS_UNSUPPORTED_DIMENSION, $errorData->data);
+						throw new APIException(BorhanErrors::ANALYTICS_UNSUPPORTED_DIMENSION, $errorData->data);
 					case "unsupportedQuery":
-						throw new APIException(KalturaErrors::ANALYTICS_UNSUPPORTED_QUERY);
+						throw new APIException(BorhanErrors::ANALYTICS_UNSUPPORTED_QUERY);
 				}
 			}
 		}

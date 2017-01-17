@@ -2,7 +2,7 @@
 /**
  * @package plugins.smilManifest
  */
-class SmilManifestPlugin extends KalturaPlugin implements IKalturaObjectLoader, IKalturaEnumerator, IKalturaBatchJobDataContributor
+class SmilManifestPlugin extends BorhanPlugin implements IBorhanObjectLoader, IBorhanEnumerator, IBorhanBatchJobDataContributor
 {
 	const PLUGIN_NAME = 'smilManifest';
 
@@ -19,7 +19,7 @@ class SmilManifestPlugin extends KalturaPlugin implements IKalturaObjectLoader, 
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if($baseClass == 'KOperationEngine' && $enumValue == KalturaConversionEngineType::SMIL_MANIFEST)
+		if($baseClass == 'KOperationEngine' && $enumValue == BorhanConversionEngineType::SMIL_MANIFEST)
 		{
 			if(!isset($constructorArgs['params']) || !isset($constructorArgs['outFilePath']))
 				return null;
@@ -70,7 +70,7 @@ class SmilManifestPlugin extends KalturaPlugin implements IKalturaObjectLoader, 
 	 */
 	public static function getConversionEngineCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('conversionEngineType', $value);
 	}
 	
@@ -79,7 +79,7 @@ class SmilManifestPlugin extends KalturaPlugin implements IKalturaObjectLoader, 
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 
 	public static function contributeToConvertJobData ($jobType, $jobSubType, kConvertJobData $jobData)

@@ -3,7 +3,7 @@
  * @package plugins.activitiBusinessProcessNotification
  * @subpackage api.objects
  */
-class KalturaActivitiBusinessProcessServer extends KalturaBusinessProcessServer
+class BorhanActivitiBusinessProcessServer extends BorhanBusinessProcessServer
 {	
 	/**
 	 * @var string
@@ -16,7 +16,7 @@ class KalturaActivitiBusinessProcessServer extends KalturaBusinessProcessServer
 	public $port;
 
 	/**
-	 * @var KalturaActivitiBusinessProcessServerProtocol
+	 * @var BorhanActivitiBusinessProcessServerProtocol
 	 */
 	public $protocol;
 
@@ -47,7 +47,7 @@ class KalturaActivitiBusinessProcessServer extends KalturaBusinessProcessServer
 	}
 		 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -55,7 +55,7 @@ class KalturaActivitiBusinessProcessServer extends KalturaBusinessProcessServer
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $propertiesToSkip = array())
 	{

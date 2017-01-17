@@ -21,16 +21,16 @@ class KOperationEngineFfmpeg  extends KSingleOutputOperationEngine
 				 */
 		if(isset($this->data->flavorParamsOutput->watermarkData)){
 				$wmStr = $this->data->flavorParamsOutput->watermarkData;
-				KalturaLog::log("watermarks:$wmStr");
+				BorhanLog::log("watermarks:$wmStr");
 				$wmData = json_decode($wmStr);
 				if(isset($wmData)){
-					KalturaLog::log("Watermark data:\n".print_r($wmData,1));
+					BorhanLog::log("Watermark data:\n".print_r($wmData,1));
 					$fixedCmdLine = KConversionEngineFfmpeg::buildWatermarkedCommandLine($wmData, $this->data->destFileSyncLocalPath, $cmdLine,
 							KBatchBase::$taskConfig->params->ffmpegCmd, KBatchBase::$taskConfig->params->mediaInfoCmd);
 					if(isset($fixedCmdLine)) $cmdLine = $fixedCmdLine;
 				}
 				else
-					KalturaLog::err("Bad watermark JSON string($wmStr), carry on without watermark");
+					BorhanLog::err("Bad watermark JSON string($wmStr), carry on without watermark");
 		}
 		
 				/*
@@ -38,7 +38,7 @@ class KOperationEngineFfmpeg  extends KSingleOutputOperationEngine
 				 */
 		if(isset($this->data->flavorParamsOutput->subtitlesData)){
 			$subsStr = $this->data->flavorParamsOutput->subtitlesData;
-			KalturaLog::log("subtitles:$subsStr");
+			BorhanLog::log("subtitles:$subsStr");
 			$subsData = json_decode($subsStr);
 			if(isset($subsData)){
 				$jobMsg = null;
@@ -47,7 +47,7 @@ class KOperationEngineFfmpeg  extends KSingleOutputOperationEngine
 				if(isset($fixedCmdLine)) $cmdLine = $fixedCmdLine;
 			}
 			else {
-				KalturaLog::err("Bad subtitles JSON string($subsStr), carry on without subtitles");
+				BorhanLog::err("Bad subtitles JSON string($subsStr), carry on without subtitles");
 			}
 		}
 

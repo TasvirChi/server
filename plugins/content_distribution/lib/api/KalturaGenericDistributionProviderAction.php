@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaGenericDistributionProviderAction extends KalturaObject implements IFilterable
+class BorhanGenericDistributionProviderAction extends BorhanObject implements IFilterable
 {
 	/**
 	 * Auto generated
@@ -40,25 +40,25 @@ class KalturaGenericDistributionProviderAction extends KalturaObject implements 
 	public $genericDistributionProviderId;
 
 	/**
-	 * @var KalturaDistributionAction
+	 * @var BorhanDistributionAction
 	 * @insertonly
 	 * @filter eq,in
 	 */
 	public $action;
 
 	/**
-	 * @var KalturaGenericDistributionProviderStatus
+	 * @var BorhanGenericDistributionProviderStatus
 	 * @readonly
 	 */
 	public $status;
 
 	/**
-	 * @var KalturaGenericDistributionProviderParser
+	 * @var BorhanGenericDistributionProviderParser
 	 */
 	public $resultsParser;
 
 	/**
-	 * @var KalturaDistributionProtocol
+	 * @var BorhanDistributionProtocol
 	 */
 	public $protocol;
 
@@ -136,7 +136,7 @@ class KalturaGenericDistributionProviderAction extends KalturaObject implements 
 		return array_merge(parent::getMapBetweenObjects(), self::$map_between_objects);
 	}
 	
-	public function doFromObject($source_object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($source_object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($source_object, $responseProfile);
 

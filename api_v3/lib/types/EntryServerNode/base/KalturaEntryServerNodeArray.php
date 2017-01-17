@@ -3,18 +3,18 @@
  * @package api
  * @subpackage objects
  */
-class KalturaEntryServerNodeArray extends KalturaTypedArray
+class BorhanEntryServerNodeArray extends BorhanTypedArray
 {
 	public static function fromDbArray($arr)
 	{
-		$newArr = new KalturaEntryServerNodeArray();
+		$newArr = new BorhanEntryServerNodeArray();
 		foreach($arr as $obj)
 		{
-			/* @var $obj KalturaEntryServerNode */
-			$nObj = KalturaEntryServerNode::getInstance($obj);
+			/* @var $obj BorhanEntryServerNode */
+			$nObj = BorhanEntryServerNode::getInstance($obj);
 			if (!$nObj)
 			{
-				throw new KalturaAPIException(KalturaErrors::ENTRY_SERVER_NODE_OBJECT_TYPE_ERROR, $obj->getServerType(), $obj->getId());
+				throw new BorhanAPIException(BorhanErrors::ENTRY_SERVER_NODE_OBJECT_TYPE_ERROR, $obj->getServerType(), $obj->getId());
 			}
 			$nObj->fromObject($obj);
 			$newArr[] = $nObj;
@@ -25,7 +25,7 @@ class KalturaEntryServerNodeArray extends KalturaTypedArray
 
 	public function __construct()
 	{
-		return parent::__construct("KalturaEntryServerNode");
+		return parent::__construct("BorhanEntryServerNode");
 	}
 
 }

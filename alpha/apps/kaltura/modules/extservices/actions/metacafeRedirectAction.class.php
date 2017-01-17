@@ -3,7 +3,7 @@
  * @package    Core
  * @subpackage externalServices
  */
-class metacafeRedirectAction extends kalturaAction
+class metacafeRedirectAction extends borhanAction
 {
 	public function execute()
 	{

@@ -3,6 +3,6 @@
  * @package plugins.externalMedia
  * @subpackage api.filters.enum
  */
-class KalturaExternalMediaEntryOrderBy extends KalturaMediaEntryOrderBy
+class BorhanExternalMediaEntryOrderBy extends BorhanMediaEntryOrderBy
 {
 }

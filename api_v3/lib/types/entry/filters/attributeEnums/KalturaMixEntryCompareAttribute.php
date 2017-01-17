@@ -3,7 +3,7 @@
 /**
  * Auto-generated enum class
 */
-class KalturaMixEntryCompareAttribute extends KalturaPlayableEntryCompareAttribute
+class BorhanMixEntryCompareAttribute extends BorhanPlayableEntryCompareAttribute
 {
 }
 

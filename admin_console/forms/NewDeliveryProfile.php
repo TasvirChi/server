@@ -21,10 +21,10 @@ class Form_NewDeliveryProfile extends Infra_Form
 		));
 		
 		$newType =
-			new Kaltura_Form_Element_EnumSelect(
+			new Borhan_Form_Element_EnumSelect(
 					'newType',
 					array(
-						'enum' => 'Kaltura_Client_Enum_DeliveryProfileType',
+						'enum' => 'Borhan_Client_Enum_DeliveryProfileType',
 					)
 				);
 		$newType->setLabel('Type:');

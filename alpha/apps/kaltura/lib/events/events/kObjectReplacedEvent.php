@@ -28,7 +28,7 @@ class kObjectReplacedEvent extends kApplicativeEvent
 	 * @param kObjectReadyForReplacmentEventConsumer $consumer
 	 * @return bool true if should continue to the next consumer
 	 */
-	protected function doConsume(KalturaEventConsumer $consumer)
+	protected function doConsume(BorhanEventConsumer $consumer)
 	{
 		if(!$consumer->shouldConsumeReplacedEvent($this->object))
 			return true;
@@ -37,9 +37,9 @@ class kObjectReplacedEvent extends kApplicativeEvent
 		if(method_exists($this->object, 'getId'))
 			$additionalLog .= 'id [' . $this->object->getId() . ']';
 			
-		KalturaLog::debug('consumer [' . get_class($consumer) . '] started handling [' . get_class($this) . '] object type [' . get_class($this->object) . '] ' . $additionalLog);
+		BorhanLog::debug('consumer [' . get_class($consumer) . '] started handling [' . get_class($this) . '] object type [' . get_class($this->object) . '] ' . $additionalLog);
 		$result = $consumer->objectReplaced($this->object, $this->replacingObject, $this->raisedJob);
-		KalturaLog::debug('consumer [' . get_class($consumer) . '] finished handling [' . get_class($this) . '] object type [' . get_class($this->object) . '] ' . $additionalLog);
+		BorhanLog::debug('consumer [' . get_class($consumer) . '] finished handling [' . get_class($this) . '] object type [' . get_class($this->object) . '] ' . $additionalLog);
 		return $result;
 	}
 

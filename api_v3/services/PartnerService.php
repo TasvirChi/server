@@ -6,7 +6,7 @@
  * @package api
  * @subpackage services
  */
-class PartnerService extends KalturaBaseService 
+class PartnerService extends BorhanBaseService 
 {
     
 	protected function partnerRequired($actionName)
@@ -21,17 +21,17 @@ class PartnerService extends KalturaBaseService
 	 * Create a new Partner object
 	 * 
 	 * @action register
-	 * @param KalturaPartner $partner
+	 * @param BorhanPartner $partner
 	 * @param string $cmsPassword
 	 * @param int $templatePartnerId
 	 * @param bool $silent
-	 * @return KalturaPartner
+	 * @return BorhanPartner
 	 *
 	 * @throws APIErrors::PARTNER_REGISTRATION_ERROR
 	 */
-	public function registerAction( KalturaPartner $partner , $cmsPassword = "" , $templatePartnerId = null, $silent = false)
+	public function registerAction( BorhanPartner $partner , $cmsPassword = "" , $templatePartnerId = null, $silent = false)
 	{
-		KalturaResponseCacher::disableCache();
+		BorhanResponseCacher::disableCache();
 		
 		$dbPartner = $partner->toPartner();
 		
@@ -61,14 +61,14 @@ class PartnerService extends KalturaBaseService
 					if ( ! ($parentPartner->getPartnerGroupType() == PartnerGroupType::VAR_GROUP ||
 							$parentPartner->getPartnerGroupType() == PartnerGroupType::GROUP ) )
 					{
-						throw new KalturaAPIException( KalturaErrors::NON_GROUP_PARTNER_ATTEMPTING_TO_ASSIGN_CHILD , $parentPartnerId );
+						throw new BorhanAPIException( BorhanErrors::NON_GROUP_PARTNER_ATTEMPTING_TO_ASSIGN_CHILD , $parentPartnerId );
 					}
 					
 					if ($templatePartnerId)
 					{
 					    $templatePartner = PartnerPeer::retrieveByPK($templatePartnerId);
 					    if (!$templatePartner || $templatePartner->getPartnerParentId() != $parentPartnerId)
-					        throw new KalturaAPIException( KalturaErrors::NON_GROUP_PARTNER_ATTEMPTING_TO_ASSIGN_CHILD , $parentPartnerId );
+					        throw new BorhanAPIException( BorhanErrors::NON_GROUP_PARTNER_ATTEMPTING_TO_ASSIGN_CHILD , $parentPartnerId );
 					}
 				}
 			}
@@ -96,12 +96,12 @@ class PartnerService extends KalturaBaseService
 		}
 		catch ( Exception $ex )
 		{
-			KalturaLog::CRIT($ex);
+			BorhanLog::CRIT($ex);
 			// this assumes the partner name is unique - TODO - remove key from DB !
-			throw new KalturaAPIException( APIErrors::PARTNER_REGISTRATION_ERROR);
+			throw new BorhanAPIException( APIErrors::PARTNER_REGISTRATION_ERROR);
 		}		
 		
-		$partner = new KalturaPartner(); // start from blank
+		$partner = new BorhanPartner(); // start from blank
 		$partner->fromPartner( $dbPartner );
 		$partner->secret = $dbPartner->getSecret();
 		$partner->adminSecret = $dbPartner->getAdminSecret();
@@ -115,13 +115,13 @@ class PartnerService extends KalturaBaseService
 	 * Update details and settings of an existing partner
 	 * 
 	 * @action update
-	 * @param KalturaPartner $partner
+	 * @param BorhanPartner $partner
 	 * @param bool $allowEmpty
-	 * @return KalturaPartner
+	 * @return BorhanPartner
 	 *
 	 * @throws APIErrors::UNKNOWN_PARTNER_ID
 	 */	
-	public function updateAction( KalturaPartner $partner, $allowEmpty = false)
+	public function updateAction( BorhanPartner $partner, $allowEmpty = false)
 	{
 		$vars_arr=get_object_vars($partner);
 		foreach ($vars_arr as $key => $val){
@@ -132,7 +132,7 @@ class PartnerService extends KalturaBaseService
 		$dbPartner = PartnerPeer::retrieveByPK( $this->getPartnerId() );
 		
 		if ( ! $dbPartner )
-			throw new KalturaAPIException ( APIErrors::UNKNOWN_PARTNER_ID , $this->getPartnerId() );
+			throw new BorhanAPIException ( APIErrors::UNKNOWN_PARTNER_ID , $this->getPartnerId() );
 		
 		try {
 			$dbPartner = $partner->toUpdatableObject($dbPartner);
@@ -140,18 +140,18 @@ class PartnerService extends KalturaBaseService
 		}
 		catch(kUserException $e) {
 			if ($e->getCode() === kUserException::USER_NOT_FOUND) {
-				throw new KalturaAPIException(KalturaErrors::USER_NOT_FOUND);
+				throw new BorhanAPIException(BorhanErrors::USER_NOT_FOUND);
 			}
 			throw $e;
 		}
 		catch(kPermissionException $e) {
 			if ($e->getCode() === kPermissionException::ACCOUNT_OWNER_NEEDS_PARTNER_ADMIN_ROLE) {
-				throw new KalturaAPIException(KalturaErrors::ACCOUNT_OWNER_NEEDS_PARTNER_ADMIN_ROLE);
+				throw new BorhanAPIException(BorhanErrors::ACCOUNT_OWNER_NEEDS_PARTNER_ADMIN_ROLE);
 			}
 			throw $e;			
 		}		
 		
-		$partner = new KalturaPartner();
+		$partner = new BorhanPartner();
 		$partner->fromPartner( $dbPartner );
 		
 		return $partner;
@@ -163,7 +163,7 @@ class PartnerService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param int $id
-	 * @return KalturaPartner
+	 * @return BorhanPartner
 	 *
 	 * @throws APIErrors::INVALID_PARTNER_ID
 	 */
@@ -181,10 +181,10 @@ class PartnerService extends KalturaBaseService
 		$dbPartner = PartnerPeer::doSelectOne($c);
 		if (is_null($dbPartner))
 		{
-		    throw new KalturaAPIException(KalturaErrors::INVALID_PARTNER_ID, $id);
+		    throw new BorhanAPIException(BorhanErrors::INVALID_PARTNER_ID, $id);
 		}
 		
-		$partner = new KalturaPartner();
+		$partner = new BorhanPartner();
 		$partner->fromObject($dbPartner, $this->getResponseProfile());
 		
 		return $partner;
@@ -197,28 +197,28 @@ class PartnerService extends KalturaBaseService
 	 * @param int $partnerId
 	 * @param string $adminEmail
 	 * @param string $cmsPassword
-	 * @return KalturaPartner
+	 * @return BorhanPartner
 	 * 
 	 *
 	 * @throws APIErrors::ADMIN_KUSER_NOT_FOUND
 	 */
 	public function getSecretsAction( $partnerId , $adminEmail , $cmsPassword )
 	{
-		KalturaResponseCacher::disableCache();
+		BorhanResponseCacher::disableCache();
 
 		$adminKuser = null;
 		try {
 			$adminKuser = UserLoginDataPeer::userLoginByEmail($adminEmail, $cmsPassword, $partnerId);
 		}
 		catch (kUserException $e) {
-			throw new KalturaAPIException ( APIErrors::ADMIN_KUSER_NOT_FOUND, "The data you entered is invalid" );
+			throw new BorhanAPIException ( APIErrors::ADMIN_KUSER_NOT_FOUND, "The data you entered is invalid" );
 		}
 		
 		if (!$adminKuser || !$adminKuser->getIsAdmin()) {
-			throw new KalturaAPIException ( APIErrors::ADMIN_KUSER_NOT_FOUND, "The data you entered is invalid" );
+			throw new BorhanAPIException ( APIErrors::ADMIN_KUSER_NOT_FOUND, "The data you entered is invalid" );
 		}
 		
-		KalturaLog::log( "Admin Kuser found, going to validate password", KalturaLog::INFO );
+		BorhanLog::log( "Admin Kuser found, going to validate password", BorhanLog::INFO );
 		
 		// user logged in - need to re-init kPermissionManager in order to determine current user's permissions
 		$ks = null;
@@ -227,7 +227,7 @@ class PartnerService extends KalturaBaseService
 		kPermissionManager::init();		
 		
 		$dbPartner = PartnerPeer::retrieveByPK( $partnerId );
-		$partner = new KalturaPartner();
+		$partner = new BorhanPartner();
 		$partner->fromPartner( $dbPartner );
 		$partner->cmsPassword = $cmsPassword;
 		
@@ -239,7 +239,7 @@ class PartnerService extends KalturaBaseService
 	 * This action expects no parameters. It returns information for the current KS partnerId.
 	 * 
 	 * @action getInfo
-	 * @return KalturaPartner
+	 * @return BorhanPartner
 	 * @deprecated
 	 * @throws APIErrors::UNKNOWN_PARTNER_ID
 	 */		
@@ -255,12 +255,12 @@ class PartnerService extends KalturaBaseService
 	 * Additional data returned is a graph points of streaming usage in a timeframe
 	 * The resolution can be "days" or "months"
 	 *
-	 * @link http://docs.kaltura.org/api/partner/usage
+	 * @link http://docs.borhan.org/api/partner/usage
 	 * @action getUsage
 	 * @param int $year
 	 * @param int $month
-	 * @param KalturaReportInterval $resolution
-	 * @return KalturaPartnerUsage
+	 * @param BorhanReportInterval $resolution
+	 * @return BorhanPartnerUsage
 	 * 
 	 * @throws APIErrors::UNKNOWN_PARTNER_ID
 	 * @deprecated use getStatistics instead
@@ -270,10 +270,10 @@ class PartnerService extends KalturaBaseService
 		$dbPartner = PartnerPeer::retrieveByPK($this->getPartnerId());
 		
 		if(!$dbPartner)
-			throw new KalturaAPIException(APIErrors::UNKNOWN_PARTNER_ID, $this->getPartnerId());
+			throw new BorhanAPIException(APIErrors::UNKNOWN_PARTNER_ID, $this->getPartnerId());
 		
 		$packages = new PartnerPackages();
-		$partnerUsage = new KalturaPartnerUsage();
+		$partnerUsage = new BorhanPartnerUsage();
 		$partnerPackage = $packages->getPackageDetails($dbPartner->getPartnerPackage());
 		
 		$report_date = date("Y-m-d", time());
@@ -306,7 +306,7 @@ class PartnerService extends KalturaBaseService
 			
 			$usageGraph = myPartnerUtils::getPartnerUsageGraph($startDate, $endDate, $dbPartner, $resolution);
 			// currently we provide only one line, output as a string.
-			// in the future this could be extended to something like KalturaGraphLines object
+			// in the future this could be extended to something like BorhanGraphLines object
 			$partnerUsage->usageGraph = $usageGraph;
 		}
 		
@@ -318,7 +318,7 @@ class PartnerService extends KalturaBaseService
 	 * Calculation is done according to partner's package
 	 *
 	 * @action getStatistics
-	 * @return KalturaPartnerStatistics
+	 * @return BorhanPartnerStatistics
 	 * 
 	 * @throws APIErrors::UNKNOWN_PARTNER_ID
 	 */
@@ -327,10 +327,10 @@ class PartnerService extends KalturaBaseService
 		$dbPartner = PartnerPeer::retrieveByPK($this->getPartnerId());
 		
 		if(!$dbPartner)
-			throw new KalturaAPIException(APIErrors::UNKNOWN_PARTNER_ID, $this->getPartnerId());
+			throw new BorhanAPIException(APIErrors::UNKNOWN_PARTNER_ID, $this->getPartnerId());
 		
 		$packages = new PartnerPackages();
-		$partnerUsage = new KalturaPartnerStatistics();
+		$partnerUsage = new BorhanPartnerStatistics();
 		$partnerPackage = $packages->getPackageDetails($dbPartner->getPartnerPackage());
 		
 		$report_date = date("Y-m-d", time());
@@ -358,13 +358,13 @@ class PartnerService extends KalturaBaseService
 	 * Retrieve a list of partner objects which the current user is allowed to access.
 	 * 
 	 * @action listPartnersForUser
-	 * @param KalturaPartnerFilter $partnerFilter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaPartnerListResponse
-	 * @throws KalturaErrors::INVALID_USER_ID
+	 * @param BorhanPartnerFilter $partnerFilter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanPartnerListResponse
+	 * @throws BorhanErrors::INVALID_USER_ID
 	 * 
 	 */
-	public function listPartnersForUserAction(KalturaPartnerFilter $partnerFilter = null, KalturaFilterPager $pager = null)
+	public function listPartnersForUserAction(BorhanPartnerFilter $partnerFilter = null, BorhanFilterPager $pager = null)
 	{	
 		$partnerId = kCurrentContext::$master_partner_id;
 		
@@ -377,12 +377,12 @@ class PartnerService extends KalturaBaseService
 		if(!$currentUser)
 		{
 		    $userId = kCurrentContext::$ks_uid;
-		    throw new KalturaAPIException(KalturaErrors::INVALID_USER_ID);
+		    throw new BorhanAPIException(BorhanErrors::INVALID_USER_ID);
 		}
 		
 		if (!$pager)
 		{
-		    $pager = new KalturaFilterPager();
+		    $pager = new BorhanFilterPager();
 		}
 		
 		$dbFilter = null;
@@ -397,9 +397,9 @@ class PartnerService extends KalturaBaseService
 		$pager->attachToCriteria($c);
 		$partners = array();
 		$partners = myPartnerUtils::getPartnersArray($allowedIds, $c);	
-		$kalturaPartners = KalturaPartnerArray::fromPartnerArray($partners );
-		$response = new KalturaPartnerListResponse();
-		$response->objects = $kalturaPartners;
+		$borhanPartners = BorhanPartnerArray::fromPartnerArray($partners );
+		$response = new BorhanPartnerListResponse();
+		$response->objects = $borhanPartners;
 		$response->totalCount = count($partners);	
 		
 		return $response;
@@ -410,20 +410,20 @@ class PartnerService extends KalturaBaseService
 	 * Current implementation will only list the sub partners of the partner initiating the api call (using the current KS).
 	 * This action is only partially implemented to support listing sub partners of a VAR partner.
 	 * @action list
-	 * @param KalturaPartnerFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaPartnerListResponse
+	 * @param BorhanPartnerFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanPartnerListResponse
 	 */
-	public function listAction(KalturaPartnerFilter $filter = null, KalturaFilterPager $pager = null)
+	public function listAction(BorhanPartnerFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 	    if (is_null($filter))
 	    {
-	        $filter = new KalturaPartnerFilter();
+	        $filter = new BorhanPartnerFilter();
 	    }
 	    
 	    if (is_null($pager))
 	    {
-	        $pager = new KalturaFilterPager();   
+	        $pager = new BorhanFilterPager();   
 	    }
 	    
 	    $partnerFilter = new partnerFilter();
@@ -432,13 +432,13 @@ class PartnerService extends KalturaBaseService
 	    $c = PartnerPeer::getDefaultCriteria();
 		
 	    $partnerFilter->attachToCriteria($c);
-		$response = new KalturaPartnerListResponse();
+		$response = new BorhanPartnerListResponse();
 		$response->totalCount = PartnerPeer::doCount($c);
 		
 	    $pager->attachToCriteria($c);
 	    $dbPartners = PartnerPeer::doSelect($c);
 	    
-		$partnersArray = KalturaPartnerArray::fromPartnerArray($dbPartners);
+		$partnersArray = BorhanPartnerArray::fromPartnerArray($dbPartners);
 		
 		$response->objects = $partnersArray;
 		return $response;
@@ -449,22 +449,22 @@ class PartnerService extends KalturaBaseService
 	 * 
 	 * @action listFeatureStatus
 	 * @throws APIErrors::UNKNOWN_PARTNER_ID
-	 * @return KalturaFeatureStatusListResponse
+	 * @return BorhanFeatureStatusListResponse
 	 */
 	public function listFeatureStatusAction()
 	{
 		if (is_null($this->getKs()) || is_null($this->getPartner()) || !$this->getPartnerId())
-			throw new KalturaAPIException(APIErrors::MISSING_KS);
+			throw new BorhanAPIException(APIErrors::MISSING_KS);
 			
 		$dbPartner = $this->getPartner();
 		if ( ! $dbPartner )
-			throw new KalturaAPIException ( APIErrors::UNKNOWN_PARTNER_ID , $this->getPartnerId() );
+			throw new BorhanAPIException ( APIErrors::UNKNOWN_PARTNER_ID , $this->getPartnerId() );
 		
 		$dbFeaturesStatus = $dbPartner->getFeaturesStatus();
 		
-		$featuresStatus = KalturaFeatureStatusArray::fromDbArray($dbFeaturesStatus, $this->getResponseProfile());
+		$featuresStatus = BorhanFeatureStatusArray::fromDbArray($dbFeaturesStatus, $this->getResponseProfile());
 		
-		$response = new KalturaFeatureStatusListResponse();
+		$response = new BorhanFeatureStatusListResponse();
 		$response->objects = $featuresStatus;
 		$response->totalCount = count($featuresStatus);
 		
@@ -475,13 +475,13 @@ class PartnerService extends KalturaBaseService
 	 * Count partner's existing sub-publishers (count includes the partner itself).
 	 * 
 	 * @action count
-	 * @param KalturaPartnerFilter $filter
+	 * @param BorhanPartnerFilter $filter
 	 * @return int
 	 */
-    public function countAction (KalturaPartnerFilter $filter = null)
+    public function countAction (BorhanPartnerFilter $filter = null)
     {
         if (!$filter)
-            $filter = new KalturaPartnerFilter();
+            $filter = new BorhanPartnerFilter();
             
         $dbFilter = new partnerFilter();
         $filter->toObject($dbFilter);

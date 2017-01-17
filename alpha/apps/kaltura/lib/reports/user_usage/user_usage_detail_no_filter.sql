@@ -20,7 +20,7 @@ FROM
 		IFNULL(SUM(added_msecs),0) added_msecs,
 		IFNULL(SUM(deleted_msecs),0) deleted_msecs
 	FROM
-		kalturadw.dwh_hourly_user_usage
+		borhandw.dwh_hourly_user_usage
         WHERE
 		partner_id = {PARTNER_ID}
 		AND
@@ -33,7 +33,7 @@ FROM
 		total_entries,
 		total_msecs
 	FROM
-		kalturadw.dwh_hourly_user_usage u JOIN (SELECT kuser_id, MAX(date_id) date_id FROM kalturadw.dwh_hourly_user_usage WHERE partner_id = {PARTNER_ID} AND date_id <= {TO_DATE_ID} GROUP BY kuser_id) MAX
+		borhandw.dwh_hourly_user_usage u JOIN (SELECT kuser_id, MAX(date_id) date_id FROM borhandw.dwh_hourly_user_usage WHERE partner_id = {PARTNER_ID} AND date_id <= {TO_DATE_ID} GROUP BY kuser_id) MAX
 	    ON u.kuser_id = max.kuser_id AND u.date_id = max.date_id) total,
 	dwh_dim_kusers users
 WHERE raw_data.kuser_id = total.kuser_id

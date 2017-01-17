@@ -17,7 +17,7 @@ class KAsyncDirectoryCleanup extends KPeriodicWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::CLEANUP;
+		return BorhanBatchJobType::CLEANUP;
 	}
 
 	/* (non-PHPdoc)
@@ -30,7 +30,7 @@ class KAsyncDirectoryCleanup extends KPeriodicWorker
 		$simulateOnly = $this->getAdditionalParams("simulateOnly");
 		$minutesOld = $this->getAdditionalParams("minutesOld");
 		$searchPath = $path . $pattern;
-		KalturaLog::info("Searching [$searchPath]");
+		BorhanLog::info("Searching [$searchPath]");
 
 		if($this->getAdditionalParams("usePHP"))
 		{
@@ -47,11 +47,11 @@ class KAsyncDirectoryCleanup extends KPeriodicWorker
 	protected function deleteFilesLinux($searchPath, $minutesOld, $simulateOnly)
 	{
 		$command = "find $searchPath -mmin +$minutesOld -exec rm -rf {} \;";
-		KalturaLog::info("Executing command: $command");
+		BorhanLog::info("Executing command: $command");
 
 		$returnedValue = null;
 		passthru($command, $returnedValue);
-		KalturaLog::info("Returned value [$returnedValue]");
+		BorhanLog::info("Returned value [$returnedValue]");
 	}
 
 	protected function deleteFilesPHP($searchPath, $minutesOld, $simulateOnly)
@@ -59,10 +59,10 @@ class KAsyncDirectoryCleanup extends KPeriodicWorker
 		$secondsOld = $minutesOld * 60;
 
 		$files = glob ( $searchPath);
-		KalturaLog::info("Found [" . count ( $files ) . "] to scan");
+		BorhanLog::info("Found [" . count ( $files ) . "] to scan");
 
 		$now = time();
-		KalturaLog::info("Deleting files that are " . $secondsOld ." seconds old (modified before " . date('c', $now - $secondsOld) . ")");
+		BorhanLog::info("Deleting files that are " . $secondsOld ." seconds old (modified before " . date('c', $now - $secondsOld) . ")");
 		$deletedCount = 0;
 		foreach ( $files as $file )
 		{
@@ -72,14 +72,14 @@ class KAsyncDirectoryCleanup extends KPeriodicWorker
 
 			if ( $simulateOnly )
 			{
-				KalturaLog::info( "Simulating: Deleting file [$file], it's last modification time was " . date('c', $filemtime));
+				BorhanLog::info( "Simulating: Deleting file [$file], it's last modification time was " . date('c', $filemtime));
 				continue;
 			}
 
-			KalturaLog::info("Deleting file [$file], it's last modification time was " . date('c', $filemtime));
+			BorhanLog::info("Deleting file [$file], it's last modification time was " . date('c', $filemtime));
 			$res = @unlink ( $file );
 			if ( ! $res ){
-				KalturaLog::err("Error: problem while deleting [$file]");
+				BorhanLog::err("Error: problem while deleting [$file]");
 				continue;
 			}
 			$deletedCount++;

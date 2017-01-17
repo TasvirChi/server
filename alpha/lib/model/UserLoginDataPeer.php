@@ -15,7 +15,7 @@
  */
 class UserLoginDataPeer extends BaseUserLoginDataPeer implements IRelatedObjectPeer
 {
-	const KALTURAS_CMS_PASSWORD_RESET = 51;
+	const BORHANS_CMS_PASSWORD_RESET = 51;
 	
 	public static function generateNewPassword()
 	{
@@ -72,7 +72,7 @@ class UserLoginDataPeer extends BaseUserLoginDataPeer implements IRelatedObjectP
 			null, 
 			0, 
 			$partner_id, 
-			UserLoginDataPeer::KALTURAS_CMS_PASSWORD_RESET, 
+			UserLoginDataPeer::BORHANS_CMS_PASSWORD_RESET, 
 			kMailJobData::MAIL_PRIORITY_NORMAL, 
 			kConf::get( "partner_change_email_email" ), 
 			kConf::get( "partner_change_email_name" ), 
@@ -188,7 +188,7 @@ class UserLoginDataPeer extends BaseUserLoginDataPeer implements IRelatedObjectP
 		$partner = PartnerPeer::retrieveByPK($partnerId);
 		// If on the partner it's set not to reset the password - skip the email sending
 		if($partner->getEnabledService(PermissionName::FEATURE_DISABLE_RESET_PASSWORD_EMAIL)) {
-			KalturaLog::log("Skipping reset-password email sending according to partner configuration.");
+			BorhanLog::log("Skipping reset-password email sending according to partner configuration.");
 			return true;
 		}
 		
@@ -326,7 +326,7 @@ class UserLoginDataPeer extends BaseUserLoginDataPeer implements IRelatedObjectP
 			}
 		}
 
-		$httpsEnforcePermission = PermissionPeer::isValidForPartner(PermissionName::FEATURE_KMC_ENFORCE_HTTPS, $partnerId);
+		$httpsEnforcePermission = PermissionPeer::isValidForPartner(PermissionName::FEATURE_BMC_ENFORCE_HTTPS, $partnerId);
 		if(strpos($resetLinkPrefix, infraRequestUtils::PROTOCOL_HTTPS) === false && $httpsEnforcePermission)
 			$resetLinkPrefix = str_replace(infraRequestUtils::PROTOCOL_HTTP , infraRequestUtils::PROTOCOL_HTTPS , $resetLinkPrefix);
 
@@ -437,7 +437,7 @@ class UserLoginDataPeer extends BaseUserLoginDataPeer implements IRelatedObjectP
 			if ($otpRequired)
 			{
 				// add google authenticator library to include path
-				require_once KALTURA_ROOT_PATH . '/vendor/phpGangsta/GoogleAuthenticator.php';
+				require_once BORHAN_ROOT_PATH . '/vendor/phpGangsta/GoogleAuthenticator.php';
 				
 				$result = GoogleAuthenticator::verifyCode ($loginData->getSeedFor2FactorAuth(), $otp);
 				if (!$result)
@@ -598,7 +598,7 @@ class UserLoginDataPeer extends BaseUserLoginDataPeer implements IRelatedObjectP
 			if ($partnerId == Partner::ADMIN_CONSOLE_PARTNER_ID)
 			{
 				// add google authenticator library to include path
-				require_once KALTURA_ROOT_PATH . '/vendor/phpGangsta/GoogleAuthenticator.php';
+				require_once BORHAN_ROOT_PATH . '/vendor/phpGangsta/GoogleAuthenticator.php';
 				//generate a new secret for user's admin console logins
 				$seed = GoogleAuthenticator::createSecret();
 				$loginData->setSeedFor2FactorAuth($seed);
@@ -620,14 +620,14 @@ class UserLoginDataPeer extends BaseUserLoginDataPeer implements IRelatedObjectP
 			if ($partnerId == Partner::ADMIN_CONSOLE_PARTNER_ID)
 			{
 				// add google authenticator library to include path
-				require_once KALTURA_ROOT_PATH . '/vendor/phpGangsta/GoogleAuthenticator.php';
+				require_once BORHAN_ROOT_PATH . '/vendor/phpGangsta/GoogleAuthenticator.php';
 				//generate a new secret for user's admin console logins
 				$existingData->setSeedFor2FactorAuth(GoogleAuthenticator::createSecret());
 				$existingData->save();
 			}
 			
 						
-			KalturaLog::info('Existing login data with the same email & password exists - returning id ['.$existingData->getId().']');	
+			BorhanLog::info('Existing login data with the same email & password exists - returning id ['.$existingData->getId().']');	
 			$alreadyExisted = true;
 			
 			if ($isAdminUser && !$existingData->isLastLoginPartnerIdSet()) {

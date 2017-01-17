@@ -3,7 +3,7 @@
  * Enable entry caption asset ingestion from XML bulk upload
  * @package plugins.caption
  */
-class CaptionBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPending, IKalturaSchemaContributor, IKalturaBulkUploadXmlHandler, IKalturaConfigurator
+class CaptionBulkUploadXmlPlugin extends BorhanPlugin implements IBorhanPending, IBorhanSchemaContributor, IBorhanBulkUploadXmlHandler, IBorhanConfigurator
 {
 	const PLUGIN_NAME = 'captionBulkUploadXml';
 	const BULK_UPLOAD_XML_PLUGIN_NAME = 'bulkUploadXml';
@@ -23,7 +23,7 @@ class CaptionBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendin
 	protected $currentCaptionAssets = null;
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	*/
 	public static function getPluginName()
 	{
@@ -31,24 +31,24 @@ class CaptionBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendin
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	*/
 	public static function dependsOn()
 	{
-		$bulkUploadXmlVersion = new KalturaVersion(
+		$bulkUploadXmlVersion = new BorhanVersion(
 			self::BULK_UPLOAD_XML_VERSION_MAJOR,
 			self::BULK_UPLOAD_XML_VERSION_MINOR,
 			self::BULK_UPLOAD_XML_VERSION_BUILD
 		);
 
-		$captionDependency = new KalturaDependency(CaptionPlugin::getPluginName());
-		$bulkUploadXmlDependency = new KalturaDependency(self::BULK_UPLOAD_XML_PLUGIN_NAME, $bulkUploadXmlVersion);
+		$captionDependency = new BorhanDependency(CaptionPlugin::getPluginName());
+		$bulkUploadXmlDependency = new BorhanDependency(self::BULK_UPLOAD_XML_PLUGIN_NAME, $bulkUploadXmlVersion);
 
 		return array($bulkUploadXmlDependency, $captionDependency);
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaSchemaContributor::contributeToSchema()
+	 * @see IBorhanSchemaContributor::contributeToSchema()
 	*/
 	public static function contributeToSchema($type)
 	{
@@ -97,7 +97,7 @@ class CaptionBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendin
 			<xs:choice minOccurs="1" maxOccurs="1">
 				<xs:element ref="serverFileContentResource" minOccurs="1" maxOccurs="1">
 					<xs:annotation>
-						<xs:documentation>Specifies that content ingestion location is on a Kaltura hosted server</xs:documentation>
+						<xs:documentation>Specifies that content ingestion location is on a Borhan hosted server</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element ref="urlContentResource" minOccurs="1" maxOccurs="1">
@@ -107,22 +107,22 @@ class CaptionBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendin
 				</xs:element>
 				<xs:element ref="remoteStorageContentResource" minOccurs="1" maxOccurs="1">
 					<xs:annotation>
-						<xs:documentation>Specifies that content file location is a path within a Kaltura defined remote storage</xs:documentation>
+						<xs:documentation>Specifies that content file location is a path within a Borhan defined remote storage</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element ref="remoteStorageContentResources" minOccurs="1" maxOccurs="1">
 					<xs:annotation>
-						<xs:documentation>Set of content files within several Kaltura defined remote storages</xs:documentation>
+						<xs:documentation>Set of content files within several Borhan defined remote storages</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element ref="entryContentResource" minOccurs="1" maxOccurs="1">
 					<xs:annotation>
-						<xs:documentation>Specifies that content is a Kaltura entry</xs:documentation>
+						<xs:documentation>Specifies that content is a Borhan entry</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element ref="assetContentResource" minOccurs="1" maxOccurs="1">
 					<xs:annotation>
-						<xs:documentation>Specifies that content is a Kaltura asset</xs:documentation>
+						<xs:documentation>Specifies that content is a Borhan asset</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element ref="contentResource-extension" minOccurs="1" maxOccurs="1" />
@@ -150,12 +150,12 @@ class CaptionBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendin
 				<xs:documentation>Specifies if this asset is the default caption asset</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="format" type="KalturaCaptionType" use="optional">
+		<xs:attribute name="format" type="BorhanCaptionType" use="optional">
 			<xs:annotation>
 				<xs:documentation>Caption asset file format</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="lang" type="KalturaLanguage" use="optional">
+		<xs:attribute name="lang" type="BorhanLanguage" use="optional">
 			<xs:annotation>
 				<xs:documentation>Caption asset file language</xs:documentation>
 			</xs:annotation>
@@ -201,7 +201,7 @@ class CaptionBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendin
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::configureBulkUploadXmlHandler()
+	 * @see IBorhanBulkUploadXmlHandler::configureBulkUploadXmlHandler()
 	 */
 	public function configureBulkUploadXmlHandler(BulkUploadEngineXml $xmlBulkUploadEngine)
 	{
@@ -209,11 +209,11 @@ class CaptionBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendin
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::handleItemAdded()
+	 * @see IBorhanBulkUploadXmlHandler::handleItemAdded()
 	*/
-	public function handleItemAdded(KalturaObjectBase $object, SimpleXMLElement $item)
+	public function handleItemAdded(BorhanObjectBase $object, SimpleXMLElement $item)
 	{
-		if(!($object instanceof KalturaBaseEntry))
+		if(!($object instanceof BorhanBaseEntry))
 			return;
 		
 		if(!isset($item->subTitles))
@@ -233,7 +233,7 @@ class CaptionBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendin
 			}
 			catch (Exception $e)
 			{
-				KalturaLog::err($this->getContainerName() . ' failed: ' . $e->getMessage());
+				BorhanLog::err($this->getContainerName() . ' failed: ' . $e->getMessage());
 				$pluginsErrorResults[] = $e->getMessage();
 			}
 		}
@@ -246,9 +246,9 @@ class CaptionBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendin
 
 	private function handleCaptionAsset($entryId, $conversionProfileId, SimpleXMLElement $caption)
 	{
-		$captionAssetPlugin = KalturaCaptionClientPlugin::get(KBatchBase::$kClient);
+		$captionAssetPlugin = BorhanCaptionClientPlugin::get(KBatchBase::$kClient);
 		
-		$captionAsset = new KalturaCaptionAsset();
+		$captionAsset = new BorhanCaptionAsset();
 		$captionAsset->tags = $this->xmlBulkUploadEngine->implodeChildElements($caption->tags);
 		
 		if(isset($caption->captionAssetId))
@@ -259,9 +259,9 @@ class CaptionBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendin
 			
 		if(isset($caption['isDefault']))
 			if(strtolower($caption['isDefault']) == 'true'){
-				$captionAsset->isDefault = KalturaNullableBoolean::TRUE_VALUE;
+				$captionAsset->isDefault = BorhanNullableBoolean::TRUE_VALUE;
 			}else{
-				$captionAsset->isDefault = KalturaNullableBoolean::FALSE_VALUE;
+				$captionAsset->isDefault = BorhanNullableBoolean::FALSE_VALUE;
 			}
 		
 		if(isset($caption['format']))
@@ -296,9 +296,9 @@ class CaptionBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendin
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::handleItemUpdated()
+	 * @see IBorhanBulkUploadXmlHandler::handleItemUpdated()
 	*/
-	public function handleItemUpdated(KalturaObjectBase $object, SimpleXMLElement $item)
+	public function handleItemUpdated(BorhanObjectBase $object, SimpleXMLElement $item)
 	{
 		if(!$item->subTitles)
 			return;
@@ -306,28 +306,28 @@ class CaptionBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendin
 		if(empty($item->subTitles))
 			return;
 		
-		$action = KBulkUploadEngine::$actionsMap[KalturaBulkUploadAction::UPDATE];
+		$action = KBulkUploadEngine::$actionsMap[BorhanBulkUploadAction::UPDATE];
 		if(isset($item->subTitles->action))
 			$action = strtolower($item->subTitles->action);
 			
 		switch ($action)
 		{
-			case KBulkUploadEngine::$actionsMap[KalturaBulkUploadAction::UPDATE]:
+			case KBulkUploadEngine::$actionsMap[BorhanBulkUploadAction::UPDATE]:
 				$this->handleItemAdded($object, $item);
 				break;
 			default:
-				throw new KalturaBatchException("subTitles->action: $action is not supported", KalturaBatchJobAppErrors::BULK_ACTION_NOT_SUPPORTED);
+				throw new BorhanBatchException("subTitles->action: $action is not supported", BorhanBatchJobAppErrors::BULK_ACTION_NOT_SUPPORTED);
 		}
 	}
 
 	private function getCurrentCaptionAssets($entryId)
 	{
-		$filter = new KalturaCaptionAssetFilter();
+		$filter = new BorhanCaptionAssetFilter();
 		$filter->entryIdEqual = $entryId;
 		
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageSize = 500;
-		$captionAssetPlugin = KalturaCaptionClientPlugin::get(KBatchBase::$kClient);
+		$captionAssetPlugin = BorhanCaptionClientPlugin::get(KBatchBase::$kClient);
 		$captions = $captionAssetPlugin->captionAsset->listAction($filter, $pager);
 		
 		$this->currentCaptionAssets = array();
@@ -343,15 +343,15 @@ class CaptionBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendin
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::handleItemDeleted()
+	 * @see IBorhanBulkUploadXmlHandler::handleItemDeleted()
 	*/
-	public function handleItemDeleted(KalturaObjectBase $object, SimpleXMLElement $item)
+	public function handleItemDeleted(BorhanObjectBase $object, SimpleXMLElement $item)
 	{
 		// No handling required
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaConfigurator::getConfig()
+	 * @see IBorhanConfigurator::getConfig()
 	*/
 	public static function getConfig($configName)
 	{
@@ -362,7 +362,7 @@ class CaptionBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPendin
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaConfigurator::getContainerName()
+	 * @see IBorhanConfigurator::getContainerName()
 	*/
 	public function getContainerName()
 	{

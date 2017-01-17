@@ -4,10 +4,10 @@
  * @package infra
  * @subpackage Plugins
  */
-interface IKalturaApplicationPartialView extends IKalturaBase
+interface IBorhanApplicationPartialView extends IBorhanBase
 {
 	/**
-	 * @return array<Kaltura_View_Helper_PartialViewPlugin>
+	 * @return array<Borhan_View_Helper_PartialViewPlugin>
 	 */
 	public static function getApplicationPartialViews($controller, $action);
 }

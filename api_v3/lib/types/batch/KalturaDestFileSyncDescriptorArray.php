@@ -3,16 +3,16 @@
  * @package api
  * @subpackage objects
  */
-class KalturaDestFileSyncDescriptorArray extends KalturaTypedArray
+class BorhanDestFileSyncDescriptorArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaDestFileSyncDescriptorArray();
+		$newArr = new BorhanDestFileSyncDescriptorArray();
 		if ($arr == null)
 			return $newArr;
 		foreach ($arr as $obj)
 		{
-    		$nObj = new KalturaDestFileSyncDescriptor();
+    		$nObj = new BorhanDestFileSyncDescriptor();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -22,6 +22,6 @@ class KalturaDestFileSyncDescriptorArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaDestFileSyncDescriptor");	
+		parent::__construct("BorhanDestFileSyncDescriptor");	
 	}
 }

@@ -7,7 +7,7 @@
  * @subpackage api.objects
  *
  */
-class KalturaBulkUploadXmlJobData extends KalturaBulkUploadJobData
+class BorhanBulkUploadXmlJobData extends BorhanBulkUploadJobData
 {
 	/**
 	 * 
@@ -42,6 +42,6 @@ class KalturaBulkUploadXmlJobData extends KalturaBulkUploadJobData
 	
 	public function setType ()
 	{
-	    $this->type = kPluginableEnumsManager::coreToApi("KalturaBulkUploadType", BulkUploadXmlPlugin::getApiValue(BulkUploadXmlType::XML));
+	    $this->type = kPluginableEnumsManager::coreToApi("BorhanBulkUploadType", BulkUploadXmlPlugin::getApiValue(BulkUploadXmlType::XML));
 	}
 }

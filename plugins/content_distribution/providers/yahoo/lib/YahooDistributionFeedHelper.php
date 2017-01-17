@@ -17,18 +17,18 @@ class YahooDistributionFeedHelper
 	protected $xpath;
 	
 	/**
-	 * @var KalturaYahooDistributionProfile
+	 * @var BorhanYahooDistributionProfile
 	 */
 	protected $distributionProfile;
 
 	/**
-	 * @var KalturaEntryDistribution
+	 * @var BorhanEntryDistribution
 	 */
 	protected $entryDistribution;
 	/**
 	 * 
 	 * Provider data object
-	 * @var KalturaYouTubeDistributionJobProviderData
+	 * @var BorhanYouTubeDistributionJobProviderData
 	 */
 	protected $providerData;
 	
@@ -43,10 +43,10 @@ class YahooDistributionFeedHelper
 	/**
 	 * @param $templateName
 	 * @param $distributionProfile
-	 * @param KalturaYahooDistributionJobProviderData $providerData
-	 * @param KalturaDistributionJobData $data
+	 * @param BorhanYahooDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
 	 */
-	public function __construct($templateName, KalturaYahooDistributionProfile $distributionProfile, KalturaYahooDistributionJobProviderData $providerData, $entryDistribution, $flavorAssets)
+	public function __construct($templateName, BorhanYahooDistributionProfile $distributionProfile, BorhanYahooDistributionJobProviderData $providerData, $entryDistribution, $flavorAssets)
 	{		
 		$this->distributionProfile = $distributionProfile;
 		$this->providerData = $providerData;
@@ -64,13 +64,13 @@ class YahooDistributionFeedHelper
 	
 	public function setFieldsForSubmit()
 	{
-		$startTime = $this->getValueForField(KalturaYahooDistributionField::VIDEO_VALID_TIME);
+		$startTime = $this->getValueForField(BorhanYahooDistributionField::VIDEO_VALID_TIME);
 		if (is_null($startTime)) {
 		    $startTime = time() - 24*60*60;  // yesterday, to make the video public by default
 		}
 		$this->setVideoValidTime($startTime);
 		
-		$endTime = $this->getValueForField(KalturaYahooDistributionField::VIDEO_EXPIRATION_TIME);
+		$endTime = $this->getValueForField(BorhanYahooDistributionField::VIDEO_EXPIRATION_TIME);
 		if ($endTime && intval($endTime)) {
 			$this->setVideoExpirationTime($endTime);        
 		}
@@ -79,25 +79,25 @@ class YahooDistributionFeedHelper
 			$this->deleteVideoExpirtaionTimeTag();
 		}		
 		
-		$this->setContactTelephone($this->getValueForField(KalturaYahooDistributionField::CONTACT_TELEPHONE));
-		$this->setContactEmail($this->getValueForField(KalturaYahooDistributionField::CONTACT_EMAIL));					
-		$this->setVideoModifiedDate($this->getValueForField(KalturaYahooDistributionField::VIDEO_MODIFIED_DATE));		
-		$this->setVideoFeedItemId($this->getValueForField(KalturaYahooDistributionField::VIDEO_FEEDITEM_ID));
-		$this->setVideoTitle($this->getValueForField(KalturaYahooDistributionField::VIDEO_TITLE));
-		$this->setVideoDescription($this->getValueForField(KalturaYahooDistributionField::VIDEO_DESCRIPTION));
-		$this->setVideoCategories($this->getValueForField(KalturaYahooDistributionField::VIDEO_ROUTING));
-		$this->setVideoKeywords($this->getValueForField(KalturaYahooDistributionField::VIDEO_KEYWORDS));		
-		$this->setLinkTitleAndUrl($this->getValueForField(KalturaYahooDistributionField::VIDEO_LINK_TITLE),
-								  $this->getValueForField(KalturaYahooDistributionField::VIDEO_LINK_URL));		
-		$this->setVideoDuration($this->getValueForField(KalturaYahooDistributionField::VIDEO_DURATION));		
+		$this->setContactTelephone($this->getValueForField(BorhanYahooDistributionField::CONTACT_TELEPHONE));
+		$this->setContactEmail($this->getValueForField(BorhanYahooDistributionField::CONTACT_EMAIL));					
+		$this->setVideoModifiedDate($this->getValueForField(BorhanYahooDistributionField::VIDEO_MODIFIED_DATE));		
+		$this->setVideoFeedItemId($this->getValueForField(BorhanYahooDistributionField::VIDEO_FEEDITEM_ID));
+		$this->setVideoTitle($this->getValueForField(BorhanYahooDistributionField::VIDEO_TITLE));
+		$this->setVideoDescription($this->getValueForField(BorhanYahooDistributionField::VIDEO_DESCRIPTION));
+		$this->setVideoCategories($this->getValueForField(BorhanYahooDistributionField::VIDEO_ROUTING));
+		$this->setVideoKeywords($this->getValueForField(BorhanYahooDistributionField::VIDEO_KEYWORDS));		
+		$this->setLinkTitleAndUrl($this->getValueForField(BorhanYahooDistributionField::VIDEO_LINK_TITLE),
+								  $this->getValueForField(BorhanYahooDistributionField::VIDEO_LINK_URL));		
+		$this->setVideoDuration($this->getValueForField(BorhanYahooDistributionField::VIDEO_DURATION));		
 	}
 	
 	public function setFieldsForDelete()
 	{
-		$this->setVideoFeedItemId($this->getValueForField(KalturaYahooDistributionField::VIDEO_FEEDITEM_ID));
-		$this->setVideoTitle($this->getValueForField(KalturaYahooDistributionField::VIDEO_TITLE));
+		$this->setVideoFeedItemId($this->getValueForField(BorhanYahooDistributionField::VIDEO_FEEDITEM_ID));
+		$this->setVideoTitle($this->getValueForField(BorhanYahooDistributionField::VIDEO_TITLE));
 		//valid time
-		$startTime = $this->getValueForField(KalturaYahooDistributionField::VIDEO_VALID_TIME);
+		$startTime = $this->getValueForField(BorhanYahooDistributionField::VIDEO_VALID_TIME);
 		if (is_null($startTime)) {
 		    $startTime = time() - 24*60*60;  // yesterday, to make the video public by default
 		}
@@ -290,7 +290,7 @@ class YahooDistributionFeedHelper
 	/**
 	 * 
 	 * set streams in XML
-	 * @param KalturaFlavorAsset $flavorAssets
+	 * @param BorhanFlavorAsset $flavorAssets
 	 */
 	public function setStreams($flavorAssets, $currentTime)
 	{		
@@ -320,7 +320,7 @@ class YahooDistributionFeedHelper
 	
 	/**
 	 * creates unique name for flavor asset
-	 * @param KalturaFlavorAsset $flavorAsset
+	 * @param BorhanFlavorAsset $flavorAsset
 	 */
 	public function flavorAssetUniqueName($flavorAsset, $currentTime)
 	{

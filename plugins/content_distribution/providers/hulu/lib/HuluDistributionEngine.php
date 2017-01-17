@@ -19,14 +19,14 @@ class HuluDistributionEngine extends DistributionEngine implements
 	 * 
 	 * Demonstrate asynchronous external API usage
 	 */
-	public function submit(KalturaDistributionSubmitJobData $data)
+	public function submit(BorhanDistributionSubmitJobData $data)
 	{
 		// validates received object types
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaHuluDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaHuluDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanHuluDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanHuluDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaHuluDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaHuluDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanHuluDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanHuluDistributionJobProviderData");
 		
 		// call the actual submit action
 		$this->handleSubmit($data, $data->distributionProfile, $data->providerData);
@@ -37,7 +37,7 @@ class HuluDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseSubmit::closeSubmit()
 	 */
-	public function closeSubmit(KalturaDistributionSubmitJobData $data)
+	public function closeSubmit(BorhanDistributionSubmitJobData $data)
 	{
 		$entryId = $data->entryDistribution->entryId;
 		$loginName = $data->distributionProfile->sftpLogin;
@@ -47,11 +47,11 @@ class HuluDistributionEngine extends DistributionEngine implements
 	}
 
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaHuluDistributionProfile $distributionProfile
-	 * @param KalturaHuluDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanHuluDistributionProfile $distributionProfile
+	 * @param BorhanHuluDistributionJobProviderData $providerData
 	 */
-	protected function handleSubmit(KalturaDistributionJobData $data, KalturaHuluDistributionProfile $distributionProfile, KalturaHuluDistributionJobProviderData $providerData)
+	protected function handleSubmit(BorhanDistributionJobData $data, BorhanHuluDistributionProfile $distributionProfile, BorhanHuluDistributionJobProviderData $providerData)
 	{
 		$feed = new HuluFeedHelper('hulu_template.xml', $distributionProfile, $providerData);
 		$xml = $feed->getXml();
@@ -59,21 +59,21 @@ class HuluDistributionEngine extends DistributionEngine implements
 		$videoFilePath = $providerData->videoAssetFilePath;
 		$thumbAssetFilePath = $providerData->thumbAssetFilePath;
 		$captionsFilesPaths = $providerData->captionLocalPaths;
-		$protocol = $distributionProfile->protocol ? $distributionProfile->protocol : KalturaDistributionProtocol::SFTP;
+		$protocol = $distributionProfile->protocol ? $distributionProfile->protocol : BorhanDistributionProtocol::SFTP;
 		
 		$remoteVideoFileName = $providerData->fileBaseName.'.'.pathinfo($videoFilePath, PATHINFO_EXTENSION);
 		$remoteThumbFileName = $providerData->fileBaseName.'.'.pathinfo($thumbAssetFilePath, PATHINFO_EXTENSION);
 		$remoteXmlFileName = $providerData->fileBaseName.'.xml';
 		switch ($protocol){
-			case KalturaDistributionProtocol::SFTP:
+			case BorhanDistributionProtocol::SFTP:
 				$sftpBasePath = '/home/' . $distributionProfile->sftpLogin . '/upload';
 				$videoSFTPPath = $sftpBasePath.'/'.$remoteVideoFileName;
 				$thumbSFTPPath = $sftpBasePath.'/'.$remoteThumbFileName;
 				$xmlSFTPPath = $sftpBasePath.'/'.$remoteXmlFileName;
-				KalturaLog::info('$videoSFTPPath:' . $videoSFTPPath);
-				KalturaLog::info('$thumbSFTPPath:' . $thumbSFTPPath);
-				KalturaLog::info('$xmlSFTPPath:' . $xmlSFTPPath);
-				KalturaLog::info('XML:' . $xml);
+				BorhanLog::info('$videoSFTPPath:' . $videoSFTPPath);
+				BorhanLog::info('$thumbSFTPPath:' . $thumbSFTPPath);
+				BorhanLog::info('$xmlSFTPPath:' . $xmlSFTPPath);
+				BorhanLog::info('XML:' . $xml);
 				$fileManager = $this->getSFTPManager($distributionProfile);
 				$fileManager->putFile($videoSFTPPath, $videoFilePath);
 				if($thumbAssetFilePath && file_exists($thumbAssetFilePath))
@@ -83,13 +83,13 @@ class HuluDistributionEngine extends DistributionEngine implements
 					if(file_exists($captionFilePath->value)){
 						$remoteCaptionFileName = $providerData->fileBaseName.'.'.pathinfo($captionFilePath->value, PATHINFO_EXTENSION);
 						$captionSFTPPath = $sftpBasePath.'/'.$remoteCaptionFileName;
-						KalturaLog::info('$captionSFTPPath:' . $captionSFTPPath);
+						BorhanLog::info('$captionSFTPPath:' . $captionSFTPPath);
 						$fileManager->putFile($captionSFTPPath, $captionFilePath->value);
 					}
 				}
 				$fileManager->filePutContents($xmlSFTPPath, $xml);
 				break;
-			case KalturaDistributionProtocol::ASPERA:
+			case BorhanDistributionProtocol::ASPERA:
 				$xmlTempPath = $this->getFileLocation($distributionProfile->id, $xml, $providerData->fileBaseName.'.xml');
 				$host = $distributionProfile->asperaHost;
 				$username = $distributionProfile->asperaLogin;
@@ -143,10 +143,10 @@ class HuluDistributionEngine extends DistributionEngine implements
 	
 	/**
 	 * 
-	 * @param KalturaHuluDistributionProfile $distributionProfile
+	 * @param BorhanHuluDistributionProfile $distributionProfile
 	 * @return sftpMgr
 	 */
-	protected function getSFTPManager(KalturaHuluDistributionProfile $distributionProfile)
+	protected function getSFTPManager(BorhanHuluDistributionProfile $distributionProfile)
 	{
 		$serverUrl = $distributionProfile->sftpHost;
 		$loginName = $distributionProfile->sftpLogin;
@@ -167,7 +167,7 @@ class HuluDistributionEngine extends DistributionEngine implements
 		$res = $this->executeCmd($cmd);
 		if (!$res){
 			$last_error = error_get_last();
-			throw new KalturaDistributionException("Can't put file [$remoteFilePath] - " . $last_error['message'], kFileTransferMgrException::otherError);
+			throw new BorhanDistributionException("Can't put file [$remoteFilePath] - " . $last_error['message'], kFileTransferMgrException::otherError);
 		}
 	}
 	
@@ -211,12 +211,12 @@ class HuluDistributionEngine extends DistributionEngine implements
 	}
 	
 	private function executeCmd($cmd){
-		KalturaLog::info('Executing command: '.$cmd);
+		BorhanLog::info('Executing command: '.$cmd);
 		$return_value = null;
 		$beginTime = time();
 		system($cmd, $return_value);
 		$duration = (time() - $beginTime)/1000;
-		KalturaLog::info("Execution took [$duration]sec with value [$return_value]");
+		BorhanLog::info("Execution took [$duration]sec with value [$return_value]");
 		if ($return_value == 0)
 			return true;
 		return false;

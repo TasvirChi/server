@@ -1,9 +1,9 @@
 <?php
 /**
- * @package plugins.crossKalturaDistribution
+ * @package plugins.crossBorhanDistribution
  * @subpackage model.data
  */
-class kCrossKalturaDistributionJobProviderData extends kDistributionJobProviderData
+class kCrossBorhanDistributionJobProviderData extends kDistributionJobProviderData
 {
 
     /**

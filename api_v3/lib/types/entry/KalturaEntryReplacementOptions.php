@@ -4,7 +4,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaEntryReplacementOptions extends KalturaObject
+class BorhanEntryReplacementOptions extends BorhanObject
 {
 	/**
 	 * If true manually created thumbnails will not be deleted on entry replacement
@@ -14,7 +14,7 @@ class KalturaEntryReplacementOptions extends KalturaObject
 
 	/**
 	 * Array of plugin replacement options
-	 * @var KalturaPluginReplacementOptionsArray
+	 * @var BorhanPluginReplacementOptionsArray
 	 */
 	public $pluginOptionItems;
 
@@ -25,7 +25,7 @@ class KalturaEntryReplacementOptions extends KalturaObject
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -33,7 +33,7 @@ class KalturaEntryReplacementOptions extends KalturaObject
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($object_to_fill = null, $props_to_skip = array())
 	{

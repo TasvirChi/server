@@ -3,6 +3,6 @@
  * @package plugins.youtubeApiDistribution
  * @subpackage api.filters
  */
-class KalturaYoutubeApiDistributionProfileFilter extends KalturaYoutubeApiDistributionProfileBaseFilter
+class BorhanYoutubeApiDistributionProfileFilter extends BorhanYoutubeApiDistributionProfileBaseFilter
 {
 }

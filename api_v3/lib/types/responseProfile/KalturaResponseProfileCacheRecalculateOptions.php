@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaResponseProfileCacheRecalculateOptions extends KalturaObject
+class BorhanResponseProfileCacheRecalculateOptions extends BorhanObject
 {
 	/**
 	 * Maximum number of keys to recalculate

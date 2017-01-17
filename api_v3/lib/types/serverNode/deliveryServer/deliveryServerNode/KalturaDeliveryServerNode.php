@@ -3,11 +3,11 @@
  * @package api
  * @subpackage objects
  */
-abstract class KalturaDeliveryServerNode extends KalturaServerNode
+abstract class BorhanDeliveryServerNode extends BorhanServerNode
 {
 	/**
 	 * Delivery profile ids
-	 * @var KalturaKeyValueArray
+	 * @var BorhanKeyValueArray
 	 */
 	public $deliveryProfileIds;
 
@@ -17,7 +17,7 @@ abstract class KalturaDeliveryServerNode extends KalturaServerNode
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{

@@ -41,7 +41,7 @@ class DailymotionDistributionEngine extends DistributionEngine implements
 		}
 		else
 		{
-			KalturaLog::err("params.tempXmlPath configuration not supplied");
+			BorhanLog::err("params.tempXmlPath configuration not supplied");
 			$this->tempXmlPath = sys_get_temp_dir();
 		}
 		
@@ -58,37 +58,37 @@ class DailymotionDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineSubmit::submit()
 	 */
-	public function submit(KalturaDistributionSubmitJobData $data)
+	public function submit(BorhanDistributionSubmitJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaDailymotionDistributionProfile))
-			throw new Exception("Distribution profile must be of type KalturaDailymotionDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanDailymotionDistributionProfile))
+			throw new Exception("Distribution profile must be of type BorhanDailymotionDistributionProfile");
 	
 		return $this->doSubmit($data, $data->distributionProfile);
 	}
 
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaDailymotionDistributionProfile $distributionProfile
-	 * @param KalturaDailymotionDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanDailymotionDistributionProfile $distributionProfile
+	 * @param BorhanDailymotionDistributionJobProviderData $providerData
 	 * @return array()
 	 */
 	public function getDailymotionProps($enabled = null, $distributionProfile = null, $providerData = null)
 	{
 		$props = array();
-		$props['tags'] = str_replace(',', ' , ', $this->getValueForField(KalturaDailymotionDistributionField::VIDEO_TAGS));
-		$props['title'] = $this->getValueForField(KalturaDailymotionDistributionField::VIDEO_TITLE);
-		$props['channel'] = $this->translateCategory($this->getValueForField(KalturaDailymotionDistributionField::VIDEO_CHANNEL));
-		$props['description'] = $this->getValueForField(KalturaDailymotionDistributionField::VIDEO_DESCRIPTION);
+		$props['tags'] = str_replace(',', ' , ', $this->getValueForField(BorhanDailymotionDistributionField::VIDEO_TAGS));
+		$props['title'] = $this->getValueForField(BorhanDailymotionDistributionField::VIDEO_TITLE);
+		$props['channel'] = $this->translateCategory($this->getValueForField(BorhanDailymotionDistributionField::VIDEO_CHANNEL));
+		$props['description'] = $this->getValueForField(BorhanDailymotionDistributionField::VIDEO_DESCRIPTION);
 		//$props['date'] = time();
-		$props['language'] = $this->getValueForField(KalturaDailymotionDistributionField::VIDEO_LANGUAGE);
-		$props['type'] = $this->getValueForField(KalturaDailymotionDistributionField::VIDEO_TYPE);
+		$props['language'] = $this->getValueForField(BorhanDailymotionDistributionField::VIDEO_LANGUAGE);
+		$props['type'] = $this->getValueForField(BorhanDailymotionDistributionField::VIDEO_TYPE);
 		$props['published']= true;
 		if(!is_null($enabled))
 			$props['private']= !$enabled;
 
 		$geoBlocking = $this->getGeoBlocking($distributionProfile, $providerData);
 
-		KalturaLog::info('Geo blocking array: '.print_r($geoBlocking, true));
+		BorhanLog::info('Geo blocking array: '.print_r($geoBlocking, true));
 		if (count($geoBlocking))
 			$props['geoblocking'] = $geoBlocking;
 
@@ -110,12 +110,12 @@ class DailymotionDistributionEngine extends DistributionEngine implements
 	}
 	
 	
-	public function doSubmit(KalturaDistributionSubmitJobData $data, KalturaDailymotionDistributionProfile $distributionProfile)
+	public function doSubmit(BorhanDistributionSubmitJobData $data, BorhanDailymotionDistributionProfile $distributionProfile)
 	{	
 	    $this->fieldValues = unserialize($data->providerData->fieldValues);
 	    
 		$enabled = false;
-		if($data->entryDistribution->sunStatus == KalturaEntryDistributionSunStatus::AFTER_SUNRISE)
+		if($data->entryDistribution->sunStatus == BorhanEntryDistributionSunStatus::AFTER_SUNRISE)
 			$enabled = true;
 		
 		$needDel = false;
@@ -135,10 +135,10 @@ class DailymotionDistributionEngine extends DistributionEngine implements
 		$videoFilePath = $data->providerData->videoAssetFilePath;
 		
 		if (!$videoFilePath)
-			throw new KalturaException('No video asset to distribute, the job will fail');
+			throw new BorhanException('No video asset to distribute, the job will fail');
 			
 		if (!file_exists($videoFilePath))
-			throw new KalturaDistributionException('The file ['.$videoFilePath.'] was not found (probably not synced yet), the job will retry');
+			throw new BorhanDistributionException('The file ['.$videoFilePath.'] was not found (probably not synced yet), the job will retry');
 		
 		if (FALSE === strstr($videoFilePath, "."))
 		{
@@ -163,9 +163,9 @@ class DailymotionDistributionEngine extends DistributionEngine implements
 		
 		$data->remoteId = $remoteId;
 		$captionsInfo = $data->providerData->captionsInfo;
-		/* @var $captionInfo KalturaDailymotionDistributionCaptionInfo */
+		/* @var $captionInfo BorhanDailymotionDistributionCaptionInfo */
 		foreach ($captionsInfo as $captionInfo){
-			if ($captionInfo->action == KalturaDailymotionDistributionCaptionAction::SUBMIT_ACTION){
+			if ($captionInfo->action == BorhanDailymotionDistributionCaptionAction::SUBMIT_ACTION){
 				$data->mediaFiles[] = $this->submitCaption($dailyMotionImpl, $captionInfo, $data->remoteId);
 			}
 		}
@@ -175,7 +175,7 @@ class DailymotionDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseSubmit::closeSubmit()
 	 */
-	public function closeSubmit(KalturaDistributionSubmitJobData $data)
+	public function closeSubmit(BorhanDistributionSubmitJobData $data)
 	{
 		$distributionProfile = $data->distributionProfile;
 		$dailyMotionImpl = new DailyMotionImpl($distributionProfile->user, $distributionProfile->password);
@@ -203,10 +203,10 @@ class DailymotionDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineUpdate::update()
 	 */
-	public function update(KalturaDistributionUpdateJobData $data)
+	public function update(BorhanDistributionUpdateJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaDailymotionDistributionProfile))
-			throw new Exception("Distribution profile must be of type KalturaDailymotionDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanDailymotionDistributionProfile))
+			throw new Exception("Distribution profile must be of type BorhanDailymotionDistributionProfile");
 	
 		return $this->doUpdate($data, $data->distributionProfile);
 	}
@@ -214,10 +214,10 @@ class DailymotionDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineDisable::disable()
 	 */
-	public function disable(KalturaDistributionDisableJobData $data)
+	public function disable(BorhanDistributionDisableJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaDailymotionDistributionProfile))
-			throw new Exception("Distribution profile must be of type KalturaDailymotionDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanDailymotionDistributionProfile))
+			throw new Exception("Distribution profile must be of type BorhanDailymotionDistributionProfile");
 	
 		return $this->doUpdate($data, $data->distributionProfile, false);
 	}
@@ -225,15 +225,15 @@ class DailymotionDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineEnable::enable()
 	 */
-	public function enable(KalturaDistributionEnableJobData $data)
+	public function enable(BorhanDistributionEnableJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaDailymotionDistributionProfile))
-			throw new Exception("Distribution profile must be of type KalturaDailymotionDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanDailymotionDistributionProfile))
+			throw new Exception("Distribution profile must be of type BorhanDailymotionDistributionProfile");
 	
 		return $this->doUpdate($data, $data->distributionProfile, true);
 	}
 	
-	public function doUpdate(KalturaDistributionUpdateJobData $data, KalturaDailymotionDistributionProfile $distributionProfile, $enabled = null)
+	public function doUpdate(BorhanDistributionUpdateJobData $data, BorhanDailymotionDistributionProfile $distributionProfile, $enabled = null)
 	{
 	    $this->fieldValues = unserialize($data->providerData->fieldValues);
 	    
@@ -244,19 +244,19 @@ class DailymotionDistributionEngine extends DistributionEngine implements
 		$dailyMotionImpl->update($data->remoteId, $props);
 		
 		$captionsInfo = $data->providerData->captionsInfo;
-		/* @var $captionInfo KalturaYouTubeApiCaptionDistributionInfo */
+		/* @var $captionInfo BorhanYouTubeApiCaptionDistributionInfo */
 		foreach ($captionsInfo as $captionInfo){
 			switch ($captionInfo->action){
-				case KalturaDailymotionDistributionCaptionAction::SUBMIT_ACTION:
+				case BorhanDailymotionDistributionCaptionAction::SUBMIT_ACTION:
 					$data->mediaFiles[] = $this->submitCaption($dailyMotionImpl,$captionInfo, $data->remoteId);
 					break;
-				case KalturaDailymotionDistributionCaptionAction::UPDATE_ACTION:
+				case BorhanDailymotionDistributionCaptionAction::UPDATE_ACTION:
 					if (!file_exists($captionInfo->filePath ))
-						throw new KalturaDistributionException('The caption file ['.$captionInfo->filePath.'] was not found (probably not synced yet), the job will retry');
+						throw new BorhanDistributionException('The caption file ['.$captionInfo->filePath.'] was not found (probably not synced yet), the job will retry');
 					$dailyMotionImpl->updateSubtitle($captionInfo->remoteId, $captionInfo);
 					$this->updateRemoteMediaFileVersion($data,$captionInfo);
 					break;
-				case KalturaDailymotionDistributionCaptionAction::DELETE_ACTION:
+				case BorhanDailymotionDistributionCaptionAction::DELETE_ACTION:
 					$dailyMotionImpl->deleteSubtitle($captionInfo->remoteId);
 					break;
 			}
@@ -270,7 +270,7 @@ class DailymotionDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineDelete::delete()
 	 */
-	public function delete(KalturaDistributionDeleteJobData $data)
+	public function delete(BorhanDistributionDeleteJobData $data)
 	{
 		$distributionProfile = $data->distributionProfile;
 		$dailyMotionImpl = new DailyMotionImpl($distributionProfile->user, $distributionProfile->password);
@@ -284,16 +284,16 @@ class DailymotionDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineReport::fetchReport()
 	 */
-	public function fetchReport(KalturaDistributionFetchReportJobData $data)
+	public function fetchReport(BorhanDistributionFetchReportJobData $data)
 	{
 		// TODO
 	}
 	
 	protected function configureTimeouts(DailyMotionImpl $dailyMotionImpl)
 	{
-		KalturaLog::info('Setting connection timeout to ' . $this->connectTimeout . ' seconds');
+		BorhanLog::info('Setting connection timeout to ' . $this->connectTimeout . ' seconds');
 		$dailyMotionImpl->setOption('connectionTimeout', $this->connectTimeout);
-		KalturaLog::info('Setting request timeout to ' . $this->requestTimeout . ' seconds');
+		BorhanLog::info('Setting request timeout to ' . $this->requestTimeout . ' seconds');
 		$dailyMotionImpl->setOption('timeout', $this->requestTimeout);
 	}
 	
@@ -307,8 +307,8 @@ class DailymotionDistributionEngine extends DistributionEngine implements
 	}
 
 	/**
-	 * @param KalturaDailymotionDistributionProfile $distributionProfile
-	 * @param KalturaDailymotionDistributionJobProviderData $providerData
+	 * @param BorhanDailymotionDistributionProfile $distributionProfile
+	 * @param BorhanDailymotionDistributionJobProviderData $providerData
 	 * @return array
 	 */
 	private function getGeoBlocking($distributionProfile = null, $providerData = null)
@@ -318,11 +318,11 @@ class DailymotionDistributionEngine extends DistributionEngine implements
 			return $geoBlocking;
 		$geoBlockingOperation = null;
 		$geoBlockingCountryList = null;
-		if ($distributionProfile->geoBlockingMapping == KalturaDailymotionGeoBlockingMapping::METADATA) {
-			$geoBlockingOperation = $this->getValueForField(KalturaDailymotionDistributionField::VIDEO_GEO_BLOCKING_OPERATION);
-			$geoBlockingCountryList = $this->getValueForField(KalturaDailymotionDistributionField::VIDEO_GEO_BLOCKING_COUNTRY_LIST);
+		if ($distributionProfile->geoBlockingMapping == BorhanDailymotionGeoBlockingMapping::METADATA) {
+			$geoBlockingOperation = $this->getValueForField(BorhanDailymotionDistributionField::VIDEO_GEO_BLOCKING_OPERATION);
+			$geoBlockingCountryList = $this->getValueForField(BorhanDailymotionDistributionField::VIDEO_GEO_BLOCKING_COUNTRY_LIST);
 		}
-		elseif ($distributionProfile->geoBlockingMapping == KalturaDailymotionGeoBlockingMapping::ACCESS_CONTROL) {
+		elseif ($distributionProfile->geoBlockingMapping == BorhanDailymotionGeoBlockingMapping::ACCESS_CONTROL) {
 			$geoBlockingOperation = $providerData->accessControlGeoBlockingOperation;
 			$geoBlockingCountryList = $providerData->accessControlGeoBlockingCountryList;
 		}
@@ -338,14 +338,14 @@ class DailymotionDistributionEngine extends DistributionEngine implements
 	
 	private function submitCaption(DailymotionImpl $dailymotionImpl, $captionInfo, $remoteId) {
 		if (!file_exists($captionInfo->filePath ))
-			throw new KalturaDistributionException('The caption file ['.$captionInfo->filePath.'] was not found (probably not synced yet), the job will retry');
-		KalturaLog::info ( 'Submitting caption [' . $captionInfo->assetId . ']' );
+			throw new BorhanDistributionException('The caption file ['.$captionInfo->filePath.'] was not found (probably not synced yet), the job will retry');
+		BorhanLog::info ( 'Submitting caption [' . $captionInfo->assetId . ']' );
 		$captionRemoteId = $dailymotionImpl->uploadSubtitle($remoteId, $captionInfo);
 		return $this->getNewRemoteMediaFile ( $captionRemoteId, $captionInfo );
 	}
 	
 	private function getNewRemoteMediaFile($captionRemoteId , $captionInfo) {
-		$remoteMediaFile = new KalturaDistributionRemoteMediaFile ();
+		$remoteMediaFile = new BorhanDistributionRemoteMediaFile ();
 		$remoteMediaFile->remoteId = $captionRemoteId;
 		$remoteMediaFile->version = $captionInfo->version;
 		$remoteMediaFile->assetId = $captionInfo->assetId;

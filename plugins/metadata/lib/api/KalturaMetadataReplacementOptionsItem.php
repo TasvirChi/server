@@ -4,7 +4,7 @@
  * @package plugins.metadata
  * @subpackage api
  */
-class KalturaMetadataReplacementOptionsItem extends KalturaPluginReplacementOptionsItem 
+class BorhanMetadataReplacementOptionsItem extends BorhanPluginReplacementOptionsItem 
 {
 	/**
 	 * If true custom-metadata transferred to temp entry on entry replacement
@@ -18,7 +18,7 @@ class KalturaMetadataReplacementOptionsItem extends KalturaPluginReplacementOpti
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -26,7 +26,7 @@ class KalturaMetadataReplacementOptionsItem extends KalturaPluginReplacementOpti
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($object_to_fill = null, $props_to_skip = array())
 	{

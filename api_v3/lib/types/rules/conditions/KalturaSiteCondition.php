@@ -4,7 +4,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaSiteCondition extends KalturaMatchCondition
+class BorhanSiteCondition extends BorhanMatchCondition
 {
 	/**
 	 * Init object type
@@ -15,7 +15,7 @@ class KalturaSiteCondition extends KalturaMatchCondition
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

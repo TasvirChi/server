@@ -4,7 +4,7 @@
  * @subpackage objects
  * @abstract
  */
-abstract class KalturaEntryServerNode extends KalturaObject implements IRelatedFilterable, IApiObjectFactory
+abstract class BorhanEntryServerNode extends BorhanObject implements IRelatedFilterable, IApiObjectFactory
 {
 	/**
 	 * unique auto-generated identifier
@@ -48,14 +48,14 @@ abstract class KalturaEntryServerNode extends KalturaObject implements IRelatedF
 	public $updatedAt;
 
 	/**
-	 * @var KalturaEntryServerNodeStatus
+	 * @var BorhanEntryServerNodeStatus
 	 * @readonly
 	 * @filter eq,in
 	 */
 	public $status;
 
 	/**
-	 * @var KalturaEntryServerNodeType
+	 * @var BorhanEntryServerNodeType
 	 * @readonly
 	 * @filter eq
 	 */
@@ -79,7 +79,7 @@ abstract class KalturaEntryServerNode extends KalturaObject implements IRelatedF
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toInsertableObject()
+	 * @see BorhanObject::toInsertableObject()
 	 */
 	public function toInsertableObject ( $object_to_fill = null , $props_to_skip = array() )
 	{
@@ -111,22 +111,22 @@ abstract class KalturaEntryServerNode extends KalturaObject implements IRelatedF
 	/**
 	 * Function returns EntryServerNode sub-type according to protocol
 	 * @param $sourceObject
-	 * @param KalturaDetachedResponseProfile $responseProfile
-	 * @return KalturaEntryServerNode
+	 * @param BorhanDetachedResponseProfile $responseProfile
+	 * @return BorhanEntryServerNode
 	 */
-	public static function getInstance ($sourceObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function getInstance ($sourceObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$type = $sourceObject->getServerType();
 
 		switch ($type)
 		{
-			case KalturaEntryServerNodeType::LIVE_BACKUP:
-			case KalturaEntryServerNodeType::LIVE_PRIMARY:
-				$object = new KalturaLiveEntryServerNode();
+			case BorhanEntryServerNodeType::LIVE_BACKUP:
+			case BorhanEntryServerNodeType::LIVE_PRIMARY:
+				$object = new BorhanLiveEntryServerNode();
 				break;
 
 			default:
-				KalturaLog::err("Did not expect source object to be of type ".$type);
+				BorhanLog::err("Did not expect source object to be of type ".$type);
 		}
 
 		if (!$object)

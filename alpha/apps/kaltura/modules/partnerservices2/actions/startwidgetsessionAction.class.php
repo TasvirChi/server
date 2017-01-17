@@ -16,7 +16,7 @@ class startwidgetsessionAction extends startsessionAction
 		return
 			array (
 				"display_name" => "startWidgetSession",
-				"desc" => "Starts new kaltura session for a specific widget id." ,
+				"desc" => "Starts new borhan session for a specific widget id." ,
 				"in" => array (
 					"mandatory" => array (
 						"widget_id" 		=> array ("type" => "string", "desc" => ""),

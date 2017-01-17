@@ -26,13 +26,13 @@ class KAsyncConvertCollectionCloser extends KJobCloserWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::CONVERT_COLLECTION;
+		return BorhanBatchJobType::CONVERT_COLLECTION;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->closeConvert($job, $job->data);
 	}
@@ -46,24 +46,24 @@ class KAsyncConvertCollectionCloser extends KJobCloserWorker
 		$res = self::createDir( $this->localTempPath );
 		if ( !$res )
 		{
-			KalturaLog::err( "Cannot continue conversion without temp local directory");
+			BorhanLog::err( "Cannot continue conversion without temp local directory");
 			return null;
 		}
 		
 		$res = self::createDir( $this->sharedTempPath );
 		if ( !$res )
 		{
-			KalturaLog::err( "Cannot continue conversion without temp shared directory");
+			BorhanLog::err( "Cannot continue conversion without temp shared directory");
 			return null;
 		}
 			
 		return parent::run($jobs);
 	}
 	
-	private function closeConvert(KalturaBatchJob $job, KalturaConvertCollectionJobData $data)
+	private function closeConvert(BorhanBatchJob $job, BorhanConvertCollectionJobData $data)
 	{
 		if(($job->queueTime + self::$taskConfig->params->maxTimeBeforeFail) < time())
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::CLOSER_TIMEOUT, 'Timed out', KalturaBatchJobStatus::FAILED);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::CLOSER_TIMEOUT, 'Timed out', BorhanBatchJobStatus::FAILED);
 
 		$filesToDownload = array(
 			"{$data->destDirRemoteUrl}/{$data->destFileName}.log",
@@ -88,13 +88,13 @@ class KAsyncConvertCollectionCloser extends KJobCloserWorker
 			$filesToDownload[] = $flavor->destFileSyncRemoteUrl;
 			$err = null;
 			if(!$this->fetchFile($flavor->destFileSyncRemoteUrl, $flavor->destFileSyncLocalPath, $err))
-				return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::REMOTE_DOWNLOAD_FAILED, $err, KalturaBatchJobStatus::ALMOST_DONE);
+				return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::REMOTE_DOWNLOAD_FAILED, $err, BorhanBatchJobStatus::ALMOST_DONE);
 		}
 		
 		return $this->moveFiles($job, $data);
 	}
 	
-	private function moveFiles(KalturaBatchJob $job, KalturaConvertCollectionJobData $data)
+	private function moveFiles(BorhanBatchJob $job, BorhanConvertCollectionJobData $data)
 	{
 		clearstatcache();
 		$files2move = array();
@@ -152,12 +152,12 @@ class KAsyncConvertCollectionCloser extends KJobCloserWorker
 			if(file_exists($destPath))
 				unlink($destPath);
 				
-			KalturaLog::info("rename($srcPath, $destPath)");
+			BorhanLog::info("rename($srcPath, $destPath)");
 			rename($srcPath, $destPath);
 		
 			if(!file_exists($destPath) || kFile::fileSize($destPath) != $fileSize)
 			{
-				KalturaLog::err("Error: moving file [$srcPath] failed");
+				BorhanLog::err("Error: moving file [$srcPath] failed");
 				die();
 			}
 			$this->setFilePermissions($destPath);
@@ -166,12 +166,12 @@ class KAsyncConvertCollectionCloser extends KJobCloserWorker
 		$data->destDirLocalPath = $this->translateLocalPath2Shared($this->sharedTempPath);
 		if($this->checkFilesArrayExist($files2move))
 		{
-			$job->status = KalturaBatchJobStatus::FINISHED;
+			$job->status = BorhanBatchJobStatus::FINISHED;
 			$job->message = "Files moved to shared";
 		}
 		else
 		{
-			$job->status = KalturaBatchJobStatus::ALMOST_DONE;
+			$job->status = BorhanBatchJobStatus::ALMOST_DONE;
 			$job->message = "Files not moved correctly";
 		}
 		return $this->closeJob($job, null, null, $job->message, $job->status, $data);
@@ -201,7 +201,7 @@ class KAsyncConvertCollectionCloser extends KJobCloserWorker
 				return false;
 			}
 			$fileSize = null;
-			KalturaLog::debug("Headers:\n" . print_r($curlHeaderResponse->headers, true));
+			BorhanLog::debug("Headers:\n" . print_r($curlHeaderResponse->headers, true));
 			if(isset($curlHeaderResponse->headers['content-length']))
 				$fileSize = $curlHeaderResponse->headers['content-length'];
 			$curlWrapper->close();
@@ -213,18 +213,18 @@ class KAsyncConvertCollectionCloser extends KJobCloserWorker
 				
 				if($actualFileSize == $fileSize)
 				{
-					KalturaLog::log("File [$srcFileSyncLocalPath] already exists with right size[$fileSize]");
+					BorhanLog::log("File [$srcFileSyncLocalPath] already exists with right size[$fileSize]");
 					return true;
 				}
 				
-				KalturaLog::log("File [$srcFileSyncLocalPath] already exists with wrong size[$actualFileSize] expected size[$fileSize]");
-				KalturaLog::info("Unlink file[$srcFileSyncLocalPath]");
+				BorhanLog::log("File [$srcFileSyncLocalPath] already exists with wrong size[$actualFileSize] expected size[$fileSize]");
+				BorhanLog::info("Unlink file[$srcFileSyncLocalPath]");
 				unlink($srcFileSyncLocalPath);
 			}
 			
 			$curlWrapper = new KCurlWrapper();
 			$res = $curlWrapper->exec($srcFileSyncRemoteUrl, $srcFileSyncLocalPath);
-			KalturaLog::debug("Curl results: $res");
+			BorhanLog::debug("Curl results: $res");
 		
 			if(!$res || $curlWrapper->getError())
 			{
@@ -242,7 +242,7 @@ class KAsyncConvertCollectionCloser extends KJobCloserWorker
 			
 			clearstatcache();
 			$actualFileSize = kFile::fileSize($srcFileSyncLocalPath);
-			KalturaLog::info("Fetched file to [$srcFileSyncLocalPath] size[$actualFileSize]");
+			BorhanLog::info("Fetched file to [$srcFileSyncLocalPath] size[$actualFileSize]");
 				
 			if($fileSize)
 			{
@@ -262,7 +262,7 @@ class KAsyncConvertCollectionCloser extends KJobCloserWorker
 		return true;
 	}
 	
-	protected function updateExclusiveJob($jobId, KalturaBatchJob $job)
+	protected function updateExclusiveJob($jobId, BorhanBatchJob $job)
 	{
 		$flavors = null;
 		if($job->data && $job->data->flavors)

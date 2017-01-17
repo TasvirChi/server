@@ -3,10 +3,10 @@
  * @package api
  * @subpackage filters
  */
-class KalturaSearchComparableCondition extends KalturaSearchCondition
+class BorhanSearchComparableCondition extends BorhanSearchCondition
 {
 	/**
-	 * @var KalturaSearchConditionComparison
+	 * @var BorhanSearchConditionComparison
 	 */
 	public $comparison;
 	

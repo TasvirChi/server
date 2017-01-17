@@ -1,9 +1,9 @@
 <?php
 /**
- * @package plugins.crossKalturaDistribution
+ * @package plugins.crossBorhanDistribution
  * @subpackage model.enum
  */ 
-interface CrossKalturaDistributionField extends BaseEnum
+interface CrossBorhanDistributionField extends BaseEnum
 {
     const BASE_ENTRY_NAME = 'BASE_ENTRY_NAME';
     const BASE_ENTRY_DESCRIPTION = 'BASE_ENTRY_DESCRIPTION';

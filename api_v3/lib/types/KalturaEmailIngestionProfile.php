@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaEmailIngestionProfile extends KalturaObject
+class BorhanEmailIngestionProfile extends BorhanObject
 {
 	/**
 	 * @var int
@@ -43,12 +43,12 @@ class KalturaEmailIngestionProfile extends KalturaObject
 	public $conversionProfile2Id;
 	
 	/**
-	 * @var KalturaEntryModerationStatus
+	 * @var BorhanEntryModerationStatus
 	 */
 	public $moderationStatus;
 	
 	/**
-	 * @var KalturaEmailIngestionProfileStatus
+	 * @var BorhanEmailIngestionProfileStatus
 	 * @readonly
 	 */
 	public $status;

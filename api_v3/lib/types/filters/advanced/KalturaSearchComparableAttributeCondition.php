@@ -4,10 +4,10 @@
  * @package api
  * @subpackage filters
  */
-abstract class KalturaSearchComparableAttributeCondition extends KalturaAttributeCondition
+abstract class BorhanSearchComparableAttributeCondition extends BorhanAttributeCondition
 {
 	/**
-	 * @var KalturaSearchConditionComparison
+	 * @var BorhanSearchConditionComparison
 	 */
 	public $comparison;
 
@@ -37,12 +37,12 @@ abstract class KalturaSearchComparableAttributeCondition extends KalturaAttribut
 		/** @var BaseIndexObject $indexClass */
 		$indexClass = $this->getIndexClass();
 		$field = $indexClass::getCompareFieldByApiName($this->attribute);
-		KalturaLog::debug("Mapping [$this->attribute] to [$field]");
+		BorhanLog::debug("Mapping [$this->attribute] to [$field]");
 		$objectToFill->setField($field);
 		return $objectToFill;
 	}
 
-	protected function doFromObject($srcObj, KalturaDetachedResponseProfile $responseProfile = null)
+	protected function doFromObject($srcObj, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		/** @var $srcObj AdvancedSearchFilterComparableAttributeCondition) */
 		if ($this->shouldGet('attribute', $responseProfile))

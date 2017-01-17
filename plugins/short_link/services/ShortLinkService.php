@@ -6,7 +6,7 @@
  * @package plugins.shortLink
  * @subpackage api.services
  */
-class ShortLinkService extends KalturaBaseService
+class ShortLinkService extends BorhanBaseService
 {
 	protected function partnerRequired($actionName)
 	{
@@ -31,14 +31,14 @@ class ShortLinkService extends KalturaBaseService
 	 * List short link objects by filter and pager
 	 * 
 	 * @action list
-	 * @param KalturaShortLinkFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaShortLinkListResponse
+	 * @param BorhanShortLinkFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanShortLinkListResponse
 	 */
-	function listAction(KalturaShortLinkFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanShortLinkFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaShortLinkFilter;
+			$filter = new BorhanShortLinkFilter;
 			
 		$shortLinkFilter = $filter->toFilter($this->getPartnerId());
 		
@@ -47,12 +47,12 @@ class ShortLinkService extends KalturaBaseService
 		$count = ShortLinkPeer::doCount($c);
 		
 		if (! $pager)
-			$pager = new KalturaFilterPager ();
+			$pager = new BorhanFilterPager ();
 		$pager->attachToCriteria ( $c );
 		$list = ShortLinkPeer::doSelect($c);
 		
-		$response = new KalturaShortLinkListResponse();
-		$response->objects = KalturaShortLinkArray::fromDbArray($list, $this->getResponseProfile());
+		$response = new BorhanShortLinkListResponse();
+		$response->objects = BorhanShortLinkArray::fromDbArray($list, $this->getResponseProfile());
 		$response->totalCount = $count;
 		
 		return $response;
@@ -62,10 +62,10 @@ class ShortLinkService extends KalturaBaseService
 	 * Allows you to add a short link object
 	 * 
 	 * @action add
-	 * @param KalturaShortLink $shortLink
-	 * @return KalturaShortLink
+	 * @param BorhanShortLink $shortLink
+	 * @return BorhanShortLink
 	 */
-	function addAction(KalturaShortLink $shortLink)
+	function addAction(BorhanShortLink $shortLink)
 	{
 		$shortLink->validatePropertyNotNull('systemName');
 		$shortLink->validatePropertyMinLength('systemName', 3);
@@ -73,7 +73,7 @@ class ShortLinkService extends KalturaBaseService
 		$shortLink->validatePropertyMinLength('fullUrl', 10);
 		
 		if(!$shortLink->status)
-			$shortLink->status = KalturaShortLinkStatus::ENABLED;
+			$shortLink->status = BorhanShortLinkStatus::ENABLED;
 			
 		if(!$shortLink->userId)
 			$shortLink->userId = $this->getKuser()->getPuserId();
@@ -84,7 +84,7 @@ class ShortLinkService extends KalturaBaseService
 		$dbShortLink->setPuserId(is_null($shortLink->userId) ? $this->getKuser()->getPuserId() : $shortLink->userId);
 		$dbShortLink->save();
 		
-		$shortLink = new KalturaShortLink();
+		$shortLink = new BorhanShortLink();
 		$shortLink->fromObject($dbShortLink, $this->getResponseProfile());
 		
 		return $shortLink;
@@ -95,17 +95,17 @@ class ShortLinkService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param string $id 
-	 * @return KalturaShortLink
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @return BorhanShortLink
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */		
 	function getAction($id)
 	{
 		$dbShortLink = ShortLinkPeer::retrieveByPK($id);
 		
 		if(!$dbShortLink)
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $id);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $id);
 			
-		$shortLink = new KalturaShortLink();
+		$shortLink = new BorhanShortLink();
 		$shortLink->fromObject($dbShortLink, $this->getResponseProfile());
 		
 		return $shortLink;
@@ -117,17 +117,17 @@ class ShortLinkService extends KalturaBaseService
 	 * 
 	 * @action update
 	 * @param string $id
-	 * @param KalturaShortLink $shortLink
-	 * @return KalturaShortLink
+	 * @param BorhanShortLink $shortLink
+	 * @return BorhanShortLink
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */	
-	function updateAction($id, KalturaShortLink $shortLink)
+	function updateAction($id, BorhanShortLink $shortLink)
 	{
 		$dbShortLink = ShortLinkPeer::retrieveByPK($id);
 	
 		if (!$dbShortLink)
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $id);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $id);
 		
 		$dbShortLink = $shortLink->toUpdatableObject($dbShortLink);
 		$dbShortLink->save();
@@ -142,21 +142,21 @@ class ShortLinkService extends KalturaBaseService
 	 * 
 	 * @action delete
 	 * @param string $id 
-	 * @return KalturaShortLink
+	 * @return BorhanShortLink
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */		
 	function deleteAction($id)
 	{
 		$dbShortLink = ShortLinkPeer::retrieveByPK($id);
 	
 		if (!$dbShortLink)
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $id);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $id);
 		
-		$dbShortLink->setStatus(KalturaShortLinkStatus::DELETED);
+		$dbShortLink->setStatus(BorhanShortLinkStatus::DELETED);
 		$dbShortLink->save();
 			
-		$shortLink = new KalturaShortLink();
+		$shortLink = new BorhanShortLink();
 		$shortLink->fromObject($dbShortLink, $this->getResponseProfile());
 		
 		return $shortLink;
@@ -170,16 +170,16 @@ class ShortLinkService extends KalturaBaseService
 	 * @param bool $proxy proxy the response instead of redirect
 	 * @return file
 	 * 
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */		
 	function gotoAction($id, $proxy = false)
 	{
-		KalturaResponseCacher::disableCache();
+		BorhanResponseCacher::disableCache();
 		
 		$dbShortLink = ShortLinkPeer::retrieveByPK($id);
 	
 		if (!$dbShortLink)
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $id);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $id);
 
 		if($proxy)
 			kFileUtils::dumpUrl($dbShortLink->getFullUrl(), true, true);

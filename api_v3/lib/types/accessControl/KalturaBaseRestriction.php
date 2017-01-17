@@ -2,15 +2,15 @@
 /**
  * @package api
  * @subpackage objects
- * @deprecated use KalturaRule instead
+ * @deprecated use BorhanRule instead
  * @abstract
  */
-abstract class KalturaBaseRestriction extends KalturaObject
+abstract class BorhanBaseRestriction extends BorhanObject
 {
 	/**
-	 * @param KalturaRestrictionArray $restrictions enable one restriction to be affected by other restrictions
+	 * @param BorhanRestrictionArray $restrictions enable one restriction to be affected by other restrictions
 	 * @return kAccessControlRestriction
 	 * @abstract must be implemented
 	 */
-	abstract public function toRule(KalturaRestrictionArray $restrictions);
+	abstract public function toRule(BorhanRestrictionArray $restrictions);
 }

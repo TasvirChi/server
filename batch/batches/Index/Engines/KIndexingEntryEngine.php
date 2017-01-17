@@ -8,19 +8,19 @@ class KIndexingEntryEngine extends KIndexingEngine
 	/* (non-PHPdoc)
 	 * @see KIndexingEngine::index()
 	 */
-	protected function index(KalturaFilter $filter, $shouldUpdate)
+	protected function index(BorhanFilter $filter, $shouldUpdate)
 	{
 		return $this->indexEntries($filter, $shouldUpdate);
 	}
 	
 	/**
-	 * @param KalturaBaseEntryFilter $filter The filter should return the list of entries that need to be reindexed
+	 * @param BorhanBaseEntryFilter $filter The filter should return the list of entries that need to be reindexed
 	 * @param bool $shouldUpdate Indicates that the entry columns and attributes values should be recalculated before reindexed
 	 * @return int the number of indexed entries
 	 */
-	protected function indexEntries(KalturaBaseEntryFilter $filter, $shouldUpdate)
+	protected function indexEntries(BorhanBaseEntryFilter $filter, $shouldUpdate)
 	{
-		$filter->orderBy = KalturaBaseEntryOrderBy::CREATED_AT_ASC;
+		$filter->orderBy = BorhanBaseEntryOrderBy::CREATED_AT_ASC;
 		
 		$entriesList = KBatchBase::$kClient->baseEntry->listAction($filter, $this->pager);
 		if(!count($entriesList->objects))

@@ -2,9 +2,9 @@
 /**
  * This script lists all distribution profiles and check if they have a valid authentication info
  */
-chdir('/opt/kaltura/Jupiter-10.9.0/alpha/scripts/utils');
+chdir('/opt/borhan/Jupiter-10.9.0/alpha/scripts/utils');
 
-require_once('/opt/kaltura/Jupiter-10.9.0/alpha/scripts/bootstrap.php');
+require_once('/opt/borhan/Jupiter-10.9.0/alpha/scripts/bootstrap.php');
 
 if(count($argv) < 2)
 {

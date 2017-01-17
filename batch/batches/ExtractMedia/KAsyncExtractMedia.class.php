@@ -17,13 +17,13 @@ class KAsyncExtractMedia extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::EXTRACT_MEDIA;
+		return BorhanBatchJobType::EXTRACT_MEDIA;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->extract($job, $job->data);
 	}
@@ -37,9 +37,9 @@ class KAsyncExtractMedia extends KJobHandlerWorker
 	}
 	
 	/**
-	 * Will take a single KalturaBatchJob and extract the media info for the given file
+	 * Will take a single BorhanBatchJob and extract the media info for the given file
 	 */
-	private function extract(KalturaBatchJob $job, KalturaExtractMediaJobData $data)
+	private function extract(BorhanBatchJob $job, BorhanExtractMediaJobData $data)
 	{
 		$srcFileSyncDescriptor = reset($data->srcFileSyncs);
 		$mediaFile = null;
@@ -47,18 +47,18 @@ class KAsyncExtractMedia extends KJobHandlerWorker
 			$mediaFile = trim($srcFileSyncDescriptor->fileSyncLocalPath);
 		
 		if(!$this->pollingFileExists($mediaFile))
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, "Source file $mediaFile does not exist", KalturaBatchJobStatus::RETRY);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, "Source file $mediaFile does not exist", BorhanBatchJobStatus::RETRY);
 		
 		if(!is_file($mediaFile))
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, "Source file $mediaFile is not a file", KalturaBatchJobStatus::FAILED);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, "Source file $mediaFile is not a file", BorhanBatchJobStatus::FAILED);
 		
-		$this->updateJob($job, "Extracting file media info on $mediaFile", KalturaBatchJobStatus::QUEUED);
+		$this->updateJob($job, "Extracting file media info on $mediaFile", BorhanBatchJobStatus::QUEUED);
 		
 		$mediaInfo = $this->extractMediaInfo($job, $mediaFile);
 		
 		if(is_null($mediaInfo))
 		{
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::EXTRACT_MEDIA_FAILED, "Failed to extract media info: $mediaFile", KalturaBatchJobStatus::RETRY);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::EXTRACT_MEDIA_FAILED, "Failed to extract media info: $mediaFile", BorhanBatchJobStatus::RETRY);
 		}
 		
 		if($data->calculateComplexity)
@@ -73,13 +73,13 @@ class KAsyncExtractMedia extends KJobHandlerWorker
 		if($data->extractId3Tags)
 			$this->extractId3Tags($mediaFile, $data, $duration);
 		
-		KalturaLog::debug("flavorAssetId [$data->flavorAssetId]");
+		BorhanLog::debug("flavorAssetId [$data->flavorAssetId]");
 		$mediaInfo->flavorAssetId = $data->flavorAssetId;
 		$mediaInfo = $this->getClient()->batch->addMediaInfo($mediaInfo);
 		$data->mediaInfoId = $mediaInfo->id;
 		
-		$this->updateJob($job, "Saving media info id $mediaInfo->id", KalturaBatchJobStatus::PROCESSED, $data);
-		$this->closeJob($job, null, null, null, KalturaBatchJobStatus::FINISHED);
+		$this->updateJob($job, "Saving media info id $mediaInfo->id", BorhanBatchJobStatus::PROCESSED, $data);
+		$this->closeJob($job, null, null, null, BorhanBatchJobStatus::FINISHED);
 		
 		return $job;
 	}
@@ -88,7 +88,7 @@ class KAsyncExtractMedia extends KJobHandlerWorker
 	 * extractMediaInfo extract the file info using mediainfo and parse the returned data
 	 *  
 	 * @param string $mediaFile file full path
-	 * @return KalturaMediaInfo or null for failure
+	 * @return BorhanMediaInfo or null for failure
 	 */
 	private function extractMediaInfo($job, $mediaFile)
 	{
@@ -105,12 +105,12 @@ class KAsyncExtractMedia extends KJobHandlerWorker
 			else
 			{
 				$err = "No media info parser engine found for job sub type [$job->jobSubType]";
-				return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::ENGINE_NOT_FOUND, $err, KalturaBatchJobStatus::FAILED);
+				return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::ENGINE_NOT_FOUND, $err, BorhanBatchJobStatus::FAILED);
 			}
 		}
 		catch(Exception $ex)
 		{
-			KalturaLog::err($ex->getMessage());
+			BorhanLog::err($ex->getMessage());
 			$mediaInfo = null;
 		}
 		
@@ -135,9 +135,9 @@ class KAsyncExtractMedia extends KJobHandlerWorker
 			$stat = $calcComplexity->EvaluateSampled($mediaFile, $mediaInfo, $baseOutputName);
 			if(isset($stat->complexityValue))
 			{
-				KalturaLog::log("Complexity: value($stat->complexityValue)");
+				BorhanLog::log("Complexity: value($stat->complexityValue)");
 				if(isset($stat->y))
-					KalturaLog::log("Complexity: y($stat->y)");
+					BorhanLog::log("Complexity: y($stat->y)");
 				
 				$complexityValue = $stat->complexityValue;
 			}
@@ -147,12 +147,12 @@ class KAsyncExtractMedia extends KJobHandlerWorker
 			$mediaInfo->complexityValue = $complexityValue;
 	}
 	
-	private function extractId3Tags($filePath, KalturaExtractMediaJobData $data, $duration)
+	private function extractId3Tags($filePath, BorhanExtractMediaJobData $data, $duration)
 	{
 		try
 		{
-			$kalturaId3TagParser = new KSyncPointsMediaInfoParser($filePath);
-			$syncPointArray = $kalturaId3TagParser->getStreamSyncPointData();
+			$borhanId3TagParser = new KSyncPointsMediaInfoParser($filePath);
+			$syncPointArray = $borhanId3TagParser->getStreamSyncPointData();
 			
 			$outputFileName = pathinfo($filePath, PATHINFO_FILENAME) . ".data";
 			$localTempSyncPointsFilePath = self::$taskConfig->params->localTempPath . DIRECTORY_SEPARATOR . $outputFileName;
@@ -165,14 +165,14 @@ class KAsyncExtractMedia extends KJobHandlerWorker
 		catch(Exception $ex) 
 		{
 			$this->unimpersonate();
-			KalturaLog::warning("Failed to extract id3tags data or duration data with error: " . print_r($ex));
+			BorhanLog::warning("Failed to extract id3tags data or duration data with error: " . print_r($ex));
 		}
 		
 	}
 	
-	private function moveDataFile(KalturaExtractMediaJobData $data, $localTempSyncPointsFilePath, $sharedTempSyncPointFilePath)
+	private function moveDataFile(BorhanExtractMediaJobData $data, $localTempSyncPointsFilePath, $sharedTempSyncPointFilePath)
 	{
-		KalturaLog::debug("moving file from [$localTempSyncPointsFilePath] to [$sharedTempSyncPointFilePath]");
+		BorhanLog::debug("moving file from [$localTempSyncPointsFilePath] to [$sharedTempSyncPointFilePath]");
 		$fileSize = kFile::fileSize($localTempSyncPointsFilePath);
 		
 		kFile::moveFile($localTempSyncPointsFilePath, $sharedTempSyncPointFilePath, true);
@@ -180,7 +180,7 @@ class KAsyncExtractMedia extends KJobHandlerWorker
 		
 		$this->setFilePermissions($sharedTempSyncPointFilePath);
 		if(!$this->checkFileExists($sharedTempSyncPointFilePath, $fileSize))
-			KalturaLog::warning("Failed to move file to [$sharedTempSyncPointFilePath]");
+			BorhanLog::warning("Failed to move file to [$sharedTempSyncPointFilePath]");
 		else
 			$data->destDataFilePath = $sharedTempSyncPointFilePath;
 	}

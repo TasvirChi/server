@@ -130,7 +130,7 @@ class DeliveryProfileRtmp extends DeliveryProfileVod {
 		}
 		else
 		{
-			// get all flavors with kaltura urls
+			// get all flavors with borhan urls
 			foreach($flavorAssets as $flavorAsset)
 			{
 				/* @var $flavorAsset flavorAsset */

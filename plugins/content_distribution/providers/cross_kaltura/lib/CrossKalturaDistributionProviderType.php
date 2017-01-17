@@ -1,16 +1,16 @@
 <?php
 /**
- * @package plugins.crossKalturaDistribution
+ * @package plugins.crossBorhanDistribution
  * @subpackage lib
  */
-class CrossKalturaDistributionProviderType implements IKalturaPluginEnum, DistributionProviderType
+class CrossBorhanDistributionProviderType implements IBorhanPluginEnum, DistributionProviderType
 {
-	const CROSS_KALTURA = 'CROSS_KALTURA';
+	const CROSS_BORHAN = 'CROSS_BORHAN';
 	
 	public static function getAdditionalValues()
 	{
 		return array(
-			'CROSS_KALTURA' => self::CROSS_KALTURA,
+			'CROSS_BORHAN' => self::CROSS_BORHAN,
 		);
 	}
 	

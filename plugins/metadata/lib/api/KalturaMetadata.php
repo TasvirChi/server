@@ -3,7 +3,7 @@
  * @package plugins.metadata
  * @subpackage api.objects
  */
-class KalturaMetadata extends KalturaObject implements IRelatedFilterable 
+class BorhanMetadata extends BorhanObject implements IRelatedFilterable 
 {
 	/**
 	 * 
@@ -44,7 +44,7 @@ class KalturaMetadata extends KalturaObject implements IRelatedFilterable
 	
 	/**
 	 * 
-	 * @var KalturaMetadataObjectType
+	 * @var BorhanMetadataObjectType
 	 * @filter eq
 	 * @readonly
 	 */
@@ -94,7 +94,7 @@ class KalturaMetadata extends KalturaObject implements IRelatedFilterable
 	
 	/**
 	 * 
-	 * @var KalturaMetadataStatus
+	 * @var BorhanMetadataStatus
 	 * @filter eq,in
 	 * @readonly
 	 */
@@ -135,7 +135,7 @@ class KalturaMetadata extends KalturaObject implements IRelatedFilterable
 	
 	public function getFilterDocs()
 	{
-		return array('metadataObjectTypeEqual' => 'When null, default is KalturaMetadataObjectType::ENTRY');
+		return array('metadataObjectTypeEqual' => 'When null, default is BorhanMetadataObjectType::ENTRY');
 	}
 	
 	public function toObject($dbMetadata = null, $propsToSkip = array())
@@ -146,13 +146,13 @@ class KalturaMetadata extends KalturaObject implements IRelatedFilterable
 		return parent::toObject($dbMetadata, $propsToSkip);
 	}
 	
-	public function doFromObject($source_object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($source_object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($source_object, $responseProfile);
 		
 		if($this->shouldGet('objectId', $responseProfile))
 		{
-			if($this->metadataObjectType == KalturaMetadataObjectType::USER)
+			if($this->metadataObjectType == BorhanMetadataObjectType::USER)
 			{
 				$user = kuserPeer::retrieveByPK($this->objectId);
 				

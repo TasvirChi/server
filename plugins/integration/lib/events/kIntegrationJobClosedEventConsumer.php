@@ -3,7 +3,7 @@
  * @package plugins.integration
  * @subpackage lib.events
  */
-interface kIntegrationJobClosedEventConsumer extends KalturaEventConsumer
+interface kIntegrationJobClosedEventConsumer extends BorhanEventConsumer
 {
 	/**
 	 * @param BatchJob $batchJob

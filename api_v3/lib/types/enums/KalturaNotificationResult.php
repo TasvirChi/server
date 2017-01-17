@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaNotificationResult  extends KalturaEnum 
+class BorhanNotificationResult  extends BorhanEnum 
 {
 	const OK = 0; 
 	const ERROR_RETRY = -1;

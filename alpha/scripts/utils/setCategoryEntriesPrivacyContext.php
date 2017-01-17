@@ -18,7 +18,7 @@ $countLimitEachLoop = 200;
 require_once (dirname ( __FILE__ ) . '/../bootstrap.php');
 
 $con = myDbHelper::getConnection ( myDbHelper::DB_HELPER_CONN_PROPEL2 );
-KalturaStatement::setDryRun ( $dryRun );
+BorhanStatement::setDryRun ( $dryRun );
 
 $lastCategoryId = 0;
 
@@ -39,7 +39,7 @@ while ( 1 )
 	foreach ( $categories as $category ) 
 	{
 		/* @var $category category */
-		KalturaLog::debug('Category ['.$category->getId().']');
+		BorhanLog::debug('Category ['.$category->getId().']');
 		$lastCategoryEntryId = 0;
 		while(1)
 		{
@@ -64,7 +64,7 @@ while ( 1 )
     			}
     			catch (Exception $e)
     			{
-    				KalturaLog::debug('failed to update category entry '.$categoryEntry->getId());
+    				BorhanLog::debug('failed to update category entry '.$categoryEntry->getId());
     			}
     			$lastCategoryEntryId = $categoryEntry->getId();
     		}
@@ -76,4 +76,4 @@ while ( 1 )
 	sleep ( 1 );
 }
 
-KalturaLog::debug("Done");
+BorhanLog::debug("Done");

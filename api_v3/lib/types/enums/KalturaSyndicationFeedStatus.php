@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaSyndicationFeedStatus extends KalturaEnum
+class BorhanSyndicationFeedStatus extends BorhanEnum
 {
 	const DELETED = -1;
 	const ACTIVE = 1;

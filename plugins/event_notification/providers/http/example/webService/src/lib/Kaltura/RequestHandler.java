@@ -1,10 +1,10 @@
-package lib.Kaltura;
+package lib.Borhan;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import lib.Kaltura.notification.NotificationHandlerException;
+import lib.Borhan.notification.NotificationHandlerException;
 
 public class RequestHandler {
 	

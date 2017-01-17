@@ -44,11 +44,11 @@ class kIntegrationFlowManager implements kBatchJobStatusEventConsumer
 		$partnerId = kCurrentContext::getCurrentPartnerId();
 		
 		$providerType = $data->getProviderType();
-		$integrationProvider = KalturaPluginManager::loadObject('IIntegrationProvider', $providerType);
+		$integrationProvider = BorhanPluginManager::loadObject('IIntegrationProvider', $providerType);
 
 		if(!$integrationProvider || !$integrationProvider->validatePermissions($partnerId))
 		{
-			KalturaLog::err("partner $partnerId not permitted with provider type $providerType");
+			BorhanLog::err("partner $partnerId not permitted with provider type $providerType");
 			return false;
 		}
 		
@@ -109,7 +109,7 @@ class kIntegrationFlowManager implements kBatchJobStatusEventConsumer
 		$additionalData = md5($tokenPrefix . $token);
 		
 		$ks = "";
-		$creationSucces = kSessionUtils::startKSession ($partnerId, $userSecret, "", $ks, self::THREE_DAYS_IN_SECONDS, KalturaSessionType::USER, "", $privileges, null,$additionalData);
+		$creationSucces = kSessionUtils::startKSession ($partnerId, $userSecret, "", $ks, self::THREE_DAYS_IN_SECONDS, BorhanSessionType::USER, "", $privileges, null,$additionalData);
 		if ($creationSucces >= 0 )
 				return $ks;
 		

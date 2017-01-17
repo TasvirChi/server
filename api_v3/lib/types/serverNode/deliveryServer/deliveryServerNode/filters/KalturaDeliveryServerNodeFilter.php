@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters
  */
-class KalturaDeliveryServerNodeFilter extends KalturaDeliveryServerNodeBaseFilter
+class BorhanDeliveryServerNodeFilter extends BorhanDeliveryServerNodeBaseFilter
 {
 	static private $map_between_objects = array
 	(

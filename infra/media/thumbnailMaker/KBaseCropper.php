@@ -58,10 +58,10 @@ abstract class KBaseCropper
 		$cmd = $this->getCommand($quality, $cropType, $width, $height, $cropX, $cropY, $cropWidth, $cropHeight, $scaleWidth, $scaleHeight, $bgcolor, $density, $forceRotation, $strip);
 		if($cmd)
 		{
-			KalturaLog::info("Executing: $cmd");
+			BorhanLog::info("Executing: $cmd");
 			$returnValue = null;
 			exec($cmd, $output, $returnValue);
-			KalturaLog::debug("Returned value: $returnValue Output: " .  print_r($output, true));
+			BorhanLog::debug("Returned value: $returnValue Output: " .  print_r($output, true));
 			
 			//Avoid certain images the image magic throws "no pixels defined in cache ... @ cache.c/OpenPixelCache/3789" exception but still generates the cropped image
 			$outputAsString = implode(" ", $output);
@@ -85,7 +85,7 @@ abstract class KBaseCropper
 			return true;
 		}
 		
-		KalturaLog::info("No conversion required, copying source[$this->srcPath] to target[$this->targetPath]");
+		BorhanLog::info("No conversion required, copying source[$this->srcPath] to target[$this->targetPath]");
 		return copy($this->srcPath, $this->targetPath);
 	}
 	

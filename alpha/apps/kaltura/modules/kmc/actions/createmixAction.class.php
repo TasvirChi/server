@@ -1,9 +1,9 @@
 <?php
 /**
  * @package    Core
- * @subpackage KMC
+ * @subpackage BMC
  */
-class createmixAction extends kalturaAction
+class createmixAction extends borhanAction
 {
 	public function execute ( )
 	{
@@ -25,7 +25,7 @@ class createmixAction extends kalturaAction
 			$mixType = " - Mix";
 		}
 		$entryName = $entryName . $mixType;
-		$dispatcher = KalturaDispatcher::getInstance();
+		$dispatcher = BorhanDispatcher::getInstance();
 		
 			$params = array(
 				"ks"=> $ks, 

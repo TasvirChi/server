@@ -3,7 +3,7 @@
  * @package plugins.dropFolder
  * @subpackage api.objects
  */
-class KalturaDropFolderContentProcessorJobData extends KalturaJobData
+class BorhanDropFolderContentProcessorJobData extends BorhanJobData
 {
 	
 	/**
@@ -22,7 +22,7 @@ class KalturaDropFolderContentProcessorJobData extends KalturaJobData
 	public $parsedSlug;
 	
 	/**
-	 * @var KalturaDropFolderContentFileHandlerMatchPolicy
+	 * @var BorhanDropFolderContentFileHandlerMatchPolicy
 	 */
 	public $contentMatchPolicy;
 	
@@ -68,13 +68,13 @@ class KalturaDropFolderContentProcessorJobData extends KalturaJobData
 	public function toSubType($subType)
 	{
 		switch ($subType) {
-			case KalturaDropFolderType::FTP:
-            case KalturaDropFolderType::SFTP:
-            case KalturaDropFolderType::SCP:
-            case KalturaDropFolderType::S3:
+			case BorhanDropFolderType::FTP:
+            case BorhanDropFolderType::SFTP:
+            case BorhanDropFolderType::SCP:
+            case BorhanDropFolderType::S3:
                 return $subType;                  	
 			default:
-				return kPluginableEnumsManager::apiToCore('KalturaDropFolderType', $subType);
+				return kPluginableEnumsManager::apiToCore('BorhanDropFolderType', $subType);
 		}
 	}
 	

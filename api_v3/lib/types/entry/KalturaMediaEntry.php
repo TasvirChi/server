@@ -3,11 +3,11 @@
  * @package api
  * @subpackage objects
  */
-class KalturaMediaEntry extends KalturaPlayableEntry {
+class BorhanMediaEntry extends BorhanPlayableEntry {
 	/**
 	 * The media type of the entry
 	 * 
-	 * @var KalturaMediaType
+	 * @var BorhanMediaType
 	 * @insertonly
 	 * @filter eq,in,order
 	 */
@@ -25,7 +25,7 @@ class KalturaMediaEntry extends KalturaPlayableEntry {
 	/**
 	 * The source type of the entry 
 	 *
-	 * @var KalturaSourceType
+	 * @var BorhanSourceType
 	 * @insertonly
 	 * @filter eq,not,in,notin
 	 */
@@ -34,7 +34,7 @@ class KalturaMediaEntry extends KalturaPlayableEntry {
 	/**
 	 * The search provider type used to import this entry
 	 *
-	 * @var KalturaSearchProviderType
+	 * @var BorhanSearchProviderType
 	 * @insertonly
 	 */
 	public $searchProviderType;
@@ -90,14 +90,14 @@ class KalturaMediaEntry extends KalturaPlayableEntry {
 	/**
 	 * True if trim action is disabled for this entry
 	 *
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 * @readonly
 	 */
 	public $isTrimDisabled;
 
 	/**
 	 * Array of streams that exists on the entry
-	 * @var KalturaStreamContainerArray
+	 * @var BorhanStreamContainerArray
 	 */
 	public $streams;
 
@@ -106,7 +106,7 @@ class KalturaMediaEntry extends KalturaPlayableEntry {
 	"searchProviderId" => "sourceId", "creditUserName" => "credit", "creditUrl" => "siteUrl", "partnerId", "mediaDate", "dataUrl", "flavorParamsIds", "isTrimDisabled", "streams" );
 	
 	public function __construct() {
-		$this->type = KalturaEntryType::MEDIA_CLIP;
+		$this->type = BorhanEntryType::MEDIA_CLIP;
 	}
 	
 	public function getMapBetweenObjects() {
@@ -114,7 +114,7 @@ class KalturaMediaEntry extends KalturaPlayableEntry {
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseEntry::toObject()
+	 * @see BorhanBaseEntry::toObject()
 	 */
 	public function toObject($entry = null, $a = array()) {
 		if (is_null ( $entry )) {
@@ -124,8 +124,8 @@ class KalturaMediaEntry extends KalturaPlayableEntry {
 		$entry = parent::toObject ( $entry );
 		
 		/* @var $entry entry */
-		if ($this->msDuration && ($entry->getMediaType () == KalturaMediaType::IMAGE || $this->mediaType == KalturaMediaType::IMAGE && $this->msDuration)) {
-			throw new KalturaAPIException ( KalturaErrors::PROPERTY_VALIDATION_NOT_UPDATABLE, "msDuration" );
+		if ($this->msDuration && ($entry->getMediaType () == BorhanMediaType::IMAGE || $this->mediaType == BorhanMediaType::IMAGE && $this->msDuration)) {
+			throw new BorhanAPIException ( BorhanErrors::PROPERTY_VALIDATION_NOT_UPDATABLE, "msDuration" );
 		}
 		return $entry;
 	}

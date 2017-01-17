@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaPlayReadyProfileBaseFilter extends KalturaDrmProfileFilter
+abstract class BorhanPlayReadyProfileBaseFilter extends BorhanDrmProfileFilter
 {
 	static private $map_between_objects = array
 	(

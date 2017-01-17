@@ -13,8 +13,8 @@ class myMailAttachmentImporter
 	 * gives out information about the messages on the server. it then delete the messages from the server
 	 * 
 	 * params:
-	 * $host: mail server host i.e. mail.kaltura.com
-	 * $long: username i.e. mobile@kaltura.com
+	 * $host: mail server host i.e. mail.borhan.com
+	 * $long: username i.e. mobile@borhan.com
 	 * $password: user's pwd on the mailserver
 	 * $path: to which attachments should be save
 	 * 
@@ -105,7 +105,7 @@ class myMailAttachmentImporter
 				{
 					$prefix = 'index.php';
 				}
-				else $prefix = 'kaltura_dev.php';
+				else $prefix = 'borhan_dev.php';
 				
 				$serveraddr = $_SERVER && $_SERVER["SERVER_ADDR"] ? $_SERVER["SERVER_ADDR"] : "localhost";
 

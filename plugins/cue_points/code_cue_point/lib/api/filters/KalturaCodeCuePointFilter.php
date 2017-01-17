@@ -3,7 +3,7 @@
  * @package plugins.codeCuePoint
  * @subpackage api.filters
  */
-class KalturaCodeCuePointFilter extends KalturaCodeCuePointBaseFilter
+class BorhanCodeCuePointFilter extends BorhanCodeCuePointBaseFilter
 {
 	static private $map_between_objects = array
 	(
@@ -23,14 +23,14 @@ class KalturaCodeCuePointFilter extends KalturaCodeCuePointBaseFilter
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::validateForResponseProfile()
+	 * @see BorhanRelatedFilter::validateForResponseProfile()
 	 */
 	public function validateForResponseProfile()
 	{
-		// override KalturaCuePointFilter::validateForResponseProfile because all code cue-points are public
+		// override BorhanCuePointFilter::validateForResponseProfile because all code cue-points are public
 	}
 
-	public function getTypeListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null, $type = null)
+	public function getTypeListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null, $type = null)
 	{
 		return parent::getTypeListResponse($pager, $responseProfile, CodeCuePointPlugin::getCuePointTypeCoreValue(CodeCuePointType::CODE));
 	}

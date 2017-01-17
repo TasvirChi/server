@@ -3,12 +3,12 @@
  * @package api
  * @subpackage objects
  */
-class KalturaSchedulerStatusResponse extends KalturaObject 
+class BorhanSchedulerStatusResponse extends BorhanObject 
 {
 	/**
 	 * The status of all queues on the server
 	 * 
-	 * @var KalturaBatchQueuesStatusArray
+	 * @var BorhanBatchQueuesStatusArray
 	 */
 	public $queuesStatus;
 	
@@ -16,7 +16,7 @@ class KalturaSchedulerStatusResponse extends KalturaObject
 	/**
 	 * The commands that sent from the control panel
 	 * 
-	 * @var KalturaControlPanelCommandArray
+	 * @var BorhanControlPanelCommandArray
 	 */
 	public $controlPanelCommands;
 	
@@ -24,7 +24,7 @@ class KalturaSchedulerStatusResponse extends KalturaObject
 	/**
 	 * The configuration that sent from the control panel
 	 * 
-	 * @var KalturaSchedulerConfigArray
+	 * @var BorhanSchedulerConfigArray
 	 */
 	public $schedulerConfigs;
 }

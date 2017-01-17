@@ -3,6 +3,6 @@
  * @package plugins.facebookDistribution
  * @subpackage api.filters
  */
-class KalturaFacebookDistributionProviderFilter extends KalturaFacebookDistributionProviderBaseFilter
+class BorhanFacebookDistributionProviderFilter extends BorhanFacebookDistributionProviderBaseFilter
 {
 }

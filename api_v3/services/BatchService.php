@@ -16,23 +16,23 @@
  * @package api
  * @subpackage services
  */
-class BatchService extends KalturaBatchService
+class BatchService extends BorhanBatchService
 {
 
 // --------------------------------- BulkUploadJob functions 	--------------------------------- //
 
 	/**
-	 * batch addBulkUploadResultAction action adds KalturaBulkUploadResult to the DB
+	 * batch addBulkUploadResultAction action adds BorhanBulkUploadResult to the DB
 	 *
 	 * @action addBulkUploadResult
-	 * @param KalturaBulkUploadResult $bulkUploadResult The results to save to the DB
-	 * @param KalturaBulkUploadPluginDataArray $pluginDataArray
-	 * @return KalturaBulkUploadResult
+	 * @param BorhanBulkUploadResult $bulkUploadResult The results to save to the DB
+	 * @param BorhanBulkUploadPluginDataArray $pluginDataArray
+	 * @return BorhanBulkUploadResult
 	 */
-	function addBulkUploadResultAction(KalturaBulkUploadResult $bulkUploadResult, KalturaBulkUploadPluginDataArray $pluginDataArray = null)
+	function addBulkUploadResultAction(BorhanBulkUploadResult $bulkUploadResult, BorhanBulkUploadPluginDataArray $pluginDataArray = null)
 	{
 		if(is_null($bulkUploadResult->action))
-			$bulkUploadResult->action = KalturaBulkUploadAction::ADD;
+			$bulkUploadResult->action = BorhanBulkUploadAction::ADD;
 
 		$bulkUploadResult->pluginsData = $pluginDataArray;
 
@@ -65,7 +65,7 @@ class BatchService extends KalturaBatchService
 				$pluginValues = $pluginDataArray->toValuesArray();
 				if(count($pluginValues))
 				{
-					$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaBulkUploadHandler');
+					$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanBulkUploadHandler');
 					foreach($pluginInstances as $pluginInstance)
 						$pluginInstance->handleBulkUploadData($dbBulkUploadResult->getObject(), $pluginValues);
 				}
@@ -82,7 +82,7 @@ class BatchService extends KalturaBatchService
 	 *
 	 * @action getBulkUploadLastResult
 	 * @param int $bulkUploadJobId The id of the bulk upload job
-	 * @return KalturaBulkUploadResult
+	 * @return BorhanBulkUploadResult
 	 */
 	function getBulkUploadLastResultAction($bulkUploadJobId)
 	{
@@ -91,7 +91,7 @@ class BatchService extends KalturaBatchService
 		if(!$dbBulkUploadResult)
 			return null;
 
-		$bulkUploadResult = new KalturaBulkUploadResult();
+		$bulkUploadResult = new BorhanBulkUploadResult();
 		$bulkUploadResult->fromObject($dbBulkUploadResult, $this->getResponseProfile());
 		return $bulkUploadResult;
 	}
@@ -102,21 +102,21 @@ class BatchService extends KalturaBatchService
 	 *
 	 * @action countBulkUploadEntries
 	 * @param int $bulkUploadJobId The id of the bulk upload job
-	 * @param KalturaBulkUploadObjectType $bulkUploadObjectType
-	 * @return KalturaKeyValueArray the number of created entries and error entries
+	 * @param BorhanBulkUploadObjectType $bulkUploadObjectType
+	 * @return BorhanKeyValueArray the number of created entries and error entries
 	 */
-	function countBulkUploadEntriesAction($bulkUploadJobId, $bulkUploadObjectType = KalturaBulkUploadObjectType::ENTRY)
+	function countBulkUploadEntriesAction($bulkUploadJobId, $bulkUploadObjectType = BorhanBulkUploadObjectType::ENTRY)
 	{
 		$coreBulkUploadObjectType = kPluginableEnumsManager::apiToCore('BulkUploadObjectType', $bulkUploadObjectType);
 		$createdRecordsCount = BulkUploadResultPeer::countWithObjectTypeByBulkUploadId($bulkUploadJobId, $coreBulkUploadObjectType);
 		$errorRecordsCount = BulkUploadResultPeer::countErrorWithObjectTypeByBulkUploadId($bulkUploadJobId, $coreBulkUploadObjectType);
 		
 		$res = array();
-		$created = new KalturaKeyValue();
+		$created = new BorhanKeyValue();
 		$created->key = 'created';
 		$created->value = $createdRecordsCount;
 		$res[] = $created;		
-		$error = new KalturaKeyValue();
+		$error = new BorhanKeyValue();
 		$error->key = 'error';
 		$error->value = $errorRecordsCount;
 		$res[] = $error;
@@ -125,7 +125,7 @@ class BatchService extends KalturaBatchService
 	}
 	
 	/**
-	 * batch updateBulkUploadResults action adds KalturaBulkUploadResult to the DB
+	 * batch updateBulkUploadResults action adds BorhanBulkUploadResult to the DB
 	 *
 	 * @action updateBulkUploadResults
 	 * @param int $bulkUploadJobId The id of the bulk upload job
@@ -201,25 +201,25 @@ class BatchService extends KalturaBatchService
 	 *
 	 * @action updateExclusiveConvertCollectionJob
 	 * @param int $id The id of the job to free
-	 * @param KalturaExclusiveLockKey $lockKey The unique lock key from the batch-process. Is used for the locking mechanism
-	 * @param KalturaBatchJob $job
-	 * @param KalturaConvertCollectionFlavorDataArray $flavorsData
-	 * @return KalturaBatchJob
+	 * @param BorhanExclusiveLockKey $lockKey The unique lock key from the batch-process. Is used for the locking mechanism
+	 * @param BorhanBatchJob $job
+	 * @param BorhanConvertCollectionFlavorDataArray $flavorsData
+	 * @return BorhanBatchJob
 	 */
-	function updateExclusiveConvertCollectionJobAction($id ,KalturaExclusiveLockKey $lockKey, KalturaBatchJob $job, KalturaConvertCollectionFlavorDataArray $flavorsData = null)
+	function updateExclusiveConvertCollectionJobAction($id ,BorhanExclusiveLockKey $lockKey, BorhanBatchJob $job, BorhanConvertCollectionFlavorDataArray $flavorsData = null)
 	{
 		$dbBatchJob = BatchJobPeer::retrieveByPK($id);
 
 		// verifies that the job is of the right type
-		if($dbBatchJob->getJobType() != KalturaBatchJobType::CONVERT_COLLECTION)
-			throw new KalturaAPIException(APIErrors::UPDATE_EXCLUSIVE_JOB_WRONG_TYPE, $id, serialize($lockKey), serialize($job));
+		if($dbBatchJob->getJobType() != BorhanBatchJobType::CONVERT_COLLECTION)
+			throw new BorhanAPIException(APIErrors::UPDATE_EXCLUSIVE_JOB_WRONG_TYPE, $id, serialize($lockKey), serialize($job));
 
 		if($flavorsData)
 			$job->data->flavors = $flavorsData;
 
 		$dbBatchJob = kBatchManager::updateExclusiveBatchJob($id, $lockKey->toObject(), $job->toObject($dbBatchJob));
 
-		$batchJob = new KalturaBatchJob(); // start from blank
+		$batchJob = new BorhanBatchJob(); // start from blank
 		return $batchJob->fromBatchJob($dbBatchJob);
 	}
 
@@ -233,11 +233,11 @@ class BatchService extends KalturaBatchService
 	 * batch addMediaInfoAction action saves a media info object
 	 *
 	 * @action addMediaInfo
-	 * @param KalturaMediaInfo $mediaInfo
-	 * @return KalturaMediaInfo
-	 * @throws KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND
+	 * @param BorhanMediaInfo $mediaInfo
+	 * @return BorhanMediaInfo
+	 * @throws BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND
 	 */
-	function addMediaInfoAction(KalturaMediaInfo $mediaInfo)
+	function addMediaInfoAction(BorhanMediaInfo $mediaInfo)
 	{
 		$mediaInfoDb = null;
 		$flavorAsset = null;
@@ -246,7 +246,7 @@ class BatchService extends KalturaBatchService
 		{
 			$flavorAsset = assetPeer::retrieveByIdNoFilter($mediaInfo->flavorAssetId);
 			if(!$flavorAsset)
-				throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND, $mediaInfo->flavorAssetId);
+				throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND, $mediaInfo->flavorAssetId);
 
 			$mediaInfoDb = mediaInfoPeer::retrieveByFlavorAssetId($mediaInfo->flavorAssetId);
 
@@ -282,13 +282,13 @@ class BatchService extends KalturaBatchService
 	 * batch getExclusiveNotificationJob action allows to get a BatchJob of type NOTIFICATION
 	 *
 	 * @action getExclusiveNotificationJobs
-	 * @param KalturaExclusiveLockKey $lockKey The unique lock key from the batch-process. Is used for the locking mechanism
+	 * @param BorhanExclusiveLockKey $lockKey The unique lock key from the batch-process. Is used for the locking mechanism
 	 * @param int $maxExecutionTime The maximum time in seconds the job reguarly take. Is used for the locking mechanism when determining an unexpected termination of a batch-process.
 	 * @param int $numberOfJobs The maximum number of jobs to return.
-	 * @param KalturaBatchJobFilter $filter Set of rules to fetch only rartial list of jobs
-	 * @return KalturaBatchGetExclusiveNotificationJobsResponse
+	 * @param BorhanBatchJobFilter $filter Set of rules to fetch only rartial list of jobs
+	 * @return BorhanBatchGetExclusiveNotificationJobsResponse
 	 */
-	function getExclusiveNotificationJobsAction(KalturaExclusiveLockKey $lockKey, $maxExecutionTime, $numberOfJobs, KalturaBatchJobFilter $filter = null)
+	function getExclusiveNotificationJobsAction(BorhanExclusiveLockKey $lockKey, $maxExecutionTime, $numberOfJobs, BorhanBatchJobFilter $filter = null)
 	{
 		$jobs = $this->getExclusiveJobs($lockKey, $maxExecutionTime, $numberOfJobs, $filter, BatchJobType::NOTIFICATION);
 
@@ -302,9 +302,9 @@ class BatchService extends KalturaBatchService
 			$dbPartners[$job->getPartnerId()] = PartnerPeer::retrieveByPK($job->getPartnerId());
 		}
 
-		$response = new KalturaBatchGetExclusiveNotificationJobsResponse();
-		$response->notifications = KalturaBatchJobArray::fromBatchJobArray($jobs);
-		$response->partners = KalturaPartnerArray::fromPartnerArray($dbPartners) ;
+		$response = new BorhanBatchGetExclusiveNotificationJobsResponse();
+		$response->notifications = BorhanBatchJobArray::fromBatchJobArray($jobs);
+		$response->partners = BorhanPartnerArray::fromPartnerArray($dbPartners) ;
 
 		return $response;
 	}
@@ -320,7 +320,7 @@ class BatchService extends KalturaBatchService
 	 * @action updatePartnerLoadTable
 	 */
 	function updatePartnerLoadTableAction() {
-		KalturaResponseCacher::disableCache();
+		BorhanResponseCacher::disableCache();
 		PartnerLoadPeer::updatePartnerLoadTable();
 	}
 
@@ -330,7 +330,7 @@ class BatchService extends KalturaBatchService
 	 * @action suspendJobs
 	 */
 	function suspendJobsAction() {
-		KalturaResponseCacher::disableCache();
+		BorhanResponseCacher::disableCache();
 		kJobsSuspender::balanceJobsload();
 	}
 
@@ -339,12 +339,12 @@ class BatchService extends KalturaBatchService
 	 *
 	 * @action resetJobExecutionAttempts
 	 * @param int $id The id of the job
-	 * @param KalturaExclusiveLockKey $lockKey The unique lock key from the batch-process. Is used for the locking mechanism
-	 * @param KalturaBatchJobType $jobType The type of the job
-	 * @throws KalturaErrors::UPDATE_EXCLUSIVE_JOB_FAILED
-	 * @throws KalturaErrors::UPDATE_EXCLUSIVE_JOB_WRONG_TYPE
+	 * @param BorhanExclusiveLockKey $lockKey The unique lock key from the batch-process. Is used for the locking mechanism
+	 * @param BorhanBatchJobType $jobType The type of the job
+	 * @throws BorhanErrors::UPDATE_EXCLUSIVE_JOB_FAILED
+	 * @throws BorhanErrors::UPDATE_EXCLUSIVE_JOB_WRONG_TYPE
 	 */
-	function resetJobExecutionAttemptsAction($id ,KalturaExclusiveLockKey $lockKey, $jobType)
+	function resetJobExecutionAttemptsAction($id ,BorhanExclusiveLockKey $lockKey, $jobType)
 	{
 		$jobType = kPluginableEnumsManager::apiToCore('BatchJobType', $jobType);
 
@@ -357,11 +357,11 @@ class BatchService extends KalturaBatchService
 
 		$job = BatchJobLockPeer::doSelectOne ( $c );
 		if(!$job)
-			throw new KalturaAPIException(KalturaErrors::UPDATE_EXCLUSIVE_JOB_FAILED, $id, $lockKey->schedulerId, $lockKey->workerId, $lockKey->batchIndex);
+			throw new BorhanAPIException(BorhanErrors::UPDATE_EXCLUSIVE_JOB_FAILED, $id, $lockKey->schedulerId, $lockKey->workerId, $lockKey->batchIndex);
 
 		// verifies that the job is of the right type
 		if($job->getJobType() != $jobType)
-			throw new KalturaAPIException(KalturaErrors::UPDATE_EXCLUSIVE_JOB_WRONG_TYPE, $id, $lockKey, null);
+			throw new BorhanAPIException(BorhanErrors::UPDATE_EXCLUSIVE_JOB_WRONG_TYPE, $id, $lockKey, null);
 
 		$job->setExecutionAttempts(0);
 		$job->save();
@@ -372,12 +372,12 @@ class BatchService extends KalturaBatchService
 	 *
 	 * @action freeExclusiveJob
 	 * @param int $id The id of the job
-	 * @param KalturaExclusiveLockKey $lockKey The unique lock key from the batch-process. Is used for the locking mechanism
-	 * @param KalturaBatchJobType $jobType The type of the job
+	 * @param BorhanExclusiveLockKey $lockKey The unique lock key from the batch-process. Is used for the locking mechanism
+	 * @param BorhanBatchJobType $jobType The type of the job
 	 * @param bool $resetExecutionAttempts Resets the job execution attampts to zero
-	 * @return KalturaFreeJobResponse
+	 * @return BorhanFreeJobResponse
 	 */
-	function freeExclusiveJobAction($id ,KalturaExclusiveLockKey $lockKey, $jobType, $resetExecutionAttempts = false)
+	function freeExclusiveJobAction($id ,BorhanExclusiveLockKey $lockKey, $jobType, $resetExecutionAttempts = false)
 	{
 		$jobType = kPluginableEnumsManager::apiToCore('BatchJobType', $jobType);
 
@@ -385,15 +385,15 @@ class BatchService extends KalturaBatchService
 
 		// verifies that the job is of the right type
 		if($job->getJobType() != $jobType)
-			throw new KalturaAPIException(APIErrors::UPDATE_EXCLUSIVE_JOB_WRONG_TYPE, $id, $lockKey, null);
+			throw new BorhanAPIException(APIErrors::UPDATE_EXCLUSIVE_JOB_WRONG_TYPE, $id, $lockKey, null);
 
 		$job = kBatchManager::freeExclusiveBatchJob($id, $lockKey->toObject(), $resetExecutionAttempts);
-		$batchJob = new KalturaBatchJob(); // start from blank
+		$batchJob = new BorhanBatchJob(); // start from blank
 		$batchJob->fromBatchJob($job);
 
 		// gets queues length
 		$c = new Criteria();
-		$c->add(BatchJobLockPeer::STATUS, array(KalturaBatchJobStatus::PENDING, KalturaBatchJobStatus::RETRY, KalturaBatchJobStatus::ALMOST_DONE), Criteria::IN);
+		$c->add(BatchJobLockPeer::STATUS, array(BorhanBatchJobStatus::PENDING, BorhanBatchJobStatus::RETRY, BorhanBatchJobStatus::ALMOST_DONE), Criteria::IN);
 		$c->add(BatchJobLockPeer::JOB_TYPE, $jobType);
 		$c->add(BatchJobLockPeer::DC, kDataCenterMgr::getCurrentDcId());
 		$queueSize = BatchJobLockPeer::doCount($c, false, myDbHelper::getConnection(myDbHelper::DB_HELPER_CONN_PROPEL2) );
@@ -410,7 +410,7 @@ class BatchService extends KalturaBatchService
 			$queueSize = BatchJobLockPeer::doCount($c, false, myDbHelper::getConnection(myDbHelper::DB_HELPER_CONN_PROPEL2) );
 		}
 
-		$response = new KalturaFreeJobResponse();
+		$response = new BorhanFreeJobResponse();
 		$response->job = $batchJob;
 		$response->jobType = $jobType;
 		$response->queueSize = $queueSize;
@@ -422,10 +422,10 @@ class BatchService extends KalturaBatchService
 	 * batch getQueueSize action get the queue size for job type
 	 *
 	 * @action getQueueSize
-	 * @param KalturaWorkerQueueFilter $workerQueueFilter The worker filter
+	 * @param BorhanWorkerQueueFilter $workerQueueFilter The worker filter
 	 * @return int
 	 */
-	function getQueueSizeAction(KalturaWorkerQueueFilter $workerQueueFilter)
+	function getQueueSizeAction(BorhanWorkerQueueFilter $workerQueueFilter)
 	{
 		$jobType = kPluginableEnumsManager::apiToCore('BatchJobType', $workerQueueFilter->jobType);
 		$filter = $workerQueueFilter->filter->toFilter($jobType);
@@ -438,34 +438,34 @@ class BatchService extends KalturaBatchService
 	 * batch getExclusiveJobsAction action allows to get a BatchJob
 	 *
 	 * @action getExclusiveJobs
-	 * @param KalturaExclusiveLockKey $lockKey The unique lock key from the batch-process. Is used for the locking mechanism
+	 * @param BorhanExclusiveLockKey $lockKey The unique lock key from the batch-process. Is used for the locking mechanism
 	 * @param int $maxExecutionTime The maximum time in seconds the job reguarly take. Is used for the locking mechanism when determining an unexpected termination of a batch-process.
 	 * @param int $numberOfJobs The maximum number of jobs to return.
-	 * @param KalturaBatchJobFilter $filter Set of rules to fetch only rartial list of jobs
-	 * @param KalturaBatchJobType $jobType The type of the job - could be a custom extended type
+	 * @param BorhanBatchJobFilter $filter Set of rules to fetch only rartial list of jobs
+	 * @param BorhanBatchJobType $jobType The type of the job - could be a custom extended type
 	 * @param int $maxJobToPullForCache The number of job to pull to cache
-	 * @return KalturaBatchJobArray
+	 * @return BorhanBatchJobArray
 	 */
-	function getExclusiveJobsAction(KalturaExclusiveLockKey $lockKey, $maxExecutionTime, $numberOfJobs,
-			KalturaBatchJobFilter $filter = null, $jobType = null, $maxJobToPullForCache = 0)
+	function getExclusiveJobsAction(BorhanExclusiveLockKey $lockKey, $maxExecutionTime, $numberOfJobs,
+			BorhanBatchJobFilter $filter = null, $jobType = null, $maxJobToPullForCache = 0)
 	{
 		$jobType = kPluginableEnumsManager::apiToCore('BatchJobType', $jobType);
 		$jobs = $this->getExclusiveJobs($lockKey, $maxExecutionTime, $numberOfJobs, $filter, $jobType, $maxJobToPullForCache);
-		return KalturaBatchJobArray::fromBatchJobArray($jobs);
+		return BorhanBatchJobArray::fromBatchJobArray($jobs);
 	}
 
 	/**
 	 * batch getExclusiveAlmostDone action allows to get a BatchJob that wait for remote closure
 	 *
 	 * @action getExclusiveAlmostDone
-	 * @param KalturaExclusiveLockKey $lockKey The unique lock key from the batch-process. Is used for the locking mechanism
+	 * @param BorhanExclusiveLockKey $lockKey The unique lock key from the batch-process. Is used for the locking mechanism
 	 * @param int $maxExecutionTime The maximum time in seconds the job reguarly take. Is used for the locking mechanism when determining an unexpected termination of a batch-process.
 	 * @param int $numberOfJobs The maximum number of jobs to return.
-	 * @param KalturaBatchJobFilter $filter Set of rules to fetch only rartial list of jobs
-	 * @param KalturaBatchJobType $jobType The type of the job - could be a custom extended type
-	 * @return KalturaBatchJobArray
+	 * @param BorhanBatchJobFilter $filter Set of rules to fetch only rartial list of jobs
+	 * @param BorhanBatchJobType $jobType The type of the job - could be a custom extended type
+	 * @return BorhanBatchJobArray
 	 */
-	function getExclusiveAlmostDoneAction(KalturaExclusiveLockKey $lockKey, $maxExecutionTime, $numberOfJobs, KalturaBatchJobFilter $filter = null, $jobType = null)
+	function getExclusiveAlmostDoneAction(BorhanExclusiveLockKey $lockKey, $maxExecutionTime, $numberOfJobs, BorhanBatchJobFilter $filter = null, $jobType = null)
 	{
 		$jobType = kPluginableEnumsManager::apiToCore('BatchJobType', $jobType);
 		$jobsFilter = new BatchJobFilter(false);
@@ -473,7 +473,7 @@ class BatchService extends KalturaBatchService
 			$jobsFilter = $filter->toFilter($jobType);
 
 		$jobs = kBatchManager::getExclusiveAlmostDoneJobs($lockKey->toObject(), $maxExecutionTime, $numberOfJobs, $jobType, $jobsFilter);
-		return KalturaBatchJobArray::fromBatchJobArray($jobs);
+		return BorhanBatchJobArray::fromBatchJobArray($jobs);
 	}
 
 	/**
@@ -481,16 +481,16 @@ class BatchService extends KalturaBatchService
 	 *
 	 * @action updateExclusiveJob
 	 * @param int $id The id of the job to free
-	 * @param KalturaExclusiveLockKey $lockKey The unique lock key from the batch-process. Is used for the locking mechanism
-	 * @param KalturaBatchJob $job
-	 * @return KalturaBatchJob
+	 * @param BorhanExclusiveLockKey $lockKey The unique lock key from the batch-process. Is used for the locking mechanism
+	 * @param BorhanBatchJob $job
+	 * @return BorhanBatchJob
 	 */
-	function updateExclusiveJobAction($id ,KalturaExclusiveLockKey $lockKey, KalturaBatchJob $job)
+	function updateExclusiveJobAction($id ,BorhanExclusiveLockKey $lockKey, BorhanBatchJob $job)
 	{
 		$dbBatchJob = BatchJobPeer::retrieveByPK($id);
 		$dbBatchJob = kBatchManager::updateExclusiveBatchJob($id, $lockKey->toObject(), $job->toObject($dbBatchJob));
 
-		$batchJob = new KalturaBatchJob(); // start from blank
+		$batchJob = new BorhanBatchJob(); // start from blank
 		return $batchJob->fromBatchJob($dbBatchJob);
 	}
 
@@ -513,14 +513,14 @@ class BatchService extends KalturaBatchService
 	 * @action logConversion
 	 * @param string $flavorAssetId
 	 * @param string $data
-	 * @throws KalturaErrors::INVALID_FLAVOR_ASSET_ID
+	 * @throws BorhanErrors::INVALID_FLAVOR_ASSET_ID
 	 */
 	function logConversionAction($flavorAssetId, $data)
 	{
 		$flavorAsset = assetPeer::retrieveById($flavorAssetId);
 		// verifies that flavor asset exists
 		if(!$flavorAsset)
-			throw new KalturaAPIException(KalturaErrors::INVALID_FLAVOR_ASSET_ID, $flavorAssetId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_FLAVOR_ASSET_ID, $flavorAssetId);
 
 		$flavorAsset->incLogFileVersion();
 		$flavorAsset->save();
@@ -537,14 +537,14 @@ class BatchService extends KalturaBatchService
 	 * @action checkFileExists
 	 * @param string $localPath
 	 * @param float $size
-	 * @return KalturaFileExistsResponse
+	 * @return BorhanFileExistsResponse
 	 */
 	function checkFileExistsAction($localPath, $size)
 	{
 		// need to explicitly disable the cache since this action does not perform any queries
 		kApiCache::disableConditionalCache();
 		
-		$ret = new KalturaFileExistsResponse();
+		$ret = new BorhanFileExistsResponse();
 		$ret->exists = file_exists($localPath);
 		$ret->sizeOk = false;
 
@@ -567,7 +567,7 @@ class BatchService extends KalturaBatchService
 	 * @action checkEntryIsDone
 	 * @param string $batchJobId The entry to check
 	 * @return bool
-	 * @throws KalturaAPIException
+	 * @throws BorhanAPIException
 	 */
 	function checkEntryIsDoneAction($batchJobId)
 	{
@@ -576,13 +576,13 @@ class BatchService extends KalturaBatchService
 		$dbBatchJob = BatchJobPeer::retrieveByPK($batchJobId);
 		if (!$dbBatchJob)
 		{
-			throw new KalturaAPIException(KalturaErrors::INVALID_BATCHJOB_ID, $batchJobId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_BATCHJOB_ID, $batchJobId);
 		}
 	
 		$entry = $dbBatchJob->getEntry();
 		if (!$entry)
 		{
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $dbBatchJob->getEntryId());
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $dbBatchJob->getEntryId());
 		}
 	
 		switch ($entry->getStatus())

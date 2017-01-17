@@ -20,7 +20,7 @@ $html5Version = $_GET['playerVersion'];
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Kaltura</title>
+    <title>Borhan</title>
 
     <!-- Bootstrap -->
     <link href="css/main.css" rel="stylesheet">	
@@ -39,7 +39,7 @@ $html5Version = $_GET['playerVersion'];
 			var uiConfId = $('#txtUiConfId').val();
 			var adminUiConfId = $('#txtAdminUiConfId').val();
 
-			mw.setConfig('Kaltura.LeadWithHTML5', true);
+			mw.setConfig('Borhan.LeadWithHTML5', true);
 			loadAdminPlayer(entryId, adminUiConfId);
 			loadUserPlayer(entryId, uiConfId);
 			startSession();
@@ -82,7 +82,7 @@ $html5Version = $_GET['playerVersion'];
 		}
 		
 		function loadUserPlayer(entryId, uiConfId){
-            kWidget.embed({
+            bWidget.embed({
                     targetId: 'userPlayerContainer',
                     wid: '_' + partnerId,
                     "uiconf_id": uiConfId,
@@ -90,7 +90,7 @@ $html5Version = $_GET['playerVersion'];
                             "streamerType": "auto",
                             "autoPlay": true,
                             "LeadWithHLSOnFlash": true,
-							"Kaltura.Protocol":"http"
+							"Borhan.Protocol":"http"
                     },
                     "cache_st": 1410340114,
                     "entry_id": entryId
@@ -98,7 +98,7 @@ $html5Version = $_GET['playerVersion'];
 		}
 
 		function loadAdminPlayer(entryId, uiConfId){
-		     kWidget.embed({
+		     bWidget.embed({
 					 targetId: 'adminPlayerContainer',
 					 wid: '_' + partnerId,
 					 "uiconf_id": uiConfId,
@@ -133,7 +133,7 @@ $html5Version = $_GET['playerVersion'];
 				data: {
 					format: 1,
 					ks: ks,
-					'cuePoint:objectType': 'KalturaAdCuePoint',
+					'cuePoint:objectType': 'BorhanAdCuePoint',
 					'cuePoint:entryId': entryId,
 					'cuePoint:startTime': startTime,
 					'cuePoint:protocolType': 'VPAID',
@@ -172,7 +172,7 @@ $html5Version = $_GET['playerVersion'];
             <span class="navbar-brand">BIG RED BUTTON</span>
           </div>
           <div class="col col-xs-4 text-right">
-            <img class="logo" src="images/kaltura.png">
+            <img class="logo" src="images/borhan.png">
           </div>
         </div>
       </div>
@@ -234,7 +234,7 @@ $html5Version = $_GET['playerVersion'];
 		</tr>
 		<tr style="display: none; ">
 			<td>Ad URL:</td>
-			<td><input type="text" id="txtAdUrl" value="http://projects.kaltura.com/vast/vast11.xml" />
+			<td><input type="text" id="txtAdUrl" value="http://projects.borhan.com/vast/vast11.xml" />
 		</td>
 		<tr style="display: none; ">
 			<td>Ad Duration (milliseconds):</td>

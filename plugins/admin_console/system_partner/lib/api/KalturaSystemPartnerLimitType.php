@@ -3,7 +3,7 @@
  * @package plugins.systemPartner
  * @subpackage api.enum
  */
-class KalturaSystemPartnerLimitType extends KalturaStringEnum
+class BorhanSystemPartnerLimitType extends BorhanStringEnum
 {
 	const ENTRIES = 'ENTRIES';
 	const MONTHLY_STREAM_ENTRIES = 'MONTHLY_STREAM_ENTRIES';

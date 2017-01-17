@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaGoogleSyndicationFeedAdultValues extends KalturaStringEnum
+class BorhanGoogleSyndicationFeedAdultValues extends BorhanStringEnum
 {
 	const YES = "Yes";
 	const NO = "No";

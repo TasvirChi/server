@@ -6,7 +6,7 @@
  * @package plugins.metadata
  * @subpackage api.services
  */
-class MetadataProfileService extends KalturaBaseService
+class MetadataProfileService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -18,11 +18,11 @@ class MetadataProfileService extends KalturaBaseService
 		$this->applyPartnerFilterForClass('entry');
 		
 		if(!MetadataPlugin::isAllowedPartner($this->getPartnerId()))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, MetadataPlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, MetadataPlugin::PLUGIN_NAME);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseService::partnerGroup()
+	 * @see BorhanBaseService::partnerGroup()
 	 */
 	protected function partnerGroup($peer = null)
 	{
@@ -34,18 +34,18 @@ class MetadataProfileService extends KalturaBaseService
 	}
 		
 	/**
-	 * Allows you to add a metadata profile object and metadata profile content associated with Kaltura object type
+	 * Allows you to add a metadata profile object and metadata profile content associated with Borhan object type
 	 *
 	 * @action add
-	 * @param KalturaMetadataProfile $metadataProfile
+	 * @param BorhanMetadataProfile $metadataProfile
 	 * @param string $xsdData XSD metadata definition
 	 * @param string $viewsData UI views definition
-	 * @return KalturaMetadataProfile
+	 * @return BorhanMetadataProfile
 	 */
-	function addAction(KalturaMetadataProfile $metadataProfile, $xsdData, $viewsData = null)
+	function addAction(BorhanMetadataProfile $metadataProfile, $xsdData, $viewsData = null)
 	{		
 		if(!kMetadataProfileManager::validateXsdData($xsdData, $errorMessage)) {
-		    throw new KalturaAPIException(MetadataErrors::INVALID_METADATA_PROFILE_SCHEMA, $errorMessage);
+		    throw new BorhanAPIException(MetadataErrors::INVALID_METADATA_PROFILE_SCHEMA, $errorMessage);
 		}
 
 		$xsdData = html_entity_decode($xsdData);
@@ -56,25 +56,25 @@ class MetadataProfileService extends KalturaBaseService
 	}
 	
 	/**
-	 * Allows you to add a metadata profile object and metadata profile file associated with Kaltura object type
+	 * Allows you to add a metadata profile object and metadata profile file associated with Borhan object type
 	 *
 	 * @action addFromFile
-	 * @param KalturaMetadataProfile $metadataProfile
+	 * @param BorhanMetadataProfile $metadataProfile
 	 * @param file $xsdFile XSD metadata definition
 	 * @param file $viewsFile UI views definition
-	 * @return KalturaMetadataProfile
+	 * @return BorhanMetadataProfile
 	 * @throws MetadataErrors::METADATA_FILE_NOT_FOUND
 	 */
-	function addFromFileAction(KalturaMetadataProfile $metadataProfile, $xsdFile, $viewsFile = null)
+	function addFromFileAction(BorhanMetadataProfile $metadataProfile, $xsdFile, $viewsFile = null)
 	{
 		$filePath = $xsdFile['tmp_name'];
 		if(!file_exists($filePath) || !filesize($filePath)) {
-		    throw new KalturaAPIException(MetadataErrors::METADATA_FILE_NOT_FOUND, $xsdFile['name']);
+		    throw new BorhanAPIException(MetadataErrors::METADATA_FILE_NOT_FOUND, $xsdFile['name']);
 		}
 		
 		$xsdData = file_get_contents($filePath);
 		if(!kMetadataProfileManager::validateXsdData($xsdData, $errorMessage)) {
-		    throw new KalturaAPIException(MetadataErrors::INVALID_METADATA_PROFILE_SCHEMA, $errorMessage);
+		    throw new BorhanAPIException(MetadataErrors::INVALID_METADATA_PROFILE_SCHEMA, $errorMessage);
 		}
 		
 		$viewsData = null;
@@ -82,7 +82,7 @@ class MetadataProfileService extends KalturaBaseService
 		{
 		    $filePath = $viewsFile['tmp_name'];
 		    if(!file_exists($filePath))
-		        throw new KalturaAPIException(MetadataErrors::METADATA_FILE_NOT_FOUND, $viewsFile['name']);
+		        throw new BorhanAPIException(MetadataErrors::METADATA_FILE_NOT_FOUND, $viewsFile['name']);
 		    
 		    $viewsData = file_get_contents($filePath);
 		}
@@ -90,7 +90,7 @@ class MetadataProfileService extends KalturaBaseService
 		return $this->addMetadataProfile($metadataProfile, $xsdData, $viewsData);
 	}
 	
-	private function addMetadataProfile(KalturaMetadataProfile $metadataProfile, $xsdData, $viewsData = null)
+	private function addMetadataProfile(BorhanMetadataProfile $metadataProfile, $xsdData, $viewsData = null)
 	{
 	    // must be validatebefore checking available searchable fields count
 	    $metadataProfile->validatePropertyNotNull('metadataObjectType');
@@ -102,11 +102,11 @@ class MetadataProfileService extends KalturaBaseService
 	    if($viewsData)
 	       $dbMetadataProfile->setViewesData($viewsData);
 	    
-	    $dbMetadataProfile->setStatus(KalturaMetadataProfileStatus::ACTIVE);
+	    $dbMetadataProfile->setStatus(BorhanMetadataProfileStatus::ACTIVE);
 	    $dbMetadataProfile->setPartnerId($this->getPartnerId());
 	    $dbMetadataProfile->save();
 	    
-	    $metadataProfile = new KalturaMetadataProfile();
+	    $metadataProfile = new BorhanMetadataProfile();
 	    $metadataProfile->fromObject($dbMetadataProfile, $this->getResponseProfile());
 	    
 	    return $metadataProfile;
@@ -117,7 +117,7 @@ class MetadataProfileService extends KalturaBaseService
 	 *
 	 * @action get
 	 * @param int $id
-	 * @return KalturaMetadataProfile
+	 * @return BorhanMetadataProfile
 	 * @throws MetadataErrors::METADATA_PROFILE_NOT_FOUND
 	 */
 	function getAction($id)
@@ -125,9 +125,9 @@ class MetadataProfileService extends KalturaBaseService
 		$dbMetadataProfile = MetadataProfilePeer::retrieveByPK( $id );
 		
 		if(!$dbMetadataProfile)
-			throw new KalturaAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $id);
+			throw new BorhanAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $id);
 			
-		$metadataProfile = new KalturaMetadataProfile();
+		$metadataProfile = new BorhanMetadataProfile();
 		$metadataProfile->fromObject($dbMetadataProfile, $this->getResponseProfile());
 		
 		return $metadataProfile;
@@ -138,29 +138,29 @@ class MetadataProfileService extends KalturaBaseService
 	 *
 	 * @action update
 	 * @param int $id
-	 * @param KalturaMetadataProfile $metadataProfile
+	 * @param BorhanMetadataProfile $metadataProfile
 	 * @param string $xsdData XSD metadata definition
 	 * @param string $viewsData UI views definition
-	 * @return KalturaMetadataProfile
+	 * @return BorhanMetadataProfile
 	 * @throws MetadataErrors::METADATA_PROFILE_NOT_FOUND
 	 * @throws MetadataErrors::METADATA_UNABLE_TO_TRANSFORM
 	 * @throws MetadataErrors::METADATA_TRANSFORMING
 	 * @throws MetadataErrors::METADATA_PROFILE_FILE_NOT_FOUND
 	 */
-	function updateAction($id, KalturaMetadataProfile $metadataProfile, $xsdData = null, $viewsData = null)
+	function updateAction($id, BorhanMetadataProfile $metadataProfile, $xsdData = null, $viewsData = null)
 	{
 		$dbMetadataProfile = MetadataProfilePeer::retrieveByPK($id);
 		
 		if(!$dbMetadataProfile)
-			throw new KalturaAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $id);
+			throw new BorhanAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $id);
 		
 		if($dbMetadataProfile->getStatus() != MetadataProfile::STATUS_ACTIVE)
-			throw new KalturaAPIException(MetadataErrors::METADATA_TRANSFORMING);
+			throw new BorhanAPIException(MetadataErrors::METADATA_TRANSFORMING);
 
 		if ($xsdData)
 		{
 		    if(!kMetadataProfileManager::validateXsdData($xsdData, $errorMessage)) {
-		        throw new KalturaAPIException(MetadataErrors::INVALID_METADATA_PROFILE_SCHEMA, $errorMessage);
+		        throw new BorhanAPIException(MetadataErrors::INVALID_METADATA_PROFILE_SCHEMA, $errorMessage);
 		    }
 		    
 			kMetadataManager::validateProfileFields($this->getPartnerId(), $xsdData);
@@ -172,7 +172,7 @@ class MetadataProfileService extends KalturaBaseService
 		
 		$oldXsd = kFileSyncUtils::file_get_contents($key, true, false);
 		if(!$oldXsd)
-			throw new KalturaAPIException(MetadataErrors::METADATA_PROFILE_FILE_NOT_FOUND, $id);
+			throw new BorhanAPIException(MetadataErrors::METADATA_PROFILE_FILE_NOT_FOUND, $id);
 
 		if($xsdData)
 		{
@@ -194,7 +194,7 @@ class MetadataProfileService extends KalturaBaseService
 			}
 			catch(kXsdException $e)
 			{
-				throw new KalturaAPIException(MetadataErrors::METADATA_UNABLE_TO_TRANSFORM, $e->getMessage());
+				throw new BorhanAPIException(MetadataErrors::METADATA_UNABLE_TO_TRANSFORM, $e->getMessage());
 			}
 
 			$dbMetadataProfile->save();
@@ -214,14 +214,14 @@ class MetadataProfileService extends KalturaBaseService
 	 * List metadata profile objects by filter and pager
 	 *
 	 * @action list
-	 * @param KalturaMetadataProfileFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaMetadataProfileListResponse
+	 * @param BorhanMetadataProfileFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanMetadataProfileListResponse
 	 */
-	function listAction(KalturaMetadataProfileFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanMetadataProfileFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaMetadataProfileFilter;
+			$filter = new BorhanMetadataProfileFilter;
 			
 		$metadataProfileFilter = new MetadataProfileFilter();
 		$filter->toObject($metadataProfileFilter);
@@ -236,13 +236,13 @@ class MetadataProfileService extends KalturaBaseService
 		$count = MetadataProfilePeer::doCount($c);
 		
 		if (! $pager)
-			$pager = new KalturaFilterPager ();
+			$pager = new BorhanFilterPager ();
 
 		$pager->attachToCriteria ( $c );
 		$list = MetadataProfilePeer::doSelect($c);
 		
-		$response = new KalturaMetadataProfileListResponse();
-		$response->objects = KalturaMetadataProfileArray::fromDbArray($list, $this->getResponseProfile());
+		$response = new BorhanMetadataProfileListResponse();
+		$response->objects = BorhanMetadataProfileArray::fromDbArray($list, $this->getResponseProfile());
 		$response->totalCount = $count;
 		
 		return $response;
@@ -253,14 +253,14 @@ class MetadataProfileService extends KalturaBaseService
 	 *
 	 * @action listFields
 	 * @param int $metadataProfileId
-	 * @return KalturaMetadataProfileFieldListResponse
+	 * @return BorhanMetadataProfileFieldListResponse
 	 */
 	function listFieldsAction($metadataProfileId)
 	{
 		$dbFields = MetadataProfileFieldPeer::retrieveActiveByMetadataProfileId($metadataProfileId);
 		
-		$response = new KalturaMetadataProfileFieldListResponse();
-		$response->objects = KalturaMetadataProfileFieldArray::fromDbArray($dbFields, $this->getResponseProfile());
+		$response = new BorhanMetadataProfileFieldListResponse();
+		$response->objects = BorhanMetadataProfileFieldArray::fromDbArray($dbFields, $this->getResponseProfile());
 		$response->totalCount = count($dbFields);
 		
 		return $response;
@@ -278,7 +278,7 @@ class MetadataProfileService extends KalturaBaseService
 		$dbMetadataProfile = MetadataProfilePeer::retrieveByPK($id);
 		
 		if(!$dbMetadataProfile)
-			throw new KalturaAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $id);
+			throw new BorhanAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $id);
 
 		// if this profile is a dynamic object, check for references in other profiles
 		if ($dbMetadataProfile->getObjectType() == MetadataObjectType::DYNAMIC_OBJECT)
@@ -290,11 +290,11 @@ class MetadataProfileService extends KalturaBaseService
 			{
 				/** @var MetadataProfileField $referencedField */
 				$referencedField = $referencedFields[0];
-				throw new KalturaAPIException(MetadataErrors::METADATA_PROFILE_REFERENCE_EXISTS, $referencedField->getMetadataProfileId(), $referencedField->getKey());
+				throw new BorhanAPIException(MetadataErrors::METADATA_PROFILE_REFERENCE_EXISTS, $referencedField->getMetadataProfileId(), $referencedField->getKey());
 			}
 		}
 
-		$dbMetadataProfile->setStatus(KalturaMetadataProfileStatus::DEPRECATED);
+		$dbMetadataProfile->setStatus(BorhanMetadataProfileStatus::DEPRECATED);
 		$dbMetadataProfile->save();
 		
 		$c = new Criteria();
@@ -310,7 +310,7 @@ class MetadataProfileService extends KalturaBaseService
 		
 		$c = new Criteria();
 		$c->add(MetadataPeer::METADATA_PROFILE_ID, $id);
-		$c->add(MetadataPeer::STATUS, KalturaMetadataStatus::DELETED, Criteria::NOT_EQUAL);
+		$c->add(MetadataPeer::STATUS, BorhanMetadataStatus::DELETED, Criteria::NOT_EQUAL);
 	
 		$peer = null;
 		MetadataPeer::setUseCriteriaFilter(false);
@@ -320,7 +320,7 @@ class MetadataProfileService extends KalturaBaseService
 			kEventsManager::raiseEvent(new kObjectDeletedEvent($metadata));
 		
 		$update = new Criteria();
-		$update->add(MetadataPeer::STATUS, KalturaMetadataStatus::DELETED);
+		$update->add(MetadataPeer::STATUS, BorhanMetadataStatus::DELETED);
 			
 		$con = Propel::getConnection(MetadataPeer::DATABASE_NAME);
 		BasePeer::doUpdate($c, $update, $con);
@@ -332,7 +332,7 @@ class MetadataProfileService extends KalturaBaseService
 	 * @action revert
 	 * @param int $id
 	 * @param int $toVersion
-	 * @return KalturaMetadataProfile
+	 * @return BorhanMetadataProfile
 	 * @throws MetadataErrors::METADATA_PROFILE_NOT_FOUND
 	 * @throws MetadataErrors::METADATA_FILE_NOT_FOUND
 	 * @throws MetadataErrors::METADATA_UNABLE_TO_TRANSFORM
@@ -342,11 +342,11 @@ class MetadataProfileService extends KalturaBaseService
 		$dbMetadataProfile = MetadataProfilePeer::retrieveByPK($id);
 		
 		if(!$dbMetadataProfile)
-			throw new KalturaAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $id);
+			throw new BorhanAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $id);
 	
 		$oldKey = $dbMetadataProfile->getSyncKey(MetadataProfile::FILE_SYNC_METADATA_DEFINITION, $toVersion);
 		if(!kFileSyncUtils::fileSync_exists($oldKey))
-			throw new KalturaAPIException(MetadataErrors::METADATA_FILE_NOT_FOUND, $oldKey);
+			throw new BorhanAPIException(MetadataErrors::METADATA_FILE_NOT_FOUND, $oldKey);
 		
 		$dbMetadataProfile->incrementFileSyncVersion();
 		$dbMetadataProfile->incrementVersion();
@@ -387,7 +387,7 @@ class MetadataProfileService extends KalturaBaseService
 			kFileSyncUtils::createSyncFileLinkForKey($key, $oldKey);
 		}
 		
-		$metadataProfile = new KalturaMetadataProfile();
+		$metadataProfile = new BorhanMetadataProfile();
 		$metadataProfile->fromObject($dbMetadataProfile, $this->getResponseProfile());
 		
 		return $metadataProfile;
@@ -399,7 +399,7 @@ class MetadataProfileService extends KalturaBaseService
 	 * @action updateDefinitionFromFile
 	 * @param int $id
 	 * @param file $xsdFile XSD metadata definition
-	 * @return KalturaMetadataProfile
+	 * @return BorhanMetadataProfile
 	 * @throws MetadataErrors::METADATA_PROFILE_NOT_FOUND
 	 * @throws MetadataErrors::METADATA_FILE_NOT_FOUND
 	 * @throws MetadataErrors::METADATA_UNABLE_TO_TRANSFORM
@@ -409,29 +409,29 @@ class MetadataProfileService extends KalturaBaseService
 		$dbMetadataProfile = MetadataProfilePeer::retrieveByPK($id);
 		
 		if(!$dbMetadataProfile)
-			throw new KalturaAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $id);
+			throw new BorhanAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $id);
 	
 		$filePath = null;
 		if($xsdFile)
 		{
 			$filePath = $xsdFile['tmp_name'];
 			if(!file_exists($filePath))
-				throw new KalturaAPIException(MetadataErrors::METADATA_FILE_NOT_FOUND, $xsdFile['name']);
+				throw new BorhanAPIException(MetadataErrors::METADATA_FILE_NOT_FOUND, $xsdFile['name']);
 		}
 		
 		$newXsd = file_get_contents($filePath);
 		if(!$newXsd)
-			throw new KalturaAPIException(MetadataErrors::METADATA_FILE_NOT_FOUND, $xsdFile['name']);
+			throw new BorhanAPIException(MetadataErrors::METADATA_FILE_NOT_FOUND, $xsdFile['name']);
 		
 		if(!kMetadataProfileManager::validateXsdData($newXsd, $errorMessage)) {
-		    throw new KalturaAPIException(MetadataErrors::INVALID_METADATA_PROFILE_SCHEMA, $errorMessage);
+		    throw new BorhanAPIException(MetadataErrors::INVALID_METADATA_PROFILE_SCHEMA, $errorMessage);
 		}
 		
 		$key = $dbMetadataProfile->getSyncKey(MetadataProfile::FILE_SYNC_METADATA_DEFINITION);
 		
 		$oldXsd = kFileSyncUtils::file_get_contents($key);
 		if(!$oldXsd)
-			throw new KalturaAPIException(MetadataErrors::METADATA_PROFILE_FILE_NOT_FOUND, $id);
+			throw new BorhanAPIException(MetadataErrors::METADATA_PROFILE_FILE_NOT_FOUND, $id);
 		
 		$dbMetadataProfile->setXsdData($newXsd);
 		
@@ -441,12 +441,12 @@ class MetadataProfileService extends KalturaBaseService
 		}
 		catch(kXsdException $e)
 		{
-			throw new KalturaAPIException(MetadataErrors::METADATA_UNABLE_TO_TRANSFORM, $e->getMessage());
+			throw new BorhanAPIException(MetadataErrors::METADATA_UNABLE_TO_TRANSFORM, $e->getMessage());
 		}
 
 		$dbMetadataProfile->save();
 
-		$metadataProfile = new KalturaMetadataProfile();
+		$metadataProfile = new BorhanMetadataProfile();
 		$metadataProfile->fromObject($dbMetadataProfile, $this->getResponseProfile());
 		
 		return $metadataProfile;
@@ -458,7 +458,7 @@ class MetadataProfileService extends KalturaBaseService
 	 * @action updateViewsFromFile
 	 * @param int $id
 	 * @param file $viewsFile UI views file
-	 * @return KalturaMetadataProfile
+	 * @return BorhanMetadataProfile
 	 * @throws MetadataErrors::METADATA_PROFILE_NOT_FOUND
 	 * @throws MetadataErrors::METADATA_FILE_NOT_FOUND
 	 */
@@ -467,25 +467,25 @@ class MetadataProfileService extends KalturaBaseService
 		$dbMetadataProfile = MetadataProfilePeer::retrieveByPK($id);
 		
 		if(!$dbMetadataProfile)
-			throw new KalturaAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $id);
+			throw new BorhanAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $id);
 	
 		$filePath = null;
 		if($viewsFile)
 		{
 			$filePath = $viewsFile['tmp_name'];
 			if(!file_exists($filePath))
-				throw new KalturaAPIException(MetadataErrors::METADATA_FILE_NOT_FOUND, $viewsFile['name']);
+				throw new BorhanAPIException(MetadataErrors::METADATA_FILE_NOT_FOUND, $viewsFile['name']);
 			
 			$viewsDate = file_get_contents($filePath);
 			
 			if(trim($viewsDate) == '')
-			    throw new KalturaAPIException(MetadataErrors::EMPTY_VIEWS_DATA_PROVIDED, $viewsFile['name']);
+			    throw new BorhanAPIException(MetadataErrors::EMPTY_VIEWS_DATA_PROVIDED, $viewsFile['name']);
 		}
 		
 		$dbMetadataProfile->setViewesData($viewsDate);
 		$dbMetadataProfile->save();
 		
-		$metadataProfile = new KalturaMetadataProfile();
+		$metadataProfile = new BorhanMetadataProfile();
 		$metadataProfile->fromObject($dbMetadataProfile, $this->getResponseProfile());
 		
 		return $metadataProfile;
@@ -497,7 +497,7 @@ class MetadataProfileService extends KalturaBaseService
 	 * @action updateTransformationFromFile
 	 * @param int $id
 	 * @param file $xsltFile XSLT file, will be executed on every metadata add/update
-	 * @return KalturaMetadataProfile
+	 * @return BorhanMetadataProfile
 	 * @throws MetadataErrors::METADATA_PROFILE_NOT_FOUND
 	 * @throws MetadataErrors::METADATA_FILE_NOT_FOUND
 	 */
@@ -506,26 +506,26 @@ class MetadataProfileService extends KalturaBaseService
 		$dbMetadataProfile = MetadataProfilePeer::retrieveByPK($id);
 		
 		if(!$dbMetadataProfile)
-			throw new KalturaAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $id);
+			throw new BorhanAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $id);
 	
 		$filePath = null;
 		if($xsltFile)
 		{
 			$filePath = $xsltFile['tmp_name'];
 			if(!file_exists($filePath))
-				throw new KalturaAPIException(MetadataErrors::METADATA_FILE_NOT_FOUND, $xsltFile['name']);
+				throw new BorhanAPIException(MetadataErrors::METADATA_FILE_NOT_FOUND, $xsltFile['name']);
 			
 			$xsltData = file_get_contents($filePath);
 			
 			if(trim($xsltData) == '')
-			    throw new KalturaAPIException(MetadataErrors::EMPTY_XSLT_DATA_PROVIDED, $xsltFile['name']);
+			    throw new BorhanAPIException(MetadataErrors::EMPTY_XSLT_DATA_PROVIDED, $xsltFile['name']);
                 
 		}
 		
 		$dbMetadataProfile->setXsltData($xsltData);
 		$dbMetadataProfile->save();
 		
-		$metadataProfile = new KalturaMetadataProfile();
+		$metadataProfile = new BorhanMetadataProfile();
 		$metadataProfile->fromObject($dbMetadataProfile, $this->getResponseProfile());
 		
 		return $metadataProfile;
@@ -539,14 +539,14 @@ class MetadataProfileService extends KalturaBaseService
 	 * @return file
 	 *
 	 * @throws MetadataErrors::METADATA_PROFILE_NOT_FOUND
-	 * @throws KalturaErrors::FILE_DOESNT_EXIST
+	 * @throws BorhanErrors::FILE_DOESNT_EXIST
 	 */
 	public function serveAction($id)
 	{
 		$dbMetadataProfile = MetadataProfilePeer::retrieveByPK( $id );
 		
 		if(!$dbMetadataProfile)
-			throw new KalturaAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $id);
+			throw new BorhanAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $id);
 		
 		$fileName = $dbMetadataProfile->getSystemName() . '.xml';
 		$fileSubType = MetadataProfile::FILE_SYNC_METADATA_DEFINITION;
@@ -562,14 +562,14 @@ class MetadataProfileService extends KalturaBaseService
 	 * @return file
 	 *
 	 * @throws MetadataErrors::METADATA_PROFILE_NOT_FOUND
-	 * @throws KalturaErrors::FILE_DOESNT_EXIST
+	 * @throws BorhanErrors::FILE_DOESNT_EXIST
 	 */
 	public function serveViewAction($id)
 	{
 		$dbMetadataProfile = MetadataProfilePeer::retrieveByPK( $id );
 		
 		if(!$dbMetadataProfile)
-			throw new KalturaAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $id);
+			throw new BorhanAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $id);
 		
 		$fileName = $dbMetadataProfile->getSystemName() . '.xml';
 		$fileSubType = MetadataProfile::FILE_SYNC_METADATA_VIEWS;

@@ -3,18 +3,18 @@
 define ( 'TESTME_GROUP_START' , 'TESTME_GROUP_START' );
 define ( 'TESTME_GROUP_END' , 'TESTME_GROUP_END' );
 
-$SERVICE_URL = "http://localhost/kaltura_dev.php/partnerservices2/";
+$SERVICE_URL = "http://localhost/borhan_dev.php/partnerservices2/";
 
 function getLimited()
 {
 	$host = requestUtils::getHost();
 
 	// TODO - all static lists should move out of this function !!
-	if ( strpos ( $host , "www.kaltura.com" ) !== false  )
+	if ( strpos ( $host , "www.borhan.com" ) !== false  )
 	{
 		$limited = true;
 	}
-	else if ( strpos ( $host , "sandbox.kaltura.com" ) !== false  )
+	else if ( strpos ( $host , "sandbox.borhan.com" ) !== false  )
 	{
 		$limited = true;
 	}
@@ -34,12 +34,12 @@ function createSelect ( $id , $name , $default_value , $list_name , $pid_str = n
 	//global $arrays;
 	$download_file_formats = array ( "avi" => "avi" , "mp4" => "mp4", "mov" => "mov" , "flv" => "flv" , "mp3" => "mp3" , "3gp" => "3gp" , "original" => "original" );
 	$media_type_list = array ( "1" => "Video" , "2" => "Image" , "5" => "Audio", "11" => "Document", "12" => "Swf" , "-1" => "Automatic" );
-	$media_source_list = array ( "20" => "Kaltura" , "21" => "MyClips" , "23" => "KalturaPartner" , "26" => "KalturaKshow" , "27" => "KalturaPartnerKshow" , 
+	$media_source_list = array ( "20" => "Borhan" , "21" => "MyClips" , "23" => "BorhanPartner" , "26" => "BorhanKshow" , "27" => "BorhanPartnerKshow" , 
 									"1" => "* File" , "2" => "* Webcam" , "3" => "Flickr" , "4" => "YouTube" , "5" => "* URL" , "7" => "MySpace" , "8" =>
 									"PhotoBucket" , "9" => "Jamendo" , "10" => "CCMixter" , "11" => "NYPL" , "13" => "MediaCommons" , "22" => "Archive.org" ,
 									"24"  => "MetaCafe" );
 	if( !$limited )								
-		$media_source_list = array ( "25" => "KalturaQa") + $media_source_list ;									
+		$media_source_list = array ( "25" => "BorhanQa") + $media_source_list ;									
 
 	$protocol = requestUtils::getRequestProtocol();
 	$current_server = str_replace("$protocol://", "", requestUtils::getRequestHost());
@@ -51,13 +51,13 @@ function createSelect ( $id , $name , $default_value , $list_name , $pid_str = n
 		$format_list = array ( "1" => "JSON" , "2" => "XML" , "3" => "PHP" );
 		if (strpos ( $host , "sandbox" ) !== false )
 		{
-			$service_url_list["sandbox.kaltura.com"] = "Sandbox";
-			$service_url_list["www.kaltura.com"] = "Kaltura";
+			$service_url_list["sandbox.borhan.com"] = "Sandbox";
+			$service_url_list["www.borhan.com"] = "Borhan";
 		}
 		else
 		{
-			$service_url_list["www.kaltura.com"] = "Kaltura";
-			$service_url_list["sandbox.kaltura.com"] = "Sandbox";
+			$service_url_list["www.borhan.com"] = "Borhan";
+			$service_url_list["sandbox.borhan.com"] = "Sandbox";
 		}
 		
 		$index_path_list = array ( "index.php" => "index"  ) ;
@@ -65,10 +65,10 @@ function createSelect ( $id , $name , $default_value , $list_name , $pid_str = n
 	else
 	{
 		$format_list = array ( "1" => "JSON" , "2" => "XML" , "3" => "PHP" , "4" => "PHP_ARR" , "5" => "PHP_OBJ" , "8" => "mRSS");
-		$service_url_list = array_merge ( $service_url_list , array ( "localhost" => "localhost" , "qac.kaltura.dev" => "qac" , "kelev.kaltura.com:9007" => "qac-external" , "kaldev.kaltura.com" => "kaldev" , "www.kaltura.com" => "Kaltura", "sandbox.kaltura.com" => "Sandbox" ) );
-		$index_path_list = array ( "index.php" => "index" , "kaltura_dev.php" => "debug" ) ;
+		$service_url_list = array_merge ( $service_url_list , array ( "localhost" => "localhost" , "qac.borhan.dev" => "qac" , "kelev.borhan.com:9007" => "qac-external" , "kaldev.borhan.com" => "kaldev" , "www.borhan.com" => "Borhan", "sandbox.borhan.com" => "Sandbox" ) );
+		$index_path_list = array ( "index.php" => "index" , "borhan_dev.php" => "debug" ) ;
 		
-		$service_url_list["debian.kaltura.dev/kalturaCE"] = "debian";
+		$service_url_list["debian.borhan.dev/borhanCE"] = "debian";
 		
 	}
 
@@ -95,7 +95,7 @@ function createSelect ( $id , $name , $default_value , $list_name , $pid_str = n
 
 	$boolean_type = array ( "true" => "true" , "false" => "false"  );
 	$boolean_int_type = array ( "" => "" , "1" => "true" , "0" => "false"  );
-	$display_in_search_filter = array ( "" => "All" , "0" => "Not displayed" , "1" => "In Partner"  , "2" => "Kaltura Network" );
+	$display_in_search_filter = array ( "" => "All" , "0" => "Not displayed" , "1" => "In Partner"  , "2" => "Borhan Network" );
 	
 	$usage_graph_resolutions = array ( "days" => "days", "months" => "months" );
 	$months_list = array ( "1" => "1", 
@@ -158,8 +158,8 @@ function createSelect ( $id , $name , $default_value , $list_name , $pid_str = n
 		
 		"conversion_profile_type" => array ( "low" => "low" , "med" => "med" , "high" => "high" , "hd" => "HD" ) ,
 		"conversion_profile_aspect_ratio" => array ( "1" => "keep aspect ratio" , "2" => "keep original size" , "3" => "4:3" , "4" => "16:9" ) ,
-		"uiconf_obj_type" => array ( "1" => "kdp" , "2" => "kcw" , "3" => "kse" , "4" => "kae" , "6" => "app-studio" ) ,
-		"uiconf_obj_type_filter" => array ( "" => "ALL" , "1" => "kdp" , "2" => "kcw" , "3" => "kse" , "4" => "kae" , "6" => "app-studio" ) ,
+		"uiconf_obj_type" => array ( "1" => "bdp" , "2" => "bcw" , "3" => "kse" , "4" => "bae" , "6" => "app-studio" ) ,
+		"uiconf_obj_type_filter" => array ( "" => "ALL" , "1" => "bdp" , "2" => "bcw" , "3" => "kse" , "4" => "bae" , "6" => "app-studio" ) ,
 		"uiconf_filter_order_by" => array ( "" => "None" ,
 			"+id" => "id asc" , "-id" => "id desc" , 
 			"+created_at" => "created_at asc" , "-created_at" => "created_at desc",
@@ -314,7 +314,7 @@ $limited = getLimited();
 <span style="font-family:arial; font-size:13px;">
 <form id="theform" method="post" action="<?php echo $SERVICE_URL ?>" target="target_frame">
 <div>
-<span style="background-color:yellow" >? See docs at: <a target="KalturaAPI" href="http://www.kaltura.com/wiki/index.php/KalturaAPI:main">KalturaAPI:main</a></span>
+<span style="background-color:yellow" >? See docs at: <a target="BorhanAPI" href="http://www.borhan.com/wiki/index.php/BorhanAPI:main">BorhanAPI:main</a></span>
 <table style="font-family:arial; font-size:13px;">
 <?php
 	$fields1 = array (

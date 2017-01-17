@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.filters.enum
  */
-class KalturaDistributionProfileOrderBy extends KalturaStringEnum
+class BorhanDistributionProfileOrderBy extends BorhanStringEnum
 {
 	const CREATED_AT_ASC = "+createdAt";
 	const CREATED_AT_DESC = "-createdAt";

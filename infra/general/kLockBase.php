@@ -68,8 +68,8 @@ class kLockBase
 	 */
 	protected static function safeLog($msg)
 	{
-		if (class_exists('KalturaLog'))
-			KalturaLog::log($msg);
+		if (class_exists('BorhanLog'))
+			BorhanLog::log($msg);
 	}
 
 	/**

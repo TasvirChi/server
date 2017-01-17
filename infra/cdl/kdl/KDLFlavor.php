@@ -157,7 +157,7 @@ class KDLFlavor extends KDLMediaDataSet {
 	 */
 	public function GenerateTarget(KDLMediaDataSet $source) {
 		if($source==null || !$source->IsDataSet() || $this->_flags&self::ForceCommandLineFlagBit) {
-			KalturaLog::log("FORCE ". $this->_flags);
+			BorhanLog::log("FORCE ". $this->_flags);
 			$target = clone $this;
 			if($target->_video && ($target->_video->_gop===null || $target->_video->_gop==0))
 			$target->_video->_gop = KDLConstants::DefaultGOP;
@@ -202,7 +202,7 @@ class KDLFlavor extends KDLMediaDataSet {
 	 * generateOperationSetCommandLines
 	 */
 	private function generateOperationSetCommandLines(KDLFlavor $target, $transcoders){
-KalturaLog::log("==>\n");
+BorhanLog::log("==>\n");
 		
 		$cnt = count($transcoders);
 		$i=1;
@@ -220,9 +220,9 @@ KalturaLog::log("==>\n");
 	 */
 	public function ValidateProduct(KDLMediaDataSet $source, KDLFlavor $product)
 	{
-		KalturaLog::log( ".SRC-->".$source->ToString());
-		KalturaLog::log( ".TRG-->".$this->ToString());
-		KalturaLog::log( ".PRD-->".$product->ToString());
+		BorhanLog::log( ".SRC-->".$source->ToString());
+		BorhanLog::log( ".TRG-->".$this->ToString());
+		BorhanLog::log( ".PRD-->".$product->ToString());
 		
 		$rv = $product->ValidateFlavor();
 
@@ -246,7 +246,7 @@ KalturaLog::log("==>\n");
 		 */
 //		if(isset($srcCont) && $srcCont->GetIdOrFormat()=='arf') {
 		if((isset($srcCont) && $srcCont->GetIdOrFormat()=='arf') || strstr($product->ToString(),$source->ToString())!=false) {
-			KalturaLog::log("ARF (webex) sources don't have proper mediaInfo - thus can not validate the product");
+			BorhanLog::log("ARF (webex) sources don't have proper mediaInfo - thus can not validate the product");
 			return true;
 		}
 				
@@ -254,7 +254,7 @@ KalturaLog::log("==>\n");
 		 * WVM (DRM Widevine) sources don't have proper mediaInfo - thus can not validate the product, skip it
 		 */
 		if(isset($this->_container) && $this->_container->GetIdOrFormat()=='wvm') {
-			KalturaLog::log("WVM (DRM Widevine) sources don't have proper mediaInfo - thus can not validate the product");
+			BorhanLog::log("WVM (DRM Widevine) sources don't have proper mediaInfo - thus can not validate the product");
 			return true;
 		}
 		
@@ -288,7 +288,7 @@ $plannedDur = 0;
 		if(isset($srcVid) && $srcVid->IsFormatOf(array("h.263","h263","sorenson spark","vp6")) 
 		&& isset($srcAud) && $srcAud->IsFormatOf(array('nellymoser')) && $cDur>0 && isset($srcCont->_fileSize)){
 			if($srcCont->_fileSize*8000/$cDur<KDLSanityLimits::MinBitrate) {
-				KalturaLog::log("Invalid WEB-CAM source file. Duration validation is un-applicable");
+				BorhanLog::log("Invalid WEB-CAM source file. Duration validation is un-applicable");
 				return true;
 			}
 		}
@@ -371,7 +371,7 @@ $plannedDur = 0;
 			// "Invalid File - No media content.";
 			$product->_errors[KDLConstants::ContainerIndex][] = KDLErrors::ToString(KDLErrors::NoValidMediaStream);
 		}
-		KalturaLog::log( ".PRD-->".$product->ToString());
+		BorhanLog::log( ".PRD-->".$product->ToString());
 
 		return $rv;
 	}
@@ -521,7 +521,7 @@ $plannedDur = 0;
 		}
 		
 		if(isset($source->_decryptionKey)) {
-			KalturaLog::log("decryptionKey:".$source->_decryptionKey);
+			BorhanLog::log("decryptionKey:".$source->_decryptionKey);
 			$target->_decryptionKey = $source->_decryptionKey;
 		}
 		
@@ -541,7 +541,7 @@ $plannedDur = 0;
 			else {
 				$this->_video->_isCropIMX=false;
 			}
-			KalturaLog::log('IsCropImx('.$this->_video->_isCropIMX.')');
+			BorhanLog::log('IsCropImx('.$this->_video->_isCropIMX.')');
 		}
 
 			/*
@@ -570,7 +570,7 @@ $plannedDur = 0;
 					$optimizationPolicy = $this->_optimizationPolicy;
 				else
 					$optimizationPolicy = KDLOptimizationPolicy::BitrateFlagBit;
-				KalturaLog::log('OptimizationPolicy('.$target->_optimizationPolicy.')');
+				BorhanLog::log('OptimizationPolicy('.$target->_optimizationPolicy.')');
 				
 					/*
 					 * Bitrate oriented optimization -
@@ -888,7 +888,7 @@ $plannedDur = 0;
 		if ((isset($source->_dar) && $source->_dar < 1) ||
 			(isset($source->_height) && isset($source->_width) && $source->_height > 0 && $source->_width > 0 && $source->_height > $source->_width))
 		{
-			KalturaLog::debug('inverting source');
+			BorhanLog::debug('inverting source');
 			self::invertVideoDimensions($source);
 			$invertedVideo = true;
 		}
@@ -1096,7 +1096,7 @@ $plannedDur = 0;
 		 */
 		if ($invertedVideo)
 		{
-			KalturaLog::debug('inverting back source & target');
+			BorhanLog::debug('inverting back source & target');
 			
 			self::invertVideoDimensions($source);
 			self::invertVideoDimensions($target);
@@ -1204,9 +1204,9 @@ $plannedDur = 0;
 			 */
 		if(isset($source->_complexityValue) && $source->_complexityValue>500 
 		&& isset($target->_contentAwareness) && $target->_contentAwareness>0 && $target->_contentAwareness<=1) {
-			KalturaLog::log("complexityValue($source->_complexityValue),contentAwareness($target->_contentAwareness),targetBR($target->_bitRate)");
+			BorhanLog::log("complexityValue($source->_complexityValue),contentAwareness($target->_contentAwareness),targetBR($target->_bitRate)");
 			$complexityNormalizedBitrate = KDLVideoBitrateNormalize::NormalizeSourceToTarget(KDLVideoTarget::H264, $source->_complexityValue, $target->_id,1);
-			KalturaLog::log("maxNormalizedBitrate($maxNormalizedBitrate),complexityNormalizedBitrate($complexityNormalizedBitrate)");
+			BorhanLog::log("maxNormalizedBitrate($maxNormalizedBitrate),complexityNormalizedBitrate($complexityNormalizedBitrate)");
 			/*
 			 * Limit the maximal gain (complexityValue vs. target flavor predifined bitrate), to the 'contentAwareness' limit
 			 */
@@ -1216,7 +1216,7 @@ $plannedDur = 0;
 					$maxNormalizedBitrate = $maxGainLimitedBitrate;
 				else
 					$maxNormalizedBitrate = $complexityNormalizedBitrate;
-				KalturaLog::log("maxGainLimitedBitrate($maxGainLimitedBitrate), adjsuted maxNormalizedBitrate($maxNormalizedBitrate)");
+				BorhanLog::log("maxGainLimitedBitrate($maxGainLimitedBitrate), adjsuted maxNormalizedBitrate($maxNormalizedBitrate)");
 			}
 		}
 		
@@ -1344,10 +1344,10 @@ $plannedDur = 0;
 		else
 			$watermarkDataArr = array($watermarkData);
 
-		KalturaLog::log("WM objects:".count($watermarkDataArr));
+		BorhanLog::log("WM objects:".count($watermarkDataArr));
 
 		foreach($watermarkDataArr as $wmI=>$wmData){
-			KalturaLog::log("In WM($wmI):".json_encode($wmData));
+			BorhanLog::log("In WM($wmI):".json_encode($wmData));
 			if(isset($wmData->scale)){
 				$scaleArr = explode("x",$wmData->scale); 
 				$widScale = trim($scaleArr[0]); 
@@ -1373,7 +1373,7 @@ $plannedDur = 0;
 				 */
 			$wmData->fixImageDar = $fixImageDar;
 			$watermarkDataArr[$wmI] = $wmData;
-			KalturaLog::log("Final WM($wmI):".json_encode($wmData));
+			BorhanLog::log("Final WM($wmI):".json_encode($wmData));
 		}
 		return $watermarkDataArr;
 	}
@@ -1388,7 +1388,7 @@ $plannedDur = 0;
 	 */
 	private static function adjustFrameSizeToDarAndRotation($width, $height, $dar, $rotation)
 	{
-		KalturaLog::log("In: width($width), height($height), dar($dar), rotation($rotation)");
+		BorhanLog::log("In: width($width), height($height), dar($dar), rotation($rotation)");
 		/*
 		 * Evaluate source frame dims - dar adjustment and rotation
 		 */
@@ -1401,7 +1401,7 @@ $plannedDur = 0;
 		if(isset($dar)) {
 			$aux = round($adjustedHgt*$dar);
 			if(abs($aux-$adjustedWid)>10){
-				KalturaLog::log("Adjust width($adjustedWid) with dar($dar): $aux");
+				BorhanLog::log("Adjust width($adjustedWid) with dar($dar): $aux");
 				$adjustedWid = $aux;
 			}
 			
@@ -1416,16 +1416,16 @@ $plannedDur = 0;
 				if(abs(1-$fixImageDar)<0.1)
 					$fixImageDar = null;
 			}
-			KalturaLog::log("Adjusted for dar($dar) - ($adjustedWid), height($adjustedHgt),fixImageDar($fixImageDar) ");
+			BorhanLog::log("Adjusted for dar($dar) - ($adjustedWid), height($adjustedHgt),fixImageDar($fixImageDar) ");
 		}
 		// For 'portrait' sources (rotation -90,90,270) - switch the source dims
 		if(isset($rotation) && in_array($rotation, array(-90,90,270))){
 			$aux = $adjustedHgt;
 			$adjustedHgt = $adjustedWid;
 			$adjustedWid = $aux;
-			KalturaLog::log("Adjust frame dims to rotation($rotation): width($adjustedWid),height($adjustedHgt)");
+			BorhanLog::log("Adjust frame dims to rotation($rotation): width($adjustedWid),height($adjustedHgt)");
 		}
-		KalturaLog::log("Final: width($adjustedWid),height($adjustedHgt),fixImageDar($fixImageDar)");
+		BorhanLog::log("Final: width($adjustedWid),height($adjustedHgt),fixImageDar($fixImageDar)");
 		return array($adjustedWid,$adjustedHgt,$fixImageDar);
 	}
 	
@@ -1711,7 +1711,7 @@ $plannedDur = 0;
 	 */
 	private function validateTranscoders(KDLMediaDataSet $source, &$transcoders, $inSet=false)
 	{
-KalturaLog::log("==>\n");
+BorhanLog::log("==>\n");
 		$cnt = count($transcoders);
 		$i = 0;
 		foreach($transcoders as $key=>$trPrm) {
@@ -1732,7 +1732,7 @@ KalturaLog::log("==>\n");
 				}
 				else {
 					if($inSet){		
-						KalturaLog::log(": inSet,cnt:$cnt,i:$i");
+						BorhanLog::log(": inSet,cnt:$cnt,i:$i");
 						if($i>0){
 							$transcoders[$key]->_engine->set_sourceBlacklist(null);
 						}

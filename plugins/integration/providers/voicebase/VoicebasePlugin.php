@@ -2,7 +2,7 @@
 /**
  * @package plugins.voicebase
  */
-class VoicebasePlugin extends IntegrationProviderPlugin implements IKalturaEventConsumers
+class VoicebasePlugin extends IntegrationProviderPlugin implements IBorhanEventConsumers
 {
 	const PLUGIN_NAME = 'voicebase';
 	const FLOW_MANAGER = 'kVoicebaseFlowManager';
@@ -12,7 +12,7 @@ class VoicebasePlugin extends IntegrationProviderPlugin implements IKalturaEvent
 	const INTEGRATION_PLUGIN_VERSION_BUILD = 0;
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -24,7 +24,7 @@ class VoicebasePlugin extends IntegrationProviderPlugin implements IKalturaEvent
 	 */
 	public static function getRequiredIntegrationPluginVersion()
 	{
-		return new KalturaVersion(
+		return new BorhanVersion(
 			self::INTEGRATION_PLUGIN_VERSION_MAJOR,
 			self::INTEGRATION_PLUGIN_VERSION_MINOR,
 			self::INTEGRATION_PLUGIN_VERSION_BUILD
@@ -32,7 +32,7 @@ class VoicebasePlugin extends IntegrationProviderPlugin implements IKalturaEvent
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	 */
 	public static function getEventConsumers()
 	{
@@ -59,7 +59,7 @@ class VoicebasePlugin extends IntegrationProviderPlugin implements IKalturaEvent
 	
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
@@ -68,15 +68,15 @@ class VoicebasePlugin extends IntegrationProviderPlugin implements IKalturaEvent
 			return 'kVoicebaseJobProviderData';
 		}
 	
-		if($baseClass == 'KalturaIntegrationJobProviderData')
+		if($baseClass == 'BorhanIntegrationJobProviderData')
 		{
 			if($enumValue == self::getApiValue(VoicebaseIntegrationProviderType::VOICEBASE) || $enumValue == self::getIntegrationProviderCoreValue(VoicebaseIntegrationProviderType::VOICEBASE))
-				return 'KalturaVoicebaseJobProviderData';
+				return 'BorhanVoicebaseJobProviderData';
 		}
 	
 		if($baseClass == 'KIntegrationEngine' || $baseClass == 'KIntegrationCloserEngine')
 		{
-			if($enumValue == KalturaIntegrationProviderType::VOICEBASE)
+			if($enumValue == BorhanIntegrationProviderType::VOICEBASE)
 				return 'KVoicebaseIntegrationEngine';
 		}
 		if($baseClass == 'IIntegrationProvider' && $enumValue == self::getIntegrationProviderCoreValue(VoicebaseIntegrationProviderType::VOICEBASE))
@@ -90,7 +90,7 @@ class VoicebasePlugin extends IntegrationProviderPlugin implements IKalturaEvent
 	 */
 	public static function getProviderTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('IntegrationProviderType', $value);
 	}
 	

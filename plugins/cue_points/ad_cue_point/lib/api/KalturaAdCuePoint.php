@@ -3,10 +3,10 @@
  * @package plugins.adCuePoint
  * @subpackage api.objects
  */
-class KalturaAdCuePoint extends KalturaCuePoint
+class BorhanAdCuePoint extends BorhanCuePoint
 {
 	/**
-	 * @var KalturaAdProtocolType
+	 * @var BorhanAdProtocolType
 	 * @filter eq,in
 	 * @insertonly
 	 * @requiresPermission insert,update
@@ -20,7 +20,7 @@ class KalturaAdCuePoint extends KalturaCuePoint
 	public $sourceUrl;
 	
 	/**
-	 * @var KalturaAdType 
+	 * @var BorhanAdType 
 	 * @requiresPermission insert,update
 	 */
 	public $adType;
@@ -62,7 +62,7 @@ class KalturaAdCuePoint extends KalturaCuePoint
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaCuePoint::getMapBetweenObjects()
+	 * @see BorhanCuePoint::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -70,7 +70,7 @@ class KalturaAdCuePoint extends KalturaCuePoint
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toInsertableObject()
+	 * @see BorhanObject::toInsertableObject()
 	 */
 	public function toInsertableObject($object_to_fill = null, $props_to_skip = array())
 	{
@@ -81,7 +81,7 @@ class KalturaAdCuePoint extends KalturaCuePoint
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaCuePoint::validateForInsert()
+	 * @see BorhanCuePoint::validateForInsert()
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{
@@ -91,7 +91,7 @@ class KalturaAdCuePoint extends KalturaCuePoint
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaCuePoint::validateForUpdate()
+	 * @see BorhanCuePoint::validateForUpdate()
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = array())
 	{

@@ -4,7 +4,7 @@
  * @subpackage api.objects
  * @abstract
  */
-abstract class KalturaScheduleResource extends KalturaObject implements IRelatedFilterable, IApiObjectFactory
+abstract class BorhanScheduleResource extends BorhanObject implements IRelatedFilterable, IApiObjectFactory
 {
 	/**
 	 * Auto-generated unique identifier
@@ -49,7 +49,7 @@ abstract class KalturaScheduleResource extends KalturaObject implements IRelated
 	public $description;
 
 	/**
-	 * @var KalturaScheduleResourceStatus
+	 * @var BorhanScheduleResourceStatus
 	 * @readonly
 	 * @filter eq,in
 	 */
@@ -95,7 +95,7 @@ abstract class KalturaScheduleResource extends KalturaObject implements IRelated
 	 );
 		 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -121,7 +121,7 @@ abstract class KalturaScheduleResource extends KalturaObject implements IRelated
 	abstract protected function getScheduleResourceType();
 		 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert($propertiesToSkip)
+	 * @see BorhanObject::validateForInsert($propertiesToSkip)
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{
@@ -133,21 +133,21 @@ abstract class KalturaScheduleResource extends KalturaObject implements IRelated
 			$c->add(ScheduleResourcePeer::SYSTEM_NAME, $this->systemName);
 			$c->add(ScheduleResourcePeer::TYPE, $this->getScheduleResourceType());
 			if(ScheduleResourcePeer::doCount($c))
-				throw new KalturaAPIException(KalturaErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
+				throw new BorhanAPIException(BorhanErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
 		}
 
 		if (!$this->isNull('parentId') && $this->parentId != 0 )
 		{
 			$scheduleResource = ScheduleResourcePeer::retrieveByPK($this->parentId);
 			if (is_null($scheduleResource))
-				throw new KalturaAPIException(KalturaErrors::RESOURCE_PARENT_ID_NOT_FOUND, $this->parentId);
+				throw new BorhanAPIException(BorhanErrors::RESOURCE_PARENT_ID_NOT_FOUND, $this->parentId);
 		}
 		
 		return parent::validateForInsert($propertiesToSkip);
 	}
 		 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUpdate($sourceObject, $propertiesToSkip)
+	 * @see BorhanObject::validateForUpdate($sourceObject, $propertiesToSkip)
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = array())
 	{
@@ -158,41 +158,41 @@ abstract class KalturaScheduleResource extends KalturaObject implements IRelated
 			$c->add(ScheduleResourcePeer::TYPE, $this->getScheduleResourceType());
 			$c->add(ScheduleResourcePeer::ID, $sourceObject->getId(), Criteria::NOT_EQUAL);
 			if(ScheduleResourcePeer::doCount($c))
-				throw new KalturaAPIException(KalturaErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
+				throw new BorhanAPIException(BorhanErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
 		}
 
 		if (!$this->isNull('parentId') && $this->parentId != 0 && $this->parentId != $sourceObject->getId() )
 		{
 			$scheduleResource = ScheduleResourcePeer::retrieveByPK($this->parentId);
 			if (is_null($scheduleResource))
-				throw new KalturaAPIException(KalturaErrors::RESOURCE_PARENT_ID_NOT_FOUND, $this->parentId);
+				throw new BorhanAPIException(BorhanErrors::RESOURCE_PARENT_ID_NOT_FOUND, $this->parentId);
 		}
 		
 		return parent::validateForUpdate($sourceObject, $propertiesToSkip);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IApiObjectFactory::getInstance($sourceObject, KalturaDetachedResponseProfile $responseProfile)
+	 * @see IApiObjectFactory::getInstance($sourceObject, BorhanDetachedResponseProfile $responseProfile)
 	 */
-	public static function getInstance($sourceObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function getInstance($sourceObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$object = null;
 	    switch($sourceObject->getType())
 	    {
 		    case ScheduleResourceType::LOCATION:
-	    		$object = new KalturaLocationScheduleResource();
+	    		$object = new BorhanLocationScheduleResource();
 	    		break;
 	    		
 	    	case ScheduleResourceType::LIVE_ENTRY:
-	    		$object = new KalturaLiveEntryScheduleResource();
+	    		$object = new BorhanLiveEntryScheduleResource();
 	    		break;
 	    		
 	    	case ScheduleResourceType::CAMERA:
-	    		$object = new KalturaCameraScheduleResource();
+	    		$object = new BorhanCameraScheduleResource();
 	    		break;
 	    		
 	    	default:
-				$object = KalturaPluginManager::loadObject('KalturaScheduleResource', $sourceObject->getType());
+				$object = BorhanPluginManager::loadObject('BorhanScheduleResource', $sourceObject->getType());
 				if(!$object)
 				{
 	    			return null;

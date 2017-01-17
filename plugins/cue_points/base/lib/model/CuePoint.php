@@ -31,7 +31,7 @@ abstract class CuePoint extends BaseCuePoint implements IIndexable, IRelatedObje
 		if ($this->isNew())
 			return array();
 			
-		$c = KalturaCriteria::create(CuePointPeer::OM_CLASS);
+		$c = BorhanCriteria::create(CuePointPeer::OM_CLASS);
 		$c->add(CuePointPeer::PARENT_ID, $this->getId());
 		
 		return CuePointPeer::doSelect($c);
@@ -41,7 +41,7 @@ abstract class CuePoint extends BaseCuePoint implements IIndexable, IRelatedObje
 	{
 		$kuser =  kuserPeer::retrieveByPKNoFilter($this->getKuserId());
 	    if(!$kuser)
-			throw new KalturaAPIException(KalturaErrors::INVALID_USER_ID);
+			throw new BorhanAPIException(BorhanErrors::INVALID_USER_ID);
 			
 		return $kuser->getPuserId();
 	} 
@@ -74,7 +74,7 @@ abstract class CuePoint extends BaseCuePoint implements IIndexable, IRelatedObje
 			$id = $currentDcId.'_'.kString::generateStringId();
 			$existingObject = CuePointPeer::retrieveByPKNoFilter($id);
 			if ($existingObject){
-				KalturaLog::log(__METHOD__ . ": id [$id] already exists");
+				BorhanLog::log(__METHOD__ . ": id [$id] already exists");
 			}else{
 				return $id;
 			}
@@ -341,7 +341,7 @@ abstract class CuePoint extends BaseCuePoint implements IIndexable, IRelatedObje
 		if(!is_null($ret))
 			return $ret;
 			
-		$c = KalturaCriteria::create(CuePointPeer::OM_CLASS);
+		$c = BorhanCriteria::create(CuePointPeer::OM_CLASS);
 		$c->add(CuePointPeer::PARENT_ID, $this->getId());
 		$c->applyFilters();
 		

@@ -2,7 +2,7 @@
 /**
  * @package plugins.multiCenters
  */
-class MultiCentersPlugin extends KalturaPlugin implements IKalturaServices
+class MultiCentersPlugin extends BorhanPlugin implements IBorhanServices
 {
 	const PLUGIN_NAME = 'multiCenters';
 	

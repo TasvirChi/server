@@ -3,17 +3,17 @@
  * @package api
  * @subpackage objects
  */
-class KalturaLiveStreamBitrateArray extends KalturaTypedArray
+class BorhanLiveStreamBitrateArray extends BorhanTypedArray
 {
-	public static function fromDbArray(array $arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaLiveStreamBitrateArray();
+		$newArr = new BorhanLiveStreamBitrateArray();
 		if ($arr == null)
 			return $newArr;
 			
 		foreach ($arr as $obj)
 		{
-			$nObj = new KalturaLiveStreamBitrate();
+			$nObj = new BorhanLiveStreamBitrate();
 			$nObj->fromArray($obj);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaLiveStreamBitrateArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaLiveStreamBitrate");	
+		parent::__construct("BorhanLiveStreamBitrate");	
 	}
 }

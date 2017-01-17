@@ -3,7 +3,7 @@
  * @package plugins.huluDistribution
  * @subpackage api.objects
  */
-class KalturaHuluDistributionProfile extends KalturaConfigurableDistributionProfile
+class BorhanHuluDistributionProfile extends BorhanConfigurableDistributionProfile
 {
 	/**
 	 * @var string
@@ -32,7 +32,7 @@ class KalturaHuluDistributionProfile extends KalturaConfigurableDistributionProf
 	public $seriesPrimaryCategory;
 	
 	/**
-	 * @var KalturaStringArray
+	 * @var BorhanStringArray
 	 */
 	public $seriesAdditionalCategories;
 	
@@ -62,7 +62,7 @@ class KalturaHuluDistributionProfile extends KalturaConfigurableDistributionProf
 	public $disableEpisodeNumberCustomValidation;
 	
 	/**
-	 * @var KalturaDistributionProtocol
+	 * @var BorhanDistributionProtocol
 	 */
 	 public $protocol;
 	 
@@ -150,25 +150,25 @@ class KalturaHuluDistributionProfile extends KalturaConfigurableDistributionProf
 		return $dbObject;
 	}
 	
-	public function doFromObject($source_object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($source_object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($source_object, $responseProfile);
 		
-		$this->seriesAdditionalCategories = KalturaStringArray::fromStringArray($source_object->getSeriesAdditionalCategories());
+		$this->seriesAdditionalCategories = BorhanStringArray::fromStringArray($source_object->getSeriesAdditionalCategories());
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert($propertiesToSkip)
+	 * @see BorhanObject::validateForInsert($propertiesToSkip)
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{
 		$partnerId = kCurrentContext::getCurrentPartnerId();
 		$partner = PartnerPeer::retrieveByPK($partnerId);
 		if(!$partner)
-			throw new KalturaAPIException(KalturaErrors::PARTNER_NOT_FOUND, $partnerId);
+			throw new BorhanAPIException(BorhanErrors::PARTNER_NOT_FOUND, $partnerId);
 			
 		if(!$partner->getPluginEnabled(HuluDistributionPlugin::DEPENDENTS_ON_PLUGIN_NAME_CUE_POINT))
-			throw new KalturaAPIException(KalturaErrors::PLUGIN_NOT_AVAILABLE_FOR_PARTNER, HuluDistributionPlugin::DEPENDENTS_ON_PLUGIN_NAME_CUE_POINT, $partnerId);
+			throw new BorhanAPIException(BorhanErrors::PLUGIN_NOT_AVAILABLE_FOR_PARTNER, HuluDistributionPlugin::DEPENDENTS_ON_PLUGIN_NAME_CUE_POINT, $partnerId);
 		
 		return parent::validateForInsert($propertiesToSkip);
 	}

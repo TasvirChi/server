@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaSyndicationDistributionProfile extends KalturaDistributionProfile
+class BorhanSyndicationDistributionProfile extends BorhanDistributionProfile
 {	
 	/**
 	 * @var string
@@ -67,7 +67,7 @@ class KalturaSyndicationDistributionProfile extends KalturaDistributionProfile
 		
 		if ( count(explode(",", $this->requiredFlavorParamsIds)) > 1 )
 		{
-		    throw new KalturaAPIException( KalturaErrors::INVALID_FIELD_VALUE, "requiredFlavorParamsIds");
+		    throw new BorhanAPIException( BorhanErrors::INVALID_FIELD_VALUE, "requiredFlavorParamsIds");
 		}
 		
 			

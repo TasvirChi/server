@@ -3,13 +3,13 @@
  * Enable entry content distribution ingestion from XML bulk upload
  * @package plugins.contentDistribution
  */
-class ContentDistributionBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPending, IKalturaSchemaContributor
+class ContentDistributionBulkUploadXmlPlugin extends BorhanPlugin implements IBorhanPending, IBorhanSchemaContributor
 {
 	const PLUGIN_NAME = 'contentDistributionBulkUploadXml';
 	const BULK_UPLOAD_XML_PLUGIN_NAME = 'bulkUploadXml';
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -17,18 +17,18 @@ class ContentDistributionBulkUploadXmlPlugin extends KalturaPlugin implements IK
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$bulkUploadXmlDependency = new KalturaDependency(self::BULK_UPLOAD_XML_PLUGIN_NAME);
-		$contentDistributionDependency = new KalturaDependency(ContentDistributionPlugin::getPluginName());
+		$bulkUploadXmlDependency = new BorhanDependency(self::BULK_UPLOAD_XML_PLUGIN_NAME);
+		$contentDistributionDependency = new BorhanDependency(ContentDistributionPlugin::getPluginName());
 		
 		return array($bulkUploadXmlDependency, $contentDistributionDependency);
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaSchemaContributor::contributeToSchema()
+	 * @see IBorhanSchemaContributor::contributeToSchema()
 	 */
 	public static function contributeToSchema($type)
 	{
@@ -47,7 +47,7 @@ class ContentDistributionBulkUploadXmlPlugin extends KalturaPlugin implements IK
 	<xs:complexType name="T_distribution">
 		<xs:sequence>
 			<xs:choice minOccurs="1" maxOccurs="1">
-				<xs:element name="distributionProvider" minOccurs="1" maxOccurs="1" type="KalturaDistributionProviderType">
+				<xs:element name="distributionProvider" minOccurs="1" maxOccurs="1" type="BorhanDistributionProviderType">
 					<xs:annotation>
 						<xs:documentation>The provider (Distribution Partner) that the entry is distributed to</xs:documentation>
 					</xs:annotation>

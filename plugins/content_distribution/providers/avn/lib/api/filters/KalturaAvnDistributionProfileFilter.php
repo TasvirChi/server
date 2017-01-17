@@ -3,6 +3,6 @@
  * @package plugins.avnDistribution
  * @subpackage api.filters
  */
-class KalturaAvnDistributionProfileFilter extends KalturaAvnDistributionProfileBaseFilter
+class BorhanAvnDistributionProfileFilter extends BorhanAvnDistributionProfileBaseFilter
 {
 }

@@ -68,19 +68,19 @@ class BulkUploadEngineICal extends KBulkUploadEngine
     	}
     	$this->handledRecordsThisRun++;
     
-    	$bulkUploadResult = new KalturaBulkUploadResultScheduleEvent();
+    	$bulkUploadResult = new BorhanBulkUploadResultScheduleEvent();
     	$bulkUploadResult->bulkUploadJobId = $this->job->id;
     	$bulkUploadResult->lineIndex = $this->itemIndex;
     	$bulkUploadResult->partnerId = $this->job->partnerId;
     	$bulkUploadResult->referenceId = $iCal->getUid();
-    	$bulkUploadResult->bulkUploadResultObjectType = KalturaBulkUploadObjectType::SCHEDULE_EVENT;
+    	$bulkUploadResult->bulkUploadResultObjectType = BorhanBulkUploadObjectType::SCHEDULE_EVENT;
     	$bulkUploadResult->rowData = $iCal->getRaw();
-		$bulkUploadResult->objectStatus = KalturaScheduleEventStatus::ACTIVE;
-		$bulkUploadResult->status = KalturaBulkUploadResultStatus::IN_PROGRESS;
+		$bulkUploadResult->objectStatus = BorhanScheduleEventStatus::ACTIVE;
+		$bulkUploadResult->status = BorhanBulkUploadResultStatus::IN_PROGRESS;
 
     	if($iCal->getMethod() == kSchedulingICal::METHOD_CANCEL)
     	{
-    		$bulkUploadResult->action = KalturaBulkUploadAction::CANCEL;
+    		$bulkUploadResult->action = BorhanBulkUploadAction::CANCEL;
     	}
     
     	$this->itemIndex++;
@@ -99,8 +99,8 @@ class BulkUploadEngineICal extends KBulkUploadEngine
     			
     		if(KBatchBase::$kClient->isError($requestResult))
     		{
-    			$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-    			$bulkUploadResult->errorType = KalturaBatchJobErrorTypes::KALTURA_API;
+    			$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+    			$bulkUploadResult->errorType = BorhanBatchJobErrorTypes::BORHAN_API;
     			$bulkUploadResult->objectStatus = $requestResult['code'];
     			$bulkUploadResult->errorDescription = $requestResult['message'];
     			$this->addBulkUploadResult($bulkUploadResult);
@@ -109,8 +109,8 @@ class BulkUploadEngineICal extends KBulkUploadEngine
     			
     		if($requestResult instanceof Exception)
     		{
-    			$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-    			$bulkUploadResult->errorType = KalturaBatchJobErrorTypes::KALTURA_API;
+    			$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+    			$bulkUploadResult->errorType = BorhanBatchJobErrorTypes::BORHAN_API;
     			$bulkUploadResult->errorDescription = $requestResult->getMessage();
     			$this->addBulkUploadResult($bulkUploadResult);
     			continue;
@@ -127,17 +127,17 @@ class BulkUploadEngineICal extends KBulkUploadEngine
     
     protected function getExistingEvents()
     {
-    	$schedulePlugin = KalturaScheduleClientPlugin::get(KBatchBase::$kClient);
+    	$schedulePlugin = BorhanScheduleClientPlugin::get(KBatchBase::$kClient);
 
-    	$pager = new KalturaFilterPager();
+    	$pager = new BorhanFilterPager();
     	$pager->pageSize = self::MAX_IN_FILTER;
     	
 		KBatchBase::$kClient->startMultiRequest();
 		$referenceIds = array();
 		foreach($this->bulkUploadResults as $bulkUploadResult)
 		{
-			/* @var $bulkUploadResult KalturaBulkUploadResultScheduleEvent */
-		    if($bulkUploadResult->action == KalturaBulkUploadAction::CANCEL)
+			/* @var $bulkUploadResult BorhanBulkUploadResultScheduleEvent */
+		    if($bulkUploadResult->action == BorhanBulkUploadAction::CANCEL)
 		    	continue;
 		    
 		    $item = $this->items[$bulkUploadResult->lineIndex];
@@ -149,14 +149,14 @@ class BulkUploadEngineICal extends KBulkUploadEngine
 		    $referenceIds[] = $item->getUid();
 		    if(count($referenceIds) >= self::MAX_IN_FILTER)
 		    {
-		    	$filter = new KalturaScheduleEventFilter();
+		    	$filter = new BorhanScheduleEventFilter();
 		    	$filter->referenceIdIn = implode(',', $referenceIds);
 		    	$schedulePlugin->scheduleEvent->listAction($filter, $pager);
 		    }
 		}
 	    if(count($referenceIds))
 	    {
-	    	$filter = new KalturaScheduleEventFilter();
+	    	$filter = new BorhanScheduleEventFilter();
 	    	$filter->referenceIdIn = implode(',', $referenceIds);
 	    	$schedulePlugin->scheduleEvent->listAction($filter, $pager);
 	    	$referenceIds = array();
@@ -169,10 +169,10 @@ class BulkUploadEngineICal extends KBulkUploadEngine
 		    foreach($results as $result)
 		    {
 			    KBatchBase::$kClient->throwExceptionIfError($result);
-			    /* @var $result KalturaScheduleEventListResponse */
+			    /* @var $result BorhanScheduleEventListResponse */
 			    foreach($result->objects as $scheduleEvent)
 			    {
-				    /* @var $scheduleEvent KalturaScheduleEvent */
+				    /* @var $scheduleEvent BorhanScheduleEvent */
 				    $existingEvents[$scheduleEvent->referenceId] = $scheduleEvent->id;
 			    }
 		    }
@@ -182,7 +182,7 @@ class BulkUploadEngineICal extends KBulkUploadEngine
     
     protected function createObjects()
     {
-    	$schedulePlugin = KalturaScheduleClientPlugin::get(KBatchBase::$kClient);
+    	$schedulePlugin = BorhanScheduleClientPlugin::get(KBatchBase::$kClient);
 		
 		$existingEvents = $this->getExistingEvents();
 
@@ -197,8 +197,8 @@ class BulkUploadEngineICal extends KBulkUploadEngine
 			$bulkUploadResultChunk[] = $bulkUploadResult;
 			KBatchBase::impersonate($this->currentPartnerId);;
 			
-			/* @var $bulkUploadResult KalturaBulkUploadResultScheduleEvent */
-			if($bulkUploadResult->action == KalturaBulkUploadAction::CANCEL)
+			/* @var $bulkUploadResult BorhanBulkUploadResultScheduleEvent */
+			if($bulkUploadResult->action == BorhanBulkUploadAction::CANCEL)
 			{
 				$schedulePlugin->scheduleEvent->cancel($bulkUploadResult->referenceId);
 			}
@@ -232,7 +232,7 @@ class BulkUploadEngineICal extends KBulkUploadEngine
 		if(count($requestResults))
 			$this->updateObjectsResults($requestResults, $bulkUploadResultChunk);
 
-		KalturaLog::info("job[{$this->job->id}] finish modifying users");
+		BorhanLog::info("job[{$this->job->id}] finish modifying users");
     }
     
 	/**

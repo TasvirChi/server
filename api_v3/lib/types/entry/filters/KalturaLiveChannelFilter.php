@@ -3,22 +3,22 @@
  * @package api
  * @subpackage filters
  */
-class KalturaLiveChannelFilter extends KalturaLiveChannelBaseFilter
+class BorhanLiveChannelFilter extends BorhanLiveChannelBaseFilter
 {
 	public function __construct()
 	{
-		$this->typeIn = KalturaEntryType::LIVE_CHANNEL;
+		$this->typeIn = BorhanEntryType::LIVE_CHANNEL;
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaBaseEntryFilter::getListResponse()
+	 * @see BorhanBaseEntryFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		list($list, $totalCount) = $this->doGetListResponse($pager);
 		
-	    $newList = KalturaLiveChannelArray::fromDbArray($list, $responseProfile);
-		$response = new KalturaLiveChannelListResponse();
+	    $newList = BorhanLiveChannelArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanLiveChannelListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $totalCount;
 		

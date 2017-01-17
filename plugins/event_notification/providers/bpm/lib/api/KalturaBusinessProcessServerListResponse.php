@@ -3,10 +3,10 @@
  * @package plugins.businessProcessNotification
  * @subpackage api.objects
  */
-class KalturaBusinessProcessServerListResponse extends KalturaListResponse
+class BorhanBusinessProcessServerListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaBusinessProcessServerArray
+	 * @var BorhanBusinessProcessServerArray
 	 * @readonly
 	 */
 	public $objects;

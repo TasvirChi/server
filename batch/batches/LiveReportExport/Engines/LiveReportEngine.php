@@ -14,15 +14,15 @@ abstract class LiveReportEngine
 
 	protected function shouldShowDvrColumns($entryIds)
 	{
-		$filter = new KalturaLiveStreamEntryFilter();
+		$filter = new BorhanLiveStreamEntryFilter();
 		$filter->idIn = $entryIds;
 
-		/** @var KalturaLiveStreamListResponse */
+		/** @var BorhanLiveStreamListResponse */
 		$response = KBatchBase::$kClient->liveStream->listAction($filter, null);
 
 		foreach ($response->objects as $object) {
 			if ($object->dvrStatus) {
-				KalturaLog::info("Found entry with DVR status = true: " . $object->id);
+				BorhanLog::info("Found entry with DVR status = true: " . $object->id);
 				return true;
 			}
 		}

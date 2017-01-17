@@ -3,8 +3,8 @@
 
 class WSEntryLiveStats extends WSLiveStats
 {				
-	function getKalturaObject() {
-		return new KalturaEntryLiveStats();
+	function getBorhanObject() {
+		return new BorhanEntryLiveStats();
 	}
 	
 	/**

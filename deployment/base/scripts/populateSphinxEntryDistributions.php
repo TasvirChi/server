@@ -28,13 +28,13 @@ while(count($entries))
 {
 	foreach($entries as $entry)
 	{
-		KalturaLog::log('entry distribution id ' . $entry->getId() .' updated at ' . $entry->getUpdatedAt(null));
+		BorhanLog::log('entry distribution id ' . $entry->getId() .' updated at ' . $entry->getUpdatedAt(null));
 		
 		try {
 			$ret = $sphinx->saveToSphinx($entry, true);
 		}
 		catch(Exception $e){
-			KalturaLog::err($e->getMessage());
+			BorhanLog::err($e->getMessage());
 			exit -1;
 		}
 	}
@@ -44,5 +44,5 @@ while(count($entries))
 	$entries = EntryDistributionPeer::doSelect($c, $con);
 }
 
-KalturaLog::log('Done. Cureent time: ' . time());
+BorhanLog::log('Done. Cureent time: ' . time());
 exit(0);

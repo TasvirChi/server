@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaRule extends KalturaObject
+class BorhanRule extends BorhanObject
 {
 	/**
 	 * Short Rule Description
@@ -36,21 +36,21 @@ class KalturaRule extends KalturaObject
 	/**
 	 * Actions to be performed by the player in case the rule is fulfilled
 	 * 
-	 * @var KalturaRuleActionArray
+	 * @var BorhanRuleActionArray
 	 */
 	public $actions;
 	
 	/**
 	 * Conditions to validate the rule
 	 * 
-	 * @var KalturaConditionArray
+	 * @var BorhanConditionArray
 	 */
 	public $conditions;
 	
 	/**
 	 * Indicates what contexts should be tested by this rule 
 	 * 
-	 * @var KalturaContextTypeHolderArray
+	 * @var BorhanContextTypeHolderArray
 	 */
 	public $contexts;
 	
@@ -64,7 +64,7 @@ class KalturaRule extends KalturaObject
 	/**
 	 * Indicates if we should force ks validation for admin ks users as well
 	 *
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $forceAdminValidation;
 

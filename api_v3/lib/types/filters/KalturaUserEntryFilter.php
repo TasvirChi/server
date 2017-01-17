@@ -3,16 +3,16 @@
  * @package api
  * @subpackage filters
  */
-class KalturaUserEntryFilter extends KalturaUserEntryBaseFilter
+class BorhanUserEntryFilter extends BorhanUserEntryBaseFilter
 {
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $userIdEqualCurrent;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $isAnonymous;
 	
@@ -25,14 +25,14 @@ class KalturaUserEntryFilter extends KalturaUserEntryBaseFilter
 	}
 
 	/**
-	 * @param KalturaFilterPager $pager
-	 * @param KalturaDetachedResponseProfile $responseProfile
-	 * @return KalturaListResponse
+	 * @param BorhanFilterPager $pager
+	 * @param BorhanDetachedResponseProfile $responseProfile
+	 * @return BorhanListResponse
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 
-		$response = new KalturaUserEntryListResponse();
+		$response = new BorhanUserEntryListResponse();
 		if ( in_array(kCurrentContext::getCurrentSessionType(), array(kSessionBase::SESSION_TYPE_NONE,kSessionBase::SESSION_TYPE_WIDGET)) )
 		{
 			$response->totalCount = 0;
@@ -62,12 +62,12 @@ class KalturaUserEntryFilter extends KalturaUserEntryBaseFilter
 		}
 		else
 		{
-			KalturaFilterPager::detachFromCriteria($c);
+			BorhanFilterPager::detachFromCriteria($c);
 			$totalCount = UserEntryPeer::doCount($c);
 		}
 
 		$response->totalCount = $totalCount;
-		$response->objects = KalturaUserEntryArray::fromDbArray($list, $responseProfile);
+		$response->objects = BorhanUserEntryArray::fromDbArray($list, $responseProfile);
 		return $response;
 	}
 
@@ -97,10 +97,10 @@ class KalturaUserEntryFilter extends KalturaUserEntryBaseFilter
 
 		if(!is_null($this->isAnonymous))
 		{
-			if(KalturaNullableBoolean::toBoolean($this->isAnonymous)===false)
+			if(BorhanNullableBoolean::toBoolean($this->isAnonymous)===false)
 				$this->userIdNotIn .= self::getListOfAnonymousUsers();
 
-			elseif(KalturaNullableBoolean::toBoolean($this->isAnonymous)===true)
+			elseif(BorhanNullableBoolean::toBoolean($this->isAnonymous)===true)
 				$this->userIdIn .= self::getListOfAnonymousUsers();
 		}
 	}

@@ -20,7 +20,7 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 		if (!$bulkUploadResult)
 			return;
 		
-		$bulkUploadResult->bulkUploadResultObjectType = KalturaBulkUploadObjectType::USER;		 
+		$bulkUploadResult->bulkUploadResultObjectType = BorhanBulkUploadObjectType::USER;		 
 				
 		// trim the values
 		array_walk($values, array('BulkUploadUserEngineCsv', 'trimArray'));
@@ -41,11 +41,11 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 			if(iconv_strlen($values[$index], 'UTF-8'))
 			{
 				$bulkUploadResult->$column = $values[$index];
-				KalturaLog::info("Set value $column [{$bulkUploadResult->$column}]");
+				BorhanLog::info("Set value $column [{$bulkUploadResult->$column}]");
 			}
 			else
 			{
-				KalturaLog::info("Value $column is empty");
+				BorhanLog::info("Value $column is empty");
 			}
 		}
 		
@@ -55,23 +55,23 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 			
 			foreach($columns['plugins'] as $index => $column)
 			{
-				$bulkUploadPlugin = new KalturaBulkUploadPluginData();
+				$bulkUploadPlugin = new BorhanBulkUploadPluginData();
 				$bulkUploadPlugin->field = $column;
 				$bulkUploadPlugin->value = iconv_strlen($values[$index], 'UTF-8') ? $values[$index] : null;
 				$bulkUploadPlugins[] = $bulkUploadPlugin;
 				
-				KalturaLog::info("Set plugin value $column [{$bulkUploadPlugin->value}]");
+				BorhanLog::info("Set plugin value $column [{$bulkUploadPlugin->value}]");
 			}
 			
 			$bulkUploadResult->pluginsData = $bulkUploadPlugins;
 		}
 		
-		$bulkUploadResult->objectStatus = KalturaUserStatus::ACTIVE;
-		$bulkUploadResult->status = KalturaBulkUploadResultStatus::IN_PROGRESS;
+		$bulkUploadResult->objectStatus = BorhanUserStatus::ACTIVE;
+		$bulkUploadResult->status = BorhanBulkUploadResultStatus::IN_PROGRESS;
 		
 		if (!$bulkUploadResult->action)
 		{
-		    $bulkUploadResult->action = KalturaBulkUploadAction::ADD;
+		    $bulkUploadResult->action = BorhanBulkUploadAction::ADD;
 		}
 		
 		$bulkUploadResult = $this->validateBulkUploadResult($bulkUploadResult, $dateOfBirth);
@@ -79,31 +79,31 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 			$this->bulkUploadResults[] = $bulkUploadResult;
 	}
     
-	protected function validateBulkUploadResult (KalturaBulkUploadResult $bulkUploadResult, $dateOfBirth = null)
+	protected function validateBulkUploadResult (BorhanBulkUploadResult $bulkUploadResult, $dateOfBirth = null)
 	{
-	    /* @var $bulkUploadResult KalturaBulkUploadResultUser */
+	    /* @var $bulkUploadResult BorhanBulkUploadResultUser */
 		if (!$bulkUploadResult->userId)
 		{
-		    $bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-			$bulkUploadResult->errorType = KalturaBatchJobErrorTypes::APP;
+		    $bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+			$bulkUploadResult->errorType = BorhanBatchJobErrorTypes::APP;
 			$bulkUploadResult->errorDescription = "Mandatory Column [userId] missing from CSV.";
 		}
 		
 		if ($dateOfBirth && !self::isFormatedDate($dateOfBirth, true))
 		{
-		    $bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-			$bulkUploadResult->errorType = KalturaBatchJobErrorTypes::APP;
+		    $bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+			$bulkUploadResult->errorType = BorhanBatchJobErrorTypes::APP;
 			$bulkUploadResult->errorDescription = "Format of property dateOfBirth is incorrect [$dateOfBirth].";
 		}
 		
-		if ($bulkUploadResult->gender && !self::isValidEnumValue("KalturaGender", $bulkUploadResult->gender))
+		if ($bulkUploadResult->gender && !self::isValidEnumValue("BorhanGender", $bulkUploadResult->gender))
 		{
-		    $bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-			$bulkUploadResult->errorType = KalturaBatchJobErrorTypes::APP;
+		    $bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+			$bulkUploadResult->errorType = BorhanBatchJobErrorTypes::APP;
 			$bulkUploadResult->errorDescription = "Wrong value passed for property gender [$bulkUploadResult->gender]";
 		}
 		
-	    if ($bulkUploadResult->action == KalturaBulkUploadAction::ADD_OR_UPDATE)
+	    if ($bulkUploadResult->action == BorhanBulkUploadAction::ADD_OR_UPDATE)
 		{
 		    KBatchBase::impersonate($this->currentPartnerId);;
 		    try 
@@ -111,12 +111,12 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 		        $user = KBatchBase::$kClient->user->get($bulkUploadResult->userId);
     		    if ( $user )
     		    {
-    		        $bulkUploadResult->action = KalturaBulkUploadAction::UPDATE;
+    		        $bulkUploadResult->action = BorhanBulkUploadAction::UPDATE;
     		    }
 		    }
 	        catch (Exception $e)
 	        {
-	            $bulkUploadResult->action = KalturaBulkUploadAction::ADD;
+	            $bulkUploadResult->action = BorhanBulkUploadAction::ADD;
 		    }
 		    KBatchBase::unimpersonate();
 		}
@@ -124,12 +124,12 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 
 		if($this->maxRecords && $this->lineNumber > $this->maxRecords) // check max records
 		{
-			$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-			$bulkUploadResult->errorType = KalturaBatchJobErrorTypes::APP;
+			$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+			$bulkUploadResult->errorType = BorhanBatchJobErrorTypes::APP;
 			$bulkUploadResult->errorDescription = "Exeeded max records count per bulk";
 		}
 		
-		if($bulkUploadResult->status == KalturaBulkUploadResultStatus::ERROR)
+		if($bulkUploadResult->status == BorhanBulkUploadResultStatus::ERROR)
 		{
 			$this->addBulkUploadResult($bulkUploadResult);
 			return null;
@@ -141,7 +141,7 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 	}
 	
 	
-    protected function addBulkUploadResult(KalturaBulkUploadResult $bulkUploadResult)
+    protected function addBulkUploadResult(BorhanBulkUploadResult $bulkUploadResult)
 	{
 		parent::addBulkUploadResult($bulkUploadResult);
 		
@@ -155,17 +155,17 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 		// start a multi request for add entries
 		KBatchBase::$kClient->startMultiRequest();
 		
-		KalturaLog::info("job[{$this->job->id}] start creating users");
+		BorhanLog::info("job[{$this->job->id}] start creating users");
 		$bulkUploadResultChunk = array(); // store the results of the created entries
 				
 		
 		foreach($this->bulkUploadResults as $bulkUploadResult)
 		{
-			/* @var $bulkUploadResult KalturaBulkUploadResultUser */
-		    KalturaLog::info("Handling bulk upload result: [". $bulkUploadResult->userId ."]");
+			/* @var $bulkUploadResult BorhanBulkUploadResultUser */
+		    BorhanLog::info("Handling bulk upload result: [". $bulkUploadResult->userId ."]");
 		    switch ($bulkUploadResult->action)
 		    {
-		        case KalturaBulkUploadAction::ADD:
+		        case BorhanBulkUploadAction::ADD:
     		        $user = $this->createUserFromResultAndJobData($bulkUploadResult);
         					
         			$bulkUploadResultChunk[] = $bulkUploadResult;
@@ -176,7 +176,7 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
         			
 		            break;
 		        
-		        case KalturaBulkUploadAction::UPDATE:
+		        case BorhanBulkUploadAction::UPDATE:
 		            $category = $this->createUserFromResultAndJobData($bulkUploadResult);
         					
         			$bulkUploadResultChunk[] = $bulkUploadResult;
@@ -188,7 +188,7 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
         			
 		            break;
 		            
-		        case KalturaBulkUploadAction::DELETE:
+		        case BorhanBulkUploadAction::DELETE:
 		            $bulkUploadResultChunk[] = $bulkUploadResult;
         			
         			KBatchBase::impersonate($this->currentPartnerId);;
@@ -198,7 +198,7 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 		            break;
 		        
 		        default:
-		            $bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
+		            $bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
 		            $bulkUploadResult->errorDescription = "Unknown action passed: [".$bulkUploadResult->action ."]";
 		            break;
 		    }
@@ -221,16 +221,16 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 		if(count($requestResults))
 			$this->updateObjectsResults($requestResults, $bulkUploadResultChunk);
 
-		KalturaLog::info("job[{$this->job->id}] finish modifying users");
+		BorhanLog::info("job[{$this->job->id}] finish modifying users");
 	}
 	
 	/**
 	 * Function to create a new user from bulk upload result.
-	 * @param KalturaBulkUploadResultUser $bulkUploadUserResult
+	 * @param BorhanBulkUploadResultUser $bulkUploadUserResult
 	 */
-	protected function createUserFromResultAndJobData (KalturaBulkUploadResultUser $bulkUploadUserResult)
+	protected function createUserFromResultAndJobData (BorhanBulkUploadResultUser $bulkUploadUserResult)
 	{
-	    $user = new KalturaUser();
+	    $user = new BorhanUser();
 	    //Prepare object
 	    if ($bulkUploadUserResult->userId)
 	        $user->id = $bulkUploadUserResult->userId;
@@ -302,7 +302,7 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 	
     protected function updateObjectsResults(array $requestResults, array $bulkUploadResults)
 	{
-		KalturaLog::info("Updating " . count($requestResults) . " results");
+		BorhanLog::info("Updating " . count($requestResults) . " results");
 		
 		// checking the created entries
 		foreach($requestResults as $index => $requestResult)
@@ -311,8 +311,8 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 			
 			if(is_array($requestResult) && isset($requestResult['code']))
 			{
-			    $bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-				$bulkUploadResult->errorType = KalturaBatchJobErrorTypes::KALTURA_API;
+			    $bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+				$bulkUploadResult->errorType = BorhanBatchJobErrorTypes::BORHAN_API;
 				$bulkUploadResult->objectStatus = $requestResult['code'];
 				$bulkUploadResult->errorDescription = $requestResult['message'];
 				$this->addBulkUploadResult($bulkUploadResult);
@@ -321,33 +321,33 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 			
 			if($requestResult instanceof Exception)
 			{
-				$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-				$bulkUploadResult->errorType = KalturaBatchJobErrorTypes::KALTURA_API;
+				$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+				$bulkUploadResult->errorType = BorhanBatchJobErrorTypes::BORHAN_API;
 				$bulkUploadResult->errorDescription = $requestResult->getMessage();
 				$this->addBulkUploadResult($bulkUploadResult);
 				continue;
 			}
 			
-			if (($bulkUploadResult->action != KalturaBulkUploadAction::DELETE)&&($bulkUploadResult->group))
+			if (($bulkUploadResult->action != BorhanBulkUploadAction::DELETE)&&($bulkUploadResult->group))
 				$bulkUploadResult = $this->handleGroupUser($bulkUploadResult);
 			$this->addBulkUploadResult($bulkUploadResult);
 		}
 	}
 
-	protected function handleGroupUser (KalturaBulkUploadResultUser $userResult)
+	protected function handleGroupUser (BorhanBulkUploadResultUser $userResult)
 	{
 		KBatchBase::impersonate($this->currentPartnerId);
-		KalturaLog::info("Handling user/group association");
+		BorhanLog::info("Handling user/group association");
 			
 		$group = $userResult->group;
 		if (strpos($group, "-") === 0)
 		{
 			//if the user is being removed from the group
 			$group = substr($group, 1);
-			if ($userResult->action == KalturaBulkUploadAction::ADD)
+			if ($userResult->action == BorhanBulkUploadAction::ADD)
 			{
-				KalturaLog::info("Cannot remove user from group - user could not have belonged to the group");
-				$userResult->errorCode = KalturaBatchJobErrorTypes::KALTURA_API;
+				BorhanLog::info("Cannot remove user from group - user could not have belonged to the group");
+				$userResult->errorCode = BorhanBatchJobErrorTypes::BORHAN_API;
 				$userResult->errorDescription = "Cannot remove user from group - user could not have belonged to the group";
 				KBatchBase::unimpersonate();
 				
@@ -359,7 +359,7 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 			}
 			catch (Exception $e)
 			{
-				$userResult->errorCode = KalturaBatchJobErrorTypes::KALTURA_API;
+				$userResult->errorCode = BorhanBatchJobErrorTypes::BORHAN_API;
 				$userResult->errorDescription = $e->getMessage();
 			}
 			
@@ -367,7 +367,7 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 		else {
 			try {
 				$groupUser = KBatchBase::$kClient->user->get ($group);
-				if ($groupUser->type != KalturaUserType::GROUP)
+				if ($groupUser->type != BorhanUserType::GROUP)
 				{
 					throw new Exception("The user exists but is not a group",1);
 					
@@ -375,10 +375,10 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 			}
 			catch (Exception $e)
 			{
-				KalturaLog::info ("The user cannot be added to group - group $group needs to be created");
-				$groupUser = new KalturaUser();
+				BorhanLog::info ("The user cannot be added to group - group $group needs to be created");
+				$groupUser = new BorhanUser();
 				$groupUser->id = $group;
-				$groupUser->type = KalturaUserType::GROUP;
+				$groupUser->type = BorhanUserType::GROUP;
 				
 				try {
 					$groupUser = KBatchBase::$kClient->user->add($groupUser);
@@ -386,9 +386,9 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 				
 				catch (Exception $e)
 				{
-					KalturaLog::info ("Unable to add non-existent group $group as a group user!");
-					KalturaLog::info ("Error occurred: " . $e->getMessage());
-					$userResult->errorCode = KalturaBatchJobErrorTypes::KALTURA_API;
+					BorhanLog::info ("Unable to add non-existent group $group as a group user!");
+					BorhanLog::info ("Error occurred: " . $e->getMessage());
+					$userResult->errorCode = BorhanBatchJobErrorTypes::BORHAN_API;
 					$userResult->errorDescription = "Group $group could not be created!";
 					KBatchBase::unimpersonate();
 					
@@ -397,7 +397,7 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 			}
 			
 			try{
-				$groupUser = new KalturaGroupUser();
+				$groupUser = new BorhanGroupUser();
 				$groupUser->userId = $userResult->userId;
 				$groupUser->groupId = $userResult->group;
 				
@@ -405,8 +405,8 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 			}
 			catch (Exception $e)
 			{
-				KalturaLog::info ("Error occurred: " . $e->getMessage());
-				$userResult->errorCode = KalturaBatchJobErrorTypes::KALTURA_API;
+				BorhanLog::info ("Error occurred: " . $e->getMessage());
+				$userResult->errorCode = BorhanBatchJobErrorTypes::BORHAN_API;
 				$userResult->errorDescription = $e->getMessage();
 			}
 		}		
@@ -417,7 +417,7 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 	
 	protected function getUploadResultInstance ()
 	{
-	    return new KalturaBulkUploadResultUser();
+	    return new BorhanBulkUploadResultUser();
 	}
 	
 	public function getObjectTypeTitle()

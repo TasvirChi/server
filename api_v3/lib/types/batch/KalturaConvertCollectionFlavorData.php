@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaConvertCollectionFlavorData extends KalturaObject
+class BorhanConvertCollectionFlavorData extends BorhanObject
 {
 	/**
 	 * @var string

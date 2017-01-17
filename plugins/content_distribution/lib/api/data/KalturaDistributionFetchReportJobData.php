@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaDistributionFetchReportJobData extends KalturaDistributionJobData
+class BorhanDistributionFetchReportJobData extends BorhanDistributionJobData
 {
 	/**
 	 * @var int

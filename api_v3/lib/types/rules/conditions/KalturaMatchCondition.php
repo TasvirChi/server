@@ -4,10 +4,10 @@
  * @subpackage objects
  * @abstract
  */
-abstract class KalturaMatchCondition extends KalturaCondition
+abstract class BorhanMatchCondition extends BorhanCondition
 {
 	/**
-	 * @var KalturaStringValueArray
+	 * @var BorhanStringValueArray
 	 */
 	public $values;
 	

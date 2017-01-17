@@ -3,10 +3,10 @@
  * @package plugins.virusScan
  * @subpackage api.filters
  */
-class KalturaVirusScanProfileFilter extends KalturaVirusScanProfileBaseFilter
+class BorhanVirusScanProfileFilter extends BorhanVirusScanProfileBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{

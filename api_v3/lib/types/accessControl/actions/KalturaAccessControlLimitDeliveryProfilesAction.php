@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaAccessControlLimitDeliveryProfilesAction extends KalturaRuleAction
+class BorhanAccessControlLimitDeliveryProfilesAction extends BorhanRuleAction
 {
 	/**
 	 * Comma separated list of delivery profile ids 
@@ -37,7 +37,7 @@ class KalturaAccessControlLimitDeliveryProfilesAction extends KalturaRuleAction
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

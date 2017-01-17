@@ -4,7 +4,7 @@
  * @subpackage system
  * @deprecated
  */
-require_once ( __DIR__ . "/kalturaSystemActions.class.php");
+require_once ( __DIR__ . "/borhanSystemActions.class.php");
 
 /**
  * system actions.
@@ -13,7 +13,7 @@ require_once ( __DIR__ . "/kalturaSystemActions.class.php");
  * @subpackage system
  * @deprecated
  */
-class systemActions extends kalturaSystemActions
+class systemActions extends borhanSystemActions
 {
   /**
    * Executes index action

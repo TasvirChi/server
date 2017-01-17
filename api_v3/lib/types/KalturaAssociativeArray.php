@@ -3,10 +3,10 @@
  * @package api
  * @subpackage objects
  */
-abstract class KalturaAssociativeArray extends KalturaTypedArray
+abstract class BorhanAssociativeArray extends BorhanTypedArray
 {
 	/* (non-PHPdoc)
-	 * @see KalturaTypedArray::offsetSet()
+	 * @see BorhanTypedArray::offsetSet()
 	 */
 	public function offsetSet($offset, $value) 
 	{

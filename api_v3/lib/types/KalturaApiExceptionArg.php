@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaApiExceptionArg extends KalturaObject
+class BorhanApiExceptionArg extends BorhanObject
 {
 	/**
 	 * @var string

@@ -3,10 +3,10 @@
  * @package api
  * @subpackage filters
  */
-class KalturaAccessControlProfileFilter extends KalturaAccessControlProfileBaseFilter
+class BorhanAccessControlProfileFilter extends BorhanAccessControlProfileBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -14,9 +14,9 @@ class KalturaAccessControlProfileFilter extends KalturaAccessControlProfileBaseF
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getListResponse()
+	 * @see BorhanFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$accessControlFilter = $this->toObject();
 
@@ -28,8 +28,8 @@ class KalturaAccessControlProfileFilter extends KalturaAccessControlProfileBaseF
 		$pager->attachToCriteria($c);
 		$dbList = accessControlPeer::doSelect($c);
 		
-		$list = KalturaAccessControlProfileArray::fromDbArray($dbList, $responseProfile);
-		$response = new KalturaAccessControlProfileListResponse();
+		$list = BorhanAccessControlProfileArray::fromDbArray($dbList, $responseProfile);
+		$response = new BorhanAccessControlProfileListResponse();
 		$response->objects = $list;
 		$response->totalCount = $totalCount;
 		return $response;    

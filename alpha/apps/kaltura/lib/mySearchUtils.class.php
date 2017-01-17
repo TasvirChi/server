@@ -9,9 +9,9 @@ class mySearchUtils
 	const DISPLAY_IN_SEARCH_SYSTEM = EntryDisplayInSearchType::SYSTEM;
 	const DISPLAY_IN_SEARCH_NONE = EntryDisplayInSearchType::NONE;
 	const DISPLAY_IN_SEARCH_PARTNER_ONLY = EntryDisplayInSearchType::PARTNER_ONLY;
-	const DISPLAY_IN_SEARCH_KALTURA_NETWORK = EntryDisplayInSearchType::KALTURA_NETWORK;
+	const DISPLAY_IN_SEARCH_BORHAN_NETWORK = EntryDisplayInSearchType::BORHAN_NETWORK;
 	
-	const KALTURA_NETWORK = "kn";
+	const BORHAN_NETWORK = "kn";
 	
 	const SEARCH_ENTRY_TYPE_RC= "_RC_";
 	
@@ -57,7 +57,7 @@ class mySearchUtils
 		$act->setIdList( NULL );
 		$act->setSortAlias( "ids" );
 		
-//		$kaltura_media_type = self::getKalturaMediaType ( $media_type );
+//		$borhan_media_type = self::getBorhanMediaType ( $media_type );
 
 //		$act->setMediaType ( $media_type );
 //		$act->setOnlyForKuser ( $kuser_id );
@@ -138,7 +138,7 @@ class mySearchUtils
 		}
 		
 
-		if ( $featured == "kalturas" )
+		if ( $featured == "borhans" )
 		{
 			// in this case it's only about kshows
 			$mode = mySearchUtils::MODE_KSHOW;
@@ -244,7 +244,7 @@ class mySearchUtils
 		return $words;
 	}
 	
-	// add to the kaltura network or only to the partner's search text
+	// add to the borhan network or only to the partner's search text
 	public static function addPartner ( $partner_id , $text , $res , $extra_invisible_data = null )
 	{
 		switch ( $res )
@@ -275,7 +275,7 @@ class mySearchUtils
 		return "_{$partner_id}_";
 	}
 
-	public static function getKalturaNetworkKeyword ( )
+	public static function getBorhanNetworkKeyword ( )
 	{
 		return "_KAL_NET_";
 	}

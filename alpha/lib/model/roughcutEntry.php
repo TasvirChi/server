@@ -74,7 +74,7 @@ class roughcutEntry extends BaseroughcutEntry implements IBaseObject
 //		echo "add: " . print_r ( $to_add , true ) . "\n";
 //		echo "delete: " . print_r ( $to_remove , true ) . "\n";
 		
-		KalturaLog::log ( 
+		BorhanLog::log ( 
 			"roughcutEntry::updateRoughcut\nadded: [" . implode ( "," , $to_add ) . "] removed:  [" . implode ( "," , $to_add ) . "]"  );
 	}
 	

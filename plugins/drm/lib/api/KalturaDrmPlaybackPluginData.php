@@ -3,10 +3,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaDrmPlaybackPluginData extends KalturaPluginData{
+class BorhanDrmPlaybackPluginData extends BorhanPluginData{
 
     /**
-     * @var KalturaDrmSchemeName
+     * @var BorhanDrmSchemeName
      */
     public $scheme;
 

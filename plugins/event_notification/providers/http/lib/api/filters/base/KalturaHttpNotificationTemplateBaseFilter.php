@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaHttpNotificationTemplateBaseFilter extends KalturaEventNotificationTemplateFilter
+abstract class BorhanHttpNotificationTemplateBaseFilter extends BorhanEventNotificationTemplateFilter
 {
 	static private $map_between_objects = array
 	(

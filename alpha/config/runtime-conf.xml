@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
  <log>
-  <ident>kaltura</ident>
+  <ident>borhan</ident>
   <level>7</level>
  </log>
  <propel>
-  <datasources default="kaltura">
-   <datasource id="kaltura">
+  <datasources default="borhan">
+   <datasource id="borhan">
     <adapter>mysql</adapter>
     <connection>
      <phptype>mysql</phptype>
-     <database>kaltura</database>
+     <database>borhan</database>
      <hostspec>localhost</hostspec>
      <username>root</username>
      <password>root</password>

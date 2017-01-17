@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaSchemaType extends KalturaDynamicEnum implements SchemaType
+class BorhanSchemaType extends BorhanDynamicEnum implements SchemaType
 {
 	public static function getDescriptions()
 	{

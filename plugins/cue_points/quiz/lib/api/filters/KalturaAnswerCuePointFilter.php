@@ -3,30 +3,30 @@
  * @package plugins.quiz
  * @subpackage api.filters
  */
-class KalturaAnswerCuePointFilter extends KalturaAnswerCuePointBaseFilter
+class BorhanAnswerCuePointFilter extends BorhanAnswerCuePointBaseFilter
 {
     /* (non-PHPdoc)
-     * @see KalturaCuePointFilter::getCriteria()
+     * @see BorhanCuePointFilter::getCriteria()
      */
     protected function getCriteria()
     {
-        return KalturaCriteria::create('AnswerCuePoint');
+        return BorhanCriteria::create('AnswerCuePoint');
     }
     
 	/* (non-PHPdoc)
-	 * @see KalturaCuePointFilter::getTypeListResponse()
+	 * @see BorhanCuePointFilter::getTypeListResponse()
 	 */
-	public function getTypeListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null, $type = null)
+	public function getTypeListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null, $type = null)
 	{
 		if ($this->quizUserEntryIdIn || $this->quizUserEntryIdEqual)
 		{
-			KalturaCriterion::disableTag(KalturaCriterion::TAG_WIDGET_SESSION);
+			BorhanCriterion::disableTag(BorhanCriterion::TAG_WIDGET_SESSION);
 		}
 		return parent::getTypeListResponse($pager, $responseProfile, QuizPlugin::getCoreValue('CuePointType',QuizCuePointType::QUIZ_ANSWER));
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{

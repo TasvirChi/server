@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layouts>
-<layout layoutId="" skinPath="/content/uiconf/2tor/new_kdp/kdp_skin_aps_v2.swf">
+<layout layoutId="" skinPath="/content/uiconf/2tor/new_bdp/bdp_skin_aps_v2.swf">
 	<VBox id="player" height="100%" styleName="topLevelLayout" width="100%">
 		<HBox height="30" id="TopTitleScreen" styleName="controllerBoxDark" k_theme_change="true" width="100%">
 			<SlideControls id="SlideControls" width="100%" k_path="sync/SlideControls.swf"/>
@@ -42,7 +42,7 @@
 				<AddSyncButton id="AddSyncButton" k_path="sync/AddSyncButton"/>			
 			</HBox>
 			<Spacer width="10"/>
-			<Button id="poweredByControllerScreen" width="40" height="20" k_click="navigate('http://www.kaltura.com')" styleName="kalturaLogoDark" k_theme_change="true"/>
+			<Button id="poweredByControllerScreen" width="40" height="20" k_click="navigate('http://www.borhan.com')" styleName="borhanLogoDark" k_theme_change="true"/>
 			<Spacer width="10"/>
 		</HBox>
 	</VBox>
@@ -92,7 +92,7 @@
 			<tertiaryColor>0xFFFFFF</tertiaryColor>
 			<cssSelector componentId="TopTitleScreen" newClass="controllerBoxLight"/>
 			<cssSelector componentId="ControllerScreen" newClass="controllerBoxLight"/>
-			<cssSelector componentId="poweredByControllerScreen" newClass="kalturaLogoLight"/>
+			<cssSelector componentId="poweredByControllerScreen" newClass="borhanLogoLight"/>
 			<font>Arial</font>
 		</theme>
 		<theme id="dark">
@@ -101,7 +101,7 @@
 			<tertiaryColor>0x000000</tertiaryColor>
 			<cssSelector componentId="TopTitleScreen" newClass="controllerBoxDark"/>
 			<cssSelector componentId="ControllerScreen" newClass="controllerBoxDark"/>
-			<cssSelector componentId="poweredByControllerScreen" newClass="kalturaLogoDark"/>
+			<cssSelector componentId="poweredByControllerScreen" newClass="borhanLogoDark"/>
 			<font>Arial</font>
 		</theme>
 		<theme id="light">
@@ -110,7 +110,7 @@
 			<tertiaryColor>0xFFFFFF</tertiaryColor>
 			<cssSelector componentId="TopTitleScreen" newClass="controllerBoxLight"/>
 			<cssSelector componentId="ControllerScreen" newClass="controllerBoxLight"/>
-			<cssSelector componentId="poweredByControllerScreen" newClass="kalturaLogoLight"/>
+			<cssSelector componentId="poweredByControllerScreen" newClass="borhanLogoLight"/>
 			<font>Arial</font>
 		</theme>
 	</visual>

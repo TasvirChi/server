@@ -5,7 +5,7 @@
  * @package plugins.playReady
  * @subpackage api.services
  */
-class PlayReadyDrmService extends KalturaBaseService
+class PlayReadyDrmService extends BorhanBaseService
 {	
 	const PLAY_READY_BEGIN_DATE_PARAM = 'playReadyBeginDate';
 	const PLAY_READY_EXPIRATION_DATE_PARAM = 'playReadyExpirationDate';
@@ -15,7 +15,7 @@ class PlayReadyDrmService extends KalturaBaseService
 	{
 		parent::initService($serviceId, $serviceName, $actionName);
 		if (!PlayReadyPlugin::isAllowedPartner($this->getPartnerId()))
-			throw new KalturaAPIException(KalturaErrors::SERVICE_FORBIDDEN, $this->serviceName.'->'.$this->actionName);
+			throw new BorhanAPIException(BorhanErrors::SERVICE_FORBIDDEN, $this->serviceName.'->'.$this->actionName);
 			
 		$this->applyPartnerFilterForClass('DrmPolicy');
 		$this->applyPartnerFilterForClass('DrmProfile');	
@@ -27,7 +27,7 @@ class PlayReadyDrmService extends KalturaBaseService
 	 * Generate key id and content key for PlayReady encryption
 	 * 
 	 * @action generateKey 
-	 * @return KalturaPlayReadyContentKey $response
+	 * @return BorhanPlayReadyContentKey $response
 	 * 
 	 */
 	public function generateKeyAction()
@@ -35,7 +35,7 @@ class PlayReadyDrmService extends KalturaBaseService
 		$keySeed = $this->getPartnerKeySeed();
 		$keyId = kPlayReadyAESContentKeyGenerator::generatePlayReadyKeyId();		
 		$contentKey = $this->createContentKeyObject($keySeed, $keyId);
-		$response = new KalturaPlayReadyContentKey();
+		$response = new BorhanPlayReadyContentKey();
 		$response->fromObject($contentKey, $this->getResponseProfile());
 		return $response;
 	}
@@ -45,7 +45,7 @@ class PlayReadyDrmService extends KalturaBaseService
 	 * 
 	 * @action getContentKeys
 	 * @param string $keyIds - comma separated key id's 
-	 * @return KalturaPlayReadyContentKeyArray $response
+	 * @return BorhanPlayReadyContentKeyArray $response
 	 * 
 	 */
 	public function getContentKeysAction($keyIds)
@@ -57,7 +57,7 @@ class PlayReadyDrmService extends KalturaBaseService
 		{
 			$contentKeysArr[] = $this->createContentKeyObject($keySeed, $keyId);
 		}	
-		$response = KalturaPlayReadyContentKeyArray::fromDbArray($contentKeysArr, $this->getResponseProfile());	
+		$response = BorhanPlayReadyContentKeyArray::fromDbArray($contentKeysArr, $this->getResponseProfile());	
 		return $response;
 	}
 
@@ -67,14 +67,14 @@ class PlayReadyDrmService extends KalturaBaseService
 	 * @action getEntryContentKey
 	 * @param string $entryId 
 	 * @param bool $createIfMissing
-	 * @return KalturaPlayReadyContentKey $response
+	 * @return BorhanPlayReadyContentKey $response
 	 * 
 	 */
 	public function getEntryContentKeyAction($entryId, $createIfMissing = false)
 	{
 		$entry = entryPeer::retrieveByPK($entryId);
 		if(!$entry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 			
 		$keySeed = $this->getPartnerKeySeed();
 		
@@ -108,10 +108,10 @@ class PlayReadyDrmService extends KalturaBaseService
 		}
 		
 		if(!$keyId)
-			throw new KalturaAPIException(KalturaPlayReadyErrors::FAILED_TO_GET_ENTRY_KEY_ID, $entryId);
+			throw new BorhanAPIException(BorhanPlayReadyErrors::FAILED_TO_GET_ENTRY_KEY_ID, $entryId);
 			
 		$contentKey = $this->createContentKeyObject($keySeed, $keyId);
-		$response = new KalturaPlayReadyContentKey();
+		$response = new BorhanPlayReadyContentKey();
 		$response->fromObject($contentKey, $this->getResponseProfile());
 		
 		return $response;				
@@ -126,16 +126,16 @@ class PlayReadyDrmService extends KalturaBaseService
 	 * @param int $deviceType
 	 * @param string $entryId
 	 * @param string $referrer 64base encoded  
-	 * @return KalturaPlayReadyLicenseDetails $response
+	 * @return BorhanPlayReadyLicenseDetails $response
 	 * 
-	 * @throws KalturaErrors::MISSING_MANDATORY_PARAMETER
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaPlayReadyErrors::ENTRY_NOT_FOUND_BY_KEY_ID
-	 * @throws KalturaPlayReadyErrors::PLAYREADY_POLICY_NOT_FOUND
+	 * @throws BorhanErrors::MISSING_MANDATORY_PARAMETER
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanPlayReadyErrors::ENTRY_NOT_FOUND_BY_KEY_ID
+	 * @throws BorhanPlayReadyErrors::PLAYREADY_POLICY_NOT_FOUND
 	 */
 	public function getLicenseDetailsAction($keyId, $deviceId, $deviceType, $entryId = null, $referrer = null)
 	{
-		KalturaLog::debug('Get Play Ready license details for keyID: '.$keyId);
+		BorhanLog::debug('Get Play Ready license details for keyID: '.$keyId);
 		
 		$entry = $this->getLicenseRequestEntry($keyId, $entryId);
 
@@ -145,20 +145,20 @@ class PlayReadyDrmService extends KalturaBaseService
         $drmLU = new DrmLicenseUtils($entry, $referrerDecoded);
         $policyId = $drmLU->getPolicyId();
         if ( !isset($policyId) )
-            throw new KalturaAPIException(KalturaPlayReadyErrors::PLAYREADY_POLICY_NOT_FOUND, $entry->getId());
+            throw new BorhanAPIException(BorhanPlayReadyErrors::PLAYREADY_POLICY_NOT_FOUND, $entry->getId());
 
 		$dbPolicy = DrmPolicyPeer::retrieveByPK($policyId);
 		if(!$dbPolicy)
-			throw new KalturaAPIException(KalturaPlayReadyErrors::PLAYREADY_POLICY_OBJECT_NOT_FOUND, $policyId);
+			throw new BorhanAPIException(BorhanPlayReadyErrors::PLAYREADY_POLICY_OBJECT_NOT_FOUND, $policyId);
 			
 		list($beginDate, $expirationDate, $removalDate) = $this->calculateLicenseDates($dbPolicy, $entry);
 
-		$policy = new KalturaPlayReadyPolicy();
+		$policy = new BorhanPlayReadyPolicy();
 		$policy->fromObject($dbPolicy, $this->getResponseProfile());
 		
 		$this->registerDevice($deviceId, $deviceType);
 		
-		$response = new KalturaPlayReadyLicenseDetails();
+		$response = new BorhanPlayReadyLicenseDetails();
 		$response->policy = $policy;
 		$response->beginDate = $beginDate;
 		$response->expirationDate = $expirationDate;
@@ -169,11 +169,11 @@ class PlayReadyDrmService extends KalturaBaseService
 
 	private function registerDevice($deviceId, $deviceType)
 	{
-		KalturaLog::debug("device id: ".$deviceId." device type: ".$deviceType);
+		BorhanLog::debug("device id: ".$deviceId." device type: ".$deviceType);
 		//TODO: log for BI
 		if($deviceType != 1 && $deviceType != 7) //TODO: verify how to identify the silverlight client
 		{
-			throw new KalturaAPIException(KalturaPlayReadyErrors::DRM_DEVICE_NOT_SUPPORTED, $deviceType);
+			throw new BorhanAPIException(BorhanPlayReadyErrors::DRM_DEVICE_NOT_SUPPORTED, $deviceType);
 		}
 	}
 
@@ -184,24 +184,24 @@ class PlayReadyDrmService extends KalturaBaseService
 		$keyId = strtolower($keyId);
 		
 		if(!$keyId)
-			throw new KalturaAPIException(KalturaErrors::MISSING_MANDATORY_PARAMETER, "keyId");
+			throw new BorhanAPIException(BorhanErrors::MISSING_MANDATORY_PARAMETER, "keyId");
 		
 		if($entryId)
 		{
 			 $entry = entryPeer::retrieveByPK($entryId); 
 			 if(!$entry)
-				throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);	
+				throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);	
 				
 			$entryKeyId = $this->getEntryKeyId($entry->getId());
 			if($entryKeyId != $keyId)
-				throw new KalturaAPIException(KalturaPlayReadyErrors::KEY_ID_DONT_MATCH, $keyId, $entryKeyId);	
+				throw new BorhanAPIException(BorhanPlayReadyErrors::KEY_ID_DONT_MATCH, $keyId, $entryKeyId);	
 		}
 		else 
 		{
 			$entryFilter = new entryFilter();
 			$entryFilter->fields['_like_plugins_data'] = PlayReadyPlugin::getPlayReadyKeyIdSearchData($keyId);
-			$entryFilter->setPartnerSearchScope(baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE);
-			$c = KalturaCriteria::create(entryPeer::OM_CLASS);				
+			$entryFilter->setPartnerSearchScope(baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE);
+			$c = BorhanCriteria::create(entryPeer::OM_CLASS);				
 			$entryFilter->attachToCriteria($c);	
 			$c->applyFilters();
 			$entries = entryPeer::doSelect($c);
@@ -209,7 +209,7 @@ class PlayReadyDrmService extends KalturaBaseService
 			if($entries && count($entries) > 0)
 				$entry = $entries[0];
 			if(!$entry)
-				throw new KalturaAPIException(KalturaPlayReadyErrors::ENTRY_NOT_FOUND_BY_KEY_ID, $keyId);			 				
+				throw new BorhanAPIException(BorhanPlayReadyErrors::ENTRY_NOT_FOUND_BY_KEY_ID, $keyId);			 				
 		}
 		
 		return $entry;
@@ -220,14 +220,14 @@ class PlayReadyDrmService extends KalturaBaseService
 		$partnerId = kCurrentContext::$partner_id ? kCurrentContext::$partner_id : kCurrentContext::$ks_partner_id;
 		$profile = DrmProfilePeer::retrieveByProvider(PlayReadyPlugin::getPlayReadyProviderCoreValue());
 		if(!$profile)
-			throw new KalturaAPIException(KalturaPlayReadyErrors::PLAYREADY_PROFILE_NOT_FOUND);
+			throw new BorhanAPIException(BorhanPlayReadyErrors::PLAYREADY_PROFILE_NOT_FOUND);
 		return $profile->getKeySeed();
 	}
 	
 	private function createContentKeyObject($keySeed, $keyId)
 	{
 		if(!$keyId)
-			throw new KalturaAPIException(KalturaErrors::MISSING_MANDATORY_PARAMETER, "keyId");
+			throw new BorhanAPIException(BorhanErrors::MISSING_MANDATORY_PARAMETER, "keyId");
 			
 		$contentKeyVal = kPlayReadyAESContentKeyGenerator::generatePlayReadyContentKey($keySeed, $keyId);
 		$contentKey = new PlayReadyContentKey();

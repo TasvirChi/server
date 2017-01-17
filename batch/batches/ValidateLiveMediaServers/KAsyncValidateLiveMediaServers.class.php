@@ -19,7 +19,7 @@ class KAsyncValidateLiveMediaServers extends KPeriodicWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::CLEANUP;
+		return BorhanBatchJobType::CLEANUP;
 	}
 	
 	/* (non-PHPdoc)
@@ -31,16 +31,16 @@ class KAsyncValidateLiveMediaServers extends KPeriodicWorker
 		if(!$entryServerNodeMinCreationTime)
 			$entryServerNodeMinCreationTime = self::ENTRY_SERVER_NODE_MIN_CREATION_TIMEE;
 		
-		$entryServerNodeFilter = new KalturaEntryServerNodeFilter();
-		$entryServerNodeFilter->orderBy = KalturaEntryServerNodeOrderBy::CREATED_AT_ASC;
+		$entryServerNodeFilter = new BorhanEntryServerNodeFilter();
+		$entryServerNodeFilter->orderBy = BorhanEntryServerNodeOrderBy::CREATED_AT_ASC;
 		$entryServerNodeFilter->createdAtLessThanOrEqual = time() - $entryServerNodeMinCreationTime;
 		
-		$entryServerNodeFilter->statusIn = KalturaEntryServerNodeStatus::PLAYABLE . ',' . 
-				KalturaEntryServerNodeStatus::BROADCASTING . ',' .
-				KalturaEntryServerNodeStatus::AUTHENTICATED . ',' .
-				KalturaEntryServerNodeStatus::MARKED_FOR_DELETION;
+		$entryServerNodeFilter->statusIn = BorhanEntryServerNodeStatus::PLAYABLE . ',' . 
+				BorhanEntryServerNodeStatus::BROADCASTING . ',' .
+				BorhanEntryServerNodeStatus::AUTHENTICATED . ',' .
+				BorhanEntryServerNodeStatus::MARKED_FOR_DELETION;
 		
-		$entryServerNodePager = new KalturaFilterPager();
+		$entryServerNodePager = new BorhanFilterPager();
 		$entryServerNodePager->pageSize = 500;
 		$entryServerNodePager->pageIndex = 1;
 		
@@ -51,15 +51,15 @@ class KAsyncValidateLiveMediaServers extends KPeriodicWorker
 			{
 				try
 				{
-					/* @var $entryServerNode KalturaEntryServerNode */
+					/* @var $entryServerNode BorhanEntryServerNode */
 					self::impersonate($entryServerNode->partnerId);
 					self::$kClient->entryServerNode->validateRegisteredEntryServerNode($entryServerNode->id);
 					self::unimpersonate();
 				}
-				catch (KalturaException $e)
+				catch (BorhanException $e)
 				{
 					self::unimpersonate();
-					KalturaLog::err("Caught exception with message [" . $e->getMessage()."]");
+					BorhanLog::err("Caught exception with message [" . $e->getMessage()."]");
 				}
 			}
 			

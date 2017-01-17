@@ -933,7 +933,7 @@ CREATE TABLE `partner`
 	`work_group_id` INTEGER,
 	`partner_group_type` SMALLINT default 1,
 	`partner_parent_id` INTEGER default null,
-	`kmc_version` VARCHAR(15) default '1',
+	`bmc_version` VARCHAR(15) default '1',
 	PRIMARY KEY (`id`),
 	KEY `partner_alias_index`(`partner_alias`),
 	KEY `partner_parent_index`(`partner_parent_id`),
@@ -1271,13 +1271,13 @@ CREATE TABLE `widget`
 )Type=MyISAM;
 
 #-----------------------------------------------------------------------------
-#-- kwidget_log
+#-- bwidget_log
 #-----------------------------------------------------------------------------
 
-DROP TABLE IF EXISTS `kwidget_log`;
+DROP TABLE IF EXISTS `bwidget_log`;
 
 
-CREATE TABLE `kwidget_log`
+CREATE TABLE `bwidget_log`
 (
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
 	`widget_id` VARCHAR(32),
@@ -1301,19 +1301,19 @@ CREATE TABLE `kwidget_log`
 	KEY `referer_index`(`referer`),
 	KEY `entry_id_kshow_id_index`(`entry_id`, `kshow_id`),
 	KEY `partner_id_subp_id_index`(`partner_id`, `subp_id`),
-	INDEX `kwidget_log_FI_1` (`widget_id`),
-	CONSTRAINT `kwidget_log_FK_1`
+	INDEX `bwidget_log_FI_1` (`widget_id`),
+	CONSTRAINT `bwidget_log_FK_1`
 		FOREIGN KEY (`widget_id`)
 		REFERENCES `widget` (`id`),
-	INDEX `kwidget_log_FI_2` (`kshow_id`),
-	CONSTRAINT `kwidget_log_FK_2`
+	INDEX `bwidget_log_FI_2` (`kshow_id`),
+	CONSTRAINT `bwidget_log_FK_2`
 		FOREIGN KEY (`kshow_id`)
 		REFERENCES `kshow` (`id`),
-	CONSTRAINT `kwidget_log_FK_3`
+	CONSTRAINT `bwidget_log_FK_3`
 		FOREIGN KEY (`entry_id`)
 		REFERENCES `entry` (`id`),
-	INDEX `kwidget_log_FI_4` (`ui_conf_id`),
-	CONSTRAINT `kwidget_log_FK_4`
+	INDEX `bwidget_log_FI_4` (`ui_conf_id`),
+	CONSTRAINT `bwidget_log_FK_4`
 		FOREIGN KEY (`ui_conf_id`)
 		REFERENCES `ui_conf` (`id`)
 )Type=MyISAM;

@@ -4,17 +4,17 @@
  * @package plugins.httpNotification
  * @subpackage api.objects
  */
-class KalturaHttpNotificationDataFields extends KalturaHttpNotificationData
+class BorhanHttpNotificationDataFields extends BorhanHttpNotificationData
 {
 	/**
 	 * It's protected on purpose, used by getData
-	 * @see KalturaHttpNotificationDataFields::getData()
+	 * @see BorhanHttpNotificationDataFields::getData()
 	 * @var string
 	 */
 	protected $data;
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $propertiesToSkip = array())
 	{
@@ -25,9 +25,9 @@ class KalturaHttpNotificationDataFields extends KalturaHttpNotificationData
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject($srcObj)
+	 * @see BorhanObject::fromObject($srcObj)
 	 */
-	public function doFromObject($srcObj, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($srcObj, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		/* @var $srcObj kHttpNotificationDataFields */
 		parent::doFromObject($srcObj, $responseProfile);
@@ -37,7 +37,7 @@ class KalturaHttpNotificationDataFields extends KalturaHttpNotificationData
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaHttpNotificationData::getData()
+	 * @see BorhanHttpNotificationData::getData()
 	 */
 	public function getData(kHttpNotificationDispatchJobData $jobData = null)
 	{

@@ -26,37 +26,37 @@ class KAsyncImportTest extends PHPUnit_Framework_TestCase
 	
 	public function testGoodUrl()
 	{
-		$this->doTest('http://kaldev.kaltura.com/content/zbale/9spkxiz8m4_100007.mp4', KalturaBatchJobStatus::FINISHED);
+		$this->doTest('http://kaldev.borhan.com/content/zbale/9spkxiz8m4_100007.mp4', BorhanBatchJobStatus::FINISHED);
 	}
 	
 //	public function testSpecialCharsUrl()
 //	{
-//		$this->doTest('http://kaldev.kaltura.com/content/zbale/trailer_480 ()p.mov', KalturaBatchJobStatus::FINISHED);
+//		$this->doTest('http://kaldev.borhan.com/content/zbale/trailer_480 ()p.mov', BorhanBatchJobStatus::FINISHED);
 //	}
 //	
 //	public function testSpacedUrl()
 //	{
-//		$this->doTest(' http://kaldev.kaltura.com/content/zbale/9spkxiz8m4_100007.mp4', KalturaBatchJobStatus::FINISHED);
+//		$this->doTest(' http://kaldev.borhan.com/content/zbale/9spkxiz8m4_100007.mp4', BorhanBatchJobStatus::FINISHED);
 //	}
 //	
 //	public function testMissingFileUrl()
 //	{
-//		$this->doTest('http://localhost/api_v3/sample/xxx.avi', KalturaBatchJobStatus::FAILED);
+//		$this->doTest('http://localhost/api_v3/sample/xxx.avi', BorhanBatchJobStatus::FAILED);
 //	}
 //	
 //	public function testInvalidServerUrl()
 //	{
-//		$this->doTest('http://xxx', KalturaBatchJobStatus::FAILED);
+//		$this->doTest('http://xxx', BorhanBatchJobStatus::FAILED);
 //	}
 //	
 //	public function testInvalidUrl()
 //	{
-//		$this->doTest('xxx', KalturaBatchJobStatus::FAILED);
+//		$this->doTest('xxx', BorhanBatchJobStatus::FAILED);
 //	}
 //	
 //	public function testEmptyUrl()
 //	{
-//		$this->doTest('', KalturaBatchJobStatus::FAILED);
+//		$this->doTest('', BorhanBatchJobStatus::FAILED);
 //	}
 	
 	public function doTest($value, $expectedStatus)
@@ -87,12 +87,12 @@ class KAsyncImportTest extends PHPUnit_Framework_TestCase
 	
 	private function prepareJobs($value)
 	{
-		$data = new KalturaImportJobData();
+		$data = new BorhanImportJobData();
 		$data->srcFileUrl = $value;
 		
-		$job = new KalturaBatchJob();
+		$job = new BorhanBatchJob();
 		$job->id = 1;
-		$job->status = KalturaBatchJobStatus::PENDING;
+		$job->status = BorhanBatchJobStatus::PENDING;
 		$job->data = $data;
 		
 		return array($job);

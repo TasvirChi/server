@@ -87,7 +87,7 @@ class Permission extends BasePermission implements IRelatedObject
 		
 		// check if item is already associated with the permission
 		if ($itemIds && in_array($permissionItemId, $itemIds)) {
-			KalturaLog::notice('Permission with name ['.$this->getName().'] already contains permission item with id ['.$permissionItemId.']');
+			BorhanLog::notice('Permission with name ['.$this->getName().'] already contains permission item with id ['.$permissionItemId.']');
 			return true;
 		}
 		
@@ -145,7 +145,7 @@ class Permission extends BasePermission implements IRelatedObject
 		// check if item is already associated to the permission
 		$itemIds = $this->getPermissionItemIds();
 		if (!in_array($permissionItemId, $itemIds)) {
-			KalturaLog::notice('Permission with name ['.$this->getName().'] does not contain permission item with id ['.$permissionItemId.']');
+			BorhanLog::notice('Permission with name ['.$this->getName().'] does not contain permission item with id ['.$permissionItemId.']');
 			return true;
 		}
 		

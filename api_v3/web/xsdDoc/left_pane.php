@@ -1,5 +1,5 @@
 <?php 
-	$schemaReflector = KalturaTypeReflectorCacher::get('KalturaSchemaType');
+	$schemaReflector = BorhanTypeReflectorCacher::get('BorhanSchemaType');
 	$schemas = $schemaReflector->getConstants();
 ?>
 <div class="left">

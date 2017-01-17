@@ -1,7 +1,7 @@
-<layout id="full" name="WordPress v2.5 Thumbnail Player" skinPath="/content/uiconf/kaltura/kmc/appstudio/kdp3/falcon/skin/v3.7/skin_light.swf">
+<layout id="full" name="WordPress v2.5 Thumbnail Player" skinPath="/content/uiconf/borhan/bmc/appstudio/bdp3/falcon/skin/v3.7/skin_light.swf">
   <HBox id="topLevel" width="100%" height="100%">
     <VBox id="player" width="100%" height="100%" styleName="black">
-      <Plugin id="kalturaMix" width="0%" height="0%" includeInLayout="false" loadingPolicy="onDemand"/>
+      <Plugin id="borhanMix" width="0%" height="0%" includeInLayout="false" loadingPolicy="onDemand"/>
       <Plugin id="statistics" width="0%" height="0%" includeInLayout="false"/>
       <Plugin id="akamaiMediaAnalytics" width="0%" height="0%" includeInLayout="false" asyncInit="true" swfPath="http://79423.analytics.edgesuite.net/csma/plugin/csma.swf" configPath="http://ma193-r.analytics.edgesuite.net/config/beacon-3431.xml" securedSwfPath="https://79423.analytics.edgekey.net/csma/plugin/csma.swf" securedConfigPath="https://ma193-r.analytics.edgekey.net/config/beacon-3900.xml"/>
       <Plugin id="captureThumbnail" width="0%" height="0%" includeInLayout="false" loadingPolicy="noWait"/>
@@ -45,7 +45,7 @@
             <Button id="captureThumbBtnControllerScreen" kClick="sendNotification('captureThumbnail')" height="22" buttonType="iconButton" focusRectPadding="0" icon="thumbIcon" styleName="controllerScreen" tooltip="Use current frame as the video thumbnail" k_buttonType="buttonIconControllerArea" color1="2236962" color2="0" color3="14540253" color4="16777215" color5="0" font="Arial"/>
           </HBox>
           <Spacer width="13"/>
-          <Button id="kalturaLogo" height="50" width="100" kClick="navigate('http://www.kaltura.com')" styleName="controllerScreen" icon="kalturaLogo"/>
+          <Button id="borhanLogo" height="50" width="100" kClick="navigate('http://www.borhan.com')" styleName="controllerScreen" icon="borhanLogo"/>
           <Spacer width="13"/>
         </HBox>
       </Canvas>

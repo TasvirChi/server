@@ -10,8 +10,8 @@ if($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
 
 $start = microtime(true);
 // check cache before loading anything
-require_once(dirname(__FILE__)."/../lib/KalturaResponseCacher.php");
-$cache = new KalturaResponseCacher();
+require_once(dirname(__FILE__)."/../lib/BorhanResponseCacher.php");
+$cache = new BorhanResponseCacher();
 $cache->checkOrStart();
 
 require_once(dirname(__FILE__)."/../bootstrap.php");
@@ -22,14 +22,14 @@ DbManager::initialize();
 
 ActKeyUtils::checkCurrent();
 
-KalturaLog::debug(">------------------------------------- api_v3 -------------------------------------");
-KalturaLog::info("API-start pid:".getmypid());
+BorhanLog::debug(">------------------------------------- api_v3 -------------------------------------");
+BorhanLog::info("API-start pid:".getmypid());
 
-$controller = KalturaFrontController::getInstance();
+$controller = BorhanFrontController::getInstance();
 $result = $controller->run();
 
 $end = microtime(true);
-KalturaLog::info("API-end [".($end - $start)."]");
-KalturaLog::debug("<------------------------------------- api_v3 -------------------------------------");
+BorhanLog::info("API-end [".($end - $start)."]");
+BorhanLog::debug("<------------------------------------- api_v3 -------------------------------------");
 
 $cache->end($result);

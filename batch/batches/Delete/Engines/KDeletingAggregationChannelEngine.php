@@ -12,7 +12,7 @@ class KDeletingAggregationChannelEngine extends  KDeletingEngine
 	
 	public function configure($partnerId, $jobData)
 	{
-		/* @var $jobData KalturaDeleteJobData */
+		/* @var $jobData BorhanDeleteJobData */
 		parent::configure($partnerId, $jobData);
 
 		$this->publicAggregationChannel = $jobData->filter->aggregationCategoriesMultiLikeAnd;
@@ -22,24 +22,24 @@ class KDeletingAggregationChannelEngine extends  KDeletingEngine
 	/* (non-PHPdoc)
 	 * @see KDeletingEngine::delete()
 	 */
-	protected function delete(KalturaFilter $filter) {
+	protected function delete(BorhanFilter $filter) {
 		return $this->deleteAggregationCategoryEntries ($filter);
 		
 	}
 	
-	protected function deleteAggregationCategoryEntries (KalturaCategoryFilter $filter)
+	protected function deleteAggregationCategoryEntries (BorhanCategoryFilter $filter)
 	{
-		$entryFilter = new KalturaBaseEntryFilter();
+		$entryFilter = new BorhanBaseEntryFilter();
 		$entryFilter->categoriesIdsNotContains = $this->excludedCategories;
 		$entryFilter->categoriesIdsMatchAnd = $this->publicAggregationChannel . "," . $filter->idNotIn;
 		
-		$entryFilter->orderBy = KalturaBaseEntryOrderBy::CREATED_AT_ASC;
+		$entryFilter->orderBy = BorhanBaseEntryOrderBy::CREATED_AT_ASC;
 		if ($this->lastCreatedAt)
 		{
 			$entryFilter->createdAtGreaterThanOrEqual = $this->lastCreatedAt;
 		}
 		
-		$entryFilter->statusIn = implode (',', array (KalturaEntryStatus::ERROR_CONVERTING, KalturaEntryStatus::ERROR_IMPORTING, KalturaEntryStatus::IMPORT, KalturaEntryStatus::NO_CONTENT, KalturaEntryStatus::READY));
+		$entryFilter->statusIn = implode (',', array (BorhanEntryStatus::ERROR_CONVERTING, BorhanEntryStatus::ERROR_IMPORTING, BorhanEntryStatus::IMPORT, BorhanEntryStatus::NO_CONTENT, BorhanEntryStatus::READY));
 		$entriesList = KBatchBase::$kClient->baseEntry->listAction($entryFilter, $this->pager);
 		if(!count($entriesList->objects))
 			return 0;
@@ -48,7 +48,7 @@ class KDeletingAggregationChannelEngine extends  KDeletingEngine
 		KBatchBase::$kClient->startMultiRequest();
 		foreach($entriesList->objects as $entry)
 		{
-			/* @var $entry KalturaBaseEntry */
+			/* @var $entry BorhanBaseEntry */
 			KBatchBase::$kClient->categoryEntry->delete($entry->id, $this->publicAggregationChannel);
 		}
 		$results = KBatchBase::$kClient->doMultiRequest();
@@ -60,9 +60,9 @@ class KDeletingAggregationChannelEngine extends  KDeletingEngine
 		
 	}
 	
-	protected function retrievePublishingCategories (KalturaCategoryFilter $filter)
+	protected function retrievePublishingCategories (BorhanCategoryFilter $filter)
 	{
-		$categoryPager = new KalturaFilterPager();
+		$categoryPager = new BorhanFilterPager();
 		$categoryPager->pageIndex = 1;
 		$categoryPager->pageSize = 500;
 		

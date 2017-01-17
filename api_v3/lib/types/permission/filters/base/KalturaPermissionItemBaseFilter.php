@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaPermissionItemBaseFilter extends KalturaRelatedFilter
+abstract class BorhanPermissionItemBaseFilter extends BorhanRelatedFilter
 {
 	static private $map_between_objects = array
 	(
@@ -53,7 +53,7 @@ abstract class KalturaPermissionItemBaseFilter extends KalturaRelatedFilter
 	public $idIn;
 
 	/**
-	 * @var KalturaPermissionItemType
+	 * @var BorhanPermissionItemType
 	 */
 	public $typeEqual;
 

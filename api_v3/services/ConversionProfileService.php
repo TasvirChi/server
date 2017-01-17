@@ -7,7 +7,7 @@
  * @package api
  * @subpackage services
  */
-class ConversionProfileService extends KalturaBaseService
+class ConversionProfileService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -19,7 +19,7 @@ class ConversionProfileService extends KalturaBaseService
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseService::partnerGroup()
+	 * @see BorhanBaseService::partnerGroup()
 	 */
 	protected function partnerGroup($peer = null)
 	{
@@ -40,15 +40,15 @@ class ConversionProfileService extends KalturaBaseService
 	 * 
 	 * @action setAsDefault
 	 * @param int $id
-	 * @return KalturaConversionProfile
+	 * @return BorhanConversionProfile
 	 * 
-	 * @throws KalturaErrors::CONVERSION_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::CONVERSION_PROFILE_ID_NOT_FOUND
 	 */
 	public function setAsDefaultAction($id)
 	{
 		$conversionProfileDb = conversionProfile2Peer::retrieveByPK($id);
 		if (!$conversionProfileDb || $conversionProfileDb->getPartnerId() != $this->getPartnerId())
-			throw new KalturaAPIException(KalturaErrors::CONVERSION_PROFILE_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::CONVERSION_PROFILE_ID_NOT_FOUND, $id);
 			
 		$partner = $this->getPartner();
 		
@@ -61,7 +61,7 @@ class ConversionProfileService extends KalturaBaseService
 		$partner->save();
 		PartnerPeer::removePartnerFromCache($partner->getId());
 		
-		$conversionProfile = new KalturaConversionProfile();
+		$conversionProfile = new BorhanConversionProfile();
 		$conversionProfile->fromObject($conversionProfileDb, $this->getResponseProfile());
 		$conversionProfile->loadFlavorParamsIds($conversionProfileDb);
 		
@@ -71,15 +71,15 @@ class ConversionProfileService extends KalturaBaseService
 	/**
 	 * Get the partner's default conversion profile
 	 * 
-	 * @param KalturaConversionProfileType $type
+	 * @param BorhanConversionProfileType $type
 	 * @action getDefault
-	 * @return KalturaConversionProfile
+	 * @return BorhanConversionProfile
 	 */
 	public function getDefaultAction($type = null)
 	{
-		if(is_null($type) || $type == KalturaConversionProfileType::MEDIA)
+		if(is_null($type) || $type == BorhanConversionProfileType::MEDIA)
 			$defaultProfileId = $this->getPartner()->getDefaultConversionProfileId();
-		elseif($type == KalturaConversionProfileType::LIVE_STREAM)
+		elseif($type == BorhanConversionProfileType::LIVE_STREAM)
 			$defaultProfileId = $this->getPartner()->getDefaultLiveConversionProfileId();
 			
 		return $this->getAction($defaultProfileId);
@@ -89,12 +89,12 @@ class ConversionProfileService extends KalturaBaseService
 	 * Add new Conversion Profile
 	 * 
 	 * @action add
-	 * @param KalturaConversionProfile $conversionProfile
-	 * @return KalturaConversionProfile
+	 * @param BorhanConversionProfile $conversionProfile
+	 * @return BorhanConversionProfile
 	 * 
-	 * @throws KalturaErrors::ASSET_PARAMS_INVALID_TYPE
+	 * @throws BorhanErrors::ASSET_PARAMS_INVALID_TYPE
 	 */
-	public function addAction(KalturaConversionProfile $conversionProfile)
+	public function addAction(BorhanConversionProfile $conversionProfile)
 	{
 		$conversionProfileDb = $conversionProfile->toInsertableObject(new conversionProfile2());
 
@@ -132,17 +132,17 @@ class ConversionProfileService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param int $id
-	 * @return KalturaConversionProfile
+	 * @return BorhanConversionProfile
 	 * 
-	 * @throws KalturaErrors::CONVERSION_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::CONVERSION_PROFILE_ID_NOT_FOUND
 	 */
 	public function getAction($id)
 	{
 		$conversionProfileDb = conversionProfile2Peer::retrieveByPK($id);
 		if (!$conversionProfileDb)
-			throw new KalturaAPIException(KalturaErrors::CONVERSION_PROFILE_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::CONVERSION_PROFILE_ID_NOT_FOUND, $id);
 			
-		$conversionProfile = new KalturaConversionProfile();
+		$conversionProfile = new BorhanConversionProfile();
 		$conversionProfile->fromObject($conversionProfileDb, $this->getResponseProfile());
 		$conversionProfile->loadFlavorParamsIds($conversionProfileDb);
 		
@@ -154,20 +154,20 @@ class ConversionProfileService extends KalturaBaseService
 	 * 
 	 * @action update
 	 * @param int $id
-	 * @param KalturaConversionProfile $conversionProfile
-	 * @return KalturaConversionProfile
+	 * @param BorhanConversionProfile $conversionProfile
+	 * @return BorhanConversionProfile
 	 * 
-	 * @throws KalturaErrors::ASSET_PARAMS_INVALID_TYPE
-	 * @throws KalturaErrors::CONVERSION_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::ASSET_PARAMS_INVALID_TYPE
+	 * @throws BorhanErrors::CONVERSION_PROFILE_ID_NOT_FOUND
 	 */
-	public function updateAction($id, KalturaConversionProfile $conversionProfile)
+	public function updateAction($id, BorhanConversionProfile $conversionProfile)
 	{
 		$conversionProfileDb = conversionProfile2Peer::retrieveByPK($id);
 		if (!$conversionProfileDb)
-			throw new KalturaAPIException(KalturaErrors::CONVERSION_PROFILE_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::CONVERSION_PROFILE_ID_NOT_FOUND, $id);
 			
 		$conversionProfile->toUpdatableObject($conversionProfileDb);
-		$conversionProfileDb->setCreationMode(conversionProfile2::CONVERSION_PROFILE_2_CREATION_MODE_KMC);
+		$conversionProfileDb->setCreationMode(conversionProfile2::CONVERSION_PROFILE_2_CREATION_MODE_BMC);
 		
 		if($conversionProfile->xslTransformation)
 			$conversionProfileDb->incrementXslVersion();
@@ -205,17 +205,17 @@ class ConversionProfileService extends KalturaBaseService
 	 * @action delete
 	 * @param int $id
 	 * 
-	 * @throws KalturaErrors::CONVERSION_PROFILE_ID_NOT_FOUND
-	 * @throws KalturaErrors::CANNOT_DELETE_DEFAULT_CONVERSION_PROFILE
+	 * @throws BorhanErrors::CONVERSION_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::CANNOT_DELETE_DEFAULT_CONVERSION_PROFILE
 	 */
 	public function deleteAction($id)
 	{
 		$conversionProfileDb = conversionProfile2Peer::retrieveByPK($id);
 		if (!$conversionProfileDb)
-			throw new KalturaAPIException(KalturaErrors::CONVERSION_PROFILE_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::CONVERSION_PROFILE_ID_NOT_FOUND, $id);
 			
 		if ($conversionProfileDb->getIsDefault() === true)
-			throw new KalturaAPIException(KalturaErrors::CANNOT_DELETE_DEFAULT_CONVERSION_PROFILE);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_DELETE_DEFAULT_CONVERSION_PROFILE);
 			
 		$this->deleteFlavorParamsRelation($conversionProfileDb);
 		
@@ -227,17 +227,17 @@ class ConversionProfileService extends KalturaBaseService
 	 * List Conversion Profiles by filter with paging support
 	 * 
 	 * @action list
-	 * @param KalturaConversionProfileFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaConversionProfileListResponse
+	 * @param BorhanConversionProfileFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanConversionProfileListResponse
 	 */
-	public function listAction(KalturaConversionProfileFilter $filter = null, KalturaFilterPager $pager = null)
+	public function listAction(BorhanConversionProfileFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaConversionProfileFilter();
+			$filter = new BorhanConversionProfileFilter();
 			
 		if(!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 			
 		return $filter->getListResponse($pager, $this->getResponseProfile());  
 	}
@@ -248,7 +248,7 @@ class ConversionProfileService extends KalturaBaseService
 	 * @param conversionProfile2 $conversionProfileDb
 	 * @param $flavorParamsIds
 	 * 
-	 * @throws KalturaErrors::ASSET_PARAMS_INVALID_TYPE
+	 * @throws BorhanErrors::ASSET_PARAMS_INVALID_TYPE
 	 */
 	protected function addFlavorParamsRelation(conversionProfile2 $conversionProfileDb, $flavorParamsIds)
 	{
@@ -262,7 +262,7 @@ class ConversionProfileService extends KalturaBaseService
 				continue;
 				
 			if($conversionProfileDb->getType() == ConversionProfileType::LIVE_STREAM && $assetParams->getType() != assetType::LIVE)
-				throw new KalturaAPIException(KalturaErrors::ASSET_PARAMS_INVALID_TYPE, $assetParams->getId(), $assetParams->getType());
+				throw new BorhanAPIException(BorhanErrors::ASSET_PARAMS_INVALID_TYPE, $assetParams->getId(), $assetParams->getType());
 				
 			$fpc = new flavorParamsConversionProfile();
 			$fpc->setConversionProfileId($conversionProfileDb->getId());

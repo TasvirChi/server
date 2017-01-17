@@ -5,7 +5,7 @@
 * @subpackage model.enums
 */
 
-class FairplaySchemeName implements IKalturaPluginEnum, DrmSchemeName
+class FairplaySchemeName implements IBorhanPluginEnum, DrmSchemeName
 {
 	const FAIRPLAY = 'FAIRPLAY';
 

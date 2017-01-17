@@ -3,12 +3,12 @@
  * @package api
  * @subpackage objects
  */
-class KalturaDeliveryProfileCondition extends KalturaCondition
+class BorhanDeliveryProfileCondition extends BorhanCondition
 {
 	/**
 	 * The delivery ids that are accepted by this condition
 	 * 
-	 * @var KalturaIntegerValueArray
+	 * @var BorhanIntegerValueArray
 	 */
 	public $deliveryProfileIds;
 	
@@ -23,7 +23,7 @@ class KalturaDeliveryProfileCondition extends KalturaCondition
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

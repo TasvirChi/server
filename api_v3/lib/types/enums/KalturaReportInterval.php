@@ -3,6 +3,6 @@
  * @package api
  * @subpackage enum
  */
-class KalturaReportInterval extends KalturaStringEnum implements reportInterval
+class BorhanReportInterval extends BorhanStringEnum implements reportInterval
 {
 }

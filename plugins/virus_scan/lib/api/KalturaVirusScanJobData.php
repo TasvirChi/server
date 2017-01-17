@@ -3,7 +3,7 @@
  * @package plugins.virusScan
  * @subpackage api.objects
  */
-class KalturaVirusScanJobData extends KalturaJobData
+class BorhanVirusScanJobData extends BorhanJobData
 {
 	/**
 	 * @var string
@@ -16,12 +16,12 @@ class KalturaVirusScanJobData extends KalturaJobData
 	public $flavorAssetId;
 	
 	/**
-	 * @var KalturaVirusScanJobResult
+	 * @var BorhanVirusScanJobResult
 	 */
 	public $scanResult;
 	
 	/**
-	 * @var KalturaVirusFoundAction
+	 * @var BorhanVirusFoundAction
 	 */
 	public $virusFoundAction;
 	

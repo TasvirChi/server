@@ -143,7 +143,7 @@ class kOldContentCleaner
 		if(isset($options['r']) || isset($options['real-run']))
 			self::$dryRun = false;
 			
-		KalturaStatement::setDryRun(self::$dryRun);
+		BorhanStatement::setDryRun(self::$dryRun);
 			
 		$cacheFilePath = kConf::get('cache_root_path') . '/scripts/deleteOldContent.cache';
 		if(file_exists($cacheFilePath))
@@ -233,13 +233,13 @@ class kOldContentCleaner
 		file_put_contents($cacheFilePath, serialize($cache));
 		
 		if(isset(self::$sums['entry']))
-			KalturaLog::info('Deleted ' . self::$sums['entry'] . ' entries.');
+			BorhanLog::info('Deleted ' . self::$sums['entry'] . ' entries.');
 		if(isset(self::$sums['asset']))
-			KalturaLog::info('Deleted ' . self::$sums['asset'] . ' assets.');
+			BorhanLog::info('Deleted ' . self::$sums['asset'] . ' assets.');
 		if(isset(self::$sums['FileSync']))
-			KalturaLog::info('Deleted ' . self::$sums['FileSync'] . ' file sync objects.');
+			BorhanLog::info('Deleted ' . self::$sums['FileSync'] . ' file sync objects.');
 		if(isset(self::$sums['dirs']))
-			KalturaLog::info('Deleted ' . self::$sums['dirs'] . ' directories.');
+			BorhanLog::info('Deleted ' . self::$sums['dirs'] . ' directories.');
 		if(isset(self::$sums['files']))
 		{
 			if(isset(self::$sums['bytes']))
@@ -266,11 +266,11 @@ class kOldContentCleaner
 					$size = round($size / 1024, 2);
 					$units = 'TB';
 				}
-				KalturaLog::info("Deleted " . self::$sums['files'] . " files in total size of $size $units from the disc.");
+				BorhanLog::info("Deleted " . self::$sums['files'] . " files in total size of $size $units from the disc.");
 			}
 			else
 			{
-				KalturaLog::info('Deleted ' . self::$sums['files'] . ' files.');
+				BorhanLog::info('Deleted ' . self::$sums['files'] . ' files.');
 			}
 		}
 	}
@@ -325,7 +325,7 @@ class kOldContentCleaner
 		
 		self::finit();
 		
-		KalturaLog::debug('Done, execution time ' . date('H:i:s', time() - $time) . '.');
+		BorhanLog::debug('Done, execution time ' . date('H:i:s', time() - $time) . '.');
 	}
 	
 	/**
@@ -333,7 +333,7 @@ class kOldContentCleaner
 	 */
 	protected static function deleteFileSync(FileSync $fileSync)
 	{
-		KalturaLog::info("Deleting file sync [" . $fileSync->getId() . "]");
+		BorhanLog::info("Deleting file sync [" . $fileSync->getId() . "]");
 		$key = kFileSyncUtils::getKeyForFileSync($fileSync);
 	
 		try
@@ -342,7 +342,7 @@ class kOldContentCleaner
 		}
 		catch (Exception $e)
 		{
-			KalturaLog::err($e);
+			BorhanLog::err($e);
 		}
 		
 		self::incrementSummary('FileSync');
@@ -364,16 +364,16 @@ class kOldContentCleaner
 	 */
 	protected static function purgeFileSync(FileSync $fileSync)
 	{
-		KalturaLog::info("Purging file sync [" . $fileSync->getId() . "]");
+		BorhanLog::info("Purging file sync [" . $fileSync->getId() . "]");
 		
 		$fullPath = $fileSync->getFullPath();
 		if($fullPath && file_exists($fullPath))
 		{
-			KalturaLog::debug("Purging file sync [" . $fileSync->getId() . "] path [$fullPath]");
+			BorhanLog::debug("Purging file sync [" . $fileSync->getId() . "] path [$fullPath]");
 			if(is_dir($fullPath))
 			{
 				$command = "rm -fr $fullPath";
-				KalturaLog::debug("Executing: $command");
+				BorhanLog::debug("Executing: $command");
 				if(self::$dryRun)
 				{
 					self::incrementSummary('dirs');
@@ -388,7 +388,7 @@ class kOldContentCleaner
 					}
 					else
 					{
-						KalturaLog::err("Failed purging file sync [" . $fileSync->getId() . "] directory path [$fullPath]");
+						BorhanLog::err("Failed purging file sync [" . $fileSync->getId() . "] directory path [$fullPath]");
 						return;
 					}
 				}
@@ -403,14 +403,14 @@ class kOldContentCleaner
 				}
 				else
 				{
-					KalturaLog::err("Failed purging file sync [" . $fileSync->getId() . "] file path [$fullPath]");
+					BorhanLog::err("Failed purging file sync [" . $fileSync->getId() . "] file path [$fullPath]");
 					return;
 				}
 			}
 		}
 		else
 		{
-			KalturaLog::debug("File sync [" . $fileSync->getId() . "] path [$fullPath] does not exist");
+			BorhanLog::debug("File sync [" . $fileSync->getId() . "] path [$fullPath] does not exist");
 		}
 		
 		$fileSync->setStatus(FileSync::FILE_SYNC_STATUS_PURGED);
@@ -525,14 +525,14 @@ class kOldContentCleaner
 		foreach($entries as $entry)
 		{
 			/* @var $entry entry */
-			KalturaLog::info("Deleting entry [" . $entry->getId() . "]");
+			BorhanLog::info("Deleting entry [" . $entry->getId() . "]");
 			try
 			{
 				myEntryUtils::deleteEntry($entry);
 			}
 			catch (Exception $e)
 			{
-				KalturaLog::err($e);
+				BorhanLog::err($e);
 			}
 		}
 			
@@ -568,7 +568,7 @@ class kOldContentCleaner
 		foreach($assets as $asset)
 		{
 			/* @var $asset asset */
-			KalturaLog::info("Deleting asset [" . $asset->getId() . "]");
+			BorhanLog::info("Deleting asset [" . $asset->getId() . "]");
 			$asset->setStatus(asset::ASSET_STATUS_DELETED);
 		
 			try
@@ -577,7 +577,7 @@ class kOldContentCleaner
 			}
 			catch (Exception $e)
 			{
-				KalturaLog::err($e);
+				BorhanLog::err($e);
 			}
 		}
 			

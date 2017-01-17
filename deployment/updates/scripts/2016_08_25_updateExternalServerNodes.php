@@ -19,7 +19,7 @@ function getWowzaServerNodeEnumValue()
 	$enum = DynamicEnumPeer::doSelectOne($c);
 	if(!$enum)
 	{
-		KalturaLog::warning("Could not locate serverNodeType of type wowza");
+		BorhanLog::warning("Could not locate serverNodeType of type wowza");
 		die();
 	}
 	
@@ -38,7 +38,7 @@ function getDefaultDeliveryProfileIdByTypeAndStreamType($type, $streamType)
 	$deliveryProfile = DeliveryProfilePeer::doSelectOne($c);
 	if(!$deliveryProfile)
 	{
-		KalturaLog::warning("Could not locate default empty [$type] delivery profile with stream type [$streamType]");
+		BorhanLog::warning("Could not locate default empty [$type] delivery profile with stream type [$streamType]");
 		die();
 	}
 	
@@ -67,27 +67,27 @@ $defaultDeliveryProfileArray = array(
 	"hds" => $defaultHdsDeliveryProfile
 );
 
-KalturaLog::debug("Starting external Wowza delivery profiles update with default delivery profiles Array " . print_r($defaultDeliveryProfileArray, true));
+BorhanLog::debug("Starting external Wowza delivery profiles update with default delivery profiles Array " . print_r($defaultDeliveryProfileArray, true));
 
 $externalWowzaServerNodes = getActiveExternalWowzaServerNode();
 if(!count($externalWowzaServerNodes))
 {
-	KalturaLog::debug("No external Wowza server node found, Done!!!");
+	BorhanLog::debug("No external Wowza server node found, Done!!!");
 	return;
 }
 
 foreach ($externalWowzaServerNodes as $externalWowzaServerNode) 
 {
 	/* @var $externalWowzaServerNode WowzaMediaServerNode */
-	KalturaLog::debug("updating wowza server node with id [{$externalWowzaServerNode->getId()}] with default delivery profile ids");
+	BorhanLog::debug("updating wowza server node with id [{$externalWowzaServerNode->getId()}] with default delivery profile ids");
 	$externalWowzaServerNode->setDeliveryProfileIds($defaultDeliveryProfileArray);
 	
 	if($executionMode === "debug")
 	{
-		KalturaLog::debug("Debug mode is enabled skipping Save");
+		BorhanLog::debug("Debug mode is enabled skipping Save");
 		continue;
 	}
 	$externalWowzaServerNode->save();
 }
 
-KalturaLog::debug("Done external Wowza delivery profiles update with with default delivery profiles Array " . print_r($defaultDeliveryProfileArray, true));
+BorhanLog::debug("Done external Wowza delivery profiles update with with default delivery profiles Array " . print_r($defaultDeliveryProfileArray, true));

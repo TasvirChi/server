@@ -11,7 +11,7 @@ class myContentRender
 	 * if the random obfuscator is lower then the MIN_OBFUSCATOR_VALUE the file name
 	 * refers to a static template which resides in the templates directory
 	 * @param int $mediaType = the media type (video, image, text, etc...)
-	 * @param string $data = path to data stored on kaltura servers
+	 * @param string $data = path to data stored on borhan servers
 	 * @param int $width = width of html object
 	 * @param int $height = height of html object
 	 * @return string the html reprenstation of the given data
@@ -25,11 +25,11 @@ class myContentRender
 		
 		if ($status == entryStatus::IMPORT)
 		{
-			$kmediaData = 'The clip is currently being imported. This may take a couple of minutes. You can continue browsing this Kaltura';
+			$kmediaData = 'The clip is currently being imported. This may take a couple of minutes. You can continue browsing this Borhan';
 		}
 		else if ($status == entryStatus::PRECONVERT)
 		{
-			$kmediaData = 'Clip is being converted. This might take a couple of minutes. You can continue browsing the Kaltura.' ;// 'Entry is being converted';
+			$kmediaData = 'Clip is being converted. This might take a couple of minutes. You can continue browsing the Borhan.' ;// 'Entry is being converted';
 		}
 		else if ($status == entryStatus::ERROR_CONVERTING)
 		{
@@ -63,7 +63,7 @@ class myContentRender
 	 * if the random obfuscator is lower then the MIN_OBFUSCATOR_VALUE the file name
 	 * refers to a static template which resides in the templates directory
 	 * @param int $mediaType = NOT USED!!! the media type (video, image, text, etc...)
-	 * @param string $data = path to data stored on kaltura servers
+	 * @param string $data = path to data stored on borhan servers
 	 * @param int $width = width of html object
 	 * @param int $height = height of html object
 	 * @return string the html reprenstation of the given data

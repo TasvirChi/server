@@ -18,14 +18,14 @@ DbManager::setConfig ( $dbConf );
 DbManager::initialize ();
 
 $c = new Criteria();
-$c->add(uiConfPeer::SWF_URL, "%kcw%",Criteria::LIKE);
+$c->add(uiConfPeer::SWF_URL, "%bcw%",Criteria::LIKE);
 $c->add(uiConfPeer::OBJ_TYPE , uiConf::UI_CONF_TYPE_CW, Criteria::EQUAL);
 $c->add(uiConfPeer::PARTNER_ID, $partnerId, Criteria::EQUAL);
 
-$kcwUiconfs = uiConfPeer::doSelect($c);
+$bcwUiconfs = uiConfPeer::doSelect($c);
 
 
-if (!count($kcwUiconfs))
+if (!count($bcwUiconfs))
 {
 	exit;
 }
@@ -33,22 +33,22 @@ if (!count($kcwUiconfs))
 $fileName = "/manual_uiconfs_paths.log";
 $flog = fopen($fileName,'a+');
 //Run a loop for each uiConf to get its filesync key, thus acquiring its confile
-foreach ($kcwUiconfs as $kcwUiconf)
+foreach ($bcwUiconfs as $bcwUiconf)
 {
-	/* @var $kcwUiconf uiConf */
-	$kcwUiconfFilesyncKey = $kcwUiconf->getSyncKey(uiConf::FILE_SYNC_UICONF_SUB_TYPE_DATA);
-	$kcwConfile = kFileSyncUtils::file_get_contents($kcwUiconfFilesyncKey, false , false);
+	/* @var $bcwUiconf uiConf */
+	$bcwUiconfFilesyncKey = $bcwUiconf->getSyncKey(uiConf::FILE_SYNC_UICONF_SUB_TYPE_DATA);
+	$bcwConfile = kFileSyncUtils::file_get_contents($bcwUiconfFilesyncKey, false , false);
 	
-	if (!$kcwConfile)
+	if (!$bcwConfile)
 	{
 		continue;
 	}
 		
-	$kcwConfileXML = new SimpleXMLElement($kcwConfile);
+	$bcwConfileXML = new SimpleXMLElement($bcwConfile);
 
-	$path = '//provider[@id="kaltura" or @name="kaltura"]';
+	$path = '//provider[@id="borhan" or @name="borhan"]';
 	
-	$nodesToRemove = $kcwConfileXML->xpath($path);
+	$nodesToRemove = $bcwConfileXML->xpath($path);
 	
 	if (!count($nodesToRemove))
 	{
@@ -56,7 +56,7 @@ foreach ($kcwUiconfs as $kcwUiconf)
 	}
 	
 	
-	if ($kcwUiconf->getCreationMode() != uiConf::UI_CONF_CREATION_MODE_MANUAL)
+	if ($bcwUiconf->getCreationMode() != uiConf::UI_CONF_CREATION_MODE_MANUAL)
 	{
 		//No point in this "for" loop if we can't save the UIConf.
 		foreach ($nodesToRemove as $nodeToRemove)
@@ -65,16 +65,16 @@ foreach ($kcwUiconfs as $kcwUiconf)
 
 			$nodeToRemoveDom->parentNode->removeChild($nodeToRemoveDom);
 		}
-		$kcwConfile = $kcwConfileXML->saveXML();
-		$kcwUiconf->setConfFile($kcwConfile);
-		$kcwUiconf->save();
+		$bcwConfile = $bcwConfileXML->saveXML();
+		$bcwUiconf->setConfFile($bcwConfile);
+		$bcwUiconf->save();
 	}
 	else
 	{
-		$confilePath = $kcwUiconf->getConfFilePath()."\n";
+		$confilePath = $bcwUiconf->getConfFilePath()."\n";
 		fwrite($flog, $confilePath);
 	}
-	//$kcw_uiconf_filesync_key = $kcw_uiconf->getSyncKey(uiConf::FILE_SYNC_UICONF_SUB_TYPE_DATA);
-	//kFileSyncUtils::file_put_contents($kcw_uiconf_filesync_key, $kcw_confile , false);
+	//$bcw_uiconf_filesync_key = $bcw_uiconf->getSyncKey(uiConf::FILE_SYNC_UICONF_SUB_TYPE_DATA);
+	//kFileSyncUtils::file_put_contents($bcw_uiconf_filesync_key, $bcw_confile , false);
 }
 fclose($flog);

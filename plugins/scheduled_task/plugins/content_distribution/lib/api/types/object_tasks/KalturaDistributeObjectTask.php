@@ -4,7 +4,7 @@
  * @package plugins.scheduledTaskContentDistribution
  * @subpackage api.objects.objectTasks
  */
-class KalturaDistributeObjectTask extends KalturaObjectTask
+class BorhanDistributeObjectTask extends BorhanObjectTask
 {
 	/**
 	 * Distribution profile id
@@ -27,7 +27,7 @@ class KalturaDistributeObjectTask extends KalturaObjectTask
 		return $dbObject;
 	}
 
-	public function doFromObject($srcObj, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($srcObj, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($srcObj, $responseProfile);
 

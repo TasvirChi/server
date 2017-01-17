@@ -3,7 +3,7 @@
  * @package plugins.caption
   * @subpackage api.enum
    */
-   class ParseMultiLanguageCaptionAssetBatchType implements IKalturaPluginEnum, BatchJobType
+   class ParseMultiLanguageCaptionAssetBatchType implements IBorhanPluginEnum, BatchJobType
    {
         const PARSE_MULTI_LANGUAGE_CAPTION_ASSET = 'parsemultilanguagecaptionasset';
 

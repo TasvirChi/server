@@ -59,7 +59,7 @@ class ScheduleResourcePeer extends BaseScheduleResourcePeer implements IRelatedO
 			if(isset(self::$class_types_cache[$assetType]))
 				return self::$class_types_cache[$assetType];
 				
-			$extendedCls = KalturaPluginManager::getObjectClass(parent::OM_CLASS, $assetType);
+			$extendedCls = BorhanPluginManager::getObjectClass(parent::OM_CLASS, $assetType);
 			if($extendedCls)
 			{
 				self::$class_types_cache[$assetType] = $extendedCls;

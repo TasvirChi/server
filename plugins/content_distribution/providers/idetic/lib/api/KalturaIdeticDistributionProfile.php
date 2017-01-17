@@ -3,7 +3,7 @@
  * @package plugins.ideticDistribution
  * @subpackage api.objects
  */
-class KalturaIdeticDistributionProfile extends KalturaConfigurableDistributionProfile
+class BorhanIdeticDistributionProfile extends BorhanConfigurableDistributionProfile
 {	
 	/**
 	 * @var string

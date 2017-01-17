@@ -10,26 +10,26 @@ abstract class KProvisionEngine
 {
 	
 	/**
-	 * Will return the proper engine depending on the type (KalturaSourceType)
+	 * Will return the proper engine depending on the type (BorhanSourceType)
 	 *
 	 * @param int $provider
-	 * @param KalturaProvisionJobData $data
+	 * @param BorhanProvisionJobData $data
 	 * @return KProvisionEngine
 	 */
-	public static function getInstance ( $provider , KalturaProvisionJobData $data = null)
+	public static function getInstance ( $provider , BorhanProvisionJobData $data = null)
 	{
 		$engine =  null;
 		
 		switch ($provider )
 		{
-			case KalturaSourceType::AKAMAI_LIVE:
+			case BorhanSourceType::AKAMAI_LIVE:
 				$engine = new KProvisionEngineAkamai($data);
 				break;
-			case KalturaSourceType::AKAMAI_UNIVERSAL_LIVE:
+			case BorhanSourceType::AKAMAI_UNIVERSAL_LIVE:
 				$engine = new KProvisionEngineUniversalAkamai($data);
 				break;
 			default:
-				$engine = KalturaPluginManager::loadObject('KProvisionEngine', $provider);
+				$engine = BorhanPluginManager::loadObject('KProvisionEngine', $provider);
 		}
 		
 		return $engine;
@@ -42,25 +42,25 @@ abstract class KProvisionEngine
 	abstract public function getName();
 	
 	/**
-	 * @param KalturaBatchJob $job
-	 * @param KalturaProvisionJobData $data
+	 * @param BorhanBatchJob $job
+	 * @param BorhanProvisionJobData $data
 	 * @return KProvisionEngineResult
 	 */
-	abstract public function provide( KalturaBatchJob $job, KalturaProvisionJobData $data );
+	abstract public function provide( BorhanBatchJob $job, BorhanProvisionJobData $data );
 	
 	/**
-	 * @param KalturaBatchJob $job
-	 * @param KalturaProvisionJobData $data
+	 * @param BorhanBatchJob $job
+	 * @param BorhanProvisionJobData $data
 	 * @return KProvisionEngineResult
 	 */
-	abstract public function delete( KalturaBatchJob $job, KalturaProvisionJobData $data );
+	abstract public function delete( BorhanBatchJob $job, BorhanProvisionJobData $data );
 	
 	/**
-	 * @param KalturaBatchJob $job
-	 * @param KalturaProvisionJobData $data
+	 * @param BorhanBatchJob $job
+	 * @param BorhanProvisionJobData $data
 	 * @return KProvisionEngineResult
 	 */
-	abstract public function checkProvisionedStream ( KalturaBatchJob $job, KalturaProvisionJobData $data ) ;
+	abstract public function checkProvisionedStream ( BorhanBatchJob $job, BorhanProvisionJobData $data ) ;
 }
 
 
@@ -82,16 +82,16 @@ class KProvisionEngineResult
 	public $errMessage;
 	
 	/**
-	 * @var KalturaProvisionJobData
+	 * @var BorhanProvisionJobData
 	 */
 	public $data;
 	
 	/**
 	 * @param int $status
 	 * @param string $errMessage
-	 * @param KalturaProvisionJobData $data
+	 * @param BorhanProvisionJobData $data
 	 */
-	public function __construct( $status , $errMessage, KalturaProvisionJobData $data = null )
+	public function __construct( $status , $errMessage, BorhanProvisionJobData $data = null )
 	{
 		$this->status = $status;
 		$this->errMessage = $errMessage;

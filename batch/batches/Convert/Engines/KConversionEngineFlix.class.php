@@ -14,7 +14,7 @@ class KConversionEngineFlix  extends KJobConversionEngine
 	
 	public function getType()
 	{
-		return KalturaConversionEngineType::ON2;
+		return BorhanConversionEngineType::ON2;
 	}
 
 	public function getCmd ()

@@ -3,7 +3,7 @@
  * @package plugins.rabbitMQ
  * @subpackage lib.enum
  */
-class RabbitMQProviderType implements IKalturaPluginEnum, QueueProviderType
+class RabbitMQProviderType implements IBorhanPluginEnum, QueueProviderType
 {
 	const RABBITMQ = 'RabbitMQ';
 	

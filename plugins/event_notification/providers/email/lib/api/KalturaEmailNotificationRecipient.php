@@ -3,17 +3,17 @@
  * @package plugins.emailNotification
  * @subpackage api.objects
  */
-class KalturaEmailNotificationRecipient extends KalturaObject
+class BorhanEmailNotificationRecipient extends BorhanObject
 {
 	/**
 	 * Recipient e-mail address
-	 * @var KalturaStringValue
+	 * @var BorhanStringValue
 	 */
 	public $email;
 	
 	/**
 	 * Recipient name
-	 * @var KalturaStringValue
+	 * @var BorhanStringValue
 	 */
 	public $name;
 	
@@ -29,7 +29,7 @@ class KalturaEmailNotificationRecipient extends KalturaObject
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{
@@ -40,9 +40,9 @@ class KalturaEmailNotificationRecipient extends KalturaObject
 	}
 	 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject()
+	 * @see BorhanObject::fromObject()
 	 */
-	public function doFromObject($dbObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($dbObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		/* @var $dbObject kEmailNotificationRecipient */
 		parent::doFromObject($dbObject, $responseProfile);
@@ -52,19 +52,19 @@ class KalturaEmailNotificationRecipient extends KalturaObject
 		switch ($emailType)
 		{
 			case 'kStringValue':
-				$this->email = new KalturaStringValue();
+				$this->email = new BorhanStringValue();
 				break;
 				
 			case 'kEvalStringField':
-				$this->email = new KalturaEvalStringField();
+				$this->email = new BorhanEvalStringField();
 				break;
 				
 			case 'kUserEmailContextField':
-				$this->email = new KalturaUserEmailContextField();
+				$this->email = new BorhanUserEmailContextField();
 				break;
 				
 			default:
-				$this->email = KalturaPluginManager::loadObject('KalturaStringValue', $emailType);
+				$this->email = BorhanPluginManager::loadObject('BorhanStringValue', $emailType);
 				break;
 		}
 		if($this->email)
@@ -75,15 +75,15 @@ class KalturaEmailNotificationRecipient extends KalturaObject
 		switch ($nameType)
 		{
 			case 'kStringValue':
-				$this->name = new KalturaStringValue();
+				$this->name = new BorhanStringValue();
 				break;
 				
 			case 'kEvalStringField':
-				$this->name = new KalturaEvalStringField();
+				$this->name = new BorhanEvalStringField();
 				break;
 				
 			default:
-				$this->name = KalturaPluginManager::loadObject('KalturaStringValue', $nameType);
+				$this->name = BorhanPluginManager::loadObject('BorhanStringValue', $nameType);
 				break;
 		}
 		if($this->name)

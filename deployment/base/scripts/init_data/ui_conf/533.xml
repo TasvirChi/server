@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layouts>
-	<layout layoutId="playerOnly" skinPath="/content/uiconf/kaltura/wordpress/kdp_2.0.12/kdp_skin_aps_v4.swf">
+	<layout layoutId="playerOnly" skinPath="/content/uiconf/borhan/wordpress/bdp_2.0.12/bdp_skin_aps_v4.swf">
 		<Canvas width="100%" height="100%" styleName="topLevelLayout">
 		<HBox width="100%" height="100%" styleName="noGapsNoPadding">
 			<VBox id="player" width="100%" height="100%" styleName="noGapsNoPadding">
 				<HBox height="30" id="TopTitleScreen" styleName="controllerBoxDark" k_theme_change="true" width="100%">
 					<Spacer width="3"/>
-					<Label height="22" id="movieName" styleName="movieName" width="100%" text="{myKplayer.kalturaEntry.entryName}" k_theme_change="true"/>
+					<Label height="22" id="movieName" styleName="movieName" width="100%" text="{myKplayer.borhanEntry.entryName}" k_theme_change="true"/>
 					<VBox id="scrubberContainerControllerScreen" styleName="noGapsNoPadding" width="32" height="100%">
 						<Spacer height="5" />
-						<Button id="poweredByControllerScreen" width="32" height="20" k_click="navigate('http://www.kaltura.com')" styleName="kalturaLogoDark" k_theme_change="true"/>
+						<Button id="poweredByControllerScreen" width="32" height="20" k_click="navigate('http://www.borhan.com')" styleName="borhanLogoDark" k_theme_change="true"/>
 					</VBox>
 					<Spacer width="3"/>
 				</HBox>
@@ -91,7 +91,7 @@
 			<cssSelector componentId="listDemo" newClass="plItemsListLight"/>
 			<cssSelector componentId="TopTitleScreen" newClass="controllerBoxLight"/>
 			<cssSelector componentId="ControllerScreen" newClass="controllerBoxLight"/>
-			<cssSelector componentId="poweredByControllerScreen" newClass="kalturaLogoLight"/>
+			<cssSelector componentId="poweredByControllerScreen" newClass="borhanLogoLight"/>
 			<cssSelector componentId="plTabs" newClass="scrollingTabsWhite"/>
 			<cssSelector componentId="plPrevButton" newClass="nextPrevButtonsBright"/>
 			<font>Arial</font>

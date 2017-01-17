@@ -22,7 +22,7 @@ function addRow($kshow , $allowactions, $odd)
 	return $s;
 }
 
-function firstPage($text, $pagerHtml, $producer_id, $actionTD, $kaltura_part_of_flag, $screenname, $partner_id)
+function firstPage($text, $pagerHtml, $producer_id, $actionTD, $borhan_part_of_flag, $screenname, $partner_id)
 {
 	$KSHOW_SORT_MOST_VIEWED = kshow::KSHOW_SORT_MOST_VIEWED;  
 	$KSHOW_SORT_MOST_RECENT = kshow::KSHOW_SORT_MOST_RECENT;  
@@ -40,7 +40,7 @@ echo <<<EOT
 
 
 var producer_id = 0;
-var kaltura_part_of_flag = 0;
+var borhan_part_of_flag = 0;
 
 jQuery(document).ready(function(){
 mediaSortOrder = $KSHOW_SORT_MOST_VIEWED;
@@ -52,7 +52,7 @@ updatePagerAndRebind ( "media_pager" , null , requestMediaPage );
 
 
 </script>
-	<div class="mykaltura_viewAll">
+	<div class="myborhan_viewAll">
 		<div class="content">
 			<div class="top">
 				<div class="clearfix" style="margin:10px 0;">
@@ -69,7 +69,7 @@ updatePagerAndRebind ( "media_pager" , null , requestMediaPage );
 						<thead>
 							<tr>
 								<td class="resource"></td>
-								<td class="info" onclick='changeMediaSortOrder(this, $KSHOW_SORT_NAME)'><span>Kaltura Name</span></td>
+								<td class="info" onclick='changeMediaSortOrder(this, $KSHOW_SORT_NAME)'><span>Borhan Name</span></td>
 								<td class="date" onclick='changeMediaSortOrder(this, $KSHOW_SORT_MOST_RECENT)'><span>Created</span></td>
 								<td class="date" onclick='changeMediaSortOrder(this, $KSHOW_SORT_MOST_UPDATED)'><span>Updated</span></td>
 								<td class="date" style="width: 25px">RC</td>
@@ -107,7 +107,7 @@ foreach($kshowsData as $kshow)
 $htmlPager = mySmartPagerRenderer::createHtmlPager( $lastPage , $page  );
 			
 if ($firstTime)
-	firstPage($text, $htmlPager, $producer_id, $actionTD, $kaltura_part_of_flag, $screenname , $partner_id );
+	firstPage($text, $htmlPager, $producer_id, $actionTD, $borhan_part_of_flag, $screenname , $partner_id );
 else {
 	$output = array(
 		".currentPage" => $page,

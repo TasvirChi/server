@@ -2,12 +2,12 @@
 /**
  * @package plugins.drm
  */
-class DrmPlugin extends KalturaPlugin implements IKalturaServices, IKalturaAdminConsolePages, IKalturaPermissions, IKalturaEnumerator, IKalturaObjectLoader, IKalturaEntryContextDataContributor,IKalturaPermissionsEnabler, IKalturaPlaybackContextDataContributor
+class DrmPlugin extends BorhanPlugin implements IBorhanServices, IBorhanAdminConsolePages, IBorhanPermissions, IBorhanEnumerator, IBorhanObjectLoader, IBorhanEntryContextDataContributor,IBorhanPermissionsEnabler, IBorhanPlaybackContextDataContributor
 {
 	const PLUGIN_NAME = 'drm';
 
 	/* (non-PHPdoc)
-     * @see IKalturaPlugin::getPluginName()
+     * @see IBorhanPlugin::getPluginName()
      */
 	public static function getPluginName()
 	{
@@ -15,7 +15,7 @@ class DrmPlugin extends KalturaPlugin implements IKalturaServices, IKalturaAdmin
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaServices::getServicesMap()
+	 * @see IBorhanServices::getServicesMap()
 	 */
 	public static function getServicesMap() {
 		$map = array(
@@ -27,7 +27,7 @@ class DrmPlugin extends KalturaPlugin implements IKalturaServices, IKalturaAdmin
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaAdminConsolePages::getApplicationPages()
+	 * @see IBorhanAdminConsolePages::getApplicationPages()
 	 */
 	public static function getApplicationPages()
 	{
@@ -40,7 +40,7 @@ class DrmPlugin extends KalturaPlugin implements IKalturaServices, IKalturaAdmin
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissions::isAllowedPartner()
+	 * @see IBorhanPermissions::isAllowedPartner()
 	 */
 	public static function isAllowedPartner($partnerId) {	
 		
@@ -54,7 +54,7 @@ class DrmPlugin extends KalturaPlugin implements IKalturaServices, IKalturaAdmin
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -76,13 +76,13 @@ class DrmPlugin extends KalturaPlugin implements IKalturaServices, IKalturaAdmin
 		$config = kConf::getMap($configName);
 		if (!is_array($config))
 		{
-			KalturaLog::err($configName.' config section is not defined');
+			BorhanLog::err($configName.' config section is not defined');
 			return null;
 		}
 
 		if (!isset($config[$key]))
 		{
-			KalturaLog::err('The key '.$key.' was not found in the '.$configName.' config section');
+			BorhanLog::err('The key '.$key.' was not found in the '.$configName.' config section');
 			return null;
 		}
 
@@ -90,48 +90,48 @@ class DrmPlugin extends KalturaPlugin implements IKalturaServices, IKalturaAdmin
 	}
 
     /* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
     public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
     {
-        if($baseClass == 'KOperationEngine' && $enumValue == KalturaConversionEngineType::CENC)
+        if($baseClass == 'KOperationEngine' && $enumValue == BorhanConversionEngineType::CENC)
             return new KCEncOperationEngine($constructorArgs['params'], $constructorArgs['outFilePath']);
         if($baseClass == 'KDLOperatorBase' && $enumValue == self::getApiValue(DrmConversionEngineType::CENC))
             return new KDLOperatorDrm($enumValue);
-        if ($baseClass == 'Kaltura_Client_Drm_Type_DrmProfile' && $enumValue == Kaltura_Client_Drm_Enum_DrmProviderType::CENC)
-            return new Kaltura_Client_Drm_Type_DrmProfile();
+        if ($baseClass == 'Borhan_Client_Drm_Type_DrmProfile' && $enumValue == Borhan_Client_Drm_Enum_DrmProviderType::CENC)
+            return new Borhan_Client_Drm_Type_DrmProfile();
         if($baseClass == 'kRuleAction' && $enumValue == DrmAccessControlActionType::DRM_POLICY)
             return new kAccessControlDrmPolicyAction();
-        if($baseClass == 'KalturaRuleAction' && $enumValue == DrmAccessControlActionType::DRM_POLICY)
-            return new KalturaAccessControlDrmPolicyAction();
-	    if ($baseClass == 'KalturaPluginData' && $enumValue == self::getPluginName())
-		    return new KalturaDrmEntryContextPluginData();
-	    if ($baseClass == 'KalturaDrmPlaybackPluginData' && $enumValue == 'kDrmPlaybackPluginData')
-		    return new KalturaDrmPlaybackPluginData();
+        if($baseClass == 'BorhanRuleAction' && $enumValue == DrmAccessControlActionType::DRM_POLICY)
+            return new BorhanAccessControlDrmPolicyAction();
+	    if ($baseClass == 'BorhanPluginData' && $enumValue == self::getPluginName())
+		    return new BorhanDrmEntryContextPluginData();
+	    if ($baseClass == 'BorhanDrmPlaybackPluginData' && $enumValue == 'kDrmPlaybackPluginData')
+		    return new BorhanDrmPlaybackPluginData();
         return null;
     }
 
     /* (non-PHPdoc)
-    * @see IKalturaObjectLoader::getObjectClass()
+    * @see IBorhanObjectLoader::getObjectClass()
      */
     public static function getObjectClass($baseClass, $enumValue)
     {
-        if($baseClass == 'KOperationEngine' && $enumValue == KalturaConversionEngineType::CENC)
+        if($baseClass == 'KOperationEngine' && $enumValue == BorhanConversionEngineType::CENC)
             return "KDRMOperationEngine";
         if($baseClass == 'KDLOperatorBase' && $enumValue == self::getApiValue(DrmConversionEngineType::CENC))
             return "KDLOperatorrm";
-        if($baseClass == 'KalturaDrmProfile' && $enumValue == KalturaDrmProviderType::CENC)
-            return "KalturaDrmProfile";
-        if($baseClass == 'DrmProfile' && $enumValue == KalturaDrmProviderType::CENC)
+        if($baseClass == 'BorhanDrmProfile' && $enumValue == BorhanDrmProviderType::CENC)
+            return "BorhanDrmProfile";
+        if($baseClass == 'DrmProfile' && $enumValue == BorhanDrmProviderType::CENC)
             return "DrmProfile";
-        if ($baseClass == 'Kaltura_Client_Drm_Type_DrmProfile' && $enumValue == Kaltura_Client_Drm_Enum_DrmProviderType::CENC)
-            return 'Kaltura_Client_Drm_Type_DrmProfile';
+        if ($baseClass == 'Borhan_Client_Drm_Type_DrmProfile' && $enumValue == Borhan_Client_Drm_Enum_DrmProviderType::CENC)
+            return 'Borhan_Client_Drm_Type_DrmProfile';
         if($baseClass == 'kRuleAction' && $enumValue == DrmAccessControlActionType::DRM_POLICY)
             return 'kAccessControlDrmPolicyAction';
-        if($baseClass == 'KalturaRuleAction' && $enumValue == DrmAccessControlActionType::DRM_POLICY)
-            return 'KalturaAccessControlDrmPolicyAction';
-	    if ($baseClass == 'KalturaPluginData' && $enumValue == self::getPluginName())
-		    return 'KalturaDrmEntryContextPluginData';
+        if($baseClass == 'BorhanRuleAction' && $enumValue == DrmAccessControlActionType::DRM_POLICY)
+            return 'BorhanAccessControlDrmPolicyAction';
+	    if ($baseClass == 'BorhanPluginData' && $enumValue == self::getPluginName())
+		    return 'BorhanDrmEntryContextPluginData';
         return null;
     }
 
@@ -140,7 +140,7 @@ class DrmPlugin extends KalturaPlugin implements IKalturaServices, IKalturaAdmin
      */
     protected static function getApiValue($value)
     {
-        return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $value;
+        return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $value;
     }
 
     public function contributeToEntryContextDataResult(entry $entry, accessControlScope $contextDataParams, kContextDataHelper $contextDataHelper)
@@ -150,7 +150,7 @@ class DrmPlugin extends KalturaPlugin implements IKalturaServices, IKalturaAdmin
 		    $signingKey = $this->getSigningKey();
 		    if (!is_null($signingKey))
 		    {
-			    KalturaLog::info("Signing key is '$signingKey'");
+			    BorhanLog::info("Signing key is '$signingKey'");
 			    $customDataJson = DrmLicenseUtils::createCustomData($entry->getId(), $contextDataHelper->getAllowedFlavorAssets(), $signingKey);
 			    $drmContextData = new kDrmEntryContextPluginData();
 			    $drmContextData->setFlavorData($customDataJson);
@@ -164,7 +164,7 @@ class DrmPlugin extends KalturaPlugin implements IKalturaServices, IKalturaAdmin
 	{
 		if ($this->shouldContribute($entry) && $this->isSupportStreamerTypes($entryPlayingDataParams->getDeliveryProfile()->getStreamerType()))
 		{
-			$dbProfile = DrmProfilePeer::retrieveByProviderAndPartnerID(KalturaDrmProviderType::CENC, kCurrentContext::getCurrentPartnerId());
+			$dbProfile = DrmProfilePeer::retrieveByProviderAndPartnerID(BorhanDrmProviderType::CENC, kCurrentContext::getCurrentPartnerId());
 			if ($dbProfile)
 			{
 				$signingKey = $dbProfile->getSigningKey();
@@ -186,7 +186,7 @@ class DrmPlugin extends KalturaPlugin implements IKalturaServices, IKalturaAdmin
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public function getUrlName($scheme)
 	{
@@ -206,7 +206,7 @@ class DrmPlugin extends KalturaPlugin implements IKalturaServices, IKalturaAdmin
 	 */
 	public static function getDrmSchemeCoreValue($scheme)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $scheme;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $scheme;
 		return kPluginableEnumsManager::apiToCore('DrmSchemeName', $value);
 	}
 
@@ -222,7 +222,7 @@ class DrmPlugin extends KalturaPlugin implements IKalturaServices, IKalturaAdmin
 
     private function getSigningKey()
     {
-	    $dbProfile = DrmProfilePeer::retrieveByProviderAndPartnerID(KalturaDrmProviderType::CENC, kCurrentContext::getCurrentPartnerId());
+	    $dbProfile = DrmProfilePeer::retrieveByProviderAndPartnerID(BorhanDrmProviderType::CENC, kCurrentContext::getCurrentPartnerId());
 	    if (!is_null($dbProfile))
 	    {
 		    $signingKey = $dbProfile->getSigningKey();
@@ -260,7 +260,7 @@ class DrmPlugin extends KalturaPlugin implements IKalturaServices, IKalturaAdmin
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissionsEnabler::permissionEnabled()
+	 * @see IBorhanPermissionsEnabler::permissionEnabled()
 	 */
 	public static function permissionEnabled($partnerId, $permissionName)
 	{

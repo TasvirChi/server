@@ -4,10 +4,10 @@
  * @package infra
  * @subpackage Plugins
  */
-interface IKalturaPlaybackContextDataContributor
+interface IBorhanPlaybackContextDataContributor
 {
     /**
-     * Receives the context-data result and adds an instance of KalturaPluginData to the pluginData containing
+     * Receives the context-data result and adds an instance of BorhanPluginData to the pluginData containing
      * the specific plugins context-data.
      *
      * @param entry $entry

@@ -1,7 +1,7 @@
 <?php
 class dateUtils
 {
-	const KALTURA_FORMAT = "K";
+	const BORHAN_FORMAT = "K";
 	const MODEL_DEFAULT_FORMAT = "D";
 
 	
@@ -59,13 +59,13 @@ class dateUtils
 	 *
 	 * @param BaseObject $obj - the object to be invoked with method $date_method_str
 	 * @param unknown_type $format
-	 * @return formated date according to kaltura's string rules
+	 * @return formated date according to borhan's string rules
 	 */
-	public static function formatKalturaDate ( BaseObject $obj , $date_method_str , $format = self::KALTURA_FORMAT )
+	public static function formatBorhanDate ( BaseObject $obj , $date_method_str , $format = self::BORHAN_FORMAT )
 	{
 		// prepare an array with the object to invoke & the date_method
 		$f = array ( $obj , $date_method_str );
-		if ( $format == self::KALTURA_FORMAT )
+		if ( $format == self::BORHAN_FORMAT )
 		{
 			// call parent with NULL so there will be no formating of the original date  
 			$params = array ( NULL );

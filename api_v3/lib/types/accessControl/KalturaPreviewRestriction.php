@@ -2,9 +2,9 @@
 /**
  * @package api
  * @subpackage objects
- * @deprecated use KalturaRule instead
+ * @deprecated use BorhanRule instead
  */
-class KalturaPreviewRestriction extends KalturaSessionRestriction 
+class BorhanPreviewRestriction extends BorhanSessionRestriction 
 {
 	/**
 	 * The preview restriction length 
@@ -24,9 +24,9 @@ class KalturaPreviewRestriction extends KalturaSessionRestriction
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseRestriction::toRule()
+	 * @see BorhanBaseRestriction::toRule()
 	 */
-	public function toRule(KalturaRestrictionArray $restrictions)
+	public function toRule(BorhanRestrictionArray $restrictions)
 	{
 		// Preview restriction became a rule action, it's not a rule.
 		return null;

@@ -3,7 +3,7 @@
  * @package plugins.captionSearch
  * @subpackage api.filters
  */
-class KalturaCaptionAssetItemFilter extends KalturaCaptionAssetFilter
+class BorhanCaptionAssetItemFilter extends BorhanCaptionAssetFilter
 {
 	static private $map_between_objects = array
 	(
@@ -49,22 +49,22 @@ class KalturaCaptionAssetItemFilter extends KalturaCaptionAssetFilter
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaAssetFilter::getTypeListResponse()
+	 * @see BorhanAssetFilter::getTypeListResponse()
 	 */
-	public function getTypeListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null, array $types = null)
+	public function getTypeListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null, array $types = null)
 	{
 		$captionAssetItemFilter = new CaptionAssetItemFilter();
 		$this->toObject($captionAssetItemFilter);
 
-		$c = KalturaCriteria::create(CaptionAssetItemPeer::OM_CLASS);
+		$c = BorhanCriteria::create(CaptionAssetItemPeer::OM_CLASS);
 		if($pager)
 			$pager->attachToCriteria($c);
 
 		$captionAssetItemFilter->attachToCriteria($c);
 		$list = CaptionAssetItemPeer::doSelect($c);
 
-		$response = new KalturaCaptionAssetItemListResponse();
-		$response->objects = KalturaCaptionAssetItemArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanCaptionAssetItemListResponse();
+		$response->objects = BorhanCaptionAssetItemArray::fromDbArray($list, $responseProfile);
 		$response->totalCount = $c->getRecordsCount();
 		return $response;
 	}
@@ -100,7 +100,7 @@ class KalturaCaptionAssetItemFilter extends KalturaCaptionAssetFilter
 	public $partnerDescriptionMultiLikeAnd;
 
 	/**
-	 * @var KalturaLanguage
+	 * @var BorhanLanguage
 	 */
 	public $languageEqual;
 

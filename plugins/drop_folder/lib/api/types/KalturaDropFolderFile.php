@@ -3,7 +3,7 @@
  * @package plugins.dropFolder
  * @subpackage api.objects
  */
-class KalturaDropFolderFile extends KalturaObject implements IFilterable
+class BorhanDropFolderFile extends BorhanObject implements IFilterable
 {
 	/**
 	 * @var int
@@ -47,14 +47,14 @@ class KalturaDropFolderFile extends KalturaObject implements IFilterable
 	public $fileSizeLastSetAt;
 	
 	/**
-	 * @var KalturaDropFolderFileStatus
+	 * @var BorhanDropFolderFileStatus
 	 * @filter eq,in,notin
 	 * @readonly
 	 */
 	public $status;
 	
 	/**
-	 * @var KalturaDropFolderType
+	 * @var BorhanDropFolderType
 	 * @readonly
 	 */
 	public $type;
@@ -97,7 +97,7 @@ class KalturaDropFolderFile extends KalturaObject implements IFilterable
 	
 	
 	/**
-	 * @var KalturaDropFolderFileErrorCode
+	 * @var BorhanDropFolderFileErrorCode
 	 * @filter eq,in
 	 */
 	public $errorCode;
@@ -210,7 +210,7 @@ class KalturaDropFolderFile extends KalturaObject implements IFilterable
 	
 	/**
 	 * @param int $type
-	 * @return KalturaDropFolder
+	 * @return BorhanDropFolder
 	 */
 	static function getInstanceByType ($type)
 	{
@@ -221,16 +221,16 @@ class KalturaDropFolderFile extends KalturaObject implements IFilterable
 			case DropFolderType::LOCAL:
 			case DropFolderType::SCP:
 			case DropFolderType::S3:
-				$ret = new KalturaDropFolderFile();				
+				$ret = new BorhanDropFolderFile();				
 				break;
 			
 			default:
-				$ret = KalturaPluginManager::loadObject('KalturaDropFolderFile', $type);
+				$ret = BorhanPluginManager::loadObject('BorhanDropFolderFile', $type);
 				break;
 		}
 		
 		if (!$ret)
-			$ret = new KalturaDropFolderFile();
+			$ret = new BorhanDropFolderFile();
 			
 		return $ret;
 	}

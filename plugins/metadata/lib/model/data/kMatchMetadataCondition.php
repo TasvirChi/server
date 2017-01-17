@@ -61,14 +61,14 @@ class kMatchMetadataCondition extends kMatchCondition
 		{
 			if(!$this->profileSystemName)
 			{
-				KalturaLog::err("No metadata profile id and system-name supplied");
+				BorhanLog::err("No metadata profile id and system-name supplied");
 				return null;
 			}
 				
 			$profile = MetadataProfilePeer::retrieveBySystemName($this->profileSystemName);
 			if(!$profile)
 			{
-				KalturaLog::notice("Metadata profile with system-name [$this->profileSystemName] not found");
+				BorhanLog::notice("Metadata profile with system-name [$this->profileSystemName] not found");
 				return null;
 			}
 				
@@ -96,7 +96,7 @@ class kMatchMetadataCondition extends kMatchCondition
 			{
 				$profileObject = kMetadataManager::getObjectTypeName($profile->getObjectType());
 				$getter = "get{$profileObject}Id";
-				KalturaLog::info ("Using $getter in order to retrieve the metadata object ID");
+				BorhanLog::info ("Using $getter in order to retrieve the metadata object ID");
 				$categoryEntry = $scope->getEvent()->getObject();
 				$objectId = $categoryEntry->$getter();
 				$metadata = MetadataPeer::retrieveByObject($profileId, $profile->getObjectType(), $objectId);
@@ -110,7 +110,7 @@ class kMatchMetadataCondition extends kMatchCondition
 		if($metadata)
 			return kMetadataManager::parseMetadataValues($metadata, $this->xPath);
 			
-		KalturaLog::notice("Metadata object not found for scope [" . get_class($scope) . "]");
+		BorhanLog::notice("Metadata object not found for scope [" . get_class($scope) . "]");
 		return null;
 	}
 	

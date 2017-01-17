@@ -16,7 +16,7 @@ abstract class LiveEntry extends entry
 	const CUSTOM_DATA_NAMESPACE_MEDIA_SERVERS = 'mediaServers';
 	const CUSTOM_DATA_RECORD_STATUS = 'record_status';
 	const CUSTOM_DATA_RECORD_OPTIONS = 'recording_options';
-	static $kalturaLiveSourceTypes = array(EntrySourceType::LIVE_STREAM, EntrySourceType::LIVE_CHANNEL, EntrySourceType::LIVE_STREAM_ONTEXTDATA_CAPTIONS);
+	static $borhanLiveSourceTypes = array(EntrySourceType::LIVE_STREAM, EntrySourceType::LIVE_CHANNEL, EntrySourceType::LIVE_STREAM_ONTEXTDATA_CAPTIONS);
 	
 	protected $decidingLiveProfile = false;
 	
@@ -27,7 +27,7 @@ abstract class LiveEntry extends entry
 	{
 		if($this->getStatus() == entryStatus::DELETED || $this->getModerationStatus() == moderation::MODERATION_STATUS_BLOCK)
 		{
-			KalturaLog::log("rejected live stream entry - not serving thumbnail");
+			BorhanLog::log("rejected live stream entry - not serving thumbnail");
 			KExternalErrors::dieError(KExternalErrors::ENTRY_DELETED_MODERATED);
 		}
 		$contentPath = myContentStorage::getFSContentRootPath();
@@ -53,7 +53,7 @@ abstract class LiveEntry extends entry
 				$liveEntryExist = true;
 			}
 			else
-				KalturaLog::err('no local file sync for audio entry id');
+				BorhanLog::err('no local file sync for audio entry id');
 		}
 
 		if (!$liveEntryExist)
@@ -75,7 +75,7 @@ abstract class LiveEntry extends entry
 				return true;
 			}
 			
-			KalturaLog::log("Sub type provided [$sub_type] is not one of knowen LiveEntry sub types validating from parent");
+			BorhanLog::log("Sub type provided [$sub_type] is not one of knowen LiveEntry sub types validating from parent");
 			return parent::validateFileSyncSubType($sub_type);
 		
 	}
@@ -150,12 +150,12 @@ abstract class LiveEntry extends entry
 		if ($this->alreadyInSave)
 			return parent::postUpdate($con);
 		
-		//When working with Kaltura live recording the recorded entry is playable immediately after the first duration reporting
+		//When working with Borhan live recording the recorded entry is playable immediately after the first duration reporting
 		//Check the entry is no the replacement one to avoid marking replacement recorded entries as Ready before all conversion are done 
 		if($this->isColumnModified(entryPeer::LENGTH_IN_MSECS) && $this->getLengthInMsecs() > 0 && $this->getRecordStatus() !== RecordStatus::DISABLED && $this->getRecordedEntryId())
 		{
 			$recordedEntry = entryPeer::retrieveByPK($this->getRecordedEntryId());
-			if($recordedEntry && $recordedEntry->getSourceType() == EntrySourceType::KALTURA_RECORDED_LIVE && $recordedEntry->getStatus() != entryStatus::READY)
+			if($recordedEntry && $recordedEntry->getSourceType() == EntrySourceType::BORHAN_RECORDED_LIVE && $recordedEntry->getStatus() != entryStatus::READY)
 			{
 				$recordedEntry->setStatus(entryStatus::READY);
 				$recordedEntry->save();
@@ -311,7 +311,7 @@ abstract class LiveEntry extends entry
 	
 	public function setLiveStreamConfigurations(array $v)
 	{
-		if (!in_array($this->getSource(), self::$kalturaLiveSourceTypes) )
+		if (!in_array($this->getSource(), self::$borhanLiveSourceTypes) )
 			$this->putInCustomData('live_stream_configurations', $v);
 	}
 	
@@ -336,7 +336,7 @@ abstract class LiveEntry extends entry
 	public function getLiveStreamConfigurations($protocol = 'http', $tag = null, $currentDcOnly = false, array $flavorParamsIds = array())
 	{
 		$configurations = array();
-		if (!in_array($this->getSource(), self::$kalturaLiveSourceTypes))
+		if (!in_array($this->getSource(), self::$borhanLiveSourceTypes))
 		{
 			$configurations = $this->getFromCustomData('live_stream_configurations', null, array());
 			if($configurations && $this->getPushPublishEnabled())
@@ -405,7 +405,7 @@ abstract class LiveEntry extends entry
 			$serverNode = ServerNodePeer::retrieveActiveMediaServerNode(null, $liveEntryServerNode->getServerNodeId());
 			if($serverNode)
 			{
-				KalturaLog::debug("mediaServer->getDc [" . $serverNode->getDc() . "] == kDataCenterMgr::getCurrentDcId [" . kDataCenterMgr::getCurrentDcId() . "]");
+				BorhanLog::debug("mediaServer->getDc [" . $serverNode->getDc() . "] == kDataCenterMgr::getCurrentDcId [" . kDataCenterMgr::getCurrentDcId() . "]");
 				if($serverNode->getDc() == kDataCenterMgr::getCurrentDcId())
 					return $serverNode;
 			}
@@ -418,7 +418,7 @@ abstract class LiveEntry extends entry
 		if ($liveEntryServerNode)
 			return ServerNodePeer::retrieveActiveMediaServerNode(null, $liveEntryServerNode->getServerNodeId());
 
-		KalturaLog::info("No Valid Media Servers Were Found For Current Live Entry [" . $this->getEntryId() . "]" );
+		BorhanLog::info("No Valid Media Servers Were Found For Current Live Entry [" . $this->getEntryId() . "]" );
 		return null;
 	}
 
@@ -436,7 +436,7 @@ abstract class LiveEntry extends entry
 				$hostnames[$liveEntryServerNode->getServerType()] = $serverNode->getHostname();
 		}
 		
-		KalturaLog::info("media servers hostnames: " . print_r($hostnames,true));
+		BorhanLog::info("media servers hostnames: " . print_r($hostnames,true));
 		return $hostnames;
 	}
 	
@@ -480,7 +480,7 @@ abstract class LiveEntry extends entry
 		$cacheStore = kCacheManager::getSingleLayerCache($cacheType);
 		if(! $cacheStore)
 		{
-			KalturaLog::warning("Cache store [$cacheType] not found");
+			BorhanLog::warning("Cache store [$cacheType] not found");
 			$lastUpdate = time() - $liveEntryServerNode->getUpdatedAt(null);
 			$expiry = kConf::get('media_server_cache_expiry', 'local', self::DEFAULT_CACHE_EXPIRY);
 			
@@ -489,7 +489,7 @@ abstract class LiveEntry extends entry
 		
 		$key = $this->getEntryServerNodeCacheKey($liveEntryServerNode);
 		$ans = $cacheStore->get($key);
-		KalturaLog::debug("Get cache key [$key] from store [$cacheType] returned [$ans]");
+		BorhanLog::debug("Get cache key [$key] from store [$cacheType] returned [$ans]");
 		return $ans;
 	}
 
@@ -504,10 +504,10 @@ abstract class LiveEntry extends entry
 		$cacheType = self::getCacheType();
 		$cacheStore = kCacheManager::getSingleLayerCache($cacheType);
 		if(! $cacheStore) {
-			KalturaLog::debug("cacheStore is null. cacheType: $cacheType . returning false");
+			BorhanLog::debug("cacheStore is null. cacheType: $cacheType . returning false");
 			return false;
 		}
-		KalturaLog::debug("Set cache key [$key] from store [$cacheType] ");
+		BorhanLog::debug("Set cache key [$key] from store [$cacheType] ");
 		return $cacheStore->set($key, true, kConf::get('media_server_cache_expiry', 'local', self::DEFAULT_CACHE_EXPIRY));
 	}
 
@@ -515,7 +515,7 @@ abstract class LiveEntry extends entry
 	 * @param EntryServerNodeType $mediaServerIndex
 	 * @param $hostname
 	 * @throws Exception
-	 * @throws KalturaAPIException
+	 * @throws BorhanAPIException
 	 * @throws PropelException
 	 * @throws kCoreException
 	 */
@@ -536,7 +536,7 @@ abstract class LiveEntry extends entry
 			$key = $this->getEntryServerNodeCacheKey($dbLiveEntryServerNode);
 			if($this->storeInCache($key) && $this->isMediaServerRegistered($mediaServerIndex, $hostname))
 			{
-				KalturaLog::debug("cached and registered - index: $mediaServerIndex, hostname: $hostname");
+				BorhanLog::debug("cached and registered - index: $mediaServerIndex, hostname: $hostname");
 				return;
 			}
 		}
@@ -552,7 +552,7 @@ abstract class LiveEntry extends entry
 		
 		if (!$dbLiveEntryServerNode)
 		{
-			KalturaLog::debug("About to register new media server with index: [$mediaServerIndex], hostname: [$hostname], status: [$liveEntryStatus]");
+			BorhanLog::debug("About to register new media server with index: [$mediaServerIndex], hostname: [$hostname], status: [$liveEntryStatus]");
 			$shouldSave = true;
 			$dbLiveEntryServerNode = new LiveEntryServerNode();
 			$dbLiveEntryServerNode->setEntryId($this->getId());
@@ -581,7 +581,7 @@ abstract class LiveEntry extends entry
 		if ($dbLiveEntryServerNode->getServerNodeId() !== $serverNodeId)
 		{
 			$shouldSave = true;
-			KalturaLog::debug("Updating media server id from [" . $dbLiveEntryServerNode->getServerNodeId() . "] to [$serverNodeId]");
+			BorhanLog::debug("Updating media server id from [" . $dbLiveEntryServerNode->getServerNodeId() . "] to [$serverNodeId]");
 			$dbLiveEntryServerNode->setServerNodeId($serverNodeId);
 		}
 		
@@ -619,7 +619,7 @@ abstract class LiveEntry extends entry
 		$dbLiveEntryServerNode = EntryServerNodePeer::retrieveByEntryIdAndServerType($this->getId(), $index);
 		if ($dbLiveEntryServerNode)
 			return true;
-		KalturaLog::info("mediaServer is not registered. hostname: $hostname , index: $index ");
+		BorhanLog::info("mediaServer is not registered. hostname: $hostname , index: $index ");
 		return false;
 	}
 	
@@ -634,7 +634,7 @@ abstract class LiveEntry extends entry
 		{
 			if ($dbLiveEntryServerNode->getDc() === kDataCenterMgr::getCurrentDcId() && !$this->isCacheValid($dbLiveEntryServerNode))
 			{
-				KalturaLog::info("Removing media server id [" . $dbLiveEntryServerNode->getServerNodeId() . "]");
+				BorhanLog::info("Removing media server id [" . $dbLiveEntryServerNode->getServerNodeId() . "]");
 				$dbLiveEntryServerNode->deleteOrMarkForDeletion();
 			}
 		}
@@ -656,7 +656,7 @@ abstract class LiveEntry extends entry
 
 	public function setLiveStatus ($v, $mediaServerIndex)
 	{
-		throw new KalturaAPIException("This function is deprecated - you cannot set the live status");
+		throw new BorhanAPIException("This function is deprecated - you cannot set the live status");
 	}
 
 	/**
@@ -802,7 +802,7 @@ abstract class LiveEntry extends entry
 		{
 			$url = null;
 			$protocol = null;
-			foreach (array(KalturaPlaybackProtocol::HLS, KalturaPlaybackProtocol::APPLE_HTTP) as $hlsProtocol)
+			foreach (array(BorhanPlaybackProtocol::HLS, BorhanPlaybackProtocol::APPLE_HTTP) as $hlsProtocol)
 			{
 				$config = $this->getLiveStreamConfigurationByProtocol($hlsProtocol, requestUtils::PROTOCOL_HTTP, null, true);
 				if ($config)
@@ -815,7 +815,7 @@ abstract class LiveEntry extends entry
 				
 			if($url)
 			{
-				KalturaLog::info('Determining status of live stream URL [' .$url. ']');
+				BorhanLog::info('Determining status of live stream URL [' .$url. ']');
 				$dpda= new DeliveryProfileDynamicAttributes();
 				$dpda->setEntryId($this->getEntryId());
 				$dpda->setFormat($protocol);
@@ -843,7 +843,7 @@ abstract class LiveEntry extends entry
 			{
 				if ($recordedEntry->getReachedMaxRecordingDuration()) 
 				{
-					KalturaLog::err("Entry [{$this->getId()}] has already reached its maximal recording duration.");
+					BorhanLog::err("Entry [{$this->getId()}] has already reached its maximal recording duration.");
 					return $maxRecordingDuration + 1;
 				}
 				// if entry is in replacement, the replacement duration is more accurate
@@ -871,7 +871,7 @@ abstract class LiveEntry extends entry
 				$recordedEntry->setReachedMaxRecordingDuration(true);
 				$recordedEntry->save();
 			}
-			KalturaLog::err("Entry [{$this->getId()}] duration [" . $lastDuration . "] and current duration [$currentDuration] is more than max allowed duration [$maxRecordingDuration]");
+			BorhanLog::err("Entry [{$this->getId()}] duration [" . $lastDuration . "] and current duration [$currentDuration] is more than max allowed duration [$maxRecordingDuration]");
 			return $maxRecordingDuration + 1;
 		}
 		

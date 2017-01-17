@@ -5,10 +5,10 @@
  * @package infra
  * @subpackage Plugins
  */
-interface IKalturaVersion extends IKalturaBase
+interface IBorhanVersion extends IBorhanBase
 {
 	/**
-	 * @return KalturaVersion
+	 * @return BorhanVersion
 	 */
 	public static function getVersion();
 }

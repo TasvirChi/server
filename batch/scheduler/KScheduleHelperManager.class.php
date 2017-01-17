@@ -107,7 +107,7 @@ class KScheduleHelperManager
 	}
 	
 	/**
-	 * @return array<KalturaWorkerQueueFilter>
+	 * @return array<BorhanWorkerQueueFilter>
 	 */
 	public static function loadFilters()
 	{
@@ -201,9 +201,9 @@ class KScheduleHelperManager
 
 	/**
 	 * @param string $filtersFileName
-	 * @param KalturaWorkerQueueFilter $filter
+	 * @param BorhanWorkerQueueFilter $filter
 	 */
-	public static function saveFilter($filtersFileName, KalturaWorkerQueueFilter $filter)
+	public static function saveFilter($filtersFileName, BorhanWorkerQueueFilter $filter)
 	{
 		$data = base64_encode(serialize($filter));
 
@@ -316,7 +316,7 @@ class KScheduleHelperManager
 	}
 
 	/**
-	 * @return array<KalturaSchedulerStatus>
+	 * @return array<BorhanSchedulerStatus>
 	 */
 	public static function loadStatuses()
 	{
@@ -341,7 +341,7 @@ class KScheduleHelperManager
 	}
 
 	/**
-	 * @param array<KalturaSchedulerStatus> $statuses
+	 * @param array<BorhanSchedulerStatus> $statuses
 	 */
 	public static function saveStatuses(array $statuses)
 	{
@@ -350,7 +350,7 @@ class KScheduleHelperManager
 	}
 
 	/**
-	 * @return array<KalturaSchedulerConfig>
+	 * @return array<BorhanSchedulerConfig>
 	 */
 	public static function loadConfigItems()
 	{
@@ -376,7 +376,7 @@ class KScheduleHelperManager
 	}
 
 	/**
-	 * @param array<KalturaSchedulerConfig> $configItems
+	 * @param array<BorhanSchedulerConfig> $configItems
 	 */
 	public static function saveConfigItems(array $configItems)
 	{

@@ -2,23 +2,23 @@
 /**
  * Info about uiconf type
  * 
- * @see KalturaStringArray
+ * @see BorhanStringArray
  * @package api
  * @subpackage objects
  */
-class KalturaUiConfTypeInfo extends KalturaObject
+class BorhanUiConfTypeInfo extends BorhanObject
 {
 	/**
 	 * UiConf Type
 	 * 
-	 * @var KalturaUiConfObjType
+	 * @var BorhanUiConfObjType
 	 */
     public $type;
     
     /**
      * Available versions
      *  
-     * @var KalturaStringArray
+     * @var BorhanStringArray
      */
     public $versions;
     

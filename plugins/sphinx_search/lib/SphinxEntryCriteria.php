@@ -285,7 +285,7 @@ class SphinxEntryCriteria extends SphinxCriteria
 		if($filter->get('_free_text'))
 		{
 			$freeTexts = $filter->get('_free_text');
-			KalturaLog::debug("Attach free text [$freeTexts]");
+			BorhanLog::debug("Attach free text [$freeTexts]");
 			
 			$additionalConditions = array();
 			$advancedSearch = $filter->getAdvancedSearch();
@@ -315,14 +315,14 @@ class SphinxEntryCriteria extends SphinxCriteria
 		// depending on the partner_search_scope - alter the against_str 
 		$partner_search_scope = $filter->getPartnerSearchScope();
 		
-		if ( baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE == $partner_search_scope )
+		if ( baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE == $partner_search_scope )
 		{
 			// add nothing the the partner match
 			
 		}
 		elseif ( $partner_search_scope == null  )
 		{
-			$this->add(entryPeer::DISPLAY_IN_SEARCH, mySearchUtils::DISPLAY_IN_SEARCH_KALTURA_NETWORK);
+			$this->add(entryPeer::DISPLAY_IN_SEARCH, mySearchUtils::DISPLAY_IN_SEARCH_BORHAN_NETWORK);
 		}
 		else
 		{

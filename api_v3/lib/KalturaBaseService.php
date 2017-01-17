@@ -4,7 +4,7 @@
  * @package api
  * @subpackage services
  */
-abstract class KalturaBaseService 
+abstract class BorhanBaseService 
 {
 	/**
 	 * @var ks
@@ -27,12 +27,12 @@ abstract class KalturaBaseService
 	private $kuser = null;
 
 	/**
-	 * @var KalturaPartner
+	 * @var BorhanPartner
 	 */
 	private $operating_partner = null;
 	
 	/**
-	 * @var KalturaDetachedResponseProfile
+	 * @var BorhanDetachedResponseProfile
 	 */
 	private $responseProfile = null;
 	 
@@ -61,12 +61,12 @@ abstract class KalturaBaseService
 	
 	
 	/**
-	 * Should return true or false for allowing/disallowing kaltura network filter for the given action.
+	 * Should return true or false for allowing/disallowing borhan network filter for the given action.
 	 * Can be extended to partner specific checks etc...
-	 * @return true if "kaltura network" is enabled for the given action or false otherwise
+	 * @return true if "borhan network" is enabled for the given action or false otherwise
 	 * @param string $actionName action name
 	 */
-	protected function kalturaNetworkAllowed($actionName)
+	protected function borhanNetworkAllowed($actionName)
 	{
 		return false;
 	}
@@ -91,13 +91,13 @@ abstract class KalturaBaseService
 		return false;
 	} 
 		
-	public function setResponseProfile(KalturaDetachedResponseProfile $responseProfile = null)
+	public function setResponseProfile(BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$this->responseProfile = $responseProfile;
 	}
 		
 	/**
-	 * @return KalturaDetachedResponseProfile
+	 * @return BorhanDetachedResponseProfile
 	 */
 	protected function getResponseProfile()
 	{
@@ -129,12 +129,12 @@ abstract class KalturaBaseService
 		$allowPrivatePartnerData = false;
 		$actionPermitted = $this->isPermitted($allowPrivatePartnerData);
 
-		// action not permitted at all, not even kaltura network
+		// action not permitted at all, not even borhan network
 		if (!$actionPermitted)
 		{			
-			$e = new KalturaAPIException ( APIErrors::SERVICE_FORBIDDEN, $this->serviceId.'->'.$this->actionName); //TODO: should sometimes thorow MISSING_KS instead
-			header("X-Kaltura:error-".$e->getCode());
-			header("X-Kaltura-App: exiting on error ".$e->getCode()." - ".$e->getMessage());
+			$e = new BorhanAPIException ( APIErrors::SERVICE_FORBIDDEN, $this->serviceId.'->'.$this->actionName); //TODO: should sometimes thorow MISSING_KS instead
+			header("X-Borhan:error-".$e->getCode());
+			header("X-Borhan-App: exiting on error ".$e->getCode()." - ".$e->getMessage());
 			throw $e;		
 		}
 
@@ -160,15 +160,15 @@ abstract class KalturaBaseService
 	protected function setPartnerFilters($partnerId)
 	{
 		myPartnerUtils::resetAllFilters();
-		myPartnerUtils::applyPartnerFilters($partnerId ,$this->private_partner_data ,$this->partnerGroup() ,$this->kalturaNetworkAllowed($this->actionName));
+		myPartnerUtils::applyPartnerFilters($partnerId ,$this->private_partner_data ,$this->partnerGroup() ,$this->borhanNetworkAllowed($this->actionName));
 	}
 	
 /* >--------------------- Security and config settings ----------------------- */
 
 	/**
 	 * Check if current action is permitted for current context (ks/partner/user)
-	 * @param bool $allowPrivatePartnerData true if access to private partner data is allowed, false otherwise (kaltura network)
-	 * @throws KalturaErrors::MISSING_KS
+	 * @param bool $allowPrivatePartnerData true if access to private partner data is allowed, false otherwise (borhan network)
+	 * @throws BorhanErrors::MISSING_KS
 	 */
 	protected function isPermitted(&$allowPrivatePartnerData)
 	{		
@@ -177,7 +177,7 @@ abstract class KalturaBaseService
 			$this->partnerId != Partner::BATCH_PARTNER_ID && 
 			!$this->getPartner())
 		{
-			throw new KalturaAPIException(KalturaErrors::MISSING_KS);
+			throw new BorhanAPIException(BorhanErrors::MISSING_KS);
 		}
 		
 		// check if actions is permitted for current context
@@ -188,16 +188,16 @@ abstract class KalturaBaseService
 			$allowPrivatePartnerData = true; // allow private partner data
 			return true; // action permitted with access to partner private data
 		}
-		KalturaLog::err("Action is not permitted");
+		BorhanLog::err("Action is not permitted");
 		
-		// action not permitted for current user - check if kaltura network is allowed
-		if (!kCurrentContext::$ks && $this->kalturaNetworkAllowed($this->actionName))
+		// action not permitted for current user - check if borhan network is allowed
+		if (!kCurrentContext::$ks && $this->borhanNetworkAllowed($this->actionName))
 		{
-			// if the service action support kaltura network - continue without private data
+			// if the service action support borhan network - continue without private data
 			$allowPrivatePartnerData = false; // DO NOT allow private partner data
 			return true; // action permitted (without private partner data)
 		}
-		KalturaLog::err("Kaltura network is not allowed");
+		BorhanLog::err("Borhan network is not allowed");
 		
 		// action not permitted, not even without private partner data access
 		return false;
@@ -216,11 +216,11 @@ abstract class KalturaBaseService
 		else
 			$partner_id = Partner::PARTNER_THAT_DOWS_NOT_EXIST;
 			
-		myPartnerUtils::addPartnerToCriteria ( $peer , $partner_id , $this->private_partner_data , $this->partnerGroup($peer) , $this->kalturaNetworkAllowed($this->actionName)  );
+		myPartnerUtils::addPartnerToCriteria ( $peer , $partner_id , $this->private_partner_data , $this->partnerGroup($peer) , $this->borhanNetworkAllowed($this->actionName)  );
 	}	
 	
 	
-	protected function applyPartnerFilterForClassNoKalturaNetwork ( $peer )
+	protected function applyPartnerFilterForClassNoBorhanNetwork ( $peer )
 	{
 		if ( $this->getPartner() )
 			$partner_id = $this->getPartner()->getId();
@@ -280,8 +280,8 @@ abstract class KalturaBaseService
 				
 			$kuser = kuserPeer::createKuserForPartner($this->getPartnerId(), $puserId);
 			
-			if ($kuser->getStatus() !== KalturaUserStatus::ACTIVE)
-				throw new KalturaAPIException(KalturaErrors::INVALID_USER_ID);
+			if ($kuser->getStatus() !== BorhanUserStatus::ACTIVE)
+				throw new BorhanAPIException(BorhanErrors::INVALID_USER_ID);
 			
 			$this->kuser = $kuser;
 		}
@@ -318,14 +318,14 @@ abstract class KalturaBaseService
 	 * @param int $fileSubType
 	 * @param string $fileName
 	 * @param bool $forceProxy
-	 * @throws KalturaErrors::FILE_DOESNT_EXIST
+	 * @throws BorhanErrors::FILE_DOESNT_EXIST
 	 */
 	protected function serveFile(ISyncableFile $syncable, $fileSubType, $fileName, $entryId = null, $forceProxy = false)
 	{
 		/* @var $fileSync FileSync */
 		$syncKey = $syncable->getSyncKey($fileSubType);
 		if(!kFileSyncUtils::fileSync_exists($syncKey))
-			throw new KalturaAPIException(KalturaErrors::FILE_DOESNT_EXIST);
+			throw new BorhanAPIException(BorhanErrors::FILE_DOESNT_EXIST);
 
 		list($fileSync, $local) = kFileSyncUtils::getReadyFileSyncForKey($syncKey, true, false);
 		if($local)
@@ -337,7 +337,7 @@ abstract class KalturaBaseService
 		else if ( in_array($fileSync->getDc(), kDataCenterMgr::getDcIds()) )
 		{
 			$remoteUrl = kDataCenterMgr::getRedirectExternalUrl($fileSync);
-			KalturaLog::info("Redirecting to [$remoteUrl]");
+			BorhanLog::info("Redirecting to [$remoteUrl]");
 			if($forceProxy)
 			{
 				kFileUtils::dumpApiRequest($remoteUrl);
@@ -374,6 +374,6 @@ abstract class KalturaBaseService
 			return;
 		
 		if (!$partner->validateApiAccessControl())
-			throw new KalturaAPIException(APIErrors::SERVICE_ACCESS_CONTROL_RESTRICTED, $this->serviceId.'->'.$this->actionName);
+			throw new BorhanAPIException(APIErrors::SERVICE_ACCESS_CONTROL_RESTRICTED, $this->serviceId.'->'.$this->actionName);
 	}
 }

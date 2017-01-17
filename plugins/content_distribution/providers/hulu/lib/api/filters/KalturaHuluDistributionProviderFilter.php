@@ -3,6 +3,6 @@
  * @package plugins.huluDistribution
  * @subpackage api.filters
  */
-class KalturaHuluDistributionProviderFilter extends KalturaHuluDistributionProviderBaseFilter
+class BorhanHuluDistributionProviderFilter extends BorhanHuluDistributionProviderBaseFilter
 {
 }

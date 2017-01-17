@@ -3,32 +3,32 @@
  * @package api
  * @subpackage objects.factory
  */
-class KalturaSyndicationFeedFactory
+class BorhanSyndicationFeedFactory
 {
 	static function getInstanceByType ($type)
 	{
 		switch ($type) 
 		{
-			case KalturaSyndicationFeedType::GOOGLE_VIDEO:
-				$obj = new KalturaGoogleVideoSyndicationFeed();
+			case BorhanSyndicationFeedType::GOOGLE_VIDEO:
+				$obj = new BorhanGoogleVideoSyndicationFeed();
 				break;
-			case KalturaSyndicationFeedType::YAHOO:
-				$obj = new KalturaYahooSyndicationFeed();
+			case BorhanSyndicationFeedType::YAHOO:
+				$obj = new BorhanYahooSyndicationFeed();
 				break;
-			case KalturaSyndicationFeedType::ITUNES:
-				$obj = new KalturaITunesSyndicationFeed();
+			case BorhanSyndicationFeedType::ITUNES:
+				$obj = new BorhanITunesSyndicationFeed();
 				break;
-			case KalturaSyndicationFeedType::TUBE_MOGUL:
-				$obj = new KalturaTubeMogulSyndicationFeed();
+			case BorhanSyndicationFeedType::TUBE_MOGUL:
+				$obj = new BorhanTubeMogulSyndicationFeed();
 				break;
-			case KalturaSyndicationFeedType::KALTURA:
-				$obj = new KalturaGenericSyndicationFeed();
+			case BorhanSyndicationFeedType::BORHAN:
+				$obj = new BorhanGenericSyndicationFeed();
 				break;
-			case KalturaSyndicationFeedType::KALTURA_XSLT:
-				$obj = new KalturaGenericXsltSyndicationFeed();
+			case BorhanSyndicationFeedType::BORHAN_XSLT:
+				$obj = new BorhanGenericXsltSyndicationFeed();
 				break;
 			default:
-				$obj = new KalturaBaseSyndicationFeed();
+				$obj = new BorhanBaseSyndicationFeed();
 				break;
 		}
 		
@@ -39,22 +39,22 @@ class KalturaSyndicationFeedFactory
 	{
 		switch ($type)
 		{
-			case KalturaSyndicationFeedType::GOOGLE_VIDEO:
+			case BorhanSyndicationFeedType::GOOGLE_VIDEO:
 				$obj = new GoogleVideoFeedRenderer();
 				break;
-			case KalturaSyndicationFeedType::YAHOO:
+			case BorhanSyndicationFeedType::YAHOO:
 				$obj = new YahooFeedRenderer();
 				break;
-			case KalturaSyndicationFeedType::ITUNES:
+			case BorhanSyndicationFeedType::ITUNES:
 				$obj = new ITunesFeedRenderer();
 				break;
-			case KalturaSyndicationFeedType::TUBE_MOGUL:
+			case BorhanSyndicationFeedType::TUBE_MOGUL:
 				$obj = new TubeMogulFeedRenderer();
 				break;
-			case KalturaSyndicationFeedType::KALTURA:
-			case KalturaSyndicationFeedType::KALTURA_XSLT:
+			case BorhanSyndicationFeedType::BORHAN:
+			case BorhanSyndicationFeedType::BORHAN_XSLT:
 			default:
-				return new KalturaFeedRenderer();
+				return new BorhanFeedRenderer();
 				break;
 		}
 		return $obj;

@@ -51,7 +51,7 @@ if ($newParameterItemsCfg) {
 	}
 }
 
-KalturaLog::log('Done');
+BorhanLog::log('Done');
 
 // ------------------------------------------------------
 
@@ -128,7 +128,7 @@ function addPermissionToPartner($permissionCfg, $partnerId = null){
 	$permission->setStatus(PermissionStatus::ACTIVE);
 	
 	// add to database
-	KalturaLog::log('Adding new permission with name ['.$permission->getName().'] to partner id ['.$permission->getPartnerId().']');
+	BorhanLog::log('Adding new permission with name ['.$permission->getName().'] to partner id ['.$permission->getPartnerId().']');
 	try {
 		if($permission->getId())
 			$permission->save();
@@ -137,7 +137,7 @@ function addPermissionToPartner($permissionCfg, $partnerId = null){
 	}
 	catch (kPermissionException $e)	{
 		if ($e->getCode() === kPermissionException::PERMISSION_ALREADY_EXISTS) {
-			KalturaLog::log('Permission name ['.$permission->getName().'] already exists for partner id ['.$permission->getPartnerId().']');
+			BorhanLog::log('Permission name ['.$permission->getName().'] already exists for partner id ['.$permission->getPartnerId().']');
 		}
 		else {
 			throw $e;
@@ -170,7 +170,7 @@ function addActionPermissionItem($itemCfg)
 	if ($existingItem)
 	{
 		$item = $existingItem;
-		KalturaLog::log('Permission item for ['.$item->getService().'->'.$item->getAction().'] partner id ['.$item->getPartnerId().'] already exists with id ['.$existingItem->getId().']');
+		BorhanLog::log('Permission item for ['.$item->getService().'->'.$item->getAction().'] partner id ['.$item->getPartnerId().'] already exists with id ['.$existingItem->getId().']');
 	}
 	else
 	{
@@ -189,7 +189,7 @@ function addActionPermissionItem($itemCfg)
 		$item->setService(strtolower($item->getService()));
 		$item->setAction(strtolower($item->getAction()));
 		$item->save();
-		KalturaLog::log('New permission item id ['.$item->getId().'] added for ['.$item->getService().'->'.$item->getAction().'] partner id ['.$item->getPartnerId().']');
+		BorhanLog::log('New permission item id ['.$item->getId().'] added for ['.$item->getService().'->'.$item->getAction().'] partner id ['.$item->getPartnerId().']');
 	}
 	
 	// add item to each defined permission
@@ -234,7 +234,7 @@ function addParameterPermissionItem($itemCfg)
 	if ($existingItem)
 	{
 		$item = $existingItem;
-		KalturaLog::log('Permission item for ['.$item->getAction().'->'.$item->getObject().'->'.$item->getParameter().'] partner id ['.$item->getPartnerId().'] already exists with id ['.$item->getId().']');
+		BorhanLog::log('Permission item for ['.$item->getAction().'->'.$item->getObject().'->'.$item->getParameter().'] partner id ['.$item->getPartnerId().'] already exists with id ['.$item->getId().']');
 	}
 	else
 	{
@@ -250,11 +250,11 @@ function addParameterPermissionItem($itemCfg)
 			if (method_exists($item,'set'.$key)){
 			    call_user_func_array( $setterCallback , array ($value ) );
 			}else{
-			    KalturaLog::err("Skipping call to set$key() since there is no such method.");
+			    BorhanLog::err("Skipping call to set$key() since there is no such method.");
 			}
 		}
 		$item->save();
-		KalturaLog::log('New permission item id ['.$item->getId().'] added for ['.$item->getAction().'->'.$item->getObject().'->'.$item->getParameter().'] partner id ['.$item->getPartnerId().']');
+		BorhanLog::log('New permission item id ['.$item->getId().'] added for ['.$item->getAction().'->'.$item->getObject().'->'.$item->getParameter().'] partner id ['.$item->getPartnerId().']');
 	}
 	
 	// add item to each defined permission
@@ -281,11 +281,11 @@ function addItemToPermissions($item, $permissionNames, $partnerId)
 		$permission = PermissionPeer::doSelectOne($c);
 		
 		if (!$permission) {
-			KalturaLog::alert('ERROR - Permission name ['.$permissionName.'] for partner ['.$item->getPartnerId().'] not found in database - skipping!');
+			BorhanLog::alert('ERROR - Permission name ['.$permissionName.'] for partner ['.$item->getPartnerId().'] not found in database - skipping!');
 			continue;
 		}
 		
-		KalturaLog::log('Adding permission item id ['.$item->getId().'] to permission id ['.$permission->getId().']');
+		BorhanLog::log('Adding permission item id ['.$item->getId().'] to permission id ['.$permission->getId().']');
 		$permission->addPermissionItem($item->getId(), true);
 	}
 }

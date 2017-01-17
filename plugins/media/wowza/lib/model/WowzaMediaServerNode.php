@@ -17,7 +17,7 @@ class WowzaMediaServerNode extends MediaServerNode {
 	const WEB_SERVICE_LIVE = 'live';
 	
 	static protected $webServices = array(
-		self::WEB_SERVICE_LIVE => 'KalturaMediaServerLiveService',
+		self::WEB_SERVICE_LIVE => 'BorhanMediaServerLiveService',
 	);
 	
 	/**
@@ -34,7 +34,7 @@ class WowzaMediaServerNode extends MediaServerNode {
 	
 	/**
 	 * @param string $serviceName
-	 * @return KalturaMediaServerClient
+	 * @return BorhanMediaServerClient
 	 */
 	public function getWebService($serviceName)
 	{
@@ -48,7 +48,7 @@ class WowzaMediaServerNode extends MediaServerNode {
 		$protocol = $this->getLiveServiceProtocol();
 		
 		$url = "$protocol://$domain:$port/$serviceName?wsdl";
-		KalturaLog::debug("Service URL: $url");
+		BorhanLog::debug("Service URL: $url");
 		return new $serviceClass($url);
 	}
 	

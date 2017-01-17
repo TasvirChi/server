@@ -59,7 +59,7 @@ class kMetadataObjectCopiedHandler implements kObjectCopiedEventConsumer, kObjec
 	}
 	
 	/**
-	 * @param KalturaMetadataObjectType $objectType
+	 * @param BorhanMetadataObjectType $objectType
 	 * @param BaseObject $fromObject
 	 * @param BaseObject $toObject
 	 */
@@ -201,7 +201,7 @@ class kMetadataObjectCopiedHandler implements kObjectCopiedEventConsumer, kObjec
 				$targetMetadata->setMetadataProfileId($metadataProfileId);
 				$targetMetadata->setObjectType(MetadataObjectType::ENTRY);
 				$targetMetadata->setObjectId($tempEntryId);
-				$targetMetadata->setStatus(KalturaMetadataStatus::VALID);
+				$targetMetadata->setStatus(BorhanMetadataStatus::VALID);
 		
 				$targetMetadata->save();
 		

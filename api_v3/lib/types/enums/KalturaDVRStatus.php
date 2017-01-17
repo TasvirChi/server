@@ -1,5 +1,5 @@
 <?php
-class KalturaDVRStatus extends KalturaEnum implements DVRStatus
+class BorhanDVRStatus extends BorhanEnum implements DVRStatus
 {
     
 }

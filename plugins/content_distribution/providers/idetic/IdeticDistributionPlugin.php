@@ -2,7 +2,7 @@
 /**
  * @package plugins.ideticDistribution
  */
-class IdeticDistributionPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaEnumerator, IKalturaPending, IKalturaObjectLoader, IKalturaContentDistributionProvider, IKalturaEventConsumers
+class IdeticDistributionPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanEnumerator, IBorhanPending, IBorhanObjectLoader, IBorhanContentDistributionProvider, IBorhanEventConsumers
 {
 	const PLUGIN_NAME = 'ideticDistribution';
 	const CONTENT_DSTRIBUTION_VERSION_MAJOR = 2;
@@ -18,12 +18,12 @@ class IdeticDistributionPlugin extends KalturaPlugin implements IKalturaPermissi
 	
 	public static function dependsOn()
 	{
-		$contentDistributionVersion = new KalturaVersion(
+		$contentDistributionVersion = new BorhanVersion(
 			self::CONTENT_DSTRIBUTION_VERSION_MAJOR,
 			self::CONTENT_DSTRIBUTION_VERSION_MINOR,
 			self::CONTENT_DSTRIBUTION_VERSION_BUILD);
 			
-		$dependency = new KalturaDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
+		$dependency = new BorhanDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
 		return array($dependency);
 	}
 	
@@ -60,7 +60,7 @@ class IdeticDistributionPlugin extends KalturaPlugin implements IKalturaPermissi
 	{
 		// client side apps like batch and admin console
 
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::IDETIC)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::IDETIC)
 		{
 			if($baseClass == 'IDistributionEngineCloseDelete')
 				return new IdeticDistributionEngine();
@@ -83,14 +83,14 @@ class IdeticDistributionPlugin extends KalturaPlugin implements IKalturaPermissi
 			if($baseClass == 'IDistributionEngineUpdate')
 				return new IdeticDistributionEngine();
 		
-			if($baseClass == 'KalturaDistributionProfile')
-				return new KalturaIdeticDistributionProfile();
+			if($baseClass == 'BorhanDistributionProfile')
+				return new BorhanIdeticDistributionProfile();
 		
-			if($baseClass == 'KalturaDistributionJobProviderData')
-				return new KalturaIdeticDistributionJobProviderData();
+			if($baseClass == 'BorhanDistributionJobProviderData')
+				return new BorhanIdeticDistributionJobProviderData();
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::IDETIC)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::IDETIC)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 			{
@@ -99,9 +99,9 @@ class IdeticDistributionPlugin extends KalturaPlugin implements IKalturaPermissi
 			}
 		}
 		
-		if($baseClass == 'KalturaDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(IdeticDistributionProviderType::IDETIC))
+		if($baseClass == 'BorhanDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(IdeticDistributionProviderType::IDETIC))
 		{
-			$reflect = new ReflectionClass('KalturaIdeticDistributionJobProviderData');
+			$reflect = new ReflectionClass('BorhanIdeticDistributionJobProviderData');
 			return $reflect->newInstanceArgs($constructorArgs);
 		}
 	
@@ -111,8 +111,8 @@ class IdeticDistributionPlugin extends KalturaPlugin implements IKalturaPermissi
 			return $reflect->newInstanceArgs($constructorArgs);
 		}
 	
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(IdeticDistributionProviderType::IDETIC))
-			return new KalturaIdeticDistributionProfile();
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(IdeticDistributionProviderType::IDETIC))
+			return new BorhanIdeticDistributionProfile();
 			
 		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(IdeticDistributionProviderType::IDETIC))
 			return new IdeticDistributionProfile();
@@ -128,7 +128,7 @@ class IdeticDistributionPlugin extends KalturaPlugin implements IKalturaPermissi
 	public static function getObjectClass($baseClass, $enumValue)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::IDETIC)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::IDETIC)
 		{
 			if($baseClass == 'IDistributionEngineCloseDelete')
 				return 'IdeticDistributionEngine';
@@ -151,30 +151,30 @@ class IdeticDistributionPlugin extends KalturaPlugin implements IKalturaPermissi
 			if($baseClass == 'IDistributionEngineUpdate')
 				return 'IdeticDistributionEngine';
 		
-			if($baseClass == 'KalturaDistributionProfile')
-				return 'KalturaIdeticDistributionProfile';
+			if($baseClass == 'BorhanDistributionProfile')
+				return 'BorhanIdeticDistributionProfile';
 		
-			if($baseClass == 'KalturaDistributionJobProviderData')
-				return 'KalturaIdeticDistributionJobProviderData';
+			if($baseClass == 'BorhanDistributionJobProviderData')
+				return 'BorhanIdeticDistributionJobProviderData';
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::IDETIC)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::IDETIC)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 				return 'Form_IdeticProfileConfiguration';
 				
-			if($baseClass == 'Kaltura_Client_ContentDistribution_Type_DistributionProfile')
-				return 'Kaltura_Client_IdeticDistribution_Type_IdeticDistributionProfile';
+			if($baseClass == 'Borhan_Client_ContentDistribution_Type_DistributionProfile')
+				return 'Borhan_Client_IdeticDistribution_Type_IdeticDistributionProfile';
 		}
 		
-		if($baseClass == 'KalturaDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(IdeticDistributionProviderType::IDETIC))
-			return 'KalturaIdeticDistributionJobProviderData';
+		if($baseClass == 'BorhanDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(IdeticDistributionProviderType::IDETIC))
+			return 'BorhanIdeticDistributionJobProviderData';
 	
 		if($baseClass == 'kDistributionJobProviderData' && $enumValue == self::getApiValue(IdeticDistributionProviderType::IDETIC))
 			return 'kIdeticDistributionJobProviderData';
 	
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(IdeticDistributionProviderType::IDETIC))
-			return 'KalturaIdeticDistributionProfile';
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(IdeticDistributionProviderType::IDETIC))
+			return 'BorhanIdeticDistributionProfile';
 			
 		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(IdeticDistributionProviderType::IDETIC))
 			return 'IdeticDistributionProfile';
@@ -195,11 +195,11 @@ class IdeticDistributionPlugin extends KalturaPlugin implements IKalturaPermissi
 	/**
 	 * Return an API distribution provider instance
 	 * 
-	 * @return KalturaDistributionProvider
+	 * @return BorhanDistributionProvider
 	 */
-	public static function getKalturaProvider()
+	public static function getBorhanProvider()
 	{
-		$distributionProvider = new KalturaIdeticDistributionProvider();
+		$distributionProvider = new BorhanIdeticDistributionProvider();
 		$distributionProvider->fromObject(self::getProvider());
 		return $distributionProvider;
 	}
@@ -231,7 +231,7 @@ class IdeticDistributionPlugin extends KalturaPlugin implements IKalturaPermissi
 	 */
 	public static function getDistributionProviderTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('DistributionProviderType', $value);
 	}
 	
@@ -240,6 +240,6 @@ class IdeticDistributionPlugin extends KalturaPlugin implements IKalturaPermissi
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 }

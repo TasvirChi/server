@@ -3,10 +3,10 @@
  * @package plugins.document
  * @subpackage api.objects
  */
-class KalturaDocumentListResponse extends KalturaListResponse
+class BorhanDocumentListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaDocumentEntryArray
+	 * @var BorhanDocumentEntryArray
 	 * @readonly
 	 */
 	public $objects;

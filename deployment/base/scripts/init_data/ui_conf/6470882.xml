@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<layout id="full" name="player" skinPath="/content/uiconf/kaltura/kmc/appstudio/kdp3/eagle/skin/v3.5.9/skin.swf">
+<layout id="full" name="player" skinPath="/content/uiconf/borhan/bmc/appstudio/bdp3/eagle/skin/v3.5.9/skin.swf">
 	<HBox id="topLevel" width="100%" height="100%">
 		<VBox id="player" width="100%" height="100%" styleName="black">
-			<Plugin id="kalturaMix" width="0%" height="0%" includeInLayout="false" loadingPolicy="onDemand"/>
+			<Plugin id="borhanMix" width="0%" height="0%" includeInLayout="false" loadingPolicy="onDemand"/>
 			<Plugin id="download" width="0%" height="0%" includeInLayout="false" loadingPolicy="noWait"/>
 			<Plugin id="statistics" width="0%" height="0%" includeInLayout="false"/>
 			<Plugin id="captureThumbnail" width="0%" height="0%" includeInLayout="false" loadingPolicy="noWait"/>
@@ -46,8 +46,8 @@
 
 
 				<Watermark id="watermark" width="100%" height="100%"
-						   watermarkPath="http://www.kaltura.com/content/uiconf/kaltura/kmc/appstudio/kdp3/exampleWatermark.png"
-						   watermarkClickPath="http://www.kaltura.com/" watermarkPosition="topRight"/>
+						   watermarkPath="http://www.borhan.com/content/uiconf/borhan/bmc/appstudio/bdp3/exampleWatermark.png"
+						   watermarkClickPath="http://www.borhan.com/" watermarkPosition="topRight"/>
 						   
 				<!--5 star rating plugin-->
 				<Plugin id="stars" width="100%" height="30" editable="true" rating="-1"/>
@@ -57,7 +57,7 @@
 						overlayInterval="{vast.overlayInterval}" displayDuration="" width="100%" height="100%"/>
 
 				<!-- new bumper plugin -->
-				<Plugin id="bumper" bumperEntryID="0_c2gx2xjm" clickurl="http://www.kaltura.com" lockUI="true"
+				<Plugin id="bumper" bumperEntryID="0_c2gx2xjm" clickurl="http://www.borhan.com" lockUI="true"
 						playOnce="false" preSequence="1" postSequence="1" width="100%" height="100%"/>
 				
 				<!-- new skip button -->
@@ -76,7 +76,7 @@
 				<HBox id="ccOverComboBoxWrapper" horizontalAlign="right" width="100%" height="100%" paddingRight="5" paddingTop="5">
 					<Plugin id="captionsOverFader" width="0%" height="0%" includeInLayout="false" target="{ccOverComboBoxWrapper}" 
 						hoverTarget="{PlayerHolder}" duration="0.5" autoHide="true" path="faderPlugin.swf" />
-					<ComboBox id="ccOverComboBox" width="90" styleName="_kdp" selectedIndex="{closedCaptionsOverPlayer.currentCCFileIndex}" 
+					<ComboBox id="ccOverComboBox" width="90" styleName="_bdp" selectedIndex="{closedCaptionsOverPlayer.currentCCFileIndex}" 
 							kevent_change="sendNotification( 'closedCaptionsSelected' , ccOverComboBox.selectedItem)" 
 							dataProvider="{closedCaptionsOverPlayer.availableCCFilesLabels}" prompt="Captions" visible="{closedCaptionsOverPlayer.hasCaptions}"/>
 				</HBox>
@@ -128,7 +128,7 @@
 						<VolumeBar id="volumeBar" styleName="volumeBtn" buttonWidth="20" width="20" height="20" buttonType="iconButton" tooltip="Change volume"/>
 						<!-- Combo box for captions control -->
 						
-						<ComboBox id="ccUnderComboBox" width="90" styleName="_kdp" selectedIndex="{closedCaptionsUnderPlayer.currentCCFileIndex}" 
+						<ComboBox id="ccUnderComboBox" width="90" styleName="_bdp" selectedIndex="{closedCaptionsUnderPlayer.currentCCFileIndex}" 
 							kevent_change="sendNotification( 'closedCaptionsSelected' , ccUnderComboBox.selectedItem)" 
 							dataProvider="{closedCaptionsUnderPlayer.availableCCFilesLabels}" prompt="Captions"
 							visible="{closedCaptionsUnderPlayer.hasCaptions}" includeInLayout="{closedCaptionsUnderPlayer.hasCaptions}"/>
@@ -153,7 +153,7 @@
 
 						<FlavorCombo id="flavorComboControllerScreen" width="80"
 									 streamerType="{configProxy.flashvars.streamerType}"
-									 flavorDataProvider="{mediaProxy.kalturaMediaFlavorArray}" styleName="_kdp"
+									 flavorDataProvider="{mediaProxy.borhanMediaFlavorArray}" styleName="_bdp"
 									 color1="0xFF0000" hdOn="HD On" hdOff="HD Off" selectedMessage=""
 									 autoMessage="Automatically switches between bitrates"
 									 preferedFlavorBR="{mediaProxy.preferedFlavorBR}"
@@ -181,8 +181,8 @@
 								styleName="controllerScreen" icon="generalIcon"/>
 					</HBox>
 					<Spacer width="13"/>
-					<Button id="kalturaLogo" height="50" width="100" kClick="navigate('http://www.kaltura.com')"
-							styleName="controllerScreen" icon="kalturaLogo"/>
+					<Button id="borhanLogo" height="50" width="100" kClick="navigate('http://www.borhan.com')"
+							styleName="controllerScreen" icon="borhanLogo"/>
 					<Spacer width="13"/>
 				</HBox>
 			</Canvas>

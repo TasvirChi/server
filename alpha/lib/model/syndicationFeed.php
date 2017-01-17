@@ -19,7 +19,7 @@ class syndicationFeed extends BasesyndicationFeed implements IBaseObject
 	const CUSTOM_DATA_PLAYER_TYPE = 'player_type';
 	const CUSTOM_DATA_FEED_CONTENT_TYPE_HEADER = 'feed_content_type_header';
 
-	// copied from KalturaSyndicationFeedStatus
+	// copied from BorhanSyndicationFeedStatus
 	const SYNDICATION_DELETED = -1;
 	const SYNDICATION_ACTIVE = 1;
 	
@@ -187,7 +187,7 @@ class syndicationFeed extends BasesyndicationFeed implements IBaseObject
 	 */
 	public function getPlayerType()
 	{
-		return $this->getFromCustomData(self::CUSTOM_DATA_PLAYER_TYPE, null, PlayerType::KDP);
+		return $this->getFromCustomData(self::CUSTOM_DATA_PLAYER_TYPE, null, PlayerType::BDP);
 	}
 
 	/**

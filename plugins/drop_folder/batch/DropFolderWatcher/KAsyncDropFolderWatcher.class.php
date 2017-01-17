@@ -8,7 +8,7 @@
 class KAsyncDropFolderWatcher extends KPeriodicWorker
 {
 	/**
-	 * @var KalturaDropFolderClientPlugin
+	 * @var BorhanDropFolderClientPlugin
 	 */
 	protected $dropFolderPlugin = null;
 	
@@ -18,7 +18,7 @@ class KAsyncDropFolderWatcher extends KPeriodicWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::DROP_FOLDER_WATCHER;
+		return BorhanBatchJobType::DROP_FOLDER_WATCHER;
 	}
 	
 	/* (non-PHPdoc)
@@ -26,7 +26,7 @@ class KAsyncDropFolderWatcher extends KPeriodicWorker
 	*/
 	public function run($jobs = null)
 	{
-		$this->dropFolderPlugin = KalturaDropFolderClientPlugin::get(self::$kClient);
+		$this->dropFolderPlugin = BorhanDropFolderClientPlugin::get(self::$kClient);
 		
 		if(self::$taskConfig->isInitOnly())
 			return $this->init();
@@ -35,11 +35,11 @@ class KAsyncDropFolderWatcher extends KPeriodicWorker
 		if(isset($dropFolders))
 		{
 			$dropFolders = $dropFolders->objects;
-			KalturaLog::log('['.count($dropFolders).'] folders to watch');
+			BorhanLog::log('['.count($dropFolders).'] folders to watch');
 			
 			foreach ($dropFolders as $folder)
 			{
-				/* @var $folder KalturaDropFolder */
+				/* @var $folder BorhanDropFolder */
 			    try 
 			    {	
 			    	$this->impersonate($folder->partnerId);	
@@ -51,21 +51,21 @@ class KAsyncDropFolderWatcher extends KPeriodicWorker
 			    catch (kFileTransferMgrException $e)
 			    {
 			    	if($e->getCode() == kFileTransferMgrException::cantConnect)
-			    		$this->setDropFolderError($folder, KalturaDropFolderErrorCode::ERROR_CONNECT, DropFolderPlugin::ERROR_CONNECT_MESSAGE, $e);
+			    		$this->setDropFolderError($folder, BorhanDropFolderErrorCode::ERROR_CONNECT, DropFolderPlugin::ERROR_CONNECT_MESSAGE, $e);
 			    	else if($e->getCode() == kFileTransferMgrException::cantAuthenticate)
-			    		$this->setDropFolderError($folder, KalturaDropFolderErrorCode::ERROR_AUTENTICATE, DropFolderPlugin::ERROR_AUTENTICATE_MESSAGE, $e);
+			    		$this->setDropFolderError($folder, BorhanDropFolderErrorCode::ERROR_AUTENTICATE, DropFolderPlugin::ERROR_AUTENTICATE_MESSAGE, $e);
 			    	else
-			    		$this->setDropFolderError($folder, KalturaDropFolderErrorCode::ERROR_GET_PHISICAL_FILE_LIST, DropFolderPlugin::ERROR_GET_PHISICAL_FILE_LIST_MESSAGE, $e);
+			    		$this->setDropFolderError($folder, BorhanDropFolderErrorCode::ERROR_GET_PHISICAL_FILE_LIST, DropFolderPlugin::ERROR_GET_PHISICAL_FILE_LIST_MESSAGE, $e);
 			    	$this->unimpersonate();
 			    }
-			    catch (KalturaException $e)
+			    catch (BorhanException $e)
 			    {
-			    	$this->setDropFolderError($folder, KalturaDropFolderErrorCode::ERROR_GET_DB_FILE_LIST, DropFolderPlugin::ERROR_GET_DB_FILE_LIST_MESSAGE, $e);
+			    	$this->setDropFolderError($folder, BorhanDropFolderErrorCode::ERROR_GET_DB_FILE_LIST, DropFolderPlugin::ERROR_GET_DB_FILE_LIST_MESSAGE, $e);
 			    	$this->unimpersonate();
 			    }
 			    catch (Exception $e) 
 			    {			        
-			        $this->setDropFolderError($folder, KalturaDropFolderErrorCode::DROP_FOLDER_APP_ERROR, DropFolderPlugin::DROP_FOLDER_APP_ERROR_MESSAGE.$e->getMessage(), $e);	
+			        $this->setDropFolderError($folder, BorhanDropFolderErrorCode::DROP_FOLDER_APP_ERROR, DropFolderPlugin::DROP_FOLDER_APP_ERROR_MESSAGE.$e->getMessage(), $e);	
 			        $this->unimpersonate();
 			    }
 			}
@@ -78,21 +78,21 @@ class KAsyncDropFolderWatcher extends KPeriodicWorker
 		$folderTags = self::$taskConfig->params->tags;
 		
 		if (strlen($folderTags) == 0) {		
-			KalturaLog::err('Tags configuration is empty - cannot continue');			
+			BorhanLog::err('Tags configuration is empty - cannot continue');			
 			return null;
 		}
 		
 		// get list of drop folders according to configuration
-		$filter = new KalturaDropFolderFilter();
+		$filter = new BorhanDropFolderFilter();
 		
 		if ($folderTags != '*') {
 			$filter->tagsMultiLikeOr = $folderTags;
 		}
 			
-		$filter->currentDc = KalturaNullableBoolean::TRUE_VALUE;
-		$filter->statusIn = KalturaDropFolderStatus::ENABLED. ','. KalturaDropFolderStatus::ERROR;
+		$filter->currentDc = BorhanNullableBoolean::TRUE_VALUE;
+		$filter->statusIn = BorhanDropFolderStatus::ENABLED. ','. BorhanDropFolderStatus::ERROR;
 		
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageSize = 500;
 		if(self::$taskConfig->params->pageSize)
 			$pager->pageSize = self::$taskConfig->params->pageSize;	
@@ -105,19 +105,19 @@ class KAsyncDropFolderWatcher extends KPeriodicWorker
 		}
 		catch (Exception $e) 
 		{
-			KalturaLog::err('Cannot get drop folder list - '.$e->getMessage());
+			BorhanLog::err('Cannot get drop folder list - '.$e->getMessage());
 			return null;
 		}
 	}
 	
-	private function setDropFolderError(KalturaDropFolder $folder, $errorCode, $errorDescirption, Exception $e)
+	private function setDropFolderError(BorhanDropFolder $folder, $errorCode, $errorDescirption, Exception $e)
 	{
-		KalturaLog::err('Error with folder id ['.$folder->id.'] - '.$e->getMessage());
+		BorhanLog::err('Error with folder id ['.$folder->id.'] - '.$e->getMessage());
 		try 
 		{
-			$folder->status = KalturaDropFolderStatus::ERROR;
-			$updateDropFolder = new KalturaDropFolder();
-			$updateDropFolder->status = KalturaDropFolderStatus::ERROR;
+			$folder->status = BorhanDropFolderStatus::ERROR;
+			$updateDropFolder = new BorhanDropFolder();
+			$updateDropFolder->status = BorhanDropFolderStatus::ERROR;
 			$updateDropFolder->errorCode = $errorCode;
 			$updateDropFolder->errorDescription = $errorDescirption;
 			$updateDropFolder->lastAccessedAt = time();
@@ -126,16 +126,16 @@ class KAsyncDropFolderWatcher extends KPeriodicWorker
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err('Error updating drop folder ['.$folder->id.'] - '.$e->getMessage());
+			BorhanLog::err('Error updating drop folder ['.$folder->id.'] - '.$e->getMessage());
 		}	
 	}	
 	
-	private function setDropFolderOK(KalturaDropFolder $folder)
+	private function setDropFolderOK(BorhanDropFolder $folder)
 	{
 		try 
 		{
-			$updateDropFolder = new KalturaDropFolder();
-			$updateDropFolder->status = KalturaDropFolderStatus::ENABLED;
+			$updateDropFolder = new BorhanDropFolder();
+			$updateDropFolder->status = BorhanDropFolderStatus::ENABLED;
 			$updateDropFolder->errorCode__null = '';
 			$updateDropFolder->errorDescription__null = '';
 			$updateDropFolder->lastAccessedAt = time();
@@ -144,13 +144,13 @@ class KAsyncDropFolderWatcher extends KPeriodicWorker
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err('Error updating drop folder ['.$folder->id.'] - '.$e->getMessage());
+			BorhanLog::err('Error updating drop folder ['.$folder->id.'] - '.$e->getMessage());
 		}	
 	}	
 			
 	function log($message)
 	{
-		if(!strstr($message, 'KalturaDropFolderListResponse') && !strstr($message, 'KalturaDropFolderFileListResponse'))
-			KalturaLog::info($message);
+		if(!strstr($message, 'BorhanDropFolderListResponse') && !strstr($message, 'BorhanDropFolderFileListResponse'))
+			BorhanLog::info($message);
 	}	
 }

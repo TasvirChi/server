@@ -3,10 +3,10 @@
  * @package plugins.eventNotification
  * @subpackage api.objects
  */
-class KalturaEventNotificationTemplateListResponse extends KalturaListResponse
+class BorhanEventNotificationTemplateListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaEventNotificationTemplateArray
+	 * @var BorhanEventNotificationTemplateArray
 	 * @readonly
 	 */
 	public $objects;

@@ -4,7 +4,7 @@
  * @package plugins.velocix
  * @subpackage model.enum
  */ 
-class KontikiDeliveryProfileType implements IKalturaPluginEnum, DeliveryProfileType
+class KontikiDeliveryProfileType implements IBorhanPluginEnum, DeliveryProfileType
 {
 	const KONTIKI_HTTP = 'KONTIKI_HTTP';
 	

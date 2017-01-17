@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaResponseProfileBaseFilter extends KalturaFilter
+abstract class BorhanResponseProfileBaseFilter extends BorhanFilter
 {
 	static private $map_between_objects = array
 	(
@@ -79,7 +79,7 @@ abstract class KalturaResponseProfileBaseFilter extends KalturaFilter
 	public $updatedAtLessThanOrEqual;
 
 	/**
-	 * @var KalturaResponseProfileStatus
+	 * @var BorhanResponseProfileStatus
 	 */
 	public $statusEqual;
 

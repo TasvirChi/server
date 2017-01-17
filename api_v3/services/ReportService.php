@@ -5,7 +5,7 @@
  * @package api
  * @subpackage services
  */
-class ReportService extends KalturaBaseService
+class ReportService extends BorhanBaseService
 {
 
 	public function initService($serviceId, $serviceName, $actionName)
@@ -19,7 +19,7 @@ class ReportService extends KalturaBaseService
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseService::partnerGroup()
+	 * @see BorhanBaseService::partnerGroup()
 	 */
 	protected function partnerGroup($peer = null)
 	{
@@ -57,18 +57,18 @@ class ReportService extends KalturaBaseService
 	 * report getGraphs action allows to get a graph data for a specific report. 
 	 * 
 	 * @action getGraphs
-	 * @param KalturaReportType $reportType  
-	 * @param KalturaReportInputFilter $reportInputFilter
+	 * @param BorhanReportType $reportType  
+	 * @param BorhanReportInputFilter $reportInputFilter
 	 * @param string $dimension
 	 * @param string $objectIds - one ID or more (separated by ',') of specific objects to query
-	 * @return KalturaReportGraphArray 
+	 * @return BorhanReportGraphArray 
 	 */
-	public function getGraphsAction( $reportType , KalturaReportInputFilter $reportInputFilter , $dimension = null , $objectIds = null  )
+	public function getGraphsAction( $reportType , BorhanReportInputFilter $reportInputFilter , $dimension = null , $objectIds = null  )
 	{
-		if($reportType == KalturaReportType::PARTNER_USAGE || $reportType == KalturaReportType::VAR_USAGE)
+		if($reportType == BorhanReportType::PARTNER_USAGE || $reportType == BorhanReportType::VAR_USAGE)
 			$objectIds = $this->validateObjectsAreAllowedPartners($objectIds);
 		
-		$reportGraphs =  KalturaReportGraphArray::fromReportDataArray ( myReportsMgr::getGraph( $this->getPartnerId() , 
+		$reportGraphs =  BorhanReportGraphArray::fromReportDataArray ( myReportsMgr::getGraph( $this->getPartnerId() , 
 			$reportType , 
 			$reportInputFilter->toReportsInputFilter() ,
 			$dimension , 
@@ -81,17 +81,17 @@ class ReportService extends KalturaBaseService
 	 * report getTotal action allows to get a graph data for a specific report. 
 	 * 
 	 * @action getTotal
-	 * @param KalturaReportType $reportType  
-	 * @param KalturaReportInputFilter $reportInputFilter
+	 * @param BorhanReportType $reportType  
+	 * @param BorhanReportInputFilter $reportInputFilter
 	 * @param string $objectIds - one ID or more (separated by ',') of specific objects to query
-	 * @return KalturaReportTotal 
+	 * @return BorhanReportTotal 
 	 */
-	public function getTotalAction( $reportType , KalturaReportInputFilter $reportInputFilter , $objectIds = null )
+	public function getTotalAction( $reportType , BorhanReportInputFilter $reportInputFilter , $objectIds = null )
 	{
-		if($reportType == KalturaReportType::PARTNER_USAGE || $reportType == KalturaReportType::VAR_USAGE)
+		if($reportType == BorhanReportType::PARTNER_USAGE || $reportType == BorhanReportType::VAR_USAGE)
 			$objectIds = $this->validateObjectsAreAllowedPartners($objectIds);
 		
-		$reportTotal = new KalturaReportTotal();
+		$reportTotal = new BorhanReportTotal();
 		
 		list ( $header , $data ) = myReportsMgr::getTotal( $this->getPartnerId() , 
 			$reportType , 
@@ -105,14 +105,14 @@ class ReportService extends KalturaBaseService
 	 * report getBaseTotal action allows to get a the total base for storage reports  
 	 * 
 	 * @action getBaseTotal
-	 * @param KalturaReportType $reportType  
-	 * @param KalturaReportInputFilter $reportInputFilter
+	 * @param BorhanReportType $reportType  
+	 * @param BorhanReportInputFilter $reportInputFilter
 	 * @param string $objectIds - one ID or more (separated by ',') of specific objects to query
-	 * @return KalturaReportBaseTotalArray 
+	 * @return BorhanReportBaseTotalArray 
 	 */
-	public function getBaseTotalAction( $reportType , KalturaReportInputFilter $reportInputFilter , $objectIds = null )
+	public function getBaseTotalAction( $reportType , BorhanReportInputFilter $reportInputFilter , $objectIds = null )
 	{
-		$reportSubTotals =  KalturaReportBaseTotalArray::fromReportDataArray( myReportsMgr::getBaseTotal( $this->getPartnerId() , 
+		$reportSubTotals =  BorhanReportBaseTotalArray::fromReportDataArray( myReportsMgr::getBaseTotal( $this->getPartnerId() , 
 			$reportType , 
 			$reportInputFilter->toReportsInputFilter() ,
 			$objectIds));
@@ -124,20 +124,20 @@ class ReportService extends KalturaBaseService
 	 * report getTable action allows to get a graph data for a specific report. 
 	 * 
 	 * @action getTable
-	 * @param KalturaReportType $reportType  
-	 * @param KalturaReportInputFilter $reportInputFilter
-	 * @param KalturaFilterPager $pager
-	 * @param KalturaReportType $reportType 
+	 * @param BorhanReportType $reportType  
+	 * @param BorhanReportInputFilter $reportInputFilter
+	 * @param BorhanFilterPager $pager
+	 * @param BorhanReportType $reportType 
 	 * @param string $order
 	 * @param string $objectIds - one ID or more (separated by ',') of specific objects to query
-	 * @return KalturaReportTable 
+	 * @return BorhanReportTable 
 	 */
-	public function getTableAction($reportType, KalturaReportInputFilter $reportInputFilter, KalturaFilterPager $pager, $order = null, $objectIds = null)
+	public function getTableAction($reportType, BorhanReportInputFilter $reportInputFilter, BorhanFilterPager $pager, $order = null, $objectIds = null)
 	{
-		if($reportType == KalturaReportType::PARTNER_USAGE || $reportType == KalturaReportType::VAR_USAGE)
+		if($reportType == BorhanReportType::PARTNER_USAGE || $reportType == BorhanReportType::VAR_USAGE)
 			$objectIds = $this->validateObjectsAreAllowedPartners($objectIds);
 		
-		$reportTable = new KalturaReportTable();
+		$reportTable = new BorhanReportTable();
 		
 		list ( $header , $data , $totalCount ) = myReportsMgr::getTable( $this->getPartnerId() , 
 			$reportType , 
@@ -158,22 +158,22 @@ class ReportService extends KalturaBaseService
 	 * @param string $reportTitle The title of the report to display at top of CSV 
 	 * @param string $reportText The text of the filter of the report
 	 * @param string $headers The headers of the columns - a map between the enumerations on the server side and the their display text  
-	 * @param KalturaReportType $reportType  
-	 * @param KalturaReportInputFilter $reportInputFilter
+	 * @param BorhanReportType $reportType  
+	 * @param BorhanReportInputFilter $reportInputFilter
 	 * @param string $dimension	  
-	 * @param KalturaFilterPager $pager
-	 * @param KalturaReportType $reportType 
+	 * @param BorhanFilterPager $pager
+	 * @param BorhanReportType $reportType 
 	 * @param string $order
 	 * @param string $objectIds - one ID or more (separated by ',') of specific objects to query
 	 * @return string 
 	 */
-	public function getUrlForReportAsCsvAction ( $reportTitle , $reportText , $headers , $reportType , KalturaReportInputFilter $reportInputFilter , 
+	public function getUrlForReportAsCsvAction ( $reportTitle , $reportText , $headers , $reportType , BorhanReportInputFilter $reportInputFilter , 
 		$dimension = null , 
-		KalturaFilterPager $pager = null , 
+		BorhanFilterPager $pager = null , 
 		$order = null , $objectIds = null )
 	{
 
-		if($reportType == KalturaReportType::PARTNER_USAGE || $reportType == KalturaReportType::VAR_USAGE)
+		if($reportType == BorhanReportType::PARTNER_USAGE || $reportType == BorhanReportType::VAR_USAGE)
 			$objectIds = $this->validateObjectsAreAllowedPartners($objectIds);
 		
 		try {
@@ -186,7 +186,7 @@ class ReportService extends KalturaBaseService
 		catch(Exception $e){
 			$code = $e->getCode();
 			if ($code == kCoreException::SEARCH_TOO_GENERAL)
-					throw new KalturaAPIException(KalturaErrors::SEARCH_TOO_GENERAL);
+					throw new BorhanAPIException(BorhanErrors::SEARCH_TOO_GENERAL);
 			}
 
 		if ((infraRequestUtils::getProtocol() == infraRequestUtils::PROTOCOL_HTTPS))
@@ -211,7 +211,7 @@ class ReportService extends KalturaBaseService
 			KExternalErrors::dieError(KExternalErrors::ACCESS_CONTROL_RESTRICTED);
 		
 		if(!preg_match('/^[\w-_]*$/', $id))
-			throw new KalturaAPIException(KalturaErrors::REPORT_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::REPORT_NOT_FOUND, $id);
 		
 		$partner_id = $this->getPartnerId();
 		$folderPath = "/content/reports/$partner_id";
@@ -224,25 +224,25 @@ class ReportService extends KalturaBaseService
 	/**
 	 * @action execute
 	 * @param int $id
-	 * @param KalturaKeyValueArray $params
-	 * @return KalturaReportResponse
+	 * @param BorhanKeyValueArray $params
+	 * @return BorhanReportResponse
 	 */
-	public function executeAction($id, KalturaKeyValueArray $params = null)
+	public function executeAction($id, BorhanKeyValueArray $params = null)
 	{
 		$dbReport = ReportPeer::retrieveByPK($id);
 		if (is_null($dbReport))
-			throw new KalturaAPIException(KalturaErrors::REPORT_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::REPORT_NOT_FOUND, $id);
 			
 		$query = $dbReport->getQuery();
 		
 		$this->addPartnerIdToParams($params);
 		
-		$execParams = KalturaReportHelper::getValidateExecutionParameters($dbReport, $params);
+		$execParams = BorhanReportHelper::getValidateExecutionParameters($dbReport, $params);
 		
 		$kReportsManager = new kReportManager($dbReport);
 		list($columns, $rows) = $kReportsManager->execute($execParams);
 		
-		$reportResponse = KalturaReportResponse::fromColumnsAndRows($columns, $rows);
+		$reportResponse = BorhanReportResponse::fromColumnsAndRows($columns, $rows);
 		
 		return $reportResponse;
 	}
@@ -250,20 +250,20 @@ class ReportService extends KalturaBaseService
 	/**
 	 * @action getCsv
 	 * @param int $id
-	 * @param KalturaKeyValueArray $params
+	 * @param BorhanKeyValueArray $params
 	 * @return file
 	 */
-	public function getCsvAction($id, KalturaKeyValueArray $params = null)
+	public function getCsvAction($id, BorhanKeyValueArray $params = null)
 	{
 		$dbReport = ReportPeer::retrieveByPK($id);
 		if (is_null($dbReport))
-			throw new KalturaAPIException(KalturaErrors::REPORT_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::REPORT_NOT_FOUND, $id);
 			
 		$query = $dbReport->getQuery();
 		
 		$this->addPartnerIdToParams($params);
 		
-		$execParams = KalturaReportHelper::getValidateExecutionParameters($dbReport, $params);
+		$execParams = BorhanReportHelper::getValidateExecutionParameters($dbReport, $params);
 		
 		ini_set( "memory_limit","512M" );
 
@@ -305,12 +305,12 @@ class ReportService extends KalturaBaseService
 	protected function parseParamsStr($paramsStr)
 	{
 		$paramsStrArray = explode(';', $paramsStr);
-		$paramsKeyValueArray = new KalturaKeyValueArray();
+		$paramsKeyValueArray = new BorhanKeyValueArray();
 		foreach($paramsStrArray as $paramStr)
 		{
 			$paramStr = trim($paramStr);
 			$paramArray = explode('=', $paramStr);
-			$paramKeyValue = new KalturaKeyValue();
+			$paramKeyValue = new BorhanKeyValue();
 			$paramKeyValue->key = isset($paramArray[0]) ? $paramArray[0] : null;
 			$paramKeyValue->value = isset($paramArray[1]) ? $paramArray[1] : null;
 			$paramsKeyValueArray[] = $paramKeyValue;
@@ -330,7 +330,7 @@ class ReportService extends KalturaBaseService
 			}
 		}
 		// force partner id parameter
-		$partnerIdParam = new KalturaKeyValue();
+		$partnerIdParam = new BorhanKeyValue();
 		$partnerIdParam->key = 'partner_id';
 		$partnerIdParam->value = $this->getPartnerId();
 		$params[] = $partnerIdParam;

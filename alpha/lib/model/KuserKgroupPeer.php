@@ -25,7 +25,7 @@ class KuserKgroupPeer extends BaseKuserKgroupPeer implements IRelatedObjectPeer
 		if(self::$s_criteria_filter == null)
 			self::$s_criteria_filter = new criteriaFilter();
 
-		$c =  KalturaCriteria::create(KuserKgroupPeer::OM_CLASS);
+		$c =  BorhanCriteria::create(KuserKgroupPeer::OM_CLASS);
 		$c->addAnd ( KuserKgroupPeer::STATUS, array(KuserKgroupStatus::DELETED), Criteria::NOT_IN);
 		$c->addAnd ( KuserKgroupPeer::PARTNER_ID, kCurrentContext::getCurrentPartnerId(), Criteria::EQUAL );
 		self::$s_criteria_filter->setFilter($c);

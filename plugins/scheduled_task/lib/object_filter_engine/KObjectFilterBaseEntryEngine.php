@@ -7,10 +7,10 @@
 class KObjectFilterBaseEntryEngine extends KObjectFilterEngineBase
 {
 	/**
-	 * @param KalturaFilter $filter
+	 * @param BorhanFilter $filter
 	 * @return array
 	 */
-	public function query(KalturaFilter $filter)
+	public function query(BorhanFilter $filter)
 	{
 		return $this->_client->baseEntry->listAction($filter, $this->getPager());
 	}

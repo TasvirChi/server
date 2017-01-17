@@ -27,7 +27,7 @@ class ThumbCuePointBulkUploadXmlHandler extends CuePointBulkUploadXmlHandler
 	 */
 	protected function getNewInstance()
 	{
-		return new KalturaThumbCuePoint();
+		return new BorhanThumbCuePoint();
 	}
 	
 	/* (non-PHPdoc)
@@ -39,7 +39,7 @@ class ThumbCuePointBulkUploadXmlHandler extends CuePointBulkUploadXmlHandler
 			return null;
 			
 		$cuePoint = parent::parseCuePoint($scene);
-		if(!($cuePoint instanceof KalturaThumbCuePoint))
+		if(!($cuePoint instanceof BorhanThumbCuePoint))
 			return null;
 			
 		//If timedThumbAssetId is present in the XML assume an existing one is beeing updated (Action = Update)
@@ -52,7 +52,7 @@ class ThumbCuePointBulkUploadXmlHandler extends CuePointBulkUploadXmlHandler
 		if(isset($scene->subType))
 			$cuePoint->subType = $scene->subType;
 		else 
-			$cuePoint->subType = KalturaThumbCuePointSubType::SLIDE;
+			$cuePoint->subType = BorhanThumbCuePointSubType::SLIDE;
 		
 		return $cuePoint;
 	}
@@ -71,18 +71,18 @@ class ThumbCuePointBulkUploadXmlHandler extends CuePointBulkUploadXmlHandler
 		catch (Exception $ex)
 		{
 			KBatchBase::unimpersonate();
-			KalturaLog::info("Entry ID [" . $this->entryId . "] not found, continuing with no conversion profile");
+			BorhanLog::info("Entry ID [" . $this->entryId . "] not found, continuing with no conversion profile");
 		}
 		
 		foreach($results as $index => $cuePoint)
 		{	
-			if($cuePoint instanceof KalturaThumbCuePoint)
+			if($cuePoint instanceof BorhanThumbCuePoint)
 			{
 				if(!isset($items[$index]->slide) || empty($items[$index]->slide))
 					continue;
 				
 				$timedThumbResource = $this->xmlBulkUploadEngine->getResource($items[$index]->slide, $conversionProfileId);
-				$thumbAsset = new KalturaTimedThumbAsset();
+				$thumbAsset = new BorhanTimedThumbAsset();
 				$thumbAsset->cuePointId = $cuePoint->id;
 
 				KBatchBase::impersonate($this->xmlBulkUploadEngine->getCurrentPartnerId());

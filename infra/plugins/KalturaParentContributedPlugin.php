@@ -5,7 +5,7 @@
 * @package infra
 * @subpackage Plugins
 */
-abstract class KalturaParentContributedPlugin extends KalturaPlugin implements IKalturaMrssContributor{
+abstract class BorhanParentContributedPlugin extends BorhanPlugin implements IBorhanMrssContributor{
 
     /**
      * @param BaseObject $object
@@ -41,7 +41,7 @@ abstract class KalturaParentContributedPlugin extends KalturaPlugin implements I
      */
     public function getObjectFeatureType()
     {
-        $value = $this->getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . ParentObjectFeatureType::PARENT;
+        $value = $this->getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . ParentObjectFeatureType::PARENT;
         return kPluginableEnumsManager::apiToCore('ObjectFeatureType', $value);
     }
 }

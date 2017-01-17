@@ -1,8 +1,8 @@
 <?php
 /**
- * @package plugins.crossKalturaDistribution
+ * @package plugins.crossBorhanDistribution
  * @subpackage api.filters
  */
-class KalturaCrossKalturaDistributionProfileFilter extends KalturaCrossKalturaDistributionProfileBaseFilter
+class BorhanCrossBorhanDistributionProfileFilter extends BorhanCrossBorhanDistributionProfileBaseFilter
 {
 }

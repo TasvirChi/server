@@ -3,14 +3,14 @@
  * @package Var
  * @subpackage Authentication
  */
-class Kaltura_VarAuthAdapter extends Infra_AuthAdapter
+class Borhan_VarAuthAdapter extends Infra_AuthAdapter
 {
 	/* (non-PHPdoc)
 	 * @see Infra_AuthAdapter::getUserIdentity()
 	 */
-	protected function getUserIdentity(Kaltura_Client_Type_User $user, $ks, $partnerId)
+	protected function getUserIdentity(Borhan_Client_Type_User $user, $ks, $partnerId)
 	{
-		$identity = new Kaltura_VarUserIdentity($user, $ks, $this->timezoneOffset, $partnerId);
+		$identity = new Borhan_VarUserIdentity($user, $ks, $this->timezoneOffset, $partnerId);
 		$identity->setPassword($this->password);
 		
 		return $identity;
@@ -26,7 +26,7 @@ class Kaltura_VarAuthAdapter extends Infra_AuthAdapter
 			return $result;
 			
 		$identity = $result->getIdentity();
-		if(!($identity instanceof Kaltura_VarUserIdentity))
+		if(!($identity instanceof Borhan_VarUserIdentity))
 			return new Zend_Auth_Result(Zend_Auth_Result::FAILURE_UNCATEGORIZED, null, array('Identity is not a multi-publisher identity'));
 			
 		$client = Infra_ClientHelper::getClient();
@@ -43,10 +43,10 @@ class Kaltura_VarAuthAdapter extends Infra_AuthAdapter
     		    $hasRequiredPermissions = true;
     		    foreach ($requiredPermissionsArr as $requiredPermission)
 			    {
-			        $permissionFilter = new Kaltura_Client_Type_PermissionFilter();
+			        $permissionFilter = new Borhan_Client_Type_PermissionFilter();
 			        $permissionFilter->nameEqual = $requiredPermission;
-			        $permissionFilter->statusEqual = Kaltura_Client_Enum_PermissionStatus::ACTIVE;
-			        $permissions = $client->permission->listAction($permissionFilter, new Kaltura_Client_Type_FilterPager());
+			        $permissionFilter->statusEqual = Borhan_Client_Enum_PermissionStatus::ACTIVE;
+			        $permissions = $client->permission->listAction($permissionFilter, new Borhan_Client_Type_FilterPager());
 			        if (!$permissions->totalCount)
 			        {
 			            $hasRequiredPermissions = false;
@@ -56,9 +56,9 @@ class Kaltura_VarAuthAdapter extends Infra_AuthAdapter
 		    
 			    if (!$hasRequiredPermissions)
 			    {
-			        $filter = new Kaltura_Client_VarConsole_Type_VarConsolePartnerFilter();
+			        $filter = new Borhan_Client_VarConsole_Type_VarConsolePartnerFilter();
     		        $filter->partnerPermissionsExist = $settings->requiredPermissions;
-    		        $filter->groupTypeIn = Kaltura_Client_Enum_PartnerGroupType::GROUP . "," . Kaltura_Client_Enum_PartnerGroupType::VAR_GROUP;
+    		        $filter->groupTypeIn = Borhan_Client_Enum_PartnerGroupType::GROUP . "," . Borhan_Client_Enum_PartnerGroupType::VAR_GROUP;
         		    
         			$userPartners = $client->partner->listPartnersForUser($filter);
         			

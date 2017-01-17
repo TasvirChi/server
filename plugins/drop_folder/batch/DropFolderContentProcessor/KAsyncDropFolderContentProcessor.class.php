@@ -3,7 +3,7 @@
 class KAsyncDropFolderContentProcessor extends KJobHandlerWorker
 {
 	/**
-	 * @var KalturaDropFolderClientPlugin
+	 * @var BorhanDropFolderClientPlugin
 	 */
 	protected $dropFolderPlugin = null;
 	
@@ -12,13 +12,13 @@ class KAsyncDropFolderContentProcessor extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::DROP_FOLDER_CONTENT_PROCESSOR;
+		return BorhanBatchJobType::DROP_FOLDER_CONTENT_PROCESSOR;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		try 
 		{
@@ -29,21 +29,21 @@ class KAsyncDropFolderContentProcessor extends KJobHandlerWorker
 			$this->unimpersonate();
 			if($e->getResetJobExecutionAttempts())
 				throw $e;
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::RUNTIME, $e->getCode(), "Error: " . $e->getMessage(), KalturaBatchJobStatus::FAILED);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::RUNTIME, $e->getCode(), "Error: " . $e->getMessage(), BorhanBatchJobStatus::FAILED);
 		}
-		catch(KalturaClientException $e)
+		catch(BorhanClientException $e)
 		{
 			$this->unimpersonate();
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::KALTURA_CLIENT, $e->getCode(), "Error: " . $e->getMessage(), KalturaBatchJobStatus::FAILED);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::BORHAN_CLIENT, $e->getCode(), "Error: " . $e->getMessage(), BorhanBatchJobStatus::FAILED);
 		}
 	}
 
-	protected function process(KalturaBatchJob $job, KalturaDropFolderContentProcessorJobData $data)
+	protected function process(BorhanBatchJob $job, BorhanDropFolderContentProcessorJobData $data)
 	{
-		$job = $this->updateJob($job, "Start processing drop folder files [$data->dropFolderFileIds]", KalturaBatchJobStatus::QUEUED);
+		$job = $this->updateJob($job, "Start processing drop folder files [$data->dropFolderFileIds]", BorhanBatchJobStatus::QUEUED);
 		$engine = KDropFolderEngine::getInstance($job->jobSubType);
 		$engine->processFolder($job, $data);
-		return $this->closeJob($job, null, null, null, KalturaBatchJobStatus::FINISHED);
+		return $this->closeJob($job, null, null, null, BorhanBatchJobStatus::FINISHED);
 	}
 		
 }

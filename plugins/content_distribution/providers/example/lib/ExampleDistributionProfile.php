@@ -39,7 +39,7 @@ class ExampleDistributionProfile extends DistributionProfile
 		$entry = entryPeer::retrieveByPK($entryDistribution->getEntryId());
 		if(!$entry)
 		{
-			KalturaLog::err("Entry [" . $entryDistribution->getEntryId() . "] not found");
+			BorhanLog::err("Entry [" . $entryDistribution->getEntryId() . "] not found");
 			return $validationErrors;
 		}
 		

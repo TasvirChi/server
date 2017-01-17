@@ -3,12 +3,12 @@
  * Enable log view for admin-console entry investigation page
  * @package plugins.logView
  */
-class LogViewPlugin extends KalturaPlugin implements IKalturaApplicationPartialView, IKalturaAdminConsolePages
+class LogViewPlugin extends BorhanPlugin implements IBorhanApplicationPartialView, IBorhanAdminConsolePages
 {
 	const PLUGIN_NAME = 'logView';
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -16,14 +16,14 @@ class LogViewPlugin extends KalturaPlugin implements IKalturaApplicationPartialV
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaApplicationPartialView::getApplicationPartialViews()
+	 * @see IBorhanApplicationPartialView::getApplicationPartialViews()
 	 */
 	public static function getApplicationPartialViews($controller, $action)
 	{
 		if($controller == 'batch' && $action == 'entryInvestigation')
 		{
 			return array(
-				new Kaltura_View_Helper_EntryInvestigateLogView(),
+				new Borhan_View_Helper_EntryInvestigateLogView(),
 			);
 		}
 		
@@ -31,14 +31,14 @@ class LogViewPlugin extends KalturaPlugin implements IKalturaApplicationPartialV
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaAdminConsolePages::getApplicationPages()
+	 * @see IBorhanAdminConsolePages::getApplicationPages()
 	 */
 	public static function getApplicationPages()
 	{
-		$KalturaInternalTools = array(
-			new KalturaLogViewAction(),
-			new KalturaObjectInvestigateLogAction(),
+		$BorhanInternalTools = array(
+			new BorhanLogViewAction(),
+			new BorhanObjectInvestigateLogAction(),
 		);
-		return $KalturaInternalTools;
+		return $BorhanInternalTools;
 	}
 }

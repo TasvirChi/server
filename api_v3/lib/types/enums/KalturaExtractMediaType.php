@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaExtractMediaType extends KalturaEnum
+class BorhanExtractMediaType extends BorhanEnum
 {
 	const ENTRY_INPUT = 0;
 	const FLAVOR_INPUT = 1;

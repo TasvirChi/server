@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaExclusiveLockKey extends KalturaObject
+class BorhanExclusiveLockKey extends BorhanObject
 {
 	/**
 	 * @var int

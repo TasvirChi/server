@@ -32,11 +32,11 @@ class mailActions extends sfActions
 	  	$mail = new sfMail();
 	  	$mail->setCharset('utf-8');
 	  	// definition of the required parameters
-	  	$mail->setSender('password-reminder@kaltura.com', 'Kaltura Customer Service');
-	  	$mail->setFrom('password-reminder@kaltura.com', 'Kaltura Customer Service');
-	  	$mail->addReplyTo('password-reminder@kaltura.com');
+	  	$mail->setSender('password-reminder@borhan.com', 'Borhan Customer Service');
+	  	$mail->setFrom('password-reminder@borhan.com', 'Borhan Customer Service');
+	  	$mail->addReplyTo('password-reminder@borhan.com');
 	  	$mail->addAddress($user->getEmail());
-	  	$mail->setSubject('Your Kaltura password reminder');
+	  	$mail->setSubject('Your Borhan password reminder');
 	  	
 	  	// create a new temporary code to be sent by email
 	  	// then the user will be asked to change the password
@@ -76,11 +76,11 @@ class mailActions extends sfActions
 	  	$mail = new sfMail();
 	  	$mail->setCharset('utf-8');
 	  	// definition of the required parameters
-	  	$mail->setSender('support@kaltura.com', 'Kaltura Customer Service');
-	  	$mail->setFrom('support@kaltura.com', 'Kaltura Customer Service');
-	  	$mail->addReplyTo('support@kaltura.com');
+	  	$mail->setSender('support@borhan.com', 'Borhan Customer Service');
+	  	$mail->setFrom('support@borhan.com', 'Borhan Customer Service');
+	  	$mail->addReplyTo('support@borhan.com');
 	  	$mail->addAddress($user->getEmail());
-	  	$mail->setSubject('Welcome to Kaltura!');
+	  	$mail->setSubject('Welcome to Borhan!');
 	  		  	
 	  	$this->name = $user->getScreenName();
 	  	

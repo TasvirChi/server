@@ -2,12 +2,12 @@
 /**
  * @package plugins.varConsole
  */
-class VarConsolePlugin extends KalturaPlugin implements IKalturaServices, IKalturaPermissions
+class VarConsolePlugin extends BorhanPlugin implements IBorhanServices, IBorhanPermissions
 {
     const PLUGIN_NAME = "varConsole";
 
 	/* (non-PHPdoc)
-     * @see IKalturaPlugin::getPluginName()
+     * @see IBorhanPlugin::getPluginName()
      */
     public static function getPluginName ()
     {    
@@ -16,7 +16,7 @@ class VarConsolePlugin extends KalturaPlugin implements IKalturaServices, IKaltu
 
 
 	/* (non-PHPdoc)
-     * @see IKalturaServices::getServicesMap()
+     * @see IBorhanServices::getServicesMap()
      */
     public static function getServicesMap ()
     {
@@ -28,13 +28,13 @@ class VarConsolePlugin extends KalturaPlugin implements IKalturaServices, IKaltu
     }
     
     /* (non-PHPdoc)
-     * @see IKalturaPermissions::isAllowedPartner($partnerId)
+     * @see IBorhanPermissions::isAllowedPartner($partnerId)
      */
     public static function isAllowedPartner($partnerId)
     {
         $partner = PartnerPeer::retrieveByPK($partnerId);
 		
-		return $partner->getEnabledService(KalturaPermissionName::FEATURE_VAR_CONSOLE_LOGIN);
+		return $partner->getEnabledService(BorhanPermissionName::FEATURE_VAR_CONSOLE_LOGIN);
     }
 
 }

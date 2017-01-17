@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaCategory extends KalturaObject implements IRelatedFilterable 
+class BorhanCategory extends BorhanObject implements IRelatedFilterable 
 {
 	/**
 	 * The id of the Category
@@ -107,7 +107,7 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 	/**
 	 * If category will be returned for list action.
 	 * 
-	 * @var KalturaAppearInListType
+	 * @var BorhanAppearInListType
 	 * @filter eq
 	 */
 	public $appearInList;
@@ -115,7 +115,7 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 	/**
 	 * defines the privacy of the entries that assigned to this category
 	 * 
-	 * @var KalturaPrivacyType
+	 * @var BorhanPrivacyType
 	 * @filter eq,in
 	 * @requiresPermission insert,update
 	 */
@@ -123,7 +123,7 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 	
 	/**
 	 * If Category members are inherited from parent category or set manualy. 
-	 * @var KalturaInheritanceType
+	 * @var BorhanInheritanceType
 	 * @filter eq,in
 	 * @requiresPermission insert,update
 	 */
@@ -134,7 +134,7 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 	/**
 	 * Who can ask to join this category
 	 *  
-	 * @var KalturaUserJoinPolicyType
+	 * @var BorhanUserJoinPolicyType
 	 * @requiresPermission insert,update
 	 * @readonly
 	 */
@@ -143,7 +143,7 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 	/**
 	 * Default permissionLevel for new users
 	 *  
-	 * @var KalturaCategoryUserPermissionLevel
+	 * @var BorhanCategoryUserPermissionLevel
 	 * @requiresPermission insert,update
 	 */
 	public $defaultPermissionLevel;
@@ -177,7 +177,7 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 	/**
 	 * who can assign entries to this category
 	 *  
-	 * @var KalturaContributionPolicyType
+	 * @var BorhanContributionPolicyType
 	 * @filter eq
 	 * @requiresPermission insert,update
 	 */
@@ -222,7 +222,7 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 	/**
 	 * Status
 	 * 
-	 * @var KalturaCategoryStatus
+	 * @var BorhanCategoryStatus
 	 * @readonly
 	 * @filter eq,in
 	 */
@@ -255,7 +255,7 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 	/**
 	 * Enable client side applications to define how to sort the category child categories 
 	 * 
-	 * @var KalturaCategoryOrderBy
+	 * @var BorhanCategoryOrderBy
 	 */
 	public $defaultOrderBy;
 	
@@ -270,7 +270,7 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 	
 	/**
 	 * Moderation to add entries to this category by users that are not of permission level Manager or Moderator.  
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $moderation;
 	
@@ -284,7 +284,7 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 	/**
  	 * Flag indicating that the category is an aggregation category
  	 * @requiresPermission insert,update 
- 	 *  @var KalturaNullableBoolean
+ 	 *  @var BorhanNullableBoolean
  	 */
  	public $isAggregationCategory;
  	
@@ -335,7 +335,7 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -370,12 +370,12 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 		{
 			$parentCategoryDb = categoryPeer::retrieveByPK($this->parentId);
 			if (!$parentCategoryDb)
-				throw new KalturaAPIException(KalturaErrors::PARENT_CATEGORY_NOT_FOUND, $this->parentId);
+				throw new BorhanAPIException(BorhanErrors::PARENT_CATEGORY_NOT_FOUND, $this->parentId);
 		}
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert()
+	 * @see BorhanObject::validateForInsert()
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{
@@ -387,17 +387,17 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 		{
 			$this->validateParentId();
 		}
-		elseif ($this->inheritanceType == KalturaInheritanceType::INHERIT)
+		elseif ($this->inheritanceType == BorhanInheritanceType::INHERIT)
 		{
 			//cannot inherit member with no parant
-			throw new KalturaAPIException(KalturaErrors::CANNOT_INHERIT_MEMBERS_WHEN_PARENT_CATEGORY_IS_NOT_SET);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_INHERIT_MEMBERS_WHEN_PARENT_CATEGORY_IS_NOT_SET);
 		}
 		
 		return parent::validateForInsert($propertiesToSkip);
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUpdate()
+	 * @see BorhanObject::validateForUpdate()
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = array())
 	{
@@ -411,11 +411,11 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 		{
 			$this->validateParentId();
 		}
-		elseif ($this->inheritanceType == KalturaInheritanceType::INHERIT && 
-		($this->parentId instanceof KalturaNullField || $sourceObject->getParentId() == null))
+		elseif ($this->inheritanceType == BorhanInheritanceType::INHERIT && 
+		($this->parentId instanceof BorhanNullField || $sourceObject->getParentId() == null))
 		{
 			//cannot inherit member with no parant
-			throw new KalturaAPIException(KalturaErrors::CANNOT_INHERIT_MEMBERS_WHEN_PARENT_CATEGORY_IS_NOT_SET);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_INHERIT_MEMBERS_WHEN_PARENT_CATEGORY_IS_NOT_SET);
 		}
 			
 		$this->validateCategory($sourceObject);
@@ -433,7 +433,7 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 	private function validateCategory(category $sourceObject = null)
 	{
 		if($this->privacyContext != null && kEntitlementUtils::getEntitlementEnforcement())
-			throw new KalturaAPIException(KalturaErrors::CANNOT_UPDATE_CATEGORY_PRIVACY_CONTEXT);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_UPDATE_CATEGORY_PRIVACY_CONTEXT);
 			
 		if(!$this->privacyContext && (!$sourceObject || !$sourceObject->getPrivacyContexts()))
 		{
@@ -442,7 +442,7 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 			{
 				$parentCategory = categoryPeer::retrieveByPK($this->parentId);
 				if(!$parentCategory)
-					throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $this->parentId);
+					throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $this->parentId);
 				
 				if($parentCategory->getPrivacyContexts() == '')
 					$isInheritedPrivacyContext = false;
@@ -454,54 +454,54 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 			
 			if(!$isInheritedPrivacyContext)
 			{
-				if($this->appearInList != KalturaAppearInListType::PARTNER_ONLY && !$this->isNull('appearInList'))
-					throw new KalturaAPIException(KalturaErrors::CANNOT_SET_APPEAR_IN_LIST_FIELD_WITH_NO_PRIVACY_CONTEXT);
+				if($this->appearInList != BorhanAppearInListType::PARTNER_ONLY && !$this->isNull('appearInList'))
+					throw new BorhanAPIException(BorhanErrors::CANNOT_SET_APPEAR_IN_LIST_FIELD_WITH_NO_PRIVACY_CONTEXT);
 				
-				if ($this->inheritanceType != KalturaInheritanceType::MANUAL && !$this->isNull('inheritanceType'))
-					throw new KalturaAPIException(KalturaErrors::CANNOT_SET_INHERITANCE_TYPE_FIELD_WITH_NO_PRIVACY_CONTEXT);
+				if ($this->inheritanceType != BorhanInheritanceType::MANUAL && !$this->isNull('inheritanceType'))
+					throw new BorhanAPIException(BorhanErrors::CANNOT_SET_INHERITANCE_TYPE_FIELD_WITH_NO_PRIVACY_CONTEXT);
 					 
-				if ($this->privacy != KalturaPrivacyType::ALL && !$this->isNull('privacy'))
-					throw new KalturaAPIException(KalturaErrors::CANNOT_SET_PRIVACY_FIELD_WITH_NO_PRIVACY_CONTEXT);
+				if ($this->privacy != BorhanPrivacyType::ALL && !$this->isNull('privacy'))
+					throw new BorhanAPIException(BorhanErrors::CANNOT_SET_PRIVACY_FIELD_WITH_NO_PRIVACY_CONTEXT);
 					 
 				if (!$this->isNull('owner'))
-					throw new KalturaAPIException(KalturaErrors::CANNOT_SET_OWNER_FIELD_WITH_NO_PRIVACY_CONTEXT);
+					throw new BorhanAPIException(BorhanErrors::CANNOT_SET_OWNER_FIELD_WITH_NO_PRIVACY_CONTEXT);
 	
-				if ($this->userJoinPolicy != KalturaUserJoinPolicyType::NOT_ALLOWED && !$this->isNull('userJoinPolicy'))
-					throw new KalturaAPIException(KalturaErrors::CANNOT_SET_USER_JOIN_POLICY_FIELD_WITH_NO_PRIVACY_CONTEXT);
+				if ($this->userJoinPolicy != BorhanUserJoinPolicyType::NOT_ALLOWED && !$this->isNull('userJoinPolicy'))
+					throw new BorhanAPIException(BorhanErrors::CANNOT_SET_USER_JOIN_POLICY_FIELD_WITH_NO_PRIVACY_CONTEXT);
 				
-				if ($this->contributionPolicy != KalturaContributionPolicyType::ALL  && !$this->isNull('contributionPolicy'))
-				   throw new KalturaAPIException(KalturaErrors::CANNOT_SET_CONTIRUBUTION_POLICY_FIELD_WITH_NO_PRIVACY_CONTEXT);
+				if ($this->contributionPolicy != BorhanContributionPolicyType::ALL  && !$this->isNull('contributionPolicy'))
+				   throw new BorhanAPIException(BorhanErrors::CANNOT_SET_CONTIRUBUTION_POLICY_FIELD_WITH_NO_PRIVACY_CONTEXT);
 				   
-				if ($this->defaultPermissionLevel != KalturaCategoryUserPermissionLevel::MEMBER && !$this->isNull('defaultPermissionLevel'))
-				   throw new KalturaAPIException(KalturaErrors::CANNOT_SET_DEFAULT_PERMISSION_LEVEL_FIELD_WITH_NO_PRIVACY_CONTEXT);
+				if ($this->defaultPermissionLevel != BorhanCategoryUserPermissionLevel::MEMBER && !$this->isNull('defaultPermissionLevel'))
+				   throw new BorhanAPIException(BorhanErrors::CANNOT_SET_DEFAULT_PERMISSION_LEVEL_FIELD_WITH_NO_PRIVACY_CONTEXT);
 			}
 		}
 		
-		if(($this->inheritanceType != KalturaInheritanceType::MANUAL && $this->inheritanceType != null) || 
-			($this->inheritanceType == null && $sourceObject && $sourceObject->getInheritanceType() != KalturaInheritanceType::MANUAL))
+		if(($this->inheritanceType != BorhanInheritanceType::MANUAL && $this->inheritanceType != null) || 
+			($this->inheritanceType == null && $sourceObject && $sourceObject->getInheritanceType() != BorhanInheritanceType::MANUAL))
 		{	
 			if ($this->owner != null)
 			{
 				if (!$sourceObject)
-					throw new KalturaAPIException(KalturaErrors::CANNOT_SET_OWNER_WHEN_CATEGORY_INHERIT_MEMBERS);
+					throw new BorhanAPIException(BorhanErrors::CANNOT_SET_OWNER_WHEN_CATEGORY_INHERIT_MEMBERS);
 				elseif ($this->owner != $sourceObject->getKuserId())
-					throw new KalturaAPIException(KalturaErrors::CANNOT_SET_OWNER_WHEN_CATEGORY_INHERIT_MEMBERS);
+					throw new BorhanAPIException(BorhanErrors::CANNOT_SET_OWNER_WHEN_CATEGORY_INHERIT_MEMBERS);
 			}
 				
 			if ($this->userJoinPolicy != null)
 			{
 				if (!$sourceObject)
-					throw new KalturaAPIException(KalturaErrors::CANNOT_SET_USER_JOIN_POLICY_WHEN_CATEGORY_INHERIT_MEMBERS);
+					throw new BorhanAPIException(BorhanErrors::CANNOT_SET_USER_JOIN_POLICY_WHEN_CATEGORY_INHERIT_MEMBERS);
 				elseif ($this->userJoinPolicy != $sourceObject->getUserJoinPolicy())
-					throw new KalturaAPIException(KalturaErrors::CANNOT_SET_USER_JOIN_POLICY_WHEN_CATEGORY_INHERIT_MEMBERS);
+					throw new BorhanAPIException(BorhanErrors::CANNOT_SET_USER_JOIN_POLICY_WHEN_CATEGORY_INHERIT_MEMBERS);
 			}
 				
 			if ($this->defaultPermissionLevel != null)
 			{
 				if (!$sourceObject)
-					throw new KalturaAPIException(KalturaErrors::CANNOT_SET_DEFAULT_PERMISSION_LEVEL_WHEN_CATEGORY_INHERIT_MEMBERS);
+					throw new BorhanAPIException(BorhanErrors::CANNOT_SET_DEFAULT_PERMISSION_LEVEL_WHEN_CATEGORY_INHERIT_MEMBERS);
 				elseif ($this->defaultPermissionLevel != $sourceObject->getDefaultPermissionLevel())
-					throw new KalturaAPIException(KalturaErrors::CANNOT_SET_DEFAULT_PERMISSION_LEVEL_WHEN_CATEGORY_INHERIT_MEMBERS);
+					throw new BorhanAPIException(BorhanErrors::CANNOT_SET_DEFAULT_PERMISSION_LEVEL_WHEN_CATEGORY_INHERIT_MEMBERS);
 			}
 		}
 		
@@ -510,13 +510,13 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 			$partnerId = kCurrentContext::$partner_id ? kCurrentContext::$partner_id : kCurrentContext::$ks_partner_id;
 			$partner = PartnerPeer::retrieveByPK($partnerId);
 			if (!$partner || $partner->getFeaturesStatusByType(IndexObjectType::LOCK_CATEGORY))
-				throw new KalturaAPIException(KalturaErrors::CATEGORIES_LOCKED);		
+				throw new BorhanAPIException(BorhanErrors::CATEGORIES_LOCKED);		
 		}
 
-		if ($this->owner && $this->owner != '' && !($this->owner instanceof KalturaNullField) )
+		if ($this->owner && $this->owner != '' && !($this->owner instanceof BorhanNullField) )
 		{
 			if(!preg_match(kuser::PUSER_ID_REGEXP, $this->owner))
-				throw new KalturaAPIException(KalturaErrors::CANNOT_SET_OWNER_FIELD_WITH_USER_ID, $this->owner);
+				throw new BorhanAPIException(BorhanErrors::CANNOT_SET_OWNER_FIELD_WITH_USER_ID, $this->owner);
 		
 			$partnerId = kCurrentContext::$partner_id ? kCurrentContext::$partner_id : kCurrentContext::$ks_partner_id;
 			kuserPeer::createKuserForPartner($partnerId, $this->owner);
@@ -526,7 +526,7 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 			($this->isAggregationCategory && $sourceObject && $sourceObject->getAggregationCategories()) ||
 			($this->aggregationCategories && $sourceObject && $sourceObject->getIsAggregationCategory()))
 			{
- 				throw new KalturaAPIException(KalturaErrors::AGGREGATION_CATEGORY_WRONG_ASSOCIATION);
+ 				throw new BorhanAPIException(BorhanErrors::AGGREGATION_CATEGORY_WRONG_ASSOCIATION);
  			}
  			
  		if ($this->aggregationCategories)
@@ -537,18 +537,18 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
  				$agrrCat = categoryPeer::retrieveByPK($aggrCatIdToCheck);
  				if (!$agrrCat)
  				{
- 					throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $aggrCatIdToCheck);
+ 					throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $aggrCatIdToCheck);
  				}
  				if (!$agrrCat->getIsAggregationCategory())
  				{
- 					throw new KalturaAPIException(KalturaErrors::AGGREGATION_CATEGORY_WRONG_ASSOCIATION);
+ 					throw new BorhanAPIException(BorhanErrors::AGGREGATION_CATEGORY_WRONG_ASSOCIATION);
  				}
  			}
  		}
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toInsertableObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toInsertableObject($object_to_fill, $props_to_skip)
 	 */
 	public function toInsertableObject($object_to_fill = null , $props_to_skip = array())
 	{
@@ -561,7 +561,7 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 		{
 			$parentCategory = categoryPeer::retrieveByPK($this->parentId);
 			if(!$parentCategory)
-				throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $this->parentId);
+				throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $this->parentId);
 			
 			if($parentCategory->getPrivacyContexts())
 				$hasPrivacyContext = true;
@@ -569,7 +569,7 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 		
 		if ($hasPrivacyContext)
 		{
-			if (!$this->owner && $this->inheritanceType != KalturaInheritanceType::INHERIT)
+			if (!$this->owner && $this->inheritanceType != BorhanInheritanceType::INHERIT)
 			{
 				if (kCurrentContext::getCurrentKsKuser())
 					$this->owner = kCurrentContext::getCurrentKsKuser()->getPuserId();
@@ -580,7 +580,7 @@ class KalturaCategory extends KalturaObject implements IRelatedFilterable
 	}
 	
  	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($object_to_fill = null, $props_to_skip = array())
 	{

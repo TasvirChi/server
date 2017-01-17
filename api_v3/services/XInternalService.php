@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Internal Service is used for actions that are used internally in Kaltura applications and might be changed in the future without any notice.
+ * Internal Service is used for actions that are used internally in Borhan applications and might be changed in the future without any notice.
  *
  * @service xInternal
  */
-class XInternalService extends KalturaBaseService
+class XInternalService extends BorhanBaseService
 {
 	/**
 	 * Creates new download job for multiple entry ids (comma separated), an email will be sent when the job is done
@@ -32,7 +32,7 @@ class XInternalService extends KalturaBaseService
 			$flavorParamsDb = assetParamsPeer::retrieveByPK($flavorParamsId);
 		
 			if (!$flavorParamsDb)
-				throw new KalturaAPIException(KalturaErrors::FLAVOR_PARAMS_ID_NOT_FOUND, $flavorParamsId);
+				throw new BorhanAPIException(BorhanErrors::FLAVOR_PARAMS_ID_NOT_FOUND, $flavorParamsId);
 		}
 		
 		kJobsManager::addBulkDownloadJob($this->getPartnerId(), $this->getKuser()->getPuserId(), $entryIds, $flavorParamsId);

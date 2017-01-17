@@ -35,8 +35,8 @@ class getGlobalAssetsAction extends defKeditorservicesAction
 		
 		
 		$c = new Criteria();
-		$c->add ( entryPeer::KUSER_ID , kuser::KUSER_KALTURA );
-		$c->add ( entryPeer::TYPE , kuser::KUSER_KALTURA );
+		$c->add ( entryPeer::KUSER_ID , kuser::KUSER_BORHAN );
+		$c->add ( entryPeer::TYPE , kuser::KUSER_BORHAN );
 				
 		$this->entry_list = entryPeer::doSelect( $c );
 		if ( $this->entry_list == NULL )

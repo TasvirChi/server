@@ -3,12 +3,12 @@
 /**
  * Auto-generated class.
  * 
- * Used to search KalturaMixEntry attributes. Use KalturaMixEntryMatchAttribute enum to provide attribute name.
+ * Used to search BorhanMixEntry attributes. Use BorhanMixEntryMatchAttribute enum to provide attribute name.
 */
-class KalturaMixEntryMatchAttributeCondition extends KalturaSearchMatchAttributeCondition
+class BorhanMixEntryMatchAttributeCondition extends BorhanSearchMatchAttributeCondition
 {
 	/**
-	 * @var KalturaMixEntryMatchAttribute
+	 * @var BorhanMixEntryMatchAttribute
 	 */
 	public $attribute;
 

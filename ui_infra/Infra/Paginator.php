@@ -116,7 +116,7 @@ class Infra_Paginator extends Zend_Paginator
             $this->_itemCountPerPage = $this->getItemCountPerPage();
         }
         
-        // do not count right now, this will save the extra api request when using the adapter Kaltura_FilterPaginator
+        // do not count right now, this will save the extra api request when using the adapter Borhan_FilterPaginator
         $this->_pageCount        = null; 
         $this->_currentItems     = null;
         $this->_currentItemCount = null;

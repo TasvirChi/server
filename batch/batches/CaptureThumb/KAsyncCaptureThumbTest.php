@@ -50,7 +50,7 @@ class KAsyncCaptureThumbTest extends PHPUnit_Framework_TestCase
 	{
 		foreach($this->testsConfig as $testName => $config)
 		{
-			$thumbParamsOutput = new KalturaThumbParamsOutput();
+			$thumbParamsOutput = new BorhanThumbParamsOutput();
 			foreach(self::$thumbParamsAttributes as $attribute)
 			{
 				if(isset($config->$attribute))
@@ -65,7 +65,7 @@ class KAsyncCaptureThumbTest extends PHPUnit_Framework_TestCase
 		}
 	}
 	
-	public function doTest($filePath, KalturaThumbParamsOutput $thumbParamsOutput, $expectedStatus, $testName)
+	public function doTest($filePath, BorhanThumbParamsOutput $thumbParamsOutput, $expectedStatus, $testName)
 	{
 		$outputFileName = "$testName.jpg";
 		$finalPath = "$this->outputFolder/$outputFileName";
@@ -95,7 +95,7 @@ class KAsyncCaptureThumbTest extends PHPUnit_Framework_TestCase
 		foreach($jobs as $job)
 		{
 			$this->assertEquals($expectedStatus, $job->status, "test [$testName] expected status [$expectedStatus] actual status [$job->status] with message [$job->message]");
-			if($job->status != KalturaBatchJobStatus::FINISHED)
+			if($job->status != BorhanBatchJobStatus::FINISHED)
 				continue;
 				
 			$outPath = $job->data->thumbPath;
@@ -105,15 +105,15 @@ class KAsyncCaptureThumbTest extends PHPUnit_Framework_TestCase
 		}
 	}
 	
-	private function prepareJobs($filePath, KalturaThumbParamsOutput $thumbParamsOutput)
+	private function prepareJobs($filePath, BorhanThumbParamsOutput $thumbParamsOutput)
 	{
-		$data = new KalturaCaptureThumbJobData();
+		$data = new BorhanCaptureThumbJobData();
 		$data->srcFileSyncLocalPath = $filePath;
 		$data->thumbParamsOutput = $thumbParamsOutput;
 		
-		$job = new KalturaBatchJob();
+		$job = new BorhanBatchJob();
 		$job->id = 1;
-		$job->status = KalturaBatchJobStatus::PENDING;
+		$job->status = BorhanBatchJobStatus::PENDING;
 		$job->data = $data;
 		
 		return array($job);

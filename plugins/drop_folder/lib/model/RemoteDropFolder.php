@@ -43,7 +43,7 @@ abstract class RemoteDropFolder extends DropFolder
 		}
 		else
 		{
-			KalturaLog::err('Missing temporary directory');
+			BorhanLog::err('Missing temporary directory');
 			return null;			
 		}
 	}

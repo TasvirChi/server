@@ -5,10 +5,10 @@
 // php SyncDropFolderWatcher.php 1 /web/content/drop_folder1/file1.flv 0 >> /var/log/SyncDropFolderWatcher.log
 // php SyncDropFolderWatcher.php 2 /web/content/drop_folder1/file1.flv 1595 >> /var/log/SyncDropFolderWatcher.log
 
-require_once(dirname(__file__).'/lib/KalturaClient.php');
-require_once(dirname(__file__).'/lib/KalturaPlugins/KalturaDropFolderClientPlugin.php');
+require_once(dirname(__file__).'/lib/BorhanClient.php');
+require_once(dirname(__file__).'/lib/BorhanPlugins/BorhanDropFolderClientPlugin.php');
 
-class SyncDropFolderWatcherLogger implements IKalturaLogger
+class SyncDropFolderWatcherLogger implements IBorhanLogger
 {
 	private $prefix = '';
 	
@@ -55,22 +55,22 @@ writeLog($logPrefix, 'file name:'.$fileName);
 writeLog($logPrefix, 'file size:'.$fileSize);
 
 
-$kClientConfig = new KalturaConfiguration();
+$kClientConfig = new BorhanConfiguration();
 $kClientConfig->serviceUrl = $serviceUrl;
 $kClientConfig->curlTimeout = 180;
 $kClientConfig->setLogger(new SyncDropFolderWatcherLogger($logPrefix));
 
-$kClient = new KalturaClient($kClientConfig);
+$kClient = new BorhanClient($kClientConfig);
 $kClient->setPartnerId(-1);
-$dropFolderPlugin = KalturaDropFolderClientPlugin::get($kClient);
+$dropFolderPlugin = BorhanDropFolderClientPlugin::get($kClient);
 
 try 
 {
 	$folder = null;
-	$filter = new KalturaDropFolderFilter();
+	$filter = new BorhanDropFolderFilter();
 	$filter->pathEqual = $folderPath;
-	$filter->typeEqual = KalturaDropFolderType::LOCAL;
-	$filter->statusIn = KalturaDropFolderStatus::ENABLED. ','. KalturaDropFolderStatus::ERROR;
+	$filter->typeEqual = BorhanDropFolderType::LOCAL;
+	$filter->statusIn = BorhanDropFolderStatus::ENABLED. ','. BorhanDropFolderStatus::ERROR;
 	$dropFolders = $dropFolderPlugin->dropFolder->listAction($filter);	
 	writeLog($logPrefix, 'found '.$dropFolders->totalCount.' folders');
 	if($dropFolders->totalCount == 1)
@@ -129,7 +129,7 @@ try
 			else 
 				writeLog($logPrefix, 'file does not exists on the file system');
 
-			if ($file && ($file->status == KalturaDropFolderFileStatus::PARSED || $file->status == KalturaDropFolderFileStatus::UPLOADING))
+			if ($file && ($file->status == BorhanDropFolderFileStatus::PARSED || $file->status == BorhanDropFolderFileStatus::UPLOADING))
 			{
 				writeLog($logPrefix, 'found drop folder file in status PARSED or UPLOADING with id '.$file->id);
 				if ($fileExists) //file exists on the file system and in database
@@ -139,7 +139,7 @@ try
 				}
 				else //file does not exists on file system (temporary file), but exists in database
 				{
-					$dropFolderPlugin->dropFolderFile->updateStatus($file->id, KalturaDropFolderFileStatus::PURGED);
+					$dropFolderPlugin->dropFolderFile->updateStatus($file->id, BorhanDropFolderFileStatus::PURGED);
 					writeLog($logPrefix, 'file deleted from the file system, status updated to PURGED');
 				}
 			}
@@ -193,7 +193,7 @@ function writeLog($prefix, $message)
 
 function addFile($folderId, $filePath, $fileSize, $dropFolderPlugin)
 {
-	$newDropFolderFile = new KalturaDropFolderFile();
+	$newDropFolderFile = new BorhanDropFolderFile();
 	$newDropFolderFile->dropFolderId = $folderId;
 	$newDropFolderFile->fileName = basename($filePath);
 	$newDropFolderFile->fileSize = $fileSize;
@@ -206,12 +206,12 @@ function addFile($folderId, $filePath, $fileSize, $dropFolderPlugin)
 
 function updateFile($fileId, $fileSize, $filePath, $dropFolderPlugin)
 {
-	$updateDropFolderFile = new KalturaDropFolderFile();				
+	$updateDropFolderFile = new BorhanDropFolderFile();				
 	$updateDropFolderFile->lastModificationTime = filemtime($filePath);
 	$updateDropFolderFile->uploadEndDetectedAt = time();
 	$updateDropFolderFile->fileSize = $fileSize;
 	$dropFolderPlugin->dropFolderFile->update($fileId, $updateDropFolderFile);
-	$dropFolderPlugin->dropFolderFile->updateStatus($fileId, KalturaDropFolderFileStatus::PENDING);	
+	$dropFolderPlugin->dropFolderFile->updateStatus($fileId, BorhanDropFolderFileStatus::PENDING);	
 }
 
 function addPendingFile($folderId, $filePath, $fileSize, $dropFolderPlugin)
@@ -223,7 +223,7 @@ function addPendingFile($folderId, $filePath, $fileSize, $dropFolderPlugin)
 
 function getFile($folderId, $fileName, $dropFolderPlugin)
 {
-	$filter = new KalturaDropFolderFileFilter();
+	$filter = new BorhanDropFolderFileFilter();
 	$filter->dropFolderIdEqual = $folderId;
 	$filter->fileNameEqual = $fileName;
 	$dropFolderFiles = $dropFolderPlugin->dropFolderFile->listAction($filter);

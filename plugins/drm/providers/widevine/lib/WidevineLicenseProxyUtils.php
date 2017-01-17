@@ -57,7 +57,7 @@ class WidevineLicenseProxyUtils
 			$baseUrl = WidevinePlugin::getWidevineConfigParam('license_server_url');
 			$portal = WidevinePlugin::getWidevineConfigParam('portal');
 		}
-		KalturaLog::info("sign input: ".$signInput);
+		BorhanLog::info("sign input: ".$signInput);
 		
 		$sign = self::createRequestSignature($signInput, $key, $iv);		
 		$requestParams[self::PTIME] = $ptime;
@@ -68,10 +68,10 @@ class WidevineLicenseProxyUtils
 		$requestParams = array_merge($requestParams, $overrideParams);
 		
 		if(!$baseUrl)
-			throw new KalturaWidevineLicenseProxyException(KalturaWidevineErrorCodes::LICENSE_SERVER_URL_NOT_SET);
+			throw new BorhanWidevineLicenseProxyException(BorhanWidevineErrorCodes::LICENSE_SERVER_URL_NOT_SET);
 					
 		if(!$portal)
-			$portal = WidevinePlugin::KALTURA_PROVIDER;
+			$portal = WidevinePlugin::BORHAN_PROVIDER;
 			
 		$requestParams[self::PORTAL] = $portal;
 		$baseUrl .= '/'.$portal;
@@ -88,7 +88,7 @@ class WidevineLicenseProxyUtils
 	
 	public static function printLicenseResponseStatus($response)
 	{
-		KalturaLog::info("Encoded license response: ". $response);
+		BorhanLog::info("Encoded license response: ". $response);
 		$decoded_response = base64_decode($response);
 
 		// bytes 0 through 3 contain response status code
@@ -101,9 +101,9 @@ class WidevineLicenseProxyUtils
 		}
 		$response_status_dec = hexdec($response_status);
 		if($response_status == 1)
-			KalturaLog::info("License response status OK");
+			BorhanLog::info("License response status OK");
 		else
-			KalturaLog::info("License response status Error with code: ".$response_status_dec);
+			BorhanLog::info("License response status Error with code: ".$response_status_dec);
 	}
 
 	//this utility function used by both batch and API
@@ -112,7 +112,7 @@ class WidevineLicenseProxyUtils
 		$digest = openssl_digest($data, "sha1", true);
 		$key_bytes = self::getKeyBytes($key, $iv);
 		if(!$key_bytes)
-			throw new KalturaWidevineLicenseProxyException(KalturaWidevineErrorCodes::LICENSE_KEY_NOT_SET);
+			throw new BorhanWidevineLicenseProxyException(BorhanWidevineErrorCodes::LICENSE_KEY_NOT_SET);
 		$iv = pack("H*", substr($key_bytes, 0, 32));
     	$key = pack("H*", substr($key_bytes, 32));
 	   	return openssl_encrypt($digest,'aes-256-cbc',$key, false, $iv);
@@ -143,9 +143,9 @@ class WidevineLicenseProxyUtils
 		}	
 		if($isAdmin)
 		{
-			$kmcPolicy = WidevinePlugin::getWidevineConfigParam('kmc_policy');
-			if($kmcPolicy)
-				$overrideParams[self::SETPOLICY] = $kmcPolicy;
+			$bmcPolicy = WidevinePlugin::getWidevineConfigParam('bmc_policy');
+			if($bmcPolicy)
+				$overrideParams[self::SETPOLICY] = $bmcPolicy;
 		}	
 		return $overrideParams;
 	}
@@ -157,15 +157,15 @@ class WidevineLicenseProxyUtils
 			!array_key_exists(self::MD, $requestParams) ||
 			!array_key_exists(self::ASSETID, $requestParams) 
 			)
-			throw new KalturaWidevineLicenseProxyException(KalturaWidevineErrorCodes::MISSING_MANDATORY_SIGN_PARAMETER);		
+			throw new BorhanWidevineLicenseProxyException(BorhanWidevineErrorCodes::MISSING_MANDATORY_SIGN_PARAMETER);		
 	}
 	
 	protected static function doCurl($baseUrl, $requestParams)
 	{
 		$requestParamsStr = http_build_query($requestParams, '', '&');
 		
-		KalturaLog::info("License request URL: ".$baseUrl);
-		KalturaLog::info("License request params: ".$requestParamsStr);
+		BorhanLog::info("License request URL: ".$baseUrl);
+		BorhanLog::info("License request params: ".$requestParamsStr);
 		
 		$ch = curl_init();		
 		curl_setopt($ch, CURLOPT_URL, $baseUrl);

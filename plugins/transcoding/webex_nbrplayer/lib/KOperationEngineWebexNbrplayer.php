@@ -64,7 +64,7 @@ public function buildCfgFile($inputFile, $outputFile, $format=null,
 		array("inputfile=".$inputFile,"outputfile=".$outputFile,"media=".$format,$format,"width=".$width,"height=".$height,
 				"videocodec=".$videoCodec,"audiocodec=".$audioCodec,"videokeyframes=".$keyFramesInSec,"maxstream=".$bitrate),
 		self::WebexCfgTemplate);
-	KalturaLog::log($cfg);
+	BorhanLog::log($cfg);
 	return $cfg;
 }
 
@@ -81,7 +81,7 @@ public function buildCfgFile($inputFile, $outputFile, $format=null,
 	public function __construct($cmd, $outFilePath)
 	{
 		parent::__construct($cmd,$outFilePath);
-		KalturaLog::info(": cmd($cmd), outFilePath($outFilePath)");
+		BorhanLog::info(": cmd($cmd), outFilePath($outFilePath)");
 	}
 
 	protected function getCmdLine()
@@ -92,15 +92,15 @@ public function buildCfgFile($inputFile, $outputFile, $format=null,
 		$this->addToLogFile("Webex CFG:\n*******\n$cfgStr\n*******\n");
 
 		$exeCmd =  parent::getCmdLine();
-		KalturaLog::info("command line: $exeCmd");
-		KalturaLog::info(print_r($this,true));
+		BorhanLog::info("command line: $exeCmd");
+		BorhanLog::info(print_r($this,true));
 		return $exeCmd;
 	}
 
-	public function configure(KalturaConvartableJobData $data, KalturaBatchJob $job)
+	public function configure(BorhanConvartableJobData $data, BorhanBatchJob $job)
 	{
 		parent::configure($data, $job);
-		KalturaLog::info("taskConfig-->".print_r(KBatchBase::$taskConfig,true)."\ndata->".print_r($data,true));
+		BorhanLog::info("taskConfig-->".print_r(KBatchBase::$taskConfig,true)."\ndata->".print_r($data,true));
 	}
 	
 	public function operate(kOperator $operator = null, $inFilePath, $configFilePath = null)
@@ -144,7 +144,7 @@ public function buildCfgFile($inputFile, $outputFile, $format=null,
 						if(!file_exists($fileName)){
 							break;
 						}
-						KalturaLog::err("Failed to move ($fileName) to ($toFile)");
+						BorhanLog::err("Failed to move ($fileName) to ($toFile)");
 						Sleep(60);
 					}
 				}

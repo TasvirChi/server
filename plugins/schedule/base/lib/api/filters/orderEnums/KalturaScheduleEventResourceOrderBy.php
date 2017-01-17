@@ -3,7 +3,7 @@
  * @package plugins.schedule
  * @subpackage api.filters.enum
  */
-class KalturaScheduleEventResourceOrderBy extends KalturaStringEnum
+class BorhanScheduleEventResourceOrderBy extends BorhanStringEnum
 {
 	const CREATED_AT_ASC = "+createdAt";
 	const CREATED_AT_DESC = "-createdAt";

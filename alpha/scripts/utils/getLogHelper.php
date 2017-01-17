@@ -9,7 +9,7 @@ if($argc < 2) {
 $jobId = $argv[1];
 chdir(__DIR__.'/../');
 require_once(__DIR__ . '/../bootstrap.php');
-$batchConfigDir = KALTURA_ROOT_PATH .'/configurations/batch/';
+$batchConfigDir = BORHAN_ROOT_PATH .'/configurations/batch/';
 
 
 

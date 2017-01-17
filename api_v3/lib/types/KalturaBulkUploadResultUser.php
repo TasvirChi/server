@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaBulkUploadResultUser extends KalturaBulkUploadResult
+class BorhanBulkUploadResultUser extends BorhanBulkUploadResult
 {
     /**
      * @var string
@@ -92,7 +92,7 @@ class KalturaBulkUploadResultUser extends KalturaBulkUploadResult
 	);
 	
     /* (non-PHPdoc)
-     * @see KalturaBulkUploadResult::getMapBetweenObjects()
+     * @see BorhanBulkUploadResult::getMapBetweenObjects()
      */
     public function getMapBetweenObjects()
 	{
@@ -100,7 +100,7 @@ class KalturaBulkUploadResultUser extends KalturaBulkUploadResult
 	}
 	
     /* (non-PHPdoc)
-     * @see KalturaBulkUploadResult::toInsertableObject()
+     * @see BorhanBulkUploadResult::toInsertableObject()
      */
     public function toInsertableObject($object_to_fill = null, $props_to_skip = array())
 	{
@@ -115,7 +115,7 @@ class KalturaBulkUploadResultUser extends KalturaBulkUploadResult
 	}
 
     /* (non-PHPdoc)
-     * @see KalturaObject::toObject()
+     * @see BorhanObject::toObject()
      */
     public function toObject($object_to_fill = null, $props_to_skip = array())
 	{

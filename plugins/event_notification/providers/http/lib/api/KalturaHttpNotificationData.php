@@ -4,11 +4,11 @@
  * @subpackage api.objects
  * @abstract
  */
-abstract class KalturaHttpNotificationData extends KalturaObject
+abstract class BorhanHttpNotificationData extends BorhanObject
 {
 	/**
 	 * @param kHttpNotificationData $coreObject
-	 * @return KalturaHttpNotificationData
+	 * @return BorhanHttpNotificationData
 	 */
 	public static function getInstance(kHttpNotificationData $coreObject)
 	{
@@ -17,19 +17,19 @@ abstract class KalturaHttpNotificationData extends KalturaObject
 		switch ($dataType)
 		{
 			case 'kHttpNotificationDataFields':
-				$data = new KalturaHttpNotificationDataFields();
+				$data = new BorhanHttpNotificationDataFields();
 				break;
 				
 			case 'kHttpNotificationDataText':
-				$data = new KalturaHttpNotificationDataText();
+				$data = new BorhanHttpNotificationDataText();
 				break;
 				
 			case 'kHttpNotificationObjectData':
-				$data = new KalturaHttpNotificationObjectData();
+				$data = new BorhanHttpNotificationObjectData();
 				break;
 				
 			default:
-				$data = KalturaPluginManager::loadObject('KalturaHttpNotificationData', $dataType);
+				$data = BorhanPluginManager::loadObject('BorhanHttpNotificationData', $dataType);
 				break;
 		}
 		

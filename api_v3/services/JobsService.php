@@ -16,7 +16,7 @@
  * @package api
  * @subpackage services
  */
-class JobsService extends KalturaBaseService 
+class JobsService extends BorhanBaseService 
 {
 	// use initService to add a peer to the partner filter
 	/**
@@ -39,11 +39,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action getImportStatus
 	 * @param int $jobId the id of the import job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function getImportStatusAction($jobId)
 	{
-		return $this->getStatusAction($jobId, KalturaBatchJobType::IMPORT);
+		return $this->getStatusAction($jobId, BorhanBatchJobType::IMPORT);
 	}
 	
 	
@@ -52,11 +52,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action deleteImport
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function deleteImportAction($jobId)
 	{
-		return $this->deleteJobAction($jobId, KalturaBatchJobType::IMPORT);
+		return $this->deleteJobAction($jobId, BorhanBatchJobType::IMPORT);
 	}
 	
 	
@@ -65,11 +65,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action abortImport
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function abortImportAction($jobId)
 	{
-		return $this->abortJobAction($jobId, KalturaBatchJobType::IMPORT);
+		return $this->abortJobAction($jobId, BorhanBatchJobType::IMPORT);
 	}
 	
 	
@@ -78,11 +78,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action retryImport
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function retryImportAction($jobId)
 	{
-		return $this->retryJobAction($jobId, KalturaBatchJobType::IMPORT);
+		return $this->retryJobAction($jobId, BorhanBatchJobType::IMPORT);
 	}
 	
 	/**
@@ -99,11 +99,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action getProvisionProvideStatus
 	 * @param int $jobId the id of the ProvisionProvide job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function getProvisionProvideStatusAction($jobId)
 	{
-		return $this->getStatusAction($jobId, KalturaBatchJobType::PROVISION_PROVIDE);
+		return $this->getStatusAction($jobId, BorhanBatchJobType::PROVISION_PROVIDE);
 	}
 	
 	
@@ -112,11 +112,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action deleteProvisionProvide
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function deleteProvisionProvideAction($jobId)
 	{
-		return $this->deleteJobAction($jobId, KalturaBatchJobType::PROVISION_PROVIDE);
+		return $this->deleteJobAction($jobId, BorhanBatchJobType::PROVISION_PROVIDE);
 	}
 	
 	
@@ -125,11 +125,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action abortProvisionProvide
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function abortProvisionProvideAction($jobId)
 	{
-		return $this->abortJobAction($jobId, KalturaBatchJobType::PROVISION_PROVIDE);
+		return $this->abortJobAction($jobId, BorhanBatchJobType::PROVISION_PROVIDE);
 	}
 	
 	
@@ -138,11 +138,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action retryProvisionProvide
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function retryProvisionProvideAction($jobId)
 	{
-		return $this->retryJobAction($jobId, KalturaBatchJobType::PROVISION_PROVIDE);
+		return $this->retryJobAction($jobId, BorhanBatchJobType::PROVISION_PROVIDE);
 	}
 	
 	/**
@@ -158,11 +158,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action getProvisionDeleteStatus
 	 * @param int $jobId the id of the ProvisionDelete job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function getProvisionDeleteStatusAction($jobId)
 	{
-		return $this->getStatusAction($jobId, KalturaBatchJobType::PROVISION_DELETE);
+		return $this->getStatusAction($jobId, BorhanBatchJobType::PROVISION_DELETE);
 	}
 	
 	
@@ -171,11 +171,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action deleteProvisionDelete
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function deleteProvisionDeleteAction($jobId)
 	{
-		return $this->deleteJobAction($jobId, KalturaBatchJobType::PROVISION_DELETE);
+		return $this->deleteJobAction($jobId, BorhanBatchJobType::PROVISION_DELETE);
 	}
 	
 	
@@ -184,11 +184,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action abortProvisionDelete
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function abortProvisionDeleteAction($jobId)
 	{
-		return $this->abortJobAction($jobId, KalturaBatchJobType::PROVISION_DELETE);
+		return $this->abortJobAction($jobId, BorhanBatchJobType::PROVISION_DELETE);
 	}
 	
 	
@@ -197,11 +197,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action retryProvisionDelete
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function retryProvisionDeleteAction($jobId)
 	{
-		return $this->retryJobAction($jobId, KalturaBatchJobType::PROVISION_DELETE);
+		return $this->retryJobAction($jobId, BorhanBatchJobType::PROVISION_DELETE);
 	}
 	
 	/**
@@ -217,11 +217,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action getBulkUploadStatus
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function getBulkUploadStatusAction($jobId)
 	{
-		return $this->getStatusAction($jobId, KalturaBatchJobType::BULKUPLOAD);
+		return $this->getStatusAction($jobId, BorhanBatchJobType::BULKUPLOAD);
 	}
 	
 	
@@ -230,11 +230,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action deleteBulkUpload
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function deleteBulkUploadAction($jobId)
 	{
-		return $this->deleteJobAction($jobId, KalturaBatchJobType::BULKUPLOAD);
+		return $this->deleteJobAction($jobId, BorhanBatchJobType::BULKUPLOAD);
 	}
 	
 	
@@ -243,11 +243,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action abortBulkUpload
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function abortBulkUploadAction($jobId)
 	{
-		return $this->abortJobAction($jobId, KalturaBatchJobType::BULKUPLOAD);
+		return $this->abortJobAction($jobId, BorhanBatchJobType::BULKUPLOAD);
 	}
 	
 	
@@ -256,11 +256,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action retryBulkUpload
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function retryBulkUploadAction($jobId)
 	{
-		return $this->retryJobAction($jobId, KalturaBatchJobType::BULKUPLOAD);
+		return $this->retryJobAction($jobId, BorhanBatchJobType::BULKUPLOAD);
 	}
 	
 
@@ -278,11 +278,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action getConvertStatus
 	 * @param int $jobId the id of the convert job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function getConvertStatusAction($jobId)
 	{
-		return $this->getStatusAction($jobId, KalturaBatchJobType::CONVERT);
+		return $this->getStatusAction($jobId, BorhanBatchJobType::CONVERT);
 	}
 	
 	
@@ -292,11 +292,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action getConvertCollectionStatus
 	 * @param int $jobId the id of the convert profile job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function getConvertCollectionStatusAction($jobId)
 	{
-		return $this->getStatusAction($jobId, KalturaBatchJobType::CONVERT_COLLECTION);
+		return $this->getStatusAction($jobId, BorhanBatchJobType::CONVERT_COLLECTION);
 	}
 	
 	
@@ -306,11 +306,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action getConvertProfileStatus
 	 * @param int $jobId the id of the convert profile job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function getConvertProfileStatusAction($jobId)
 	{
-		return $this->getStatusAction($jobId, KalturaBatchJobType::CONVERT_PROFILE);
+		return $this->getStatusAction($jobId, BorhanBatchJobType::CONVERT_PROFILE);
 	}
 	
 	
@@ -320,29 +320,29 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action addConvertProfileJob
 	 * @param string $entryId the id of the entry to be reconverted  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function addConvertProfileJobAction($entryId)
 	{
 		$entry = entryPeer::retrieveByPK($entryId);
 		if(!$entry)
-			throw new KalturaAPIException(APIErrors::INVALID_ENTRY_ID, 'entry', $entryId);
+			throw new BorhanAPIException(APIErrors::INVALID_ENTRY_ID, 'entry', $entryId);
 			
 		$flavorAsset = assetPeer::retrieveOriginalByEntryId($entryId);
 		if(!$flavorAsset)
-			throw new KalturaAPIException(KalturaErrors::ORIGINAL_FLAVOR_ASSET_IS_MISSING);
+			throw new BorhanAPIException(BorhanErrors::ORIGINAL_FLAVOR_ASSET_IS_MISSING);
 		
 		$syncKey = $flavorAsset->getSyncKey(flavorAsset::FILE_SYNC_FLAVOR_ASSET_SUB_TYPE_ASSET);
 		if(!kFileSyncUtils::file_exists($syncKey, true))
-			throw new KalturaAPIException(APIErrors::NO_FILES_RECEIVED);
+			throw new BorhanAPIException(APIErrors::NO_FILES_RECEIVED);
 			
 		$inputFileSyncLocalPath = kFileSyncUtils::getLocalFilePathForKey($syncKey);
 		
 		$batchJob = kJobsManager::addConvertProfileJob(null, $entry, $flavorAsset->getId(), $inputFileSyncLocalPath);
 		if(!$batchJob)
-			throw new KalturaAPIException(APIErrors::UNABLE_TO_CONVERT_ENTRY);
+			throw new BorhanAPIException(APIErrors::UNABLE_TO_CONVERT_ENTRY);
 		
-		return $this->getStatusAction($batchJob->getId(), KalturaBatchJobType::CONVERT_PROFILE);
+		return $this->getStatusAction($batchJob->getId(), BorhanBatchJobType::CONVERT_PROFILE);
 	}
 	
 	
@@ -351,11 +351,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action deleteConvert
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function deleteConvertAction($jobId)
 	{
-		return $this->deleteJobAction($jobId, KalturaBatchJobType::CONVERT);
+		return $this->deleteJobAction($jobId, BorhanBatchJobType::CONVERT);
 	}
 
 	
@@ -364,11 +364,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action abortConvert
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function abortConvertAction($jobId)
 	{
-		return $this->abortJobAction($jobId, KalturaBatchJobType::CONVERT);
+		return $this->abortJobAction($jobId, BorhanBatchJobType::CONVERT);
 	}
 
 	
@@ -377,11 +377,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action retryConvert
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function retryConvertAction($jobId)
 	{
-		return $this->retryJobAction($jobId, KalturaBatchJobType::CONVERT);
+		return $this->retryJobAction($jobId, BorhanBatchJobType::CONVERT);
 	}
 
 	
@@ -390,11 +390,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action deleteConvertCollection
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function deleteConvertCollectionAction($jobId)
 	{
-		return $this->deleteJobAction($jobId, KalturaBatchJobType::CONVERT_COLLECTION);
+		return $this->deleteJobAction($jobId, BorhanBatchJobType::CONVERT_COLLECTION);
 	}
 
 	
@@ -403,11 +403,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action deleteConvertProfile
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function deleteConvertProfileAction($jobId)
 	{
-		return $this->deleteJobAction($jobId, KalturaBatchJobType::CONVERT_PROFILE);
+		return $this->deleteJobAction($jobId, BorhanBatchJobType::CONVERT_PROFILE);
 	}
 
 	
@@ -416,11 +416,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action abortConvertCollection
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function abortConvertCollectionAction($jobId)
 	{
-		return $this->abortJobAction($jobId, KalturaBatchJobType::CONVERT_COLLECTION);
+		return $this->abortJobAction($jobId, BorhanBatchJobType::CONVERT_COLLECTION);
 	}
 
 	
@@ -429,11 +429,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action abortConvertProfile
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function abortConvertProfileAction($jobId)
 	{
-		return $this->abortJobAction($jobId, KalturaBatchJobType::CONVERT_PROFILE);
+		return $this->abortJobAction($jobId, BorhanBatchJobType::CONVERT_PROFILE);
 	}
 
 	
@@ -442,11 +442,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action retryConvertCollection
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function retryConvertCollectionAction($jobId)
 	{
-		return $this->retryJobAction($jobId, KalturaBatchJobType::CONVERT_COLLECTION);
+		return $this->retryJobAction($jobId, BorhanBatchJobType::CONVERT_COLLECTION);
 	}
 
 	
@@ -455,11 +455,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action retryConvertProfile
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function retryConvertProfileAction($jobId)
 	{
-		return $this->retryJobAction($jobId, KalturaBatchJobType::CONVERT_PROFILE);
+		return $this->retryJobAction($jobId, BorhanBatchJobType::CONVERT_PROFILE);
 	}
 	
 // --------------------------------- ConvertJob functions 	--------------------------------- //
@@ -474,11 +474,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action getPostConvertStatus
 	 * @param int $jobId the id of the post convert job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function getPostConvertStatusAction($jobId)
 	{
-		return $this->getStatusAction($jobId, KalturaBatchJobType::POSTCONVERT);
+		return $this->getStatusAction($jobId, BorhanBatchJobType::POSTCONVERT);
 	}
 	
 	
@@ -487,11 +487,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action deletePostConvert
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function deletePostConvertAction($jobId)
 	{
-		return $this->deleteJobAction($jobId, KalturaBatchJobType::POSTCONVERT);
+		return $this->deleteJobAction($jobId, BorhanBatchJobType::POSTCONVERT);
 	}
 	
 	
@@ -500,11 +500,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action abortPostConvert
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function abortPostConvertAction($jobId)
 	{
-		return $this->abortJobAction($jobId, KalturaBatchJobType::POSTCONVERT);
+		return $this->abortJobAction($jobId, BorhanBatchJobType::POSTCONVERT);
 	}
 	
 	
@@ -513,11 +513,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action retryPostConvert
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function retryPostConvertAction($jobId)
 	{
-		return $this->retryJobAction($jobId, KalturaBatchJobType::POSTCONVERT);
+		return $this->retryJobAction($jobId, BorhanBatchJobType::POSTCONVERT);
 	}
 	
 
@@ -531,11 +531,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action getCaptureThumbStatus
 	 * @param int $jobId the id of the capture thumbnail job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function getCaptureThumbStatusAction($jobId)
 	{
-		return $this->getStatusAction($jobId, KalturaBatchJobType::CAPTURE_THUMB);
+		return $this->getStatusAction($jobId, BorhanBatchJobType::CAPTURE_THUMB);
 	}
 	
 	
@@ -544,11 +544,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action deleteCaptureThumb
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function deleteCaptureThumbAction($jobId)
 	{
-		return $this->deleteJobAction($jobId, KalturaBatchJobType::CAPTURE_THUMB);
+		return $this->deleteJobAction($jobId, BorhanBatchJobType::CAPTURE_THUMB);
 	}
 	
 	
@@ -557,11 +557,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action abortCaptureThumb
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function abortCaptureThumbAction($jobId)
 	{
-		return $this->abortJobAction($jobId, KalturaBatchJobType::CAPTURE_THUMB);
+		return $this->abortJobAction($jobId, BorhanBatchJobType::CAPTURE_THUMB);
 	}
 	
 	
@@ -570,11 +570,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action retryCaptureThumb
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function retryCaptureThumbAction($jobId)
 	{
-		return $this->retryJobAction($jobId, KalturaBatchJobType::CAPTURE_THUMB);
+		return $this->retryJobAction($jobId, BorhanBatchJobType::CAPTURE_THUMB);
 	}
 	
 
@@ -589,11 +589,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action getExtractMediaStatus
 	 * @param int $jobId the id of the extract media job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function getExtractMediaStatusAction($jobId)
 	{
-		return $this->getStatusAction($jobId, KalturaBatchJobType::EXTRACT_MEDIA);
+		return $this->getStatusAction($jobId, BorhanBatchJobType::EXTRACT_MEDIA);
 	}
 	
 	
@@ -602,11 +602,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action deleteExtractMedia
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function deleteExtractMediaAction($jobId)
 	{
-		return $this->deleteJobAction($jobId, KalturaBatchJobType::EXTRACT_MEDIA);
+		return $this->deleteJobAction($jobId, BorhanBatchJobType::EXTRACT_MEDIA);
 	}
 	
 	
@@ -615,11 +615,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action abortExtractMedia
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function abortExtractMediaAction($jobId)
 	{
-		return $this->abortJobAction($jobId, KalturaBatchJobType::EXTRACT_MEDIA);
+		return $this->abortJobAction($jobId, BorhanBatchJobType::EXTRACT_MEDIA);
 	}
 	
 	
@@ -628,11 +628,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action retryExtractMedia
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function retryExtractMediaAction($jobId)
 	{
-		return $this->retryJobAction($jobId, KalturaBatchJobType::EXTRACT_MEDIA);
+		return $this->retryJobAction($jobId, BorhanBatchJobType::EXTRACT_MEDIA);
 	}
 	
 
@@ -648,11 +648,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action getStorageExportStatus
 	 * @param int $jobId the id of the export job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function getStorageExportStatusAction($jobId)
 	{
-		return $this->getStatusAction($jobId, KalturaBatchJobType::STORAGE_EXPORT);
+		return $this->getStatusAction($jobId, BorhanBatchJobType::STORAGE_EXPORT);
 	}
 	
 	
@@ -661,11 +661,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action deleteStorageExport
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function deleteStorageExportAction($jobId)
 	{
-		return $this->deleteJobAction($jobId, KalturaBatchJobType::STORAGE_EXPORT);
+		return $this->deleteJobAction($jobId, BorhanBatchJobType::STORAGE_EXPORT);
 	}
 	
 	
@@ -674,11 +674,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action abortStorageExport
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function abortStorageExportAction($jobId)
 	{
-		return $this->abortJobAction($jobId, KalturaBatchJobType::STORAGE_EXPORT);
+		return $this->abortJobAction($jobId, BorhanBatchJobType::STORAGE_EXPORT);
 	}
 	
 	
@@ -687,11 +687,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action retryStorageExport
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function retryStorageExportAction($jobId)
 	{
-		return $this->retryJobAction($jobId, KalturaBatchJobType::STORAGE_EXPORT);
+		return $this->retryJobAction($jobId, BorhanBatchJobType::STORAGE_EXPORT);
 	}
 	
 
@@ -707,11 +707,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action getStorageDeleteStatus
 	 * @param int $jobId the id of the export job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function getStorageDeleteStatusAction($jobId)
 	{
-		return $this->getStatusAction($jobId, KalturaBatchJobType::STORAGE_DELETE);
+		return $this->getStatusAction($jobId, BorhanBatchJobType::STORAGE_DELETE);
 	}
 	
 	
@@ -720,11 +720,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action deleteStorageDelete
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function deleteStorageDeleteAction($jobId)
 	{
-		return $this->deleteJobAction($jobId, KalturaBatchJobType::STORAGE_DELETE);
+		return $this->deleteJobAction($jobId, BorhanBatchJobType::STORAGE_DELETE);
 	}
 	
 	
@@ -733,11 +733,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action abortStorageDelete
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function abortStorageDeleteAction($jobId)
 	{
-		return $this->abortJobAction($jobId, KalturaBatchJobType::STORAGE_DELETE);
+		return $this->abortJobAction($jobId, BorhanBatchJobType::STORAGE_DELETE);
 	}
 	
 	
@@ -746,11 +746,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action retryStorageDelete
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function retryStorageDeleteAction($jobId)
 	{
-		return $this->retryJobAction($jobId, KalturaBatchJobType::STORAGE_DELETE);
+		return $this->retryJobAction($jobId, BorhanBatchJobType::STORAGE_DELETE);
 	}
 	
 
@@ -765,11 +765,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action getNotificationStatus
 	 * @param int $jobId the id of the Notification job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function getNotificationStatusAction($jobId)
 	{
-		return $this->getStatusAction($jobId, KalturaBatchJobType::NOTIFICATION);
+		return $this->getStatusAction($jobId, BorhanBatchJobType::NOTIFICATION);
 	}
 	
 	
@@ -778,11 +778,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action deleteNotification
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function deleteNotificationAction($jobId)
 	{
-		return $this->deleteJobAction($jobId, KalturaBatchJobType::NOTIFICATION);
+		return $this->deleteJobAction($jobId, BorhanBatchJobType::NOTIFICATION);
 	}
 	
 	
@@ -791,11 +791,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action abortNotification
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function abortNotificationAction($jobId)
 	{
-		return $this->abortJobAction($jobId, KalturaBatchJobType::NOTIFICATION);
+		return $this->abortJobAction($jobId, BorhanBatchJobType::NOTIFICATION);
 	}
 	
 	
@@ -804,11 +804,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action retryNotification
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function retryNotificationAction($jobId)
 	{
-		return $this->retryJobAction($jobId, KalturaBatchJobType::NOTIFICATION);
+		return $this->retryJobAction($jobId, BorhanBatchJobType::NOTIFICATION);
 	}
 	
 	
@@ -824,11 +824,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action getMailStatus
 	 * @param int $jobId the id of the mail job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function getMailStatusAction($jobId)
 	{
-		return $this->getStatusAction($jobId, KalturaBatchJobType::MAIL);
+		return $this->getStatusAction($jobId, BorhanBatchJobType::MAIL);
 	}
 	
 	
@@ -837,11 +837,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action deleteMail
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function deleteMailAction($jobId)
 	{
-		return $this->deleteJobAction($jobId, KalturaBatchJobType::MAIL);
+		return $this->deleteJobAction($jobId, BorhanBatchJobType::MAIL);
 	}
 	
 	
@@ -850,11 +850,11 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action abortMail
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function abortMailAction($jobId)
 	{
-		return $this->abortJobAction($jobId, KalturaBatchJobType::MAIL);
+		return $this->abortJobAction($jobId, BorhanBatchJobType::MAIL);
 	}
 	
 	
@@ -863,20 +863,20 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action retryMail
 	 * @param int $jobId the id of the bulk upload job  
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function retryMailAction($jobId)
 	{
-		return $this->retryJobAction($jobId, KalturaBatchJobType::MAIL);
+		return $this->retryJobAction($jobId, BorhanBatchJobType::MAIL);
 	}
 	
 	/**
 	 * Adds new mail job
 	 * 
 	 * @action addMailJob
-	 * @param KalturaMailJobData $mailJobData
+	 * @param BorhanMailJobData $mailJobData
 	 */
-	function addMailJobAction(KalturaMailJobData $mailJobData)
+	function addMailJobAction(BorhanMailJobData $mailJobData)
 	{
 		$mailJobData->validatePropertyNotNull("mailType");
 		$mailJobData->validatePropertyNotNull("recipientEmail");
@@ -908,10 +908,10 @@ class JobsService extends KalturaBaseService
 	 * batch addBatchJob action allows to add a generic BatchJob 
 	 * 
 	 * @action addBatchJob
-	 * @param KalturaBatchJob $batchJob  
-	 * @return KalturaBatchJob 
+	 * @param BorhanBatchJob $batchJob  
+	 * @return BorhanBatchJob 
 	 */
-	function addBatchJobAction(KalturaBatchJob $batchJob)
+	function addBatchJobAction(BorhanBatchJob $batchJob)
 	{
 		kJobsManager::addJob($batchJob->toObject(), $batchJob->data, $batchJob->jobType, $batchJob->jobSubType);	
 	}
@@ -923,34 +923,34 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action getStatus
 	 * @param int $jobId the id of the job  
-	 * @param KalturaBatchJobType $jobType the type of the job
-	 * @param KalturaFilterPager $pager pager for the child jobs  
-	 * @return KalturaBatchJobResponse 
+	 * @param BorhanBatchJobType $jobType the type of the job
+	 * @param BorhanFilterPager $pager pager for the child jobs  
+	 * @return BorhanBatchJobResponse 
 	 */
-	function getStatusAction($jobId, $jobType, KalturaFilterPager $pager = null)
+	function getStatusAction($jobId, $jobType, BorhanFilterPager $pager = null)
 	{
 		$dbJobType = kPluginableEnumsManager::apiToCore('BatchJobType', $jobType);
 		
 		$dbBatchJob = BatchJobPeer::retrieveByPK($jobId);
 		if($dbBatchJob->getJobType() != $dbJobType)
-			throw new KalturaAPIException(APIErrors::GET_EXCLUSIVE_JOB_WRONG_TYPE, $jobType, $dbBatchJob->getId());
+			throw new BorhanAPIException(APIErrors::GET_EXCLUSIVE_JOB_WRONG_TYPE, $jobType, $dbBatchJob->getId());
 		
 		$dbBatchJobLock = BatchJobLockPeer::retrieveByPK($jobId);
 		
-		$job = new KalturaBatchJob();
+		$job = new BorhanBatchJob();
 		$job->fromBatchJob($dbBatchJob,$dbBatchJobLock);
 		
-		$batchJobResponse = new KalturaBatchJobResponse();
+		$batchJobResponse = new BorhanBatchJobResponse();
 		$batchJobResponse->batchJob = $job;
 		
 		if(!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 			
 		$c = new Criteria();
 		$pager->attachToCriteria($c);
 		
 		$childBatchJobs = $dbBatchJob->getChildJobs($c);
-		$batchJobResponse->childBatchJobs = KalturaBatchJobArray::fromBatchJobArray($childBatchJobs);
+		$batchJobResponse->childBatchJobs = BorhanBatchJobArray::fromBatchJobArray($childBatchJobs);
 		
 		return $batchJobResponse;
 	}
@@ -962,8 +962,8 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action deleteJob
 	 * @param int $jobId the id of the job  
-	 * @param KalturaBatchJobType $jobType the type of the job  
-	 * @return KalturaBatchJobResponse 
+	 * @param BorhanBatchJobType $jobType the type of the job  
+	 * @return BorhanBatchJobResponse 
 	 */
 	function deleteJobAction($jobId, $jobType)
 	{
@@ -979,8 +979,8 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action abortJob
 	 * @param int $jobId the id of the job  
-	 * @param KalturaBatchJobType $jobType the type of the job  
-	 * @return KalturaBatchJobResponse 
+	 * @param BorhanBatchJobType $jobType the type of the job  
+	 * @return BorhanBatchJobResponse 
 	 */
 	function abortJobAction($jobId, $jobType)
 	{
@@ -996,9 +996,9 @@ class JobsService extends KalturaBaseService
 	 * 
 	 * @action retryJob
 	 * @param int $jobId the id of the job  
-	 * @param KalturaBatchJobType $jobType the type of the job  
+	 * @param BorhanBatchJobType $jobType the type of the job  
 	 * @param bool $force should we force the restart. 
-	 * @return KalturaBatchJobResponse 
+	 * @return BorhanBatchJobResponse 
 	 */
 	function retryJobAction($jobId, $jobType, $force = false)
 	{
@@ -1022,14 +1022,14 @@ class JobsService extends KalturaBaseService
 	 * list Batch Jobs 
 	 * 
 	 * @action listBatchJobs
-	 * @param KalturaBatchJobFilter $filter
-	 * @param KalturaFilterPager $pager  
-	 * @return KalturaBatchJobListResponse
+	 * @param BorhanBatchJobFilter $filter
+	 * @param BorhanFilterPager $pager  
+	 * @return BorhanBatchJobListResponse
 	 */
-	function listBatchJobsAction(KalturaBatchJobFilter $filter = null, KalturaFilterPager $pager = null)
+	function listBatchJobsAction(BorhanBatchJobFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter) 
-			$filter = new KalturaBatchJobFilter();
+			$filter = new BorhanBatchJobFilter();
 			
 		$batchJobFilter = new BatchJobFilter (true);
 		$filter->toObject($batchJobFilter);
@@ -1040,7 +1040,7 @@ class JobsService extends KalturaBaseService
 		$batchJobFilter->attachToCriteria($c);
 		
 		if(!$pager)
-		   $pager = new KalturaFilterPager();
+		   $pager = new BorhanFilterPager();
 		
 		$pager->attachToCriteria($c);
 		
@@ -1051,9 +1051,9 @@ class JobsService extends KalturaBaseService
 		$c->setLimit(false);
 		$count = BatchJobPeer::doCount($c);
 
-		$newList = KalturaBatchJobArray::fromStatisticsBatchJobArray($list );
+		$newList = BorhanBatchJobArray::fromStatisticsBatchJobArray($list );
 		
-		$response = new KalturaBatchJobListResponse();
+		$response = new BorhanBatchJobListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $count;
 		

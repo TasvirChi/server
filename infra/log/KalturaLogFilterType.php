@@ -3,7 +3,7 @@
  * @package infra
  * @subpackage log
  */
-class KalturaLogFilterType implements Zend_Log_Filter_Interface
+class BorhanLogFilterType implements Zend_Log_Filter_Interface
 {
 	/**
 	 * @param string

@@ -3,7 +3,7 @@
  * @package plugins.drm
  * @subpackage Admin
  */
-class DrmProfileConfigureAction extends KalturaApplicationPlugin
+class DrmProfileConfigureAction extends BorhanApplicationPlugin
 {	
 	/**
 	 * @return string - absolute file path of the phtml template
@@ -15,7 +15,7 @@ class DrmProfileConfigureAction extends KalturaApplicationPlugin
 	
 	public function getRequiredPermissions()
 	{
-		return array(Kaltura_Client_Enum_PermissionName::SYSTEM_ADMIN_DRM_PROFILE_MODIFY);
+		return array(Borhan_Client_Enum_PermissionName::SYSTEM_ADMIN_DRM_PROFILE_MODIFY);
 	}
 	
 	public function doAction(Zend_Controller_Action $action)
@@ -38,7 +38,7 @@ class DrmProfileConfigureAction extends KalturaApplicationPlugin
 				$action->view->formValid = $this->processForm($drmProfileForm, $request->getPost(), $partnerId, $drmProfileId);
 				if(!is_null($drmProfileId))
 				{
-					$drmProfile = $drmProfileForm->getObject("Kaltura_Client_Drm_Type_DrmProfile", $request->getPost(), false, true);
+					$drmProfile = $drmProfileForm->getObject("Borhan_Client_Drm_Type_DrmProfile", $request->getPost(), false, true);
 				}
 			}
 			else
@@ -46,7 +46,7 @@ class DrmProfileConfigureAction extends KalturaApplicationPlugin
 				if (!is_null($drmProfileId))
 				{
 					$client = Infra_ClientHelper::getClient();
-					$drmPluginClient = Kaltura_Client_Drm_Plugin::get($client);
+					$drmPluginClient = Borhan_Client_Drm_Plugin::get($client);
 					$drmProfile = $drmPluginClient->drmProfile->get($drmProfileId);
 					$partnerId = $drmProfile->partnerId;
 					$drmProfileProvider = $drmProfile->provider;
@@ -63,12 +63,12 @@ class DrmProfileConfigureAction extends KalturaApplicationPlugin
 		catch(Exception $e)
 		{
 		    $action->view->formValid = false;
-			KalturaLog::err($e->getMessage() . "\n" . $e->getTraceAsString());
+			BorhanLog::err($e->getMessage() . "\n" . $e->getTraceAsString());
 			$action->view->errMessage = $e->getMessage();
 		}
 		
 		$action->view->form = $drmProfileForm;
-		$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaApplicationPartialView');
+		$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanApplicationPartialView');
 		foreach($pluginInstances as $pluginInstance)
 		{
 			$drmProfilePlugins = $pluginInstance->getApplicationPartialViews('plugin', get_class($this));
@@ -76,7 +76,7 @@ class DrmProfileConfigureAction extends KalturaApplicationPlugin
 				continue;
 			foreach($drmProfilePlugins as $plugin)
 			{
-				/* @var $plugin Kaltura_View_Helper_PartialViewPlugin */
+				/* @var $plugin Borhan_View_Helper_PartialViewPlugin */
 	    			$plugin->plug($action->view);
 			}
 		}
@@ -87,14 +87,14 @@ class DrmProfileConfigureAction extends KalturaApplicationPlugin
 		if ($form->isValid($formData))
 		{
 			$client = Infra_ClientHelper::getClient();
-			$drmPluginClient = Kaltura_Client_Drm_Plugin::get($client);
+			$drmPluginClient = Borhan_Client_Drm_Plugin::get($client);
 			
-			$drmProfile = $form->getObject("Kaltura_Client_Drm_Type_DrmProfile", $formData, false, true);
+			$drmProfile = $form->getObject("Borhan_Client_Drm_Type_DrmProfile", $formData, false, true);
 			unset($drmProfile->id);
 			
 			Infra_ClientHelper::impersonate($partnerId);
 			if (is_null($drmProfileId)) {
-				$drmProfile->status = Kaltura_Client_Drm_Enum_DrmProfileStatus::ACTIVE;
+				$drmProfile->status = Borhan_Client_Drm_Enum_DrmProfileStatus::ACTIVE;
 				$responseDrmProfile = $drmPluginClient->drmProfile->add($drmProfile);
 			}
 			else {

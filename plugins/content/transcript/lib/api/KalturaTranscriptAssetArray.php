@@ -3,17 +3,17 @@
  * @package plugins.transcript
  * @subpackage api.objects
  */
-class KalturaTranscriptAssetArray extends KalturaTypedArray
+class BorhanTranscriptAssetArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaTranscriptAssetArray();
+		$newArr = new BorhanTranscriptAssetArray();
 		if ($arr == null)
 			return $newArr;
 	
 		foreach ($arr as $obj)
 		{
-			$nObj = KalturaAsset::getInstance($obj);
+			$nObj = BorhanAsset::getInstance($obj);
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaTranscriptAssetArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaTranscriptAsset");
+		parent::__construct("BorhanTranscriptAsset");
 	}
 }

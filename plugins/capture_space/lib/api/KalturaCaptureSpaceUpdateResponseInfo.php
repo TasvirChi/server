@@ -3,14 +3,14 @@
  * @package plugins.captureSpace
  * @subpackage api.objects
  */
-class KalturaCaptureSpaceUpdateResponseInfo extends KalturaObject {
+class BorhanCaptureSpaceUpdateResponseInfo extends BorhanObject {
     /**
      * @var string
      */
     public $url;
 
     /**
-     * @var KalturaCaptureSpaceUpdateResponseInfoHash
+     * @var BorhanCaptureSpaceUpdateResponseInfoHash
      */
     public $hash;
 }

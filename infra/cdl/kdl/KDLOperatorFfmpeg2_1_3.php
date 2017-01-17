@@ -49,7 +49,7 @@ class KDLOperatorFfmpeg2_1_3 extends KDLOperatorFfmpeg1_1_1 {
 		
 		$cmdStr = implode(" ", $cmdValsArr);
 
-		KalturaLog::log("CmdLine==>".$cmdStr);
+		BorhanLog::log("CmdLine==>".$cmdStr);
 		return $cmdStr;
 	}
 	
@@ -631,7 +631,7 @@ ffmpeg -threads 1 -i VIDEO -i WM1.jpg -loop 1 -t 30 -i WM2.jpg
 				$prepArr[]="transpose=1";
 		}
 		
-		KalturaLog::log("Watermark data:\n".print_r($watermarkData,1));
+		BorhanLog::log("Watermark data:\n".print_r($watermarkData,1));
 			// Scaling
 		if(isset($watermarkData->scale)) {
 			$watermarkData->scale = explode("x",$watermarkData->scale);

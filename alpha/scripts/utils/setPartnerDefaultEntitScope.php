@@ -20,4 +20,4 @@ if(!$partner)
 $partner->setDefaultEntitlementEnforcement($dafualtEntitScope);	
 $partner->save();
 
-KalturaLog::info("Done" . PHP_EOL);
+BorhanLog::info("Done" . PHP_EOL);

@@ -5,8 +5,8 @@ auto deinterlace
 multi-stream support
 alpha/apps/lib/batch2/model/kConvertJobData.php
 admin_console/../en.php
-admin_console/lib/Kaltura/KalturaClient.php - KalturaConversionEngineType::QUICK_TIME_PLAYER_TOOLS
-api_v3/lib/types/enums/KalturaConversionEngineType.php - KalturaConversionEngineType::QUICK_TIME_PLAYER_TOOLS
+admin_console/lib/Borhan/BorhanClient.php - BorhanConversionEngineType::QUICK_TIME_PLAYER_TOOLS
+api_v3/lib/types/enums/BorhanConversionEngineType.php - BorhanConversionEngineType::QUICK_TIME_PLAYER_TOOLS
 batch/batches/convert/engines/KConversionEngine.class.php - $engine = new KConversionEngineQuickTimePlayerTools( $engine_config );
 	to add batch/batches/convert/Engines/KConversionEngineQuickTimePlayerTools.class.php
 batch/batches/convert/OperationEngines/KOperationManager.php - return new KOperationEngineQuickTimePlayerTools($taskConfig->params->quickTimePlayerToolsCmd);
@@ -15,11 +15,11 @@ batch/batches/convert/OperationEngines/KOperationManager.php - return new KOpera
 batch/batches/convert/KAsyncConvert.class.php - add to supported
 batch/batches/convert/KAsyncConvert.class.php - shorten the length of the tmp filename
 
-batch/client/KalturaClient.php - const QUICK_TIME_TOOLS = 6
+batch/client/BorhanClient.php - const QUICK_TIME_TOOLS = 6
 infra/mediaInfoParser/KMediaInfoMediaParser.php - support for scan_type/deinterlace
 
-/web/kaltura/app/alpha/apps/kaltura/modules/system/actions/flavorParamsAction.class.php - add operators for the flavorParams utility
-/web/kaltura/app/alpha/apps/kaltura/modules/system/templates/flavorParamsSuccess.php
+/web/borhan/app/alpha/apps/borhan/modules/system/actions/flavorParamsAction.class.php - add operators for the flavorParams utility
+/web/borhan/app/alpha/apps/borhan/modules/system/templates/flavorParamsSuccess.php
 
 kConf.php - to add FastStartPlugin and QuickTimeToolsPlugin to default_plugins
 batch_config.ini - 'params.useFastStart = true' & 'params.fastStartCmd		= qt-faststart'
@@ -34,9 +34,9 @@ KDLTranscodeerComm - new - webm
 KDLWrap - in ConvertMediainfoCdl2FlavorAsset logging
 
 2010-10-04
-api_v3/lib/KalturaFlavorParamsFactory - WEBM support
-api_v3/lib/types/enums/KalturaContainerFormat - WEBM support
-batch/client/KalturaClinet.php - WEBM suppor
+api_v3/lib/BorhanFlavorParamsFactory - WEBM support
+api_v3/lib/types/enums/BorhanContainerFormat - WEBM support
+batch/client/BorhanClinet.php - WEBM suppor
 plugins/quick_time_tools/lib/KDLTranscoderQTPTools/php - WEBM support, clip dur
 
 2010-10-11
@@ -49,8 +49,8 @@ alpha/lib/model/flavorParams - webm support
 batch/batches/Convert/KAsyncConvert.class.php - new EXPRESSION_ENCODER support
 batch/batches/Convert/Engines/KConvertEngineExpressionencoder.class.php - new file
 batch/batches/Convert/Engines/KConversionEngine.class.php - EXPRESSION_ENCODER support
-alpha/apps/kaltura/lib/batch2/model/kConvertJobdata.php - EXPRESSION_ENCODER enum = 5, EXPRESSION_ENCODER3=55
-api_v3/lib/types/enums/KalturaConversionEngineType.class.php - EXPRESSION_ENCODER enum = 5, EXPRESSION_ENCODER3=55
+alpha/apps/borhan/lib/batch2/model/kConvertJobdata.php - EXPRESSION_ENCODER enum = 5, EXPRESSION_ENCODER3=55
+api_v3/lib/types/enums/BorhanConversionEngineType.class.php - EXPRESSION_ENCODER enum = 5, EXPRESSION_ENCODER3=55
 plugins/expression_encoder - new plugin
 DB flavor_params record - needs json flavor params for ISM -> engine_version 1
 
@@ -66,15 +66,15 @@ alpha/lib/model/flavorParams - o not revert (webm support)
 batch/batches/Convert/KAsyncConvert.class.php - do not revert ( EXPRESSION_ENCODER support)
 batch/batches/Convert/Engines/KConversionEngineExpressionEncoder.class.php - new file, revert to original KJobConversionEngine derivation (instead of KCollectionConversionEngine)
 batch/batches/Convert/Engines/KConversionEngine.class.php - do not revert (EXPRESSION_ENCODER support)
-alpha/apps/kaltura/lib/batch2/model/kConvertJobdata.php - revert - EXPRESSION_ENCODER enum = 55, EXPRESSION_ENCODER3=5
-api_v3/lib/types/enums/KalturaConversionEngineType.class.php - revert - EXPRESSION_ENCODER enum = 55, EXPRESSION_ENCODER3=5
+alpha/apps/borhan/lib/batch2/model/kConvertJobdata.php - revert - EXPRESSION_ENCODER enum = 55, EXPRESSION_ENCODER3=5
+api_v3/lib/types/enums/BorhanConversionEngineType.class.php - revert - EXPRESSION_ENCODER enum = 55, EXPRESSION_ENCODER3=5
 
 admin_console/lib/Klatura/KlaturaClient.php - reverted EXPRESSION_ENCODER to 55, EXPRESSION_ENCODER3 to 5
-alpha/apps/kaltura/lib/batch2/kJobsManager - reverted EXPRESSION_ENCODER3 (instead of EXPRESSION_ENCODER)
-alpha/apps/kaltura/lib/storage/kStorageExporter.php - reverted EXPRESSION_ENCODER3 (instead of EXPRESSION_ENCODER)
+alpha/apps/borhan/lib/batch2/kJobsManager - reverted EXPRESSION_ENCODER3 (instead of EXPRESSION_ENCODER)
+alpha/apps/borhan/lib/storage/kStorageExporter.php - reverted EXPRESSION_ENCODER3 (instead of EXPRESSION_ENCODER)
 batch/batches/Convert/KAsyncConvertCollection.class.php - reverted EXPRESSION_ENCODER3 (instead of EXPRESSION_ENCODER), keep the log
 batch/batches/Convert/OperationEngines/KOperationManager.php - reverted
-batch\client\KalturaClient.php - reverted - EXPRESSION_ENCODER enum = 55, EXPRESSION_ENCODER3=5
+batch\client\BorhanClient.php - reverted - EXPRESSION_ENCODER enum = 55, EXPRESSION_ENCODER3=5
 
 2010-11-17
 admin_console/configs/lang/en.php - avidemux
@@ -83,7 +83,7 @@ admin_console/configs/lang/en.php - avidemux
 - batch/batches/Convert/Engines/KConversionExpEnc.class.php - delete
 - batch/batches/Convert/Engines/KConversionQTP.class.php - delete 
 - batch/batches/Convert/OperationEngines/KSingleOutputOperationEngine.php - config file support
-- batch/batches/client/KalturaClient.php -  
+- batch/batches/client/BorhanClient.php -  
      const EXPRESSION_ENCODER3 = "expressionEncoder.ExpressionEncoder3"; // 55
      const AVIDEMUX = "avidemux"; // 8
 - infra/cdl/kdl/KDLcommon.php - avidemux
@@ -125,21 +125,21 @@ tr+tar - KAsyncConvert.class.php - remove 'stripslashes' not in trunk & tag yet
 
 2010-11-24
 tr+tag - KDLOperatorAvidemax - - restore the 'extra' arg
-tr+tag - K:\opt\kaltura\app\plugins\avidemux\AvidemuxPlugin.php - 'implements' in class def
+tr+tag - K:\opt\borhan\app\plugins\avidemux\AvidemuxPlugin.php - 'implements' in class def
 tag - kConf - add EE & AVI & faststart
 batch_config.ini - add EE & AVI & faststart
-tr+tag - /opt/kaltura/app/admin_console/lib/Kaltura/KalturaClient.php - const AVIDEMUX = "avidemux.Avidemux";
-tr+tag - /opt/kaltura/app/batch/client/KalturaClient.php: -  - const AVIDEMUX = "avidemux.Avidemux";
+tr+tag - /opt/borhan/app/admin_console/lib/Borhan/BorhanClient.php - const AVIDEMUX = "avidemux.Avidemux";
+tr+tag - /opt/borhan/app/batch/client/BorhanClient.php: -  - const AVIDEMUX = "avidemux.Avidemux";
 tr - batch_config.template.ini - avidmux
 tr - kConfLocal.php - avidemux + ee
 
 
-/alpha/apps/kaltura/lib/batch2/kFlowHelper.php - 'handleConvertFinished' fixed to handle applehttp
+/alpha/apps/borhan/lib/batch2/kFlowHelper.php - 'handleConvertFinished' fixed to handle applehttp
 /alpha/lib/model/assetParams.php - 'mpeg','mpegts' and 'applehttp' format enums
-/admin_console/lib/Kaltura/KalturaEnums.php - 'mpeg','mpegts' and 'applehttp' format enums
-/api_v3/lib/types/enums/KalturaContainerFormat.php - 'mpeg','mpegts' and 'applehttp' format enums
+/admin_console/lib/Borhan/BorhanEnums.php - 'mpeg','mpegts' and 'applehttp' format enums
+/api_v3/lib/types/enums/BorhanContainerFormat.php - 'mpeg','mpegts' and 'applehttp' format enums
 /batch/batches/KBatchBase.class.php - 'checkFileExists' to handle directories
-/batch/client/KalturaEnums.php - 'mpeg','mpegts' and 'applehttp' format enums
+/batch/client/BorhanEnums.php - 'mpeg','mpegts' and 'applehttp' format enums
 /infra/cdl/kOperator.php - additional operator params
 /infra/cdl/kOperatorSets.php - to support additional params
 /infra/cdl/kdl/KDLCommon.php - 'mpeg','mpegts' and 'applehttp' format enums

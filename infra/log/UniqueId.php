@@ -18,7 +18,7 @@ class UniqueId
 		{
 			self::$_uniqueId = (string)rand();
 			if (php_sapi_name() !== 'cli')
-				header('X-Kaltura-Session:'.self::$_uniqueId, false);
+				header('X-Borhan-Session:'.self::$_uniqueId, false);
 		}
 			
 		return self::$_uniqueId;

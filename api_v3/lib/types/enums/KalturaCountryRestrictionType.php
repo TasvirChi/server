@@ -2,9 +2,9 @@
 /**
  * @package api
  * @subpackage enum
- * @deprecated use KalturaRule instead
+ * @deprecated use BorhanRule instead
  */
-class KalturaCountryRestrictionType extends KalturaEnum
+class BorhanCountryRestrictionType extends BorhanEnum
 {
 	const RESTRICT_COUNTRY_LIST = 0;
 	const ALLOW_COUNTRY_LIST = 1;

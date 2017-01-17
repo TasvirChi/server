@@ -180,7 +180,7 @@ class myStatisticsMgr
 	{
 		$v = $kshow->getPlays();
 		
-KalturaLog::log ( __METHOD__ . ": " . $kshow->getId() . " plays: $v");
+BorhanLog::log ( __METHOD__ . ": " . $kshow->getId() . " plays: $v");
  
 		if ( self::shouldModify ( $kshow , kshowPeer::PLAYS ) );
 		{
@@ -188,7 +188,7 @@ KalturaLog::log ( __METHOD__ . ": " . $kshow->getId() . " plays: $v");
 			$kshow->setPlays( $v );
 		}
 		
-KalturaLog::log ( __METHOD__ . ": " . $kshow->getId() . " plays: $v");		
+BorhanLog::log ( __METHOD__ . ": " . $kshow->getId() . " plays: $v");		
 		return $v;
 	}
 	

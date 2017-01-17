@@ -5,7 +5,7 @@
  * @package plugins.eventNotification
  * @subpackage api.services
  */
-class EventNotificationTemplateService extends KalturaBaseService
+class EventNotificationTemplateService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -13,19 +13,19 @@ class EventNotificationTemplateService extends KalturaBaseService
 		
 		$partnerId = $this->getPartnerId();
 		if (!EventNotificationPlugin::isAllowedPartner($partnerId))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, EventNotificationPlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, EventNotificationPlugin::PLUGIN_NAME);
 			
 		$this->applyPartnerFilterForClass('EventNotificationTemplate');
 	}
 		
 	/**
-	 * This action allows for the creation of new backend event types in the system. This action requires access to the Kaltura server Admin Console. If you're looking to register to existing event types, please use the clone action instead.
+	 * This action allows for the creation of new backend event types in the system. This action requires access to the Borhan server Admin Console. If you're looking to register to existing event types, please use the clone action instead.
 	 * 
 	 * @action add
-	 * @param KalturaEventNotificationTemplate $eventNotificationTemplate
-	 * @return KalturaEventNotificationTemplate
+	 * @param BorhanEventNotificationTemplate $eventNotificationTemplate
+	 * @return BorhanEventNotificationTemplate
 	 */
-	public function addAction(KalturaEventNotificationTemplate $eventNotificationTemplate)
+	public function addAction(BorhanEventNotificationTemplate $eventNotificationTemplate)
 	{
 		$dbEventNotificationTemplate = $eventNotificationTemplate->toInsertableObject();
 		/* @var $dbEventNotificationTemplate EventNotificationTemplate */
@@ -35,7 +35,7 @@ class EventNotificationTemplateService extends KalturaBaseService
 		$dbEventNotificationTemplate->save();
 		
 		// return the saved object
-		$eventNotificationTemplate = KalturaEventNotificationTemplate::getInstanceByType($dbEventNotificationTemplate->getType());
+		$eventNotificationTemplate = BorhanEventNotificationTemplate::getInstanceByType($dbEventNotificationTemplate->getType());
 		$eventNotificationTemplate->fromObject($dbEventNotificationTemplate, $this->getResponseProfile());
 		return $eventNotificationTemplate;
 		
@@ -46,27 +46,27 @@ class EventNotificationTemplateService extends KalturaBaseService
 	 * 
 	 * @action clone
 	 * @param int $id source template to clone
-	 * @param KalturaEventNotificationTemplate $eventNotificationTemplate overwrite configuration object
-	 * @throws KalturaEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND
-	 * @throws KalturaEventNotificationErrors::EVENT_NOTIFICATION_WRONG_TYPE
-	 * @throws KalturaEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_DUPLICATE_SYSTEM_NAME
-	 * @return KalturaEventNotificationTemplate
+	 * @param BorhanEventNotificationTemplate $eventNotificationTemplate overwrite configuration object
+	 * @throws BorhanEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND
+	 * @throws BorhanEventNotificationErrors::EVENT_NOTIFICATION_WRONG_TYPE
+	 * @throws BorhanEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_DUPLICATE_SYSTEM_NAME
+	 * @return BorhanEventNotificationTemplate
 	 */
-	public function cloneAction($id, KalturaEventNotificationTemplate $eventNotificationTemplate = null)
+	public function cloneAction($id, BorhanEventNotificationTemplate $eventNotificationTemplate = null)
 	{
 		// get the source object
 		$dbEventNotificationTemplate = EventNotificationTemplatePeer::retrieveByPK($id);
 		if (!$dbEventNotificationTemplate)
-			throw new KalturaAPIException(KalturaEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND, $id);
 			
 		// copy into new db object
 		$newDbEventNotificationTemplate = $dbEventNotificationTemplate->copy();
 		
-		// init new Kaltura object
-		$newEventNotificationTemplate = KalturaEventNotificationTemplate::getInstanceByType($newDbEventNotificationTemplate->getType());
+		// init new Borhan object
+		$newEventNotificationTemplate = BorhanEventNotificationTemplate::getInstanceByType($newDbEventNotificationTemplate->getType());
 		$templateClass = get_class($newEventNotificationTemplate);
 		if($eventNotificationTemplate && get_class($eventNotificationTemplate) != $templateClass && !is_subclass_of($eventNotificationTemplate, $templateClass))
-			throw new KalturaAPIException(KalturaEventNotificationErrors::EVENT_NOTIFICATION_WRONG_TYPE, $id, kPluginableEnumsManager::coreToApi('EventNotificationTemplateType', $dbEventNotificationTemplate->getType()));
+			throw new BorhanAPIException(BorhanEventNotificationErrors::EVENT_NOTIFICATION_WRONG_TYPE, $id, kPluginableEnumsManager::coreToApi('EventNotificationTemplateType', $dbEventNotificationTemplate->getType()));
 		
 		if ($eventNotificationTemplate)
 		{
@@ -76,14 +76,14 @@ class EventNotificationTemplateService extends KalturaBaseService
 		//Check uniqueness of new object's system name
 		$systemNameTemplates = EventNotificationTemplatePeer::retrieveBySystemName($newDbEventNotificationTemplate->getSystemName());
 		if (count($systemNameTemplates))
-			throw new KalturaAPIException(KalturaEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_DUPLICATE_SYSTEM_NAME, $newDbEventNotificationTemplate->getSystemName());
+			throw new BorhanAPIException(BorhanEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_DUPLICATE_SYSTEM_NAME, $newDbEventNotificationTemplate->getSystemName());
 		
 		// save the new db object
 		$newDbEventNotificationTemplate->setPartnerId($this->getPartnerId());
 		$newDbEventNotificationTemplate->save();
 	
 		// return the saved object
-		$newEventNotificationTemplate = KalturaEventNotificationTemplate::getInstanceByType($newDbEventNotificationTemplate->getType());
+		$newEventNotificationTemplate = BorhanEventNotificationTemplate::getInstanceByType($newDbEventNotificationTemplate->getType());
 		$newEventNotificationTemplate->fromObject($newDbEventNotificationTemplate, $this->getResponseProfile());
 		return $newEventNotificationTemplate;
 		
@@ -94,19 +94,19 @@ class EventNotificationTemplateService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param int $id 
-	 * @return KalturaEventNotificationTemplate
+	 * @return BorhanEventNotificationTemplate
 	 * 
-	 * @throws KalturaEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND
+	 * @throws BorhanEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND
 	 */		
 	public function getAction($id)
 	{
 		// get the object
 		$dbEventNotificationTemplate = EventNotificationTemplatePeer::retrieveByPK($id);
 		if (!$dbEventNotificationTemplate)
-			throw new KalturaAPIException(KalturaEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND, $id);
 			
 		// return the found object
-		$eventNotificationTemplate = KalturaEventNotificationTemplate::getInstanceByType($dbEventNotificationTemplate->getType());
+		$eventNotificationTemplate = BorhanEventNotificationTemplate::getInstanceByType($dbEventNotificationTemplate->getType());
 		$eventNotificationTemplate->fromObject($dbEventNotificationTemplate, $this->getResponseProfile());
 		return $eventNotificationTemplate;
 	}
@@ -117,24 +117,24 @@ class EventNotificationTemplateService extends KalturaBaseService
 	 * 
 	 * @action update
 	 * @param int $id
-	 * @param KalturaEventNotificationTemplate $eventNotificationTemplate
-	 * @return KalturaEventNotificationTemplate
+	 * @param BorhanEventNotificationTemplate $eventNotificationTemplate
+	 * @return BorhanEventNotificationTemplate
 	 *
-	 * @throws KalturaEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND
+	 * @throws BorhanEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND
 	 */	
-	public function updateAction($id, KalturaEventNotificationTemplate $eventNotificationTemplate)
+	public function updateAction($id, BorhanEventNotificationTemplate $eventNotificationTemplate)
 	{
 		// get the object
 		$dbEventNotificationTemplate = EventNotificationTemplatePeer::retrieveByPK($id);
 		if (!$dbEventNotificationTemplate)
-			throw new KalturaAPIException(KalturaEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND, $id);
 		
 		// save the object
 		$dbEventNotificationTemplate = $eventNotificationTemplate->toUpdatableObject($dbEventNotificationTemplate);
 		$dbEventNotificationTemplate->save();
 	
 		// return the saved object
-		$eventNotificationTemplate = KalturaEventNotificationTemplate::getInstanceByType($dbEventNotificationTemplate->getType());
+		$eventNotificationTemplate = BorhanEventNotificationTemplate::getInstanceByType($dbEventNotificationTemplate->getType());
 		$eventNotificationTemplate->fromObject($dbEventNotificationTemplate, $this->getResponseProfile());
 		return $eventNotificationTemplate;
 	}
@@ -144,24 +144,24 @@ class EventNotificationTemplateService extends KalturaBaseService
 	 * 
 	 * @action updateStatus
 	 * @param int $id
-	 * @param KalturaEventNotificationTemplateStatus $status
-	 * @return KalturaEventNotificationTemplate
+	 * @param BorhanEventNotificationTemplateStatus $status
+	 * @return BorhanEventNotificationTemplate
 	 * 
-	 * @throws KalturaEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND
+	 * @throws BorhanEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND
 	 */
 	function updateStatusAction($id, $status)
 	{
 		// get the object
 		$dbEventNotificationTemplate = EventNotificationTemplatePeer::retrieveByPK($id);
 		if (!$dbEventNotificationTemplate)
-			throw new KalturaAPIException(KalturaEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND, $id);
 
 		if($status == EventNotificationTemplateStatus::ACTIVE)
 		{
 			//Check uniqueness of new object's system name
 			$systemNameTemplates = EventNotificationTemplatePeer::retrieveBySystemName($dbEventNotificationTemplate->getSystemName());
 			if (count($systemNameTemplates))
-				throw new KalturaAPIException(KalturaEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_DUPLICATE_SYSTEM_NAME, $dbEventNotificationTemplate->getSystemName());
+				throw new BorhanAPIException(BorhanEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_DUPLICATE_SYSTEM_NAME, $dbEventNotificationTemplate->getSystemName());
 		}	
 		
 		// save the object
@@ -169,7 +169,7 @@ class EventNotificationTemplateService extends KalturaBaseService
 		$dbEventNotificationTemplate->save();
 	
 		// return the saved object
-		$eventNotificationTemplate = KalturaEventNotificationTemplate::getInstanceByType($dbEventNotificationTemplate->getType());
+		$eventNotificationTemplate = BorhanEventNotificationTemplate::getInstanceByType($dbEventNotificationTemplate->getType());
 		$eventNotificationTemplate->fromObject($dbEventNotificationTemplate, $this->getResponseProfile());
 		return $eventNotificationTemplate;
 	}
@@ -180,14 +180,14 @@ class EventNotificationTemplateService extends KalturaBaseService
 	 * @action delete
 	 * @param int $id 
 	 *
-	 * @throws KalturaEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND
+	 * @throws BorhanEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND
 	 */		
 	public function deleteAction($id)
 	{
 		// get the object
 		$dbEventNotificationTemplate = EventNotificationTemplatePeer::retrieveByPK($id);
 		if (!$dbEventNotificationTemplate)
-			throw new KalturaAPIException(KalturaEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND, $id);
 
 		// set the object status to deleted
 		$dbEventNotificationTemplate->setStatus(EventNotificationTemplateStatus::DELETED);
@@ -198,17 +198,17 @@ class EventNotificationTemplateService extends KalturaBaseService
 	 * list event notification template objects
 	 * 
 	 * @action list
-	 * @param KalturaEventNotificationTemplateFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaEventNotificationTemplateListResponse
+	 * @param BorhanEventNotificationTemplateFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanEventNotificationTemplateListResponse
 	 */
-	public function listAction(KalturaEventNotificationTemplateFilter $filter = null, KalturaFilterPager $pager = null)
+	public function listAction(BorhanEventNotificationTemplateFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaEventNotificationTemplateFilter();
+			$filter = new BorhanEventNotificationTemplateFilter();
 			
 		if (!$pager)
-			$pager = new KalturaFilterPager ();
+			$pager = new BorhanFilterPager ();
 
 		$eventNotificationTemplateFilter = new EventNotificationTemplateFilter();
 		$filter->toObject($eventNotificationTemplateFilter);
@@ -220,8 +220,8 @@ class EventNotificationTemplateService extends KalturaBaseService
 		$pager->attachToCriteria ( $c );
 		$list = EventNotificationTemplatePeer::doSelect($c);
 		
-		$response = new KalturaEventNotificationTemplateListResponse();
-		$response->objects = KalturaEventNotificationTemplateArray::fromDbArray($list, $this->getResponseProfile());
+		$response = new BorhanEventNotificationTemplateListResponse();
+		$response->objects = BorhanEventNotificationTemplateArray::fromDbArray($list, $this->getResponseProfile());
 		$response->totalCount = $count;
 		
 		return $response;
@@ -229,11 +229,11 @@ class EventNotificationTemplateService extends KalturaBaseService
 
 	/**
 	 * @action listByPartner
-	 * @param KalturaPartnerFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaEventNotificationTemplateListResponse
+	 * @param BorhanPartnerFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanEventNotificationTemplateListResponse
 	 */
-	public function listByPartnerAction(KalturaPartnerFilter $filter = null, KalturaFilterPager $pager = null)
+	public function listByPartnerAction(BorhanPartnerFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		$c = new Criteria();
 		
@@ -259,16 +259,16 @@ class EventNotificationTemplateService extends KalturaBaseService
 		}
 			
 		if (is_null($pager))
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 			
 		$c->addDescendingOrderByColumn(EventNotificationTemplatePeer::CREATED_AT);
 		
 		$totalCount = EventNotificationTemplatePeer::doCount($c);
 		$pager->attachToCriteria($c);
 		$list = EventNotificationTemplatePeer::doSelect($c);
-		$newList = KalturaEventNotificationTemplateArray::fromDbArray($list, $this->getResponseProfile());
+		$newList = BorhanEventNotificationTemplateArray::fromDbArray($list, $this->getResponseProfile());
 		
-		$response = new KalturaEventNotificationTemplateListResponse();
+		$response = new BorhanEventNotificationTemplateListResponse();
 		$response->totalCount = $totalCount;
 		$response->objects = $newList;
 		return $response;
@@ -279,31 +279,31 @@ class EventNotificationTemplateService extends KalturaBaseService
 	 * 
 	 * @action dispatch
 	 * @param int $id 
-	 * @param KalturaEventNotificationScope $scope
-	 * @throws KalturaEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND
-	 * @throws KalturaEventNotificationErrors::EVENT_NOTIFICATION_DISPATCH_DISABLED
-	 * @throws KalturaEventNotificationErrors::EVENT_NOTIFICATION_DISPATCH_FAILED
+	 * @param BorhanEventNotificationScope $scope
+	 * @throws BorhanEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND
+	 * @throws BorhanEventNotificationErrors::EVENT_NOTIFICATION_DISPATCH_DISABLED
+	 * @throws BorhanEventNotificationErrors::EVENT_NOTIFICATION_DISPATCH_FAILED
 	 * @return int
 	 */		
-	public function dispatchAction($id, KalturaEventNotificationScope $scope)
+	public function dispatchAction($id, BorhanEventNotificationScope $scope)
 	{
 		// get the object
 		$dbEventNotificationTemplate = EventNotificationTemplatePeer::retrieveByPK($id);
 		if (!$dbEventNotificationTemplate)
-			throw new KalturaAPIException(KalturaEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND, $id);
 			
 		if(!$dbEventNotificationTemplate->getManualDispatchEnabled())
-			throw new KalturaAPIException(KalturaEventNotificationErrors::EVENT_NOTIFICATION_DISPATCH_DISABLED, $id);
+			throw new BorhanAPIException(BorhanEventNotificationErrors::EVENT_NOTIFICATION_DISPATCH_DISABLED, $id);
 
 		$jobId = $dbEventNotificationTemplate->dispatch($scope->toObject());
 		if(!$jobId)
-			throw new KalturaAPIException(KalturaEventNotificationErrors::EVENT_NOTIFICATION_DISPATCH_FAILED, $id);
+			throw new BorhanAPIException(BorhanEventNotificationErrors::EVENT_NOTIFICATION_DISPATCH_FAILED, $id);
 			
 		return $jobId;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseService::partnerGroup()
+	 * @see BorhanBaseService::partnerGroup()
 	 */
 	protected function partnerGroup($peer = null)
 	{
@@ -323,17 +323,17 @@ class EventNotificationTemplateService extends KalturaBaseService
 	 * Action lists the template partner event notification templates.
 	 * @action listTemplates
 	 * 
-	 * @param KalturaEventNotificationTemplateFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaEventNotificationTemplateListResponse
+	 * @param BorhanEventNotificationTemplateFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanEventNotificationTemplateListResponse
 	 */
-	public function listTemplatesAction (KalturaEventNotificationTemplateFilter $filter = null, KalturaFilterPager $pager = null)
+	public function listTemplatesAction (BorhanEventNotificationTemplateFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaEventNotificationTemplateFilter();
+			$filter = new BorhanEventNotificationTemplateFilter();
 			
 		if (!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 		
 		$coreFilter = new EventNotificationTemplateFilter();
 		$filter->toObject($coreFilter);
@@ -346,8 +346,8 @@ class EventNotificationTemplateService extends KalturaBaseService
 		$pager->attachToCriteria($criteria);
 		$results = EventNotificationTemplatePeer::doSelect($criteria);
 		
-		$response = new KalturaEventNotificationTemplateListResponse();
-		$response->objects = KalturaEventNotificationTemplateArray::fromDbArray($results, $this->getResponseProfile());
+		$response = new BorhanEventNotificationTemplateListResponse();
+		$response->objects = BorhanEventNotificationTemplateArray::fromDbArray($results, $this->getResponseProfile());
 		$response->totalCount = $count;
 		
 		return $response;

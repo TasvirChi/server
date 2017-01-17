@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaBatchJob extends KalturaObject implements IFilterable
+class BorhanBatchJob extends BorhanObject implements IFilterable
 {
 	
 	/**
@@ -73,7 +73,7 @@ class KalturaBatchJob extends KalturaObject implements IFilterable
 	public $entryName;
 	
 	/**
-	 * @var KalturaBatchJobType
+	 * @var BorhanBatchJobType
 	 * @readonly 
 	 * @filter eq,in,notin
 	 */
@@ -86,12 +86,12 @@ class KalturaBatchJob extends KalturaObject implements IFilterable
     public $jobSubType;
     
 	/**
-	 * @var KalturaJobData
+	 * @var BorhanJobData
 	 */
     public $data;
 
     /**
-	 * @var KalturaBatchJobStatus
+	 * @var BorhanBatchJobStatus
 	 * @filter eq,in,notin,order
 	 */
     public $status;
@@ -123,7 +123,7 @@ class KalturaBatchJob extends KalturaObject implements IFilterable
     public $priority ;
     
     /**
-     * @var KalturaBatchHistoryDataArray
+     * @var BorhanBatchHistoryDataArray
      */
     public $history ;
     
@@ -171,7 +171,7 @@ class KalturaBatchJob extends KalturaObject implements IFilterable
     
     
     /**
-	 * @var KalturaBatchJobErrorTypes
+	 * @var BorhanBatchJobErrorTypes
 	 * @filter eq,in,notin
 	 */    
     public $errType;
@@ -285,154 +285,154 @@ class KalturaBatchJob extends KalturaObject implements IFilterable
 		switch(get_class($dbData))
 		{
 			case 'kConvartableJobData':
-				$this->data = new KalturaConvartableJobData();
+				$this->data = new BorhanConvartableJobData();
 				break;
 				
 			case 'kConvertJobData':
-				$this->data = new KalturaConvertJobData();
+				$this->data = new BorhanConvertJobData();
 				break;
 				
 			case 'kConvertProfileJobData':
-				$this->data = new KalturaConvertProfileJobData();
+				$this->data = new BorhanConvertProfileJobData();
 				break;
 				
 			case 'kExtractMediaJobData':
-				$this->data = new KalturaExtractMediaJobData();
+				$this->data = new BorhanExtractMediaJobData();
 				break;
 				
 			case 'kImportJobData':
-				$this->data = new KalturaImportJobData();
+				$this->data = new BorhanImportJobData();
 				break;
 				
 			case 'kSshImportJobData':
-				$this->data = new KalturaSshImportJobData();
+				$this->data = new BorhanSshImportJobData();
 				break;
 				
 			case 'kPostConvertJobData':
-				$this->data = new KalturaPostConvertJobData();
+				$this->data = new BorhanPostConvertJobData();
 				break;
 				
 			case 'kMailJobData':
-				$this->data = new KalturaMailJobData();
+				$this->data = new BorhanMailJobData();
 				break;
 				
 			case 'kNotificationJobData':
-				$this->data = new KalturaNotificationJobData();
+				$this->data = new BorhanNotificationJobData();
 				break;
 				
 			case 'kBulkDownloadJobData':
-				$this->data = new KalturaBulkDownloadJobData();
+				$this->data = new BorhanBulkDownloadJobData();
 				break;
 				
 			case 'kFlattenJobData':
-				$this->data = new KalturaFlattenJobData();
+				$this->data = new BorhanFlattenJobData();
 				break;
 			
 			case 'kProvisionJobData':
-				$this->data = new KalturaProvisionJobData();
+				$this->data = new BorhanProvisionJobData();
 				break;
 				
 			case 'kAkamaiProvisionJobData':
-				$this->data = new KalturaAkamaiProvisionJobData();
+				$this->data = new BorhanAkamaiProvisionJobData();
 				break;	
 
 			case 'kAkamaiUniversalProvisionJobData':
-				$this->data = new KalturaAkamaiUniversalProvisionJobData();
+				$this->data = new BorhanAkamaiUniversalProvisionJobData();
 				break;
 				
 			case 'kConvertCollectionJobData':
-				$this->data = new KalturaConvertCollectionJobData();
+				$this->data = new BorhanConvertCollectionJobData();
 				break;
 				
 			case 'kStorageExportJobData':
-				$this->data = new KalturaStorageExportJobData();
+				$this->data = new BorhanStorageExportJobData();
 				break;
 				
 			case 'kAmazonS3StorageExportJobData':
-				$this->data = new KalturaAmazonS3StorageExportJobData();
+				$this->data = new BorhanAmazonS3StorageExportJobData();
 				break;
 				
 			case 'kMoveCategoryEntriesJobData':
-				$this->data = new KalturaMoveCategoryEntriesJobData();
+				$this->data = new BorhanMoveCategoryEntriesJobData();
 				break;
 				
 			case 'kStorageDeleteJobData':
-				$this->data = new KalturaStorageDeleteJobData();
+				$this->data = new BorhanStorageDeleteJobData();
 				break;
 				
 			case 'kCaptureThumbJobData':
-				$this->data = new KalturaCaptureThumbJobData();
+				$this->data = new BorhanCaptureThumbJobData();
 				break;
 				
 			case 'kMoveCategoryEntriesJobData':
-			    $this->data = new KalturaMoveCategoryEntriesJobData();
+			    $this->data = new BorhanMoveCategoryEntriesJobData();
 			    break;
 
 			case 'kIndexJobData':
-				$this->data = new KalturaIndexJobData();
+				$this->data = new BorhanIndexJobData();
 				break;
 				
 			case 'kCopyJobData':
-				$this->data = new KalturaCopyJobData();
+				$this->data = new BorhanCopyJobData();
 				break;
 				
 			case 'kDeleteJobData':
-				$this->data = new KalturaDeleteJobData();
+				$this->data = new BorhanDeleteJobData();
 				break;
 
 			case 'kDeleteFileJobData':
-				$this->data = new KalturaDeleteFileJobData();
+				$this->data = new BorhanDeleteFileJobData();
 				break;
 				
 			case 'kConvertLiveSegmentJobData':
-				$this->data = new KalturaConvertLiveSegmentJobData();
+				$this->data = new BorhanConvertLiveSegmentJobData();
 				break;
 				
 			case 'kConcatJobData':
-				$this->data = new KalturaConcatJobData();
+				$this->data = new BorhanConcatJobData();
 				break;
 				
 			case 'kCopyPartnerJobData':
-				$this->data = new KalturaCopyPartnerJobData();
+				$this->data = new BorhanCopyPartnerJobData();
 				break;
 				
 			case 'kSyncCategoryPrivacyContextJobData':
-				$this->data = new KalturaSyncCategoryPrivacyContextJobData();
+				$this->data = new BorhanSyncCategoryPrivacyContextJobData();
 				break;
 			
 			case 'kLiveReportExportJobData':
-				$this->data = new KalturaLiveReportExportJobData();
+				$this->data = new BorhanLiveReportExportJobData();
 				break;
 			
 			case 'kRecalculateResponseProfileCacheJobData':
-				$this->data = new KalturaRecalculateResponseProfileCacheJobData();
+				$this->data = new BorhanRecalculateResponseProfileCacheJobData();
 				break;
 
 			case 'kLiveToVodJobData':
-				$this->data = new KalturaLiveToVodJobData();
+				$this->data = new BorhanLiveToVodJobData();
 				break;
 
 			default:			
 				if($dbData instanceof kBulkUploadJobData)
 				{
-					$this->data = KalturaPluginManager::loadObject('KalturaBulkUploadJobData', $dbBatchJob->getJobSubType());
+					$this->data = BorhanPluginManager::loadObject('BorhanBulkUploadJobData', $dbBatchJob->getJobSubType());
 					if(is_null($this->data))
-						KalturaLog::err("Unable to init KalturaBulkUploadJobData for sub-type [" . $dbBatchJob->getJobSubType() . "]");
+						BorhanLog::err("Unable to init BorhanBulkUploadJobData for sub-type [" . $dbBatchJob->getJobSubType() . "]");
 				}
 				else if($dbData instanceof kImportJobData)
 				{
-					$this->data = KalturaPluginManager::loadObject('KalturaImportJobData', get_class($dbData));
+					$this->data = BorhanPluginManager::loadObject('BorhanImportJobData', get_class($dbData));
 					if(is_null($this->data))
-						KalturaLog::err("Unable to init KalturaImportJobData for class [" . get_class($dbData) . "]");
+						BorhanLog::err("Unable to init BorhanImportJobData for class [" . get_class($dbData) . "]");
 				}
 				else
 				{
-					$this->data = KalturaPluginManager::loadObject('KalturaJobData', $this->jobType, array('coreJobSubType' => $dbBatchJob->getJobSubType()));
+					$this->data = BorhanPluginManager::loadObject('BorhanJobData', $this->jobType, array('coreJobSubType' => $dbBatchJob->getJobSubType()));
 				}
 		}
 		
 		if(is_null($this->data))
-			KalturaLog::err("Unable to init KalturaJobData for job type [{$this->jobType}] sub-type [" . $dbBatchJob->getJobSubType() . "]");
+			BorhanLog::err("Unable to init BorhanJobData for job type [{$this->jobType}] sub-type [" . $dbBatchJob->getJobSubType() . "]");
 			
 		if($this->data)
 			$this->data->fromObject($dbData);
@@ -484,175 +484,175 @@ class KalturaBatchJob extends KalturaObject implements IFilterable
 		
 		switch($dbBatchJob->getJobType())
 		{
-			case KalturaBatchJobType::BULKUPLOAD:
+			case BorhanBatchJobType::BULKUPLOAD:
 				$dbData = new kBulkUploadJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaBulkUploadJobData();
+					$this->data = new BorhanBulkUploadJobData();
 				break;
 				
-			case KalturaBatchJobType::CONVERT:
+			case BorhanBatchJobType::CONVERT:
 				$dbData = new kConvertJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaConvertJobData();
+					$this->data = new BorhanConvertJobData();
 				break;
 				
-			case KalturaBatchJobType::CONVERT_PROFILE:
+			case BorhanBatchJobType::CONVERT_PROFILE:
 				$dbData = new kConvertProfileJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaConvertProfileJobData();
+					$this->data = new BorhanConvertProfileJobData();
 				break;
 				
-			case KalturaBatchJobType::EXTRACT_MEDIA:
+			case BorhanBatchJobType::EXTRACT_MEDIA:
 				$dbData = new kExtractMediaJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaExtractMediaJobData();
+					$this->data = new BorhanExtractMediaJobData();
 				break;
 				
-			case KalturaBatchJobType::IMPORT:
+			case BorhanBatchJobType::IMPORT:
 				$dbData = new kImportJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaImportJobData();
+					$this->data = new BorhanImportJobData();
 				break;
 				
-			case KalturaBatchJobType::POSTCONVERT:
+			case BorhanBatchJobType::POSTCONVERT:
 				$dbData = new kPostConvertJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaPostConvertJobData();
+					$this->data = new BorhanPostConvertJobData();
 				break;
 				
-			case KalturaBatchJobType::MAIL:
+			case BorhanBatchJobType::MAIL:
 				$dbData = new kMailJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaMailJobData();
+					$this->data = new BorhanMailJobData();
 				break;
 				
-			case KalturaBatchJobType::NOTIFICATION:
+			case BorhanBatchJobType::NOTIFICATION:
 				$dbData = new kNotificationJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaNotificationJobData();
+					$this->data = new BorhanNotificationJobData();
 				break;
 				
-			case KalturaBatchJobType::BULKDOWNLOAD:
+			case BorhanBatchJobType::BULKDOWNLOAD:
 				$dbData = new kBulkDownloadJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaBulkDownloadJobData();
+					$this->data = new BorhanBulkDownloadJobData();
 				break;
 				
-			case KalturaBatchJobType::FLATTEN:
+			case BorhanBatchJobType::FLATTEN:
 				$dbData = new kFlattenJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaFlattenJobData();
+					$this->data = new BorhanFlattenJobData();
 				break;
 				
-			case KalturaBatchJobType::PROVISION_PROVIDE:
-			case KalturaBatchJobType::PROVISION_DELETE:
+			case BorhanBatchJobType::PROVISION_PROVIDE:
+			case BorhanBatchJobType::PROVISION_DELETE:
 				$jobSubType = $dbBatchJob->getJobSubType();
 				$dbData = kAkamaiProvisionJobData::getInstance($jobSubType);
 				if(is_null($this->data))
-					$this->data = KalturaProvisionJobData::getJobDataInstance($jobSubType);
+					$this->data = BorhanProvisionJobData::getJobDataInstance($jobSubType);
 
 				break;
 				
-			case KalturaBatchJobType::CONVERT_COLLECTION:
+			case BorhanBatchJobType::CONVERT_COLLECTION:
 				$dbData = new kConvertCollectionJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaConvertCollectionJobData();
+					$this->data = new BorhanConvertCollectionJobData();
 				break;
 				
-			case KalturaBatchJobType::STORAGE_EXPORT:
+			case BorhanBatchJobType::STORAGE_EXPORT:
 				$dbData = new kStorageExportJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaStorageExportJobData();
+					$this->data = new BorhanStorageExportJobData();
 				break;
 				
-			case KalturaBatchJobType::MOVE_CATEGORY_ENTRIES:
+			case BorhanBatchJobType::MOVE_CATEGORY_ENTRIES:
 				$dbData = new kMoveCategoryEntriesJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaMoveCategoryEntriesJobData();
+					$this->data = new BorhanMoveCategoryEntriesJobData();
 				break;
 				
-			case KalturaBatchJobType::STORAGE_DELETE:
+			case BorhanBatchJobType::STORAGE_DELETE:
 				$dbData = new kStorageDeleteJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaStorageDeleteJobData();
+					$this->data = new BorhanStorageDeleteJobData();
 				break;
 				
-			case KalturaBatchJobType::CAPTURE_THUMB:
+			case BorhanBatchJobType::CAPTURE_THUMB:
 				$dbData = new kCaptureThumbJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaCaptureThumbJobData();
+					$this->data = new BorhanCaptureThumbJobData();
 				break;
 				
-			case KalturaBatchJobType::INDEX:
+			case BorhanBatchJobType::INDEX:
 				$dbData = new kIndexJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaIndexJobData();
+					$this->data = new BorhanIndexJobData();
 				break;
 				
-			case KalturaBatchJobType::COPY:
+			case BorhanBatchJobType::COPY:
 				$dbData = new kCopyJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaCopyJobData();
+					$this->data = new BorhanCopyJobData();
 				break;
 				
-			case KalturaBatchJobType::DELETE:
+			case BorhanBatchJobType::DELETE:
 				$dbData = new kDeleteJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaDeleteJobData();
+					$this->data = new BorhanDeleteJobData();
 				break;
 
-			case KalturaBatchJobType::DELETE_FILE:
+			case BorhanBatchJobType::DELETE_FILE:
 				$dbData = new kDeleteFileJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaDeleteFileJobData();
+					$this->data = new BorhanDeleteFileJobData();
 				break;
 				
-			case KalturaBatchJobType::CONVERT_LIVE_SEGMENT:
+			case BorhanBatchJobType::CONVERT_LIVE_SEGMENT:
 				$dbData = new kConvertLiveSegmentJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaConvertLiveSegmentJobData();
+					$this->data = new BorhanConvertLiveSegmentJobData();
 				break;
 				
-			case KalturaBatchJobType::CONCAT:
+			case BorhanBatchJobType::CONCAT:
 				$dbData = new kConcatJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaConcatJobData();
+					$this->data = new BorhanConcatJobData();
 				break;
 					
-			case KalturaBatchJobType::COPY_PARTNER:
+			case BorhanBatchJobType::COPY_PARTNER:
 				$dbData = new kCopyPartnerJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaCopyPartnerJobData();
+					$this->data = new BorhanCopyPartnerJobData();
 				break;
 					
-			case KalturaBatchJobType::RECALCULATE_CACHE:
+			case BorhanBatchJobType::RECALCULATE_CACHE:
 				switch($dbBatchJob->getJobSubType())
 				{
 					case RecalculateCacheType::RESPONSE_PROFILE:
 						$dbData = new kRecalculateResponseProfileCacheJobData();
 						if(is_null($this->data))
-							$this->data = new KalturaRecalculateResponseProfileCacheJobData();
+							$this->data = new BorhanRecalculateResponseProfileCacheJobData();
 						break;
 				}
 				break;
 			
-			case KalturaBatchJobType::LIVE_TO_VOD:
+			case BorhanBatchJobType::LIVE_TO_VOD:
 				$dbData = new kLiveToVodJobData();
 				if(is_null($this->data))
-					$this->data = new KalturaLiveToVodJobData();
+					$this->data = new BorhanLiveToVodJobData();
  				break;
 				
 			default:
-				$dbData = KalturaPluginManager::loadObject('kJobData', $dbBatchJob->getJobType());
+				$dbData = BorhanPluginManager::loadObject('kJobData', $dbBatchJob->getJobType());
 				if(is_null($this->data)) {
-					$this->data = KalturaPluginManager::loadObject('KalturaJobData', $this->jobType);
+					$this->data = BorhanPluginManager::loadObject('BorhanJobData', $this->jobType);
 				}
 		}
 		
 		if(is_null($dbBatchJob->getData()))
 			$dbBatchJob->setData($dbData);
 	
-		if($this->data instanceof KalturaJobData)
+		if($this->data instanceof BorhanJobData)
 		{
 			$dbData = $this->data->toObject($dbBatchJob->getData());
 			$dbBatchJob->setData($dbData);
@@ -672,7 +672,7 @@ class KalturaBatchJob extends KalturaObject implements IFilterable
 		
 		if (!is_null($this->data))
 		    $this->toData($dbBatchJob);
-		if(!is_null($this->jobSubType) && $this->data instanceof KalturaJobData)
+		if(!is_null($this->jobSubType) && $this->data instanceof BorhanJobData)
 			$dbBatchJob->setJobSubType($this->data->toSubType($this->jobSubType));
 		
 		return $dbBatchJob;

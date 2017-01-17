@@ -20,9 +20,9 @@ class kReportManager
 	{
 		$this->initPdo();
 		$query = $this->_report->getQuery();
-		KalturaLog::debug('Prepering statement: ' . $query);
+		BorhanLog::debug('Prepering statement: ' . $query);
 		$pdoStatement = $this->_pdo->prepare($query);
-		KalturaLog::debug('With params: ' . print_r($params, true));
+		BorhanLog::debug('With params: ' . print_r($params, true));
 		$pdoStatement->execute($params);
 		$rows = $pdoStatement->fetchAll(PDO::FETCH_ASSOC);
 		$columns = array();

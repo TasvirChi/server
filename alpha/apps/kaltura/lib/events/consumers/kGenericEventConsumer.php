@@ -4,17 +4,17 @@
  * @package Core
  * @subpackage events
  */
-interface kGenericEventConsumer extends KalturaEventConsumer
+interface kGenericEventConsumer extends BorhanEventConsumer
 {
 	/**
-	 * @param KalturaEvent $event
+	 * @param BorhanEvent $event
 	 * @return bool true if should continue to the next consumer
 	 */
-	public function consumeEvent(KalturaEvent $event);
+	public function consumeEvent(BorhanEvent $event);
 	
 	/**
-	 * @param KalturaEvent $event
+	 * @param BorhanEvent $event
 	 * @return bool true if the consumer should handle the event
 	 */
-	public function shouldConsumeEvent(KalturaEvent $event);
+	public function shouldConsumeEvent(BorhanEvent $event);
 }

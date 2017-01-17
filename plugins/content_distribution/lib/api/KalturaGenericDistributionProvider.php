@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaGenericDistributionProvider extends KalturaDistributionProvider
+class BorhanGenericDistributionProvider extends BorhanDistributionProvider
 {
 	/**
 	 * Auto generated
@@ -46,7 +46,7 @@ class KalturaGenericDistributionProvider extends KalturaDistributionProvider
 	public $isDefault;
 
 	/**
-	 * @var KalturaGenericDistributionProviderStatus
+	 * @var BorhanGenericDistributionProviderStatus
 	 * @filter eq,in
 	 * @readonly
 	 */
@@ -63,12 +63,12 @@ class KalturaGenericDistributionProvider extends KalturaDistributionProvider
 	public $requiredFlavorParamsIds;
 
 	/**
-	 * @var KalturaDistributionThumbDimensionsArray
+	 * @var BorhanDistributionThumbDimensionsArray
 	 */
 	public $optionalThumbDimensions;
 
 	/**
-	 * @var KalturaDistributionThumbDimensionsArray
+	 * @var BorhanDistributionThumbDimensionsArray
 	 */
 	public $requiredThumbDimensions;
 
@@ -133,14 +133,14 @@ class KalturaGenericDistributionProvider extends KalturaDistributionProvider
 		return $object;		
 	}
 
-	public function doFromObject($sourceObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($sourceObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($sourceObject, $responseProfile);
 		
 		if($this->shouldGet('optionalThumbDimensions', $responseProfile))
-			$this->optionalThumbDimensions = KalturaDistributionThumbDimensionsArray::fromDbArray($sourceObject->getOptionalThumbDimensionsObjects());
+			$this->optionalThumbDimensions = BorhanDistributionThumbDimensionsArray::fromDbArray($sourceObject->getOptionalThumbDimensionsObjects());
 		if($this->shouldGet('requiredThumbDimensions', $responseProfile))
-			$this->requiredThumbDimensions = KalturaDistributionThumbDimensionsArray::fromDbArray($sourceObject->getRequiredThumbDimensionsObjects());
+			$this->requiredThumbDimensions = BorhanDistributionThumbDimensionsArray::fromDbArray($sourceObject->getRequiredThumbDimensionsObjects());
 			
 		if($this->shouldGet('updateRequiredEntryFields', $responseProfile))
 			$this->updateRequiredEntryFields = implode(',', $sourceObject->getUpdateRequiredEntryFields());

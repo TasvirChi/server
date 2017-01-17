@@ -3,7 +3,7 @@
  * @package plugins.metadata
  * @subpackage api.filters
  */
-class KalturaMetadataFilter extends KalturaMetadataBaseFilter
+class BorhanMetadataFilter extends BorhanMetadataBaseFilter
 {	
 	static private $map_between_objects = array
 	(
@@ -11,7 +11,7 @@ class KalturaMetadataFilter extends KalturaMetadataBaseFilter
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaMetadataBaseFilter::getMapBetweenObjects()
+	 * @see BorhanMetadataBaseFilter::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -28,7 +28,7 @@ class KalturaMetadataFilter extends KalturaMetadataBaseFilter
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -36,11 +36,11 @@ class KalturaMetadataFilter extends KalturaMetadataBaseFilter
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($object_to_fill = null, $props_to_skip = array()) 
 	{
-		if($this->metadataObjectTypeEqual == KalturaMetadataObjectType::USER)
+		if($this->metadataObjectTypeEqual == BorhanMetadataObjectType::USER)
 		{
 			if ($this->objectIdEqual)
 			{
@@ -65,16 +65,16 @@ class KalturaMetadataFilter extends KalturaMetadataBaseFilter
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::getListResponse()
+	 * @see BorhanRelatedFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		if (kEntitlementUtils::getEntitlementEnforcement() && (is_null($this->objectIdIn) && is_null($this->objectIdEqual))&& kConf::hasParam('metadata_list_without_object_filtering_partners') &&
         !in_array(kCurrentContext::getCurrentPartnerId(), kConf::get('metadata_list_without_object_filtering_partners')))
-			throw new KalturaAPIException(MetadataErrors::MUST_FILTER_ON_OBJECT_ID);
+			throw new BorhanAPIException(MetadataErrors::MUST_FILTER_ON_OBJECT_ID);
 
 		if (!$this->metadataObjectTypeEqual)
-			throw new KalturaAPIException(MetadataErrors::MUST_FILTER_ON_OBJECT_TYPE);
+			throw new BorhanAPIException(MetadataErrors::MUST_FILTER_ON_OBJECT_TYPE);
 				
 		if ($this->metadataObjectTypeEqual == MetadataObjectType::CATEGORY)
 		{
@@ -92,8 +92,8 @@ class KalturaMetadataFilter extends KalturaMetadataBaseFilter
 				$categories = categoryPeer::retrieveByPKs($categoryIds);
 				if(!count($categories))
 				{
-					$response = new KalturaMetadataListResponse();
-					$response->objects = new KalturaMetadataArray();
+					$response = new BorhanMetadataListResponse();
+					$response->objects = new BorhanMetadataArray();
 					$response->totalCount = 0;
 					return $response;
 				}
@@ -109,14 +109,14 @@ class KalturaMetadataFilter extends KalturaMetadataBaseFilter
 	
 		$metadataFilter = $this->toObject();
 
-		$c = KalturaCriteria::create(MetadataPeer::OM_CLASS);
+		$c = BorhanCriteria::create(MetadataPeer::OM_CLASS);
 		$metadataFilter->attachToCriteria($c);
 
 		$pager->attachToCriteria($c);
 		$list = MetadataPeer::doSelect($c);
 		
-		$response = new KalturaMetadataListResponse();
-		$response->objects = KalturaMetadataArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanMetadataListResponse();
+		$response->objects = BorhanMetadataArray::fromDbArray($list, $responseProfile);
 		
 		if($c instanceof SphinxMetadataCriteria)
 		{

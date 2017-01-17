@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaDistributionJobData extends KalturaJobData
+class BorhanDistributionJobData extends BorhanJobData
 {
 	/**
 	 * @var int
@@ -11,7 +11,7 @@ class KalturaDistributionJobData extends KalturaJobData
 	public $distributionProfileId;
 	
 	/**
-	 * @var KalturaDistributionProfile
+	 * @var BorhanDistributionProfile
 	 */
 	public $distributionProfile;
 	
@@ -21,7 +21,7 @@ class KalturaDistributionJobData extends KalturaJobData
 	public $entryDistributionId;
 	
 	/**
-	 * @var KalturaEntryDistribution
+	 * @var BorhanEntryDistribution
 	 */
 	public $entryDistribution;
 
@@ -32,13 +32,13 @@ class KalturaDistributionJobData extends KalturaJobData
 	public $remoteId;
 
 	/**
-	 * @var KalturaDistributionProviderType
+	 * @var BorhanDistributionProviderType
 	 */
 	public $providerType;
 
 	/**
 	 * Additional data that relevant for the provider only
-	 * @var KalturaDistributionJobProviderData
+	 * @var BorhanDistributionJobProviderData
 	 */
 	public $providerData;
 
@@ -57,7 +57,7 @@ class KalturaDistributionJobData extends KalturaJobData
 	/**
 	 * Stores array of media files that submitted to the destination site
 	 * Could be used later for media update 
-	 * @var KalturaDistributionRemoteMediaFileArray
+	 * @var BorhanDistributionRemoteMediaFileArray
 	 */
 	public $mediaFiles;
 	
@@ -77,11 +77,11 @@ class KalturaDistributionJobData extends KalturaJobData
 		return array_merge ( parent::getMapBetweenObjects() , self::$map_between_objects );
 	}
 	
-	public function doFromObject($sourceObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($sourceObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($sourceObject, $responseProfile);
 		
-		$this->mediaFiles = KalturaDistributionRemoteMediaFileArray::fromDbArray($sourceObject->getMediaFiles());
+		$this->mediaFiles = BorhanDistributionRemoteMediaFileArray::fromDbArray($sourceObject->getMediaFiles());
 		
 		if(!$this->distributionProfileId)
 			return;
@@ -93,26 +93,26 @@ class KalturaDistributionJobData extends KalturaJobData
 		if(!$distributionProfile || $distributionProfile->getStatus() != DistributionProfileStatus::ENABLED)
 			return;
 			
-		$this->distributionProfile = KalturaDistributionProfileFactory::createKalturaDistributionProfile($distributionProfile->getProviderType());
+		$this->distributionProfile = BorhanDistributionProfileFactory::createBorhanDistributionProfile($distributionProfile->getProviderType());
 		$this->distributionProfile->fromObject($distributionProfile);
 		
 		$entryDistribution = EntryDistributionPeer::retrieveByPK($this->entryDistributionId);
 		if($entryDistribution)
 		{
-			$this->entryDistribution = new KalturaEntryDistribution();
+			$this->entryDistribution = new BorhanEntryDistribution();
 			$this->entryDistribution->fromObject($entryDistribution);
 		}
 		
 		$providerType = $sourceObject->getProviderType();
 		if($providerType)
 		{
-			if($providerType == KalturaDistributionProviderType::GENERIC)
+			if($providerType == BorhanDistributionProviderType::GENERIC)
 			{
-				$this->providerData = new KalturaGenericDistributionJobProviderData($this);
+				$this->providerData = new BorhanGenericDistributionJobProviderData($this);
 			}
 			else 
 			{
-				$this->providerData = KalturaPluginManager::loadObject('KalturaDistributionJobProviderData', $providerType, array($this));
+				$this->providerData = BorhanPluginManager::loadObject('BorhanDistributionJobProviderData', $providerType, array($this));
 			}
 			
 			$providerData = $sourceObject->getProviderData();
@@ -134,16 +134,16 @@ class KalturaDistributionJobData extends KalturaJobData
 			$object->setMediaFiles($mediaFiles);
 		}
 		
-		if($this->providerType && $this->providerData && $this->providerData instanceof KalturaDistributionJobProviderData)
+		if($this->providerType && $this->providerData && $this->providerData instanceof BorhanDistributionJobProviderData)
 		{
 			$providerData = null;
-			if($this->providerType == KalturaDistributionProviderType::GENERIC)
+			if($this->providerType == BorhanDistributionProviderType::GENERIC)
 			{
 				$providerData = new kGenericDistributionJobProviderData($object);
 			}
 			else 
 			{
-				$providerData = KalturaPluginManager::loadObject('kDistributionJobProviderData', $this->providerType, array($object));
+				$providerData = BorhanPluginManager::loadObject('kDistributionJobProviderData', $this->providerType, array($object));
 			}
 			
 			if($providerData)

@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaWebexDropFolderBaseFilter extends KalturaDropFolderFilter
+abstract class BorhanWebexDropFolderBaseFilter extends BorhanDropFolderFilter
 {
 	static private $map_between_objects = array
 	(

@@ -3,7 +3,7 @@
  * @package plugins.youtubeApiDistribution
  * @subpackage lib
  */
-class KalturaYouTubeApiDistributionCaptionAction extends KalturaEnum
+class BorhanYouTubeApiDistributionCaptionAction extends BorhanEnum
 {
 	const UPDATE_ACTION = 1;
 	const SUBMIT_ACTION = 2;

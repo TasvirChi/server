@@ -30,7 +30,7 @@ abstract class BulkUploadEngineFilter extends KBulkUploadEngine
 		// send all invalid results
 		KBatchBase::$kClient->doMultiRequest();
 		
-		KalturaLog::info("Extracted objects by filter, $this->handledObjectsCount lines with " . ($this->handledObjectsCount - count($this->bulkUploadResults)) . ' invalid records');
+		BorhanLog::info("Extracted objects by filter, $this->handledObjectsCount lines with " . ($this->handledObjectsCount - count($this->bulkUploadResults)) . ' invalid records');
 				
 		//Check if job aborted
 		$this->checkAborted();
@@ -42,17 +42,17 @@ abstract class BulkUploadEngineFilter extends KBulkUploadEngine
 	/* (non-PHPdoc)
 	 * @see KBulkUploadEngine::addBulkUploadResult()
 	 */
-	protected function addBulkUploadResult(KalturaBulkUploadResult $bulkUploadResult)
+	protected function addBulkUploadResult(BorhanBulkUploadResult $bulkUploadResult)
 	{
 		parent::addBulkUploadResult($bulkUploadResult);
 			
 	}
 	
-	abstract protected function listObjects(KalturaFilter $filter, KalturaFilterPager $pager = null); 
+	abstract protected function listObjects(BorhanFilter $filter, BorhanFilterPager $pager = null); 
 	
-	abstract protected function createObjectFromResultAndJobData (KalturaBulkUploadResult $bulkUploadResult);
+	abstract protected function createObjectFromResultAndJobData (BorhanBulkUploadResult $bulkUploadResult);
 
-	abstract protected function deleteObjectFromResult (KalturaBulkUploadResult $bulkUploadResult);
+	abstract protected function deleteObjectFromResult (BorhanBulkUploadResult $bulkUploadResult);
 	
 	abstract protected function fillUploadResultInstance ($object);
 	
@@ -71,8 +71,8 @@ abstract class BulkUploadEngineFilter extends KBulkUploadEngine
 	/**
 	 *
 	 * Creates a new upload result object from the given parameters
-	 * @param KalturaObject $object
-	 * @return KalturaBulkUploadResult
+	 * @param BorhanObject $object
+	 * @return BorhanBulkUploadResult
 	 */
 	protected function createUploadResult($object)
 	{
@@ -87,10 +87,10 @@ abstract class BulkUploadEngineFilter extends KBulkUploadEngine
 		$bulkUploadResult->bulkUploadJobId = $this->job->id;
 		$bulkUploadResult->lineIndex = $this->startIndex + $this->handledObjectsCount;
 		$bulkUploadResult->partnerId = $this->job->partnerId;
-		$bulkUploadResult->status = KalturaBulkUploadResultStatus::IN_PROGRESS;
+		$bulkUploadResult->status = BorhanBulkUploadResultStatus::IN_PROGRESS;
 		if (!$bulkUploadResult->action)
 		{
-		    $bulkUploadResult->action = KalturaBulkUploadAction::ADD;
+		    $bulkUploadResult->action = BorhanBulkUploadAction::ADD;
 		}	
 		$bulkUploadResult->bulkUploadResultObjectType = $this->getBulkUploadResultObjectType(); 
 			
@@ -105,7 +105,7 @@ abstract class BulkUploadEngineFilter extends KBulkUploadEngine
 	 */
 	protected function processObjectsList()
 	{
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageSize = 100;		
 		if(KBatchBase::$taskConfig->params->pageSize)
 			$pager->pageSize = KBatchBase::$taskConfig->params->pageSize;			
@@ -148,7 +148,7 @@ abstract class BulkUploadEngineFilter extends KBulkUploadEngine
 	 */
 	protected function createObjects()
 	{
-		KalturaLog::info("job[{$this->job->id}] start creating objects");
+		BorhanLog::info("job[{$this->job->id}] start creating objects");
 		
 		$bulkUploadResultChunk = array(); // store the results of the created entries
 				
@@ -157,21 +157,21 @@ abstract class BulkUploadEngineFilter extends KBulkUploadEngine
 		
 		foreach($this->bulkUploadResults as $bulkUploadResult)
 		{
-			/* @var $bulkUploadResult KalturaBulkUploadResultCategoryEntry */
+			/* @var $bulkUploadResult BorhanBulkUploadResultCategoryEntry */
 		    switch ($bulkUploadResult->action)
 		    {
-		        case KalturaBulkUploadAction::ADD:
+		        case BorhanBulkUploadAction::ADD:
     		        $this->createObjectFromResultAndJobData($bulkUploadResult);       					
         			$bulkUploadResultChunk[] = $bulkUploadResult;
 		            break;
 		        		            
-		        case KalturaBulkUploadAction::DELETE:
+		        case BorhanBulkUploadAction::DELETE:
 		            $bulkUploadResultChunk[] = $bulkUploadResult;
         			$this->deleteObjectFromResult($bulkUploadResult);      			
 		            break;
 		        
 		        default:
-		            $bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
+		            $bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
 		            $bulkUploadResult->errorDescription = "Unsupported action passed: [".$bulkUploadResult->action ."]";
 		            break;
 		    }
@@ -197,13 +197,13 @@ abstract class BulkUploadEngineFilter extends KBulkUploadEngine
 			$this->updateObjectsResults($requestResults, $bulkUploadResultChunk);
 
 
-		KalturaLog::info("job[{$this->job->id}] finished creating objects");
+		BorhanLog::info("job[{$this->job->id}] finished creating objects");
 	}
 	
     protected function updateObjectsResults(array $requestResults, array $bulkUploadResults)
 	{
 	    KBatchBase::$kClient->startMultiRequest();
-		KalturaLog::info("Updating " . count($requestResults) . " results");
+		BorhanLog::info("Updating " . count($requestResults) . " results");
 		
 		foreach($requestResults as $index => $requestResult)
 		{
@@ -212,8 +212,8 @@ abstract class BulkUploadEngineFilter extends KBulkUploadEngine
 			if(is_array($requestResult) && isset($requestResult['code']))
 			{
 				if($this->isErrorResult($requestResult)){
-				    $bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-				    $bulkUploadResult->errorType = KalturaBatchJobErrorTypes::KALTURA_API;
+				    $bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+				    $bulkUploadResult->errorType = BorhanBatchJobErrorTypes::BORHAN_API;
 					$bulkUploadResult->objectStatus = $requestResult['code'];
 					$bulkUploadResult->errorDescription = $requestResult['message'];
 					$this->addBulkUploadResult($bulkUploadResult);	
@@ -224,8 +224,8 @@ abstract class BulkUploadEngineFilter extends KBulkUploadEngine
 			if($requestResult instanceof Exception)
 			{
 				if($this->isErrorResult($requestResult)){
-					$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-					$bulkUploadResult->errorType = KalturaBatchJobErrorTypes::KALTURA_API;
+					$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+					$bulkUploadResult->errorType = BorhanBatchJobErrorTypes::BORHAN_API;
 					$bulkUploadResult->errorDescription = $requestResult->getMessage();
 					$this->addBulkUploadResult($bulkUploadResult);
 					continue;

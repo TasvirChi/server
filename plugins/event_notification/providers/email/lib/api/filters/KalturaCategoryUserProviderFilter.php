@@ -3,7 +3,7 @@
  * @package plugins.emailNotification
  * @subpackage api.filters
  */
-class KalturaCategoryUserProviderFilter extends KalturaFilter
+class BorhanCategoryUserProviderFilter extends BorhanFilter
 {
 	static private $map_between_objects = array
 	(
@@ -41,7 +41,7 @@ class KalturaCategoryUserProviderFilter extends KalturaFilter
 
 
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -59,7 +59,7 @@ class KalturaCategoryUserProviderFilter extends KalturaFilter
 	public $userIdIn;
 
 	/**
-	 * @var KalturaCategoryUserStatus
+	 * @var BorhanCategoryUserStatus
 	 */
 	public $statusEqual;
 
@@ -89,7 +89,7 @@ class KalturaCategoryUserProviderFilter extends KalturaFilter
 	public $updatedAtLessThanOrEqual;
 
 	/**
-	 * @var KalturaUpdateMethodType
+	 * @var BorhanUpdateMethodType
 	 */
 	public $updateMethodEqual;
 

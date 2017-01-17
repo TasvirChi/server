@@ -94,7 +94,7 @@ abstract class BusinessProcessNotificationTemplate extends BatchEventNotificatio
 		$eventObjectType = null;
 		foreach ($templates as $template)
 		{
-			$templateObjectClassName = KalturaPluginManager::getObjectClass('EventNotificationEventObjectType', $template->getObjectType());
+			$templateObjectClassName = BorhanPluginManager::getObjectClass('EventNotificationEventObjectType', $template->getObjectType());
 			if(!strcmp(get_class($object), $templateObjectClassName) || is_subclass_of(get_class ($object), $templateObjectClassName))
 			{
 				$eventObjectType = $template->getObjectType ();
@@ -104,7 +104,7 @@ abstract class BusinessProcessNotificationTemplate extends BatchEventNotificatio
 		
 		if (!$eventObjectType)
 		{
-			KalturaLog::info ("There are currently no Business Process Templates for objects of type [" . get_class($object) . "]");
+			BorhanLog::info ("There are currently no Business Process Templates for objects of type [" . get_class($object) . "]");
 			return array ();
 		}
 		
@@ -135,11 +135,11 @@ abstract class BusinessProcessNotificationTemplate extends BatchEventNotificatio
 		$results = BusinessProcessCasePeer::retrieveCasesByObjectIdObjectTypeProcessIdServerId($object->getId(), $this->getObjectType(), $this->getServerId(), $processId, $this->getPartnerId());
 		if(!$results || !count($results))
 		{
-			KalturaLog::info('Object [' . get_class($object) . '][' . $object->getPrimaryKey() . '] case id not found in custom-data');
+			BorhanLog::info('Object [' . get_class($object) . '][' . $object->getPrimaryKey() . '] case id not found in custom-data');
 		}
 		else
 		{
-			KalturaLog::debug('Case values for [' . $this->getServerId() . '_' . $processId . ']: ' . print_r($results, true));
+			BorhanLog::debug('Case values for [' . $this->getServerId() . '_' . $processId . ']: ' . print_r($results, true));
 		}
 
 		return $results;

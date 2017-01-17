@@ -3,10 +3,10 @@
  * @package api
  * @subpackage filters
  */
-class KalturaPermissionFilter extends KalturaPermissionBaseFilter
+class BorhanPermissionFilter extends BorhanPermissionBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -14,9 +14,9 @@ class KalturaPermissionFilter extends KalturaPermissionBaseFilter
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::getListResponse()
+	 * @see BorhanRelatedFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$permissionFilter = $this->toObject();
 		
@@ -28,8 +28,8 @@ class KalturaPermissionFilter extends KalturaPermissionBaseFilter
 		
 		$list = PermissionPeer::doSelect($c);
 		
-		$response = new KalturaPermissionListResponse();
-		$response->objects = KalturaPermissionArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanPermissionListResponse();
+		$response->objects = BorhanPermissionArray::fromDbArray($list, $responseProfile);
 		$response->totalCount = $count;
 		
 		return $response;

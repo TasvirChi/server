@@ -5,11 +5,11 @@
  * @package plugins.scheduleBulkUpload
  * @subpackage api.objects
  */
-class KalturaBulkUploadICalJobData extends KalturaBulkUploadJobData
+class BorhanBulkUploadICalJobData extends BorhanBulkUploadJobData
 {	
 	/**
 	 * The type of the events that ill be created by this upload
-	 * @var KalturaScheduleEventType
+	 * @var BorhanScheduleEventType
 	 */
 	public $eventsType = null;
 	
@@ -48,6 +48,6 @@ class KalturaBulkUploadICalJobData extends KalturaBulkUploadJobData
 	
 	public function setType ()
 	{
-	    $this->type = kPluginableEnumsManager::coreToApi("KalturaBulkUploadType", BulkUploadSchedulePlugin::getApiValue(BulkUploadScheduleType::ICAL));
+	    $this->type = kPluginableEnumsManager::coreToApi("BorhanBulkUploadType", BulkUploadSchedulePlugin::getApiValue(BulkUploadScheduleType::ICAL));
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * @package plugins.webex
  */
-class WebexPlugin extends KalturaPlugin implements IKalturaImportHandler
+class WebexPlugin extends BorhanPlugin implements IBorhanImportHandler
 {
 	const PLUGIN_NAME = 'webex';
 	
@@ -11,7 +11,7 @@ class WebexPlugin extends KalturaPlugin implements IKalturaImportHandler
 	private static $container_formats_to_file_extensions = array("arf"=>"arf", "mpeg-4" => "mp4");
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName() {
 		return self::PLUGIN_NAME;
@@ -19,13 +19,13 @@ class WebexPlugin extends KalturaPlugin implements IKalturaImportHandler
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaImportHandler::handleImportData()
+	 * @see IBorhanImportHandler::handleImportData()
 	 */
 	public static function handleImportContent($curlInfo,  $importData, $params) {
 		if (!($curlInfo->headers['content-length'] < 16000 && $curlInfo->headers['content-type'] == 'text/html'))
 			return $importData;
-		KalturaLog::debug('content-length [' . $curlInfo->headers['content-length'] . '] content-type [' . $curlInfo->headers['content-type'] . ']');
-		KalturaLog::info('Handle Import data: Webex Plugin');
+		BorhanLog::debug('content-length [' . $curlInfo->headers['content-length'] . '] content-type [' . $curlInfo->headers['content-type'] . ']');
+		BorhanLog::info('Handle Import data: Webex Plugin');
 		$matches = null;
 		$recordId=null;
 		if(isset($curlInfo->headers['set-cookie']))
@@ -42,7 +42,7 @@ class WebexPlugin extends KalturaPlugin implements IKalturaImportHandler
 		}
 
 		$data = file_get_contents($importData->destFileLocalPath);
-		KalturaLog::info("data:\n\n$data\n\n");
+		BorhanLog::info("data:\n\n$data\n\n");
 		if(!preg_match("/href='([^']+)';/", $data, $matches))
 		{
 			throw new Exception('Starting URL not found');
@@ -51,7 +51,7 @@ class WebexPlugin extends KalturaPlugin implements IKalturaImportHandler
 		$curlWrapper = new KCurlWrapper();
 		$curlWrapper->setOpt(CURLOPT_COOKIE, 'DetectionBrowserStatus=3|1|32|1|11|2;'.$curlInfo->headers["set-cookie"]);
 		$result = $curlWrapper->exec($url2);
-		KalturaLog::info("result:\n\n$result\n\n");
+		BorhanLog::info("result:\n\n$result\n\n");
 		
 		if(!preg_match("/var prepareTicket = '([^']+)';/", $result, $matches))
 		{
@@ -82,11 +82,11 @@ class WebexPlugin extends KalturaPlugin implements IKalturaImportHandler
 		for($i = 0; $i < $iterations; $i++)
 		{
 			$result = $curlWrapper->exec($url3);
-			KalturaLog::info("result ($i):\n\n$result\n\n");
+			BorhanLog::info("result ($i):\n\n$result\n\n");
 			
 			if(!preg_match("/window\\.parent\\.func_prepare\\('([^']+)','([^']*)','([^']*)'\\);/", $result, $matches))
 			{
-				KalturaLog::err("Invalid result returned for prepareTicket request - should contain call to the func_prepare method\n $result");
+				BorhanLog::err("Invalid result returned for prepareTicket request - should contain call to the func_prepare method\n $result");
 				throw new Exception('Invalid result: func_prepare function not found');
 			}
 			$status = $matches[1];
@@ -98,7 +98,7 @@ class WebexPlugin extends KalturaPlugin implements IKalturaImportHandler
 		
 		if($status != 'OKOK')
 		{
-			KalturaLog::info("Invalid result returned for prepareTicket request. Last result:\n " . $result);
+			BorhanLog::info("Invalid result returned for prepareTicket request. Last result:\n " . $result);
 			throw new kTemporaryException('Invalid result returned for prepareTicket request');
 		}
 			
@@ -109,7 +109,7 @@ class WebexPlugin extends KalturaPlugin implements IKalturaImportHandler
 		$curlWrapper->setOpt(CURLOPT_RETURNTRANSFER, false);
 		$fileName = pathinfo($importData->destFileLocalPath, PATHINFO_FILENAME);
 		
-		KalturaLog::info('destination: ' . $importData->destFileLocalPath);
+		BorhanLog::info('destination: ' . $importData->destFileLocalPath);
 		$tmpPath = tempnam(sys_get_temp_dir(), "webex");
 		$result = $curlWrapper->exec($url4, $tmpPath);
 		

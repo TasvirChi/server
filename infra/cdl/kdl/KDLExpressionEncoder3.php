@@ -6,7 +6,7 @@
 class KDLExpressionEncoder3  extends KDLOperatorBase {
 	
 const jobXml = '<?xml version="1.0"?>
-<!--Created with Kaltura Decision Layer module-->
+<!--Created with Borhan Decision Layer module-->
 <Preset
   Version="3.0">
   <Job
@@ -412,7 +412,7 @@ $contObj = $target->_container;
 
 //$stream = clone $streams->StreamInfo;
 //		$streams[1] = $stream;
-KalturaLog::log($jobElem->asXML());
+BorhanLog::log($jobElem->asXML());
 		return $jobElem->asXML();
 	}
 	
@@ -431,9 +431,9 @@ KalturaLog::log($jobElem->asXML());
 				continue;
 			}
 		$transcoderParams = $flavor->_transcoders[$eeId];
-KalturaLog::log("transcoder==>\n".print_r($transcoderParams,true)."\n<--");
+BorhanLog::log("transcoder==>\n".print_r($transcoderParams,true)."\n<--");
 			if(is_null($transcoderParams->_cmd)){
-				KalturaLog::log("ee3 cmd is null");
+				BorhanLog::log("ee3 cmd is null");
 				continue;
 			}
 			/*
@@ -551,13 +551,13 @@ KalturaLog::log("transcoder==>\n".print_r($transcoderParams,true)."\n<--");
 		$br = $streams->StreamInfo->Bitrate;
 		if(isset($br->ConstantBitrate)) {
 			if($br->ConstantBitrate['Bitrate']!=$flavorVideoBr){
-				KalturaLog::log("-->xmlBR=".$br->ConstantBitrate['Bitrate'].", flavorBR=".$flavorVideoBr);
+				BorhanLog::log("-->xmlBR=".$br->ConstantBitrate['Bitrate'].", flavorBR=".$flavorVideoBr);
 				$br->ConstantBitrate['Bitrate']=$flavorVideoBr;
 			}
 		}
 		else if(isset($br->VariableConstrainedBitrate)) {
 			if($br->VariableConstrainedBitrate['AverageBitrate']!=$flavorVideoBr){
-				KalturaLog::log("-->xmlBR=".$br->VariableConstrainedBitrate['AverageBitrate'].", flavorBR=".$flavorVideoBr);
+				BorhanLog::log("-->xmlBR=".$br->VariableConstrainedBitrate['AverageBitrate'].", flavorBR=".$flavorVideoBr);
 				$br->VariableConstrainedBitrate['AverageBitrate']=$flavorVideoBr;
 				if(isset($flavor->_video->_peakBitRate)){
 					$br->VariableConstrainedBitrate['PeakBitrate']=round($flavor->_video->_peakBitRate);

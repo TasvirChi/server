@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaPermissionType extends KalturaEnum implements PermissionType
+class BorhanPermissionType extends BorhanEnum implements PermissionType
 {
 	// see permissionType interface
 }

@@ -3,7 +3,7 @@
  * @package plugins.eventNotification
  * @subpackage api.objects
  */
-class KalturaEventObjectChangedCondition extends KalturaCondition
+class BorhanEventObjectChangedCondition extends BorhanCondition
 {	
 	/**
 	 * Comma seperated column names to be tested
@@ -17,7 +17,7 @@ class KalturaEventObjectChangedCondition extends KalturaCondition
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaCondition::getMapBetweenObjects()
+	 * @see BorhanCondition::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -25,7 +25,7 @@ class KalturaEventObjectChangedCondition extends KalturaCondition
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

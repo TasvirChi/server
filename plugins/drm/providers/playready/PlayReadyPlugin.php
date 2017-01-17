@@ -2,7 +2,7 @@
 /**
  * @package plugins.playReady
  */
-class PlayReadyPlugin extends KalturaPlugin implements IKalturaEnumerator, IKalturaServices , IKalturaPermissionsEnabler, IKalturaObjectLoader, IKalturaSearchDataContributor, IKalturaPending, IKalturaApplicationPartialView, IKalturaEventConsumers, IKalturaPlaybackContextDataContributor
+class PlayReadyPlugin extends BorhanPlugin implements IBorhanEnumerator, IBorhanServices , IBorhanPermissionsEnabler, IBorhanObjectLoader, IBorhanSearchDataContributor, IBorhanPending, IBorhanApplicationPartialView, IBorhanEventConsumers, IBorhanPlaybackContextDataContributor
 {
 	const PLUGIN_NAME = 'playReady';
 	const SEARCH_DATA_SUFFIX = 's';
@@ -12,7 +12,7 @@ class PlayReadyPlugin extends KalturaPlugin implements IKalturaEnumerator, IKalt
 	const PLAY_READY_TAG = 'playready';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -20,17 +20,17 @@ class PlayReadyPlugin extends KalturaPlugin implements IKalturaEnumerator, IKalt
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$drmDependency = new KalturaDependency(DrmPlugin::getPluginName());
+		$drmDependency = new BorhanDependency(DrmPlugin::getPluginName());
 		
 		return array($drmDependency);
 	}
 			
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{	
@@ -49,17 +49,17 @@ class PlayReadyPlugin extends KalturaPlugin implements IKalturaEnumerator, IKalt
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if($baseClass == 'KalturaDrmProfile' && $enumValue == PlayReadyPlugin::getPlayReadyProviderCoreValue())
-			return new KalturaPlayReadyProfile();
-		if($baseClass == 'KalturaDrmProfile' && $enumValue == self::getApiValue(PlayReadyProviderType::PLAY_READY))
-			return new KalturaPlayReadyProfile();		
+		if($baseClass == 'BorhanDrmProfile' && $enumValue == PlayReadyPlugin::getPlayReadyProviderCoreValue())
+			return new BorhanPlayReadyProfile();
+		if($baseClass == 'BorhanDrmProfile' && $enumValue == self::getApiValue(PlayReadyProviderType::PLAY_READY))
+			return new BorhanPlayReadyProfile();		
 	
-		if($baseClass == 'KalturaDrmPolicy' && $enumValue == PlayReadyPlugin::getPlayReadyProviderCoreValue())
-			return new KalturaPlayReadyPolicy();
+		if($baseClass == 'BorhanDrmPolicy' && $enumValue == PlayReadyPlugin::getPlayReadyProviderCoreValue())
+			return new BorhanPlayReadyPolicy();
 		
 		if($baseClass == 'DrmProfile' && $enumValue == PlayReadyPlugin::getPlayReadyProviderCoreValue())
 			return new PlayReadyProfile();
@@ -67,13 +67,13 @@ class PlayReadyPlugin extends KalturaPlugin implements IKalturaEnumerator, IKalt
 		if($baseClass == 'DrmPolicy' && $enumValue == PlayReadyPlugin::getPlayReadyProviderCoreValue())
 			return new PlayReadyPolicy();
 			
-		if (class_exists('Kaltura_Client_Client'))
+		if (class_exists('Borhan_Client_Client'))
 		{
-			if ($baseClass == 'Kaltura_Client_Drm_Type_DrmProfile' && $enumValue == Kaltura_Client_Drm_Enum_DrmProviderType::PLAY_READY)
+			if ($baseClass == 'Borhan_Client_Drm_Type_DrmProfile' && $enumValue == Borhan_Client_Drm_Enum_DrmProviderType::PLAY_READY)
     		{
-    			return new Kaltura_Client_PlayReady_Type_PlayReadyProfile();
+    			return new Borhan_Client_PlayReady_Type_PlayReadyProfile();
     		}
-    		if ($baseClass == 'Form_DrmProfileConfigureExtend_SubForm' && $enumValue == Kaltura_Client_Drm_Enum_DrmProviderType::PLAY_READY)
+    		if ($baseClass == 'Form_DrmProfileConfigureExtend_SubForm' && $enumValue == Borhan_Client_Drm_Enum_DrmProviderType::PLAY_READY)
     		{
      			return new Form_PlayReadyProfileConfigureExtend_SubForm();
     		}	   		
@@ -83,17 +83,17 @@ class PlayReadyPlugin extends KalturaPlugin implements IKalturaEnumerator, IKalt
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{	
-		if($baseClass == 'KalturaDrmProfile' && $enumValue == PlayReadyPlugin::getPlayReadyProviderCoreValue())
-			return 'KalturaPlayReadyProfile';
-		if($baseClass == 'KalturaDrmProfile' && $enumValue == self::getApiValue(PlayReadyProviderType::PLAY_READY))
-			return 'KalturaPlayReadyProfile';		
+		if($baseClass == 'BorhanDrmProfile' && $enumValue == PlayReadyPlugin::getPlayReadyProviderCoreValue())
+			return 'BorhanPlayReadyProfile';
+		if($baseClass == 'BorhanDrmProfile' && $enumValue == self::getApiValue(PlayReadyProviderType::PLAY_READY))
+			return 'BorhanPlayReadyProfile';		
 			
-		if($baseClass == 'KalturaDrmPolicy' && $enumValue == PlayReadyPlugin::getPlayReadyProviderCoreValue())
-			return 'KalturaPlayReadyPolicy';
+		if($baseClass == 'BorhanDrmPolicy' && $enumValue == PlayReadyPlugin::getPlayReadyProviderCoreValue())
+			return 'BorhanPlayReadyPolicy';
 		
 		if($baseClass == 'DrmProfile' && $enumValue == PlayReadyPlugin::getPlayReadyProviderCoreValue())
 			return 'PlayReadyProfile';
@@ -101,13 +101,13 @@ class PlayReadyPlugin extends KalturaPlugin implements IKalturaEnumerator, IKalt
 		if($baseClass == 'DrmPolicy' && $enumValue == PlayReadyPlugin::getPlayReadyProviderCoreValue())
 			return 'PlayReadyPolicy';
 			
-		if (class_exists('Kaltura_Client_Client'))
+		if (class_exists('Borhan_Client_Client'))
 		{
-			if ($baseClass == 'Kaltura_Client_Drm_Type_DrmProfile' && $enumValue == Kaltura_Client_Drm_Enum_DrmProviderType::PLAY_READY)
+			if ($baseClass == 'Borhan_Client_Drm_Type_DrmProfile' && $enumValue == Borhan_Client_Drm_Enum_DrmProviderType::PLAY_READY)
     		{
-    			return 'Kaltura_Client_PlayReady_Type_PlayReadyProfile';
+    			return 'Borhan_Client_PlayReady_Type_PlayReadyProfile';
     		}
-    		if ($baseClass == 'Form_DrmProfileConfigureExtend_SubForm' && $enumValue == Kaltura_Client_Drm_Enum_DrmProviderType::PLAY_READY)
+    		if ($baseClass == 'Form_DrmProfileConfigureExtend_SubForm' && $enumValue == Borhan_Client_Drm_Enum_DrmProviderType::PLAY_READY)
     		{
      			return 'Form_PlayReadyProfileConfigureExtend_SubForm';
     		}	   		
@@ -118,14 +118,14 @@ class PlayReadyPlugin extends KalturaPlugin implements IKalturaEnumerator, IKalt
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaApplicationPartialView::getApplicationPartialViews()
+	 * @see IBorhanApplicationPartialView::getApplicationPartialViews()
 	 */
 	public static function getApplicationPartialViews($controller, $action)
 	{
 		if($controller == 'plugin' && $action == 'DrmProfileConfigureAction')
 		{
 			return array(
-				new Kaltura_View_Helper_PlayReadyProfileConfigure(),
+				new Borhan_View_Helper_PlayReadyProfileConfigure(),
 			);
 		}
 		
@@ -137,7 +137,7 @@ class PlayReadyPlugin extends KalturaPlugin implements IKalturaEnumerator, IKalt
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 
 	/**
@@ -145,7 +145,7 @@ class PlayReadyPlugin extends KalturaPlugin implements IKalturaEnumerator, IKalt
 	 */
 	public static function getCoreValue($type, $valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore($type, $value);
 	}
 	
@@ -154,12 +154,12 @@ class PlayReadyPlugin extends KalturaPlugin implements IKalturaEnumerator, IKalt
 	 */
 	public static function getPlayReadyProviderCoreValue()
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . PlayReadyProviderType::PLAY_READY;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . PlayReadyProviderType::PLAY_READY;
 		return kPluginableEnumsManager::apiToCore('DrmProviderType', $value);
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaServices::getServicesMap()
+	 * @see IBorhanServices::getServicesMap()
 	 */
 	public static function getServicesMap() {
 		$map = array(
@@ -169,7 +169,7 @@ class PlayReadyPlugin extends KalturaPlugin implements IKalturaEnumerator, IKalt
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissions::isAllowedPartner()
+	 * @see IBorhanPermissions::isAllowedPartner()
 	 */
 	public static function isAllowedPartner($partnerId) {	
 		if (in_array($partnerId, array(Partner::ADMIN_CONSOLE_PARTNER_ID, Partner::BATCH_PARTNER_ID)))
@@ -196,7 +196,7 @@ class PlayReadyPlugin extends KalturaPlugin implements IKalturaEnumerator, IKalt
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSearchDataContributor::getSearchData()
+	 * @see IBorhanSearchDataContributor::getSearchData()
 	 */
 	public static function getSearchData(BaseObject $object)
 	{
@@ -219,7 +219,7 @@ class PlayReadyPlugin extends KalturaPlugin implements IKalturaEnumerator, IKalt
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissionsEnabler::permissionEnabled()
+	 * @see IBorhanPermissionsEnabler::permissionEnabled()
 	 */
 	public static function permissionEnabled($partnerId, $permissionName) 
 	{
@@ -256,7 +256,7 @@ class PlayReadyPlugin extends KalturaPlugin implements IKalturaEnumerator, IKalt
 	 */
 	public static function getDrmSchemeCoreValue()
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . PlayReadySchemeName::PLAYREADY;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . PlayReadySchemeName::PLAYREADY;
 		return kPluginableEnumsManager::apiToCore('DrmSchemeName', $value);
 	}
 

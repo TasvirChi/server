@@ -88,7 +88,7 @@ class KProcessWrapper
 		$descriptorspec = array(); // stdin is a pipe that the child will read from
 		$other_options = array('suppress_errors' => FALSE, 'bypass_shell' => FALSE);
 		
-		KalturaLog::debug("Now executing [$cmdLine]");
+		BorhanLog::debug("Now executing [$cmdLine]");
 		$process = proc_open($cmdLine, $descriptorspec, $pipes, null, null, $other_options);
 		$this->pipes = $pipes;
 		$this->handle = $process;
@@ -174,7 +174,7 @@ class KProcessWrapper
 	}
 	
 	private function killProcess() {
-		KalturaLog::notice("About to kill process " . $this->processId);
+		BorhanLog::notice("About to kill process " . $this->processId);
 		if ($this->processId) {
 			if(function_exists ( 'posix_kill' )){
 				posix_kill ( $this->processId, 9 );

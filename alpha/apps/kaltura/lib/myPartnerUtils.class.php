@@ -85,7 +85,7 @@ class myPartnerUtils
 	}
 
 	/**
-	 * a lks  is a "lite" kaltura session. It is created by the partner and can be be translated into a simplified ks:
+	 * a lks  is a "lite" borhan session. It is created by the partner and can be be translated into a simplified ks:
 	 * 	1. only regular - not admin
 	 * 	2. view & edit privileges (nt for a specific ks)
 	 * 	3. does not expire  
@@ -150,15 +150,15 @@ class myPartnerUtils
 	{
 		if (!$allPartnerCriteriaParams)
 		{
-			KalturaLog::debug("could not re-apply filters, empty partnerCriteriaParams array was sent");
+			BorhanLog::debug("could not re-apply filters, empty partnerCriteriaParams array was sent");
 			return;
 		}
 
 		self::resetAllFilters();
 		foreach($allPartnerCriteriaParams as $objectName => $partnerCriteriaParams)
 		{
-			list($partner_id, $private_partner_data, $partner_group, $kaltura_network) = $partnerCriteriaParams;
-			self::addPartnerToCriteria($objectName, $partner_id, $private_partner_data, $partner_group, $kaltura_network);
+			list($partner_id, $private_partner_data, $partner_group, $borhan_network) = $partnerCriteriaParams;
+			self::addPartnerToCriteria($objectName, $partner_id, $private_partner_data, $partner_group, $borhan_network);
 		}
 	}
 	
@@ -170,7 +170,7 @@ class myPartnerUtils
 	 *
 	 * @param unknown_type $partner_id
 	 */
-	public static function applyPartnerFilters ( $partner_id=null , $private_partner_data = false , $partner_group = null , $kaltura_network = null )
+	public static function applyPartnerFilters ( $partner_id=null , $private_partner_data = false , $partner_group = null , $borhan_network = null )
 	{
 		if ( $partner_id === null )
 		{
@@ -180,8 +180,8 @@ class myPartnerUtils
 		//Category peer should be added before entry - since we select from category on entry->setDefaultCriteria.
 		self::addPartnerToCriteria ( 'kuser', $partner_id , $private_partner_data, $partner_group);
 		self::addPartnerToCriteria ( 'category' , $partner_id , $private_partner_data , $partner_group);
-		self::addPartnerToCriteria ( 'entry' , $partner_id , $private_partner_data, $partner_group , $kaltura_network );
-		self::addPartnerToCriteria ( 'kshow' , $partner_id , $private_partner_data, $partner_group , $kaltura_network );
+		self::addPartnerToCriteria ( 'entry' , $partner_id , $private_partner_data, $partner_group , $borhan_network );
+		self::addPartnerToCriteria ( 'kshow' , $partner_id , $private_partner_data, $partner_group , $borhan_network );
 		self::addPartnerToCriteria ( 'moderation' , $partner_id , $private_partner_data , $partner_group);
 		self::addPartnerToCriteria ( 'categoryEntry' , $partner_id , $private_partner_data , $partner_group);
 		self::addPartnerToCriteria ( 'categoryKuser', $partner_id , $private_partner_data , $partner_group);
@@ -205,11 +205,11 @@ class myPartnerUtils
 	// if only partner_id exists - force it on the criteria
 	// if also $partner_group - allow or partner_id or the partner_group - use in ( partner_id ,  $partner_group ) - where partner_group is split by ','
 	// if partner_group == "*" - don't filter at all
-	// if $kaltura_network - add 'or  display_in_search >= 2'
-	public static function addPartnerToCriteria ( $objectName, $partner_id, $private_partner_data = false , $partner_group=null , $kaltura_network=null )
+	// if $borhan_network - add 'or  display_in_search >= 2'
+	public static function addPartnerToCriteria ( $objectName, $partner_id, $private_partner_data = false , $partner_group=null , $borhan_network=null )
 	{
 		$objectName = strtolower($objectName);
-		self::$partnerCriteriaParams[$objectName] = array($partner_id, $private_partner_data, $partner_group, $kaltura_network);
+		self::$partnerCriteriaParams[$objectName] = array($partner_id, $private_partner_data, $partner_group, $borhan_network);
 		self::$allPartnerCriteriaParams[$objectName] = self::$partnerCriteriaParams[$objectName];
 	}
 
@@ -277,7 +277,7 @@ class myPartnerUtils
 
 		$pos = imagettftext($im, $fontSize, 0, 10, $bottom, $green, $font, $partner->getPartnerName()." Collaborative Video");
 		$pos = imagettftext($im, $fontSize, 0, $pos[2], $bottom, $white, $font, " powered by ");
-		imagettftext($im, $fontSize, 0, $pos[2], $bottom, $green, $font, "Kaltura");
+		imagettftext($im, $fontSize, 0, $pos[2], $bottom, $green, $font, "Borhan");
 
 		kFile::fullMkdir($path);
 
@@ -347,8 +347,8 @@ class myPartnerUtils
 		if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
 			$protocol = 'https';
 
-		// temporary default is http since the system is not aligned to use https in all of its components (e.g. kmc)
-		// right now, if a partner cdnHost is set to https:// the kmc wont work well if we reply with https prefix to its requests
+		// temporary default is http since the system is not aligned to use https in all of its components (e.g. bmc)
+		// right now, if a partner cdnHost is set to https:// the bmc wont work well if we reply with https prefix to its requests
 		if ($protocol === null)
 			$protocol='http';
 
@@ -427,8 +427,8 @@ class myPartnerUtils
 
 		$thumbHost = $partner->getThumbnailHost();
 
-		// temporary default is http since the system is not aligned to use https in all of its components (e.g. kmc)
-		// right now, if a partner cdnHost is set to https:// the kmc wont work well if we reply with https prefix to its requests
+		// temporary default is http since the system is not aligned to use https in all of its components (e.g. bmc)
+		// right now, if a partner cdnHost is set to https:// the bmc wont work well if we reply with https prefix to its requests
 		if ($protocol === null)
 			$protocol='http';
 
@@ -619,7 +619,7 @@ class myPartnerUtils
 		$conversion_profile_2_id = $entry->getConversionProfileId();
 		$conversion_quality = "";
 		
-		KalturaLog::log("conversion_profile_2_id [$conversion_profile_2_id]");
+		BorhanLog::log("conversion_profile_2_id [$conversion_profile_2_id]");
 		if ( is_null($conversion_profile_2_id) || $conversion_profile_2_id <= 0 )
 		{
 			// this is assumed to be the old conversion profile
@@ -633,11 +633,11 @@ class myPartnerUtils
 				throw new Exception ( "Cannot find partner for entry [$entry_id]" );
 			}
 			
-			KalturaLog::log("conversion_quality [$conversion_quality]");
-			$partner_kmc_version = $partner->getKmcVersion ( );
-			if ( is_null($partner_kmc_version ) || version_compare( $partner_kmc_version , "2" , "<" ) ) 
+			BorhanLog::log("conversion_quality [$conversion_quality]");
+			$partner_bmc_version = $partner->getBmcVersion ( );
+			if ( is_null($partner_bmc_version ) || version_compare( $partner_bmc_version , "2" , "<" ) ) 
 			{
-				// if old kmc - the fallback conversion_quality is the one on the partner->getDefConversionProfileType
+				// if old bmc - the fallback conversion_quality is the one on the partner->getDefConversionProfileType
 				if ( is_null($conversion_quality) || $conversion_quality <= 0 )
 				{
 					// search for the default one on the partner
@@ -654,13 +654,13 @@ class myPartnerUtils
 					throw new Exception ( "Cannot find conversion profile for entry_id [$entry_id] OLD conversion_quality [$conversion_quality]" );
 				}
 				
-				// this is a partner working with OLD KMC
+				// this is a partner working with OLD BMC
 				// - we need to create the new conversion profile from the old one
 				$new_conversion_profile = myConversionProfileUtils::createConversionProfile2FromConversionProfile ( $old_conversion_profile );  
 			}
 			else
 			{
-				// if new kmc_version - the fallback conversion_quality is the one on the partner->getDefaultConversionProfileId
+				// if new bmc_version - the fallback conversion_quality is the one on the partner->getDefaultConversionProfileId
 	            if ( is_null($conversion_quality) || $conversion_quality <= 0 )
 				{
 					// search for the default one on the partner
@@ -668,7 +668,7 @@ class myPartnerUtils
 				}
 
 
-				// partner with new KMC version - use the $conversion_quality as if it was the conversionProfile2 id
+				// partner with new BMC version - use the $conversion_quality as if it was the conversionProfile2 id
 				$new_conversion_profile = conversionProfile2Peer::retrieveByPk ( $conversion_quality );
 			}
 			
@@ -710,8 +710,8 @@ class myPartnerUtils
 			if(!$partner) 
 				throw new Exception("Cannot find partner for id [$partner_id]");
 			
-			$partner_kmc_version = $partner->getKmcVersion();
-			if(is_null($partner_kmc_version) || version_compare($partner_kmc_version, "2", "<")) 
+			$partner_bmc_version = $partner->getBmcVersion();
+			if(is_null($partner_bmc_version) || version_compare($partner_bmc_version, "2", "<")) 
 			{
 				$old_conversion_profile = self::getCurrentConversionProfile($partner->getId());
 				if(!$old_conversion_profile)
@@ -860,7 +860,7 @@ class myPartnerUtils
 		return $return;
 	}
 	
-	const KALTURA_ACCOUNT_UPGRADES_NOTIFICATION_EMAIL = 'upgrade@kaltura.com';
+	const BORHAN_ACCOUNT_UPGRADES_NOTIFICATION_EMAIL = 'upgrade@borhan.com';
 	public static function notifiyPartner($mail_type, $partner, $body_params = array() )
 	{
 		/* --- while deploying - do not notifiy the partner, only send internal notifications. --- */
@@ -887,7 +887,7 @@ class myPartnerUtils
 			kMailJobData::MAIL_PRIORITY_NORMAL, 
 			kConf::get ("partner_notification_email" ), 
 			kConf::get ("partner_notification_name" ), 
-			myPartnerUtils::KALTURA_ACCOUNT_UPGRADES_NOTIFICATION_EMAIL, 
+			myPartnerUtils::BORHAN_ACCOUNT_UPGRADES_NOTIFICATION_EMAIL, 
 			$body_params);
 	}
 	
@@ -906,16 +906,16 @@ class myPartnerUtils
 			array($partner_name,$partner_old_email,$partner_new_email));
 	}
 		
-	const KALTURA_PACKAGE_EIGHTY_PERCENT_WARNING = 81;
-	const KALTURA_PACKAGE_LIMIT_WARNING_1 = 82;
-	const KALTURA_PACKAGE_LIMIT_WARNING_2 = 83;
-	const KALTURA_DELETE_ACCOUNT = 84;
-	const KALTURA_PAID_PACKAGE_SUGGEST_UPGRADE = 85;
-	const KALTURA_EXTENED_FREE_TRAIL_ENDS_WARNING = 87;
+	const BORHAN_PACKAGE_EIGHTY_PERCENT_WARNING = 81;
+	const BORHAN_PACKAGE_LIMIT_WARNING_1 = 82;
+	const BORHAN_PACKAGE_LIMIT_WARNING_2 = 83;
+	const BORHAN_DELETE_ACCOUNT = 84;
+	const BORHAN_PAID_PACKAGE_SUGGEST_UPGRADE = 85;
+	const BORHAN_EXTENED_FREE_TRAIL_ENDS_WARNING = 87;
 	
-	const KALTURA_MONTHLY_PACKAGE_EIGHTY_PERCENT_WARNING = 95;
- 	const KALTURA_MONTHLY_PACKAGE_LIMIT_WARNING_1 = 96;
- 	const KALTURA_MONTHLY_PACKAGE_LIMIT_WARNING_2 = 97;
+	const BORHAN_MONTHLY_PACKAGE_EIGHTY_PERCENT_WARNING = 95;
+ 	const BORHAN_MONTHLY_PACKAGE_LIMIT_WARNING_1 = 96;
+ 	const BORHAN_MONTHLY_PACKAGE_LIMIT_WARNING_2 = 97;
 	
 	const IS_FREE_PACKAGE_PLACE_HOLDER = "{IS_FREE_PACKAGE}";
 	
@@ -1056,15 +1056,15 @@ class myPartnerUtils
 	
 	public static function getEmailLinkHash($partner_id, $partner_secret)
 	{
-		return md5($partner_secret.$partner_id.kConf::get('kaltura_email_hash'));
+		return md5($partner_secret.$partner_id.kConf::get('borhan_email_hash'));
 	}
 	
 	public static function doPartnerUsage(Partner $partner)
 	{
-		KalturaLog::debug("Validating partner [" . $partner->getId() . "]");
+		BorhanLog::debug("Validating partner [" . $partner->getId() . "]");
 		if($partner->getExtendedFreeTrail())
 		{
-			KalturaLog::debug("Partner [" . $partner->getId() . "] trial account has extension");
+			BorhanLog::debug("Partner [" . $partner->getId() . "] trial account has extension");
 			if($partner->getExtendedFreeTrailExpiryDate() < time())
 			{
 				//ExtendedFreeTrail ended
@@ -1079,10 +1079,10 @@ class myPartnerUtils
 					$partner->save();
 					$email_link_hash = 'pid='.$partner->getId().'&h='.(self::getEmailLinkHash($partner->getId(), $partner->getSecret()));
 					$mail_parmas = array($partner->getAdminName() ,$email_link_hash);
-					myPartnerUtils::notifiyPartner(myPartnerUtils::KALTURA_EXTENED_FREE_TRAIL_ENDS_WARNING, $partner, $mail_parmas);
+					myPartnerUtils::notifiyPartner(myPartnerUtils::BORHAN_EXTENED_FREE_TRAIL_ENDS_WARNING, $partner, $mail_parmas);
 				}			
 				
-				KalturaLog::debug("Partner [" . $partner->getId() . "] trial account extended");
+				BorhanLog::debug("Partner [" . $partner->getId() . "] trial account extended");
 				return;
 			}
 			
@@ -1104,7 +1104,7 @@ class myPartnerUtils
 		$totalUsageGB = $totalUsage/1024/1024; // from KB to GB
 		$percent = round( ($totalUsageGB / $partnerPackage['cycle_bw'])*100, 2);
 
-		KalturaLog::debug("percent (".$partner->getId().") is: $percent");
+		BorhanLog::debug("percent (".$partner->getId().") is: $percent");
 		$email_link_hash = 'pid='.$partner->getId().'&h='.(self::getEmailLinkHash($partner->getId(), $partner->getSecret()));
 		$email_link_hash_adOpt = $email_link_hash.'&type=adOptIn';
 		/* mindtouch partners - extra mail parameter */
@@ -1117,25 +1117,25 @@ class myPartnerUtils
 			$percent < 100 &&
 			!$partner->getEightyPercentWarning())
 		{
-			KalturaLog::debug("partner ". $partner->getId() ." reached 80% - setting first warning");
+			BorhanLog::debug("partner ". $partner->getId() ." reached 80% - setting first warning");
 				
 			/* prepare mail job, and set EightyPercentWarning() to true/date */
 			$partner->setEightyPercentWarning(time());
 			$partner->setUsageLimitWarning(0);
 			$body_params = array ( $partner->getAdminName(), $partnerPackage['cycle_bw'], $mindtouch_notice, round($totalUsageGB, 2), $email_link_hash );
-			myPartnerUtils::notifiyPartner(myPartnerUtils::KALTURA_PACKAGE_EIGHTY_PERCENT_WARNING, $partner, $body_params);
+			myPartnerUtils::notifiyPartner(myPartnerUtils::BORHAN_PACKAGE_EIGHTY_PERCENT_WARNING, $partner, $body_params);
 		}
 		elseif ($percent >= 80 &&
 			$percent < 100 &&
 			$partner->getEightyPercentWarning() &&
 			!$partner->getUsageLimitWarning())
 		{
-			KalturaLog::log("passed the 80%, assume notification sent, nothing to do.");
+			BorhanLog::log("passed the 80%, assume notification sent, nothing to do.");
 		}
 		elseif ($percent < 80 &&
 				$partner->getEightyPercentWarning())
 		{
-			KalturaLog::debug("partner ". $partner->getId() ." was 80%, now not. clearing warnings");
+			BorhanLog::debug("partner ". $partner->getId() ." was 80%, now not. clearing warnings");
 				
 			/* clear getEightyPercentWarning */
 			$partner->setEightyPercentWarning(0);
@@ -1144,14 +1144,14 @@ class myPartnerUtils
 		elseif ($percent >= 100 &&
 				!$partner->getUsageLimitWarning())
 		{
-			KalturaLog::debug("partner ". $partner->getId() ." reached 100% - setting second warning");
+			BorhanLog::debug("partner ". $partner->getId() ." reached 100% - setting second warning");
 				
 			/* prepare mail job, and set getUsageLimitWarning() date */
 			$partner->setUsageLimitWarning(time());
 			// if ($partnerPackage['cycle_fee'] == 0) - script always works on free partners anyway
 			{
 				$body_params = array ( $partner->getAdminName(), $mindtouch_notice, round($totalUsageGB, 2), $email_link_hash );
-				myPartnerUtils::notifiyPartner(myPartnerUtils::KALTURA_PACKAGE_LIMIT_WARNING_1, $partner, $body_params);
+				myPartnerUtils::notifiyPartner(myPartnerUtils::BORHAN_PACKAGE_LIMIT_WARNING_1, $partner, $body_params);
 			}
 		}
 		elseif ($percent >= 100 &&
@@ -1161,11 +1161,11 @@ class myPartnerUtils
 				$partner->getUsageLimitWarning() > $delete_grace &&
 				$partner->getStatus() != Partner::PARTNER_STATUS_CONTENT_BLOCK)
 		{
-			KalturaLog::debug("partner ". $partner->getId() ." reached 100% ".self::BLOCKING_DAYS_GRACE ." days ago - sending block email and blocking partner");
+			BorhanLog::debug("partner ". $partner->getId() ." reached 100% ".self::BLOCKING_DAYS_GRACE ." days ago - sending block email and blocking partner");
 				
 			/* send block email and block partner */
 			$body_params = array ( $partner->getAdminName(), $mindtouch_notice, round($totalUsageGB, 2), $email_link_hash );
-			myPartnerUtils::notifiyPartner(myPartnerUtils::KALTURA_PACKAGE_LIMIT_WARNING_2, $partner, $body_params);
+			myPartnerUtils::notifiyPartner(myPartnerUtils::BORHAN_PACKAGE_LIMIT_WARNING_2, $partner, $body_params);
 			if($should_block_delete_partner)
 			{
 				$partner->setStatus(Partner::PARTNER_STATUS_CONTENT_BLOCK);
@@ -1176,7 +1176,7 @@ class myPartnerUtils
 				$partner->getUsageLimitWarning() <= $block_notification_grace)
 		{
 			$body_params = array ( $partner->getAdminName(), round($totalUsageGB, 2) );
-			myPartnerUtils::notifiyPartner(myPartnerUtils::KALTURA_PAID_PACKAGE_SUGGEST_UPGRADE, $partner, $body_params);
+			myPartnerUtils::notifiyPartner(myPartnerUtils::BORHAN_PAID_PACKAGE_SUGGEST_UPGRADE, $partner, $body_params);
 		}
 		elseif ($percent >= 100 &&
 				$partnerPackage['cycle_fee'] == 0 &&
@@ -1184,11 +1184,11 @@ class myPartnerUtils
 				$partner->getUsageLimitWarning() <= $delete_grace &&
 				$partner->getStatus() == Partner::PARTNER_STATUS_CONTENT_BLOCK)
 		{
-			KalturaLog::debug("partner ". $partner->getId() ." reached 100% a month ago - deleting partner");
+			BorhanLog::debug("partner ". $partner->getId() ." reached 100% a month ago - deleting partner");
 				
 			/* delete partner */
 			$body_params = array ( $partner->getAdminName() );
-			myPartnerUtils::notifiyPartner(myPartnerUtils::KALTURA_DELETE_ACCOUNT, $partner, $body_params);
+			myPartnerUtils::notifiyPartner(myPartnerUtils::BORHAN_DELETE_ACCOUNT, $partner, $body_params);
 			if($should_block_delete_partner)
 			{
 				$partner->setStatus(Partner::PARTNER_STATUS_DELETED);
@@ -1196,7 +1196,7 @@ class myPartnerUtils
 		}
 		elseif($percent < 80 && ($partner->getUsageLimitWarning() || $partner->getEightyPercentWarning()))
 		{
-			KalturaLog::debug("partner ". $partner->getId() ." OK");
+			BorhanLog::debug("partner ". $partner->getId() ." OK");
 			// PARTNER OK 
 			// resetting status and warnings should only be done manually
 			//$partner->setStatus(1);
@@ -1209,12 +1209,12 @@ class myPartnerUtils
 
 	public static function doMonthlyPartnerUsage(Partner $partner)
 	{
-		KalturaLog::debug("Validating partner [" . $partner->getId() . "]");
+		BorhanLog::debug("Validating partner [" . $partner->getId() . "]");
 		
 		$packages = new PartnerPackages();
 		$partnerPackage = $packages->getPackageDetails($partner->getPartnerPackage());
 		if($partnerPackage[PartnerPackages::PACKAGE_CYCLE_FEE] != 0){
-			KalturaLog::debug("Partner has paid package, skipping validation [" . $partner->getId() . "]");
+			BorhanLog::debug("Partner has paid package, skipping validation [" . $partner->getId() . "]");
 			return;
 		}
 				
@@ -1244,7 +1244,7 @@ class myPartnerUtils
 		$percent = round( ($usageGB / $partnerPackage[$usageType])*100, 2);
 		$notificationId = 0;
 		
-		KalturaLog::debug("percent (".$partner->getId().") is: $percent for usage type $usageType");
+		BorhanLog::debug("percent (".$partner->getId().") is: $percent for usage type $usageType");
 				
 		//check if partner should be deleted
 		if($partner->getStatus() == Partner::PARTNER_STATUS_CONTENT_BLOCK )
@@ -1252,10 +1252,10 @@ class myPartnerUtils
 			$warning_100 = $partner->getUsageWarning($usageType, 100);
 			if($warning_100 > 0 && $warning_100 <= $delete_grace)
 			{
-				KalturaLog::debug("partner ". $partner->getId() ." reached 100% a month ago - deleting partner");
+				BorhanLog::debug("partner ". $partner->getId() ." reached 100% a month ago - deleting partner");
 					
 				/* delete partner */
-				$notificationId = myPartnerUtils::KALTURA_DELETE_ACCOUNT;
+				$notificationId = myPartnerUtils::BORHAN_DELETE_ACCOUNT;
 				$partner->setStatus(Partner::PARTNER_STATUS_DELETED);				
 			}
 		}
@@ -1268,26 +1268,26 @@ class myPartnerUtils
 			
 			if($percent >= 80 && $percent < 100 && !$warning_80) //send 80% usage warning
 			{
-				KalturaLog::debug("partner ". $partner->getId() ." reached 80% - setting first warning for usage ". $usageType);
+				BorhanLog::debug("partner ". $partner->getId() ." reached 80% - setting first warning for usage ". $usageType);
 				$partner->setUsageWarning($usageType, 80, time());
 				$partner->resetUsageWarning($usageType, 100);
-				$notificationId = myPartnerUtils::KALTURA_MONTHLY_PACKAGE_EIGHTY_PERCENT_WARNING;				
+				$notificationId = myPartnerUtils::BORHAN_MONTHLY_PACKAGE_EIGHTY_PERCENT_WARNING;				
 			}
 			elseif ($percent >= 80 && $percent < 100 && $warning_80 && !$warning_100)
 			{
-				KalturaLog::log("passed the 80%, assume notification sent, nothing to do.");
+				BorhanLog::log("passed the 80%, assume notification sent, nothing to do.");
 			}
 			elseif ($percent >= 100 && !$warning_100) // send 100% usage warning
 			{
-				KalturaLog::debug("partner ". $partner->getId() ." reached 100% - setting second warning for usage ". $usageType);
+				BorhanLog::debug("partner ". $partner->getId() ." reached 100% - setting second warning for usage ". $usageType);
 				$partner->setUsageWarning($usageType, 100, time());
-				$notificationId = myPartnerUtils::KALTURA_MONTHLY_PACKAGE_LIMIT_WARNING_1;
+				$notificationId = myPartnerUtils::BORHAN_MONTHLY_PACKAGE_LIMIT_WARNING_1;
 			}
 			elseif ($percent >= 100 && $warning_100 > 0 && $warning_100 <= $block_notification_grace && $warning_100 > $delete_grace)
 			{
-				KalturaLog::debug("partner ". $partner->getId() ." reached 100% ". self::BLOCKING_DAYS_GRACE ." days ago - sending block email and blocking partner");				
+				BorhanLog::debug("partner ". $partner->getId() ." reached 100% ". self::BLOCKING_DAYS_GRACE ." days ago - sending block email and blocking partner");				
 				/* send block email and block partner */
-				$notificationId = myPartnerUtils::KALTURA_MONTHLY_PACKAGE_LIMIT_WARNING_2;			
+				$notificationId = myPartnerUtils::BORHAN_MONTHLY_PACKAGE_LIMIT_WARNING_2;			
 				$partner->setStatus(Partner::PARTNER_STATUS_CONTENT_BLOCK);
 			}
 		}
@@ -1296,16 +1296,16 @@ class myPartnerUtils
 			$body_params = array();
 			$usageText = PartnerPackages::getPackageUsageText($usageType);
 			switch($notificationId){
-				case myPartnerUtils::KALTURA_MONTHLY_PACKAGE_EIGHTY_PERCENT_WARNING:
+				case myPartnerUtils::BORHAN_MONTHLY_PACKAGE_EIGHTY_PERCENT_WARNING:
 					$body_params = array ( $partner->getAdminName(), $partnerPackage[$usageType], $usageText, round($usageGB, 2), $email_link_hash );
 					break;
-				case myPartnerUtils::KALTURA_MONTHLY_PACKAGE_LIMIT_WARNING_1:
+				case myPartnerUtils::BORHAN_MONTHLY_PACKAGE_LIMIT_WARNING_1:
 					$body_params = array ( $partner->getAdminName(), $partnerPackage[$usageType], $usageText, round($usageGB, 2), $email_link_hash );
 					break;
-				case myPartnerUtils::KALTURA_MONTHLY_PACKAGE_LIMIT_WARNING_2:
+				case myPartnerUtils::BORHAN_MONTHLY_PACKAGE_LIMIT_WARNING_2:
 					$body_params = array ( $partner->getAdminName(), $partnerPackage[$usageType], $usageText, round($usageGB, 2), $email_link_hash );
 					break;
-				case myPartnerUtils::KALTURA_DELETE_ACCOUNT:
+				case myPartnerUtils::BORHAN_DELETE_ACCOUNT:
 					$body_params = array ( $partner->getAdminName() );
 					break;
 			}
@@ -1327,7 +1327,7 @@ class myPartnerUtils
 		
 			if($percent < 80 || !$isCurrent )
 			{
-				KalturaLog::debug("Reseting partner ". $partner->getId() ." warnings for usage ". $usageType);		
+				BorhanLog::debug("Reseting partner ". $partner->getId() ." warnings for usage ". $usageType);		
 				$partner->resetUsageWarning($usageType, 80);
 				$partner->resetUsageWarning($usageType, 100);			
 			}			
@@ -1337,7 +1337,7 @@ class myPartnerUtils
 	public static function getParnerWidgetStatisticsFromDWH($partnerId, $startDate, $endDate) {
 		$reportFilter = new reportsInputFilter();
 		
-		// use gmmktime to avoid server timezone offset - this is for backward compatibility while the KMC is not sending TZ info
+		// use gmmktime to avoid server timezone offset - this is for backward compatibility while the BMC is not sending TZ info
 		list($year, $month, $day) = explode('-', $startDate);
 		$reportFilter->from_date = gmmktime(0, 0, 0, $month, $day, $year);
 		$reportFilter->from_day = str_replace('-','',$startDate);
@@ -1455,7 +1455,7 @@ class myPartnerUtils
  		self::copyCategories($fromPartner, $toPartner);
  		
  		self::copyUiConfsByType($fromPartner, $toPartner, uiConf::UI_CONF_TYPE_WIDGET);
- 		self::copyUiConfsByType($fromPartner, $toPartner, uiConf::UI_CONF_TYPE_KDP3);
+ 		self::copyUiConfsByType($fromPartner, $toPartner, uiConf::UI_CONF_TYPE_BDP3);
 
  		// Launch a batch job that will copy the heavy load as an async operation 
   		kJobsManager::addCopyPartnerJob( $fromPartner->getId(), $toPartner->getId() );
@@ -1463,7 +1463,7 @@ class myPartnerUtils
  	
 	public static function copyUserRoles(Partner $fromPartner, Partner $toPartner)
  	{
- 		KalturaLog::log('Copying user roles from partner ['.$fromPartner->getId().'] to partner ['.$toPartner->getId().']');
+ 		BorhanLog::log('Copying user roles from partner ['.$fromPartner->getId().'] to partner ['.$toPartner->getId().']');
  		UserRolePeer::setUseCriteriaFilter ( false );
  		$c = new Criteria();
  		$c->addAnd(UserRolePeer::PARTNER_ID, $fromPartner->getId(), Criteria::EQUAL);
@@ -1480,7 +1480,7 @@ class myPartnerUtils
  	
 	public static function copyPermissions(Partner $fromPartner, Partner $toPartner)
  	{
- 		KalturaLog::log('Copying permissions from partner ['.$fromPartner->getId().'] to partner ['.$toPartner->getId().']');
+ 		BorhanLog::log('Copying permissions from partner ['.$fromPartner->getId().'] to partner ['.$toPartner->getId().']');
  		PermissionPeer::setUseCriteriaFilter ( false );
  		$c = new Criteria();
  		$c->addAnd(PermissionPeer::PARTNER_ID, $fromPartner->getId(), Criteria::EQUAL);
@@ -1496,7 +1496,7 @@ class myPartnerUtils
  	
  	public static function copyCategories(Partner $fromPartner, Partner $toPartner)
  	{
- 		KalturaLog::log("Copying categories from partner [".$fromPartner->getId()."] to partner [".$toPartner->getId()."]");
+ 		BorhanLog::log("Copying categories from partner [".$fromPartner->getId()."] to partner [".$toPartner->getId()."]");
  		
  		categoryPeer::setUseCriteriaFilter(false);
  		$c = new Criteria();
@@ -1534,13 +1534,13 @@ class myPartnerUtils
 			$newCategory->setDirectEntriesCount(0);
 			$newCategory->save();
  			
- 			KalturaLog::log("Copied [".$category->getId()."], new id is [".$newCategory->getId()."]");
+ 			BorhanLog::log("Copied [".$category->getId()."], new id is [".$newCategory->getId()."]");
  		}
  	}
  	
  	public static function copyEntriesByType(Partner $fromPartner, Partner $toPartner, $entryType, $dontCopyUsers = false)
  	{
- 		KalturaLog::log("Copying entries from partner [".$fromPartner->getId()."] to partner [".$toPartner->getId()."] with type [".$entryType."]");
+ 		BorhanLog::log("Copying entries from partner [".$fromPartner->getId()."] to partner [".$toPartner->getId()."] with type [".$entryType."]");
  		entryPeer::setUseCriteriaFilter ( false );
  		$c = new Criteria();
  		$c->addAnd(entryPeer::PARTNER_ID, $fromPartner->getId());
@@ -1558,7 +1558,7 @@ class myPartnerUtils
  	
  	public static function copyUiConfsByType(Partner $fromPartner, Partner $toPartner, $uiConfType)
  	{
- 		KalturaLog::log("Copying uiconfs from partner [".$fromPartner->getId()."] to partner [".$toPartner->getId()."] with type [".$uiConfType."]");
+ 		BorhanLog::log("Copying uiconfs from partner [".$fromPartner->getId()."] to partner [".$toPartner->getId()."] with type [".$uiConfType."]");
  		uiConfPeer::setUseCriteriaFilter(false);
  		$c = new Criteria();
  		$c->addAnd(uiConfPeer::PARTNER_ID, $fromPartner->getId());
@@ -1576,13 +1576,13 @@ class myPartnerUtils
  			$newUiConf = $uiConf->cloneToNew($newUiConf);
  			$newUiConf->save();
  			
- 			KalturaLog::log("UIConf [".$newUiConf->getId()."] was created");
+ 			BorhanLog::log("UIConf [".$newUiConf->getId()."] was created");
  		}
  	}
  	
  	public static function copyFlavorParams(Partner $fromPartner, Partner $toPartner)
  	{
- 		KalturaLog::log("Copying flavor params from partner [".$fromPartner->getId()."] to partner [".$toPartner->getId()."]");
+ 		BorhanLog::log("Copying flavor params from partner [".$fromPartner->getId()."] to partner [".$toPartner->getId()."]");
  		
  		$c = new Criteria();
  		$c->add(assetParamsPeer::PARTNER_ID, $fromPartner->getId());
@@ -1594,7 +1594,7 @@ class myPartnerUtils
  			$newFlavorParams->setPartnerId($toPartner->getId());
  			$newFlavorParams->save();
  			
- 			KalturaLog::log("Copied [".$flavorParams->getId()."], new id is [".$newFlavorParams->getId()."]");
+ 			BorhanLog::log("Copied [".$flavorParams->getId()."], new id is [".$newFlavorParams->getId()."]");
  		}
  	}
  	
@@ -1602,7 +1602,7 @@ class myPartnerUtils
  	{
 		$copiedList = array();
 		
- 		KalturaLog::log("Copying conversion profiles from partner [".$fromPartner->getId()."] to partner [".$toPartner->getId()."]");
+ 		BorhanLog::log("Copying conversion profiles from partner [".$fromPartner->getId()."] to partner [".$toPartner->getId()."]");
  		
  		$c = new Criteria();
  		$c->add(conversionProfile2Peer::PARTNER_ID, $fromPartner->getId());
@@ -1624,11 +1624,11 @@ class myPartnerUtils
  			}
  			catch (Exception $e)
  			{
- 				KalturaLog::info("Exception occured, conversion profile was not copied. Message: [" . $e->getMessage() . "]");
+ 				BorhanLog::info("Exception occured, conversion profile was not copied. Message: [" . $e->getMessage() . "]");
  				continue;
  			}
  			
- 			KalturaLog::log("Copied [".$conversionProfile->getId()."], new id is [".$newConversionProfile->getId()."]");
+ 			BorhanLog::log("Copied [".$conversionProfile->getId()."], new id is [".$newConversionProfile->getId()."]");
 			$copiedList[$conversionProfile->getId()] = $newConversionProfile->getId();
  			
  			$c = new Criteria();
@@ -1672,7 +1672,7 @@ class myPartnerUtils
  	public static function copyAccessControls(Partner $fromPartner, Partner $toPartner)
  	{
 		$copiedList = array();
- 		KalturaLog::log("Copying access control profiles from partner [".$fromPartner->getId()."] to partner [".$toPartner->getId()."]");
+ 		BorhanLog::log("Copying access control profiles from partner [".$fromPartner->getId()."] to partner [".$toPartner->getId()."]");
  		
  		$c = new Criteria();
  		$c->add(accessControlPeer::PARTNER_ID, $fromPartner->getId());
@@ -1684,7 +1684,7 @@ class myPartnerUtils
  			$newAccessControl->setPartnerId($toPartner->getId());
  			$newAccessControl->save();
  			
- 			KalturaLog::log("Copied [".$accessControl->getId()."], new id is [".$newAccessControl->getId()."]");
+ 			BorhanLog::log("Copied [".$accessControl->getId()."], new id is [".$newAccessControl->getId()."]");
 			$copiedList[$accessControl->getId()] = $newAccessControl->getId();
  		}
 
@@ -1710,14 +1710,14 @@ class myPartnerUtils
 		$partner = PartnerPeer::retrieveByPK($partnerId);
 		if (is_null($partner))
 		{
-			KalturaLog::log ( "BLOCK_PARNTER partner [$partnerId] doesnt exist" );
+			BorhanLog::log ( "BLOCK_PARNTER partner [$partnerId] doesnt exist" );
 			KExternalErrors::dieError(KExternalErrors::PARTNER_NOT_FOUND);
 		}
 			
 		$status = $partner->getStatus();
 		if ($status != Partner::PARTNER_STATUS_ACTIVE)
 		{
-			KalturaLog::log ( "BLOCK_PARNTER_STATUS partner [$partnerId] status [$status]" );
+			BorhanLog::log ( "BLOCK_PARNTER_STATUS partner [$partnerId] status [$status]" );
 			KExternalErrors::dieError(KExternalErrors::PARTNER_NOT_ACTIVE);
 		}
 
@@ -1741,7 +1741,7 @@ class myPartnerUtils
 			$blockedCountry = requestUtils::matchIpCountry( $blockContries , $currentCountry );
 			if ($blockedCountry)
 			{
-				KalturaLog::log ( "IP_BLOCK partner [$partnerId] from country [$currentCountry]" );
+				BorhanLog::log ( "IP_BLOCK partner [$partnerId] from country [$currentCountry]" );
 				KExternalErrors::dieError(KExternalErrors::IP_COUNTRY_BLOCKED);			
 			}
 		}
@@ -1772,7 +1772,7 @@ class myPartnerUtils
 		$restricted = DeliveryProfilePeer::isRequestRestricted($partner);
 		if ($restricted)
 		{
-			KalturaLog::log ( "DELIVERY_METHOD_NOT_ALLOWED partner [$partnerId]" );
+			BorhanLog::log ( "DELIVERY_METHOD_NOT_ALLOWED partner [$partnerId]" );
 			KExternalErrors::dieError(KExternalErrors::DELIVERY_METHOD_NOT_ALLOWED);			
 		}
 	}

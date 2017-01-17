@@ -3,10 +3,10 @@
  * @package plugins.dropFolder
  * @subpackage api.filters
  */
-class KalturaDropFolderFileFilter extends KalturaDropFolderFileBaseFilter
+class BorhanDropFolderFileFilter extends BorhanDropFolderFileBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{

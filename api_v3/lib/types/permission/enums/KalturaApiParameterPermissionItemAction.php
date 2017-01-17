@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaApiParameterPermissionItemAction extends KalturaStringEnum implements ApiParameterPermissionItemAction
+class BorhanApiParameterPermissionItemAction extends BorhanStringEnum implements ApiParameterPermissionItemAction
 {
 	// see ApiParameterPermissionItemAction interface
 }

@@ -3,7 +3,7 @@
  * @package plugins.exampleIntegration
  * @subpackage api.objects
  */
-class KalturaExampleIntegrationJobProviderData extends KalturaIntegrationJobProviderData
+class BorhanExampleIntegrationJobProviderData extends BorhanIntegrationJobProviderData
 {
 	/**
 	 * Just an example
@@ -18,7 +18,7 @@ class KalturaExampleIntegrationJobProviderData extends KalturaIntegrationJobProv
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{

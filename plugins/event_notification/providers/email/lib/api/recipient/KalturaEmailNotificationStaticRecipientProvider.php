@@ -5,11 +5,11 @@
  * @package plugins.emailNotification
  * @subpackage model.data
  */
-class KalturaEmailNotificationStaticRecipientProvider extends KalturaEmailNotificationRecipientProvider
+class BorhanEmailNotificationStaticRecipientProvider extends BorhanEmailNotificationRecipientProvider
 {	
 	/**
 	 * Email to emails and names
-	 * @var KalturaEmailNotificationRecipientArray
+	 * @var BorhanEmailNotificationRecipientArray
 	 */
 	public $emailRecipients;
 	
@@ -18,7 +18,7 @@ class KalturaEmailNotificationStaticRecipientProvider extends KalturaEmailNotifi
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -26,7 +26,7 @@ class KalturaEmailNotificationStaticRecipientProvider extends KalturaEmailNotifi
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($dbObject = null, $propertiesToSkip = array())
 	{

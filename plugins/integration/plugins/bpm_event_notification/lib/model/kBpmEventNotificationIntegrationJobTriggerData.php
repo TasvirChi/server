@@ -6,7 +6,7 @@
 class kBpmEventNotificationIntegrationJobTriggerData extends kIntegrationJobTriggerData implements IBusinessProcessCaseIdRelated
 {
 	/**
-	 * KalturaBusinessProcessNotificationTemplate id
+	 * BorhanBusinessProcessNotificationTemplate id
 	 * @var int
 	 */
 	private $templateId;

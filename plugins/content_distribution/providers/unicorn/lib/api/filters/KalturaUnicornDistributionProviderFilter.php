@@ -3,6 +3,6 @@
  * @package plugins.unicornDistribution
  * @subpackage api.filters
  */
-class KalturaUnicornDistributionProviderFilter extends KalturaUnicornDistributionProviderBaseFilter
+class BorhanUnicornDistributionProviderFilter extends BorhanUnicornDistributionProviderBaseFilter
 {
 }

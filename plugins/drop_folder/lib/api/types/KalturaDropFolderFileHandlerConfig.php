@@ -4,10 +4,10 @@
  * @subpackage api.objects
  * @abstract
  */
-abstract class KalturaDropFolderFileHandlerConfig extends KalturaObject
+abstract class BorhanDropFolderFileHandlerConfig extends BorhanObject
 {	
 	/**
-	 * @var KalturaDropFolderFileHandlerType
+	 * @var BorhanDropFolderFileHandlerType
 	 * @readonly
 	 */
 	public $handlerType;

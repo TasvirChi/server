@@ -3,7 +3,7 @@
  * Enable upload and playback of content to and from Kontiki ECDN
  * @package plugins.kontiki
  */
-class KontikiPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaEnumerator, IKalturaObjectLoader , IKalturaEventConsumers, IKalturaContextDataHelper
+class KontikiPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanEnumerator, IBorhanObjectLoader , IBorhanEventConsumers, IBorhanContextDataHelper
 {
 	const PLUGIN_NAME = 'kontiki';
     
@@ -21,13 +21,13 @@ class KontikiPlugin extends KalturaPlugin implements IKalturaPermissions, IKaltu
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
 		if ($baseClass == 'KExportEngine')
 		{
-			if ($enumValue == KalturaStorageProfileProtocol::KONTIKI)
+			if ($enumValue == BorhanStorageProfileProtocol::KONTIKI)
 			{
 				list($data, $partnerId) = $constructorArgs;
 				return new KKontikiExportEngine($data, $partnerId);
@@ -47,43 +47,43 @@ class KontikiPlugin extends KalturaPlugin implements IKalturaPermissions, IKaltu
                 return new kKontikiStorageDeleteJobData();
             }
         }
-		if ($baseClass == 'KalturaJobData')
+		if ($baseClass == 'BorhanJobData')
 		{
 			$jobSubType = $constructorArgs["coreJobSubType"];
 			if ($jobSubType == self::getStorageProfileProtocolCoreValue(KontikiStorageProfileProtocol::KONTIKI))
 			{
 				if ($enumValue == BatchJobType::STORAGE_EXPORT)
 				{
-					return new KalturaKontikiStorageExportJobData();
+					return new BorhanKontikiStorageExportJobData();
 				}
 			 	if ($enumValue == BatchJobType::STORAGE_DELETE)
 	            {
-	                return new KalturaKontikiStorageDeleteJobData();
+	                return new BorhanKontikiStorageDeleteJobData();
 	            }
 			}
         }
-		if ($baseClass == 'KalturaStorageProfile')
+		if ($baseClass == 'BorhanStorageProfile')
         {
             if ($enumValue == self::getStorageProfileProtocolCoreValue(KontikiStorageProfileProtocol::KONTIKI))
             {
-                return new KalturaKontikiStorageProfile();
+                return new BorhanKontikiStorageProfile();
             }
         }
-		if ($baseClass =='Form_Partner_BaseStorageConfiguration' && $enumValue == Kaltura_Client_Enum_StorageProfileProtocol::KONTIKI)
+		if ($baseClass =='Form_Partner_BaseStorageConfiguration' && $enumValue == Borhan_Client_Enum_StorageProfileProtocol::KONTIKI)
 		{
 			return new Form_KontikiStorageConfiguration();
 		}
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue) {
 		if($baseClass == 'StorageProfile' && $enumValue == self::getStorageProfileProtocolCoreValue(KontikiStorageProfileProtocol::KONTIKI))
             return 'KontikiStorageProfile';
 		
-		if ($baseClass == 'Kaltura_Client_Type_StorageProfile' && $enumValue == Kaltura_Client_Enum_StorageProfileProtocol::KONTIKI)
-			return 'Kaltura_Client_Kontiki_Type_KontikiStorageProfile';
+		if ($baseClass == 'Borhan_Client_Type_StorageProfile' && $enumValue == Borhan_Client_Enum_StorageProfileProtocol::KONTIKI)
+			return 'Borhan_Client_Kontiki_Type_KontikiStorageProfile';
 		
 		if ($baseClass == 'DeliveryProfile') {
 			if($enumValue == self::getDeliveryProfileType(KontikiDeliveryProfileType::KONTIKI_HTTP))
@@ -92,7 +92,7 @@ class KontikiPlugin extends KalturaPlugin implements IKalturaPermissions, IKaltu
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null) {
 		if (!$baseEnumName)
@@ -111,7 +111,7 @@ class KontikiPlugin extends KalturaPlugin implements IKalturaPermissions, IKaltu
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissions::isAllowedPartner()
+	 * @see IBorhanPermissions::isAllowedPartner()
 	 */
 	public static function isAllowedPartner($partnerId)
 	{
@@ -124,7 +124,7 @@ class KontikiPlugin extends KalturaPlugin implements IKalturaPermissions, IKaltu
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName() {
 		return self::PLUGIN_NAME;
@@ -136,17 +136,17 @@ class KontikiPlugin extends KalturaPlugin implements IKalturaPermissions, IKaltu
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 
 	public static function getStorageProfileProtocolCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('StorageProfileProtocol', $value);
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	 */
 	public static function getEventConsumers()
 	{
@@ -154,7 +154,7 @@ class KontikiPlugin extends KalturaPlugin implements IKalturaPermissions, IKaltu
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaContextDataHelper::getContextDataStreamerType()
+	 * @see IBorhanContextDataHelper::getContextDataStreamerType()
 	 */
 	public function getContextDataStreamerType (accessControlScope $scope, $flavorTags, $streamerType)
 	{
@@ -168,7 +168,7 @@ class KontikiPlugin extends KalturaPlugin implements IKalturaPermissions, IKaltu
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaContextDataHelper::getContextDataMediaProtocol()
+	 * @see IBorhanContextDataHelper::getContextDataMediaProtocol()
 	 */
 	public function getContextDataMediaProtocol (accessControlScope $scope, $flavorTags, $streamerType, $mediaProtocol)
 	{

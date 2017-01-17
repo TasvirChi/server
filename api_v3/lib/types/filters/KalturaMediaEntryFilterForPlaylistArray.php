@@ -3,13 +3,13 @@
  * @package api
  * @subpackage objects
  */
-class KalturaMediaEntryFilterForPlaylistArray extends KalturaTypedArray
+class BorhanMediaEntryFilterForPlaylistArray extends BorhanTypedArray
 {
-	public static function fromDbArray(array $arr = null, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $arr = null, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		foreach ( $arr as $obj )
 		{
-			$nObj = new KalturaMediaEntryFilterForPlaylist();
+			$nObj = new BorhanMediaEntryFilterForPlaylist();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -19,6 +19,6 @@ class KalturaMediaEntryFilterForPlaylistArray extends KalturaTypedArray
 	
 	public function __construct( )
 	{
-		return parent::__construct ( "KalturaMediaEntryFilterForPlaylist" );
+		return parent::__construct ( "BorhanMediaEntryFilterForPlaylist" );
 	}
 }

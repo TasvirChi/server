@@ -15,7 +15,7 @@
         wmode="transparent" allowscriptaccess="always" 
         flashvars="config=/index.php/extwidget/streamclipper?entryId=<?php echo $_GET['entryId']; ?>" />
         <noembed>
-          <a href="http://www.kaltura.org/">Open Source Video</a>
+          <a href="http://www.borhan.org/">Open Source Video</a>
         </noembed>
       </object>
     </div>

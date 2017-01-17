@@ -3,6 +3,6 @@
  * @package plugins.verizonVcastDistribution
  * @subpackage api.filters
  */
-class KalturaVerizonVcastDistributionProviderFilter extends KalturaVerizonVcastDistributionProviderBaseFilter
+class BorhanVerizonVcastDistributionProviderFilter extends BorhanVerizonVcastDistributionProviderBaseFilter
 {
 }

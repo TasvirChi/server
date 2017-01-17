@@ -3,7 +3,7 @@
  * @package Core
  * @subpackage externalWidgets
  */
-class serveFlavorAction extends kalturaAction
+class serveFlavorAction extends borhanAction
 {
 	const CHUNK_SIZE = 1048576; // 1024 X 1024
 	const NO_CLIP_TO = 2147483647;
@@ -21,7 +21,7 @@ class serveFlavorAction extends kalturaAction
 		$host = isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST'];
 		$cacheKey = 'dumpFile-'.kIpAddressUtils::isInternalIp($_SERVER['REMOTE_ADDR']).'-'.$host.$_SERVER["REQUEST_URI"];
 		apc_store($cacheKey, $renderer, 86400);
-		header("X-Kaltura:cache-key");
+		header("X-Borhan:cache-key");
 	}
 	
 	protected function getSimpleMappingRenderer($path, asset $asset)
@@ -42,7 +42,7 @@ class serveFlavorAction extends kalturaAction
 
 		if (method_exists($asset, 'getLanguage') && $asset->getLanguage())
 		{
-			$language = languageCodeManager::getObjectFromKalturaName($asset->getLanguage());
+			$language = languageCodeManager::getObjectFromBorhanName($asset->getLanguage());
 			$language = $language[1];
 			
 			// map enu / enb to eng, since these are not supported by the packager 
@@ -290,7 +290,7 @@ class serveFlavorAction extends kalturaAction
 	public function execute()
 	{
 		//entitlement should be disabled to serveFlavor action as we do not get ks on this action.
-		KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		
 		requestUtils::handleConditionalGet();
 
@@ -343,7 +343,7 @@ class serveFlavorAction extends kalturaAction
 			KExternalErrors::dieError(KExternalErrors::ENTRY_NOT_FOUND);
 		}
 		
-		KalturaMonitorClient::initApiMonitor(false, 'extwidget.serveFlavor', $flavorAsset->getPartnerId());
+		BorhanMonitorClient::initApiMonitor(false, 'extwidget.serveFlavor', $flavorAsset->getPartnerId());
 			
 		myPartnerUtils::enforceDelivery($entry, $flavorAsset);
 		
@@ -388,7 +388,7 @@ class serveFlavorAction extends kalturaAction
 			
 			if (is_null($fileSync))
 			{
-				KalturaLog::log("Error - no FileSync for flavor [".$flavorAsset->getId()."]");
+				BorhanLog::log("Error - no FileSync for flavor [".$flavorAsset->getId()."]");
 				KExternalErrors::dieError(KExternalErrors::FILE_NOT_FOUND);
 			}
 			
@@ -444,21 +444,21 @@ class serveFlavorAction extends kalturaAction
 						kFile::fullMkdir($tempClipPath);
 						$clipToSec = round($clipTo / 1000, 3);
 						$cmdLine = kConf::get ( "bin_path_ffmpeg" ) . " -i {$path} -vcodec copy -acodec copy -f mp4 -t {$clipToSec} -y {$tempClipPath} 2>&1";
-						KalturaLog::log("Executing {$cmdLine}");
+						BorhanLog::log("Executing {$cmdLine}");
 						$output = array ();
 						$return_value = "";
 						exec($cmdLine, $output, $return_value);
-						KalturaLog::log("ffmpeg returned {$return_value}, output:".implode("\n", $output));
+						BorhanLog::log("ffmpeg returned {$return_value}, output:".implode("\n", $output));
 					}
 					
 					if (file_exists($tempClipPath))
 					{
-						KalturaLog::log("Dumping {$tempClipPath}");
+						BorhanLog::log("Dumping {$tempClipPath}");
 						kFileUtils::dumpFile($tempClipPath);
 					}
 					else
 					{
-						KalturaLog::err('Failed to clip the file using ffmpeg, falling back to rough clipping');
+						BorhanLog::err('Failed to clip the file using ffmpeg, falling back to rough clipping');
 					}
 				}
 				

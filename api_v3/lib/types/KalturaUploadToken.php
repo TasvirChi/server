@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaUploadToken extends KalturaObject implements IFilterable 
+class BorhanUploadToken extends BorhanObject implements IFilterable 
 {
 	/**
 	 * Upload token unique ID
@@ -30,7 +30,7 @@ class KalturaUploadToken extends KalturaObject implements IFilterable
 	
 	/**
 	 * Status of the upload token
-	 * @var KalturaUploadTokenStatus
+	 * @var BorhanUploadTokenStatus
 	 * @readonly
 	 * @filter eq,in
 	 */

@@ -9,12 +9,12 @@
  */ 
 class kuserPeer extends BasekuserPeer implements IRelatedObjectPeer
 {	
-	const KALTURA_NEW_USER_EMAIL = 120;
-	const KALTURA_NEW_EXISTING_USER_EMAIL = 121;
-	const KALTURA_NEW_USER_EMAIL_TO_ADMINS = 122;
-	const KALTURA_NEW_USER_ADMIN_CONSOLE_EMAIL = 123;
-	const KALTURA_NEW_EXISTING_USER_ADMIN_CONSOLE_EMAIL = 124;
-	const KALTURA_NEW_USER_ADMIN_CONSOLE_EMAIL_TO_ADMINS = 125;
+	const BORHAN_NEW_USER_EMAIL = 120;
+	const BORHAN_NEW_EXISTING_USER_EMAIL = 121;
+	const BORHAN_NEW_USER_EMAIL_TO_ADMINS = 122;
+	const BORHAN_NEW_USER_ADMIN_CONSOLE_EMAIL = 123;
+	const BORHAN_NEW_EXISTING_USER_ADMIN_CONSOLE_EMAIL = 124;
+	const BORHAN_NEW_USER_ADMIN_CONSOLE_EMAIL_TO_ADMINS = 125;
 	
 	private static $s_default_count_limit = 301;
 
@@ -25,8 +25,8 @@ class kuserPeer extends BasekuserPeer implements IRelatedObjectPeer
 			self::$s_criteria_filter = new criteriaFilter ();
 		}
 		
-		$c = KalturaCriteria::create(kuserPeer::OM_CLASS);
-		$c->addAnd ( kuserPeer::STATUS, KuserStatus::DELETED, KalturaCriteria::NOT_EQUAL);
+		$c = BorhanCriteria::create(kuserPeer::OM_CLASS);
+		$c->addAnd ( kuserPeer::STATUS, KuserStatus::DELETED, BorhanCriteria::NOT_EQUAL);
 		self::$s_criteria_filter->setFilter ( $c );
 	}
 	
@@ -125,7 +125,7 @@ class kuserPeer extends BasekuserPeer implements IRelatedObjectPeer
 		$c = new Criteria();
 		$c->add(self::PARTNER_ID, $partnerId);
 		$c->add(self::PUSER_ID, $puserId);
-		$c->addAnd ( kuserPeer::STATUS, KuserStatus::DELETED, KalturaCriteria::NOT_EQUAL);
+		$c->addAnd ( kuserPeer::STATUS, KuserStatus::DELETED, BorhanCriteria::NOT_EQUAL);
 		
 		$kuser = self::doSelectOne($c);
 		self::setUseCriteriaFilter(true);
@@ -336,7 +336,7 @@ class kuserPeer extends BasekuserPeer implements IRelatedObjectPeer
 	{
 		$c = clone $criteria;
 		
-		if($c instanceof KalturaCriteria)
+		if($c instanceof BorhanCriteria)
 		{ 
 			$c->applyFilters();
 			$criteria->setRecordsCount($c->getRecordsCount());
@@ -494,12 +494,12 @@ class kuserPeer extends BasekuserPeer implements IRelatedObjectPeer
 		$bodyParams = null;
 
 
-		$mailType = self::KALTURA_NEW_USER_EMAIL_TO_ADMINS;
+		$mailType = self::BORHAN_NEW_USER_EMAIL_TO_ADMINS;
 		
 		//If the new user partner is -2 (admin console) then it is a admin console user		
 		if($partnerId == Partner::ADMIN_CONSOLE_PARTNER_ID)
 		{
-			$mailType = self::KALTURA_NEW_USER_ADMIN_CONSOLE_EMAIL_TO_ADMINS;
+			$mailType = self::BORHAN_NEW_USER_ADMIN_CONSOLE_EMAIL_TO_ADMINS;
 		}
 				
 		// get all partner administrators
@@ -567,7 +567,7 @@ class kuserPeer extends BasekuserPeer implements IRelatedObjectPeer
 		if (!$existingUser) {
 			$resetPasswordLink = UserLoginDataPeer::getPassResetLink($user->getLoginData()->getPasswordHashKey());
 		}
-		$kmcLink = trim(kConf::get('apphome_url'), '/').'/kmc';
+		$bmcLink = trim(kConf::get('apphome_url'), '/').'/bmc';
 		$adminConsoleLink = trim(kConf::get('admin_console_url'));
 		$contactLink = kConf::get('contact_url');
 		$beginnersGuideLink = kConf::get('beginners_tutorial_url');
@@ -580,19 +580,19 @@ class kuserPeer extends BasekuserPeer implements IRelatedObjectPeer
 		if($partnerId == Partner::ADMIN_CONSOLE_PARTNER_ID) // If new user is admin console user
 		{
 			// add google authenticator library to include path
-			require_once KALTURA_ROOT_PATH . '/vendor/phpGangsta/GoogleAuthenticator.php';
+			require_once BORHAN_ROOT_PATH . '/vendor/phpGangsta/GoogleAuthenticator.php';
 			
 			//QR code link might contain the '|' character used as a separator by the mailer job dispatcher. 
 			$qrCodeLink = str_replace ("|", "M%7C", GoogleAuthenticator::getQRCodeGoogleUrl ($user->getPuserId() . ' ' . kConf::get ('www_host') . ' KAC', $user->getLoginData()->getSeedFor2FactorAuth()));
 			
 			if ($existingUser)
 			{
-				$mailType = self::KALTURA_NEW_EXISTING_USER_ADMIN_CONSOLE_EMAIL;
+				$mailType = self::BORHAN_NEW_EXISTING_USER_ADMIN_CONSOLE_EMAIL;
 				$bodyParams = array($userName, $creatorUserName, $loginEmail, $roleName, $qrCodeLink);
 			}
 			else
 			{
-				$mailType = self::KALTURA_NEW_USER_ADMIN_CONSOLE_EMAIL;
+				$mailType = self::BORHAN_NEW_USER_ADMIN_CONSOLE_EMAIL;
 				$bodyParams = array($userName, $creatorUserName, $loginEmail, $resetPasswordLink, $roleName, $adminConsoleLink, $qrCodeLink);
 			}
 		}
@@ -600,13 +600,13 @@ class kuserPeer extends BasekuserPeer implements IRelatedObjectPeer
 		{
 			if ($existingUser)
 			{
-				$mailType = self::KALTURA_NEW_EXISTING_USER_EMAIL;
-				$bodyParams = array($userName, $creatorUserName, $publisherName, $loginEmail, $partnerId, $publisherName, $publisherName, $roleName, $publisherName, $puserId, $kmcLink, $contactLink, $beginnersGuideLink, $quickStartGuideLink);
+				$mailType = self::BORHAN_NEW_EXISTING_USER_EMAIL;
+				$bodyParams = array($userName, $creatorUserName, $publisherName, $loginEmail, $partnerId, $publisherName, $publisherName, $roleName, $publisherName, $puserId, $bmcLink, $contactLink, $beginnersGuideLink, $quickStartGuideLink);
 			}
 			else
 			{
-				$mailType = self::KALTURA_NEW_USER_EMAIL;
-				$bodyParams = array($userName, $creatorUserName, $publisherName, $loginEmail, $resetPasswordLink, $partnerId, $publisherName, $publisherName, $roleName, $publisherName, $puserId, $kmcLink, $contactLink, $beginnersGuideLink, $quickStartGuideLink);
+				$mailType = self::BORHAN_NEW_USER_EMAIL;
+				$bodyParams = array($userName, $creatorUserName, $publisherName, $loginEmail, $resetPasswordLink, $partnerId, $publisherName, $publisherName, $roleName, $publisherName, $puserId, $bmcLink, $contactLink, $beginnersGuideLink, $quickStartGuideLink);
 			}		
 		}
 		// add mail job

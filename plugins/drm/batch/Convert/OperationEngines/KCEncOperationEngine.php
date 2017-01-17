@@ -29,21 +29,21 @@ class KCEncOperationEngine extends KOperationEngine
 	protected function doOperation()
 	{
 		KBatchBase::impersonate($this->job->partnerId);
-        $drmPlugin = KalturaDrmClientPlugin::get(KBatchBase::$kClient);
-        $profile = $drmPlugin->drmProfile->getByProvider(KalturaDrmProviderType::CENC);
+        $drmPlugin = BorhanDrmClientPlugin::get(KBatchBase::$kClient);
+        $profile = $drmPlugin->drmProfile->getByProvider(BorhanDrmProviderType::CENC);
         KBatchBase::unimpersonate();
         $udrmData = $this->getUDRMdata($profile->licenseServerUrl, $profile->signingKey);
         if (!isset($this->data->srcFileSyncs) || !isset($this->data->srcFileSyncs[0]))
         {
             $logMsg = "Did not get input file";
-            KalturaLog::err($logMsg);
+            BorhanLog::err($logMsg);
             throw new KOperationEngineException($logMsg);
         }
         $encryptResult = $this->encryptWithEdash($udrmData);
         $mpdResult = $this->createMPD();
         $mpdOutPath = $this->data->destFileSyncLocalPath.".mpd";
         $fsDescArr = array();
-        $fsDesc = new KalturaDestFileSyncDescriptor();
+        $fsDesc = new BorhanDestFileSyncDescriptor();
         $fsDesc->fileSyncLocalPath = $mpdOutPath;
         $fsDesc->fileSyncObjectSubType = 7; //FILE_SYNC_ASSET_SUB_TYPE_MPD;
         $fsDescArr[] = $fsDesc;
@@ -64,12 +64,12 @@ class KCEncOperationEngine extends KOperationEngine
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonPostData);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        KalturaLog::debug("calling udrm service '".$serviceURL."' with data '".$jsonPostData."' ");
+        BorhanLog::debug("calling udrm service '".$serviceURL."' with data '".$jsonPostData."' ");
         $output = curl_exec($ch);
         if ($output === false)
         {
             $logMsg = "Could not get UDRM Data error message 'Curl had an error '".curl_error($ch)."' ";
-            KalturaLog::err($logMsg);
+            BorhanLog::err($logMsg);
             throw new KOperationEngineException($logMsg);
 
         }
@@ -77,7 +77,7 @@ class KCEncOperationEngine extends KOperationEngine
         if (!isset($ret_val->key_id))
         {
             $logMsg = "did not get good result from udrm service, output is '".$output."'";
-            KalturaLog::err($logMsg);
+            BorhanLog::err($logMsg);
             throw new KOperationEngineException($logMsg);
         }
         return $ret_val;
@@ -96,13 +96,13 @@ class KCEncOperationEngine extends KOperationEngine
             $psshEncoded = self::strToHex(base64_decode($currPssh->data));
             $cmdLine .= " --pssh ".$psshEncoded;
         }
-        KalturaLog::info("Going to run command '".$cmdLine."' ");
+        BorhanLog::info("Going to run command '".$cmdLine."' ");
 
         $result = system($cmdLine, $system_ret_val);
 	    if ($system_ret_val != 0)
 	    {
 		    $logMsg = "There was a problem running the packager, got return value '$system_ret_val' got result '$result' ";
-		    KalturaLog::err($logMsg);
+		    BorhanLog::err($logMsg);
 		    throw new KOperationEngineException($logMsg);
 	    }
 
@@ -113,13 +113,13 @@ class KCEncOperationEngine extends KOperationEngine
     {
         $cmdLine = $this->params->exePath."mpd_generator --input=".$this->data->destFileSyncLocalPath.
         ".media_info --output=".$this->data->destFileSyncLocalPath.".mpd ";
-        KalturaLog::info("Going to run command '".$cmdLine."' ");
+        BorhanLog::info("Going to run command '".$cmdLine."' ");
 
         $result = system($cmdLine, $system_ret_val);
 	    if ($system_ret_val != 0)
 	    {
 		    $logMsg = "There was a problem running the mpd generator, got return value '$system_ret_val' got result '$result' ";
-		    KalturaLog::err($logMsg);
+		    BorhanLog::err($logMsg);
 		    throw new KOperationEngineException($logMsg);
 	    }
 

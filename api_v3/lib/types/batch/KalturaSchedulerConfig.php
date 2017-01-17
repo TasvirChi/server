@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaSchedulerConfig extends KalturaObject 
+class BorhanSchedulerConfig extends BorhanObject 
 {
 	/**
 	 * The id of the Category

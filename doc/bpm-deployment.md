@@ -42,7 +42,7 @@ params.maxTimeBeforeFail							= 1000000
 ```
 
 #### Deployment Preparations ####
-*NOTE: all paths here are relative to /opt/kaltura/app*
+*NOTE: all paths here are relative to /opt/borhan/app*
 
  - Reload configuration: `touch cache/base.reload` or, on a none production ENV, reload your Apache.
  - Clear cache: `rm -rf cache/*`.
@@ -52,12 +52,12 @@ params.maxTimeBeforeFail							= 1000000
 ```
 # php generator/generate.php pojo
 # php generator/generate.php bpmn
-# cd /opt/kaltura/web/content/clientlibs/pojo
+# cd /opt/borhan/web/content/clientlibs/pojo
 # mvn -Dmaven.test.skip=true package
-# cd /opt/kaltura/web/content/clientlibs/bpmn
+# cd /opt/borhan/web/content/clientlibs/bpmn
 # ant
 ```
- - Restart batch: `/etc/init.d/kaltura-batch restart`.
+ - Restart batch: `/etc/init.d/borhan-batch restart`.
 
 
 #### Activiti Deployment Instructions ####
@@ -103,4 +103,4 @@ params.maxTimeBeforeFail							= 1000000
  - Deploy processes **(replace tokens)**:
 	 - `cd @WEB_DIR@/content/clientlibs/bpmn`
 	 - `ant`
- - Add Activiti server to Kaltura server using the API **(replace tokens)**: `php @APP_DIR@/tests/standAloneClient/exec.php @APP_DIR@/tests/standAloneClient/activitiServer.xml`
+ - Add Activiti server to Borhan server using the API **(replace tokens)**: `php @APP_DIR@/tests/standAloneClient/exec.php @APP_DIR@/tests/standAloneClient/activitiServer.xml`

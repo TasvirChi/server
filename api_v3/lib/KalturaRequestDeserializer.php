@@ -3,7 +3,7 @@
  * @package api
  * @subpackage v3
  */
-class KalturaRequestDeserializer
+class BorhanRequestDeserializer
 {
 	private $params = null;
 	private $paramsGrouped = array();
@@ -59,7 +59,7 @@ class KalturaRequestDeserializer
 		$serviceArguments = array();
 		foreach($actionParams as &$actionParam)
 		{
-			/* @var KalturaParamInfo $actionParam */
+			/* @var BorhanParamInfo $actionParam */
 			$type = $actionParam->getType();
 			$name = $actionParam->getName();
 
@@ -71,7 +71,7 @@ class KalturaRequestDeserializer
 				{
 					$value = $this->castSimpleType($type, $this->paramsGrouped[$name]);
 					if(!kXml::isXMLValidContent($value))
-						throw new KalturaAPIException(KalturaErrors::INVALID_PARAMETER_CHAR, $name);
+						throw new BorhanAPIException(BorhanErrors::INVALID_PARAMETER_CHAR, $name);
 						
 					$this->validateParameter($name, $value, $actionParam);
 					$serviceArguments[] = $value;
@@ -113,11 +113,11 @@ class KalturaRequestDeserializer
 						$enumValue = 0;
 						
 					if (!$actionParam->getTypeReflector()->checkEnumValue($enumValue))
-						throw new KalturaAPIException(KalturaErrors::INVALID_ENUM_VALUE, $enumValue, $name, $actionParam->getType());
+						throw new BorhanAPIException(BorhanErrors::INVALID_ENUM_VALUE, $enumValue, $name, $actionParam->getType());
 					
-					if($type == 'KalturaNullableBoolean')
+					if($type == 'BorhanNullableBoolean')
 					{
-						$serviceArguments[] = KalturaNullableBoolean::toBoolean($enumValue);
+						$serviceArguments[] = BorhanNullableBoolean::toBoolean($enumValue);
 						continue;
 					}
 					
@@ -138,7 +138,7 @@ class KalturaRequestDeserializer
 				{
 					$enumValue = $this->paramsGrouped[$name];
 					if (!$actionParam->getTypeReflector()->checkStringEnumValue($enumValue))
-						throw new KalturaAPIException(KalturaErrors::INVALID_ENUM_VALUE, $enumValue, $name, $actionParam->getType());
+						throw new BorhanAPIException(BorhanErrors::INVALID_ENUM_VALUE, $enumValue, $name, $actionParam->getType());
 					
 					$serviceArguments[] = $enumValue;
 					continue;
@@ -188,13 +188,13 @@ class KalturaRequestDeserializer
 				continue;
 			}
 
-			throw new KalturaAPIException(KalturaErrors::MISSING_MANDATORY_PARAMETER, $name);
+			throw new BorhanAPIException(BorhanErrors::MISSING_MANDATORY_PARAMETER, $name);
 		}
 		return $serviceArguments;
 	}
 	
 	/**
-	 * @return KalturaDetachedResponseProfile
+	 * @return BorhanDetachedResponseProfile
 	 */
 	public function getResponseProfile($paramName = 'responseProfile') {
 		if(!isset($this->paramsGrouped[$paramName])){
@@ -212,55 +212,55 @@ class KalturaRequestDeserializer
 			$responseProfile = ResponseProfilePeer::retrieveBySystemName($this->paramsGrouped[$paramName]['systemName']);
 		}
 		if($responseProfile){
-			return new KalturaResponseProfile($responseProfile);
+			return new BorhanResponseProfile($responseProfile);
 		}
 		
-		$typeReflector = KalturaTypeReflectorCacher::get('KalturaDetachedResponseProfile');
+		$typeReflector = BorhanTypeReflectorCacher::get('BorhanDetachedResponseProfile');
 		return $this->buildObject($typeReflector, $this->paramsGrouped[$paramName], $paramName);
 	}
 	
 	protected function validateParameter($name, $value, $constraintsObj) {
 		$constraints = $constraintsObj->getConstraints();
-		if(array_key_exists(KalturaDocCommentParser::MIN_LENGTH_CONSTRAINT, $constraints))
-			$this->validateMinLength($name, $value, $constraints[KalturaDocCommentParser::MIN_LENGTH_CONSTRAINT]);
-		if(array_key_exists(KalturaDocCommentParser::MAX_LENGTH_CONSTRAINT, $constraints))
-			$this->validateMaxLength($name, $value, $constraints[KalturaDocCommentParser::MAX_LENGTH_CONSTRAINT]);
-		if(array_key_exists(KalturaDocCommentParser::MIN_VALUE_CONSTRAINT, $constraints))
-			$this->validateMinValue($name, $value, $constraints[KalturaDocCommentParser::MIN_VALUE_CONSTRAINT]);
-		if(array_key_exists(KalturaDocCommentParser::MAX_VALUE_CONSTRAINT, $constraints))
-			$this->validateMaxValue($name, $value, $constraints[KalturaDocCommentParser::MAX_VALUE_CONSTRAINT]);
+		if(array_key_exists(BorhanDocCommentParser::MIN_LENGTH_CONSTRAINT, $constraints))
+			$this->validateMinLength($name, $value, $constraints[BorhanDocCommentParser::MIN_LENGTH_CONSTRAINT]);
+		if(array_key_exists(BorhanDocCommentParser::MAX_LENGTH_CONSTRAINT, $constraints))
+			$this->validateMaxLength($name, $value, $constraints[BorhanDocCommentParser::MAX_LENGTH_CONSTRAINT]);
+		if(array_key_exists(BorhanDocCommentParser::MIN_VALUE_CONSTRAINT, $constraints))
+			$this->validateMinValue($name, $value, $constraints[BorhanDocCommentParser::MIN_VALUE_CONSTRAINT]);
+		if(array_key_exists(BorhanDocCommentParser::MAX_VALUE_CONSTRAINT, $constraints))
+			$this->validateMaxValue($name, $value, $constraints[BorhanDocCommentParser::MAX_VALUE_CONSTRAINT]);
 	}
 	
 	protected function validateMinLength($name, $objectValue, $constraint) {
 		if(strlen($objectValue) < $constraint)
-			throw new KalturaAPIException(KalturaErrors::PROPERTY_VALIDATION_MIN_LENGTH, $name, $constraint);
+			throw new BorhanAPIException(BorhanErrors::PROPERTY_VALIDATION_MIN_LENGTH, $name, $constraint);
 	}
 	
 	protected function validateMaxLength($name, $objectValue, $constraint) {
 		if(strlen($objectValue) > $constraint)
-			throw new KalturaAPIException(KalturaErrors::PROPERTY_VALIDATION_MAX_LENGTH, $name, $constraint);
+			throw new BorhanAPIException(BorhanErrors::PROPERTY_VALIDATION_MAX_LENGTH, $name, $constraint);
 	}
 	
 	protected function validateMinValue($name, $objectValue, $constraint) {
 		if($objectValue < $constraint)
-			throw new KalturaAPIException(KalturaErrors::PROPERTY_VALIDATION_MIN_VALUE, $name, $constraint);
+			throw new BorhanAPIException(BorhanErrors::PROPERTY_VALIDATION_MIN_VALUE, $name, $constraint);
 	}
 	
 	protected function validateMaxValue($name, $objectValue, $constraint) {
 		if($objectValue > $constraint)
-			throw new KalturaAPIException(KalturaErrors::PROPERTY_VALIDATION_MAX_VALUE, $name, $constraint);
+			throw new BorhanAPIException(BorhanErrors::PROPERTY_VALIDATION_MAX_VALUE, $name, $constraint);
 	}
 	
 	private function validateFile($fileData) 
 	{
 		if (!isset($fileData['tmp_name']) || !is_uploaded_file($fileData['tmp_name'])) {
 			$msg = "An error occured while uploading file.";
-			KalturaLog::log($msg . ' ' . print_r($fileData, true));
-			throw new KalturaAPIException(KalturaErrors::UPLOAD_ERROR);
+			BorhanLog::log($msg . ' ' . print_r($fileData, true));
+			throw new BorhanAPIException(BorhanErrors::UPLOAD_ERROR);
 		}
 	}
 
-	private function buildObject(KalturaTypeReflector $typeReflector, array &$params, $objectName)
+	private function buildObject(BorhanTypeReflector $typeReflector, array &$params, $objectName)
 	{
 		// if objectType was specified, we will use it only if the anotation type is it's base type
 		if (array_key_exists("objectType", $params))
@@ -270,7 +270,7 @@ class KalturaRequestDeserializer
             {
                 if ($typeReflector->isParentOf($possibleType)) // we know that the objectType that came from the user is right, and we can use it to initiate the object\
                 {
-                    $newTypeReflector = KalturaTypeReflectorCacher::get($possibleType);
+                    $newTypeReflector = BorhanTypeReflectorCacher::get($possibleType);
                     if($newTypeReflector)
                     	$typeReflector = $newTypeReflector;
                 }
@@ -278,7 +278,7 @@ class KalturaRequestDeserializer
 		}
 		
 		if($typeReflector->isAbstract())
-			throw new KalturaAPIException(KalturaErrors::OBJECT_TYPE_ABSTRACT, $typeReflector->getType());
+			throw new BorhanAPIException(BorhanErrors::OBJECT_TYPE_ABSTRACT, $typeReflector->getType());
 		 
 	    $class = $typeReflector->getType();
 		$obj = new $class;
@@ -299,12 +299,12 @@ class KalturaRequestDeserializer
 			}
 			
 			$property = $properties[$name];
-			/* @var $property KalturaPropertyInfo */
+			/* @var $property BorhanPropertyInfo */
 			$type = $property->getType();
 			
 			if ($isNull && !$property->isArray())
 			{
-				$obj->$name = new KalturaNullField();
+				$obj->$name = new BorhanNullField();
 				continue;
 			}
 							
@@ -314,7 +314,7 @@ class KalturaRequestDeserializer
                     $type = "time";
 				$value = $this->castSimpleType($type, $value);
 				if(!kXml::isXMLValidContent($value))
-					throw new KalturaAPIException(KalturaErrors::INVALID_PARAMETER_CHAR, $name);
+					throw new BorhanAPIException(BorhanErrors::INVALID_PARAMETER_CHAR, $name);
 				$this->validateParameter($name, $value, $property);
 				$obj->$name = $value;
 				continue;
@@ -327,11 +327,11 @@ class KalturaRequestDeserializer
 				if(strtolower($value) == 'false')
 					$value = 0;
 				if (!$property->getTypeReflector()->checkEnumValue($value))
-					throw new KalturaAPIException(KalturaErrors::INVALID_ENUM_VALUE, $value, $name, $property->getType());
+					throw new BorhanAPIException(BorhanErrors::INVALID_ENUM_VALUE, $value, $name, $property->getType());
 			
-				if($type == 'KalturaNullableBoolean')
+				if($type == 'BorhanNullableBoolean')
 				{
-					$obj->$name = KalturaNullableBoolean::toBoolean($value);
+					$obj->$name = BorhanNullableBoolean::toBoolean($value);
 					continue;
 				}
 				
@@ -342,11 +342,11 @@ class KalturaRequestDeserializer
 			if ($property->isStringEnum())
 			{
 				if (!$property->getTypeReflector()->checkStringEnumValue($value))
-					throw new KalturaAPIException(KalturaErrors::INVALID_ENUM_VALUE, $value, $name, $property->getType());
+					throw new BorhanAPIException(BorhanErrors::INVALID_ENUM_VALUE, $value, $name, $property->getType());
 					
 				$value = $this->castSimpleType("string", $value);
 				if(!kXml::isXMLValidContent($value))
-					throw new KalturaAPIException(KalturaErrors::INVALID_PARAMETER_CHAR, $name);
+					throw new BorhanAPIException(BorhanErrors::INVALID_PARAMETER_CHAR, $name);
 				$obj->$name = $value;
 				continue;
 			}

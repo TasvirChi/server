@@ -19,7 +19,7 @@ class Form_Partner_StorageConfiguration extends Form_Partner_BaseStorageConfigur
 		$this->addElement('select', 'pathManagerClass', array(
 			'label'			=> 'Path Manager:',
 			'filters'		=> array('StringTrim'),
-			'multiOptions'  => array('kPathManager' => 'Kaltura Path',
+			'multiOptions'  => array('kPathManager' => 'Borhan Path',
 									'kExternalPathManager' => 'External Path',
 		    						'kXslPathManager' => 'XSL Path',
 									),	
@@ -125,8 +125,8 @@ class Form_Partner_StorageConfiguration extends Form_Partner_BaseStorageConfigur
 		$this->addElement('select', 'filesPermissionInS3', array(
 			'label'			=> 'Files Permission In S3:',
 			'filters'		=> array('StringTrim'),
-			'multiOptions'  => array(Kaltura_Client_Enum_AmazonS3StorageProfileFilesPermissionLevel::ACL_PRIVATE => 'Private',
-									 Kaltura_Client_Enum_AmazonS3StorageProfileFilesPermissionLevel::ACL_PUBLIC_READ => 'Public Read',
+			'multiOptions'  => array(Borhan_Client_Enum_AmazonS3StorageProfileFilesPermissionLevel::ACL_PRIVATE => 'Private',
+									 Borhan_Client_Enum_AmazonS3StorageProfileFilesPermissionLevel::ACL_PUBLIC_READ => 'Public Read',
 									),	
 		));
 		

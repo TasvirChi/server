@@ -3,7 +3,7 @@
  * @package Core
  * @subpackage externalWidgets
  */
-class streamclipperAction extends kalturaAction
+class streamclipperAction extends borhanAction
 {
 	public function execute()
 	{

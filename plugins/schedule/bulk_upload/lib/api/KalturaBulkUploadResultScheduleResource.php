@@ -3,7 +3,7 @@
  * @package plugins.scheduleBulkUpload
  * @subpackage api.objects
  */
-class KalturaBulkUploadResultScheduleResource extends KalturaBulkUploadResult
+class BorhanBulkUploadResultScheduleResource extends BorhanBulkUploadResult
 {
     /**
      * @var string
@@ -63,7 +63,7 @@ class KalturaBulkUploadResultScheduleResource extends KalturaBulkUploadResult
 	}
 	
     /* (non-PHPdoc)
-     * @see KalturaBulkUploadResult::toInsertableObject()
+     * @see BorhanBulkUploadResult::toInsertableObject()
      */
     public function toInsertableObject ( $object_to_fill = null , $props_to_skip = array() )
 	{

@@ -26,28 +26,28 @@ class KAsyncExtractMediaTest extends PHPUnit_Framework_TestCase
 	
 	public function testGoodFile()
 	{
-		$this->doTest(realpath(dirname( __FILE__ ) . '/../../../tests/files/example.avi'), KalturaBatchJobStatus::FINISHED);
+		$this->doTest(realpath(dirname( __FILE__ ) . '/../../../tests/files/example.avi'), BorhanBatchJobStatus::FINISHED);
 	}
 	
 	public function testSpacedFile()
 	{
 		$path = realpath(dirname( __FILE__ ) . '/../../../tests/files/example.avi');
-		$this->doTest(" $path", KalturaBatchJobStatus::FINISHED);
+		$this->doTest(" $path", BorhanBatchJobStatus::FINISHED);
 	}
 	
 	public function testMissingFile()
 	{
-		$this->doTest('aaa', KalturaBatchJobStatus::FAILED);
+		$this->doTest('aaa', BorhanBatchJobStatus::FAILED);
 	}
 	
 	public function testEmptyFile()
 	{
-		$this->doTest('aaa', KalturaBatchJobStatus::FAILED);
+		$this->doTest('aaa', BorhanBatchJobStatus::FAILED);
 	}
 	
 	public function testImageFile()
 	{
-		$this->doTest(realpath('../tests/files/thumb.jpg'), KalturaBatchJobStatus::FAILED);
+		$this->doTest(realpath('../tests/files/thumb.jpg'), BorhanBatchJobStatus::FAILED);
 	}
 	
 	public function doTest($value, $expectedStatus)
@@ -78,15 +78,15 @@ class KAsyncExtractMediaTest extends PHPUnit_Framework_TestCase
 	
 	private function prepareJobs($value)
 	{
-		$data = new KalturaExtractMediaJobData();
-		$srcFileSyncDescriptor = new KalturaSourceFileSyncDescriptor();
+		$data = new BorhanExtractMediaJobData();
+		$srcFileSyncDescriptor = new BorhanSourceFileSyncDescriptor();
 		$srcFileSyncDescriptor->fileSyncLocalPath = $value;
-		$data->srcFileSyncs = new KalturaSourceFileSyncDescriptorArray();
+		$data->srcFileSyncs = new BorhanSourceFileSyncDescriptorArray();
 		$data->srcFileSyncs[] = $srcFileSyncDescriptor;
 		
-		$job = new KalturaBatchJob();
+		$job = new BorhanBatchJob();
 		$job->id = 1;
-		$job->status = KalturaBatchJobStatus::PENDING;
+		$job->status = BorhanBatchJobStatus::PENDING;
 		$job->data = $data;
 		
 		return array($job);

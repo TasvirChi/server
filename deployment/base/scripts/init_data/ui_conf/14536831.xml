@@ -2,17 +2,17 @@
 <uiconf>
 	<jars>
 		<jar>ScreencastOMaticSidePanel-1.0.1.jar</jar>
-		<jar>KalturaSidePanel-1.0.1.jar</jar>
-		<jar>KalturaRecorderSkin-1.1.jar</jar>
-		<jar>KalturaSkin-1.1.jar</jar>
-		<jar>kaltura-java-client-02-04-2012.jar</jar>
+		<jar>BorhanSidePanel-1.0.1.jar</jar>
+		<jar>BorhanRecorderSkin-1.1.jar</jar>
+		<jar>BorhanSkin-1.1.jar</jar>
+		<jar>borhan-java-client-02-04-2012.jar</jar>
 		<jar>commons-codec-1.4.jar</jar>
 		<jar>commons-httpclient-3.1.jar</jar>
 		<jar>commons-logging-1.1.1.jar</jar>
 		<jar>log4j-1.2.15.jar</jar>
 	</jars>
 	<som>
-		<captureId>kaltura</captureId>
+		<captureId>borhan</captureId>
 		<macName>Screen Recorder</macName>
 		<sidePanelOnly>true</sidePanelOnly>
 		<recorderOptions>
@@ -20,7 +20,7 @@
 			<maxCaptureSec>7200</maxCaptureSec>
 		</recorderOptions>
 	</som>
-	<kaltura>
+	<borhan>
 		<videoBitRate>2000</videoBitRate>
 		<category/>
 		<conversionProfileId/>
@@ -34,8 +34,8 @@
 			<InvalidKs>
 				<starts>Invalid KS</starts>
 				<replace>
-					<![CDATA[Your session with Kaltura has expired.<br><br>In order to complete the upload please follow the following instructions:<br><ol><li>Refresh the Screencast Recorder page and Reload the Recorder</li><li>Wait for the Recorder to find the last video file</li><li>Press Upload button</li></ol>]]></replace>
+					<![CDATA[Your session with Borhan has expired.<br><br>In order to complete the upload please follow the following instructions:<br><ol><li>Refresh the Screencast Recorder page and Reload the Recorder</li><li>Wait for the Recorder to find the last video file</li><li>Press Upload button</li></ol>]]></replace>
 			</InvalidKs>
 		</errorMessages>
-	</kaltura>
+	</borhan>
 </uiconf>

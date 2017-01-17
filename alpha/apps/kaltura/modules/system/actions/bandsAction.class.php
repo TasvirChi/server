@@ -4,18 +4,18 @@
  * @subpackage system
  * @deprecated
  */
-require_once ( __DIR__ . "/kalturaSystemAction.class.php" );
+require_once ( __DIR__ . "/borhanSystemAction.class.php" );
 
 /**
  * @package    Core
  * @subpackage system
  * @deprecated
  */
-class bandsAction extends kalturaSystemAction
+class bandsAction extends borhanSystemAction
 {
 	/**
 	 * 
-select kshow.id,concat('http://www.kaltura.com/index.php/browse/bands?band_id=',indexed_custom_data_1),concat('http://profile.myspace.com/index.cfm?fuseaction=user.viewpr
+select kshow.id,concat('http://www.borhan.com/index.php/browse/bands?band_id=',indexed_custom_data_1),concat('http://profile.myspace.com/index.cfm?fuseaction=user.viewpr
 ofile&friendID=',indexed_custom_data_1) ,  kuser.screen_name , indexed_custom_data_1  from kshow ,kuser where kshow.partner_id=5 AND kuser.id=kshow.producer_id AND kshow.
 id>=10815  order by kshow.id ;
 ~

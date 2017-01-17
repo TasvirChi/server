@@ -1,15 +1,15 @@
 <?php
 /**
- * Configuration for extended item in the Kaltura MRSS feeds
+ * Configuration for extended item in the Borhan MRSS feeds
  *
  * @package api
  * @subpackage objects
  */
-abstract class KalturaObjectIdentifier extends KalturaObject
+abstract class BorhanObjectIdentifier extends BorhanObject
 {
 	/**
 	 * Comma separated string of enum values denoting which features of the item need to be included in the MRSS 
-	 * @dynamicType KalturaObjectFeatureType
+	 * @dynamicType BorhanObjectFeatureType
 	 * @var string
 	 */
 	public $extendedFeatures;
@@ -20,7 +20,7 @@ abstract class KalturaObjectIdentifier extends KalturaObject
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{

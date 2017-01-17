@@ -3,12 +3,12 @@
  * @package plugins.playReady
  * @subpackage api.objects
  */
-class KalturaPlayReadyLicenseDetails extends KalturaObject 
+class BorhanPlayReadyLicenseDetails extends BorhanObject 
 {
 	/**
 	 * PlayReady policy object
 	 * 
-	 * @var KalturaPlayReadyPolicy
+	 * @var BorhanPlayReadyPolicy
 	 */
 	public $policy;
 	

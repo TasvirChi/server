@@ -3,7 +3,7 @@
  * @package plugins.playReady
  * @subpackage api.enum
  */
-class KalturaPlayReadyMinimumLicenseSecurityLevel extends KalturaEnum implements PlayReadyMinimumLicenseSecurityLevel
+class BorhanPlayReadyMinimumLicenseSecurityLevel extends BorhanEnum implements PlayReadyMinimumLicenseSecurityLevel
 {
 	// see PlayReadyMinimumLicenseSecurityLevel interface
 }

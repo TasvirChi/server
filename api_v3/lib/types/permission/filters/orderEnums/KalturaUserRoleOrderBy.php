@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters.enum
  */
-class KalturaUserRoleOrderBy extends KalturaStringEnum
+class BorhanUserRoleOrderBy extends BorhanStringEnum
 {
 	const ID_ASC = "+id";
 	const ID_DESC = "-id";

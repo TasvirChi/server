@@ -1,9 +1,9 @@
 <?php
 /**
- * @package plugins.crossKalturaDistribution
+ * @package plugins.crossBorhanDistribution
  * @subpackage api.objects
  */
-class KalturaCrossKalturaDistributionJobProviderData extends KalturaConfigurableDistributionJobProviderData
+class BorhanCrossBorhanDistributionJobProviderData extends BorhanConfigurableDistributionJobProviderData
 {
     /**
      * Key-value array where the keys are IDs of distributed flavor assets in the source account and the values are the matching IDs in the target account
@@ -37,7 +37,7 @@ class KalturaCrossKalturaDistributionJobProviderData extends KalturaConfigurable
     
     
     
-    public function __construct(KalturaDistributionJobData $distributionJobData = null)
+    public function __construct(BorhanDistributionJobData $distributionJobData = null)
 	{			   
 		parent::__construct($distributionJobData);
 	    
@@ -45,7 +45,7 @@ class KalturaCrossKalturaDistributionJobProviderData extends KalturaConfigurable
 			return;
 		}
 			
-		if (!($distributionJobData->distributionProfile instanceof KalturaCrossKalturaDistributionProfile)) {
+		if (!($distributionJobData->distributionProfile instanceof BorhanCrossBorhanDistributionProfile)) {
 			return;
 		}
 					
@@ -53,15 +53,15 @@ class KalturaCrossKalturaDistributionJobProviderData extends KalturaConfigurable
 		$entryDistributionDb = EntryDistributionPeer::retrieveByPK($distributionJobData->entryDistributionId);
 		if (!$entryDistributionDb)
 		{
-		    KalturaLog::err('Entry distribution ['.$distributionJobData->entryDistributionId.'] not found');
+		    BorhanLog::err('Entry distribution ['.$distributionJobData->entryDistributionId.'] not found');
 		    return;
 		}
 		
-		$this->distributedFlavorAssets = $entryDistributionDb->getFromCustomData(CrossKalturaDistributionCustomDataField::DISTRIBUTED_FLAVOR_ASSETS);
-		$this->distributedThumbAssets = $entryDistributionDb->getFromCustomData(CrossKalturaDistributionCustomDataField::DISTRIBUTED_THUMB_ASSETS);
-		$this->distributedMetadata = $entryDistributionDb->getFromCustomData(CrossKalturaDistributionCustomDataField::DISTRIBUTED_METADATA);
-		$this->distributedCaptionAssets = $entryDistributionDb->getFromCustomData(CrossKalturaDistributionCustomDataField::DISTRIBUTED_CAPTION_ASSETS);
-		$this->distributedCuePoints = $entryDistributionDb->getFromCustomData(CrossKalturaDistributionCustomDataField::DISTRIBUTED_CUE_POINTS);
+		$this->distributedFlavorAssets = $entryDistributionDb->getFromCustomData(CrossBorhanDistributionCustomDataField::DISTRIBUTED_FLAVOR_ASSETS);
+		$this->distributedThumbAssets = $entryDistributionDb->getFromCustomData(CrossBorhanDistributionCustomDataField::DISTRIBUTED_THUMB_ASSETS);
+		$this->distributedMetadata = $entryDistributionDb->getFromCustomData(CrossBorhanDistributionCustomDataField::DISTRIBUTED_METADATA);
+		$this->distributedCaptionAssets = $entryDistributionDb->getFromCustomData(CrossBorhanDistributionCustomDataField::DISTRIBUTED_CAPTION_ASSETS);
+		$this->distributedCuePoints = $entryDistributionDb->getFromCustomData(CrossBorhanDistributionCustomDataField::DISTRIBUTED_CUE_POINTS);
 	}
 	
 	
@@ -82,7 +82,7 @@ class KalturaCrossKalturaDistributionJobProviderData extends KalturaConfigurable
 	public function toObject($dbObject = null, $skip = array())
 	{
 		if (is_null($dbObject))
-			$dbObject = new kCrossKalturaDistributionJobProviderData();
+			$dbObject = new kCrossBorhanDistributionJobProviderData();
 			
 		return parent::toObject($dbObject, $skip);
 	}

@@ -12,7 +12,7 @@ class IndexGeneratorBase
 		$objects = array();
 		if (!file_exists ($inputFile))
 		{
-			KalturaLog::err ("input file ". $inputFile ." not found");
+			BorhanLog::err ("input file ". $inputFile ." not found");
 			exit(1);
 		}
 		

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters.enum
  */
-class KalturaPartnerOrderBy extends KalturaStringEnum
+class BorhanPartnerOrderBy extends BorhanStringEnum
 {
 	const ID_ASC = "+id";
 	const ID_DESC = "-id";

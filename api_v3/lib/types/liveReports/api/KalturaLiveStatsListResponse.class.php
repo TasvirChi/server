@@ -4,17 +4,17 @@
  * @package api
  * @subpackage objects
  */
-class KalturaLiveStatsListResponse extends KalturaListResponse
+class BorhanLiveStatsListResponse extends BorhanListResponse
 {				
 	/**
 	 *
-	 * @var KalturaLiveStats
+	 * @var BorhanLiveStats
 	 **/
 	public $objects;
 	
 	public function getWSObject() {
 		$obj = new WSLiveEntriesListResponse();
-		$obj->fromKalturaObject($this);
+		$obj->fromBorhanObject($this);
 		return $obj;
 	}
 	

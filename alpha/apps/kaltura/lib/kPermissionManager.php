@@ -113,14 +113,14 @@ class kPermissionManager implements kObjectCreatedEventConsumer, kObjectChangedE
 				continue;
 			}
 				
-			KalturaLog::debug("Found a cache value for key [$key] map hash [".$cacheRole['mapHash']."] in layer [$cacheLayer]");
+			BorhanLog::debug("Found a cache value for key [$key] map hash [".$cacheRole['mapHash']."] in layer [$cacheLayer]");
 			self::storeInCache($key, $cacheRole, $map);		// store in lower cache layers
 			self::$cacheStores[] = $cacheStore;
 
 			return $map;
 		}
 
-		KalturaLog::debug("No cache value found for key [$key]");
+		BorhanLog::debug("No cache value found for key [$key]");
 		return null;
 	}
 	
@@ -152,11 +152,11 @@ class kPermissionManager implements kObjectCreatedEventConsumer, kObjectChangedE
 					
 			if ($success)
 			{
-				KalturaLog::debug("New value stored in cache for key [$key] map hash [".$cacheRole['mapHash']."]");
+				BorhanLog::debug("New value stored in cache for key [$key] map hash [".$cacheRole['mapHash']."]");
 			}
 			else
 			{
-				KalturaLog::debug("No cache value stored for key [$key] map hash [".$cacheRole['mapHash']."]");
+				BorhanLog::debug("No cache value stored for key [$key] map hash [".$cacheRole['mapHash']."]");
 			}
 		}
 	}
@@ -229,7 +229,7 @@ class kPermissionManager implements kObjectCreatedEventConsumer, kObjectChangedE
 			
 			if (!$dbRole)
 			{
-				KalturaLog::alert('User role ID ['.$roleId.'] set for user ID ['.self::$ksUserId.'] of partner ['.self::$operatingPartnerId.'] was not found in the DB');
+				BorhanLog::alert('User role ID ['.$roleId.'] set for user ID ['.self::$ksUserId.'] of partner ['.self::$operatingPartnerId.'] was not found in the DB');
 				throw new kPermissionException('User role ID ['.$roleId.'] set for user ID ['.self::$ksUserId.'] of partner ['.self::$operatingPartnerId.'] was not found in the DB', kPermissionException::ROLE_NOT_FOUND);
 			}
 		}
@@ -278,7 +278,7 @@ class kPermissionManager implements kObjectCreatedEventConsumer, kObjectChangedE
 		// from internal servers
 		if (kIpAddressUtils::isInternalIp())
 		{
-			KalturaLog::debug('IP in range, adding ALWAYS_ALLOWED_FROM_INTERNAL_IP_ACTIONS permission');
+			BorhanLog::debug('IP in range, adding ALWAYS_ALLOWED_FROM_INTERNAL_IP_ACTIONS permission');
 			$alwaysAllowedInternal = array(PermissionName::ALWAYS_ALLOWED_FROM_INTERNAL_IP_ACTIONS);
 			$tmpPermissionNames = array_merge($tmpPermissionNames, $alwaysAllowedInternal);
 		}
@@ -302,12 +302,12 @@ class kPermissionManager implements kObjectCreatedEventConsumer, kObjectChangedE
 			$permission = $lookup->getPermission();
 			
 			if (!$item)	{
-				KalturaLog::err('PermissionToPermissionItem id ['.$lookup->getId().'] is defined with PermissionItem id ['.$lookup->getPermissionItemId().'] which does not exists!');
+				BorhanLog::err('PermissionToPermissionItem id ['.$lookup->getId().'] is defined with PermissionItem id ['.$lookup->getPermissionItemId().'] which does not exists!');
 				continue;
 			}
 			
 			if (!$permission) {
-				KalturaLog::err('PermissionToPermissionItem id ['.$lookup->getId().'] is defined with Permission name ['.$lookup->getPermissionName().'] which does not exists!');
+				BorhanLog::err('PermissionToPermissionItem id ['.$lookup->getId().'] is defined with Permission name ['.$lookup->getPermissionName().'] which does not exists!');
 				continue;
 			}
 				
@@ -386,7 +386,7 @@ class kPermissionManager implements kObjectCreatedEventConsumer, kObjectChangedE
 		$partnerGroup = $permission->getPartnerGroup();
 		if (!$permission->getPartnerGroup())
 		{
-			KalturaLog::notice('No partner group defined for permission id ['.$permission->getId().'] with type partner group ['.$permission->getType().']');
+			BorhanLog::notice('No partner group defined for permission id ['.$permission->getId().'] with type partner group ['.$permission->getType().']');
 			return;
 		}
 		$partnerGroup = explode(',', trim($partnerGroup, ','));
@@ -397,7 +397,7 @@ class kPermissionManager implements kObjectCreatedEventConsumer, kObjectChangedE
 		{
 			if ($item->getType() != PermissionItemType::API_ACTION_ITEM)
 			{
-				KalturaLog::notice('Permission item id ['.$item->getId().'] is not of type PermissionItemType::API_ACTION_ITEM but still defined in partner group permission id ['.$permission->getId().']');
+				BorhanLog::notice('Permission item id ['.$item->getId().'] is not of type PermissionItemType::API_ACTION_ITEM but still defined in partner group permission id ['.$permission->getId().']');
 				continue;
 			}
 			$service = strtolower($item->getService());
@@ -447,7 +447,7 @@ class kPermissionManager implements kObjectCreatedEventConsumer, kObjectChangedE
 		
 		// verify that kCurrentContext::init has been executed since it must be used to init current context permissions
 		if (!kCurrentContext::$ksPartnerUserInitialized) {
-			KalturaLog::crit('kCurrentContext::initKsPartnerUser must be executed before initializing kPermissionManager');
+			BorhanLog::crit('kCurrentContext::initKsPartnerUser must be executed before initializing kPermissionManager');
 			throw new Exception('kCurrentContext has not been initialized!', null);
 		}
 		
@@ -543,7 +543,7 @@ class kPermissionManager implements kObjectCreatedEventConsumer, kObjectChangedE
 			if ($roleId){
 				$roleIds = $roleId->getId();
 			}else{
-				KalturaLog::debug("Role id [$ksSetRoleId] does not exists");
+				BorhanLog::debug("Role id [$ksSetRoleId] does not exists");
 				throw new kCoreException("Unknown role Id [$ksSetRoleId]", kCoreException::ID_NOT_FOUND);
 			}
 		}
@@ -617,7 +617,7 @@ class kPermissionManager implements kObjectCreatedEventConsumer, kObjectChangedE
 			$ksPartner = PartnerPeer::retrieveByPK(self::$ksPartnerId);
 			if (!$ksPartner)
 			{
-				KalturaLog::crit('Unknown partner id ['.self::$ksPartnerId.']');
+				BorhanLog::crit('Unknown partner id ['.self::$ksPartnerId.']');
 				throw new kCoreException("Unknown partner Id [" . self::$ksPartnerId ."]", kCoreException::ID_NOT_FOUND);
 			}
 		}
@@ -627,7 +627,7 @@ class kPermissionManager implements kObjectCreatedEventConsumer, kObjectChangedE
 			$requestedPartner = PartnerPeer::retrieveActiveByPK(self::$requestedPartnerId);
 			if (!$requestedPartner)
 			{
-				KalturaLog::crit('Unknown partner id ['.self::$requestedPartnerId.']');
+				BorhanLog::crit('Unknown partner id ['.self::$requestedPartnerId.']');
 				throw new kCoreException("Unknown partner Id [" . self::$requestedPartnerId ."]", kCoreException::PARTNER_BLOCKED);
 			}
 		}
@@ -700,31 +700,31 @@ class kPermissionManager implements kObjectCreatedEventConsumer, kObjectChangedE
 			switch($res)
 			{
 				case ks::INVALID_STR:
-					KalturaLog::err('Invalid KS ['.self::$ksString.']');
+					BorhanLog::err('Invalid KS ['.self::$ksString.']');
 					break;
 									
 				case ks::INVALID_PARTNER:
-					KalturaLog::err('Wrong partner ['.self::$ksPartnerId.'] actual partner ['.$ksObj->partner_id.']');
+					BorhanLog::err('Wrong partner ['.self::$ksPartnerId.'] actual partner ['.$ksObj->partner_id.']');
 					break;
 									
 				case ks::INVALID_USER:
-					KalturaLog::err('Wrong user ['.self::$ksUserId.'] actual user ['.$ksObj->user.']');
+					BorhanLog::err('Wrong user ['.self::$ksUserId.'] actual user ['.$ksObj->user.']');
 					break;
 																		
 				case ks::EXPIRED:
-					KalturaLog::err('KS Expired [' . date('Y-m-d H:i:s', $ksObj->valid_until) . ']');
+					BorhanLog::err('KS Expired [' . date('Y-m-d H:i:s', $ksObj->valid_until) . ']');
 					break;
 									
 				case ks::LOGOUT:
-					KalturaLog::err('KS already logged out');
+					BorhanLog::err('KS already logged out');
 					break;
 				
 				case ks::EXCEEDED_ACTIONS_LIMIT:
-					KalturaLog::err('KS exceeded number of actions limit');
+					BorhanLog::err('KS exceeded number of actions limit');
 					break;
 					
 				case ks::EXCEEDED_RESTRICTED_IP:
-					KalturaLog::err('IP does not match KS restriction');
+					BorhanLog::err('IP does not match KS restriction');
 					break;
 			}
 			
@@ -742,7 +742,7 @@ class kPermissionManager implements kObjectCreatedEventConsumer, kObjectChangedE
 		$partnerGroup = self::getPartnerGroup($service, $action);
 		$accessAllowed = myPartnerUtils::allowPartnerAccessPartner ( self::$operatingPartnerId , $partnerGroup , self::$requestedPartnerId );
 		if(!$accessAllowed)
-			KalturaLog::debug("Operating partner [" . self::$operatingPartnerId . "] not allowed using requested partner [" . self::$requestedPartnerId . "] with partner group [$partnerGroup]");
+			BorhanLog::debug("Operating partner [" . self::$operatingPartnerId . "] not allowed using requested partner [" . self::$requestedPartnerId . "] with partner group [$partnerGroup]");
 			
 		return $accessAllowed;
 	}
@@ -790,20 +790,20 @@ class kPermissionManager implements kObjectCreatedEventConsumer, kObjectChangedE
 		$partnerAccessPermitted = self::isPartnerAccessAllowed($service, $action);
 		if(!$partnerAccessPermitted)
 		{
-			KalturaLog::err("Partner is not allowed");
+			BorhanLog::err("Partner is not allowed");
 			return false;
 		}
 		
 		$servicePermitted  = isset(self::$map[self::API_ACTIONS_ARRAY_NAME][$service]);
 		if(!$servicePermitted)
 		{
-			KalturaLog::err("Service is not permitted");
+			BorhanLog::err("Service is not permitted");
 			return false;
 		}
 		
 		$actionPermitted   = isset(self::$map[self::API_ACTIONS_ARRAY_NAME][$service][$action]);
 		if(!$actionPermitted)
-			KalturaLog::err("Action is not permitted");
+			BorhanLog::err("Action is not permitted");
 		
 		return $actionPermitted;
 	}
@@ -1026,7 +1026,7 @@ class kPermissionManager implements kObjectCreatedEventConsumer, kObjectChangedE
 	{
 		$partner = PartnerPeer::retrieveByPK($partnerId);
 		if (!$partner) {
-			KalturaLog::err("Cannot find partner with id [$partnerId]");
+			BorhanLog::err("Cannot find partner with id [$partnerId]");
 			return;
 		}
 		$partner->setRoleCacheDirtyAt(time());

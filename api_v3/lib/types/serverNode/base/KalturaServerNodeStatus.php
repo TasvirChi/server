@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaServerNodeStatus extends KalturaEnum implements ServerNodeStatus
+class BorhanServerNodeStatus extends BorhanEnum implements ServerNodeStatus
 {
 	public static function getEnumClass()
 	{

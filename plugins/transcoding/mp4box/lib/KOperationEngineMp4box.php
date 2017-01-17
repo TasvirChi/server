@@ -8,7 +8,7 @@ class KOperationEngineMp4box  extends KSingleOutputOperationEngine
 	public function __construct($cmd, $outFilePath)
 	{
 		parent::__construct($cmd,$outFilePath);
-		KalturaLog::info(": cmd($cmd), outFilePath($outFilePath)");
+		BorhanLog::info(": cmd($cmd), outFilePath($outFilePath)");
 	}
 
 	/***************************
@@ -49,15 +49,15 @@ class KOperationEngineMp4box  extends KSingleOutputOperationEngine
 	/***************************
 	 * buildSubTitleCommandParam
 	 *
-	 * @param KalturaConvartableJobData $data
+	 * @param BorhanConvartableJobData $data
 	 * @return 
 	 */
-	private function buildSubTitleCommandParam(KalturaConvartableJobData $data)
+	private function buildSubTitleCommandParam(BorhanConvartableJobData $data)
 	{//		$cmdStr.= " -add ".KDLCmdlinePlaceholders::OutFileName.".temp.srt:hdlr=sbtl:lang=$lang:group=0:layer=-1";
 		$jobMsg = null;
 		$captionsArr = KConversionEngineFfmpeg::fetchEntryCaptionList($data, $jobMsg);
 		if(!isset($captionsArr) || count($captionsArr)==0){
-			KalturaLog::log($jobMsg);
+			BorhanLog::log($jobMsg);
 			$this->message = $jobMsg;
 			return null;
 		}

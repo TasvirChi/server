@@ -3,7 +3,7 @@
  * @package plugins.tvComDistribution
  * @subpackage api.objects
  */
-class KalturaTVComDistributionProfile extends KalturaConfigurableDistributionProfile
+class BorhanTVComDistributionProfile extends BorhanConfigurableDistributionProfile
 {	
 	/**
 	 * @var int

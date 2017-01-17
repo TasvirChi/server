@@ -6,7 +6,7 @@
  * @package plugins.like
  * @subpackage api.services
  */
-class LikeService extends KalturaBaseService
+class LikeService extends BorhanBaseService
 {
     const KVOTE_LIKE_RANK_VALUE = 1;
     const KVOTE_UNLIKE_RANK_VALUE = 0;
@@ -17,12 +17,12 @@ class LikeService extends KalturaBaseService
 		
 		if(!LikePlugin::isAllowedPartner($this->getPartnerId()))
 		{
-		    throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, LikePlugin::PLUGIN_NAME);
+		    throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, LikePlugin::PLUGIN_NAME);
 		}	
 		
 		if ((!kCurrentContext::$ks_uid || kCurrentContext::$ks_uid == "") && $actionName != "list")
 		{
-		    throw new KalturaAPIException(KalturaErrors::INVALID_USER_ID);
+		    throw new BorhanAPIException(BorhanErrors::INVALID_USER_ID);
 		}
     }
     
@@ -30,27 +30,27 @@ class LikeService extends KalturaBaseService
      * @action like
      * Action for current kuser to mark the entry as "liked".
      * @param string $entryId
-     * @throws KalturaLikeErrors::USER_LIKE_FOR_ENTRY_ALREADY_EXISTS
-     * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+     * @throws BorhanLikeErrors::USER_LIKE_FOR_ENTRY_ALREADY_EXISTS
+     * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
      * @return bool
      */
     public function likeAction ( $entryId )
     {
         if (!$entryId)
 	    {
-	        throw new KalturaAPIException(KalturaErrors::MISSING_MANDATORY_PARAMETER, "entryId");
+	        throw new BorhanAPIException(BorhanErrors::MISSING_MANDATORY_PARAMETER, "entryId");
 	    }
 	    
 	    //Check if a kvote for current entryId and kuser already exists. If it does - throw exception
 	    $existingKVote = kvotePeer::doSelectByEntryIdAndPuserId($entryId, $this->getPartnerId(), kCurrentContext::$ks_uid);
 	    if ($existingKVote)
 	    {
-	        throw new KalturaAPIException(KalturaLikeErrors::USER_LIKE_FOR_ENTRY_ALREADY_EXISTS);
+	        throw new BorhanAPIException(BorhanLikeErrors::USER_LIKE_FOR_ENTRY_ALREADY_EXISTS);
 	    }
 	    
 	    $dbEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 			
 		if (kvotePeer::enableExistingKVote($entryId, $this->getPartnerId(), kCurrentContext::$ks_uid))
 		{
@@ -72,18 +72,18 @@ class LikeService extends KalturaBaseService
     {
         if (!$entryId)
 	    {
-	        throw new KalturaAPIException(KalturaErrors::MISSING_MANDATORY_PARAMETER, "entryId");
+	        throw new BorhanAPIException(BorhanErrors::MISSING_MANDATORY_PARAMETER, "entryId");
 	    }
 	    
 	    $existingKVote = kvotePeer::doSelectByEntryIdAndPuserId($entryId, $this->getPartnerId(), kCurrentContext::$ks_uid);
 	    if (!$existingKVote)
 	    {
-	        throw new KalturaAPIException(KalturaLikeErrors::USER_LIKE_FOR_ENTRY_NOT_FOUND);
+	        throw new BorhanAPIException(BorhanLikeErrors::USER_LIKE_FOR_ENTRY_NOT_FOUND);
 	    }
 	    
 	    $dbEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
         
 		if (kvotePeer::disableExistingKVote($entryId, $this->getPartnerId(), kCurrentContext::$ks_uid))
 		    return true;
@@ -103,7 +103,7 @@ class LikeService extends KalturaBaseService
     {
         if (!$entryId)
 	    {
-	        throw new KalturaAPIException(KalturaErrors::MISSING_MANDATORY_PARAMETER, "entryId");
+	        throw new BorhanAPIException(BorhanErrors::MISSING_MANDATORY_PARAMETER, "entryId");
 	    }
         
 	    if (!$userId)
@@ -123,24 +123,24 @@ class LikeService extends KalturaBaseService
 
 	/**
 	 * @action list
-	 * @param KalturaLikeFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaLikeListResponse
+	 * @param BorhanLikeFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanLikeListResponse
 	 */
-	public function listAction(KalturaLikeFilter $filter = null, KalturaFilterPager $pager = null)
+	public function listAction(BorhanLikeFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if(!$filter)
-			$filter = new KalturaLikeFilter();
+			$filter = new BorhanLikeFilter();
 		else	
 		{			
 			if($filter->entryIdEqual && !entryPeer::retrieveByPK($filter->entryIdEqual))			
-				throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $filter->entryIdEqual);			
+				throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $filter->entryIdEqual);			
 			if($filter->userIdEqual && !kuserPeer::getActiveKuserByPartnerAndUid(kCurrentContext::$ks_partner_id, $filter->userIdEqual))
-				throw new KalturaAPIException(KalturaErrors::USER_NOT_FOUND);			
+				throw new BorhanAPIException(BorhanErrors::USER_NOT_FOUND);			
 		}
 		
 		if(!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 
 		return $filter->getListResponse($pager, null);
 	}

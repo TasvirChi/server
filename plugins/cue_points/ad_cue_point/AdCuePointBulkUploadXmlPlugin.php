@@ -3,7 +3,7 @@
  * Enable ad cue point ingestion from XML bulk upload
  * @package plugins.adCuePoint
  */
-class AdCuePointBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPending, IKalturaSchemaContributor
+class AdCuePointBulkUploadXmlPlugin extends BorhanPlugin implements IBorhanPending, IBorhanSchemaContributor
 {
 	const PLUGIN_NAME = 'adCuePointBulkUploadXml';
 	const BULK_UPLOAD_XML_PLUGIN_NAME = 'bulkUploadXml';
@@ -13,21 +13,21 @@ class AdCuePointBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPen
 	const BULK_UPLOAD_XML_VERSION_BUILD = 0;
 
 	/* (non-PHPdoc)
-	 * @see KalturaPlugin::getInstance()
+	 * @see BorhanPlugin::getInstance()
 	 */
 	public function getInstance($interface)
 	{
 		if($this instanceof $interface)
 			return $this;
 			
-		if($interface == 'IKalturaBulkUploadXmlHandler')
+		if($interface == 'IBorhanBulkUploadXmlHandler')
 			return AdCuePointBulkUploadXmlHandler::get();
 			
 		return null;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -35,23 +35,23 @@ class AdCuePointBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPen
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$bulkUploadXmlVersion = new KalturaVersion(
+		$bulkUploadXmlVersion = new BorhanVersion(
 			self::BULK_UPLOAD_XML_VERSION_MAJOR,
 			self::BULK_UPLOAD_XML_VERSION_MINOR,
 			self::BULK_UPLOAD_XML_VERSION_BUILD);
 			
-		$bulkUploadXmlDependency = new KalturaDependency(self::BULK_UPLOAD_XML_PLUGIN_NAME, $bulkUploadXmlVersion);
-		$adCuePointDependency = new KalturaDependency(AdCuePointPlugin::getPluginName());
+		$bulkUploadXmlDependency = new BorhanDependency(self::BULK_UPLOAD_XML_PLUGIN_NAME, $bulkUploadXmlVersion);
+		$adCuePointDependency = new BorhanDependency(AdCuePointPlugin::getPluginName());
 		
 		return array($bulkUploadXmlDependency, $adCuePointDependency);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSchemaContributor::contributeToSchema()
+	 * @see IBorhanSchemaContributor::contributeToSchema()
 	 */
 	public static function contributeToSchema($type)
 	{
@@ -91,12 +91,12 @@ class AdCuePointBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPen
 							<xs:documentation>The URL of the ad XML</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="adType" minOccurs="1" maxOccurs="1" type="KalturaAdType">
+					<xs:element name="adType" minOccurs="1" maxOccurs="1" type="BorhanAdType">
 						<xs:annotation>
 							<xs:documentation>Indicates the ad type</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="protocolType" minOccurs="1" maxOccurs="1" type="KalturaAdProtocolType">
+					<xs:element name="protocolType" minOccurs="1" maxOccurs="1" type="BorhanAdProtocolType">
 						<xs:annotation>
 							<xs:documentation>Indicates the ad protocol type</xs:documentation>
 						</xs:annotation>

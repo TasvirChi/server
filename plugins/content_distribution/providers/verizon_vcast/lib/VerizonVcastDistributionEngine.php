@@ -17,7 +17,7 @@ class VerizonVcastDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineSubmit::submit()
 	 */
-	public function submit(KalturaDistributionSubmitJobData $data)
+	public function submit(BorhanDistributionSubmitJobData $data)
 	{
 		$this->validateJobDataObjectTypes($data);
 		
@@ -29,7 +29,7 @@ class VerizonVcastDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseSubmit::closeSubmit()
 	 */
-	public function closeSubmit(KalturaDistributionSubmitJobData $data)
+	public function closeSubmit(BorhanDistributionSubmitJobData $data)
 	{
 		$this->validateJobDataObjectTypes($data);
 		
@@ -52,7 +52,7 @@ class VerizonVcastDistributionEngine extends DistributionEngine implements
 	 * (non-PHPdoc)
 	 * @see IDistributionEngineUpdate::update()
 	 */
-	public function update(KalturaDistributionUpdateJobData $data)
+	public function update(BorhanDistributionUpdateJobData $data)
 	{
 		$this->validateJobDataObjectTypes($data);
 		
@@ -65,7 +65,7 @@ class VerizonVcastDistributionEngine extends DistributionEngine implements
 	 * (non-PHPdoc)
 	 * @see IDistributionEngineCloseUpdate::closeUpdate()
 	 */
-	public function closeUpdate(KalturaDistributionUpdateJobData $data)
+	public function closeUpdate(BorhanDistributionUpdateJobData $data)
 	{
 		$this->validateJobDataObjectTypes($data);
 	}
@@ -74,7 +74,7 @@ class VerizonVcastDistributionEngine extends DistributionEngine implements
 	 * (non-PHPdoc)
 	 * @see IDistributionEngineDelete::delete()
 	 */
-	public function delete(KalturaDistributionDeleteJobData $data)
+	public function delete(BorhanDistributionDeleteJobData $data)
 	{
 		$this->validateJobDataObjectTypes($data);
 		return true;
@@ -84,34 +84,34 @@ class VerizonVcastDistributionEngine extends DistributionEngine implements
 	 * (non-PHPdoc)
 	 * @see IDistributionEngineCloseDelete::closeDelete()
 	 */
-	public function closeDelete(KalturaDistributionDeleteJobData $data)
+	public function closeDelete(BorhanDistributionDeleteJobData $data)
 	{
 		$this->validateJobDataObjectTypes($data);
 	}
 	
 	/**
-	 * @param KalturaDistributionJobData $data
+	 * @param BorhanDistributionJobData $data
 	 * @throws Exception
 	 */
-	protected function validateJobDataObjectTypes(KalturaDistributionJobData $data)
+	protected function validateJobDataObjectTypes(BorhanDistributionJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaVerizonVcastDistributionProfile))
-			throw new Exception("Distribution profile must be of type KalturaVerizonVcastDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanVerizonVcastDistributionProfile))
+			throw new Exception("Distribution profile must be of type BorhanVerizonVcastDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaVerizonVcastDistributionJobProviderData))
-			throw new Exception("Provider data must be of type KalturaVerizonVcastDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanVerizonVcastDistributionJobProviderData))
+			throw new Exception("Provider data must be of type BorhanVerizonVcastDistributionJobProviderData");
 	}
 	
 	/**
 	 * @param string $path
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaVerizonDistributionProfile $distributionProfile
-	 * @param KalturaVerizonDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanVerizonDistributionProfile $distributionProfile
+	 * @param BorhanVerizonDistributionJobProviderData $providerData
 	 */
-	public function handleSubmit(KalturaDistributionJobData $data, KalturaVerizonVcastDistributionProfile $distributionProfile, KalturaVerizonVcastDistributionJobProviderData $providerData)
+	public function handleSubmit(BorhanDistributionJobData $data, BorhanVerizonVcastDistributionProfile $distributionProfile, BorhanVerizonVcastDistributionJobProviderData $providerData)
 	{
 		$fileName = $data->entryDistribution->entryId . '_' . date('Y-m-d_H-i-s') . '.xml';
-		KalturaLog::info('Sending file '. $fileName);
+		BorhanLog::info('Sending file '. $fileName);
 		
 		$ftpManager = $this->getFTPManager($distributionProfile);
 		$tmpFile = tmpfile();
@@ -131,10 +131,10 @@ class VerizonVcastDistributionEngine extends DistributionEngine implements
 	
 	/**
 	 * 
-	 * @param KalturaVerizonVcastDistributionProfile $distributionProfile
+	 * @param BorhanVerizonVcastDistributionProfile $distributionProfile
 	 * @return ftpMgr
 	 */
-	protected function getFTPManager(KalturaVerizonVcastDistributionProfile $distributionProfile)
+	protected function getFTPManager(BorhanVerizonVcastDistributionProfile $distributionProfile)
 	{
 		$host = $distributionProfile->ftpHost;
 		$login = $distributionProfile->ftpLogin;
@@ -146,13 +146,13 @@ class VerizonVcastDistributionEngine extends DistributionEngine implements
 	}
 	
 	/**
-	 * @param KalturaDistributionSubmitJobData $data
+	 * @param BorhanDistributionSubmitJobData $data
 	 * @return string status
 	 */
-	protected function fetchStatus(KalturaDistributionJobData $data)
+	protected function fetchStatus(BorhanDistributionJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaVerizonVcastDistributionProfile))
-			return KalturaLog::err("Distribution profile must be of type KalturaVerizonVcastDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanVerizonVcastDistributionProfile))
+			return BorhanLog::err("Distribution profile must be of type BorhanVerizonVcastDistributionProfile");
 	
 		$fileArray = $this->fetchFilesList($data->distributionProfile);
 		
@@ -173,9 +173,9 @@ class VerizonVcastDistributionEngine extends DistributionEngine implements
 	}
 
 	/**
-	 * @param KalturaVerizonDistributionProfile $distributionProfile
+	 * @param BorhanVerizonDistributionProfile $distributionProfile
 	 */
-	protected function fetchFilesList(KalturaVerizonVcastDistributionProfile $distributionProfile)
+	protected function fetchFilesList(BorhanVerizonVcastDistributionProfile $distributionProfile)
 	{
 		$host = $distributionProfile->ftpHost;
 		$login = $distributionProfile->ftpLogin;

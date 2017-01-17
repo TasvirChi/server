@@ -39,14 +39,14 @@ class ComcastMrssService extends ContentDistributionServiceBase
 		$captionAssets = null;
 		if ($this->	profile instanceof ComcastMrssDistributionProfile && $this->profile->getShouldIncludeCaptions())
 		{
-			KalturaLog::info("Adding entry captions.");
+			BorhanLog::info("Adding entry captions.");
 			$captionAssets = $this->getCaptions($entry->getPartnerId(), $entry->getId());
 		}
 		
 		$cuePoints = null;
 		if ($this->	profile instanceof ComcastMrssDistributionProfile && $this->profile->getShouldIncludeCuePoints())
 		{
-			KalturaLog::info("Adding entry cue points.");
+			BorhanLog::info("Adding entry cue points.");
 			$cuePoints = $this->getCuePoints($entry->getPartnerId(), $entry->getId()); 
 		}
 		
@@ -59,7 +59,7 @@ class ComcastMrssService extends ContentDistributionServiceBase
 	 */
 	protected function getCuePoints($partnerId, $entryId)
 	{
-		$c = KalturaCriteria::create(CuePointPeer::OM_CLASS);
+		$c = BorhanCriteria::create(CuePointPeer::OM_CLASS);
 		$c->add(CuePointPeer::PARTNER_ID, $partnerId);
 		$c->add(CuePointPeer::ENTRY_ID, $entryId);
 		$c->add(CuePointPeer::TYPE, AdCuePointPlugin::getCuePointTypeCoreValue(AdCuePointType::AD));

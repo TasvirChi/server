@@ -2,7 +2,7 @@
 /**
  * @package plugins.widevine
  */
-class WidevinePlugin extends KalturaPlugin implements IKalturaEnumerator, IKalturaServices , IKalturaPermissions, IKalturaObjectLoader, IKalturaEventConsumers, IKalturaTypeExtender, IKalturaSearchDataContributor, IKalturaPending, IKalturaPlaybackContextDataContributor
+class WidevinePlugin extends BorhanPlugin implements IBorhanEnumerator, IBorhanServices , IBorhanPermissions, IBorhanObjectLoader, IBorhanEventConsumers, IBorhanTypeExtender, IBorhanSearchDataContributor, IBorhanPending, IBorhanPlaybackContextDataContributor
 {
 	const PLUGIN_NAME = 'widevine';
 	const WIDEVINE_EVENTS_CONSUMER = 'kWidevineEventsConsumer';
@@ -14,14 +14,14 @@ class WidevinePlugin extends KalturaPlugin implements IKalturaEnumerator, IKaltu
 	const GET_ASSET_URL_PART = '/getasset/';
 	
 	//Default values
-	const KALTURA_PROVIDER = 'kaltura';
+	const BORHAN_PROVIDER = 'borhan';
 	const DEFAULT_POLICY = 'default';
 	const DEFAULT_LICENSE_START = '1970-01-01 00:00:01';
 	const DEFAULT_LICENSE_END = '2033-05-18 00:00:00';
 
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -29,17 +29,17 @@ class WidevinePlugin extends KalturaPlugin implements IKalturaEnumerator, IKaltu
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$drmDependency = new KalturaDependency(DrmPlugin::getPluginName());
+		$drmDependency = new BorhanDependency(DrmPlugin::getPluginName());
 		
 		return array($drmDependency);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{	
@@ -62,18 +62,18 @@ class WidevinePlugin extends KalturaPlugin implements IKalturaEnumerator, IKaltu
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if($baseClass == 'KalturaFlavorParams' && $enumValue == WidevinePlugin::getAssetTypeCoreValue(WidevineAssetType::WIDEVINE_FLAVOR))
-			return new KalturaWidevineFlavorParams();
+		if($baseClass == 'BorhanFlavorParams' && $enumValue == WidevinePlugin::getAssetTypeCoreValue(WidevineAssetType::WIDEVINE_FLAVOR))
+			return new BorhanWidevineFlavorParams();
 	
-		if($baseClass == 'KalturaFlavorParamsOutput' && $enumValue == WidevinePlugin::getAssetTypeCoreValue(WidevineAssetType::WIDEVINE_FLAVOR))
-			return new KalturaWidevineFlavorParamsOutput();
+		if($baseClass == 'BorhanFlavorParamsOutput' && $enumValue == WidevinePlugin::getAssetTypeCoreValue(WidevineAssetType::WIDEVINE_FLAVOR))
+			return new BorhanWidevineFlavorParamsOutput();
 		
-		if($baseClass == 'KalturaFlavorAsset' && $enumValue == WidevinePlugin::getAssetTypeCoreValue(WidevineAssetType::WIDEVINE_FLAVOR))
-			return new KalturaWidevineFlavorAsset();
+		if($baseClass == 'BorhanFlavorAsset' && $enumValue == WidevinePlugin::getAssetTypeCoreValue(WidevineAssetType::WIDEVINE_FLAVOR))
+			return new BorhanWidevineFlavorAsset();
 			
 		if($baseClass == 'assetParams' && $enumValue == WidevinePlugin::getAssetTypeCoreValue(WidevineAssetType::WIDEVINE_FLAVOR))
 			return new WidevineFlavorParams();
@@ -87,37 +87,37 @@ class WidevinePlugin extends KalturaPlugin implements IKalturaEnumerator, IKaltu
 		if($baseClass == 'flavorAsset' && $enumValue == WidevinePlugin::getAssetTypeCoreValue(WidevineAssetType::WIDEVINE_FLAVOR))
 			return new WidevineFlavorAsset();
 		
-		if($baseClass == 'KOperationEngine' && $enumValue == KalturaConversionEngineType::WIDEVINE)
+		if($baseClass == 'KOperationEngine' && $enumValue == BorhanConversionEngineType::WIDEVINE)
 			return new KWidevineOperationEngine($constructorArgs['params'], $constructorArgs['outFilePath']);
 			
 		if($baseClass == 'KDLOperatorBase' && $enumValue == self::getApiValue(WidevineConversionEngineType::WIDEVINE))
 			return new KDLOperatorWidevine($enumValue);
 
-		if($baseClass == 'KalturaSerializer' && $enumValue == self::WIDEVINE_RESPONSE_TYPE)
-			return new KalturaWidevineSerializer();
+		if($baseClass == 'BorhanSerializer' && $enumValue == self::WIDEVINE_RESPONSE_TYPE)
+			return new BorhanWidevineSerializer();
 			
-		if ($baseClass == 'KalturaJobData')
+		if ($baseClass == 'BorhanJobData')
 		{
 		    if ($enumValue == WidevinePlugin::getApiValue(WidevineBatchJobType::WIDEVINE_REPOSITORY_SYNC))
 			{
-				return new KalturaWidevineRepositorySyncJobData();
+				return new BorhanWidevineRepositorySyncJobData();
 			}
 		}		
-		if($baseClass == 'KalturaDrmProfile' && $enumValue == WidevinePlugin::getWidevineProviderCoreValue())
-			return new KalturaWidevineProfile();
-		if($baseClass == 'KalturaDrmProfile' && $enumValue == self::getApiValue(WidevineProviderType::WIDEVINE))
-			return new KalturaWidevineProfile();
+		if($baseClass == 'BorhanDrmProfile' && $enumValue == WidevinePlugin::getWidevineProviderCoreValue())
+			return new BorhanWidevineProfile();
+		if($baseClass == 'BorhanDrmProfile' && $enumValue == self::getApiValue(WidevineProviderType::WIDEVINE))
+			return new BorhanWidevineProfile();
 
 		if($baseClass == 'DrmProfile' && $enumValue == WidevinePlugin::getWidevineProviderCoreValue())
 			return new WidevineProfile();
 
-		if (class_exists('Kaltura_Client_Client'))
+		if (class_exists('Borhan_Client_Client'))
 		{
-			if ($baseClass == 'Kaltura_Client_Drm_Type_DrmProfile' && $enumValue == Kaltura_Client_Drm_Enum_DrmProviderType::WIDEVINE)
+			if ($baseClass == 'Borhan_Client_Drm_Type_DrmProfile' && $enumValue == Borhan_Client_Drm_Enum_DrmProviderType::WIDEVINE)
     		{
-    			return new Kaltura_Client_Widevine_Type_WidevineProfile();
+    			return new Borhan_Client_Widevine_Type_WidevineProfile();
     		}
-    		if ($baseClass == 'Form_DrmProfileConfigureExtend_SubForm' && $enumValue == Kaltura_Client_Drm_Enum_DrmProviderType::WIDEVINE)
+    		if ($baseClass == 'Form_DrmProfileConfigureExtend_SubForm' && $enumValue == Borhan_Client_Drm_Enum_DrmProviderType::WIDEVINE)
     		{
      			return new Form_WidevineProfileConfigureExtend_SubForm();
     		}	   		
@@ -128,18 +128,18 @@ class WidevinePlugin extends KalturaPlugin implements IKalturaEnumerator, IKaltu
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{	
-		if($baseClass == 'KalturaFlavorParams' && $enumValue == WidevinePlugin::getAssetTypeCoreValue(WidevineAssetType::WIDEVINE_FLAVOR))
-			return 'KalturaWidevineFlavorParams';
+		if($baseClass == 'BorhanFlavorParams' && $enumValue == WidevinePlugin::getAssetTypeCoreValue(WidevineAssetType::WIDEVINE_FLAVOR))
+			return 'BorhanWidevineFlavorParams';
 	
-		if($baseClass == 'KalturaFlavorParamsOutput' && $enumValue == WidevinePlugin::getAssetTypeCoreValue(WidevineAssetType::WIDEVINE_FLAVOR))
-			return 'KalturaWidevineFlavorParamsOutput';
+		if($baseClass == 'BorhanFlavorParamsOutput' && $enumValue == WidevinePlugin::getAssetTypeCoreValue(WidevineAssetType::WIDEVINE_FLAVOR))
+			return 'BorhanWidevineFlavorParamsOutput';
 		
-		if($baseClass == 'KalturaFlavorAsset' && $enumValue == WidevinePlugin::getAssetTypeCoreValue(WidevineAssetType::WIDEVINE_FLAVOR))
-			return 'KalturaWidevineFlavorAsset';
+		if($baseClass == 'BorhanFlavorAsset' && $enumValue == WidevinePlugin::getAssetTypeCoreValue(WidevineAssetType::WIDEVINE_FLAVOR))
+			return 'BorhanWidevineFlavorAsset';
 
 		if($baseClass == 'assetParams' && $enumValue == WidevinePlugin::getAssetTypeCoreValue(WidevineAssetType::WIDEVINE_FLAVOR))
 			return 'WidevineFlavorParams';
@@ -153,38 +153,38 @@ class WidevinePlugin extends KalturaPlugin implements IKalturaEnumerator, IKaltu
 		if($baseClass == 'flavorAsset' && $enumValue == WidevinePlugin::getAssetTypeCoreValue(WidevineAssetType::WIDEVINE_FLAVOR))
 			return 'WidevineFlavorAsset';			
 		
-		if($baseClass == 'KOperationEngine' && $enumValue == KalturaConversionEngineType::WIDEVINE)
+		if($baseClass == 'KOperationEngine' && $enumValue == BorhanConversionEngineType::WIDEVINE)
 			return 'KWidevineOperationEngine';
 			
 		if($baseClass == 'KDLOperatorBase' && $enumValue == self::getApiValue(WidevineConversionEngineType::WIDEVINE))
 			return 'KDLOperatorWidevine';
 			
-		if($baseClass == 'KalturaSerializer' && $enumValue == self::WIDEVINE_RESPONSE_TYPE)
-			return 'KalturaWidevineSerializer';
+		if($baseClass == 'BorhanSerializer' && $enumValue == self::WIDEVINE_RESPONSE_TYPE)
+			return 'BorhanWidevineSerializer';
 		
-		if ($baseClass == 'KalturaJobData')
+		if ($baseClass == 'BorhanJobData')
 		{
 		    if ($enumValue == WidevinePlugin::getApiValue(WidevineBatchJobType::WIDEVINE_REPOSITORY_SYNC))
 			{
-				return 'KalturaWidevineRepositorySyncJobData';
+				return 'BorhanWidevineRepositorySyncJobData';
 			}
 		}		
-		if($baseClass == 'KalturaDrmProfile' && $enumValue == WidevinePlugin::getWidevineProviderCoreValue())
-			return 'KalturaWidevineProfile';
-		if($baseClass == 'KalturaDrmProfile' && $enumValue == self::getApiValue(WidevineProviderType::WIDEVINE))
-			return 'KalturaWidevineProfile';
+		if($baseClass == 'BorhanDrmProfile' && $enumValue == WidevinePlugin::getWidevineProviderCoreValue())
+			return 'BorhanWidevineProfile';
+		if($baseClass == 'BorhanDrmProfile' && $enumValue == self::getApiValue(WidevineProviderType::WIDEVINE))
+			return 'BorhanWidevineProfile';
 
 		if($baseClass == 'DrmProfile' && $enumValue == WidevinePlugin::getWidevineProviderCoreValue())
 			return 'WidevineProfile';
 
-		if (class_exists('Kaltura_Client_Client'))
+		if (class_exists('Borhan_Client_Client'))
 		{
-			if ($baseClass == 'Kaltura_Client_Drm_Type_DrmProfile' && $enumValue == Kaltura_Client_Drm_Enum_DrmProviderType::WIDEVINE)
+			if ($baseClass == 'Borhan_Client_Drm_Type_DrmProfile' && $enumValue == Borhan_Client_Drm_Enum_DrmProviderType::WIDEVINE)
     		{
-    			return 'Kaltura_Client_Widevine_Type_WidevineProfile';
+    			return 'Borhan_Client_Widevine_Type_WidevineProfile';
     		}
 
-    		if ($baseClass == 'Form_DrmProfileConfigureExtend_SubForm' && $enumValue == Kaltura_Client_Drm_Enum_DrmProviderType::WIDEVINE)
+    		if ($baseClass == 'Form_DrmProfileConfigureExtend_SubForm' && $enumValue == Borhan_Client_Drm_Enum_DrmProviderType::WIDEVINE)
     		{
      			return 'Form_WidevineProfileConfigureExtend_SubForm';
     		}	   		
@@ -198,7 +198,7 @@ class WidevinePlugin extends KalturaPlugin implements IKalturaEnumerator, IKaltu
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 
 	/**
@@ -206,13 +206,13 @@ class WidevinePlugin extends KalturaPlugin implements IKalturaEnumerator, IKaltu
 	 */
 	public static function getCoreValue($type, $valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore($type, $value);
 	}
 	
 	public static function getConversionEngineCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('conversionEngineType', $value);
 	}
 	
@@ -221,7 +221,7 @@ class WidevinePlugin extends KalturaPlugin implements IKalturaEnumerator, IKaltu
 	 */
 	public static function getAssetTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('assetType', $value);
 	}
 	
@@ -230,12 +230,12 @@ class WidevinePlugin extends KalturaPlugin implements IKalturaEnumerator, IKaltu
 	 */
 	public static function getWidevineProviderCoreValue()
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . WidevineProviderType::WIDEVINE;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . WidevineProviderType::WIDEVINE;
 		return kPluginableEnumsManager::apiToCore('DrmProviderType', $value);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaTypeExtender::getExtendedTypes()
+	 * @see IBorhanTypeExtender::getExtendedTypes()
 	 */
 	public static function getExtendedTypes($baseClass, $enumValue) {
 		$supportedBaseClasses = array(
@@ -255,7 +255,7 @@ class WidevinePlugin extends KalturaPlugin implements IKalturaEnumerator, IKaltu
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaServices::getServicesMap()
+	 * @see IBorhanServices::getServicesMap()
 	 */
 	public static function getServicesMap() {
 		$map = array(
@@ -265,7 +265,7 @@ class WidevinePlugin extends KalturaPlugin implements IKalturaEnumerator, IKaltu
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissions::isAllowedPartner()
+	 * @see IBorhanPermissions::isAllowedPartner()
 	 */
 	public static function isAllowedPartner($partnerId) {	
 		$partner = PartnerPeer::retrieveByPK($partnerId);
@@ -290,7 +290,7 @@ class WidevinePlugin extends KalturaPlugin implements IKalturaEnumerator, IKaltu
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSearchDataContributor::getSearchData()
+	 * @see IBorhanSearchDataContributor::getSearchData()
 	 */
 	public static function getSearchData(BaseObject $object)
 	{
@@ -354,7 +354,7 @@ class WidevinePlugin extends KalturaPlugin implements IKalturaEnumerator, IKaltu
 	 */
 	public static function getDrmSchemeCoreValue()
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . WidevineSchemeName::WIDEVINE;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . WidevineSchemeName::WIDEVINE;
 		return kPluginableEnumsManager::apiToCore('DrmSchemeName', $value);
 	}
 

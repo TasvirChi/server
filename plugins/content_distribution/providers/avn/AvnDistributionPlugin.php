@@ -2,7 +2,7 @@
 /**
  * @package plugins.avnDistribution
  */
-class AvnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaEnumerator, IKalturaPending, IKalturaObjectLoader, IKalturaContentDistributionProvider, IKalturaEventConsumers, IKalturaServices
+class AvnDistributionPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanEnumerator, IBorhanPending, IBorhanObjectLoader, IBorhanContentDistributionProvider, IBorhanEventConsumers, IBorhanServices
 {
 	const PLUGIN_NAME = 'avnDistribution';
 	const AVN_EVENT_CONSUMER = "kAvnFlowManager";
@@ -17,12 +17,12 @@ class AvnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	
 	public static function dependsOn()
 	{
-		$contentDistributionVersion = new KalturaVersion(
+		$contentDistributionVersion = new BorhanVersion(
 			self::CONTENT_DSTRIBUTION_VERSION_MAJOR,
 			self::CONTENT_DSTRIBUTION_VERSION_MINOR,
 			self::CONTENT_DSTRIBUTION_VERSION_BUILD);
 			
-		$dependency = new KalturaDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
+		$dependency = new BorhanDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
 		return array($dependency);
 	}
 	
@@ -58,13 +58,13 @@ class AvnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::AVN)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::AVN)
 		{
-			if($baseClass == 'KalturaDistributionProfile')
-				return new KalturaAvnDistributionProfile();
+			if($baseClass == 'BorhanDistributionProfile')
+				return new BorhanAvnDistributionProfile();
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::AVN)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::AVN)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 			{
@@ -73,8 +73,8 @@ class AvnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 			}
 		}
 		
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(AvnDistributionProviderType::AVN))
-			return new KalturaAvnDistributionProfile();
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(AvnDistributionProviderType::AVN))
+			return new BorhanAvnDistributionProfile();
 			
 		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(AvnDistributionProviderType::AVN))
 			return new AvnDistributionProfile();
@@ -90,23 +90,23 @@ class AvnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	public static function getObjectClass($baseClass, $enumValue)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::AVN)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::AVN)
 		{
-			if($baseClass == 'KalturaDistributionProfile')
-				return 'KalturaAvnDistributionProfile';
+			if($baseClass == 'BorhanDistributionProfile')
+				return 'BorhanAvnDistributionProfile';
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::AVN)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::AVN)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 				return 'Form_AvnProfileConfiguration';
 				
-			if($baseClass == 'Kaltura_Client_ContentDistribution_Type_DistributionProfile')
-				return 'Kaltura_Client_AvnDistribution_Type_AvnDistributionProfile';
+			if($baseClass == 'Borhan_Client_ContentDistribution_Type_DistributionProfile')
+				return 'Borhan_Client_AvnDistribution_Type_AvnDistributionProfile';
 		}
 		
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(AvnDistributionProviderType::AVN))
-			return 'KalturaAvnDistributionProfile';
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(AvnDistributionProviderType::AVN))
+			return 'BorhanAvnDistributionProfile';
 			
 		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(AvnDistributionProviderType::AVN))
 			return 'AvnDistributionProfile';
@@ -127,11 +127,11 @@ class AvnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	/**
 	 * Return an API distribution provider instance
 	 * 
-	 * @return KalturaDistributionProvider
+	 * @return BorhanDistributionProvider
 	 */
-	public static function getKalturaProvider()
+	public static function getBorhanProvider()
 	{
-		$distributionProvider = new KalturaAvnDistributionProvider();
+		$distributionProvider = new BorhanAvnDistributionProvider();
 		$distributionProvider->fromObject(self::getProvider());
 		return $distributionProvider;
 	}
@@ -151,7 +151,7 @@ class AvnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	 */
 	public static function getDistributionProviderTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('DistributionProviderType', $value);
 	}
 	
@@ -160,11 +160,11 @@ class AvnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	 */
 	public static function getEventConsumers()
 	{
@@ -174,7 +174,7 @@ class AvnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaServices::getServicesMap()
+	 * @see IBorhanServices::getServicesMap()
 	 */
 	public static function getServicesMap()
 	{

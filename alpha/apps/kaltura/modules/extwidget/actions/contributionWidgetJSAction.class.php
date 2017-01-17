@@ -9,7 +9,7 @@ require_once ( MODULES . "/partnerservices2/actions/startsessionAction.class.php
  * @package Core
  * @subpackage externalWidgets
  */
-class contributionWidgetJSAction extends kalturaAction
+class contributionWidgetJSAction extends borhanAction
 {
 	public function execute()
 	{
@@ -33,10 +33,10 @@ class contributionWidgetJSAction extends kalturaAction
 		$partner_secret = $partner->getSecret();
 		$partner_name = $partner->getPartnerName();
 				
-		$kaltura_services = new startsessionAction();
-		$kaltura_services->setInputParams( 
+		$borhan_services = new startsessionAction();
+		$borhan_services->setInputParams( 
 			array (
-				"format" => kalturaWebserviceRenderer::RESPONSE_TYPE_PHP_ARRAY, 
+				"format" => borhanWebserviceRenderer::RESPONSE_TYPE_PHP_ARRAY, 
 				"partner_id" => $partner_id, 
 				"subp_id" => $subp_id, 
 				"uid" => $uid, 
@@ -44,7 +44,7 @@ class contributionWidgetJSAction extends kalturaAction
 			)
 		);
 		
-		$result = $kaltura_services->internalExecute() ;
+		$result = $borhan_services->internalExecute() ;
 		
 		$this->ks = @$result["result"]["ks"];
 		$this->widget_host = requestUtils::getHost();

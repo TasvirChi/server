@@ -3,15 +3,15 @@
  * @package api
  * @subpackage objects
  */
-class KalturaExtendingItemMrssParameterArray extends KalturaTypedArray
+class BorhanExtendingItemMrssParameterArray extends BorhanTypedArray
 {
 	
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaExtendingItemMrssParameterArray();
+		$newArr = new BorhanExtendingItemMrssParameterArray();
 		foreach($arr as $obj)
 		{
-			$nObj = new KalturaExtendingItemMrssParameter();
+			$nObj = new BorhanExtendingItemMrssParameter();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -21,6 +21,6 @@ class KalturaExtendingItemMrssParameterArray extends KalturaTypedArray
 	
 	public function __construct()
 	{
-		return parent::__construct("KalturaExtendingItemMrssParameter");
+		return parent::__construct("BorhanExtendingItemMrssParameter");
 	}
 }

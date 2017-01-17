@@ -6,14 +6,14 @@
  * @package api
  * @subpackage services
  */
-class ThumbParamsOutputService extends KalturaBaseService
+class ThumbParamsOutputService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
 		parent::initService($serviceId, $serviceName, $actionName);
 		
 		if($this->getPartnerId() != Partner::BATCH_PARTNER_ID && $this->getPartnerId() != Partner::ADMIN_CONSOLE_PARTNER_ID)
-			throw new KalturaAPIException(KalturaErrors::SERVICE_FORBIDDEN, $this->serviceName.'->'.$this->actionName);
+			throw new BorhanAPIException(BorhanErrors::SERVICE_FORBIDDEN, $this->serviceName.'->'.$this->actionName);
 	}
 	
 	/**
@@ -21,17 +21,17 @@ class ThumbParamsOutputService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param int $id
-	 * @return KalturaThumbParamsOutput
-	 * @throws KalturaErrors::THUMB_PARAMS_OUTPUT_ID_NOT_FOUND
+	 * @return BorhanThumbParamsOutput
+	 * @throws BorhanErrors::THUMB_PARAMS_OUTPUT_ID_NOT_FOUND
 	 */
 	public function getAction($id)
 	{
 		$thumbParamsOutputDb = assetParamsOutputPeer::retrieveByPK($id);
 		
 		if (!$thumbParamsOutputDb)
-			throw new KalturaAPIException(KalturaErrors::THUMB_PARAMS_OUTPUT_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::THUMB_PARAMS_OUTPUT_ID_NOT_FOUND, $id);
 			
-		$thumbParamsOutput = new KalturaThumbParamsOutput();
+		$thumbParamsOutput = new BorhanThumbParamsOutput();
 		$thumbParamsOutput->fromObject($thumbParamsOutputDb, $this->getResponseProfile());
 		
 		return $thumbParamsOutput;
@@ -41,21 +41,21 @@ class ThumbParamsOutputService extends KalturaBaseService
 	 * List thumb params output objects by filter and pager
 	 * 
 	 * @action list
-	 * @param KalturaThumbParamsOutputFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaThumbParamsOutputListResponse
+	 * @param BorhanThumbParamsOutputFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanThumbParamsOutputListResponse
 	 */
-	function listAction(KalturaThumbParamsOutputFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanThumbParamsOutputFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaThumbParamsOutputFilter();
+			$filter = new BorhanThumbParamsOutputFilter();
 			
 		if(!$pager)
 		{
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 		}
 			
-		$types = KalturaPluginManager::getExtendedTypes(assetParamsOutputPeer::OM_CLASS, assetType::THUMBNAIL);
+		$types = BorhanPluginManager::getExtendedTypes(assetParamsOutputPeer::OM_CLASS, assetType::THUMBNAIL);
 		return $filter->getTypeListResponse($pager, $this->getResponseProfile(), $types);
 	}
 }

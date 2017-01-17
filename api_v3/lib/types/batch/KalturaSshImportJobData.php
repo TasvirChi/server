@@ -4,7 +4,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaSshImportJobData extends KalturaImportJobData
+class BorhanSshImportJobData extends BorhanImportJobData
 {    
 	/**
 	 * @var string

@@ -3,7 +3,7 @@
  * @package plugins.widevine
  * @subpackage api.errors
  */
-class KalturaWidevineErrorCodes
+class BorhanWidevineErrorCodes
 {
 	/*
 	 * The following error codes are reserved by the mediaplayer in Android 3.x and higher:

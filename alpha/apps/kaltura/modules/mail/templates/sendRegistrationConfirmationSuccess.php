@@ -1,21 +1,21 @@
 Hi <?php echo $name ?> , 
 
-Welcome, and thanks for joining Kaltura - where you can create and edit videos together with  others. 
+Welcome, and thanks for joining Borhan - where you can create and edit videos together with  others. 
 We’re excited to have you!
 
-Your Kaltura account is now fully activated.
+Your Borhan account is now fully activated.
 
 View your profile:
-http://www.kaltura.com/mykaltura
+http://www.borhan.com/myborhan
 
-See what’s new on Kaltura:
-http://www.kaltura.com/index.php
+See what’s new on Borhan:
+http://www.borhan.com/index.php
 
 
-Questions about your account or about Kaltura? 
-Go to: http://www.kaltura.com/help or email us at: support@kaltura.com
+Questions about your account or about Borhan? 
+Go to: http://www.borhan.com/help or email us at: support@borhan.com
 
 Kind regards,
-The Kaltura Team
+The Borhan Team
 
 

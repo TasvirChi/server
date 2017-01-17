@@ -4,7 +4,7 @@
  * @subpackage api.objects
  * @abstract
  */
-abstract class KalturaScheduleEvent extends KalturaObject implements IRelatedFilterable, IApiObjectFactory
+abstract class BorhanScheduleEvent extends BorhanObject implements IRelatedFilterable, IApiObjectFactory
 {
 	/**
 	 * Auto-generated unique identifier
@@ -42,7 +42,7 @@ abstract class KalturaScheduleEvent extends KalturaObject implements IRelatedFil
 	public $description;
 
 	/**
-	 * @var KalturaScheduleEventStatus
+	 * @var BorhanScheduleEventStatus
 	 * @readonly
 	 * @filter eq,in
 	 */
@@ -67,7 +67,7 @@ abstract class KalturaScheduleEvent extends KalturaObject implements IRelatedFil
 	public $referenceId;
 
 	/**
-	 * @var KalturaScheduleEventClassificationType
+	 * @var BorhanScheduleEventClassificationType
 	 */
 	public $classificationType;
 
@@ -119,7 +119,7 @@ abstract class KalturaScheduleEvent extends KalturaObject implements IRelatedFil
 	public $sequence;
 
 	/**
-	 * @var KalturaScheduleEventRecurrenceType
+	 * @var BorhanScheduleEventRecurrenceType
 	 * @filter eq,in
 	 */
 	public $recurrenceType;
@@ -166,7 +166,7 @@ abstract class KalturaScheduleEvent extends KalturaObject implements IRelatedFil
 	public $updatedAt;
 
 	/**
-	 * @var KalturaScheduleEventRecurrence
+	 * @var BorhanScheduleEventRecurrence
 	 */
 	public $recurrence;
 	
@@ -203,7 +203,7 @@ abstract class KalturaScheduleEvent extends KalturaObject implements IRelatedFil
 	 );
 		 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -235,52 +235,52 @@ abstract class KalturaScheduleEvent extends KalturaObject implements IRelatedFil
 	{
 		if($this->recurrenceType === ScheduleEventRecurrenceType::RECURRENCE)
 		{
-			throw new KalturaAPIException(KalturaErrors::INVALID_ENUM_VALUE, $this->recurrenceType, 'recurrenceType', 'KalturaScheduleEventRecurrenceType');
+			throw new BorhanAPIException(BorhanErrors::INVALID_ENUM_VALUE, $this->recurrenceType, 'recurrenceType', 'BorhanScheduleEventRecurrenceType');
 		}
 		
 		if($startDate > $endDate)
 		{
-			throw new KalturaAPIException(KalturaScheduleErrors::INVALID_SCHEDULE_END_BEFORE_START, $startDate, $endDate);
+			throw new BorhanAPIException(BorhanScheduleErrors::INVALID_SCHEDULE_END_BEFORE_START, $startDate, $endDate);
 		}
 		
 		$maxDuration = SchedulePlugin::getScheduleEventmaxDuration();
 		if(($endDate - $startDate) > $maxDuration)
 		{
-			throw new KalturaAPIException(KalturaScheduleErrors::MAX_SCHEDULE_DURATION_REACHED, $maxDuration);
+			throw new BorhanAPIException(BorhanScheduleErrors::MAX_SCHEDULE_DURATION_REACHED, $maxDuration);
 		}
 	}
 
 	/***
 	 * @param $targetRecurrenceType
 	 * @param $sourceRecurrenceType
-	 * @throws KalturaScheduleErrors::INVALID_SCHEDULE_EVENT_TYPE_TO_UPDATE
+	 * @throws BorhanScheduleErrors::INVALID_SCHEDULE_EVENT_TYPE_TO_UPDATE
 	 */
 	public function validateScheduleEventType($targetRecurrenceType, $sourceRecurrenceType)
 	{
 		 if (!is_null($targetRecurrenceType))
                 {
                         if ($sourceRecurrenceType === ScheduleEventRecurrenceType::RECURRENCE && $targetRecurrenceType != ScheduleEventRecurrenceType::RECURRENCE)
-                                throw new KalturaAPIException(KalturaScheduleErrors::INVALID_SCHEDULE_EVENT_TYPE_TO_UPDATE, $sourceRecurrenceType, $targetRecurrenceType);
+                                throw new BorhanAPIException(BorhanScheduleErrors::INVALID_SCHEDULE_EVENT_TYPE_TO_UPDATE, $sourceRecurrenceType, $targetRecurrenceType);
 
                         if ($sourceRecurrenceType === ScheduleEventRecurrenceType::RECURRING && $targetRecurrenceType === ScheduleEventRecurrenceType::RECURRENCE)
-                                throw new KalturaAPIException(KalturaScheduleErrors::INVALID_SCHEDULE_EVENT_TYPE_TO_UPDATE, $sourceRecurrenceType, $targetRecurrenceType);
+                                throw new BorhanAPIException(BorhanScheduleErrors::INVALID_SCHEDULE_EVENT_TYPE_TO_UPDATE, $sourceRecurrenceType, $targetRecurrenceType);
 
                         if ($sourceRecurrenceType === ScheduleEventRecurrenceType::NONE && $targetRecurrenceType === ScheduleEventRecurrenceType::RECURRENCE)
-                                throw new KalturaAPIException(KalturaScheduleErrors::INVALID_SCHEDULE_EVENT_TYPE_TO_UPDATE, $sourceRecurrenceType, $targetRecurrenceType);
+                                throw new BorhanAPIException(BorhanScheduleErrors::INVALID_SCHEDULE_EVENT_TYPE_TO_UPDATE, $sourceRecurrenceType, $targetRecurrenceType);
 
                         if ($sourceRecurrenceType === ScheduleEventRecurrenceType::NONE && $targetRecurrenceType === ScheduleEventRecurrenceType::NONE && !is_null($this->recurrence))
-				throw new KalturaAPIException("Can't update single schedule event with recurring data when recurrenceType is not \"RECURRING\".");
+				throw new BorhanAPIException("Can't update single schedule event with recurring data when recurrenceType is not \"RECURRING\".");
                 }
                 else
 		{
 	                if ($sourceRecurrenceType === ScheduleEventRecurrenceType::NONE && !is_null($this->recurrence))
-        	                throw new KalturaAPIException("Can't update single schedule event with recurring data when recurrenceType is not \"RECURRING\".");
+        	                throw new BorhanAPIException("Can't update single schedule event with recurring data when recurrenceType is not \"RECURRING\".");
                 }
 
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert($propertiesToSkip)
+	 * @see BorhanObject::validateForInsert($propertiesToSkip)
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{
@@ -293,31 +293,31 @@ abstract class KalturaScheduleEvent extends KalturaObject implements IRelatedFil
 
 		$maxSingleEventDuration = SchedulePlugin::getSingleScheduleEventMaxDuration();
 
-		if($this->recurrenceType == KalturaScheduleEventRecurrenceType::RECURRING)
+		if($this->recurrenceType == BorhanScheduleEventRecurrenceType::RECURRING)
 		{
 			$this->validatePropertyNotNull('recurrence');
 			$this->validatePropertyNotNull('duration');
 			if ($this->duration > $maxSingleEventDuration)
-				throw new KalturaAPIException(KalturaScheduleErrors::MAX_SCHEDULE_DURATION_REACHED, $maxSingleEventDuration);
+				throw new BorhanAPIException(BorhanScheduleErrors::MAX_SCHEDULE_DURATION_REACHED, $maxSingleEventDuration);
 		}
 
-		if($this->recurrenceType == KalturaScheduleEventRecurrenceType::NONE)
+		if($this->recurrenceType == BorhanScheduleEventRecurrenceType::NONE)
 		{
 			if (($this->endDate - $this->startDate) > $maxSingleEventDuration)
-				throw new KalturaAPIException(KalturaScheduleErrors::MAX_SCHEDULE_DURATION_REACHED, $maxSingleEventDuration);
+				throw new BorhanAPIException(BorhanScheduleErrors::MAX_SCHEDULE_DURATION_REACHED, $maxSingleEventDuration);
 		}
 
 		parent::validateForInsert($propertiesToSkip);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUpdate($sourceObject, $propertiesToSkip)
+	 * @see BorhanObject::validateForUpdate($sourceObject, $propertiesToSkip)
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = array())
 	{
-		if ($this->endDate instanceof KalturaNullField)
+		if ($this->endDate instanceof BorhanNullField)
 		{
-			throw new KalturaAPIException(KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, $this->getFormattedPropertyNameWithClassName('endDate'));
+			throw new BorhanAPIException(BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, $this->getFormattedPropertyNameWithClassName('endDate'));
 		}
 
 		/* @var $sourceObject ScheduleEvent */
@@ -343,7 +343,7 @@ abstract class KalturaScheduleEvent extends KalturaObject implements IRelatedFil
 			if (!$this->isNull('endDate'))
 			{
 				if (($startDate + $this->duration) != $this->endDate)
-					throw new KalturaAPIException(KalturaScheduleErrors::MAX_SCHEDULE_DURATION_MUST_MATCH_END_TIME);
+					throw new BorhanAPIException(BorhanScheduleErrors::MAX_SCHEDULE_DURATION_MUST_MATCH_END_TIME);
 			}
 
 			if (!is_null($this->recurrenceType) && $this->recurrenceType != ScheduleEventRecurrenceType::RECURRING)
@@ -355,14 +355,14 @@ abstract class KalturaScheduleEvent extends KalturaObject implements IRelatedFil
 			$maxSingleEventDuration = SchedulePlugin::getSingleScheduleEventMaxDuration();
 
 			// validate single event duration in recurring event or in single event is 24 hours at most
-			if ($this->recurrenceType == KalturaScheduleEventRecurrenceType::RECURRING)
+			if ($this->recurrenceType == BorhanScheduleEventRecurrenceType::RECURRING)
 			{
 				if ($this->duration > $maxSingleEventDuration)
-					throw new KalturaAPIException(KalturaScheduleErrors::MAX_SCHEDULE_DURATION_REACHED, $maxSingleEventDuration);
-			} elseif ($this->recurrenceType == KalturaScheduleEventRecurrenceType::NONE)
+					throw new BorhanAPIException(BorhanScheduleErrors::MAX_SCHEDULE_DURATION_REACHED, $maxSingleEventDuration);
+			} elseif ($this->recurrenceType == BorhanScheduleEventRecurrenceType::NONE)
 			{
 				if (($this->endDate - $this->startDate) > $maxSingleEventDuration)
-					throw new KalturaAPIException(KalturaScheduleErrors::MAX_SCHEDULE_DURATION_REACHED, $maxSingleEventDuration);
+					throw new BorhanAPIException(BorhanScheduleErrors::MAX_SCHEDULE_DURATION_REACHED, $maxSingleEventDuration);
 			}
 		}
 
@@ -381,9 +381,9 @@ abstract class KalturaScheduleEvent extends KalturaObject implements IRelatedFil
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::doFromObject()
+	 * @see BorhanObject::doFromObject()
 	 */
-	protected function doFromObject($srcObj, KalturaDetachedResponseProfile $responseProfile= null)
+	protected function doFromObject($srcObj, BorhanDetachedResponseProfile $responseProfile= null)
 	{
 		/* @var $srcObj ScheduleEvent */
 		if($srcObj->getParentId())
@@ -402,20 +402,20 @@ abstract class KalturaScheduleEvent extends KalturaObject implements IRelatedFil
 			}
 			if(count($skipAttributes) < count($attributes))
 			{
-				$parentResponseProfile = new KalturaDetachedResponseProfile();
+				$parentResponseProfile = new BorhanDetachedResponseProfile();
 				if(is_null($responseProfile))
 				{
-					$parentResponseProfile->type = KalturaResponseProfileType::EXCLUDE_FIELDS;
+					$parentResponseProfile->type = BorhanResponseProfileType::EXCLUDE_FIELDS;
 					$parentResponseProfile->fields = implode(',', $skipAttributes);
 				}
-				elseif($responseProfile->type == KalturaResponseProfileType::EXCLUDE_FIELDS)
+				elseif($responseProfile->type == BorhanResponseProfileType::EXCLUDE_FIELDS)
 				{
-					$parentResponseProfile->type = KalturaResponseProfileType::EXCLUDE_FIELDS;
+					$parentResponseProfile->type = BorhanResponseProfileType::EXCLUDE_FIELDS;
 					$parentResponseProfile->fields = implode(',', array_merge(explode(',', $responseProfile->fields), $skipAttributes));
 				}
-				elseif($responseProfile->type == KalturaResponseProfileType::INCLUDE_FIELDS)
+				elseif($responseProfile->type == BorhanResponseProfileType::INCLUDE_FIELDS)
 				{
-					$parentResponseProfile->type = KalturaResponseProfileType::INCLUDE_FIELDS;
+					$parentResponseProfile->type = BorhanResponseProfileType::INCLUDE_FIELDS;
 					$parentResponseProfile->fields = implode(',', array_diff(explode(',', $responseProfile->fields), $skipAttributes));
 				}
 				
@@ -429,30 +429,30 @@ abstract class KalturaScheduleEvent extends KalturaObject implements IRelatedFil
 		
 	/*
 	 * (non-PHPdoc)
-	 * @see IApiObjectFactory::getInstance($sourceObject, KalturaDetachedResponseProfile $responseProfile)
+	 * @see IApiObjectFactory::getInstance($sourceObject, BorhanDetachedResponseProfile $responseProfile)
 	 */
-	public static function getInstance($sourceObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function getInstance($sourceObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$object = null;
 		switch($sourceObject->getType())
 		{
 			case ScheduleEventType::RECORD:
-				$object = new KalturaRecordScheduleEvent();
+				$object = new BorhanRecordScheduleEvent();
 				break;
 			
 			case ScheduleEventType::LIVE_STREAM:
-				$object = new KalturaLiveStreamScheduleEvent();
+				$object = new BorhanLiveStreamScheduleEvent();
 				break;
 			
 			default:
-				$object = KalturaPluginManager::loadObject('KalturaScheduleEvent', $sourceObject->getType());
+				$object = BorhanPluginManager::loadObject('BorhanScheduleEvent', $sourceObject->getType());
 				if(!$object)
 				{
 					return null;
 				}
 		}
 		
-		/* @var $object KalturaScheduleEvent */
+		/* @var $object BorhanScheduleEvent */
 		$object->fromObject($sourceObject, $responseProfile);
 		return $object;
 	}

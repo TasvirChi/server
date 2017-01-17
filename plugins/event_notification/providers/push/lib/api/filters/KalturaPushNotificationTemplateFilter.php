@@ -3,6 +3,6 @@
  * @package plugins.pushNotification
  * @subpackage api.filters
  */
-class KalturaPushNotificationTemplateFilter extends KalturaPushNotificationTemplateBaseFilter
+class BorhanPushNotificationTemplateFilter extends BorhanPushNotificationTemplateBaseFilter
 {
 }

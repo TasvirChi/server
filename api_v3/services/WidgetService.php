@@ -7,7 +7,7 @@
  * @package api
  * @subpackage services
  */
-class WidgetService extends KalturaBaseService 
+class WidgetService extends BorhanBaseService 
 {
 	// use initService to add a peer to the partner filter
 	/**
@@ -24,21 +24,21 @@ class WidgetService extends KalturaBaseService
 	 * SourceWidget is ignored.
 	 * 
 	 * @action add
-	 * @param KalturaWidget $widget
-	 * @return KalturaWidget
+	 * @param BorhanWidget $widget
+	 * @return BorhanWidget
 	 */
-	function addAction(KalturaWidget $widget)
+	function addAction(BorhanWidget $widget)
 	{
 		if ($widget->sourceWidgetId === null && $widget->uiConfId === null)
 		{
-			throw new KalturaAPIException(KalturaErrors::SOURCE_WIDGET_OR_UICONF_REQUIRED);
+			throw new BorhanAPIException(BorhanErrors::SOURCE_WIDGET_OR_UICONF_REQUIRED);
 		}
 		
 		if ($widget->sourceWidgetId !== null)
 		{
 			$sourceWidget = widgetPeer::retrieveByPK($widget->sourceWidgetId);
 			if (!$sourceWidget) 
-				throw new KalturaAPIException(KalturaErrors::SOURCE_WIDGET_NOT_FOUND, $widget->sourceWidgetId);
+				throw new BorhanAPIException(BorhanErrors::SOURCE_WIDGET_NOT_FOUND, $widget->sourceWidgetId);
 				
 			if ($widget->uiConfId === null)
 				$widget->uiConfId = $sourceWidget->getUiConfId();
@@ -48,21 +48,21 @@ class WidgetService extends KalturaBaseService
 		{
 			$uiConf = uiConfPeer::retrieveByPK($widget->uiConfId);
 			if (!$uiConf)
-				throw new KalturaAPIException(KalturaErrors::UICONF_ID_NOT_FOUND, $widget->uiConfId);
+				throw new BorhanAPIException(BorhanErrors::UICONF_ID_NOT_FOUND, $widget->uiConfId);
 		}
 		
 		if(!is_null($widget->enforceEntitlement) && $widget->enforceEntitlement == false && kEntitlementUtils::getEntitlementEnforcement())
-			throw new KalturaAPIException(KalturaErrors::CANNOT_DISABLE_ENTITLEMENT_FOR_WIDGET_WHEN_ENTITLEMENT_ENFORCEMENT_ENABLE);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_DISABLE_ENTITLEMENT_FOR_WIDGET_WHEN_ENTITLEMENT_ENFORCEMENT_ENABLE);
 		
 		if ($widget->entryId !== null)
 		{
 			$entry = entryPeer::retrieveByPK($widget->entryId);
 			if (!$entry)
-				throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $widget->entryId);
+				throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $widget->entryId);
 		}
 		elseif ($widget->enforceEntitlement != null && $widget->enforceEntitlement == false)
 		{
-			throw new KalturaAPIException(KalturaErrors::CANNOT_DISABLE_ENTITLEMENT_WITH_NO_ENTRY_ID);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_DISABLE_ENTITLEMENT_WITH_NO_ENTRY_ID);
 		}
 		
 		$dbWidget = $widget->toInsertableWidget();
@@ -78,7 +78,7 @@ class WidgetService extends KalturaBaseService
 		$dbWidget->save();
 		$savedWidget = widgetPeer::retrieveByPK($widgetId);
 		
-		$widget = new KalturaWidget(); // start from blank
+		$widget = new BorhanWidget(); // start from blank
 		$widget->fromObject($savedWidget, $this->getResponseProfile());
 		
 		return $widget;
@@ -89,28 +89,28 @@ class WidgetService extends KalturaBaseService
  	 * 
 	 * @action update
 	 * @param string $id 
-	 * @param KalturaWidget $widget
-	 * @return KalturaWidget
+	 * @param BorhanWidget $widget
+	 * @return BorhanWidget
 	 */	
-	function updateAction( $id , KalturaWidget $widget )
+	function updateAction( $id , BorhanWidget $widget )
 	{
 		$dbWidget = widgetPeer::retrieveByPK( $id );
 		
 		if ( ! $dbWidget )
-			throw new KalturaAPIException ( APIErrors::INVALID_WIDGET_ID , $id );
+			throw new BorhanAPIException ( APIErrors::INVALID_WIDGET_ID , $id );
 		
 		if(!is_null($widget->enforceEntitlement) && $widget->enforceEntitlement == false && kEntitlementUtils::getEntitlementEnforcement())
-			throw new KalturaAPIException(KalturaErrors::CANNOT_DISABLE_ENTITLEMENT_FOR_WIDGET_WHEN_ENTITLEMENT_ENFORCEMENT_ENABLE);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_DISABLE_ENTITLEMENT_FOR_WIDGET_WHEN_ENTITLEMENT_ENFORCEMENT_ENABLE);
 		
 		if ($widget->entryId !== null)
 		{
 			$entry = entryPeer::retrieveByPK($widget->entryId);
 			if (!$entry)
-				throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $widget->entryId);
+				throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $widget->entryId);
 		}
 		elseif ($widget->enforceEntitlement != null && $widget->enforceEntitlement == false)
 		{
-			throw new KalturaAPIException(KalturaErrors::CANNOT_DISABLE_ENTITLEMENT_WITH_NO_ENTRY_ID);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_DISABLE_ENTITLEMENT_WITH_NO_ENTRY_ID);
 		}
 			
 		$widgetUpdate = $widget->toUpdatableWidget();
@@ -140,15 +140,15 @@ class WidgetService extends KalturaBaseService
 	 *  
 	 * @action get
 	 * @param string $id 
-	 * @return KalturaWidget
+	 * @return BorhanWidget
 	 */		
 	function getAction( $id )
 	{
 		$dbWidget = widgetPeer::retrieveByPK( $id );
 
 		if ( ! $dbWidget )
-			throw new KalturaAPIException ( APIErrors::INVALID_WIDGET_ID , $id );
-		$widget = new KalturaWidget();
+			throw new BorhanAPIException ( APIErrors::INVALID_WIDGET_ID , $id );
+		$widget = new BorhanWidget();
 		$widget->fromObject($dbWidget, $this->getResponseProfile());
 		
 		return $widget;
@@ -159,22 +159,22 @@ class WidgetService extends KalturaBaseService
 	 * Must provide valid sourceWidgetId
 	 * 
 	 * @action clone
-	 * @paran KalturaWidget $widget
-	 * @return KalturaWidget
+	 * @paran BorhanWidget $widget
+	 * @return BorhanWidget
 	 */		
-	function cloneAction( KalturaWidget $widget )
+	function cloneAction( BorhanWidget $widget )
 	{
 		$dbWidget = widgetPeer::retrieveByPK( $widget->sourceWidgetId );
 		
 		if ( ! $dbWidget )
-			throw new KalturaAPIException ( APIErrors::INVALID_WIDGET_ID , $widget->sourceWidgetId );
+			throw new BorhanAPIException ( APIErrors::INVALID_WIDGET_ID , $widget->sourceWidgetId );
 
 		$newWidget = widget::createWidgetFromWidget( $dbWidget , $widget->kshowId, $widget->entryId, $widget->uiConfId ,
 			null , $widget->partnerData , $widget->securityType );
 		if ( !$newWidget )
-			throw new KalturaAPIException ( APIErrors::INVALID_KSHOW_AND_ENTRY_PAIR , $widget->kshowId, $widget->entryId );
+			throw new BorhanAPIException ( APIErrors::INVALID_KSHOW_AND_ENTRY_PAIR , $widget->kshowId, $widget->entryId );
 
-		$widget = new KalturaWidget;
+		$widget = new BorhanWidget;
 		$widget->fromObject($newWidget, $this->getResponseProfile());
 		return $widget;
 	}
@@ -183,14 +183,14 @@ class WidgetService extends KalturaBaseService
 	 * Retrieve a list of available widget depends on the filter given
 	 * 
 	 * @action list
-	 * @param KalturaWidgetFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaWidgetListResponse
+	 * @param BorhanWidgetFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanWidgetListResponse
 	 */		
-	function listAction( KalturaWidgetFilter $filter=null , KalturaFilterPager $pager=null)
+	function listAction( BorhanWidgetFilter $filter=null , BorhanFilterPager $pager=null)
 	{
 		if (!$filter)
-			$filter = new KalturaWidgetFilter;
+			$filter = new BorhanWidgetFilter;
 			
 		$widgetFilter = new widgetFilter ();
 		$filter->toObject( $widgetFilter );
@@ -200,13 +200,13 @@ class WidgetService extends KalturaBaseService
 		
 		$totalCount = widgetPeer::doCount( $c );
 		if (! $pager)
-			$pager = new KalturaFilterPager ();
+			$pager = new BorhanFilterPager ();
 		$pager->attachToCriteria ( $c );
 		$list = widgetPeer::doSelect( $c );
 		
-		$newList = KalturaWidgetArray::fromDbArray($list, $this->getResponseProfile());
+		$newList = BorhanWidgetArray::fromDbArray($list, $this->getResponseProfile());
 		
-		$response = new KalturaWidgetListResponse();
+		$response = new BorhanWidgetListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $totalCount;
 		

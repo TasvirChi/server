@@ -3,10 +3,10 @@
  * @package plugins.velocix
  * @subpackage lib.api
  */
-class KalturaVelocixProvisionJobData extends KalturaProvisionJobData
+class BorhanVelocixProvisionJobData extends BorhanProvisionJobData
 {
 	/**
-	 * @var KalturaKeyValueArray
+	 * @var BorhanKeyValueArray
 	 */
 	public $provisioningParams;
 	
@@ -29,7 +29,7 @@ class KalturaVelocixProvisionJobData extends KalturaProvisionJobData
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaProvisionJobData::getMapBetweenObjects()
+	 * @see BorhanProvisionJobData::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -38,7 +38,7 @@ class KalturaVelocixProvisionJobData extends KalturaProvisionJobData
 	
 	
 	/* (non-PHPdoc)
-	 * @see KalturaProvisionJobData::toObject()
+	 * @see BorhanProvisionJobData::toObject()
 	 */
 	public function toObject($dbData = null, $props_to_skip = array()) 
 	{
@@ -54,14 +54,14 @@ class KalturaVelocixProvisionJobData extends KalturaProvisionJobData
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject()
+	 * @see BorhanObject::fromObject()
 	 */
-	public function doFromObject($source_object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($source_object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($source_object, $responseProfile);
 		
 		if($this->shouldGet('provisioningParams', $responseProfile))
-			$this->provisioningParams = KalturaKeyValueArray::fromKeyValueArray($source_object->getProvisioningParams());
+			$this->provisioningParams = BorhanKeyValueArray::fromKeyValueArray($source_object->getProvisioningParams());
 	}
 	
  	protected function toKeyValueArray($apiKeyValueArray)
@@ -71,7 +71,7 @@ class KalturaVelocixProvisionJobData extends KalturaProvisionJobData
 		{
 			foreach($apiKeyValueArray as $keyValueObj)
 			{
-				/* @var $keyValueObj KalturaKeyValue */
+				/* @var $keyValueObj BorhanKeyValue */
 				$keyValueArray[$keyValueObj->key] = $keyValueObj->value;
 			}
 		}

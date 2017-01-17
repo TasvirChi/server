@@ -3,7 +3,7 @@
  * @package plugins.yahooDistribution
  * @subpackage api.objects
  */
-class KalturaYahooDistributionProfile extends KalturaConfigurableDistributionProfile
+class BorhanYahooDistributionProfile extends BorhanConfigurableDistributionProfile
 {
 	/**
 	 * @var string
@@ -37,7 +37,7 @@ class KalturaYahooDistributionProfile extends KalturaConfigurableDistributionPro
 	public $contactEmail;	
 	
 	/** 
-	 * @var KalturaYahooDistributionProcessFeedActionStatus
+	 * @var BorhanYahooDistributionProcessFeedActionStatus
 	 */
 	public $processFeed;
 

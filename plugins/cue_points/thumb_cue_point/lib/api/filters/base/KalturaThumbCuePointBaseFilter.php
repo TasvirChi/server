@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaThumbCuePointBaseFilter extends KalturaCuePointFilter
+abstract class BorhanThumbCuePointBaseFilter extends BorhanCuePointFilter
 {
 	static private $map_between_objects = array
 	(
@@ -63,7 +63,7 @@ abstract class KalturaThumbCuePointBaseFilter extends KalturaCuePointFilter
 	public $titleMultiLikeAnd;
 
 	/**
-	 * @var KalturaThumbCuePointSubType
+	 * @var BorhanThumbCuePointSubType
 	 */
 	public $subTypeEqual;
 

@@ -40,7 +40,7 @@ function handleDirectory($dirName)
 		if($fileName[0] == '.' || is_dir($filePath) || !preg_match('/^\d+\.\w+\.ini$/', $fileName))
 			continue;
 	
-		KalturaLog::debug("Validate file [$filePath]");
+		BorhanLog::debug("Validate file [$filePath]");
 		$objectConfigurations = parse_ini_file($filePath, true);
 		if(!is_array($objectConfigurations))
 			$errors[] = "Content file [$filePath] is not a valid ini file";
@@ -56,12 +56,12 @@ function handleDirectory($dirName)
 	$dir->close();
 	if(count($errors))
 	{
-		KalturaLog::err(implode("\n\n", $errors));
+		BorhanLog::err(implode("\n\n", $errors));
 		exit(-3);
 	}
 	
 	sort($fileNames);
-	KalturaLog::info("Handling files [" . print_r($fileNames, true) . "]");
+	BorhanLog::info("Handling files [" . print_r($fileNames, true) . "]");
 	
 
 	foreach($fileNames as $fileName)
@@ -76,7 +76,7 @@ function handleFile($filePath)
 	$con = Propel::getConnection(PartnerPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 	
 	$fileName = basename($filePath);
-	KalturaLog::info("Handling file [$fileName]");
+	BorhanLog::info("Handling file [$fileName]");
 	list($order, $objectType, $fileExtension) = explode('.', $fileName, 3);
 	$objectConfigurations = parse_ini_file($filePath, true);
 
@@ -164,7 +164,7 @@ function handleFile($filePath)
 				$evaluator->setScope(new kScope());
 				$evaluator->setCode($evalString);
 				$value = $evaluator->getValue();
-				KalturaLog::info("Evaluated property value: $value");
+				BorhanLog::info("Evaluated property value: $value");
 			}
 
 			$setter = "set{$attributeName}";
@@ -208,7 +208,7 @@ function handleFile($filePath)
 		
 		if($existingObject)
 		{
-			KalturaLog::info ('existing objects will not be re-written');
+			BorhanLog::info ('existing objects will not be re-written');
 			continue;
 		}
 
@@ -224,5 +224,5 @@ function handleFile($filePath)
 	}
 }
 
-KalturaLog::log('Done.');
+BorhanLog::log('Done.');
 exit(0);

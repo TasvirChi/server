@@ -1,9 +1,9 @@
 <?php
 /**
  * @package    Core
- * @subpackage KMC
+ * @subpackage BMC
  */
-class reportsAction extends kalturaAction
+class reportsAction extends borhanAction
 {
 	public function execute ( ) 
 	{

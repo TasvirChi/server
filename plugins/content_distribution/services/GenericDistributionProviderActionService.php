@@ -6,7 +6,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.services
  */
-class GenericDistributionProviderActionService extends KalturaBaseService
+class GenericDistributionProviderActionService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -14,24 +14,24 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 		$this->applyPartnerFilterForClass('GenericDistributionProviderAction');
 		
 		if(!ContentDistributionPlugin::isAllowedPartner(kCurrentContext::$master_partner_id))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, ContentDistributionPlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, ContentDistributionPlugin::PLUGIN_NAME);
 	}
 	
 	/**
 	 * Add new Generic Distribution Provider Action
 	 * 
 	 * @action add
-	 * @param KalturaGenericDistributionProviderAction $genericDistributionProviderAction
-	 * @return KalturaGenericDistributionProviderAction
+	 * @param BorhanGenericDistributionProviderAction $genericDistributionProviderAction
+	 * @return BorhanGenericDistributionProviderAction
 	 * @throws ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_NOT_FOUND
 	 */
-	function addAction(KalturaGenericDistributionProviderAction $genericDistributionProviderAction)
+	function addAction(BorhanGenericDistributionProviderAction $genericDistributionProviderAction)
 	{
 		$genericDistributionProviderAction->validatePropertyNotNull("genericDistributionProviderId");
 		
 		$dbGenericDistributionProvider = GenericDistributionProviderPeer::retrieveByPK($genericDistributionProviderAction->genericDistributionProviderId);
 		if (!$dbGenericDistributionProvider)
-			throw new KalturaAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_NOT_FOUND, $genericDistributionProviderAction->genericDistributionProviderId);
+			throw new BorhanAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_NOT_FOUND, $genericDistributionProviderAction->genericDistributionProviderId);
 			
 		$dbGenericDistributionProviderAction = new GenericDistributionProviderAction();
 		$genericDistributionProviderAction->toInsertableObject($dbGenericDistributionProviderAction);
@@ -39,7 +39,7 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 		$dbGenericDistributionProviderAction->setStatus(GenericDistributionProviderStatus::ACTIVE);
 		$dbGenericDistributionProviderAction->save();
 		
-		$genericDistributionProviderAction = new KalturaGenericDistributionProviderAction();
+		$genericDistributionProviderAction = new BorhanGenericDistributionProviderAction();
 		$genericDistributionProviderAction->fromObject($dbGenericDistributionProviderAction, $this->getResponseProfile());
 		return $genericDistributionProviderAction;
 	}
@@ -51,14 +51,14 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 	 * @action addMrssTransform
 	 * @param int $id the id of the generic distribution provider action
 	 * @param string $xslData XSL MRSS transformation data
-	 * @return KalturaGenericDistributionProviderAction
+	 * @return BorhanGenericDistributionProviderAction
 	 * @throws ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND
 	 */
 	function addMrssTransformAction($id, $xslData)
 	{
 		$dbGenericDistributionProviderAction = GenericDistributionProviderActionPeer::retrieveByPK($id);
 		if (!$dbGenericDistributionProviderAction)
-			throw new KalturaAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $id);
+			throw new BorhanAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $id);
 			
 		$dbGenericDistributionProviderAction->incrementMrssTransformerVersion();
 		$dbGenericDistributionProviderAction->save();
@@ -66,7 +66,7 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 		$key = $dbGenericDistributionProviderAction->getSyncKey(GenericDistributionProviderAction::FILE_SYNC_DISTRIBUTION_PROVIDER_ACTION_MRSS_TRANSFORMER);
 		kFileSyncUtils::file_put_contents($key, $xslData);
 		
-		$genericDistributionProviderAction = new KalturaGenericDistributionProviderAction();
+		$genericDistributionProviderAction = new BorhanGenericDistributionProviderAction();
 		$genericDistributionProviderAction->fromObject($dbGenericDistributionProviderAction, $this->getResponseProfile());
 		return $genericDistributionProviderAction;
 	}
@@ -78,19 +78,19 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 	 * @action addMrssTransformFromFile
 	 * @param int $id the id of the generic distribution provider action
 	 * @param file $xslFile XSL MRSS transformation file
-	 * @return KalturaGenericDistributionProviderAction
+	 * @return BorhanGenericDistributionProviderAction
 	 * @throws ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND
-	 * @throws KalturaErrors::UPLOADED_FILE_NOT_FOUND
+	 * @throws BorhanErrors::UPLOADED_FILE_NOT_FOUND
 	 */
 	function addMrssTransformFromFileAction($id, $xslFile)
 	{
 		$dbGenericDistributionProviderAction = GenericDistributionProviderActionPeer::retrieveByPK($id);
 		if (!$dbGenericDistributionProviderAction)
-			throw new KalturaAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $id);
+			throw new BorhanAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $id);
 			
 		$filePath = $xslFile['tmp_name'];
 		if(!file_exists($filePath))
-			throw new KalturaAPIException(KalturaErrors::UPLOADED_FILE_NOT_FOUND, $xslFile['name']);
+			throw new BorhanAPIException(BorhanErrors::UPLOADED_FILE_NOT_FOUND, $xslFile['name']);
 			
 		$dbGenericDistributionProviderAction->incrementMrssTransformerVersion();
 		$dbGenericDistributionProviderAction->save();
@@ -98,7 +98,7 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 		$key = $dbGenericDistributionProviderAction->getSyncKey(GenericDistributionProviderAction::FILE_SYNC_DISTRIBUTION_PROVIDER_ACTION_MRSS_TRANSFORMER);
 		kFileSyncUtils::moveFromFile($filePath, $key);
 		
-		$genericDistributionProviderAction = new KalturaGenericDistributionProviderAction();
+		$genericDistributionProviderAction = new BorhanGenericDistributionProviderAction();
 		$genericDistributionProviderAction->fromObject($dbGenericDistributionProviderAction, $this->getResponseProfile());
 		return $genericDistributionProviderAction;
 	}
@@ -110,14 +110,14 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 	 * @action addMrssValidate
 	 * @param int $id the id of the generic distribution provider action
 	 * @param string $xsdData XSD MRSS validatation data
-	 * @return KalturaGenericDistributionProviderAction
+	 * @return BorhanGenericDistributionProviderAction
 	 * @throws ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND
 	 */
 	function addMrssValidateAction($id, $xsdData)
 	{
 		$dbGenericDistributionProviderAction = GenericDistributionProviderActionPeer::retrieveByPK($id);
 		if (!$dbGenericDistributionProviderAction)
-			throw new KalturaAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $id);
+			throw new BorhanAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $id);
 			
 		$dbGenericDistributionProviderAction->incrementMrssValidatorVersion();
 		$dbGenericDistributionProviderAction->save();
@@ -125,7 +125,7 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 		$key = $dbGenericDistributionProviderAction->getSyncKey(GenericDistributionProviderAction::FILE_SYNC_DISTRIBUTION_PROVIDER_ACTION_MRSS_VALIDATOR);
 		kFileSyncUtils::file_put_contents($key, $xsdData);
 		
-		$genericDistributionProviderAction = new KalturaGenericDistributionProviderAction();
+		$genericDistributionProviderAction = new BorhanGenericDistributionProviderAction();
 		$genericDistributionProviderAction->fromObject($dbGenericDistributionProviderAction, $this->getResponseProfile());
 		return $genericDistributionProviderAction;
 	}
@@ -137,19 +137,19 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 	 * @action addMrssValidateFromFile
 	 * @param int $id the id of the generic distribution provider action
 	 * @param file $xsdFile XSD MRSS validatation file
-	 * @return KalturaGenericDistributionProviderAction
+	 * @return BorhanGenericDistributionProviderAction
 	 * @throws ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND
-	 * @throws KalturaErrors::UPLOADED_FILE_NOT_FOUND
+	 * @throws BorhanErrors::UPLOADED_FILE_NOT_FOUND
 	 */
 	function addMrssValidateFromFileAction($id, $xsdFile)
 	{
 		$dbGenericDistributionProviderAction = GenericDistributionProviderActionPeer::retrieveByPK($id);
 		if (!$dbGenericDistributionProviderAction)
-			throw new KalturaAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $id);
+			throw new BorhanAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $id);
 			
 		$filePath = $xsdFile['tmp_name'];
 		if(!file_exists($filePath))
-			throw new KalturaAPIException(KalturaErrors::UPLOADED_FILE_NOT_FOUND, $xsdFile['name']);
+			throw new BorhanAPIException(BorhanErrors::UPLOADED_FILE_NOT_FOUND, $xsdFile['name']);
 			
 		$dbGenericDistributionProviderAction->incrementMrssValidatorVersion();
 		$dbGenericDistributionProviderAction->save();
@@ -157,7 +157,7 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 		$key = $dbGenericDistributionProviderAction->getSyncKey(GenericDistributionProviderAction::FILE_SYNC_DISTRIBUTION_PROVIDER_ACTION_MRSS_VALIDATOR);
 		kFileSyncUtils::moveFromFile($filePath, $key);
 		
-		$genericDistributionProviderAction = new KalturaGenericDistributionProviderAction();
+		$genericDistributionProviderAction = new BorhanGenericDistributionProviderAction();
 		$genericDistributionProviderAction->fromObject($dbGenericDistributionProviderAction, $this->getResponseProfile());
 		return $genericDistributionProviderAction;
 	}
@@ -169,14 +169,14 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 	 * @action addResultsTransform
 	 * @param int $id the id of the generic distribution provider action
 	 * @param string $transformData transformation data xsl, xPath or regex
-	 * @return KalturaGenericDistributionProviderAction
+	 * @return BorhanGenericDistributionProviderAction
 	 * @throws ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND
 	 */
 	function addResultsTransformAction($id, $transformData)
 	{
 		$dbGenericDistributionProviderAction = GenericDistributionProviderActionPeer::retrieveByPK($id);
 		if (!$dbGenericDistributionProviderAction)
-			throw new KalturaAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $id);
+			throw new BorhanAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $id);
 			
 		$dbGenericDistributionProviderAction->incrementResultsTransformerVersion();
 		$dbGenericDistributionProviderAction->save();
@@ -184,7 +184,7 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 		$key = $dbGenericDistributionProviderAction->getSyncKey(GenericDistributionProviderAction::FILE_SYNC_DISTRIBUTION_PROVIDER_ACTION_RESULTS_TRANSFORMER);
 		kFileSyncUtils::file_put_contents($key, $transformData);
 		
-		$genericDistributionProviderAction = new KalturaGenericDistributionProviderAction();
+		$genericDistributionProviderAction = new BorhanGenericDistributionProviderAction();
 		$genericDistributionProviderAction->fromObject($dbGenericDistributionProviderAction, $this->getResponseProfile());
 		return $genericDistributionProviderAction;
 	}
@@ -196,19 +196,19 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 	 * @action addResultsTransformFromFile
 	 * @param int $id the id of the generic distribution provider action
 	 * @param file $transformFile transformation file xsl, xPath or regex
-	 * @return KalturaGenericDistributionProviderAction
+	 * @return BorhanGenericDistributionProviderAction
 	 * @throws ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND
-	 * @throws KalturaErrors::UPLOADED_FILE_NOT_FOUND
+	 * @throws BorhanErrors::UPLOADED_FILE_NOT_FOUND
 	 */
 	function addResultsTransformFromFileAction($id, $transformFile)
 	{
 		$dbGenericDistributionProviderAction = GenericDistributionProviderActionPeer::retrieveByPK($id);
 		if (!$dbGenericDistributionProviderAction)
-			throw new KalturaAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $id);
+			throw new BorhanAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $id);
 			
 		$filePath = $transformFile['tmp_name'];
 		if(!file_exists($filePath))
-			throw new KalturaAPIException(KalturaErrors::UPLOADED_FILE_NOT_FOUND, $transformFile['name']);
+			throw new BorhanAPIException(BorhanErrors::UPLOADED_FILE_NOT_FOUND, $transformFile['name']);
 			
 		$dbGenericDistributionProviderAction->incrementResultsTransformerVersion();
 		$dbGenericDistributionProviderAction->save();
@@ -216,7 +216,7 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 		$key = $dbGenericDistributionProviderAction->getSyncKey(GenericDistributionProviderAction::FILE_SYNC_DISTRIBUTION_PROVIDER_ACTION_RESULTS_TRANSFORMER);
 		kFileSyncUtils::moveFromFile($filePath, $key);
 		
-		$genericDistributionProviderAction = new KalturaGenericDistributionProviderAction();
+		$genericDistributionProviderAction = new BorhanGenericDistributionProviderAction();
 		$genericDistributionProviderAction->fromObject($dbGenericDistributionProviderAction, $this->getResponseProfile());
 		return $genericDistributionProviderAction;
 	}
@@ -227,16 +227,16 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param int $id
-	 * @return KalturaGenericDistributionProviderAction
+	 * @return BorhanGenericDistributionProviderAction
 	 * @throws ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND
 	 */
 	function getAction($id)
 	{
 		$dbGenericDistributionProviderAction = GenericDistributionProviderActionPeer::retrieveByPK($id);
 		if (!$dbGenericDistributionProviderAction)
-			throw new KalturaAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $id);
+			throw new BorhanAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $id);
 			
-		$genericDistributionProviderAction = new KalturaGenericDistributionProviderAction();
+		$genericDistributionProviderAction = new BorhanGenericDistributionProviderAction();
 		$genericDistributionProviderAction->fromObject($dbGenericDistributionProviderAction, $this->getResponseProfile());
 		return $genericDistributionProviderAction;
 	}
@@ -247,17 +247,17 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 	 * 
 	 * @action getByProviderId
 	 * @param int $genericDistributionProviderId
-	 * @param KalturaDistributionAction $actionType
-	 * @return KalturaGenericDistributionProviderAction
+	 * @param BorhanDistributionAction $actionType
+	 * @return BorhanGenericDistributionProviderAction
 	 * @throws ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND
 	 */
 	function getByProviderIdAction($genericDistributionProviderId, $actionType)
 	{
 		$dbGenericDistributionProviderAction = GenericDistributionProviderActionPeer::retrieveByProviderAndAction($genericDistributionProviderId, $actionType);
 		if (!$dbGenericDistributionProviderAction)
-			throw new KalturaAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $genericDistributionProviderId);
+			throw new BorhanAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $genericDistributionProviderId);
 	
-		$genericDistributionProviderAction = new KalturaGenericDistributionProviderAction();
+		$genericDistributionProviderAction = new BorhanGenericDistributionProviderAction();
 		$genericDistributionProviderAction->fromObject($dbGenericDistributionProviderAction, $this->getResponseProfile());
 		return $genericDistributionProviderAction;
 	}
@@ -267,21 +267,21 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 	 * 
 	 * @action updateByProviderId
 	 * @param int $genericDistributionProviderId
-	 * @param KalturaDistributionAction $actionType
-	 * @param KalturaGenericDistributionProviderAction $genericDistributionProviderAction
-	 * @return KalturaGenericDistributionProviderAction
+	 * @param BorhanDistributionAction $actionType
+	 * @param BorhanGenericDistributionProviderAction $genericDistributionProviderAction
+	 * @return BorhanGenericDistributionProviderAction
 	 * @throws ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND
 	 */
-	function updateByProviderIdAction($genericDistributionProviderId, $actionType, KalturaGenericDistributionProviderAction $genericDistributionProviderAction)
+	function updateByProviderIdAction($genericDistributionProviderId, $actionType, BorhanGenericDistributionProviderAction $genericDistributionProviderAction)
 	{
 		$dbGenericDistributionProviderAction = GenericDistributionProviderActionPeer::retrieveByProviderAndAction($genericDistributionProviderId, $actionType);
 		if (!$dbGenericDistributionProviderAction)
-			throw new KalturaAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $genericDistributionProviderId);
+			throw new BorhanAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $genericDistributionProviderId);
 	
 		$genericDistributionProviderAction->toUpdatableObject($dbGenericDistributionProviderAction);
 		$dbGenericDistributionProviderAction->save();
 		
-		$genericDistributionProviderAction = new KalturaGenericDistributionProviderAction();
+		$genericDistributionProviderAction = new BorhanGenericDistributionProviderAction();
 		$genericDistributionProviderAction->fromObject($dbGenericDistributionProviderAction, $this->getResponseProfile());
 		return $genericDistributionProviderAction;
 	}
@@ -291,20 +291,20 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 	 * 
 	 * @action update
 	 * @param int $id
-	 * @param KalturaGenericDistributionProviderAction $genericDistributionProviderAction
-	 * @return KalturaGenericDistributionProviderAction
+	 * @param BorhanGenericDistributionProviderAction $genericDistributionProviderAction
+	 * @return BorhanGenericDistributionProviderAction
 	 * @throws ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND
 	 */
-	function updateAction($id, KalturaGenericDistributionProviderAction $genericDistributionProviderAction)
+	function updateAction($id, BorhanGenericDistributionProviderAction $genericDistributionProviderAction)
 	{
 		$dbGenericDistributionProviderAction = GenericDistributionProviderActionPeer::retrieveByPK($id);
 		if (!$dbGenericDistributionProviderAction)
-			throw new KalturaAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $id);
+			throw new BorhanAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $id);
 		
 		$genericDistributionProviderAction->toUpdatableObject($dbGenericDistributionProviderAction);
 		$dbGenericDistributionProviderAction->save();
 		
-		$genericDistributionProviderAction = new KalturaGenericDistributionProviderAction();
+		$genericDistributionProviderAction = new BorhanGenericDistributionProviderAction();
 		$genericDistributionProviderAction->fromObject($dbGenericDistributionProviderAction, $this->getResponseProfile());
 		return $genericDistributionProviderAction;
 	}
@@ -320,7 +320,7 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 	{
 		$dbGenericDistributionProviderAction = GenericDistributionProviderActionPeer::retrieveByPK($id);
 		if (!$dbGenericDistributionProviderAction)
-			throw new KalturaAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $id);
+			throw new BorhanAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $id);
 
 		$dbGenericDistributionProviderAction->setStatus(GenericDistributionProviderStatus::DELETED);
 		$dbGenericDistributionProviderAction->save();
@@ -331,14 +331,14 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 	 * 
 	 * @action deleteByProviderId
 	 * @param int $genericDistributionProviderId
-	 * @param KalturaDistributionAction $actionType
+	 * @param BorhanDistributionAction $actionType
 	 * @throws ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND
 	 */
 	function deleteByProviderIdAction($genericDistributionProviderId, $actionType)
 	{
 		$dbGenericDistributionProviderAction = GenericDistributionProviderActionPeer::retrieveByProviderAndAction($genericDistributionProviderId, $actionType);
 		if (!$dbGenericDistributionProviderAction)
-			throw new KalturaAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $genericDistributionProviderId);
+			throw new BorhanAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_ACTION_NOT_FOUND, $genericDistributionProviderId);
 
 		$dbGenericDistributionProviderAction->setStatus(GenericDistributionProviderStatus::DELETED);
 		$dbGenericDistributionProviderAction->save();
@@ -349,14 +349,14 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 	 * List all distribution providers
 	 * 
 	 * @action list
-	 * @param KalturaGenericDistributionProviderActionFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaGenericDistributionProviderActionListResponse
+	 * @param BorhanGenericDistributionProviderActionFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanGenericDistributionProviderActionListResponse
 	 */
-	function listAction(KalturaGenericDistributionProviderActionFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanGenericDistributionProviderActionFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaGenericDistributionProviderActionFilter();
+			$filter = new BorhanGenericDistributionProviderActionFilter();
 			
 		$c = new Criteria();
 		$genericDistributionProviderActionFilter = new GenericDistributionProviderActionFilter();
@@ -366,12 +366,12 @@ class GenericDistributionProviderActionService extends KalturaBaseService
 		$count = GenericDistributionProviderActionPeer::doCount($c);
 		
 		if (! $pager)
-			$pager = new KalturaFilterPager ();
+			$pager = new BorhanFilterPager ();
 		$pager->attachToCriteria($c);
 		$list = GenericDistributionProviderActionPeer::doSelect($c);
 		
-		$response = new KalturaGenericDistributionProviderActionListResponse();
-		$response->objects = KalturaGenericDistributionProviderActionArray::fromDbArray($list, $this->getResponseProfile());
+		$response = new BorhanGenericDistributionProviderActionListResponse();
+		$response->objects = BorhanGenericDistributionProviderActionArray::fromDbArray($list, $this->getResponseProfile());
 		$response->totalCount = $count;
 	
 		return $response;

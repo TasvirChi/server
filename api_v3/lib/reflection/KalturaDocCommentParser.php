@@ -3,7 +3,7 @@
  * @package api
  * @subpackage v3
  */
-class KalturaDocCommentParser
+class BorhanDocCommentParser
 {
     const DOCCOMMENT_READONLY = "/\\@readonly/i";
     const DOCCOMMENT_INSERTONLY = "/\\@insertonly/i";
@@ -347,7 +347,7 @@ class KalturaDocCommentParser
 	            }
 	            else
 	            {
-	            	KalturaLog::err("Constant [$error] not found in class [$errorClass]");
+	            	BorhanLog::err("Constant [$error] not found in class [$errorClass]");
 	            }
             }
         }

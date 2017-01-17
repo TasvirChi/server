@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaControlPanelCommand extends KalturaObject implements IFilterable
+class BorhanControlPanelCommand extends BorhanObject implements IFilterable
 {
 	/**
 	 * The id of the Category
@@ -113,7 +113,7 @@ class KalturaControlPanelCommand extends KalturaObject implements IFilterable
 	/**
 	 * The command type - stop / start / config
 	 *  
-	 * @var KalturaControlPanelCommandType
+	 * @var BorhanControlPanelCommandType
 	 * @filter eq,in
 	 */
 	public $type;
@@ -122,7 +122,7 @@ class KalturaControlPanelCommand extends KalturaObject implements IFilterable
 	/**
 	 * The command target type - data center / scheduler / job / job type
 	 *  
-	 * @var KalturaControlPanelCommandTargetType
+	 * @var BorhanControlPanelCommandTargetType
 	 * @filter eq,in
 	 */
 	public $targetType;
@@ -132,7 +132,7 @@ class KalturaControlPanelCommand extends KalturaObject implements IFilterable
 	/**
 	 * The command status
 	 *  
-	 * @var KalturaControlPanelCommandStatus
+	 * @var BorhanControlPanelCommandStatus
 	 * @filter eq,in
 	 */
 	public $status;

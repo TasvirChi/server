@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaStartWidgetSessionResponse extends KalturaObject
+class BorhanStartWidgetSessionResponse extends BorhanObject
 {
 	/**
 	 * @var int

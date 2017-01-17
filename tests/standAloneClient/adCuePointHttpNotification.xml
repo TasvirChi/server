@@ -13,7 +13,7 @@
 
     <multirequest>
         <request service="eventNotificationTemplate" action="add" plugin="eventNotification" partnerId="0">
-            <template objectType="KalturaHttpNotificationTemplate">
+            <template objectType="BorhanHttpNotificationTemplate">
                 <name>Ad Cue Point updated - PlayServer</name>
                 <systemName>AD_CUEPOINT_UPDATED_PS</systemName>
                 <description>HTTP notification template to be sent when a ad cue point is updated</description>
@@ -21,15 +21,15 @@
                 <eventType>11</eventType> <!-- EventNotificationEventType::OBJECT_UPDATED -->
                 <eventObjectType>adCuePointEventNotifications.AdCuePoint</eventObjectType>
                 <contentParameters objectType="array">
-                    <item objectType="KalturaEventNotificationParameter">
+                    <item objectType="BorhanEventNotificationParameter">
                         <key>entry_id</key>
                         <description>Entry ID</description>
-                        <value objectType="KalturaEvalStringField">
+                        <value objectType="BorhanEvalStringField">
                             <code>$scope->getObject()->getEntryId()</code>
                         </value>
                     </item>
                 </contentParameters>
-                <method>1</method> <!-- KalturaHttpNotificationMethod::GET -->
+                <method>1</method> <!-- BorhanHttpNotificationMethod::GET -->
             </template>
         </request>
         <request service="eventNotificationTemplate" action="updateStatus" plugin="eventNotification" partnerId="0">
@@ -40,7 +40,7 @@
 
     <multirequest>
         <request service="eventNotificationTemplate" action="add" plugin="eventNotification" partnerId="0">
-            <template objectType="KalturaHttpNotificationTemplate">
+            <template objectType="BorhanHttpNotificationTemplate">
                 <name>Ad Cue Point added - PlayServer</name>
                 <systemName>AD_CUEPOINT_ADDED_PS</systemName>
                 <description>HTTP notification template to be sent when a ad cue point is added</description>
@@ -48,15 +48,15 @@
                 <eventType>2</eventType> <!-- EventNotificationEventType::OBJECT_ADDED -->
                 <eventObjectType>adCuePointEventNotifications.AdCuePoint</eventObjectType>
                 <contentParameters objectType="array">
-                    <item objectType="KalturaEventNotificationParameter">
+                    <item objectType="BorhanEventNotificationParameter">
                         <key>entry_id</key>
                         <description>Entry ID</description>
-                        <value objectType="KalturaEvalStringField">
+                        <value objectType="BorhanEvalStringField">
                             <code>$scope->getObject()->getEntryId()</code>
                         </value>
                     </item>
                 </contentParameters>
-                <method>1</method> <!-- KalturaHttpNotificationMethod::GET -->
+                <method>1</method> <!-- BorhanHttpNotificationMethod::GET -->
             </template>
         </request>
         <request service="eventNotificationTemplate" action="updateStatus" plugin="eventNotification" partnerId="0">
@@ -67,7 +67,7 @@
 
     <multirequest>
         <request service="eventNotificationTemplate" action="add" plugin="eventNotification" partnerId="0">
-            <template objectType="KalturaHttpNotificationTemplate">
+            <template objectType="BorhanHttpNotificationTemplate">
                 <name>Ad Cue Point deleted - PlayServer</name>
                 <systemName>AD_CUEPOINT_DELETED_PS</systemName>
                 <description>HTTP notification template to be sent when a ad cue point is deleted</description>
@@ -75,15 +75,15 @@
                 <eventType>7</eventType> <!-- EventNotificationEventType::OBJECT_DELETED -->
                 <eventObjectType>adCuePointEventNotifications.AdCuePoint</eventObjectType>
                 <contentParameters objectType="array">
-                    <item objectType="KalturaEventNotificationParameter">
+                    <item objectType="BorhanEventNotificationParameter">
                         <key>entry_id</key>
                         <description>Entry ID</description>
-                        <value objectType="KalturaEvalStringField">
+                        <value objectType="BorhanEvalStringField">
                             <code>$scope->getObject()->getEntryId()</code>
                         </value>
                     </item>
                 </contentParameters>
-                <method>1</method> <!-- KalturaHttpNotificationMethod::GET -->
+                <method>1</method> <!-- BorhanHttpNotificationMethod::GET -->
             </template>
         </request>
         <request service="eventNotificationTemplate" action="updateStatus" plugin="eventNotification" partnerId="0">

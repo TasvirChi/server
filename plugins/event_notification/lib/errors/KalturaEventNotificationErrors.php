@@ -4,7 +4,7 @@
  * @package plugins.eventNotification
  * @subpackage api.errors
  */
-class KalturaEventNotificationErrors extends KalturaErrors
+class BorhanEventNotificationErrors extends BorhanErrors
 {
 	
 	const EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND = "EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND;ID;Event notification template id [@ID@] not found";

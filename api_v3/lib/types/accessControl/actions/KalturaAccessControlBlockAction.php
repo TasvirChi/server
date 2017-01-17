@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaAccessControlBlockAction extends KalturaRuleAction
+class BorhanAccessControlBlockAction extends BorhanRuleAction
 {
 	/**
 	 * Init object type
@@ -14,7 +14,7 @@ class KalturaAccessControlBlockAction extends KalturaRuleAction
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

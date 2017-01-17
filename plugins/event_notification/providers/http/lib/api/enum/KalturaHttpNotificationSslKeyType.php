@@ -3,7 +3,7 @@
  * @package plugins.httpNotification
  * @subpackage api.enum
  */
-class KalturaHttpNotificationSslKeyType extends KalturaStringEnum
+class BorhanHttpNotificationSslKeyType extends BorhanStringEnum
 {
 	const PEM = 'PEM';
 	const DER = 'DER';

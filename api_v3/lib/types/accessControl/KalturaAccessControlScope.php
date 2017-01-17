@@ -3,7 +3,7 @@
  * @package Core
  * @subpackage model.data
  */
-class KalturaAccessControlScope extends KalturaObject
+class BorhanAccessControlScope extends BorhanObject
 {
 	/**
 	 * URL to be used to test domain conditions.
@@ -18,7 +18,7 @@ class KalturaAccessControlScope extends KalturaObject
 	public $ip;
 	
 	/**
-	 * Kaltura session to be used to test session and user conditions.
+	 * Borhan session to be used to test session and user conditions.
 	 * @var string
 	 */
 	public $ks;
@@ -38,13 +38,13 @@ class KalturaAccessControlScope extends KalturaObject
 	/**
 	 * Indicates what contexts should be tested. No contexts means any context.
 	 * 
-	 * @var KalturaAccessControlContextTypeHolderArray
+	 * @var BorhanAccessControlContextTypeHolderArray
 	 */
 	public $contexts;
 	
 	/**
 	 * Array of hashes to pass to the access control profile scope
-	 * @var KalturaKeyValueArray
+	 * @var BorhanKeyValueArray
 	 */
 	public $hashes;
 
@@ -60,7 +60,7 @@ class KalturaAccessControlScope extends KalturaObject
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{

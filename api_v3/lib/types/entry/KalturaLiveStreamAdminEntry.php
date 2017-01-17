@@ -4,7 +4,7 @@
  * @subpackage objects
  * @deprecated
  */
-class KalturaLiveStreamAdminEntry extends KalturaLiveStreamEntry
+class BorhanLiveStreamAdminEntry extends BorhanLiveStreamEntry
 {
 
 }

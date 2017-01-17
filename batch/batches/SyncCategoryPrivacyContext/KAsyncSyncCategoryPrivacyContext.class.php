@@ -17,13 +17,13 @@ class KAsyncSyncCategoryPrivacyContext extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::SYNC_CATEGORY_PRIVACY_CONTEXT;
+		return BorhanBatchJobType::SYNC_CATEGORY_PRIVACY_CONTEXT;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->syncPrivacyContext($job, $job->data);
 	}
@@ -31,12 +31,12 @@ class KAsyncSyncCategoryPrivacyContext extends KJobHandlerWorker
 	/**
 	 * sync category privacy context on category entries
 	 * 
-	 * @param KalturaBatchJob $job
-	 * @param KalturaSyncCategoryPrivacyContextJobData $data
+	 * @param BorhanBatchJob $job
+	 * @param BorhanSyncCategoryPrivacyContextJobData $data
 	 * 
-	 * @return KalturaBatchJob
+	 * @return BorhanBatchJob
 	 */
-	protected function syncPrivacyContext(KalturaBatchJob $job, KalturaSyncCategoryPrivacyContextJobData $data)
+	protected function syncPrivacyContext(BorhanBatchJob $job, BorhanSyncCategoryPrivacyContextJobData $data)
 	{
 	    KBatchBase::impersonate($job->partnerId);
 	    
@@ -44,17 +44,17 @@ class KAsyncSyncCategoryPrivacyContext extends KJobHandlerWorker
 		
 		KBatchBase::unimpersonate();
 		
-		$job = $this->closeJob($job, null, null, null, KalturaBatchJobStatus::FINISHED);
+		$job = $this->closeJob($job, null, null, null, BorhanBatchJobStatus::FINISHED);
 		
 		return $job;
 	}
 	
-	private function syncCategoryPrivacyContext(KalturaBatchJob $job, KalturaSyncCategoryPrivacyContextJobData $data, $categoryId)
+	private function syncCategoryPrivacyContext(BorhanBatchJob $job, BorhanSyncCategoryPrivacyContextJobData $data, $categoryId)
 	{
 			    
 		$categoryEntryPager = $this->getFilterPager();
-	    $categoryEntryFilter = new KalturaCategoryEntryFilter();
-		$categoryEntryFilter->orderBy = KalturaCategoryEntryOrderBy::CREATED_AT_ASC;
+	    $categoryEntryFilter = new BorhanCategoryEntryFilter();
+		$categoryEntryFilter->orderBy = BorhanCategoryEntryOrderBy::CREATED_AT_ASC;
 		$categoryEntryFilter->categoryIdEqual = $categoryId;
 		if($data->lastUpdatedCategoryEntryCreatedAt)
 			$categoryEntryFilter->createdAtGreaterThanOrEqual = $data->lastUpdatedCategoryEntryCreatedAt;		
@@ -73,7 +73,7 @@ class KAsyncSyncCategoryPrivacyContext extends KJobHandlerWorker
 			$categoryEntryPager->pageIndex++;
 			
 			KBatchBase::unimpersonate();
-			$this->updateJob($job, null, KalturaBatchJobStatus::PROCESSING, $data);
+			$this->updateJob($job, null, BorhanBatchJobStatus::PROCESSING, $data);
 			KBatchBase::impersonate($job->partnerId);
 							
 			$categoryEntryList = KBatchBase::$kClient->categoryEntry->listAction($categoryEntryFilter, $categoryEntryPager);
@@ -82,7 +82,7 @@ class KAsyncSyncCategoryPrivacyContext extends KJobHandlerWorker
 		
 	private function getFilterPager()
 	{
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageSize = 100;
 		if(KBatchBase::$taskConfig->params->pageSize)
 			$pager->pageSize = KBatchBase::$taskConfig->params->pageSize;

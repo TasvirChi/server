@@ -19,7 +19,7 @@ class KConversionEngineFfmpeg  extends KJobConversionEngine
 	
 	public function getType()
 	{
-		return KalturaConversionEngineType::FFMPEG;
+		return BorhanConversionEngineType::FFMPEG;
 	}
 	
 	public function getCmd ()
@@ -30,24 +30,24 @@ class KConversionEngineFfmpeg  extends KJobConversionEngine
 	/**
 	 *
 	 */
-	protected function getExecutionCommandAndConversionString ( KalturaConvertJobData $data )
+	protected function getExecutionCommandAndConversionString ( BorhanConvertJobData $data )
 	{
 		$wmData = null;
 		if(isset($data->flavorParamsOutput->watermarkData)){
 			$wmData = json_decode($data->flavorParamsOutput->watermarkData);
 			if(!isset($wmData)){
-				KalturaLog::notice("Bad watermark JSON string($data->flavorParamsOutput->watermarkData), carry on without watermark");
+				BorhanLog::notice("Bad watermark JSON string($data->flavorParamsOutput->watermarkData), carry on without watermark");
 			}
 		}
 		$subsData = null;
 		if(isset($data->flavorParamsOutput->subtitlesData)){
 			$subsData = json_decode($data->flavorParamsOutput->subtitlesData);
 			if(!isset($subsData)){
-				KalturaLog::notice("Bad subtitles JSON string(".$data->flavorParamsOutput->subtitlesData."), carry on without subtitles");
+				BorhanLog::notice("Bad subtitles JSON string(".$data->flavorParamsOutput->subtitlesData."), carry on without subtitles");
 			}
 		}
 		$cmdLines =  parent::getExecutionCommandAndConversionString ($data);
-		KalturaLog::log("cmdLines==>".print_r($cmdLines,1));
+		BorhanLog::log("cmdLines==>".print_r($cmdLines,1));
 			/*
 			 * The code below handles the ffmpeg 0.10 and higher option to set up 'forced_key_frame'.
 			 * The ffmpeg cmd-line should contain list of all forced kf's, this list might be up to 40Kb for 2hr videos.
@@ -142,7 +142,7 @@ $x265bin = "x265";
 $ffmpegExperimBin = "ffmpeg-experim";
 
 		if($flavorParamsOutput->videoCodec==KDLVideoTarget::H265){ //video_codec	!!!flavorParamsOutput->videoCodec
-			KalturaLog::log("trying to fix H265 conversion");
+			BorhanLog::log("trying to fix H265 conversion");
 			$gop = $flavorParamsOutput->gopSize; 					//gop_size	!!!$flavorParamsOutput->gopSize;
 			$vBr = $flavorParamsOutput->videoBitrate; 				//video_bitrate	!!!$flavorParamsOutput->videoBitrate;
 			$frameRate = $flavorParamsOutput->frameRate; 			//frame_rate	!!!$flavorParamsOutput->frameRate;
@@ -210,7 +210,7 @@ $pixFmt = "yuv420p";
 			}
 			catch(Exception $ex)
 			{
-				KalturaLog::log(print_r($ex,1));
+				BorhanLog::log(print_r($ex,1));
 			}
 			if(isset($ffMi->containerDuration) && $ffMi->containerDuration>0)
 				$duration = $ffMi->containerDuration/1000;
@@ -249,7 +249,7 @@ $pixFmt = "yuv420p";
 				file_put_contents("$outFilePath.qp", $keyFramesStr);
 			}
 			else {
-				KalturaLog::log("Missing gop($gop) or frameRate($frameRate) or duration($duration) - will be generated without fixed keyframes!");
+				BorhanLog::log("Missing gop($gop) or frameRate($frameRate) or duration($duration) - will be generated without fixed keyframes!");
 			}
 
 			if(!in_array($outFilePath, $cmdValsArr)) {
@@ -282,7 +282,7 @@ $pixFmt = "yuv420p";
 	 */
 	public static function buildWatermarkedCommandLine($watermMarkData, $destFileSyncLocalPath, $cmdLine, $ffmpegBin = "ffmpeg", $mediaInfoBin = "mediainfo")
 	{
-		KalturaLog::log("In:cmdline($cmdLine)");
+		BorhanLog::log("In:cmdline($cmdLine)");
 		if(!isset($mediaInfoBin) || strlen($mediaInfoBin)==0)
 			$mediaInfoBin = "mediainfo";
 
@@ -292,7 +292,7 @@ $pixFmt = "yuv420p";
 			$watermMarkDataArr = array($watermMarkData);
 		$wmImgIdx = 1;
 		foreach ($watermMarkDataArr as $wmData){
-			KalturaLog::log("Watermark data($mediaInfoBin):\n".print_r($wmData,1));
+			BorhanLog::log("Watermark data($mediaInfoBin):\n".print_r($wmData,1));
 				/*
 			 	 * Retrieve watermark image file,
 			 	 * either from image entry or from external url
@@ -310,14 +310,14 @@ $pixFmt = "yuv420p";
 					$errStr = "Exception on retrieval of an image entry($wmData->imageEntry),\nexception:".print_r($ex,1);
 				}
 				if(isset($imgEntry)){
-					KalturaLog::log("Watermark entry: $wmData->imageEntry");
+					BorhanLog::log("Watermark entry: $wmData->imageEntry");
 					$imageDownloadUrl = $imgEntry->downloadUrl;
 				}
 				else if(!isset($errStr)){
 					$errStr = "Failed to retrieve an image entry($wmData->imageEntry)";
 				}
 				if(!isset($imgEntry))
-					KalturaLog::notice($errStr);
+					BorhanLog::notice($errStr);
 			}
 			
 			if(!isset($imageDownloadUrl)){
@@ -325,33 +325,33 @@ $pixFmt = "yuv420p";
 					$imageDownloadUrl = $wmData->url;
 				}
 				else {
-					KalturaLog::notice("Missing watermark image data, neither via image-entry-id nor via external url.");
+					BorhanLog::notice("Missing watermark image data, neither via image-entry-id nor via external url.");
 					return null;
 				}
 			}
 			
 			$wmTmpFilepath = $destFileSyncLocalPath."_$wmImgIdx.wmtmp";
-			KalturaLog::log("imageDownloadUrl($imageDownloadUrl), wmTmpFilepath($wmTmpFilepath)");
+			BorhanLog::log("imageDownloadUrl($imageDownloadUrl), wmTmpFilepath($wmTmpFilepath)");
 				/*
 				 * Get the watermark image file
 				 */
 			$curlWrapper = new KCurlWrapper();
 			$res = $curlWrapper->exec($imageDownloadUrl, $wmTmpFilepath);
-			KalturaLog::debug("Curl results: $res");
+			BorhanLog::debug("Curl results: $res");
 			if(!$res || $curlWrapper->getError()) {
 				$errDescription = "Error: " . $curlWrapper->getError();
 				$curlWrapper->close();
-				KalturaLog::notice("Failed to curl the caption file url($imageDownloadUrl). Error ($errDescription)");
+				BorhanLog::notice("Failed to curl the caption file url($imageDownloadUrl). Error ($errDescription)");
 				return null;
 			}
 			$curlWrapper->close();
 			
 			if(!file_exists($wmTmpFilepath))
 			{
-				KalturaLog::notice("Error: output file ($wmTmpFilepath) doesn't exist");
+				BorhanLog::notice("Error: output file ($wmTmpFilepath) doesn't exist");
 				return null;
 			}
-			KalturaLog::log("Successfully retrieved the watermark image file ($wmTmpFilepath) ");
+			BorhanLog::log("Successfully retrieved the watermark image file ($wmTmpFilepath) ");
 			
 				/*
 				 * Query the image file for format and dims
@@ -359,7 +359,7 @@ $pixFmt = "yuv420p";
 			$medPrsr = new KMediaInfoMediaParser($wmTmpFilepath, $mediaInfoBin);
 			$imageMediaInfo=$medPrsr->getMediaInfo();
 			if(!isset($imageMediaInfo)){
-				KalturaLog::notice("Failed to retrieve media data from watermark file ($wmTmpFilepath). Carry on without watermark.");
+				BorhanLog::notice("Failed to retrieve media data from watermark file ($wmTmpFilepath). Carry on without watermark.");
 				return null;
 			}
 			if(isset($imageMediaInfo->containerFormat)) $wmData->format = $imageMediaInfo->containerFormat;
@@ -382,7 +382,7 @@ $pixFmt = "yuv420p";
 			rename($wmTmpFilepath, "$wmTmpFilepath.$wmData->format");
 			$wmTmpFilepath = "$wmTmpFilepath.$wmData->format";
 
-			KalturaLog::log("Updated Watermark data:".json_encode($wmData));
+			BorhanLog::log("Updated Watermark data:".json_encode($wmData));
 
 			$cmdLine = KDLOperatorFfmpeg::AdjustCmdlineWithWatermarkData($cmdLine, $wmData, $wmTmpFilepath, $wmImgIdx);
 			$wmImgIdx++;
@@ -400,7 +400,7 @@ $pixFmt = "yuv420p";
 			 * Use default 'NGS_FragmentPreprocessorYUV' if batch config does not contain 'ngsPreprocessorCmd'
 			 */
 		if(count($data->srcFileSyncs)>0 && isset($data->srcFileSyncs[0]->assetId)) { 
-			$mediaInfoFilter = new KalturaMediaInfoFilter();
+			$mediaInfoFilter = new BorhanMediaInfoFilter();
 			$mediaInfoFilter->flavorAssetIdEqual = $data->srcFileSyncs[0]->assetId;
 			try {
 				$mediaInfoList = KBatchBase::$kClient->mediaInfo->listAction($mediaInfoFilter);
@@ -413,7 +413,7 @@ $pixFmt = "yuv420p";
 			if(!(isset($mediaInfoList) && isset($mediaInfoList->objects) && count($mediaInfoList->objects)>0)){
 				if(!isset($errStr))
 					$errStr = "Bad source media info object";
-				KalturaLog::notice($errStr);
+				BorhanLog::notice($errStr);
 				return null;
 			}
 			
@@ -437,7 +437,7 @@ $stub=null;
 		$digSignStub = "-f rawvideo -pix_fmt yuv420p - | %s -w %d -h %d -f %s %s --%s| %s -f rawvideo -s %dx%d -r %s -i -";
 		$digSignStr = sprintf($digSignStub, $ngsBin, $srcWid, $srcHgt, $srcFps, $stub, $prepMode,KDLCmdlinePlaceholders::BinaryName, $srcWid, $srcHgt, $srcFps);
 		$cmdLine = KDLOperatorFfmpeg::SplitCommandLineForVideoPiping($cmdLine, $digSignStr);
-		KalturaLog::log("After:cmdLine($cmdLine)");
+		BorhanLog::log("After:cmdLine($cmdLine)");
 		return $cmdLine;
 	}
 
@@ -451,29 +451,29 @@ $stub=null;
 		 * It will be separated in the future to support embedding of multiple subs languages 
 		 * (this option is irrelevant for rendering)
 		 */
-		KalturaLog::log("subtitlesData:".json_encode($subtitlesData));
+		BorhanLog::log("subtitlesData:".json_encode($subtitlesData));
 		$captionsArr = self::fetchEntryCaptionList($data, $jobMsg);
 		if(!isset($captionsArr) || count($captionsArr)==0){
-			KalturaLog::log("No captions for that entry!!!");
+			BorhanLog::log("No captions for that entry!!!");
 			$cmdLine=KDLOperatorFfmpeg::RemoveFilter($cmdLine, 'subtitles');
 			return $cmdLine;
 		}
 		$captionFilePath = null;
 		foreach($captionsArr as $lang=>$captionFileUrl){
 			if($subtitlesData->language==$lang){
-				KalturaLog::log("Found required language($lang)");
+				BorhanLog::log("Found required language($lang)");
 				$captionFilePath = self::fetchCaptionFile($captionFileUrl, $data->destFileSyncLocalPath.".temp.$lang.srt");
 				break;
 			}
 		}
 		if(!isset($captionFilePath)){
-			KalturaLog::notice("No captions for ($subtitlesData->language)");
+			BorhanLog::notice("No captions for ($subtitlesData->language)");
 			$cmdLine=KDLOperatorFfmpeg::RemoveFilter($cmdLine, 'subtitles');
 			return $cmdLine;
 		}
 		$cmdLine = str_replace(KDLCmdlinePlaceholders::SubTitlesFileName, $captionFilePath, $cmdLine);
 
-		KalturaLog::log($cmdLine);
+		BorhanLog::log($cmdLine);
 		return $cmdLine;
 	}
 
@@ -481,33 +481,33 @@ $stub=null;
 	 */
 	public static function fetchEntryCaptionList($data, $jobMsg)
 	{
-		KalturaLog::log("asset:$data->flavorAssetId");
+		BorhanLog::log("asset:$data->flavorAssetId");
 		try {
 			KBatchBase::$kClient->getConfig()->partnerId = $data->flavorParamsOutput->partnerId;
 			
 			$flavorAsset = KBatchBase::$kClient->flavorAsset->get($data->flavorAssetId);
 			if(!isset($flavorAsset)){
 				$jobMsg = "Failed to retrieve the flavor asset object (".$data->flavorAssetId.")";
-				KalturaLog::notice("ERROR:".$jobMsg);
+				BorhanLog::notice("ERROR:".$jobMsg);
 				return null;
 			}
-		KalturaLog::log("entry:$flavorAsset->entryId");
-			$filter = new KalturaAssetFilter();
+		BorhanLog::log("entry:$flavorAsset->entryId");
+			$filter = new BorhanAssetFilter();
 			$filter->entryIdEqual = $flavorAsset->entryId;
 			$captionAssetList = KBatchBase::$kClient->captionAsset->listAction($filter, null); 
 			if(!isset($captionAssetList) || count($captionAssetList->objects)==0){
 				$jobMsg = "No caption assets for entry (".$flavorAsset->entryId.")";
-				KalturaLog::notice("ERROR:".$jobMsg);
+				BorhanLog::notice("ERROR:".$jobMsg);
 				return null;
 			}
 		}
 		catch( Exception $ex){
 			$jobMsg = "Exception on captions list retrieval  (".print_r($ex,1).")";
-			KalturaLog::notice("ERROR:".$jobMsg);
+			BorhanLog::notice("ERROR:".$jobMsg);
 			return null;
 		}
 		
-		KalturaLog::log("Fetching captions (#".count($captionAssetList->objects).")");
+		BorhanLog::log("Fetching captions (#".count($captionAssetList->objects).")");
 		$captionsArr = array();
 		foreach($captionAssetList->objects as $captionObj) {
 			try{
@@ -515,23 +515,23 @@ $stub=null;
 			}
 			catch ( Exception $ex ) {
 				$captionsUrl = null;
-				KalturaLog::notice("Exception on retrieve caption asset url retrieval (".$captionObj->id."),\nexception:".print_r($ex,1));
+				BorhanLog::notice("Exception on retrieve caption asset url retrieval (".$captionObj->id."),\nexception:".print_r($ex,1));
 			}		
 			if(!isset($captionsUrl)){
-				KalturaLog::notice("Failed to retrieve caption asset url (".$captionObj->id.")");
+				BorhanLog::notice("Failed to retrieve caption asset url (".$captionObj->id.")");
 				continue;
 			}
 			$captionsArr[$captionObj->languageCode] = $captionsUrl;
-			KalturaLog::log("Caption - lang($captionObj->languageCode), url($captionsUrl)");
+			BorhanLog::log("Caption - lang($captionObj->languageCode), url($captionsUrl)");
 		}
 		
 		if(count($captionsArr)==0) {
 			$jobMsg = "No captions for that entry ($flavorAsset->entryId)!!!";
-			KalturaLog::log($jobMsg);
+			BorhanLog::log($jobMsg);
 			return null;
 		}
 		
-		KalturaLog::log("Fetched:".serialize($captionsArr));
+		BorhanLog::log("Fetched:".serialize($captionsArr));
 		return $captionsArr;
 	}
 
@@ -544,24 +544,24 @@ $stub=null;
 	 */
 	public static function fetchCaptionFile($captionUrl, $captionFilePath)
 	{
-		KalturaLog::log("Executing curl to retrieve caption asset file from - $captionUrl");
+		BorhanLog::log("Executing curl to retrieve caption asset file from - $captionUrl");
 		$curlWrapper = new KCurlWrapper();
-		KalturaLog::log("captionFilePath:$captionFilePath");
+		BorhanLog::log("captionFilePath:$captionFilePath");
 		$res = $curlWrapper->exec($captionUrl, $captionFilePath);
-		KalturaLog::log("Curl results: $res");
+		BorhanLog::log("Curl results: $res");
 		if(!$res || $curlWrapper->getError()){
 			$errDescription = "Error: " . $curlWrapper->getError();
 			$curlWrapper->close();
-			KalturaLog::notice("Failed to curl the caption file url($captionUrl). Error ($errDescription)");
+			BorhanLog::notice("Failed to curl the caption file url($captionUrl). Error ($errDescription)");
 			return null;
 		}
 		$curlWrapper->close();
 		
 		if(!file_exists($captionFilePath)) {
-			KalturaLog::notice("Error: output file ($captionFilePath) doesn't exist");
+			BorhanLog::notice("Error: output file ($captionFilePath) doesn't exist");
 			return null;
 		}
-		KalturaLog::log("Successfully retrieved $captionFilePath!");
+		BorhanLog::log("Successfully retrieved $captionFilePath!");
 		return $captionFilePath;
 	}
 }

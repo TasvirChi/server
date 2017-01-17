@@ -3,7 +3,7 @@
  * @package plugins.fileSync
  * @subpackage api.enum
  */
-class KalturaFileSyncType extends KalturaEnum 
+class BorhanFileSyncType extends BorhanEnum 
 {
 	const FILE = 1;
 	const LINK = 2;

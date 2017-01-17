@@ -3,7 +3,7 @@
  *  @package server-infra
  *  @subpackage DB
  */
-class KalturaStatement extends PDOStatement
+class BorhanStatement extends PDOStatement
 {
 	protected static $dryRun = false;
 	
@@ -58,12 +58,12 @@ class KalturaStatement extends PDOStatement
 			
 		$sql = str_replace($search, $replace, $this->queryString);
 		
-		KalturaLog::debug($sql);
+		BorhanLog::debug($sql);
 		
 		$sqlStart = microtime(true);
 		if(self::$dryRun && !preg_match('/^(\/\*.+\*\/ )?SELECT/i', $sql))
 		{
-			KalturaLog::debug("Sql dry run - " . (microtime(true) - $sqlStart) . " seconds");
+			BorhanLog::debug("Sql dry run - " . (microtime(true) - $sqlStart) . " seconds");
 		}
 		else
 		{
@@ -73,12 +73,12 @@ class KalturaStatement extends PDOStatement
 			}
 			catch(PropelException $pex)
 			{
-				KalturaLog::alert($pex->getMessage());
+				BorhanLog::alert($pex->getMessage());
 				throw new PropelException("Database error");
 			}
 			$sqlTook = (microtime(true) - $sqlStart);
-			KalturaLog::debug("Sql took - " . $sqlTook . " seconds");
-			KalturaMonitorClient::monitorDatabaseAccess($sql, $sqlTook);
+			BorhanLog::debug("Sql took - " . $sqlTook . " seconds");
+			BorhanMonitorClient::monitorDatabaseAccess($sql, $sqlTook);
 		}
 	}
 	

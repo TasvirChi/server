@@ -1,6 +1,6 @@
 <?php
 /**
- * Distributes kaltura entries to remote destination  
+ * Distributes borhan entries to remote destination  
  *
  * @package plugins.contentDistribution 
  * @subpackage Scheduler.Distribute
@@ -12,13 +12,13 @@ class KAsyncDistributeFetchReport extends KAsyncDistribute
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::DISTRIBUTION_FETCH_REPORT;
+		return BorhanBatchJobType::DISTRIBUTION_FETCH_REPORT;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KAsyncDistribute::getDistributionEngine()
 	 */
-	protected function getDistributionEngine($providerType, KalturaDistributionJobData $data)
+	protected function getDistributionEngine($providerType, BorhanDistributionJobData $data)
 	{
 		return DistributionEngine::getEngine('IDistributionEngineFetchReport', $providerType, $data);
 	}
@@ -26,7 +26,7 @@ class KAsyncDistributeFetchReport extends KAsyncDistribute
 	/* (non-PHPdoc)
 	 * @see KAsyncDistribute::execute()
 	 */
-	protected function execute(KalturaDistributionJobData $data)
+	protected function execute(BorhanDistributionJobData $data)
 	{
 		return $this->engine->fetchReport($data);
 	}

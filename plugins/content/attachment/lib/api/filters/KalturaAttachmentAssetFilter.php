@@ -3,27 +3,27 @@
  * @package plugins.attachment
  * @subpackage api.filters
  */
-class KalturaAttachmentAssetFilter extends KalturaAttachmentAssetBaseFilter
+class BorhanAttachmentAssetFilter extends BorhanAttachmentAssetBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaAssetFilter::getTypeListResponse()
+	 * @see BorhanAssetFilter::getTypeListResponse()
 	 */
-	public function getTypeListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null, array $types = null)
+	public function getTypeListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null, array $types = null)
 	{
 		list($list, $totalCount) = $this->doGetListResponse($pager, $types);
 		
-		$response = new KalturaAttachmentAssetListResponse();
-		$response->objects = KalturaAttachmentAssetArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanAttachmentAssetListResponse();
+		$response->objects = BorhanAttachmentAssetArray::fromDbArray($list, $responseProfile);
 		$response->totalCount = $totalCount;
 		return $response;  
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaAssetFilter::getListResponse()
+	 * @see BorhanAssetFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$types = KalturaPluginManager::getExtendedTypes(assetPeer::OM_CLASS, AttachmentPlugin::getAssetTypeCoreValue(AttachmentAssetType::ATTACHMENT));
+		$types = BorhanPluginManager::getExtendedTypes(assetPeer::OM_CLASS, AttachmentPlugin::getAssetTypeCoreValue(AttachmentAssetType::ATTACHMENT));
 		return $this->getTypeListResponse($pager, $responseProfile, $types);
 	}
 }

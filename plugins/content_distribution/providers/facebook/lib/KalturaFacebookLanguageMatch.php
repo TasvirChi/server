@@ -4,9 +4,9 @@
  * @package plugins.facebookDistribution
  * @subpackage lib
  */
-class KalturaFacebookLanguageMatch
+class BorhanFacebookLanguageMatch
 {
-	static function getFacebookCodeForKalturaLanguage($language)
+	static function getFacebookCodeForBorhanLanguage($language)
 	{
 		$facebookLanguages = self::getFacebookLanguages();
 		if (array_key_exists($language, $facebookLanguages))

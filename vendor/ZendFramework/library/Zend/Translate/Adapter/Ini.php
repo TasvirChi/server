@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Translate
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Ini.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version    $Id: Ini.php 16971 2009-07-22 18:05:45Z mibaelbael $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 

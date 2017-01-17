@@ -4,11 +4,11 @@
  * @package plugins.emailNotification
  * @subpackage model.data
  */
-abstract class KalturaEmailNotificationRecipientJobData extends KalturaObject
+abstract class BorhanEmailNotificationRecipientJobData extends BorhanObject
 {
 	 /**
 	  * Provider type of the job data.
-	  * @var KalturaEmailNotificationRecipientProviderType
+	  * @var BorhanEmailNotificationRecipientProviderType
 	  * 
 	  * @readonly
 	  */
@@ -22,7 +22,7 @@ abstract class KalturaEmailNotificationRecipientJobData extends KalturaObject
 	/**
 	 * Function returns correct API recipient data type based on the DB class received.
 	 * @param kEmailNotificationRecipientJobData $dbData
-	 * @return Kaltura
+	 * @return Borhan
 	 */
 	public static function getDataInstance ($dbData)
 	{
@@ -32,16 +32,16 @@ abstract class KalturaEmailNotificationRecipientJobData extends KalturaObject
 			switch (get_class($dbData))
 			{
 				case 'kEmailNotificationCategoryRecipientJobData':
-					$instance = new KalturaEmailNotificationCategoryRecipientJobData();
+					$instance = new BorhanEmailNotificationCategoryRecipientJobData();
 					break;
 				case 'kEmailNotificationStaticRecipientJobData':
-					$instance = new KalturaEmailNotificationStaticRecipientJobData();
+					$instance = new BorhanEmailNotificationStaticRecipientJobData();
 					break;
 				case 'kEmailNotificationUserRecipientJobData':
-					$instance = new KalturaEmailNotificationUserRecipientJobData();
+					$instance = new BorhanEmailNotificationUserRecipientJobData();
 					break;
 				default:
-					$instance = KalturaPluginManager::loadObject('KalturaEmailNotificationRecipientJobData', $dbData->getProviderType());
+					$instance = BorhanPluginManager::loadObject('BorhanEmailNotificationRecipientJobData', $dbData->getProviderType());
 					break;
 			}
 			

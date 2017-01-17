@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaConvertJobData extends KalturaConvartableJobData
+class BorhanConvertJobData extends BorhanConvartableJobData
 {
 	/**
 	 * @var string
@@ -43,7 +43,7 @@ class KalturaConvertJobData extends KalturaConvartableJobData
 	
 	/**
 	 * 
-	 * @var KalturaDestFileSyncDescriptorArray
+	 * @var BorhanDestFileSyncDescriptorArray
 	 */
 	public $extraDestFileSyncs;
 	

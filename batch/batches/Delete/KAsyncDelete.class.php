@@ -13,13 +13,13 @@ class KAsyncDelete extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::DELETE;
+		return BorhanBatchJobType::DELETE;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->deleteObjects($job, $job->data);
 	}
@@ -27,7 +27,7 @@ class KAsyncDelete extends KJobHandlerWorker
 	/**
 	 * Will take a single filter and call each item to be deleted 
 	 */
-	private function deleteObjects(KalturaBatchJob $job, KalturaDeleteJobData $data)
+	private function deleteObjects(BorhanBatchJob $job, BorhanDeleteJobData $data)
 	{
 		$engine = KDeletingEngine::getInstance($job->jobSubType);
 		$engine->configure($job->partnerId, $data);
@@ -41,6 +41,6 @@ class KAsyncDelete extends KJobHandlerWorker
 			$continue = (bool) $deletedObjectsCount;
 		}
 		
-		return $this->closeJob($job, null, null, "Delete objects finished", KalturaBatchJobStatus::FINISHED);
+		return $this->closeJob($job, null, null, "Delete objects finished", BorhanBatchJobStatus::FINISHED);
 	}
 }

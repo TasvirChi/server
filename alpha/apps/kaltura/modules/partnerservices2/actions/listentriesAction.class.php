@@ -66,14 +66,14 @@ class listentriesAction extends defPartnerservices2Action
 		kuserPeer::setUseCriteriaFilter( false );		
 		//entryPeer::setUseCriteriaFilter( false );
 
-		$c = KalturaCriteria::create(entryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(entryPeer::OM_CLASS);
 
 		// filter
 		$filter = new entryFilter(  );
 		$fields_set = $filter->fillObjectFromRequest( $this->getInputParams() , "filter_" , null );
 
 		$this->setExtraFilters ( $filter );
-		$filter->setPartnerSearchScope( baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE );
+		$filter->setPartnerSearchScope( baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE );
 
 		$desired_status = "status:" . $filter->get ( "_eq_status" ) . "," . $filter->get ( "_in_status" );
 		$display_deleted = $this->getP ( "display_deleted" , false ); 	
@@ -90,7 +90,7 @@ class listentriesAction extends defPartnerservices2Action
 		if ( $moderation_status && 
 			( strpos ( $moderation_status , "1,5" ) !== false  || strpos ( $moderation_status , "5,1" ) !== false ) )
 		{
-			// this is when the KMC requests the moderated entries
+			// this is when the BMC requests the moderated entries
 			$filter->set ( "_in_status" , $filter->get ( "_in_status" ) . ",5" ) ;  // add the status '5' 
 		}
 		

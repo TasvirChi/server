@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaUrlTokenizerAkamaiHttp extends KalturaUrlTokenizer {
+class BorhanUrlTokenizerAkamaiHttp extends BorhanUrlTokenizer {
 
 	/**
 	 * param

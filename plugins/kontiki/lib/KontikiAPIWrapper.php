@@ -26,12 +26,12 @@ class KontikiAPIWrapper
     /**
      * @var string $serviceToken
      * @var string $contentMoid
-     * @var KalturaBaseEntry $entry
-     * @var KalturaFlavorAsset $flavorAsset
+     * @var BorhanBaseEntry $entry
+     * @var BorhanFlavorAsset $flavorAsset
      * 
      * @return SimpleXMLElement
      */
-	public function addKontikiVideoContentResource ($serviceToken, $uploadMoid, KalturaBaseEntry $entry, KalturaFlavorAsset $asset)
+	public function addKontikiVideoContentResource ($serviceToken, $uploadMoid, BorhanBaseEntry $entry, BorhanFlavorAsset $asset)
 	{
         $data = "<ns:content xmlns:ns='http://api.kontiki.com'>
         <contentType>". self::CONTENT_TYPE_VOD ."</contentType>
@@ -78,7 +78,7 @@ class KontikiAPIWrapper
 	public function addKontikiUploadResource ($serviceToken, $contentUrl)
 	{
 	    //hard-coded temporary value - testing environments inaccessible to Kontiki for pull
-	    //$contentUrl = 'http://sites.google.com/site/demokmc/Home/titanicin5seconds.flv';
+	    //$contentUrl = 'http://sites.google.com/site/demobmc/Home/titanicin5seconds.flv';
 		$data = "<ns2:upload xmlns:ns2='http://api.kontiki.com'><sourceURL>$contentUrl</sourceURL></ns2:upload>";
 		$data = base64_encode($data);
 		$data = urlencode($data);
@@ -119,7 +119,7 @@ class KontikiAPIWrapper
 	 */
 	protected function execAPICall($url)
 	{
-		KalturaLog::info("Executing CURL request with URL: $url");
+		BorhanLog::info("Executing CURL request with URL: $url");
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);

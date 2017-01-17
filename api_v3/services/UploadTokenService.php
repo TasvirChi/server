@@ -6,7 +6,7 @@
  * @package api
  * @subpackage services
  */
-class UploadTokenService extends KalturaBaseService
+class UploadTokenService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -18,13 +18,13 @@ class UploadTokenService extends KalturaBaseService
 	 * Adds new upload token to upload a file
 	 * 
 	 * @action add
-	 * @param KalturaUploadToken $uploadToken
-	 * @return KalturaUploadToken
+	 * @param BorhanUploadToken $uploadToken
+	 * @return BorhanUploadToken
 	 */
-	function addAction(KalturaUploadToken $uploadToken = null)
+	function addAction(BorhanUploadToken $uploadToken = null)
 	{
 		if (is_null($uploadToken))
-			$uploadToken = new KalturaUploadToken();
+			$uploadToken = new BorhanUploadToken();
 			
 		// prepare the db object
 		$uploadTokenDb = new UploadToken();
@@ -51,22 +51,22 @@ class UploadTokenService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param string $uploadTokenId
-	 * @return KalturaUploadToken
+	 * @return BorhanUploadToken
 	 */
 	function getAction($uploadTokenId)
 	{
 		$this->restrictPeerToCurrentUser();
 		$uploadTokenDb = UploadTokenPeer::retrieveByPK($uploadTokenId);
 		if (is_null($uploadTokenDb))
-			throw new KalturaAPIException(KalturaErrors::UPLOAD_TOKEN_NOT_FOUND);
+			throw new BorhanAPIException(BorhanErrors::UPLOAD_TOKEN_NOT_FOUND);
 			
-		$uploadToken = new KalturaUploadToken();
+		$uploadToken = new BorhanUploadToken();
 		$uploadToken->fromObject($uploadTokenDb, $this->getResponseProfile());
 		return $uploadToken;
 	}
 	
 	/**
-	 * Upload a file using the upload token id, returns an error on failure (an exception will be thrown when using one of the Kaltura clients)
+	 * Upload a file using the upload token id, returns an error on failure (an exception will be thrown when using one of the Borhan clients)
 	 * Chunks can be uploaded in parallel and they will be appended according to their resumeAt position.
 	 * 
 	 * A parallel upload session should have three stages:
@@ -83,14 +83,14 @@ class UploadTokenService extends KalturaBaseService
 	 * @param bool $resume
 	 * @param bool $finalChunk
 	 * @param float $resumeAt
-	 * @return KalturaUploadToken
+	 * @return BorhanUploadToken
 	 */
 	function uploadAction($uploadTokenId, $fileData, $resume = false, $finalChunk = true, $resumeAt = -1)
 	{
 		$this->restrictPeerToCurrentUser();
 		$uploadTokenDb = UploadTokenPeer::retrieveByPK($uploadTokenId);
 		if (is_null($uploadTokenDb))
-			throw new KalturaAPIException(KalturaErrors::UPLOAD_TOKEN_NOT_FOUND);
+			throw new BorhanAPIException(BorhanErrors::UPLOAD_TOKEN_NOT_FOUND);
 
 		// if the token was generated on another datacenter, proxy the upload action there
 		$remoteDCHost = kUploadTokenMgr::getRemoteHostForUploadToken($uploadTokenId, kDataCenterMgr::getCurrentDcId());
@@ -109,20 +109,20 @@ class UploadTokenService extends KalturaBaseService
 			switch($ex->getCode())
 			{
 				case kUploadTokenException::UPLOAD_TOKEN_INVALID_STATUS:
-					throw new KalturaAPIException(KalturaErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_UPLOAD);
+					throw new BorhanAPIException(BorhanErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_UPLOAD);
 				case kUploadTokenException::UPLOAD_TOKEN_FILE_NAME_IS_MISSING_FOR_UPLOADED_FILE:
 				case kUploadTokenException::UPLOAD_TOKEN_UPLOAD_ERROR_OCCURRED:
 				case kUploadTokenException::UPLOAD_TOKEN_FILE_IS_NOT_VALID:
-				 	throw new KalturaAPIException(KalturaErrors::UPLOAD_ERROR);
+				 	throw new BorhanAPIException(BorhanErrors::UPLOAD_ERROR);
 				case kUploadTokenException::UPLOAD_TOKEN_FILE_NOT_FOUND_FOR_RESUME:
-					throw new KalturaAPIException(KalturaErrors::UPLOAD_TOKEN_CANNOT_RESUME);
+					throw new BorhanAPIException(BorhanErrors::UPLOAD_TOKEN_CANNOT_RESUME);
 				case kUploadTokenException::UPLOAD_TOKEN_CANNOT_MATCH_EXPECTED_SIZE:
-					throw new KalturaAPIException(KalturaErrors::UPLOAD_TOKEN_CANNOT_MATCH_EXPECTED_SIZE);
+					throw new BorhanAPIException(BorhanErrors::UPLOAD_TOKEN_CANNOT_MATCH_EXPECTED_SIZE);
 				default:
 					throw $ex;
 			}
 		}
-		$uploadToken = new KalturaUploadToken();
+		$uploadToken = new BorhanUploadToken();
 		$uploadToken->fromObject($uploadTokenDb, $this->getResponseProfile());
 		return $uploadToken;
 	}
@@ -138,7 +138,7 @@ class UploadTokenService extends KalturaBaseService
 		$this->restrictPeerToCurrentUser();
 		$uploadTokenDb = UploadTokenPeer::retrieveByPK($uploadTokenId);
 		if (is_null($uploadTokenDb))
-			throw new KalturaAPIException(KalturaErrors::UPLOAD_TOKEN_NOT_FOUND);
+			throw new BorhanAPIException(BorhanErrors::UPLOAD_TOKEN_NOT_FOUND);
 			
 		$uploadTokenMgr = new kUploadTokenMgr($uploadTokenDb);
 		try
@@ -156,17 +156,17 @@ class UploadTokenService extends KalturaBaseService
 	 * When using a user session the service will be restricted to users objects only.
 	 * 
 	 * @action list
-	 * @param KalturaUploadTokenFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaUploadTokenListResponse
+	 * @param BorhanUploadTokenFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanUploadTokenListResponse
 	 */
-	function listAction(KalturaUploadTokenFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanUploadTokenFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaUploadTokenFilter();
+			$filter = new BorhanUploadTokenFilter();
 			
 		if (!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 		
 		$this->restrictPeerToCurrentUser();
 			
@@ -191,8 +191,8 @@ class UploadTokenService extends KalturaBaseService
 		$list = UploadTokenPeer::doSelect($c);
 		
 		// create the response object
-		$newList = KalturaUploadTokenArray::fromDbArray($list, $this->getResponseProfile());
-		$response = new KalturaUploadTokenListResponse();
+		$newList = BorhanUploadTokenArray::fromDbArray($list, $this->getResponseProfile());
+		$response = new BorhanUploadTokenListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $totalCount;
 		return $response;

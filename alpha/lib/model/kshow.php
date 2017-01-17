@@ -421,7 +421,7 @@ class kshow extends Basekshow implements IBaseObject
 	 */
 	public function createEntry ( $type , $kuser_id, $thumbnail = null , $entry_name = null)
 	{
-		// for invites we use the default invites from the kaltura gallery show
+		// for invites we use the default invites from the borhan gallery show
 		if ( $type != entry::ENTRY_MEDIA_TYPE_SHOW )
 		{
 			$kshow_type = $this->getType();
@@ -474,7 +474,7 @@ class kshow extends Basekshow implements IBaseObject
 		}
 		else
 		{
-			$type_text = "Kaltura Video";
+			$type_text = "Borhan Video";
 		}
 		//$entry->setData ( "&kal_show.flv");
 		$entry->setThumbnail ( $thumbnail ? $thumbnail : "&kal_show.jpg");
@@ -511,14 +511,14 @@ class kshow extends Basekshow implements IBaseObject
 		return $this->getUpdatedAt( null );
 	}
 
-	public function getFormattedCreatedAt( $format = dateUtils::KALTURA_FORMAT )
+	public function getFormattedCreatedAt( $format = dateUtils::BORHAN_FORMAT )
 	{
-		return dateUtils::formatKalturaDate( $this , 'getCreatedAt' , $format );
+		return dateUtils::formatBorhanDate( $this , 'getCreatedAt' , $format );
 	}
 
-	public function getFormattedUpdatedAt( $format = dateUtils::KALTURA_FORMAT )
+	public function getFormattedUpdatedAt( $format = dateUtils::BORHAN_FORMAT )
 	{
-		return dateUtils::formatKalturaDate( $this , 'getUpdatedAt' , $format );
+		return dateUtils::formatBorhanDate( $this , 'getUpdatedAt' , $format );
 	}
 
 	public function verifyViewPassword ( $unhashed_password )
@@ -745,7 +745,7 @@ class kshow extends Basekshow implements IBaseObject
 			}
 
 			// this text should be placed in the partner-config
-			KalturaLog::info("before modifyEntryMetadataWithText:\n$sample_text");
+			BorhanLog::info("before modifyEntryMetadataWithText:\n$sample_text");
 			myEntryUtils::modifyEntryMetadataWithText ( $show_entry , $sample_text , 0 , true  );  // override the current entry
 
 			$this->setHasRoughcut ( false );

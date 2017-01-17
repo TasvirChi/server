@@ -5,7 +5,7 @@
  * @package api
  * @subpackage v3
  */
-class KalturaServiceReflector extends KalturaReflector
+class BorhanServiceReflector extends BorhanReflector
 {
 	/**
 	 * @var string
@@ -18,7 +18,7 @@ class KalturaServiceReflector extends KalturaReflector
 	private $_serviceClass = null;
 	
 	/**
-	 * @var array<KalturaServiceActionItem>
+	 * @var array<BorhanServiceActionItem>
 	 */
 	private $_servicesMap = null;
 	
@@ -28,12 +28,12 @@ class KalturaServiceReflector extends KalturaReflector
 	private $_actions = array();
 	
 	/**
-	 * @var KalturaDocCommentParser
+	 * @var BorhanDocCommentParser
 	 */
 	private $_serviceInfo = null;
 	
 	/**
-	 * @var KalturaBaseService
+	 * @var BorhanBaseService
 	 */
 	private $_serviceInstance = null;
 	
@@ -53,26 +53,26 @@ class KalturaServiceReflector extends KalturaReflector
 	 * Static instantiator - create the reflector with serviceId and optional action name
 	 * @param string $service
 	 * @param string $action
-	 * @return KalturaServiceReflector
+	 * @return BorhanServiceReflector
 	 */
 	public static function constructFromServiceId ($service)
 	{
-	    $newInstance = new KalturaServiceReflector();
+	    $newInstance = new BorhanServiceReflector();
 	    $newInstance->_serviceId = strtolower($service);
-		$newInstance->_servicesMap = KalturaServicesMap::getMap();
+		$newInstance->_servicesMap = BorhanServicesMap::getMap();
 		
 		if (!$newInstance->isServiceExists($newInstance->_serviceId))
 			throw new Exception("Service [$service] does not exists in service list [" . print_r(array_keys($newInstance->_servicesMap), true) . "]");
 			
 		$serviceActionItem = $newInstance->_servicesMap[$newInstance->_serviceId];
-		/* @var $serviceActionItem KalturaServiceActionItem */
+		/* @var $serviceActionItem BorhanServiceActionItem */
 		$newInstance->_serviceClass = $serviceActionItem->serviceClass;
 		
 		if (!class_exists($newInstance->_serviceClass))
 			throw new Exception("Service class [$newInstance->_serviceClass] for service [$service] does not exists");
 		
 		$reflectionClass = new ReflectionClass($newInstance->_serviceClass);
-		$newInstance->_serviceInfo = new KalturaDocCommentParser($reflectionClass->getDocComment());
+		$newInstance->_serviceInfo = new BorhanDocCommentParser($reflectionClass->getDocComment());
 		
 		return $newInstance;
 	}
@@ -81,20 +81,20 @@ class KalturaServiceReflector extends KalturaReflector
 	 * 
 	 * Static instantiator - create the reflector with service class name
 	 * @param string $serviceClass
-	 * @return KalturaServiceReflector
+	 * @return BorhanServiceReflector
 	 */
 	public static function constructFromClassName ($serviceClass)
 	{
-	   $newInstance = new KalturaServiceReflector();
-	   if ( !class_exists( $serviceClass ) || !in_array("KalturaBaseService", class_parents($serviceClass)))
+	   $newInstance = new BorhanServiceReflector();
+	   if ( !class_exists( $serviceClass ) || !in_array("BorhanBaseService", class_parents($serviceClass)))
         {
-            throw new Exception("Service class [$serviceClass] does not exists, or is not an instance of KalturaBaseService");
+            throw new Exception("Service class [$serviceClass] does not exists, or is not an instance of BorhanBaseService");
         }
         
         $newInstance->_serviceClass = $serviceClass;
         
         $reflectionClass = new ReflectionClass($serviceClass);
-        $newInstance->_serviceInfo = new KalturaDocCommentParser($reflectionClass->getDocComment());
+        $newInstance->_serviceInfo = new BorhanDocCommentParser($reflectionClass->getDocComment());
         $newInstance->_serviceId = $newInstance->_serviceInfo->serviceName;
         return $newInstance;
 	}
@@ -163,7 +163,7 @@ class KalturaServiceReflector extends KalturaReflector
 		$serviceId = strtolower($serviceId);
 		list($servicePlugin, $serviceName) = explode('_', $serviceId);
 		
-		$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaServices');
+		$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanServices');
 		if(!isset($pluginInstances[$servicePlugin]))
 			return false;
 			
@@ -174,8 +174,8 @@ class KalturaServiceReflector extends KalturaReflector
 			if(strtolower($name) == $serviceName)
 			{
 				$class = $servicesMap[$name];
-				KalturaServicesMap::addService($serviceId, $class);
-				$this->_servicesMap = KalturaServicesMap::getMap();
+				BorhanServicesMap::addService($serviceId, $class);
+				$this->_servicesMap = BorhanServicesMap::getMap();
 				return true;
 			}
 		}
@@ -217,7 +217,7 @@ class KalturaServiceReflector extends KalturaReflector
 		foreach($reflectionMethods as $reflectionMethod)
 		{
 			$docComment = $reflectionMethod->getDocComment();
-			$parsedDocComment = new KalturaDocCommentParser( $docComment );
+			$parsedDocComment = new BorhanDocCommentParser( $docComment );
 			if ($parsedDocComment->action)
 			{
 			    if($ignoreDeprecated && $parsedDocComment->deprecated)
@@ -258,7 +258,7 @@ class KalturaServiceReflector extends KalturaReflector
 	
 	/**
 	 * @param string $actionName
-	 * @return KalturaDocCommentParser
+	 * @return BorhanDocCommentParser
 	 */
 	public function getActionInfo($actionName, $ignoreAliasActions = true)
 	{
@@ -271,7 +271,7 @@ class KalturaServiceReflector extends KalturaReflector
 		$reflectionMethod = $reflectionClass->getMethod($methodName);
 		
 		$docComment = $reflectionMethod->getDocComment();
-		$parsedDocComment = new KalturaDocCommentParser( $docComment );
+		$parsedDocComment = new BorhanDocCommentParser( $docComment );
 		return $parsedDocComment;
 	}
 	
@@ -295,8 +295,8 @@ class KalturaServiceReflector extends KalturaReflector
 			if (in_array($name, $this->_reservedKeys))
 				throw new Exception("Param [$name] in action [$actionName] is a reserved key");
 				
-			$parsedDocComment = new KalturaDocCommentParser( $docComment, array(
-				KalturaDocCommentParser::DOCCOMMENT_REPLACENET_PARAM_NAME => $name , ) );
+			$parsedDocComment = new BorhanDocCommentParser( $docComment, array(
+				BorhanDocCommentParser::DOCCOMMENT_REPLACENET_PARAM_NAME => $name , ) );
 			$paramClass = $reflectionParam->getClass(); // type hinting for objects  
 			if ($paramClass)
 			{
@@ -313,7 +313,7 @@ class KalturaServiceReflector extends KalturaReflector
 				}
 			}
 			
-			$paramInfo = new KalturaParamInfo($type, $name);
+			$paramInfo = new BorhanParamInfo($type, $name);
 			$paramInfo->setDescription($parsedDocComment->paramDescription);
 			
 			if ($reflectionParam->isOptional()) // for normal parameters
@@ -334,7 +334,7 @@ class KalturaServiceReflector extends KalturaReflector
 	
 	/**
 	 * @param unknown_type $actionName
-	 * @return KalturaParamInfo
+	 * @return BorhanParamInfo
 	 */
 	public function getActionOutputType($actionName)
 	{
@@ -348,9 +348,9 @@ class KalturaServiceReflector extends KalturaReflector
 		$reflectionMethod = $reflectionClass->getMethod($methodName);
 		
 		$docComment = $reflectionMethod->getDocComment();
-		$parsedDocComment = new KalturaDocCommentParser($docComment);
+		$parsedDocComment = new BorhanDocCommentParser($docComment);
 		if ($parsedDocComment->returnType)
-			return new KalturaParamInfo($parsedDocComment->returnType, "output");
+			return new BorhanParamInfo($parsedDocComment->returnType, "output");
 		
 		return null;
 	}

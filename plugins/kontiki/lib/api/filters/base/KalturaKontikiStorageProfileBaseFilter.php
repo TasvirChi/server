@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaKontikiStorageProfileBaseFilter extends KalturaStorageProfileFilter
+abstract class BorhanKontikiStorageProfileBaseFilter extends BorhanStorageProfileFilter
 {
 	static private $map_between_objects = array
 	(

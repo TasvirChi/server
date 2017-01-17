@@ -3,10 +3,10 @@
  * @package plugins.like
  * @subpackage api.filters
  */
-class KalturaLikeFilter extends KalturaLikeBaseFilter
+class BorhanLikeFilter extends BorhanLikeBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	public function getCoreFilter()
 	{
@@ -14,9 +14,9 @@ class KalturaLikeFilter extends KalturaLikeBaseFilter
 	} 
 	
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::getListResponse()
+	 * @see BorhanRelatedFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		myDbHelper::$use_alternative_con = myDbHelper::DB_HELPER_CONN_PROPEL2;
 	
@@ -38,8 +38,8 @@ class KalturaLikeFilter extends KalturaLikeBaseFilter
 	
 		$list = kvotePeer::doSelect($c);
 	
-		$response = new KalturaLikeListResponse();
-		$response->objects = KalturaLikeArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanLikeListResponse();
+		$response->objects = BorhanLikeArray::fromDbArray($list, $responseProfile);
 		$response->totalCount = count($list);
 		return $response;
 	}

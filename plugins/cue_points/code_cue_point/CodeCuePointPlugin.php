@@ -3,7 +3,7 @@
  * Enable code cue point objects management on entry objects
  * @package plugins.codeCuePoint
  */
-class CodeCuePointPlugin extends KalturaPlugin implements IKalturaCuePoint, IKalturaCuePointXmlParser
+class CodeCuePointPlugin extends BorhanPlugin implements IBorhanCuePoint, IBorhanCuePointXmlParser
 {
 	const PLUGIN_NAME = 'codeCuePoint';
 	const CUE_POINT_VERSION_MAJOR = 1;
@@ -12,7 +12,7 @@ class CodeCuePointPlugin extends KalturaPlugin implements IKalturaCuePoint, IKal
 	const CUE_POINT_NAME = 'cuePoint';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -20,7 +20,7 @@ class CodeCuePointPlugin extends KalturaPlugin implements IKalturaCuePoint, IKal
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissions::isAllowedPartner()
+	 * @see IBorhanPermissions::isAllowedPartner()
 	 */
 	public static function isAllowedPartner($partnerId)
 	{
@@ -29,7 +29,7 @@ class CodeCuePointPlugin extends KalturaPlugin implements IKalturaCuePoint, IKal
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -46,30 +46,30 @@ class CodeCuePointPlugin extends KalturaPlugin implements IKalturaCuePoint, IKal
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$cuePointVersion = new KalturaVersion(
+		$cuePointVersion = new BorhanVersion(
 			self::CUE_POINT_VERSION_MAJOR,
 			self::CUE_POINT_VERSION_MINOR,
 			self::CUE_POINT_VERSION_BUILD);
 			
-		$dependency = new KalturaDependency(self::CUE_POINT_NAME, $cuePointVersion);
+		$dependency = new BorhanDependency(self::CUE_POINT_NAME, $cuePointVersion);
 		return array($dependency);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if($baseClass == 'KalturaCuePoint' && $enumValue == self::getCuePointTypeCoreValue(CodeCuePointType::CODE))
-			return new KalturaCodeCuePoint();
+		if($baseClass == 'BorhanCuePoint' && $enumValue == self::getCuePointTypeCoreValue(CodeCuePointType::CODE))
+			return new BorhanCodeCuePoint();
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
@@ -78,7 +78,7 @@ class CodeCuePointPlugin extends KalturaPlugin implements IKalturaCuePoint, IKal
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSchemaContributor::contributeToSchema()
+	 * @see IBorhanSchemaContributor::contributeToSchema()
 	 */
 	public static function contributeToSchema($type)
 	{
@@ -151,24 +151,24 @@ class CodeCuePointPlugin extends KalturaPlugin implements IKalturaCuePoint, IKal
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaCuePoint::getCuePointTypeCoreValue()
+	 * @see IBorhanCuePoint::getCuePointTypeCoreValue()
 	 */
 	public static function getCuePointTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('CuePointType', $value);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaCuePoint::getApiValue()
+	 * @see IBorhanCuePoint::getApiValue()
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaCuePointXmlParser::parseXml()
+	 * @see IBorhanCuePointXmlParser::parseXml()
 	 */
 	public static function parseXml(SimpleXMLElement $scene, $partnerId, CuePoint $cuePoint = null)
 	{
@@ -192,7 +192,7 @@ class CodeCuePointPlugin extends KalturaPlugin implements IKalturaCuePoint, IKal
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaCuePointXmlParser::generateXml()
+	 * @see IBorhanCuePointXmlParser::generateXml()
 	 */
 	public static function generateXml(CuePoint $cuePoint, SimpleXMLElement $scenes, SimpleXMLElement $scene = null)
 	{
@@ -212,7 +212,7 @@ class CodeCuePointPlugin extends KalturaPlugin implements IKalturaCuePoint, IKal
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaCuePointXmlParser::syndicate()
+	 * @see IBorhanCuePointXmlParser::syndicate()
 	 */
 	public static function syndicate(CuePoint $cuePoint, SimpleXMLElement $scenes, SimpleXMLElement $scene = null)
 	{
@@ -241,7 +241,7 @@ class CodeCuePointPlugin extends KalturaPlugin implements IKalturaCuePoint, IKal
 	 */
 	public static function getBaseEntryCloneOptionsCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('BaseEntryCloneOptions', $value);
 	}
 

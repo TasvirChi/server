@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaResponseProfileMapping extends KalturaObject
+class BorhanResponseProfileMapping extends BorhanObject
 {
 	/**
 	 * @var string
@@ -27,7 +27,7 @@ class KalturaResponseProfileMapping extends KalturaObject
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -35,7 +35,7 @@ class KalturaResponseProfileMapping extends KalturaObject
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUsage($sourceObject, $propertiesToSkip)
+	 * @see BorhanObject::validateForUsage($sourceObject, $propertiesToSkip)
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -46,7 +46,7 @@ class KalturaResponseProfileMapping extends KalturaObject
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($object = null, $propertiesToSkip = array())
 	{
@@ -59,31 +59,31 @@ class KalturaResponseProfileMapping extends KalturaObject
 	}
 	
 	/**
-	 * @param KalturaRelatedFilter $filter
-	 * @param KalturaObject $parentObject
+	 * @param BorhanRelatedFilter $filter
+	 * @param BorhanObject $parentObject
 	 * @return boolean
-	 * @throws KalturaAPIException
+	 * @throws BorhanAPIException
 	 */
-	public function apply(KalturaRelatedFilter $filter, KalturaObject $parentObject)
+	public function apply(BorhanRelatedFilter $filter, BorhanObject $parentObject)
 	{
 		$filterProperty = $this->filterProperty;
 		$parentProperty = $this->parentProperty;
 	
-		KalturaLog::debug("Mapping " . get_class($parentObject) . "::{$parentProperty}[{$parentObject->$parentProperty}] to " . get_class($filter) . "::$filterProperty");
+		BorhanLog::debug("Mapping " . get_class($parentObject) . "::{$parentProperty}[{$parentObject->$parentProperty}] to " . get_class($filter) . "::$filterProperty");
 	
 		if(!property_exists($parentObject, $parentProperty))
 		{
-			throw new KalturaAPIException(KalturaErrors::PROPERTY_IS_NOT_DEFINED, $parentProperty, get_class($parentObject));
+			throw new BorhanAPIException(BorhanErrors::PROPERTY_IS_NOT_DEFINED, $parentProperty, get_class($parentObject));
 		}
 		
 		if(!property_exists($filter, $filterProperty))
 		{
-			throw new KalturaAPIException(KalturaErrors::PROPERTY_IS_NOT_DEFINED, $filterProperty, get_class($filter));
+			throw new BorhanAPIException(BorhanErrors::PROPERTY_IS_NOT_DEFINED, $filterProperty, get_class($filter));
 		}
 		
 		if(is_null($parentObject->$parentProperty) && !$this->allowNull)
 		{
-			KalturaLog::warning("Parent property [" . get_class($parentObject) . "::{$parentProperty}] is null");
+			BorhanLog::warning("Parent property [" . get_class($parentObject) . "::{$parentProperty}] is null");
 			return false;
 		}
 		

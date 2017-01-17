@@ -3,17 +3,17 @@
  * @package api
  * @subpackage objects
  */
-class KalturaStreamContainerArray extends KalturaTypedArray
+class BorhanStreamContainerArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaStreamContainerArray();
+		$newArr = new BorhanStreamContainerArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-			$stream = new KalturaStreamContainer();
+			$stream = new BorhanStreamContainer();
 			$stream->fromObject( $obj, $responseProfile );
 			$newArr[] = $stream;
 		}
@@ -23,6 +23,6 @@ class KalturaStreamContainerArray extends KalturaTypedArray
 
 	public function __construct()
 	{
-		parent::__construct("KalturaStreamContainer");
+		parent::__construct("BorhanStreamContainer");
 	}
 }

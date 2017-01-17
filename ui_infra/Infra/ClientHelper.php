@@ -56,7 +56,7 @@ class Infra_ClientHelper
 
 	/**
 	 *
-	 * @return Kaltura_Client_Client
+	 * @return Borhan_Client_Client
 	 */
 	public static function getClient()
 	{
@@ -65,12 +65,12 @@ class Infra_ClientHelper
 			return self::$client;
 		}
 
-		if (!class_exists('Kaltura_Client_Client'))
-			throw new Infra_Exception('Kaltura client not found, maybe it wasn\'t generated', Infra_Exception::ERROR_CODE_MISSING_CLIENT_LIB);
+		if (!class_exists('Borhan_Client_Client'))
+			throw new Infra_Exception('Borhan client not found, maybe it wasn\'t generated', Infra_Exception::ERROR_CODE_MISSING_CLIENT_LIB);
 
 		$ks = self::getKs();
 
-		$config = new Kaltura_Client_Configuration();
+		$config = new Borhan_Client_Configuration();
 		$config->serviceUrl = self::getServiceUrl();
 		$config->curlTimeout = self::getCurlTimeout();
 		$config->setLogger(new Infra_ClientLoggingProxy());
@@ -91,8 +91,8 @@ class Infra_ClientHelper
 				$config->startZendDebuggerSession = true;
 		}
 
-		$client = new Kaltura_Client_Client($config);
-		$client->setClientTag('Kaltura-' . $settings->applicationName);
+		$client = new Borhan_Client_Client($config);
+		$client->setClientTag('Borhan-' . $settings->applicationName);
 		$client->setKs($ks);
 		self::$client = $client;
 

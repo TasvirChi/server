@@ -78,4 +78,4 @@ foreach($entries as $entryId)
 	}
 }
 
-KalturaLog::info(count($entries) . " entries handled, $saved fixed");
+BorhanLog::info(count($entries) . " entries handled, $saved fixed");

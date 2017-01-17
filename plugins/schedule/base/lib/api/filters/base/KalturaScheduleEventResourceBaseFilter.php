@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaScheduleEventResourceBaseFilter extends KalturaRelatedFilter
+abstract class BorhanScheduleEventResourceBaseFilter extends BorhanRelatedFilter
 {
 	static private $map_between_objects = array
 	(

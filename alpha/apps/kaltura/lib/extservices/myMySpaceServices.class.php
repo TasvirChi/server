@@ -9,7 +9,7 @@ class myMySpaceServices extends myBaseMediaSource implements IMediaSource
 	protected $source_name = "MySpace";
 	protected $auth_method = array ( self::AUTH_METHOD_PUBLIC ,  self::AUTH_METHOD_USER_PASS );
 	protected $search_in_user = true; 
-	protected $logo = "http://www.kaltura.com/images/wizard/logo_myspace.png";
+	protected $logo = "http://www.borhan.com/images/wizard/logo_myspace.png";
 	protected $id = entry::ENTRY_MEDIA_SOURCE_MYSPACE;
 		
 	private static $NEED_MEDIA_INFO = "1";

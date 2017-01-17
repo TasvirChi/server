@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaBusinessProcessServerBaseFilter extends KalturaFilter
+abstract class BorhanBusinessProcessServerBaseFilter extends BorhanFilter
 {
 	static private $map_between_objects = array
 	(
@@ -91,34 +91,34 @@ abstract class KalturaBusinessProcessServerBaseFilter extends KalturaFilter
 	public $partnerIdIn;
 
 	/**
-	 * @var KalturaBusinessProcessServerStatus
+	 * @var BorhanBusinessProcessServerStatus
 	 */
 	public $statusEqual;
 
 	/**
-	 * @var KalturaBusinessProcessServerStatus
+	 * @var BorhanBusinessProcessServerStatus
 	 */
 	public $statusNotEqual;
 
 	/**
-	 * @dynamicType KalturaBusinessProcessServerStatus
+	 * @dynamicType BorhanBusinessProcessServerStatus
 	 * @var string
 	 */
 	public $statusIn;
 
 	/**
-	 * @dynamicType KalturaBusinessProcessServerStatus
+	 * @dynamicType BorhanBusinessProcessServerStatus
 	 * @var string
 	 */
 	public $statusNotIn;
 
 	/**
-	 * @var KalturaBusinessProcessProvider
+	 * @var BorhanBusinessProcessProvider
 	 */
 	public $typeEqual;
 
 	/**
-	 * @dynamicType KalturaBusinessProcessProvider
+	 * @dynamicType BorhanBusinessProcessProvider
 	 * @var string
 	 */
 	public $typeIn;

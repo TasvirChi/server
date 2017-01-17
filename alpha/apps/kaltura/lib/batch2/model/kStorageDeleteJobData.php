@@ -12,7 +12,7 @@ class kStorageDeleteJobData extends kStorageJobData
     {
         $data = null;
 
-        $data = KalturaPluginManager::loadObject('kStorageDeleteJobData', $protocol);
+        $data = BorhanPluginManager::loadObject('kStorageDeleteJobData', $protocol);
         
         if (!$data)
             $data = new kStorageDeleteJobData();

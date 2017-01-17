@@ -3,10 +3,10 @@
  * @package plugins.metadata
  * @subpackage api.objects
  */
-class KalturaMetadataResponseProfileMapping extends KalturaResponseProfileMapping
+class BorhanMetadataResponseProfileMapping extends BorhanResponseProfileMapping
 {
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($object = null, $propertiesToSkip = array())
 	{
@@ -18,21 +18,21 @@ class KalturaMetadataResponseProfileMapping extends KalturaResponseProfileMappin
 		return parent::toObject($object, $propertiesToSkip);
 	}
 
-	public function apply(KalturaRelatedFilter $filter, KalturaObject $parentObject)
+	public function apply(BorhanRelatedFilter $filter, BorhanObject $parentObject)
 	{
 		$filterProperty = $this->filterProperty;
 		$parentProperty = $this->parentProperty;
 
-		KalturaLog::info("Mapping XPath $parentProperty to " . get_class($filter) . "::$filterProperty");
+		BorhanLog::info("Mapping XPath $parentProperty to " . get_class($filter) . "::$filterProperty");
 	
-		if(!$parentObject instanceof KalturaMetadata)
+		if(!$parentObject instanceof BorhanMetadata)
 		{
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_TYPE, get_class($parentObject));
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_TYPE, get_class($parentObject));
 		}
 
 		if(!property_exists($filter, $filterProperty))
 		{
-			throw new KalturaAPIException(KalturaErrors::PROPERTY_IS_NOT_DEFINED, $filterProperty, get_class($filter));
+			throw new BorhanAPIException(BorhanErrors::PROPERTY_IS_NOT_DEFINED, $filterProperty, get_class($filter));
 		}
 
 		$xml = $parentObject->xml;

@@ -24,14 +24,14 @@ class KProvisionEngineUniversalAkamai extends KProvisionEngine
 	 */
 	protected $streamClient;
 	
-	protected function __construct(KalturaAkamaiUniversalProvisionJobData $data)
+	protected function __construct(BorhanAkamaiUniversalProvisionJobData $data)
 	{
 		if (!KBatchBase::$taskConfig->params->restapi->akamaiRestApiBaseServiceUrl)
-			return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, "Error: akamaiRestApiBaseServiceUrl is missing from worker configuration. Cannot provision stream"); 
+			return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, "Error: akamaiRestApiBaseServiceUrl is missing from worker configuration. Cannot provision stream"); 
 		
 		self::$baseServiceUrl = KBatchBase::$taskConfig->params->restapi->akamaiRestApiBaseServiceUrl;
 		
-		if (!is_null($data) && $data instanceof KalturaAkamaiUniversalProvisionJobData)
+		if (!is_null($data) && $data instanceof BorhanAkamaiUniversalProvisionJobData)
 		{
 			//all fields are set and are not empty string
 			if ($data->systemUserName && $data->systemPassword && $data->domainName)
@@ -64,15 +64,15 @@ class KProvisionEngineUniversalAkamai extends KProvisionEngine
 	/* (non-PHPdoc)
 	 * @see KProvisionEngine::provide()
 	 */
-	public function provide(KalturaBatchJob $job, KalturaProvisionJobData $data) 
+	public function provide(BorhanBatchJob $job, BorhanProvisionJobData $data) 
 	{
 		$res = $this->provisionStream($data);
 		if (!$res)
 		{
-			return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, "Error: no result received for connection"); 
+			return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, "Error: no result received for connection"); 
 		}
 		
-		KalturaLog::info ("Request to provision stream returned result: $res");
+		BorhanLog::info ("Request to provision stream returned result: $res");
 		$resultXML = new SimpleXMLElement($res);
 		//In this case, REST API has returned an API error.
 		$errors = $resultXML->xpath('error');
@@ -80,7 +80,7 @@ class KProvisionEngineUniversalAkamai extends KProvisionEngine
 		{
 			//There is always only 1 error listed in the XML
 			$error = $errors[0];
-			return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, "Error: ". strval($error[0]));
+			return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, "Error: ". strval($error[0]));
 		}
 		//Otherwise, the stream provision request probably returned OK, attempt to parse it as a new stream XML
 		try {
@@ -88,19 +88,19 @@ class KProvisionEngineUniversalAkamai extends KProvisionEngine
 		}
 		catch (Exception $e)
 		{
-			return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, "Error: ". $e->getMessage());
+			return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, "Error: ". $e->getMessage());
 		}
 
-		return new KProvisionEngineResult(KalturaBatchJobStatus::FINISHED, 'Succesfully provisioned entry', $data);
+		return new KProvisionEngineResult(BorhanBatchJobStatus::FINISHED, 'Succesfully provisioned entry', $data);
 		
 	}
 	
 	/**
 	 * Function to provision the stream using the Akamai RestAPI
-	 * @param KalturaAkamaiUniversalProvisionJobData $data
+	 * @param BorhanAkamaiUniversalProvisionJobData $data
 	 * @return mixed
 	 */
-	private function provisionStream (KalturaAkamaiUniversalProvisionJobData $data)
+	private function provisionStream (BorhanAkamaiUniversalProvisionJobData $data)
 	{
 		$url = self::$baseServiceUrl . "/{$this->domainName}/stream";
 		$ch = curl_init($url);
@@ -114,10 +114,10 @@ class KProvisionEngineUniversalAkamai extends KProvisionEngine
 	
 	/**
 	 * Construct stream using the job data
-	 * @param KalturaAkamaiUniversalProvisionJobData $data
+	 * @param BorhanAkamaiUniversalProvisionJobData $data
 	 * @return string
 	 */
-	private function getStreamXML (KalturaAkamaiUniversalProvisionJobData $data)
+	private function getStreamXML (BorhanAkamaiUniversalProvisionJobData $data)
 	{
 		$result = new SimpleXMLElement("<stream/>");
 		$result->addChild("stream-type", $data->streamType);
@@ -138,7 +138,7 @@ class KProvisionEngineUniversalAkamai extends KProvisionEngine
 		return $result->saveXML();
 	}
 	
-	private function fromStreamXML (SimpleXMLElement $xml, KalturaAkamaiUniversalProvisionJobData $data)
+	private function fromStreamXML (SimpleXMLElement $xml, BorhanAkamaiUniversalProvisionJobData $data)
 	{
 		$data->streamID = $this->getXMLNodeValue('stream-id', $xml);
 		if (!$data->streamID)
@@ -194,9 +194,9 @@ class KProvisionEngineUniversalAkamai extends KProvisionEngine
 	/* (non-PHPdoc)
 	 * @see KProvisionEngine::delete()
 	 */
-	public function delete(KalturaBatchJob $job, KalturaProvisionJobData $data) 
+	public function delete(BorhanBatchJob $job, BorhanProvisionJobData $data) 
 	{
-		KalturaLog::info("Deleting stream with ID [". $data->streamID ."]" );
+		BorhanLog::info("Deleting stream with ID [". $data->streamID ."]" );
 		
 		$url = self::$baseServiceUrl . "/{$this->domainName}/stream/".$data->streamID;
 		$ch = curl_init($url);
@@ -208,23 +208,23 @@ class KProvisionEngineUniversalAkamai extends KProvisionEngine
 		
 		if (!$result)
 		{
-			return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, "Error: failed to call RestAPI");
+			return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, "Error: failed to call RestAPI");
 		}
 		
 		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		if (KCurlHeaderResponse::isError($httpCode))
-			return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, "Error: delete failed");
+			return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, "Error: delete failed");
 		
-		return new KProvisionEngineResult(KalturaBatchJobStatus::FINISHED, 'Succesfully deleted stream', $data);
+		return new KProvisionEngineResult(BorhanBatchJobStatus::FINISHED, 'Succesfully deleted stream', $data);
 	}
 	
 
 	/* (non-PHPdoc)
 	 * @see KProvisionEngine::checkProvisionedStream()
 	 */
-	public function checkProvisionedStream(KalturaBatchJob $job, KalturaProvisionJobData $data) 
+	public function checkProvisionedStream(BorhanBatchJob $job, BorhanProvisionJobData $data) 
 	{
-		KalturaLog::info("Retrieving stream with ID [". $data->streamID ."]" );
+		BorhanLog::info("Retrieving stream with ID [". $data->streamID ."]" );
 		
 		$url = self::$baseServiceUrl . "/{$this->domainName}/stream/".$data->streamID;
 		$ch = curl_init($url);
@@ -235,23 +235,23 @@ class KProvisionEngineUniversalAkamai extends KProvisionEngine
 		
 		if (!$result)
 		{
-			return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, "Error: failed to call RestAPI");
+			return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, "Error: failed to call RestAPI");
 		}
 		
 		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		if($httpCode<=200 && $httpCode>300)
 		{
-			return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, "Error: retrieval failed");
+			return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, "Error: retrieval failed");
 		}
 		
-		KalturaLog::info("Result received: $result");
+		BorhanLog::info("Result received: $result");
 		$resultXML = new SimpleXMLElement($result);
 		$errors = $resultXML->xpath('error');
 		if ($errors && count($errors))
 		{
 			//There is always only 1 error listed in the XML
 			$error = $errors[0];
-			return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, "Error: ". strval($error[0]));
+			return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, "Error: ". strval($error[0]));
 		}
 		
 		if ($resultXML->status)
@@ -259,15 +259,15 @@ class KProvisionEngineUniversalAkamai extends KProvisionEngine
 			switch (strval($resultXML->status))
 			{
 				case self::PENDING:
-					return new KProvisionEngineResult(KalturaBatchJobStatus::ALMOST_DONE, "Stream is still in status Pending - retry in 5 minutes");
+					return new KProvisionEngineResult(BorhanBatchJobStatus::ALMOST_DONE, "Stream is still in status Pending - retry in 5 minutes");
 					break;
 				case self::PROVISIONED:
-					return new KProvisionEngineResult(KalturaBatchJobStatus::FINISHED, "Stream is in status Provisioned");
+					return new KProvisionEngineResult(BorhanBatchJobStatus::FINISHED, "Stream is in status Provisioned");
 					break;
 			}
 		}
 		
-		return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, "Unable to retrieve valid status from result of Akamai REST API");
+		return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, "Unable to retrieve valid status from result of Akamai REST API");
 	}
 
 	

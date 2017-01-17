@@ -132,8 +132,8 @@ class kJobsSuspender {
 		$res = self::setJobsStatus($jobIds, BatchJob::BATCHJOB_STATUS_SUSPEND, BatchJob::BATCHJOB_STATUS_PENDING, true);
 		$rootJobIds = self::suspendRootJobs($jobIds);
 		self::moveToSuspendedJobsTable(array_merge($jobIds, $rootJobIds));
-		KalturaLog::info("$res jobs of partner ($partnerId) job type ($jobType / $jobSubType) on DC ($dc) were suspended");
-		KalturaLog::info("As a result, ". count($rootJobIds) . " root jobs were suspended.");
+		BorhanLog::info("$res jobs of partner ($partnerId) job type ($jobType / $jobSubType) on DC ($dc) were suspended");
+		BorhanLog::info("As a result, ". count($rootJobIds) . " root jobs were suspended.");
 	}
 	
 	/**
@@ -166,8 +166,8 @@ class kJobsSuspender {
 		// Update the jobs status to pending
 		$res = self::setJobsStatus($jobIds, BatchJob::BATCHJOB_STATUS_PENDING, BatchJob::BATCHJOB_STATUS_SUSPEND, false);
 		$resRoot = self::setJobsStatus($rootJobIds, BatchJob::BATCHJOB_STATUS_ALMOST_DONE, BatchJob::BATCHJOB_STATUS_SUSPEND_ALMOST_DONE, false);
-		KalturaLog::info("$res jobs of partner ($partnerId) job type ($jobType / $jobSubType) on DC ($dc) were unsuspended");
-		KalturaLog::info("As a result $resRoot were unsuspended.");
+		BorhanLog::info("$res jobs of partner ($partnerId) job type ($jobType / $jobSubType) on DC ($dc) were unsuspended");
+		BorhanLog::info("As a result $resRoot were unsuspended.");
 	}
 	
 	/**

@@ -28,7 +28,7 @@ class myPolicyMgr
 			}
 			if ( $result !== null && $result !== "" )	
 			{	
-				KalturaLog::log ( __METHOD__ . " property [$property] found for arg [$i]" );
+				BorhanLog::log ( __METHOD__ . " property [$property] found for arg [$i]" );
 				return $result;
 			}
 			++$i;

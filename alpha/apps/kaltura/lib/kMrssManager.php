@@ -4,7 +4,7 @@ class kMrssManager
 	const FORMAT_DATETIME = 'Y-m-d\TH:i:s';
 	
 	/**
-	 * @var array<IKalturaMrssContributor>
+	 * @var array<IBorhanMrssContributor>
 	 */
 	private static $mrssContributors = null;
 	
@@ -115,14 +115,14 @@ class kMrssManager
 	}
 	
 	/**
-	 * @return array<IKalturaMrssContributor>
+	 * @return array<IBorhanMrssContributor>
 	 */
 	public static function getMrssContributors()
 	{
 		if(self::$mrssContributors)
 			return self::$mrssContributors;
 			
-		self::$mrssContributors = KalturaPluginManager::getPluginInstances('IKalturaMrssContributor');
+		self::$mrssContributors = BorhanPluginManager::getPluginInstances('IBorhanMrssContributor');
 		return self::$mrssContributors;
 	}
 	
@@ -357,30 +357,30 @@ class kMrssManager
 		self::$addedIsmUrl = true;
 		$syncKey = $entry->getSyncKey(entry::FILE_SYNC_ENTRY_SUB_TYPE_ISM);
 		
-		$kalturaFileSync = kFileSyncUtils::getReadyInternalFileSyncForKey($syncKey);
+		$borhanFileSync = kFileSyncUtils::getReadyInternalFileSyncForKey($syncKey);
 	
 		$urlManager = DeliveryProfilePeer::getDeliveryProfile($entry->getId(), PlaybackProtocol::SILVER_LIGHT);
 		if(!$urlManager)
 			return;
 		
-		$urlManager->initDeliveryDynamicAttributes($kalturaFileSync);
+		$urlManager->initDeliveryDynamicAttributes($borhanFileSync);
 		
 		$partner = $entry->getPartner();
 		if(!$partner->getStorageServePriority() ||
-			$partner->getStorageServePriority() == StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_ONLY ||
-			$partner->getStorageServePriority() == StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_FIRST)
+			$partner->getStorageServePriority() == StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_ONLY ||
+			$partner->getStorageServePriority() == StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_FIRST)
 		{
-			if($kalturaFileSync)
+			if($borhanFileSync)
 			{
 				$urlPrefix = $urlManager->getUrl();
-				$url = $urlManager->getFileSyncUrl($kalturaFileSync, false);
+				$url = $urlManager->getFileSyncUrl($borhanFileSync, false);
 				$mrss->addChild('ismUrl',$urlPrefix.$url);
 				return;
 			}
 		}
 		
 		if(!$partner->getStorageServePriority() ||
-			$partner->getStorageServePriority() == StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_ONLY)
+			$partner->getStorageServePriority() == StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_ONLY)
 		{
 			return null;
 		}
@@ -400,9 +400,9 @@ class kMrssManager
 
 		if($partner->getStorageServePriority() != StorageProfile::STORAGE_SERVE_PRIORITY_EXTERNAL_ONLY)
 		{
-			if($kalturaFileSync)
+			if($borhanFileSync)
 			{
-				$url = $urlManager->getFileSyncUrl($kalturaFileSync, false);
+				$url = $urlManager->getFileSyncUrl($borhanFileSync, false);
 				$mrss->addChild('ismUrl',$urlPrefix.$url);
 				return;
 			}
@@ -568,7 +568,7 @@ class kMrssManager
 				}
 				catch(kCoreException $ex)
 				{
-					KalturaLog::err("Unable to add MRSS element for contributor [".get_class($mrssContributor)."] message [".$ex->getMessage()."]");
+					BorhanLog::err("Unable to add MRSS element for contributor [".get_class($mrssContributor)."] message [".$ex->getMessage()."]");
 				}
 			}
 		}
@@ -578,7 +578,7 @@ class kMrssManager
 		{
 			$uiconfId = (!is_null($mrssParams->getPlayerUiconfId()))? '/ui_conf_id/'.$mrssParams->getPlayerUiconfId(): '';
 			$playerUrl = kConf::get('apphome_url').
-							'/kwidget/wid/_'.$entry->getPartnerId().
+							'/bwidget/wid/_'.$entry->getPartnerId().
 							'/entry_id/'.$entry->getId().'/ui_conf' . ($uiconfId ? "/$uiconfId" : '');
 	
 			$player = $mrss->addChild('player');
@@ -659,7 +659,7 @@ class kMrssManager
 		{
 			foreach($mrssContributors as $mrssContributor)
 			{
-				/* @var $mrssContributor IKalturaMrssContributor */
+				/* @var $mrssContributor IBorhanMrssContributor */
 				try
 				{
 					if (!$features || in_array($mrssContributor->getObjectFeatureType(), $features))
@@ -667,7 +667,7 @@ class kMrssManager
 				}
 				catch(kCoreException $ex)
 				{
-					KalturaLog::err("Unable to add MRSS element for contributor [".get_class($mrssContributor)."] message [".$ex->getMessage()."]");
+					BorhanLog::err("Unable to add MRSS element for contributor [".get_class($mrssContributor)."] message [".$ex->getMessage()."]");
 				}
 			}
 		}

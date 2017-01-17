@@ -3,7 +3,7 @@
  * @package Core
  * @subpackage externalWidgets
  */
-class playManifestAction extends kalturaAction
+class playManifestAction extends borhanAction
 {
 	
 	const URL = 'url';
@@ -58,7 +58,7 @@ class playManifestAction extends kalturaAction
 		"uiConfId" => 'ui',
 	);
 
-	const KALTURA_TOKEN_MARKER = '{kt}';
+	const BORHAN_TOKEN_MARKER = '{kt}';
 	
 	/**
 	 * @var string
@@ -128,9 +128,9 @@ class playManifestAction extends kalturaAction
 	 * @param string $urlToken
 	 * @return boolean
 	 */
-	static protected function validateKalturaToken($url, $urlToken)
+	static protected function validateBorhanToken($url, $urlToken)
 	{
-		$url = str_replace($urlToken, self::KALTURA_TOKEN_MARKER, $url);
+		$url = str_replace($urlToken, self::BORHAN_TOKEN_MARKER, $url);
 		$calcToken = sha1(kConf::get('url_token_secret') . $url);
 		return $calcToken == $urlToken;
 	}
@@ -151,7 +151,7 @@ class playManifestAction extends kalturaAction
 		if ($urlToken)
 		{
 			if ($_SERVER["REQUEST_METHOD"] != "GET" ||			// don't allow tokens in post requests since the token protects only the URI and not the post parameters 
-				!self::validateKalturaToken($_SERVER["REQUEST_URI"], $urlToken))
+				!self::validateBorhanToken($_SERVER["REQUEST_URI"], $urlToken))
 				KExternalErrors::dieError(KExternalErrors::INVALID_TOKEN);
 		}
 		
@@ -360,10 +360,10 @@ class playManifestAction extends kalturaAction
 	{
 		switch ($this->entry->getPartner()->getStorageServePriority())
 		{
-		case StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_ONLY:
+		case StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_ONLY:
 			return true;
 			
-		case StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_FIRST:
+		case StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_FIRST:
 			if ($hasLocalFlavors)
 				return true;
 			break;
@@ -638,7 +638,7 @@ class playManifestAction extends kalturaAction
 			
 			switch ($servePriority)
 			{
-			case StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_ONLY:
+			case StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_ONLY:
 				$c->addAnd ( FileSyncPeer::FILE_TYPE , FileSync::FILE_SYNC_FILE_TYPE_URL, Criteria::NOT_EQUAL);
 				break;
 				
@@ -933,7 +933,7 @@ class playManifestAction extends kalturaAction
 	{
 		$this->initFlavorParamsIds();
 
-		if (in_array($this->entry->getSource(), LiveEntry::$kalturaLiveSourceTypes) && !$this->deliveryAttributes->getServeVodFromLive())
+		if (in_array($this->entry->getSource(), LiveEntry::$borhanLiveSourceTypes) && !$this->deliveryAttributes->getServeVodFromLive())
  		{
  			if (!$this->entry->hasMediaServer())
 				KExternalErrors::dieError(KExternalErrors::ENTRY_NOT_LIVE, "Entry [$this->entryId] is not broadcasting");
@@ -1121,10 +1121,10 @@ class playManifestAction extends kalturaAction
 		$config->entryId = $this->entryId;
 		$config->rendererClass = get_class($renderer);
 		$config->deliveryProfile = $this->deliveryProfile;
-		$contributors = KalturaPluginManager::getPluginInstances('IKalturaPlayManifestContributor');
+		$contributors = BorhanPluginManager::getPluginInstances('IBorhanPlayManifestContributor');
 		foreach ($contributors as $contributor)
 		{
-			/* @var $contributor IKalturaPlayManifestContributor */
+			/* @var $contributor IBorhanPlayManifestContributor */
 			$renderer->contributors = array_merge($renderer->contributors, $contributor->getManifestEditors($config));
 		}
 			

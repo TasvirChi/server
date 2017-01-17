@@ -3,7 +3,7 @@
  * @package plugins.youTubeDistribution
  * @subpackage api.objects
  */
-class KalturaYouTubeDistributionJobProviderData extends KalturaConfigurableDistributionJobProviderData
+class BorhanYouTubeDistributionJobProviderData extends BorhanConfigurableDistributionJobProviderData
 {
 	/**
 	 * @var string
@@ -70,14 +70,14 @@ class KalturaYouTubeDistributionJobProviderData extends KalturaConfigurableDistr
 	 */
 	public $googleTokenData;
 
-	public function __construct(KalturaDistributionJobData $distributionJobData = null)
+	public function __construct(BorhanDistributionJobData $distributionJobData = null)
 	{
 	    parent::__construct($distributionJobData);
 	    
 		if(!$distributionJobData)
 			return;
 			
-		if(!($distributionJobData->distributionProfile instanceof KalturaYouTubeDistributionProfile))
+		if(!($distributionJobData->distributionProfile instanceof BorhanYouTubeDistributionProfile))
 			return;
 		
 		$flavorAssets = assetPeer::retrieveByIds(explode(',', $distributionJobData->entryDistribution->flavorAssetIds));
@@ -108,7 +108,7 @@ class KalturaYouTubeDistributionJobProviderData extends KalturaConfigurableDistr
 		if ($entryDistributionDb)
 			$this->currentPlaylists = $entryDistributionDb->getFromCustomData('currentPlaylists');
 		else
-			KalturaLog::err('Entry distribution ['.$distributionJobData->entryDistributionId.'] not found');  
+			BorhanLog::err('Entry distribution ['.$distributionJobData->entryDistributionId.'] not found');  
 
 		if ($distributionJobData->distributionProfile->feedSpecVersion != YouTubeDistributionFeedSpecVersion::VERSION_2)
 			return;
@@ -124,25 +124,25 @@ class KalturaYouTubeDistributionJobProviderData extends KalturaConfigurableDistr
 
 		$feed = null;
 		$fieldValues = unserialize($this->fieldValues);
-		if ($distributionJobData instanceof KalturaDistributionSubmitJobData)
+		if ($distributionJobData instanceof BorhanDistributionSubmitJobData)
 		{
 			$feed = YouTubeDistributionRightsFeedHelper::initializeDefaultSubmitFeed($distributionJobData->distributionProfile, $fieldValues, $videoFilePath, $thumbnailFilePath, $captionAssetIds);
 			$this->submitXml = $feed->getXml();
 		}
-		elseif ($distributionJobData instanceof KalturaDistributionUpdateJobData)
+		elseif ($distributionJobData instanceof BorhanDistributionUpdateJobData)
 		{
 			$remoteIdHandler = YouTubeDistributionRemoteIdHandler::initialize($distributionJobData->remoteId);
 			$feed = YouTubeDistributionRightsFeedHelper::initializeDefaultUpdateFeed($distributionJobData->distributionProfile, $fieldValues, $videoFilePath, $thumbnailFilePath, $remoteIdHandler);
 			$this->updateXml = $feed->getXml();
 		}
-		elseif ($distributionJobData instanceof KalturaDistributionDeleteJobData)
+		elseif ($distributionJobData instanceof BorhanDistributionDeleteJobData)
 		{
 			$remoteIdHandler = YouTubeDistributionRemoteIdHandler::initialize($distributionJobData->remoteId);
 			$feed = YouTubeDistributionRightsFeedHelper::initializeDefaultDeleteFeed($distributionJobData->distributionProfile, $fieldValues, $videoFilePath, $thumbnailFilePath, $remoteIdHandler);
 			$this->deleteXml = $feed->getXml();
 		}
 
-		$this->newPlaylists = isset($fieldValues[KalturaYouTubeDistributionField::PLAYLISTS]) ? $fieldValues[KalturaYouTubeDistributionField::PLAYLISTS] : null;
+		$this->newPlaylists = isset($fieldValues[BorhanYouTubeDistributionField::PLAYLISTS]) ? $fieldValues[BorhanYouTubeDistributionField::PLAYLISTS] : null;
 		if ($feed)
 		{
 			$this->sftpDirectory = $feed->getDirectoryName();

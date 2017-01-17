@@ -3,10 +3,10 @@
  * @package plugins.schedule
  * @subpackage api.filters
  */
-class KalturaRecordScheduleEventFilter extends KalturaRecordScheduleEventBaseFilter
+class BorhanRecordScheduleEventFilter extends BorhanRecordScheduleEventBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaScheduleEventFilter::getListResponseType()
+	 * @see BorhanScheduleEventFilter::getListResponseType()
 	 */
 	protected function getListResponseType()
 	{

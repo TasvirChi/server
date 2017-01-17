@@ -13,7 +13,7 @@ class kDropFolderXmlFileHandler
 				return new kDropFolderXmlFileHandler();
 				break;
 			default:
-				return KalturaPluginManager::loadObject('kDropFolderXmlFileHandler', $dropFolderType);
+				return BorhanPluginManager::loadObject('kDropFolderXmlFileHandler', $dropFolderType);
 				break;
 		}
 	}
@@ -92,7 +92,7 @@ class kDropFolderXmlFileHandler
 				if(	$e->getCode() != DropFolderXmlBulkUploadPlugin::getErrorCodeCoreValue(DropFolderXmlBulkUploadErrorCode::XML_FILE_SIZE_EXCEED_LIMIT) &&
 					$e->getCode() != DropFolderXmlBulkUploadPlugin::getErrorCodeCoreValue(DropFolderXmlBulkUploadErrorCode::MALFORMED_XML_FILE))
 					{
-						KalturaLog::err("Error in setContentResources - ".$e->getMessage());
+						BorhanLog::err("Error in setContentResources - ".$e->getMessage());
 						$e = new Exception(DropFolderPlugin::ERROR_READING_FILE_MESSAGE.'['.$folder->getPath().'/'.$file->getFileName().']', DropFolderFileErrorCode::ERROR_READING_FILE, $e);
 					}
 				throw $e;
@@ -110,7 +110,7 @@ class kDropFolderXmlFileHandler
 	{
 		if(!$file->getLeadDropFolderFileId())
 		{
-			KalturaLog::info('The XML file is not uploaded yet - changing status to WAITING');
+			BorhanLog::info('The XML file is not uploaded yet - changing status to WAITING');
 			return false;
 		}
 		$statuses = array(DropFolderFileStatus::PARSED, DropFolderFileStatus::UPLOADING, DropFolderFileStatus::DETECTED);
@@ -118,7 +118,7 @@ class kDropFolderXmlFileHandler
 		
 		if($nonReadyFiles && count($nonReadyFiles) > 0)
 		{
-			KalturaLog::info('Not all the files finished uploading - changing status to WAITING');
+			BorhanLog::info('Not all the files finished uploading - changing status to WAITING');
 			return false;
 		}
 		
@@ -178,7 +178,7 @@ class kDropFolderXmlFileHandler
 			}
 			else
 			{
-				KalturaLog::err('Failed to add content resource for Xml file ['.$leadFile->getId().'] - '.$e->getMessage());
+				BorhanLog::err('Failed to add content resource for Xml file ['.$leadFile->getId().'] - '.$e->getMessage());
 				throw new Exception(DropFolderXmlBulkUploadPlugin::ERROR_ADD_CONTENT_RESOURCE_MESSAGE, DropFolderXmlBulkUploadPlugin::getErrorCodeCoreValue(DropFolderXmlBulkUploadErrorCode::ERROR_ADD_CONTENT_RESOURCE));
 			}		
 		}	
@@ -244,7 +244,7 @@ class kDropFolderXmlFileHandler
 		
 		if(!$folder->getConversionProfileId())
 		{
-			KalturaLog::info('No conversion profile found on drop folder [' . $folder->getId() . '] assuming no xsl transformation is needed');
+			BorhanLog::info('No conversion profile found on drop folder [' . $folder->getId() . '] assuming no xsl transformation is needed');
 			return file_get_contents($xmlPath);
 		}
 		
@@ -252,7 +252,7 @@ class kDropFolderXmlFileHandler
 		
 		if(!$conversionProfile || (strlen($conversionProfile->getXsl()) == 0))
 		{
-			KalturaLog::info('No conversion profile found Or no xsl transform found');
+			BorhanLog::info('No conversion profile found Or no xsl transform found');
 			return file_get_contents($xmlPath);
 		}
 		
@@ -309,7 +309,7 @@ class kDropFolderXmlFileHandler
 			$objectType = DropFolderXmlBulkUploadPlugin::getBatchJobObjectTypeCoreValue(DropFolderBatchJobObjectType::DROP_FOLDER_FILE);
 			$partner = PartnerPeer::retrieveByPK($folder->getPartnerId());
 			
-			$data = KalturaPluginManager::loadObject('kBulkUploadJobData', $coreBulkUploadType);
+			$data = BorhanPluginManager::loadObject('kBulkUploadJobData', $coreBulkUploadType);
 			/* @var $data kBulkUploadJobData */
 			$data->setUploadedBy(kDropFolderXmlEventsConsumer::UPLOADED_BY);
 			$data->setFileName($leadDropFolderFile->getFileName());
@@ -324,7 +324,7 @@ class kDropFolderXmlFileHandler
 		}
 		catch (Exception $e)
 		{
-			KalturaLog::err("Error adding BulkUpload job -".$e->getMessage());
+			BorhanLog::err("Error adding BulkUpload job -".$e->getMessage());
 			throw new Exception(DropFolderXmlBulkUploadPlugin::ERROR_ADDING_BULK_UPLOAD_MESSAGE, DropFolderXmlBulkUploadPlugin::getErrorCodeCoreValue(DropFolderXmlBulkUploadErrorCode::ERROR_ADDING_BULK_UPLOAD));
 		}
 			

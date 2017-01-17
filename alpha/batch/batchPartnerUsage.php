@@ -7,7 +7,7 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 define('SF_ROOT_DIR',    realpath(__DIR__ . '/../'));
-define('SF_APP',         'kaltura');
+define('SF_APP',         'borhan');
 define('SF_ENVIRONMENT', 'batch');
 define('SF_DEBUG',       true);
 

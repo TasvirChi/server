@@ -49,7 +49,7 @@ class kThumbnailUtils
 	}
 
 	/**
-	 * Go over all KalturaThumbAsset thumbnails and look for an exact match.
+	 * Go over all BorhanThumbAsset thumbnails and look for an exact match.
 	 * If none is found, look for the one with the nearest aspect ratio (i.e. the one
 	 * with the smallest distance from the original). If there are several with the
 	 * same delta from original - the one with the largest dimensions will be picked.

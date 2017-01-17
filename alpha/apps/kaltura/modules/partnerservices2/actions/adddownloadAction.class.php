@@ -50,7 +50,7 @@ class adddownloadAction extends defPartnerservices2Action
     
 	public function executeImpl ( $partner_id , $subp_id , $puser_id , $partner_prefix , $puser_kuser )
 	{
-		KalturaLog::log("adddownloadAction: executeImpl ( $partner_id , $subp_id , $puser_id , $partner_prefix , $puser_kuser)");
+		BorhanLog::log("adddownloadAction: executeImpl ( $partner_id , $subp_id , $puser_id , $partner_prefix , $puser_kuser)");
 		
 		$entry_id = $this->getPM ( "entry_id" );
 		$version = $this->getP ( "version" );
@@ -61,12 +61,12 @@ class adddownloadAction extends defPartnerservices2Action
 		
 		if ( ! $entry )
 		{
-			KalturaLog::err("Add download Action - entry not found");
+			BorhanLog::err("Add download Action - entry not found");
 			$this->addError ( APIErrors::INVALID_ENTRY_ID, $this->getObjectPrefix() , $entry_id );
 			return;
 		}
 		
-		KalturaLog::log("adddownloadAction: entry found [$entry_id]");
+		BorhanLog::log("adddownloadAction: entry found [$entry_id]");
 		
 		/*			
 		$content_path = myContentStorage::getFSContentRootPath();
@@ -105,17 +105,17 @@ class adddownloadAction extends defPartnerservices2Action
 				$remote_url = kDataCenterMgr::getRedirectExternalUrl ( $fileSync , $_SERVER['REQUEST_URI'] );
 				$url = (strpos($remote_url, '?') === FALSE)? $remote_url.'?'.$get_query: $remote_url.'&'.$get_query;
 				// prxoy request to other DC
-				KalturaLog::log ( __METHOD__ . ": redirecting to [$url]" );
+				BorhanLog::log ( __METHOD__ . ": redirecting to [$url]" );
 				kFileUtils::dumpUrl($url);
 			}
-			KalturaLog::err("Add download Action - sync key doesn't exists");
+			BorhanLog::err("Add download Action - sync key doesn't exists");
 			$this->addError ( APIErrors::INVALID_ENTRY_VERSION, $this->getObjectPrefix(), $entry_id, $version );
 			return; 
 		}
 		
 		if ( $entry->getType() == entryType::MIX  )
 		{
-			KalturaLog::err("The Batch job for flattening a mix is no longer supported");
+			BorhanLog::err("The Batch job for flattening a mix is no longer supported");
 			$this->addError(APIErrors::INVALID_ENTRY_TYPE, $this->getObjectPrefix(), $entry_id, $version );
 			return;
 		}

@@ -13,7 +13,7 @@ class kUploadTokenMgr
 	 */
 	public function __construct(UploadToken $uploadToken)
 	{
-		KalturaLog::info("Init for upload token id [{$uploadToken->getId()}]");
+		BorhanLog::info("Init for upload token id [{$uploadToken->getId()}]");
 		$this->_uploadToken = $uploadToken;
 	}
 	
@@ -125,7 +125,7 @@ class kUploadTokenMgr
 		if (!$fileName)
 		{
 			$msg = "The file name is missing for the uploaded file for token id [{$this->_uploadToken->getId()}]";
-			KalturaLog::log($msg . ' ' . print_r($fileData, true));
+			BorhanLog::log($msg . ' ' . print_r($fileData, true));
 			throw new kUploadTokenException($msg, kUploadTokenException::UPLOAD_TOKEN_FILE_NAME_IS_MISSING_FOR_UPLOADED_FILE);
 		}
 
@@ -134,7 +134,7 @@ class kUploadTokenMgr
 		if ($error !== UPLOAD_ERR_OK)
 		{
 			$msg = "An uploaded error occurred for token id [{$this->_uploadToken->getId()}]";
-			KalturaLog::log($msg . ' ' . print_r($fileData, true));
+			BorhanLog::log($msg . ' ' . print_r($fileData, true));
 			throw new kUploadTokenException($msg, kUploadTokenException::UPLOAD_TOKEN_UPLOAD_ERROR_OCCURRED);
 		}
 		
@@ -143,7 +143,7 @@ class kUploadTokenMgr
 		if (!is_uploaded_file($tempPath))
 		{
 			$msg = "The uploaded file not valid for token id [{$this->_uploadToken->getId()}]";
-			KalturaLog::log($msg . ' ' . print_r($fileData, true));
+			BorhanLog::log($msg . ' ' . print_r($fileData, true));
 			throw new kUploadTokenException($msg, kUploadTokenException::UPLOAD_TOKEN_FILE_IS_NOT_VALID);
 		}
 	}
@@ -219,7 +219,7 @@ class kUploadTokenMgr
 					Sleep(1);
 				
 				$currentFileSize = self::appendAvailableChunks($uploadFilePath);
-				KalturaLog::log("handleResume iteration: $count chunk: $chunkFilePath size: $chunkSize finalChunk: $finalChunk filesize: $currentFileSize expected: $expectedFileSize");
+				BorhanLog::log("handleResume iteration: $count chunk: $chunkFilePath size: $chunkSize finalChunk: $finalChunk filesize: $currentFileSize expected: $expectedFileSize");
 			} while ($verifyFinalChunk && $currentFileSize != $expectedFileSize && $count < $uploadFinalChunkMaxAppendTime);
 
 			if ($verifyFinalChunk && $currentFileSize != $expectedFileSize)
@@ -259,7 +259,7 @@ class kUploadTokenMgr
 		if (!$moveFileSuccess)
 		{
 			$msg = "Failed to move uploaded file for token id [{$this->_uploadToken->getId()}]";
-			KalturaLog::log($msg . ' ' . print_r($fileData, true));
+			BorhanLog::log($msg . ' ' . print_r($fileData, true));
 			throw new kUploadTokenException($msg, kUploadTokenException::UPLOAD_TOKEN_FAILED_TO_MOVE_UPLOADED_FILE);
 		}
 		
@@ -299,7 +299,7 @@ class kUploadTokenMgr
 			$globStart = microtime(true);
 			$chunks = glob("$targetFilePath.chunk.*", GLOB_NOSORT);
 			$globTook = (microtime(true) - $globStart);
-			KalturaLog::debug("glob took - " . $globTook . " seconds");
+			BorhanLog::debug("glob took - " . $globTook . " seconds");
 						
 			foreach($chunks as $nextChunk)
 			{
@@ -320,7 +320,7 @@ class kUploadTokenMgr
 					}
 					else
 					{
-						KalturaLog::log("ignoring chunk: $nextChunk offset: $chunkOffset fileSize: $currentFileSize");
+						BorhanLog::log("ignoring chunk: $nextChunk offset: $chunkOffset fileSize: $currentFileSize");
 					}
 				}
 			}
@@ -331,7 +331,7 @@ class kUploadTokenMgr
 			$lockedFile = "$nextChunk.".microtime(true).".locked";
 			if (! rename($nextChunk, $lockedFile)) // another process is already appending this file
 			{
-				KalturaLog::log("rename($nextChunk, $lockedFile) failed");
+				BorhanLog::log("rename($nextChunk, $lockedFile) failed");
 				break;
 			}
 			

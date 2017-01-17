@@ -8,8 +8,8 @@ abstract class KBaseMediaParser
 	const MEDIA_PARSER_TYPE_MEDIAINFO = '0';
 	const MEDIA_PARSER_TYPE_FFMPEG = '1';
 	
-	const ERROR_NFS_FILE_DOESNT_EXIST = 21; // KalturaBatchJobAppErrors::NFS_FILE_DOESNT_EXIST
-	const ERROR_EXTRACT_MEDIA_FAILED = 31; // KalturaBatchJobAppErrors::EXTRACT_MEDIA_FAILED
+	const ERROR_NFS_FILE_DOESNT_EXIST = 21; // BorhanBatchJobAppErrors::NFS_FILE_DOESNT_EXIST
+	const ERROR_EXTRACT_MEDIA_FAILED = 31; // BorhanBatchJobAppErrors::EXTRACT_MEDIA_FAILED
 	
 	/**
 	 * @var string
@@ -22,7 +22,7 @@ abstract class KBaseMediaParser
 	 * @param KSchedularTaskConfig $taskConfig
 	 * @return KBaseMediaParser
 	 */
-	public static function getParser($type, $filePath, KSchedularTaskConfig $taskConfig, KalturaBatchJob $job)
+	public static function getParser($type, $filePath, KSchedularTaskConfig $taskConfig, BorhanBatchJob $job)
 	{
 		switch($type)
 		{
@@ -33,7 +33,7 @@ abstract class KBaseMediaParser
 				return new KFFMpegMediaParser($filePath, $taskConfig->params->FFMpegCmd);
 				
 			default:
-				return KalturaPluginManager::loadObject('KBaseMediaParser', $type, array($job, $taskConfig));
+				return BorhanPluginManager::loadObject('KBaseMediaParser', $type, array($job, $taskConfig));
 		}
 	}
 	
@@ -49,7 +49,7 @@ abstract class KBaseMediaParser
 	}
 	
 	/**
-	 * @return KalturaMediaInfo
+	 * @return BorhanMediaInfo
 	 */
 	public function getMediaInfo()
 	{
@@ -63,7 +63,7 @@ abstract class KBaseMediaParser
 	public function getRawMediaInfo()
 	{
 		$cmd = $this->getCommand();
-		KalturaLog::debug("Executing '$cmd'");
+		BorhanLog::debug("Executing '$cmd'");
 		$output = shell_exec($cmd);
 		if (trim($output) === "")
 			throw new kApplicativeException(KBaseMediaParser::ERROR_EXTRACT_MEDIA_FAILED, "Failed to parse media using " . get_class($this));
@@ -73,10 +73,10 @@ abstract class KBaseMediaParser
 	
 	/**
 	 * 
-	 * @param KalturaMediaInfo $mediaInfo
-	 * @return KalturaMediaInfo
+	 * @param BorhanMediaInfo $mediaInfo
+	 * @return BorhanMediaInfo
 	 */
-	public static function removeUnsetFields(KalturaMediaInfo $mediaInfo)
+	public static function removeUnsetFields(BorhanMediaInfo $mediaInfo)
 	{
 		foreach($mediaInfo as $key => $value) {
            	if(!isset($value)){
@@ -88,11 +88,11 @@ abstract class KBaseMediaParser
 	
 	/**
 	 * 
-	 * @param KalturaMediaInfo $mIn
-	 * @param KalturaMediaInfo $mOut
-	 * @return KalturaMediaInfo
+	 * @param BorhanMediaInfo $mIn
+	 * @param BorhanMediaInfo $mOut
+	 * @return BorhanMediaInfo
 	 */
-	public static function copyFields(KalturaMediaInfo $mIn, KalturaMediaInfo $mOut)
+	public static function copyFields(BorhanMediaInfo $mIn, BorhanMediaInfo $mOut)
 	{
 		foreach($mIn as $key => $value) {
 			$mOut->$key = $mIn->$key;
@@ -102,8 +102,8 @@ abstract class KBaseMediaParser
 
 	/**
 	 * 
-	 * @param KalturaMediaInfo $m1
-	 * @param KalturaMediaInfo $m2
+	 * @param BorhanMediaInfo $m1
+	 * @param BorhanMediaInfo $m2
 	 */
 	public static function compareFields($m1, $m2)
 	{
@@ -265,10 +265,10 @@ $audio_codec_id_synonyms = array(
 	
 	/**
 	 * 
-	 * @param KalturaMediaInfo $mediaInfo
+	 * @param BorhanMediaInfo $mediaInfo
 	 * @return boolean
 	 */
-	public static function isVideoSet(KalturaMediaInfo $mediaInfo)
+	public static function isVideoSet(BorhanMediaInfo $mediaInfo)
 	{
 		if(isset($mediaInfo->videoCodecId))
 			return true;
@@ -294,10 +294,10 @@ $audio_codec_id_synonyms = array(
 	
 	/**
 	 * 
-	 * @param KalturaMediaInfo $mediaInfo
+	 * @param BorhanMediaInfo $mediaInfo
 	 * @return boolean
 	 */
-	public static function isAudioSet(KalturaMediaInfo $mediaInfo)
+	public static function isAudioSet(BorhanMediaInfo $mediaInfo)
 	{
 		if(isset($mediaInfo->audioCodecId))
 			return true;
@@ -326,7 +326,7 @@ $audio_codec_id_synonyms = array(
 	/**
 	 * 
 	 * @param string $output
-	 * @return KalturaMediaInfo
+	 * @return BorhanMediaInfo
 	 */
 	protected abstract function parseOutput($output);
 }

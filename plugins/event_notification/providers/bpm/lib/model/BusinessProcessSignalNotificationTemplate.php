@@ -28,9 +28,9 @@ class BusinessProcessSignalNotificationTemplate extends BusinessProcessNotificat
 
 		// check if event template is dispatching from a batch job event, if so, try to get the right case to signal
 		$currentCaseId = null;
-		if ($scope instanceof kEventScope && $scope->getEvent() instanceof IKalturaBatchJobRelatedEvent)
+		if ($scope instanceof kEventScope && $scope->getEvent() instanceof IBorhanBatchJobRelatedEvent)
 		{
-			/** @var IKalturaBatchJobRelatedEvent $currentEvent */
+			/** @var IBorhanBatchJobRelatedEvent $currentEvent */
 			$currentEvent = $scope->getEvent();
 			$eventBatchJob = $currentEvent->getBatchJob();
 			$eventJobData = $eventBatchJob->getData();

@@ -3,10 +3,10 @@
  * @package api
  * @subpackage enum
  */
-class KalturaObjectFeatureType extends KalturaDynamicEnum implements ObjectFeatureType
+class BorhanObjectFeatureType extends BorhanDynamicEnum implements ObjectFeatureType
 {
 	/* (non-PHPdoc)
-	 * @see IKalturaDynamicEnum::getEnumClass()
+	 * @see IBorhanDynamicEnum::getEnumClass()
 	 */
 	public static function getEnumClass() 
 	{
@@ -14,7 +14,7 @@ class KalturaObjectFeatureType extends KalturaDynamicEnum implements ObjectFeatu
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaEnum::getDescriptions()
+	 * @see IBorhanEnum::getDescriptions()
 	 */
 	public static function getDescriptions() {
 		// TODO Auto-generated method stub

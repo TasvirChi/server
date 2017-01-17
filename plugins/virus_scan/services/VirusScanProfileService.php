@@ -6,7 +6,7 @@
  * @package plugins.virusScan
  * @subpackage api.services
  */
-class VirusScanProfileService extends KalturaBaseService
+class VirusScanProfileService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -19,21 +19,21 @@ class VirusScanProfileService extends KalturaBaseService
 		}
 		
 		if(!VirusScanPlugin::isAllowedPartner($this->getPartnerId()))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, VirusScanPlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, VirusScanPlugin::PLUGIN_NAME);
 	}
 	
 	/**
 	 * List virus scan profile objects by filter and pager
 	 * 
 	 * @action list
-	 * @param KalturaVirusScanProfileFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaVirusScanProfileListResponse
+	 * @param BorhanVirusScanProfileFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanVirusScanProfileListResponse
 	 */
-	function listAction(KalturaVirusScanProfileFilter  $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanVirusScanProfileFilter  $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaVirusScanProfileFilter;
+			$filter = new BorhanVirusScanProfileFilter;
 			
 		$virusScanProfileFilter = $filter->toObject();
 		
@@ -42,25 +42,25 @@ class VirusScanProfileService extends KalturaBaseService
 		$count = VirusScanProfilePeer::doCount($c);
 		
 		if (! $pager)
-			$pager = new KalturaFilterPager ();
+			$pager = new BorhanFilterPager ();
 		$pager->attachToCriteria ( $c );
 		$list = VirusScanProfilePeer::doSelect($c);
 		
-		$response = new KalturaVirusScanProfileListResponse();
-		$response->objects = KalturaVirusScanProfileArray::fromDbArray($list, $this->getResponseProfile());
+		$response = new BorhanVirusScanProfileListResponse();
+		$response->objects = BorhanVirusScanProfileArray::fromDbArray($list, $this->getResponseProfile());
 		$response->totalCount = $count;
 		
 		return $response;
 	}
 	
 	/**
-	 * Allows you to add an virus scan profile object and virus scan profile content associated with Kaltura object
+	 * Allows you to add an virus scan profile object and virus scan profile content associated with Borhan object
 	 * 
 	 * @action add
-	 * @param KalturaVirusScanProfile $virusScanProfile
-	 * @return KalturaVirusScanProfile
+	 * @param BorhanVirusScanProfile $virusScanProfile
+	 * @return BorhanVirusScanProfile
 	 */
-	function addAction(KalturaVirusScanProfile $virusScanProfile)
+	function addAction(BorhanVirusScanProfile $virusScanProfile)
 	{
 		$virusScanProfile->validatePropertyNotNull("engineType");
 		$virusScanProfile->validatePropertyNotNull("actionIfInfected");
@@ -70,13 +70,13 @@ class VirusScanProfileService extends KalturaBaseService
 			$virusScanProfile->name = time();
 			
 		if(!$virusScanProfile->status)
-			$virusScanProfile->status = KalturaVirusScanProfileStatus::DISABLED;
+			$virusScanProfile->status = BorhanVirusScanProfileStatus::DISABLED;
 			
 		$dbVirusScanProfile = $virusScanProfile->toInsertableObject();
 		$dbVirusScanProfile->setPartnerId($this->getPartnerId());
 		$dbVirusScanProfile->save();
 		
-		$virusScanProfile = new KalturaVirusScanProfile();
+		$virusScanProfile = new BorhanVirusScanProfile();
 		$virusScanProfile->fromObject($dbVirusScanProfile, $this->getResponseProfile());
 		
 		return $virusScanProfile;
@@ -87,17 +87,17 @@ class VirusScanProfileService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param int $virusScanProfileId 
-	 * @return KalturaVirusScanProfile
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @return BorhanVirusScanProfile
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */		
 	function getAction($virusScanProfileId)
 	{
 		$dbVirusScanProfile = VirusScanProfilePeer::retrieveByPK( $virusScanProfileId );
 		
 		if(!$dbVirusScanProfile)
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $virusScanProfileId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $virusScanProfileId);
 			
-		$virusScanProfile = new KalturaVirusScanProfile();
+		$virusScanProfile = new BorhanVirusScanProfile();
 		$virusScanProfile->fromObject($dbVirusScanProfile, $this->getResponseProfile());
 		
 		return $virusScanProfile;
@@ -109,17 +109,17 @@ class VirusScanProfileService extends KalturaBaseService
 	 * 
 	 * @action update
 	 * @param int $virusScanProfileId
-	 * @param KalturaVirusScanProfile $virusScanProfile
-	 * @return KalturaVirusScanProfile
+	 * @param BorhanVirusScanProfile $virusScanProfile
+	 * @return BorhanVirusScanProfile
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */	
-	function updateAction($virusScanProfileId, KalturaVirusScanProfile $virusScanProfile)
+	function updateAction($virusScanProfileId, BorhanVirusScanProfile $virusScanProfile)
 	{
 		$dbVirusScanProfile = VirusScanProfilePeer::retrieveByPK($virusScanProfileId);
 	
 		if (!$dbVirusScanProfile)
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $virusScanProfileId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $virusScanProfileId);
 		
 		$dbVirusScanProfile = $virusScanProfile->toUpdatableObject($dbVirusScanProfile);
 		$dbVirusScanProfile->save();
@@ -134,21 +134,21 @@ class VirusScanProfileService extends KalturaBaseService
 	 * 
 	 * @action delete
 	 * @param int $virusScanProfileId 
-	 * @return KalturaVirusScanProfile
+	 * @return BorhanVirusScanProfile
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */		
 	function deleteAction($virusScanProfileId)
 	{
 		$dbVirusScanProfile = VirusScanProfilePeer::retrieveByPK($virusScanProfileId);
 	
 		if (!$dbVirusScanProfile)
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $virusScanProfileId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $virusScanProfileId);
 		
-		$dbVirusScanProfile->setStatus(KalturaVirusScanProfileStatus::DELETED);
+		$dbVirusScanProfile->setStatus(BorhanVirusScanProfileStatus::DELETED);
 		$dbVirusScanProfile->save();
 			
-		$virusScanProfile = new KalturaVirusScanProfile();
+		$virusScanProfile = new BorhanVirusScanProfile();
 		$virusScanProfile->fromObject($dbVirusScanProfile, $this->getResponseProfile());
 		
 		return $virusScanProfile;
@@ -162,15 +162,15 @@ class VirusScanProfileService extends KalturaBaseService
 	 * @param string $flavorAssetId 
 	 * @return int job id
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
-	 * @throws KalturaErrors::INVALID_FLAVOR_ASSET_ID
-	 * @throws KalturaErrors::INVALID_FILE_SYNC_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_FLAVOR_ASSET_ID
+	 * @throws BorhanErrors::INVALID_FILE_SYNC_ID
 	 */		
 	function scanAction($flavorAssetId, $virusScanProfileId = null)
 	{
 		$dbFlavorAsset = assetPeer::retrieveById($flavorAssetId);
 		if (!$dbFlavorAsset)
-			throw new KalturaAPIException(KalturaErrors::INVALID_FLAVOR_ASSET_ID, $flavorAssetId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_FLAVOR_ASSET_ID, $flavorAssetId);
 		
 		if ($virusScanProfileId)
 		{
@@ -181,12 +181,12 @@ class VirusScanProfileService extends KalturaBaseService
 			$dbVirusScanProfile = VirusScanProfilePeer::getSuitableProfile($dbFlavorAsset->getEntryId());
 		}
 		if (!$dbVirusScanProfile)
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $virusScanProfileId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $virusScanProfileId);
 			
 		$syncKey = $dbFlavorAsset->getSyncKey(flavorAsset::FILE_SYNC_FLAVOR_ASSET_SUB_TYPE_ASSET);
 		$srcFilePath = kFileSyncUtils::getLocalFilePathForKey($syncKey);
 		if(!$srcFilePath)
-			throw new KalturaAPIException(KalturaErrors::INVALID_FILE_SYNC_ID, $syncKey);
+			throw new BorhanAPIException(BorhanErrors::INVALID_FILE_SYNC_ID, $syncKey);
 			
 		$job = kVirusScanJobsManager::addVirusScanJob(null, $dbFlavorAsset->getPartnerId(), $dbFlavorAsset->getEntryId(), $dbFlavorAsset->getId(), $srcFilePath, $dbVirusScanProfile->getEngineType(), $dbVirusScanProfile->getActionIfInfected());
 		return $job->getId();

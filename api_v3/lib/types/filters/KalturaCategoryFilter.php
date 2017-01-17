@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters
  */
-class KalturaCategoryFilter extends KalturaCategoryBaseFilter
+class BorhanCategoryFilter extends BorhanCategoryBaseFilter
 {
 	static private $map_between_objects = array
 	(
@@ -65,7 +65,7 @@ class KalturaCategoryFilter extends KalturaCategoryBaseFilter
 	public $idOrInheritedParentIdIn;
 
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -73,31 +73,31 @@ class KalturaCategoryFilter extends KalturaCategoryBaseFilter
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::getListResponse()
+	 * @see BorhanRelatedFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		if ($this->orderBy === null)
-			$this->orderBy = KalturaCategoryOrderBy::DEPTH_ASC;
+			$this->orderBy = BorhanCategoryOrderBy::DEPTH_ASC;
 			
 		$categoryFilter = $this->toObject();
 		
-		$c = KalturaCriteria::create(categoryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(categoryPeer::OM_CLASS);
 		$categoryFilter->attachToCriteria($c);
 		$pager->attachToCriteria($c);
 		$dbList = categoryPeer::doSelect($c);
 		$totalCount = $c->getRecordsCount();
 		
-		$list = KalturaCategoryArray::fromDbArray($dbList, $responseProfile);
+		$list = BorhanCategoryArray::fromDbArray($dbList, $responseProfile);
 		
-		$response = new KalturaCategoryListResponse();
+		$response = new BorhanCategoryListResponse();
 		$response->objects = $list;
 		$response->totalCount = $totalCount;
 		return $response;
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::validateForResponseProfile()
+	 * @see BorhanRelatedFilter::validateForResponseProfile()
 	 */
 	public function validateForResponseProfile()
 	{
@@ -105,11 +105,11 @@ class KalturaCategoryFilter extends KalturaCategoryBaseFilter
 		{
 			if(PermissionPeer::isValidForPartner(PermissionName::FEATURE_ENABLE_RESPONSE_PROFILE_USER_CACHE, kCurrentContext::getCurrentPartnerId()))
 			{
-				KalturaResponseProfileCacher::useUserCache();
+				BorhanResponseProfileCacher::useUserCache();
 				return;
 			}
 			
-			throw new KalturaAPIException(KalturaErrors::CANNOT_LIST_RELATED_ENTITLED_WHEN_ENTITLEMENT_IS_ENABLE, get_class($this));
+			throw new BorhanAPIException(BorhanErrors::CANNOT_LIST_RELATED_ENTITLED_WHEN_ENTITLEMENT_IS_ENABLE, get_class($this));
 		}
 	}
 }

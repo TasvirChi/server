@@ -3,12 +3,12 @@
 /**
  * Auto-generated class.
  * 
- * Used to search KalturaPlaylist attributes. Use KalturaPlaylistCompareAttribute enum to provide attribute name.
+ * Used to search BorhanPlaylist attributes. Use BorhanPlaylistCompareAttribute enum to provide attribute name.
 */
-class KalturaPlaylistCompareAttributeCondition extends KalturaSearchComparableAttributeCondition
+class BorhanPlaylistCompareAttributeCondition extends BorhanSearchComparableAttributeCondition
 {
 	/**
-	 * @var KalturaPlaylistCompareAttribute
+	 * @var BorhanPlaylistCompareAttribute
 	 */
 	public $attribute;
 

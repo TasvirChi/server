@@ -3,11 +3,11 @@
  * @package api
  * @subpackage objects
  */
-class KalturaConcatJobData extends KalturaJobData
+class BorhanConcatJobData extends BorhanJobData
 {
 	/**
 	 * Source files to be concatenated
-	 * @var KalturaStringArray
+	 * @var BorhanStringArray
 	 */
 	public $srcFiles;
 	
@@ -52,7 +52,7 @@ class KalturaConcatJobData extends KalturaJobData
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -60,7 +60,7 @@ class KalturaConcatJobData extends KalturaJobData
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbData = null, $props_to_skip = array()) 
 	{

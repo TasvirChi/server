@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaCEError extends KalturaObject 
+class BorhanCEError extends BorhanObject 
 {
 	/**
 	 * @var string

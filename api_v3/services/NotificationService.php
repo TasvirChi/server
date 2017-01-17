@@ -7,15 +7,15 @@
  * @package api
  * @subpackage services
  */
-class NotificationService extends KalturaBaseService 
+class NotificationService extends BorhanBaseService 
 {
 	/**
 	 * Return the notifications for a specific entry id and type
 	 * 
 	 * @action getClientNotification
 	 * @param string $entryId
-	 * @param KalturaNotificationType $type
-	 * @return KalturaClientNotification
+	 * @param BorhanNotificationType $type
+	 * @return BorhanClientNotification
 	 */
 	function getClientNotificationAction($entryId, $type)
 	{
@@ -23,7 +23,7 @@ class NotificationService extends KalturaBaseService
 		// in such a case return immidiately without looking for the notification
 		if ($entryId == '')
 		{
-            throw new KalturaAPIException(KalturaErrors::NOTIFICATION_FOR_ENTRY_NOT_FOUND, $entryId);
+            throw new BorhanAPIException(BorhanErrors::NOTIFICATION_FOR_ENTRY_NOT_FOUND, $entryId);
 		}
 		
 		$notifications = BatchJobPeer::retrieveByEntryIdAndType($entryId, BatchJobType::NOTIFICATION, $type);
@@ -31,7 +31,7 @@ class NotificationService extends KalturaBaseService
 		// FIXME: throw error if not found		
 		if (count($notifications) == 0)
 		{
-            throw new KalturaAPIException(KalturaErrors::NOTIFICATION_FOR_ENTRY_NOT_FOUND, $entryId);
+            throw new BorhanAPIException(BorhanErrors::NOTIFICATION_FOR_ENTRY_NOT_FOUND, $entryId);
 		}
 		
 	    $notification = $notifications[0];
@@ -42,13 +42,13 @@ class NotificationService extends KalturaBaseService
 		list($nofity, $nofication_config_str) = myPartnerUtils::shouldNotify($partnerId);
 		
 		if (!$nofity)
-			return new KalturaClientNotification();
+			return new BorhanClientNotification();
 			
 		$nofication_config = myNotificationsConfig::getInstance($nofication_config_str);
 		$nofity_send_type = $nofication_config->shouldNotify($type);
 	    
 	    if ($nofity_send_type != myNotificationMgr::NOTIFICATION_MGR_SEND_SYNCH && $nofity_send_type != myNotificationMgr::NOTIFICATION_MGR_SEND_BOTH)
-	    	return new KalturaClientNotification();
+	    	return new BorhanClientNotification();
 	    
 		$partner = PartnerPeer::retrieveByPK($partnerId);
 		list($url, $signatureKey) = myNotificationMgr::getPartnerNotificationInfo ($partner );
@@ -56,7 +56,7 @@ class NotificationService extends KalturaBaseService
 		list($params, $rawSignature) = myNotificationMgr::prepareNotificationData($url, $signatureKey, $notification, null);
 		$serializedParams = http_build_query( $params , "" , "&" );
 		
-		$result = new KalturaClientNotification();
+		$result = new BorhanClientNotification();
 		$result->url = $url;
 		$result->data = $serializedParams;
 		

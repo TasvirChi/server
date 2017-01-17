@@ -3,12 +3,12 @@
  * @package plugins.logView
  * @subpackage admin
  */
-class KalturaObjectInvestigateLogAction extends KalturaApplicationPlugin
+class BorhanObjectInvestigateLogAction extends BorhanApplicationPlugin
 {
 	
 	public function __construct()
 	{
-		$this->action = 'KalturaObjectInvestigateLogAction';
+		$this->action = 'BorhanObjectInvestigateLogAction';
 		$this->label = 'Logs Search';
 		$this->rootLabel = 'Developer';
 	}

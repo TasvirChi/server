@@ -3,14 +3,14 @@
  * @package api
  * @subpackage objects
  */
-class KalturaRemotePathArray extends KalturaTypedArray
+class BorhanRemotePathArray extends BorhanTypedArray
 {
-	public static function fromDbArray(array $arr = null, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $arr = null, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaRemotePathArray();
+		$newArr = new BorhanRemotePathArray();
 		foreach($arr as $obj)
 		{
-			$nObj = new KalturaRemotePath();
+			$nObj = new BorhanRemotePath();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -20,6 +20,6 @@ class KalturaRemotePathArray extends KalturaTypedArray
 	
 	public function __construct( )
 	{
-		return parent::__construct ( "KalturaRemotePath" );
+		return parent::__construct ( "BorhanRemotePath" );
 	}
 }

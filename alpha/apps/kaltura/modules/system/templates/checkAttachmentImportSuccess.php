@@ -41,8 +41,8 @@ function onMobileInsertComplete( responseText )
 
 <?php
 
-$host="mail.kaltura.com"; //  imap host
-$login="mobile@kaltura.com"; //imap  login
+$host="mail.borhan.com"; //  imap host
+$login="mobile@borhan.com"; //imap  login
 $password="passme"; //imap password
 
 $importer=new myMailAttachmentImporter(); // Creating instance of class####

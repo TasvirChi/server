@@ -5,11 +5,11 @@
  * @package plugins.emailNotification
  * @subpackage model.data
  */
-class KalturaEmailNotificationStaticRecipientJobData extends KalturaEmailNotificationRecipientJobData
+class BorhanEmailNotificationStaticRecipientJobData extends BorhanEmailNotificationRecipientJobData
 {
 	/**
 	 * Email to emails and names
-	 * @var KalturaKeyValueArray
+	 * @var BorhanKeyValueArray
 	 */
 	public $emailRecipients;
 	
@@ -18,7 +18,7 @@ class KalturaEmailNotificationStaticRecipientJobData extends KalturaEmailNotific
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -26,27 +26,27 @@ class KalturaEmailNotificationStaticRecipientJobData extends KalturaEmailNotific
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaEmailNotificationRecipientJobData::setProviderType()
+	 * @see BorhanEmailNotificationRecipientJobData::setProviderType()
 	 */
 	protected function setProviderType() 
 	{
-		$this->providerType = KalturaEmailNotificationRecipientProviderType::STATIC_LIST;	
+		$this->providerType = BorhanEmailNotificationRecipientProviderType::STATIC_LIST;	
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject($source_object)
+	 * @see BorhanObject::fromObject($source_object)
 	 */
-	public function doFromObject($dbObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($dbObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		/* @var $dbObject kEmailNotificationStaticRecipientJobData */
 		parent::doFromObject($dbObject, $responseProfile);
 		$this->setProviderType();
 		
-		$this->emailRecipients = KalturaKeyValueArray::fromKeyValueArray($dbObject->getEmailRecipients());
+		$this->emailRecipients = BorhanKeyValueArray::fromKeyValueArray($dbObject->getEmailRecipients());
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($dbObject = null, $propertiesToSkip = array())
 	{

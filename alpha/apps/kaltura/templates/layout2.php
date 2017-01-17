@@ -38,7 +38,7 @@
 		<?php
 		
 		$modules = array('browse', 'contribute', 'edit', 'emailImport', 'kshowcss',
-			'login', 'mail', 'mykaltura', 'produce', 'home', 'tour', 
+			'login', 'mail', 'myborhan', 'produce', 'home', 'tour', 
 			'search', 'sns', 'static', 'system', 'upload', 'forum' );
 			
 		foreach($modules as $module)
@@ -65,7 +65,7 @@
 						<?php $screenname = $sf_user->getAttribute('screenname');
 								if($sf_user->isAuthenticated())
 								{
-									echo "<li class='user bordered'>Hello,<a href='".url_for('/mykaltura')."/viewprofile?screenname=$screenname'>". substr( $screenname, 0, 13 )."</a></li>";
+									echo "<li class='user bordered'>Hello,<a href='".url_for('/myborhan')."/viewprofile?screenname=$screenname'>". substr( $screenname, 0, 13 )."</a></li>";
 									echo "<li><a href='".url_for('/login/signout')."'>Sign out</a></li>";
 								}
 								else
@@ -75,12 +75,12 @@
 								}
 						?>
 					</ul>
-					<button class="startKaltura" onclick="onClickNavBarCreate()"></button>
+					<button class="startBorhan" onclick="onClickNavBarCreate()"></button>
 					<ul class="bottomLinks userMenu">
 						<li class="bordered"><a href="<?php echo url_for('/edit')."?kshow_id=2"; ?>">Try out video editor</a></li>
 						<li><a href="<?php echo url_for('/tour'); ?>">Take the tour</a></li>
 					</ul><!-- end bottomLinks-->
-					<div class="search"><div><input type="text" id="navBarSearchInput" value="Search Kaltura" /></div><b id="navBarSearcGo"></b></div><!-- end search-->
+					<div class="search"><div><input type="text" id="navBarSearchInput" value="Search Borhan" /></div><b id="navBarSearcGo"></b></div><!-- end search-->
 				</div><!-- end innerwrap-->
 				<?php
 				if (!@$disableGoogleAd)
@@ -113,8 +113,8 @@
 				?>
 				<!--  <a style="width:405px; height:60px; margin:45px 0 0 255px; display:block; background: url(/images/press/logos/TCbanner.gif) no-repeat 0 0;" href="/index.php/static/news"></a>  -->
 				<div style="height: 70px; line-height:70px; margin:45px 0 0 255px;">
-					<a style="display: inline; margin-right: 40px;" href="http://mashable.com/2007/12/21/open-web-awards-winners/"><img src="http://www.kaltura.com/content/dynamic/mashableOW.gif" alt="" /></a>
-					<a style="display: inline;" href="http://www.techcrunch.com/2007/09/18/kaltura-wins-spot-as-40th-company-at-techcrunch40/"><img src="http://www.kaltura.com/content/dynamic/techCrunchWinner.gif" alt="" /></a>
+					<a style="display: inline; margin-right: 40px;" href="http://mashable.com/2007/12/21/open-web-awards-winners/"><img src="http://www.borhan.com/content/dynamic/mashableOW.gif" alt="" /></a>
+					<a style="display: inline;" href="http://www.techcrunch.com/2007/09/18/borhan-wins-spot-as-40th-company-at-techcrunch40/"><img src="http://www.borhan.com/content/dynamic/techCrunchWinner.gif" alt="" /></a>
 				</div>
 				<?php
 				}
@@ -138,7 +138,7 @@
 				<li class="last"><a href="/index.php/static/contactus">Contact Us</a></li>
 			</ul>
 			<p>
-				Copyright © 2008 Kaltura Inc. All Rights Reserved. Designated trademarks and brands are the property of their respective owners.
+				Copyright © 2008 Borhan Inc. All Rights Reserved. Designated trademarks and brands are the property of their respective owners.
 				<br/>
 				Use of this web site constitutes acceptance of the <a href="/index.php/static/tandc">Terms of Use</a> and <a href="/index.php/static/privacy">Privacy Policy</a><br/>
 				<br />This work is licensed under a 

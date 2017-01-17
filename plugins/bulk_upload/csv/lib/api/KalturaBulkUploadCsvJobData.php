@@ -5,18 +5,18 @@
  * @package plugins.bulkUploadCsv
  * @subpackage api.objects
  */
-class KalturaBulkUploadCsvJobData extends KalturaBulkUploadJobData
+class BorhanBulkUploadCsvJobData extends BorhanBulkUploadJobData
 {	
 	/**
 	 * The version of the csv file
-	 * @var KalturaBulkUploadCsvVersion
+	 * @var BorhanBulkUploadCsvVersion
 	 * @readonly
 	 */
 	public $csvVersion = null;
 	
 	/**
 	 * Array containing CSV headers
-	 * @var KalturaStringArray
+	 * @var BorhanStringArray
 	 */
 	public $columns;
 	
@@ -56,6 +56,6 @@ class KalturaBulkUploadCsvJobData extends KalturaBulkUploadJobData
 	
 	public function setType ()
 	{
-	    $this->type = kPluginableEnumsManager::coreToApi("KalturaBulkUploadType", BulkUploadCsvPlugin::getApiValue(BulkUploadCsvType::CSV));
+	    $this->type = kPluginableEnumsManager::coreToApi("BorhanBulkUploadType", BulkUploadCsvPlugin::getApiValue(BulkUploadCsvType::CSV));
 	}
 }

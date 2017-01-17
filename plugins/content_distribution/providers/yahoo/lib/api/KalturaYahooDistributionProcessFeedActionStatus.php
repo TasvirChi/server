@@ -3,7 +3,7 @@
  * @package plugins.yahooDistribution
  * @subpackage api.enum
  */
-class KalturaYahooDistributionProcessFeedActionStatus extends KalturaEnum implements YahooDistributionProcessFeedStatus
+class BorhanYahooDistributionProcessFeedActionStatus extends BorhanEnum implements YahooDistributionProcessFeedStatus
 {
 	// see YahooDistributionProcessFeedStatus interface
 }

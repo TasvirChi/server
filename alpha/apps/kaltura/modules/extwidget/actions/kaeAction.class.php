@@ -3,7 +3,7 @@
  * @package Core
  * @subpackage externalWidgets
  */
-class kaeAction extends sfAction
+class baeAction extends sfAction
 {
 	
 	/**

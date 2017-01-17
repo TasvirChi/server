@@ -64,7 +64,7 @@ class kAttUverseDistributionEventConsumer implements kBatchJobStatusEventConsume
 		$entryDistribution = EntryDistributionPeer::retrieveByPK($data->getEntryDistributionId());
 		if(!$entryDistribution)
 		{
-			KalturaLog::err("Entry distribution [" . $data->getEntryDistributionId() . "] not found");
+			BorhanLog::err("Entry distribution [" . $data->getEntryDistributionId() . "] not found");
 			return $dbBatchJob;
 		}
 		

@@ -2,12 +2,12 @@
 /**
  * @package api
  * @subpackage objects
- * @deprecated use KalturaAccessControlProfileListResponse instead
+ * @deprecated use BorhanAccessControlProfileListResponse instead
  */
-class KalturaAccessControlListResponse extends KalturaListResponse
+class BorhanAccessControlListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaAccessControlArray
+	 * @var BorhanAccessControlArray
 	 * @readonly
 	 */
 	public $objects;

@@ -3,7 +3,7 @@
  * @package plugins.youtubeApiDistribution
  * @subpackage api.objects
  */
-class KalturaYoutubeApiDistributionProfile extends KalturaConfigurableDistributionProfile
+class BorhanYoutubeApiDistributionProfile extends BorhanConfigurableDistributionProfile
 {
 	/**
 	 * @var string
@@ -92,9 +92,9 @@ class KalturaYoutubeApiDistributionProfile extends KalturaConfigurableDistributi
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::doFromObject($srcObj, $responseProfile)
+	 * @see BorhanObject::doFromObject($srcObj, $responseProfile)
 	 */
-	protected function doFromObject($distributionProfile, KalturaDetachedResponseProfile $responseProfile = null)
+	protected function doFromObject($distributionProfile, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		/* @var $distributionProfile YoutubeApiDistributionProfile */
 		parent::doFromObject($distributionProfile, $responseProfile);

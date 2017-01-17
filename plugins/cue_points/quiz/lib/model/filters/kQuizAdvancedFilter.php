@@ -29,7 +29,7 @@ class kQuizAdvancedFilter extends AdvancedSearchFilterItem
 	/* (non-PHPdoc)
 	 * @see AdvancedSearchFilterItem::applyCondition()
 	 */
-	public function applyCondition(IKalturaDbQuery $query)
+	public function applyCondition(IBorhanDbQuery $query)
 	{
 		$query->addCondition(entryIndex::DYNAMIC_ATTRIBUTES . '.' .  QuizPlugin::getDynamicAttributeName() . ' = ' . ( $this->isQuiz ?  '1' : '0' ) );
 	}

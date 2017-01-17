@@ -4,10 +4,10 @@
  * @subpackage api.objects
  * @deprecated
  */
-class KalturaEventConditionArray extends KalturaTypedArray
+class BorhanEventConditionArray extends BorhanTypedArray
 {
 	public function __construct()
 	{
-		parent::__construct("KalturaEventCondition");	
+		parent::__construct("BorhanEventCondition");	
 	}
 }

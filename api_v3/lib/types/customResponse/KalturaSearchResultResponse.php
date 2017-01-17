@@ -4,10 +4,10 @@
  * @subpackage objects
  * @deprecated
  */
-class KalturaSearchResultResponse extends KalturaObject
+class BorhanSearchResultResponse extends BorhanObject
 {
 	/**
-	 * @var KalturaSearchResultArray
+	 * @var BorhanSearchResultArray
 	 * @readonly
 	 */
 	public $objects;

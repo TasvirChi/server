@@ -3,6 +3,6 @@
  * @package plugins.widevine
  * @subpackage api.filters.enum
  */
-class KalturaWidevineProfileOrderBy extends KalturaDrmProfileOrderBy
+class BorhanWidevineProfileOrderBy extends BorhanDrmProfileOrderBy
 {
 }

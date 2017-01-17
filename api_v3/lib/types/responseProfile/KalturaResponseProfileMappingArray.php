@@ -3,11 +3,11 @@
  * @package api
  * @subpackage objects
  */
-class KalturaResponseProfileMappingArray extends KalturaTypedArray
+class BorhanResponseProfileMappingArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaResponseProfileMappingArray();
+		$newArr = new BorhanResponseProfileMappingArray();
 		if ($arr == null)
 			return $newArr;
 
@@ -15,12 +15,12 @@ class KalturaResponseProfileMappingArray extends KalturaTypedArray
 		{
 			$dbClass = get_class($obj);
 			if ($dbClass == 'kResponseProfileMapping')
-				$nObj = new KalturaResponseProfileMapping();
+				$nObj = new BorhanResponseProfileMapping();
 			else
-				$nObj = KalturaPluginManager::loadObject('KalturaResponseProfileMapping', $dbClass);
+				$nObj = BorhanPluginManager::loadObject('BorhanResponseProfileMapping', $dbClass);
 
 			if (is_null($nObj))
-				KalturaLog::err('Failed to load api object for '.$dbClass);
+				BorhanLog::err('Failed to load api object for '.$dbClass);
 
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
@@ -31,6 +31,6 @@ class KalturaResponseProfileMappingArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaResponseProfileMapping");	
+		parent::__construct("BorhanResponseProfileMapping");	
 	}
 }

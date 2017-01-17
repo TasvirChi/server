@@ -3,12 +3,12 @@
  * @package plugins.captions
  * @subpackage model.enum
  */
-class CaptionObjectFeatureType implements IKalturaPluginEnum, ObjectFeatureType
+class CaptionObjectFeatureType implements IBorhanPluginEnum, ObjectFeatureType
 {
 	const CAPTIONS = 'Captions';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPluginEnum::getAdditionalValues()
+	 * @see IBorhanPluginEnum::getAdditionalValues()
 	 */
 	public static function getAdditionalValues() 
 	{
@@ -20,7 +20,7 @@ class CaptionObjectFeatureType implements IKalturaPluginEnum, ObjectFeatureType
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPluginEnum::getAdditionalDescriptions()
+	 * @see IBorhanPluginEnum::getAdditionalDescriptions()
 	 */
 	public static function getAdditionalDescriptions() {
 		return array();

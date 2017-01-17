@@ -3,7 +3,7 @@
  * @package plugins.cuePoint
  * @subpackage api.filters
  */
-class KalturaCuePointFilter extends KalturaCuePointBaseFilter
+class BorhanCuePointFilter extends BorhanCuePointBaseFilter
 {
 	/**
 	 * @var string
@@ -11,12 +11,12 @@ class KalturaCuePointFilter extends KalturaCuePointBaseFilter
 	public $freeText;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $userIdEqualCurrent;
 	
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $userIdCurrent;
 	
@@ -35,13 +35,13 @@ class KalturaCuePointFilter extends KalturaCuePointBaseFilter
 	protected function validateEntryIdFiltered()
 	{
 		if(!$this->idEqual && !$this->idIn && !$this->entryIdEqual && !$this->entryIdIn)
-			throw new KalturaAPIException(KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL,
+			throw new BorhanAPIException(BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL,
 					$this->getFormattedPropertyNameWithClassName('idEqual') . '/' . $this->getFormattedPropertyNameWithClassName('idIn') . '/' .
 					$this->getFormattedPropertyNameWithClassName('entryIdEqual') . '/' . $this->getFormattedPropertyNameWithClassName('entryIdIn'));
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -50,7 +50,7 @@ class KalturaCuePointFilter extends KalturaCuePointBaseFilter
 	
 	protected function translateUserIds()
 	{		
-		if($this->userIdCurrent == KalturaNullableBoolean::TRUE_VALUE)
+		if($this->userIdCurrent == BorhanNullableBoolean::TRUE_VALUE)
 		{
 			if(kCurrentContext::$ks_kuser_id)
 			{
@@ -58,7 +58,7 @@ class KalturaCuePointFilter extends KalturaCuePointBaseFilter
 			}
 			else
 			{
-				$this->isPublicEqual = KalturaNullableBoolean::TRUE_VALUE;
+				$this->isPublicEqual = BorhanNullableBoolean::TRUE_VALUE;
 			}
 			$this->userIdCurrent = null;
 		}
@@ -66,7 +66,7 @@ class KalturaCuePointFilter extends KalturaCuePointBaseFilter
 		if(isset($this->userIdEqual)){
 			$dbKuser = kuserPeer::getKuserByPartnerAndUid(kCurrentContext::$ks_partner_id, $this->userIdEqual);
 			if (! $dbKuser) {
-				throw new KalturaAPIException ( KalturaErrors::INVALID_USER_ID );
+				throw new BorhanAPIException ( BorhanErrors::INVALID_USER_ID );
 			}
 			$this->userIdEqual = $dbKuser->getId();
 		}
@@ -76,7 +76,7 @@ class KalturaCuePointFilter extends KalturaCuePointBaseFilter
 			foreach ($userIds as $userId){
 				$dbKuser = kuserPeer::getKuserByPartnerAndUid(kCurrentContext::$ks_partner_id, $userId);
 				if (! $dbKuser) {
-				    throw new KalturaAPIException ( KalturaErrors::INVALID_USER_ID );
+				    throw new BorhanAPIException ( BorhanErrors::INVALID_USER_ID );
 			}
 				$kuserIds = $dbKuser->getId().",";
 			}
@@ -87,10 +87,10 @@ class KalturaCuePointFilter extends KalturaCuePointBaseFilter
 	
 	protected function getCriteria()
 	{
-	    return KalturaCriteria::create(CuePointPeer::OM_CLASS);
+	    return BorhanCriteria::create(CuePointPeer::OM_CLASS);
 	}
 	
-	protected function doGetListResponse(KalturaFilterPager $pager, $type = null)
+	protected function doGetListResponse(BorhanFilterPager $pager, $type = null)
 	{
 		$this->validateEntryIdFiltered();
 		if (!is_null($this->userIdEqualCurrent) && $this->userIdEqualCurrent)
@@ -118,7 +118,7 @@ class KalturaCuePointFilter extends KalturaCuePointBaseFilter
 		}
 		
 		if (! is_null ( $entryIds )) {
-			$entryIds = entryPeer::filterEntriesByPartnerOrKalturaNetwork ( $entryIds, kCurrentContext::getCurrentPartnerId());
+			$entryIds = entryPeer::filterEntriesByPartnerOrBorhanNetwork ( $entryIds, kCurrentContext::getCurrentPartnerId());
 			if (! $entryIds) {
 				return array(array(), 0);
 			}
@@ -137,30 +137,30 @@ class KalturaCuePointFilter extends KalturaCuePointBaseFilter
 		return array($list, $c->getRecordsCount());
 	}
 	
-	public function getTypeListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null, $type = null)
+	public function getTypeListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null, $type = null)
 	{
 		//Was added to avoid braking backward compatibility for old player chapters module
-		if(isset($this->tagsLike) && $this->tagsLike==KalturaAnnotationFilter::CHAPTERS_PUBLIC_TAG)
-			KalturaCriterion::disableTag(KalturaCriterion::TAG_WIDGET_SESSION);
+		if(isset($this->tagsLike) && $this->tagsLike==BorhanAnnotationFilter::CHAPTERS_PUBLIC_TAG)
+			BorhanCriterion::disableTag(BorhanCriterion::TAG_WIDGET_SESSION);
 
 		list($list, $totalCount) = $this->doGetListResponse($pager, $type);
-		$response = new KalturaCuePointListResponse();
-		$response->objects = KalturaCuePointArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanCuePointListResponse();
+		$response->objects = BorhanCuePointArray::fromDbArray($list, $responseProfile);
 		$response->totalCount = $totalCount;
 	
 		return $response;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::getListResponse()
+	 * @see BorhanRelatedFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		return $this->getTypeListResponse($pager, $responseProfile);
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::validateForResponseProfile()
+	 * @see BorhanRelatedFilter::validateForResponseProfile()
 	 */
 	public function validateForResponseProfile()
 	{
@@ -172,11 +172,11 @@ class KalturaCuePointFilter extends KalturaCuePointBaseFilter
 		{
 			if(PermissionPeer::isValidForPartner(PermissionName::FEATURE_ENABLE_RESPONSE_PROFILE_USER_CACHE, kCurrentContext::getCurrentPartnerId()))
 			{
-				KalturaResponseProfileCacher::useUserCache();
+				BorhanResponseProfileCacher::useUserCache();
 				return;
 			}
 			
-			throw new KalturaAPIException(KalturaCuePointErrors::USER_KS_CANNOT_LIST_RELATED_CUE_POINTS, get_class($this));
+			throw new BorhanAPIException(BorhanCuePointErrors::USER_KS_CANNOT_LIST_RELATED_CUE_POINTS, get_class($this));
 		}
 	}
 }

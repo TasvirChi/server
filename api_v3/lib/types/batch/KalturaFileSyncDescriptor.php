@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaFileSyncDescriptor extends KalturaObject
+class BorhanFileSyncDescriptor extends BorhanObject
 {
 	/**
 	 * @var string

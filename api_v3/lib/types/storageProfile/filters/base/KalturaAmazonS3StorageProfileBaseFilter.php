@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaAmazonS3StorageProfileBaseFilter extends KalturaStorageProfileFilter
+abstract class BorhanAmazonS3StorageProfileBaseFilter extends BorhanStorageProfileFilter
 {
 	static private $map_between_objects = array
 	(

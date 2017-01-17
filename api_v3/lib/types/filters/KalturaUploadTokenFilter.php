@@ -3,10 +3,10 @@
  * @package api
  * @subpackage filters
  */
-class KalturaUploadTokenFilter extends KalturaUploadTokenBaseFilter
+class BorhanUploadTokenFilter extends BorhanUploadTokenBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{

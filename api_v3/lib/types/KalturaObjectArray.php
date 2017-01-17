@@ -4,10 +4,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaObjectArray extends KalturaTypedArray
+class BorhanObjectArray extends BorhanTypedArray
 {
 	public function __construct()
 	{
-		parent::__construct('KalturaObject');
+		parent::__construct('BorhanObject');
 	}
 }

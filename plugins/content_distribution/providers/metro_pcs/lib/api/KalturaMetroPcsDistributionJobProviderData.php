@@ -3,7 +3,7 @@
  * @package plugins.metroPcsDistribution
  * @subpackage api.objects
  */
-class KalturaMetroPcsDistributionJobProviderData extends KalturaConfigurableDistributionJobProviderData
+class BorhanMetroPcsDistributionJobProviderData extends BorhanConfigurableDistributionJobProviderData
 {
 		
 	/**
@@ -18,14 +18,14 @@ class KalturaMetroPcsDistributionJobProviderData extends KalturaConfigurableDist
 	public $thumbUrls;
 	
 	
-	public function __construct(KalturaDistributionJobData $distributionJobData = null)
+	public function __construct(BorhanDistributionJobData $distributionJobData = null)
 	{			   
 		parent::__construct($distributionJobData);
 	    
 		if(!$distributionJobData)
 			return;
 			
-		if(!($distributionJobData->distributionProfile instanceof KalturaMetroPcsDistributionProfile))
+		if(!($distributionJobData->distributionProfile instanceof BorhanMetroPcsDistributionProfile))
 			return;
 			
 		$distributedFlavorIds = null;

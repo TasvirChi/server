@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaThumbnailServeOptions extends KalturaObject 
+class BorhanThumbnailServeOptions extends BorhanObject 
 {
 	/**
 	 * @var bool

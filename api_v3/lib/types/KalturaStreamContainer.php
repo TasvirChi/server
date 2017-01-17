@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaStreamContainer extends KalturaObject
+class BorhanStreamContainer extends BorhanObject
 {
 	/**
 	 * @var string
@@ -45,7 +45,7 @@ class KalturaStreamContainer extends KalturaObject
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -53,7 +53,7 @@ class KalturaStreamContainer extends KalturaObject
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($dbObject = null, $propsToSkip = array())
 	{

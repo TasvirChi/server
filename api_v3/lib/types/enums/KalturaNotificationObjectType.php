@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaNotificationObjectType extends KalturaEnum 
+class BorhanNotificationObjectType extends BorhanEnum 
 {
 	const ENTRY = 1;
 	const KSHOW = 2;

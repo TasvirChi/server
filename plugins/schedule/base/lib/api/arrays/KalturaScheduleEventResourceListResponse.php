@@ -3,10 +3,10 @@
  * @package plugins.schedule
  * @subpackage api.objects
  */
-class KalturaScheduleEventResourceListResponse extends KalturaListResponse
+class BorhanScheduleEventResourceListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaScheduleEventResourceArray
+	 * @var BorhanScheduleEventResourceArray
 	 * @readonly
 	 */
 	public $objects;

@@ -1,11 +1,11 @@
 <?php
 /**
  * @package    Core
- * @subpackage KMC
+ * @subpackage BMC
  */
-class kmc4Action extends kalturaAction
+class bmc4Action extends borhanAction
 {
-	const CURRENT_KMC_VERSION = 4;
+	const CURRENT_BMC_VERSION = 4;
 	
 	private $confs = array();
 	
@@ -17,30 +17,30 @@ class kmc4Action extends kalturaAction
 		sfView::SUCCESS;
 
 		/** check parameters and verify user is logged-in **/
-		$this->ks = $this->getP ( "kmcks" );
+		$this->ks = $this->getP ( "bmcks" );
 		if(!$this->ks)
 		{
-			// if kmcks from cookie doesn't exist, try ks from REQUEST
+			// if bmcks from cookie doesn't exist, try ks from REQUEST
 			$this->ks = $this->getP('ks');
 		}
 		
 		/** if no KS found, redirect to login page **/
 		if (!$this->ks)
 		{
-			$this->redirect( "kmc/kmc" );
+			$this->redirect( "bmc/bmc" );
 			die();
 		}
 		$ksObj = kSessionUtils::crackKs($this->ks);
 		// Set partnerId from KS
 		$this->partner_id = $ksObj->partner_id;
 
-		// Check if the KMC can be framed
-		$allowFrame = PermissionPeer::isValidForPartner(PermissionName::FEATURE_KMC_ALLOW_FRAME, $this->partner_id);
+		// Check if the BMC can be framed
+		$allowFrame = PermissionPeer::isValidForPartner(PermissionName::FEATURE_BMC_ALLOW_FRAME, $this->partner_id);
 		if(!$allowFrame) {
 			header( 'X-Frame-Options: DENY' );
 		}
 		// Check for forced HTTPS
-		$force_ssl = PermissionPeer::isValidForPartner(PermissionName::FEATURE_KMC_ENFORCE_HTTPS, $this->partner_id);
+		$force_ssl = PermissionPeer::isValidForPartner(PermissionName::FEATURE_BMC_ENFORCE_HTTPS, $this->partner_id);
 		if( $force_ssl && (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') ) {
 			header( "Location: " . infraRequestUtils::PROTOCOL_HTTPS . "://" . $_SERVER['SERVER_NAME'] . $_SERVER["REQUEST_URI"] );
 			die();
@@ -68,7 +68,7 @@ class kmc4Action extends kalturaAction
 		if (!$partner->validateApiAccessControl())
 			KExternalErrors::dieError(KExternalErrors::SERVICE_ACCESS_CONTROL_RESTRICTED);
 		
-		kmcUtils::redirectPartnerToCorrectKmc($partner, $this->ks, null, null, null, self::CURRENT_KMC_VERSION);
+		bmcUtils::redirectPartnerToCorrectBmc($partner, $this->ks, null, null, null, self::CURRENT_BMC_VERSION);
 		$this->templatePartnerId = $this->partner ? $this->partner->getTemplatePartnerId() : self::SYSTEM_DEFAULT_PARTNER;
 		$ignoreEntrySeoLinks = PermissionPeer::isValidForPartner(PermissionName::FEATURE_IGNORE_ENTRY_SEO_LINKS, $this->partner_id);
 		$useEmbedCodeProtocolHttps = PermissionPeer::isValidForPartner(PermissionName::FEATURE_EMBED_CODE_DEFAULT_PROTOCOL_HTTPS, $this->partner_id);
@@ -109,8 +109,8 @@ class kmc4Action extends kalturaAction
 
 		/** get partner languae **/
 		$language = null;
-		if ($partner->getKMCLanguage())
-			$language = $partner->getKMCLanguage();
+		if ($partner->getBMCLanguage())
+			$language = $partner->getBMCLanguage();
 
 		$first_login = $partner->getIsFirstLogin();
 		if ($first_login === true)
@@ -124,7 +124,7 @@ class kmc4Action extends kalturaAction
 		if ($partner->getLogoutUrl())
 			$logoutUrl = $partner->getLogoutUrl();
 		
-		$this->kmc_swf_version = kConf::get('kmc_version');
+		$this->bmc_swf_version = kConf::get('bmc_version');
 
 		$akamaiEdgeServerIpURL = null;
 		if( kConf::hasParam('akamai_edge_server_ip_url') ) {
@@ -133,41 +133,41 @@ class kmc4Action extends kalturaAction
 		
 	/** uiconf listing work **/
 		/** fill $confs with all uiconf objects for all modules **/
-		$kmcGeneralUiConf = kmcUtils::getAllKMCUiconfs('kmc',   $this->kmc_swf_version, self::SYSTEM_DEFAULT_PARTNER);
-		$kmcGeneralTemplateUiConf = kmcUtils::getAllKMCUiconfs('kmc',   $this->kmc_swf_version, $this->templatePartnerId);
+		$bmcGeneralUiConf = bmcUtils::getAllBMCUiconfs('bmc',   $this->bmc_swf_version, self::SYSTEM_DEFAULT_PARTNER);
+		$bmcGeneralTemplateUiConf = bmcUtils::getAllBMCUiconfs('bmc',   $this->bmc_swf_version, $this->templatePartnerId);
 
 		
 		/** for each module, create separated lists of its uiconf, for each need **/
-		/** kmc general uiconfs **/
-		$this->kmc_general = kmcUtils::find_confs_by_usage_tag($kmcGeneralTemplateUiConf, "kmc_kmcgeneral", false, $kmcGeneralUiConf);
-		$this->kmc_permissions = kmcUtils::find_confs_by_usage_tag($kmcGeneralTemplateUiConf, "kmc_kmcpermissions", false, $kmcGeneralUiConf);
+		/** bmc general uiconfs **/
+		$this->bmc_general = bmcUtils::find_confs_by_usage_tag($bmcGeneralTemplateUiConf, "bmc_bmcgeneral", false, $bmcGeneralUiConf);
+		$this->bmc_permissions = bmcUtils::find_confs_by_usage_tag($bmcGeneralTemplateUiConf, "bmc_bmcpermissions", false, $bmcGeneralUiConf);
 		/** P&E players: **/
-		//$this->content_uiconfs_previewembed = kmcUtils::find_confs_by_usage_tag($kmcGeneralTemplateUiConf, "kmc_previewembed", true, $kmcGeneralUiConf);
-		//$this->content_uiconfs_previewembed_list = kmcUtils::find_confs_by_usage_tag($kmcGeneralTemplateUiConf, "kmc_previewembed_list", true, $kmcGeneralUiConf);
-		$this->content_uiconfs_flavorpreview = kmcUtils::find_confs_by_usage_tag($kmcGeneralTemplateUiConf, "kmc_flavorpreview", false, $kmcGeneralUiConf);
+		//$this->content_uiconfs_previewembed = bmcUtils::find_confs_by_usage_tag($bmcGeneralTemplateUiConf, "bmc_previewembed", true, $bmcGeneralUiConf);
+		//$this->content_uiconfs_previewembed_list = bmcUtils::find_confs_by_usage_tag($bmcGeneralTemplateUiConf, "bmc_previewembed_list", true, $bmcGeneralUiConf);
+		$this->content_uiconfs_flavorpreview = bmcUtils::find_confs_by_usage_tag($bmcGeneralTemplateUiConf, "bmc_flavorpreview", false, $bmcGeneralUiConf);
 
-		/* KCW uiconfs */
-		$this->content_uiconfs_upload_webcam = kmcUtils::find_confs_by_usage_tag($kmcGeneralTemplateUiConf, "kmc_uploadWebCam", false, $kmcGeneralUiConf);
-		$this->content_uiconfs_upload_import = kmcUtils::find_confs_by_usage_tag($kmcGeneralTemplateUiConf, "kmc_uploadImport", false, $kmcGeneralUiConf);
+		/* BCW uiconfs */
+		$this->content_uiconfs_upload_webcam = bmcUtils::find_confs_by_usage_tag($bmcGeneralTemplateUiConf, "bmc_uploadWebCam", false, $bmcGeneralUiConf);
+		$this->content_uiconfs_upload_import = bmcUtils::find_confs_by_usage_tag($bmcGeneralTemplateUiConf, "bmc_uploadImport", false, $bmcGeneralUiConf);
 
-		$this->content_uiconds_clipapp_kdp = kmcUtils::find_confs_by_usage_tag($kmcGeneralTemplateUiConf, "kmc_kdpClipApp", false, $kmcGeneralUiConf);
-		$this->content_uiconds_clipapp_kclip = kmcUtils::find_confs_by_usage_tag($kmcGeneralTemplateUiConf, "kmc_kClipClipApp", false, $kmcGeneralUiConf);
+		$this->content_uiconds_clipapp_bdp = bmcUtils::find_confs_by_usage_tag($bmcGeneralTemplateUiConf, "bmc_bdpClipApp", false, $bmcGeneralUiConf);
+		$this->content_uiconds_clipapp_kclip = bmcUtils::find_confs_by_usage_tag($bmcGeneralTemplateUiConf, "bmc_kClipClipApp", false, $bmcGeneralUiConf);
 		
-		$this->studioUiConf = kmcUtils::getStudioUiconf(kConf::get("studio_version"));
+		$this->studioUiConf = bmcUtils::getStudioUiconf(kConf::get("studio_version"));
 		$this->content_uiconfs_studio_v2 = isset($this->studioUiConf) ? array_values($this->studioUiConf) : null;
 		$this->content_uiconf_studio_v2 = (is_array($this->content_uiconfs_studio_v2) && reset($this->content_uiconfs_studio_v2)) ? reset($this->content_uiconfs_studio_v2) : null;
 		
-		$this->liveAUiConf = kmcUtils::getLiveAUiconf();
+		$this->liveAUiConf = bmcUtils::getLiveAUiconf();
 		$this->content_uiconfs_livea = isset($this->liveAUiConf) ? array_values($this->liveAUiConf) : null;
 		$this->content_uiconf_livea = (is_array($this->content_uiconfs_livea) && reset($this->content_uiconfs_livea)) ? reset($this->content_uiconfs_livea) : null;
 		
 
-		$kmcVars = array(
-			'kmc_version'				=> $this->kmc_swf_version,
-			'kmc_general_uiconf'		=> $this->kmc_general->getId(),
-			'kmc_permissions_uiconf'	=> $this->kmc_permissions->getId(),
+		$bmcVars = array(
+			'bmc_version'				=> $this->bmc_swf_version,
+			'bmc_general_uiconf'		=> $this->bmc_general->getId(),
+			'bmc_permissions_uiconf'	=> $this->bmc_permissions->getId(),
 			'allowed_partners'			=> $allowedPartners,
-			'kmc_secured'				=> (bool) kConf::get("kmc_secured_login"),
+			'bmc_secured'				=> (bool) kConf::get("bmc_secured_login"),
 			'enableLanguageMenu'		=> true,
 			'service_url'				=> $this->service_url,
 			'host'						=> $this->host,
@@ -176,7 +176,7 @@ class kmc4Action extends kalturaAction
 			'embed_host'				=> $this->embed_host,
 			'embed_host_https'			=> $this->embed_host_https,
 			'flash_dir'					=> $this->flash_dir,
-			'getuiconfs_url'			=> '/index.php/kmc/getuiconfs',
+			'getuiconfs_url'			=> '/index.php/bmc/getuiconfs',
 			'terms_of_use'				=> kConf::get('terms_of_use_uri'),
 			'ks'						=> $this->ks,
 			'partner_id'				=> $this->partner_id,
@@ -189,9 +189,9 @@ class kmc4Action extends kalturaAction
 			'embed_code_types'			=> $embedCodeTypes,
 			'default_delivery_type'		=> $defaultDeliveryType,
 			'default_embed_code_type'	=> $defaultEmbedCodeType,
-			'kcw_webcam_uiconf'			=> $this->content_uiconfs_upload_webcam->getId(),
-			'kcw_import_uiconf'			=> $this->content_uiconfs_upload_import->getId(),
-			'default_kdp'				=> array(
+			'bcw_webcam_uiconf'			=> $this->content_uiconfs_upload_webcam->getId(),
+			'bcw_import_uiconf'			=> $this->content_uiconfs_upload_import->getId(),
+			'default_bdp'				=> array(
 				'id'					=> $this->content_uiconfs_flavorpreview->getId(),
 				'height'				=> $this->content_uiconfs_flavorpreview->getHeight(),
 				'width'					=> $this->content_uiconfs_flavorpreview->getWidth(),
@@ -199,7 +199,7 @@ class kmc4Action extends kalturaAction
 			),
 			'clipapp'					=> array(
 				'version'				=> kConf::get("clipapp_version"),
-				'kdp'					=> $this->content_uiconds_clipapp_kdp->getId(),
+				'bdp'					=> $this->content_uiconds_clipapp_bdp->getId(),
 				'kclip'					=> $this->content_uiconds_clipapp_kclip->getId(),
 			),
 			'studio'					=> array(
@@ -219,17 +219,17 @@ class kmc4Action extends kalturaAction
 			'usagedashboard'			=> array(
 				'version'				=> kConf::get("usagedashboard_version"),
 			),
-			'disable_analytics'			=> (bool) kConf::get("kmc_disable_analytics"),
+			'disable_analytics'			=> (bool) kConf::get("bmc_disable_analytics"),
 			'google_analytics_account'	=> kConf::get("ga_account"),
 			'language'					=> $language,
 			'logoutUrl'					=> $logoutUrl,
 			'allowFrame'				=> (bool) $allowFrame,
 			'akamaiEdgeServerIpURL'		=> $akamaiEdgeServerIpURL,
-			'logoUrl' 					=> kmcUtils::getWhitelabelData( $partner, 'logo_url'),
-			'supportUrl' 				=> kmcUtils::getWhitelabelData( $partner, 'support_url'),
+			'logoUrl' 					=> bmcUtils::getWhitelabelData( $partner, 'logo_url'),
+			'supportUrl' 				=> bmcUtils::getWhitelabelData( $partner, 'support_url'),
 		);
 		
-		$this->kmcVars = $kmcVars;
+		$this->bmcVars = $bmcVars;
 	}
 
 	private function stripProtocol( $url )

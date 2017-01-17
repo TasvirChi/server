@@ -32,7 +32,7 @@ foreach ($permissions as $perm)
     $partners[] = $perm->getPartnerId();
 }
 
-KalturaLog::debug("Partners are '".print_r($partners,true)."'");
+BorhanLog::debug("Partners are '".print_r($partners,true)."'");
 
 $c = new Criteria();
 $c->add(accessControlPeer::PARTNER_ID, $partners, Criteria::IN);
@@ -40,7 +40,7 @@ $c->addAnd(accessControlPeer::RULES, '%kAccessControlPlayReadyPolicyAction%', Cr
 $acs = accessControlPeer::doSelect($c);
 foreach ($acs as $ac)
 {
-    KalturaLog::debug("checking access control '".$ac->getId()."'");
+    BorhanLog::debug("checking access control '".$ac->getId()."'");
     $rules = $ac->getRulesArray();
     foreach ($rules as $rule)
     {
@@ -48,17 +48,17 @@ foreach ($acs as $ac)
         $j = 0;
         foreach ($actions as $action)
         {
-            KalturaLog::debug("checking action '".print_r($action,true)."'");
+            BorhanLog::debug("checking action '".print_r($action,true)."'");
             if (get_class($action) == 'kAccessControlPlayReadyPolicyAction')
             {
-                KalturaLog::debug("replacing kAccessControlPlayReadyPolicyAction with kAccessControlDrmPolicyAction");
+                BorhanLog::debug("replacing kAccessControlPlayReadyPolicyAction with kAccessControlDrmPolicyAction");
                 $newAction = new kAccessControlDrmPolicyAction();
                 $newAction->setPolicyId($action->getPolicyId());
                 $actions[$j] = $newAction;
                 $rule->setActions($actions);
                 $ac->setRulesArray($rules);
                 $ac->save();
-                KalturaLog::debug("finished saving");
+                BorhanLog::debug("finished saving");
             }
             $j++;
         }

@@ -4,7 +4,7 @@
  * @package plugins.captureSpace
  * @subpackage api.services
  */
-class CaptureSpaceService extends KalturaBaseService
+class CaptureSpaceService extends BorhanBaseService
 {
 	/**
 	 * Returns latest version and URL
@@ -12,7 +12,7 @@ class CaptureSpaceService extends KalturaBaseService
 	 * @action clientUpdates
 	 * @param string $os
 	 * @param string $version
-	 * @return KalturaCaptureSpaceUpdateResponse
+	 * @return BorhanCaptureSpaceUpdateResponse
 	 * @throws CaptureSpaceErrors::ALREADY_LATEST_VERSION
 	 * @throws CaptureSpaceErrors::NO_UPDATE_IS_AVAILABLE
 	 */
@@ -20,19 +20,19 @@ class CaptureSpaceService extends KalturaBaseService
 	{
 		$hashValue = kCaptureSpaceVersionManager::getUpdateHash($os, $version);
 		if (!$hashValue) {
-			throw new KalturaAPIException(CaptureSpaceErrors::NO_UPDATE_IS_AVAILABLE, $version, $os);
+			throw new BorhanAPIException(CaptureSpaceErrors::NO_UPDATE_IS_AVAILABLE, $version, $os);
 		}
 			
 		$path = "/api_v3/service/captureSpace_captureSpace/action/serveUpdate/os/$os/version/$version";
 		$downloadUrl = myPartnerUtils::getCdnHost(null) . $path;
 		
-		$info = new KalturaCaptureSpaceUpdateResponseInfo();
+		$info = new BorhanCaptureSpaceUpdateResponseInfo();
 		$info->url = $downloadUrl;
-		$info->hash = new KalturaCaptureSpaceUpdateResponseInfoHash();
-		$info->hash->algorithm = KalturaCaptureSpaceHashAlgorithm::MD5;
+		$info->hash = new BorhanCaptureSpaceUpdateResponseInfoHash();
+		$info->hash->algorithm = BorhanCaptureSpaceHashAlgorithm::MD5;
 		$info->hash->value = $hashValue;
 		
-		$response = new KalturaCaptureSpaceUpdateResponse();
+		$response = new BorhanCaptureSpaceUpdateResponse();
 		$response->info = $info;
 		
 		return $response;
@@ -50,12 +50,12 @@ class CaptureSpaceService extends KalturaBaseService
 	{
 		$filename = kCaptureSpaceVersionManager::getInstallFile($os);
 		if (!$filename) {
-			throw new KalturaAPIException(CaptureSpaceErrors::NO_INSTALL_IS_AVAILABLE, $os);
+			throw new BorhanAPIException(CaptureSpaceErrors::NO_INSTALL_IS_AVAILABLE, $os);
 		}
 		
 		$actualFilePath = myContentStorage::getFSContentRootPath() . "/content/third_party/capturespace/$filename";
 		if (!file_exists($actualFilePath)) {
-			throw new KalturaAPIException(CaptureSpaceErrors::NO_INSTALL_IS_AVAILABLE, $os);
+			throw new BorhanAPIException(CaptureSpaceErrors::NO_INSTALL_IS_AVAILABLE, $os);
 		}
 		
 		$mimeType = kFile::mimeType($actualFilePath);
@@ -77,12 +77,12 @@ class CaptureSpaceService extends KalturaBaseService
 	{
 		$filename = kCaptureSpaceVersionManager::getUpdateFile($os, $version);
 		if (!$filename) {
-			throw new KalturaAPIException(CaptureSpaceErrors::NO_UPDATE_IS_AVAILABLE, $version, $os);
+			throw new BorhanAPIException(CaptureSpaceErrors::NO_UPDATE_IS_AVAILABLE, $version, $os);
 		}
 		
 		$actualFilePath = myContentStorage::getFSContentRootPath() . "/content/third_party/capturespace/$filename";
 		if (!file_exists($actualFilePath)) {
-			throw new KalturaAPIException(CaptureSpaceErrors::NO_UPDATE_IS_AVAILABLE, $version, $os);
+			throw new BorhanAPIException(CaptureSpaceErrors::NO_UPDATE_IS_AVAILABLE, $version, $os);
 		}
 		
 		$mimeType = kFile::mimeType($actualFilePath);

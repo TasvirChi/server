@@ -6,7 +6,7 @@
  */ 
 interface XsltParameterName extends BaseEnum
 {
-    const KALTURA_HAS_NEXT_ITEM = 'KalturaHasNextItem';
-    const KALTURA_CURRENT_TIMESTAMP = 'KalturaCurrentTimestamp';
-    const KALTURA_SYNDICATION_FEED_FLAVOR_PARAM_ID = 'KalturaSyndicationFeedFlavorParamId';
+    const BORHAN_HAS_NEXT_ITEM = 'BorhanHasNextItem';
+    const BORHAN_CURRENT_TIMESTAMP = 'BorhanCurrentTimestamp';
+    const BORHAN_SYNDICATION_FEED_FLAVOR_PARAM_ID = 'BorhanSyndicationFeedFlavorParamId';
 }

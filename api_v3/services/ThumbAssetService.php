@@ -7,20 +7,20 @@
  * @package api
  * @subpackage services
  */
-class ThumbAssetService extends KalturaAssetService
+class ThumbAssetService extends BorhanAssetService
 {
 	protected function getEnabledMediaTypes()
 	{
-		$liveStreamTypes = KalturaPluginManager::getExtendedTypes(entryPeer::OM_CLASS, KalturaEntryType::LIVE_STREAM);
+		$liveStreamTypes = BorhanPluginManager::getExtendedTypes(entryPeer::OM_CLASS, BorhanEntryType::LIVE_STREAM);
 		
 		$mediaTypes = array_merge($liveStreamTypes, parent::getEnabledMediaTypes());
-		$mediaTypes[] = KalturaEntryType::AUTOMATIC;
+		$mediaTypes[] = BorhanEntryType::AUTOMATIC;
 		
 		$mediaTypes = array_unique($mediaTypes);
 		return $mediaTypes;
 	}
 	
-	protected function kalturaNetworkAllowed($actionName)
+	protected function borhanNetworkAllowed($actionName)
 	{
 		if(
 			$actionName == 'get' ||
@@ -36,11 +36,11 @@ class ThumbAssetService extends KalturaAssetService
 			return true;
 		}
 			
-		return parent::kalturaNetworkAllowed($actionName);
+		return parent::borhanNetworkAllowed($actionName);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseService::partnerRequired()
+	 * @see BorhanBaseService::partnerRequired()
 	 */
 	protected function partnerRequired($actionName)
 	{
@@ -58,29 +58,29 @@ class ThumbAssetService extends KalturaAssetService
      *
      * @action add
      * @param string $entryId
-     * @param KalturaThumbAsset $thumbAsset
-     * @return KalturaThumbAsset
-     * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-     * @throws KalturaErrors::THUMB_ASSET_ALREADY_EXISTS
-	 * @throws KalturaErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
-	 * @throws KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
-	 * @throws KalturaErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
-	 * @throws KalturaErrors::THUMB_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND
-	 * @throws KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED
+     * @param BorhanThumbAsset $thumbAsset
+     * @return BorhanThumbAsset
+     * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+     * @throws BorhanErrors::THUMB_ASSET_ALREADY_EXISTS
+	 * @throws BorhanErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
+	 * @throws BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
+	 * @throws BorhanErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
+	 * @throws BorhanErrors::THUMB_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED
 	 * @validateUser entry entryId edit
      */
-    function addAction($entryId, KalturaThumbAsset $thumbAsset)
+    function addAction($entryId, BorhanThumbAsset $thumbAsset)
     {
     	$dbEntry = entryPeer::retrieveByPK($entryId);
-    	if(!$dbEntry || !in_array($dbEntry->getType(), $this->getEnabledMediaTypes()) || ($dbEntry->getType() == entryType::MEDIA_CLIP && !in_array($dbEntry->getMediaType(), array(KalturaMediaType::VIDEO, KalturaMediaType::AUDIO, KalturaMediaType::LIVE_STREAM_FLASH))))
-    		throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+    	if(!$dbEntry || !in_array($dbEntry->getType(), $this->getEnabledMediaTypes()) || ($dbEntry->getType() == entryType::MEDIA_CLIP && !in_array($dbEntry->getMediaType(), array(BorhanMediaType::VIDEO, BorhanMediaType::AUDIO, BorhanMediaType::LIVE_STREAM_FLASH))))
+    		throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 		
     	if($thumbAsset->thumbParamsId)
     	{
     		$dbThumbAsset = assetPeer::retrieveByEntryIdAndParams($entryId, $thumbAsset->thumbParamsId);
     		if($dbThumbAsset)
-    			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_ALREADY_EXISTS, $dbThumbAsset->getId(), $thumbAsset->thumbParamsId);
+    			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_ALREADY_EXISTS, $dbThumbAsset->getId(), $thumbAsset->thumbParamsId);
     	}
     	
     	$dbThumbAsset = $thumbAsset->toInsertableObject();
@@ -91,7 +91,7 @@ class ThumbAssetService extends KalturaAssetService
 		$dbThumbAsset->setStatus(thumbAsset::ASSET_STATUS_QUEUED);
 		$dbThumbAsset->save();
 
-		$thumbAsset = KalturaThumbAsset::getInstance($dbThumbAsset, $this->getResponseProfile());
+		$thumbAsset = BorhanThumbAsset::getInstance($dbThumbAsset, $this->getResponseProfile());
 		return $thumbAsset;
     }
     
@@ -100,26 +100,26 @@ class ThumbAssetService extends KalturaAssetService
      *
      * @action setContent
      * @param string $id
-     * @param KalturaContentResource $contentResource
-     * @return KalturaThumbAsset
-     * @throws KalturaErrors::THUMB_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
-	 * @throws KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
-	 * @throws KalturaErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
-	 * @throws KalturaErrors::THUMB_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND
-	 * @throws KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED
+     * @param BorhanContentResource $contentResource
+     * @return BorhanThumbAsset
+     * @throws BorhanErrors::THUMB_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
+	 * @throws BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
+	 * @throws BorhanErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
+	 * @throws BorhanErrors::THUMB_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED
 	 * @validateUser asset::entry id edit 
      */
-    function setContentAction($id, KalturaContentResource $contentResource)
+    function setContentAction($id, BorhanContentResource $contentResource)
     {
    		$dbThumbAsset = assetPeer::retrieveById($id);
    		if (!$dbThumbAsset || !($dbThumbAsset instanceof thumbAsset))
-   			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_ID_NOT_FOUND, $id);
+   			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_ID_NOT_FOUND, $id);
     	
 		$dbEntry = $dbThumbAsset->getentry();
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $dbThumbAsset->getEntryId());
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $dbThumbAsset->getEntryId());
 			
 		
 		
@@ -145,13 +145,13 @@ class ThumbAssetService extends KalturaAssetService
 		$defaultThumbKey = $dbEntry->getSyncKey(entry::FILE_SYNC_ENTRY_SUB_TYPE_THUMB);
     		
  		//If the thums has the default tag or the entry is in no content and this is the first thumb
- 		if($dbThumbAsset->hasTag(thumbParams::TAG_DEFAULT_THUMB) || ($dbEntry->getStatus() == KalturaEntryStatus::NO_CONTENT 
+ 		if($dbThumbAsset->hasTag(thumbParams::TAG_DEFAULT_THUMB) || ($dbEntry->getStatus() == BorhanEntryStatus::NO_CONTENT 
  			&& $thumbAssetsCount == 1 && !kFileSyncUtils::fileSync_exists($defaultThumbKey)))
 		{
 			$this->setAsDefaultAction($dbThumbAsset->getId());
 		}
 		
-		$thumbAsset = KalturaThumbAsset::getInstance($dbThumbAsset, $this->getResponseProfile());
+		$thumbAsset = BorhanThumbAsset::getInstance($dbThumbAsset, $this->getResponseProfile());
 		return $thumbAsset;
     }
 	
@@ -160,20 +160,20 @@ class ThumbAssetService extends KalturaAssetService
      *
      * @action update
      * @param string $id
-     * @param KalturaThumbAsset $thumbAsset
-     * @return KalturaThumbAsset
-     * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+     * @param BorhanThumbAsset $thumbAsset
+     * @return BorhanThumbAsset
+     * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
      * @validateUser asset::entry id edit 
      */
-    function updateAction($id, KalturaThumbAsset $thumbAsset)
+    function updateAction($id, BorhanThumbAsset $thumbAsset)
     {
 		$dbThumbAsset = assetPeer::retrieveById($id);
 		if (!$dbThumbAsset || !($dbThumbAsset instanceof thumbAsset))
-			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_ID_NOT_FOUND, $id);
     	
 		$dbEntry = $dbThumbAsset->getentry();
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $dbThumbAsset->getEntryId());
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $dbThumbAsset->getEntryId());
 			
 		
 		
@@ -183,7 +183,7 @@ class ThumbAssetService extends KalturaAssetService
 		if($dbEntry->getCreateThumb() && $dbThumbAsset->hasTag(thumbParams::TAG_DEFAULT_THUMB))
 			$this->setAsDefaultAction($dbThumbAsset->getId());
 			
-		$thumbAsset = KalturaThumbAsset::getInstance($dbThumbAsset, $this->getResponseProfile());
+		$thumbAsset = BorhanThumbAsset::getInstance($dbThumbAsset, $this->getResponseProfile());
 		return $thumbAsset;
     }
     
@@ -245,7 +245,7 @@ class ThumbAssetService extends KalturaAssetService
 			$thumbAsset->save();
 		}
 		
-		throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_DOWNLOAD_FAILED, $url);
+		throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_DOWNLOAD_FAILED, $url);
     }
     
 	/**
@@ -310,7 +310,7 @@ class ThumbAssetService extends KalturaAssetService
 	/**
 	 * @param thumbAsset $thumbAsset
 	 * @param IRemoteStorageResource $contentResource
-	 * @throws KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND
 	 */
 	protected function attachRemoteStorageResource(thumbAsset $thumbAsset, IRemoteStorageResource $contentResource)
 	{
@@ -333,12 +333,12 @@ class ThumbAssetService extends KalturaAssetService
 	/**
 	 * @param thumbAsset $thumbAsset
 	 * @param kContentResource $contentResource
-	 * @throws KalturaErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
-	 * @throws KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
-	 * @throws KalturaErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
-	 * @throws KalturaErrors::THUMB_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND
-	 * @throws KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED
+	 * @throws BorhanErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
+	 * @throws BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
+	 * @throws BorhanErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
+	 * @throws BorhanErrors::THUMB_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED
 	 */
 	protected function attachContentResource(thumbAsset $thumbAsset, kContentResource $contentResource)
 	{
@@ -359,7 +359,7 @@ class ThumbAssetService extends KalturaAssetService
 				
 			default:
 				$msg = "Resource of type [" . get_class($contentResource) . "] is not supported";
-				KalturaLog::err($msg);
+				BorhanLog::err($msg);
 				
 				if($thumbAsset->getStatus() == thumbAsset::ASSET_STATUS_QUEUED || $thumbAsset->getStatus() == thumbAsset::ASSET_STATUS_NOT_APPLICABLE)
 				{
@@ -368,7 +368,7 @@ class ThumbAssetService extends KalturaAssetService
 					$thumbAsset->save();
 				}
 				
-				throw new KalturaAPIException(KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($contentResource));
+				throw new BorhanAPIException(BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($contentResource));
     	}
     }
     
@@ -381,9 +381,9 @@ class ThumbAssetService extends KalturaAssetService
 	 * @param int $thumbParamId if not set, default thumbnail will be used.
 	 * @return file
 	 * 
-	 * @throws KalturaErrors::THUMB_ASSET_IS_NOT_READY
-	 * @throws KalturaErrors::THUMB_ASSET_PARAMS_ID_NOT_FOUND
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::THUMB_ASSET_IS_NOT_READY
+	 * @throws BorhanErrors::THUMB_ASSET_PARAMS_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
 	public function serveByEntryIdAction($entryId, $thumbParamId = null)
 	{
@@ -393,14 +393,14 @@ class ThumbAssetService extends KalturaAssetService
 			$entry = kCurrentContext::initPartnerByEntryId($entryId);
 			
 			if (!$entry || $entry->getStatus() == entryStatus::DELETED)
-				throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+				throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 				
 			// enforce entitlement
 			$this->setPartnerFilters(kCurrentContext::getCurrentPartnerId());
 			kEntitlementUtils::initEntitlementEnforcement();
 			
 			if(!kEntitlementUtils::isEntryEntitled($entry))
-				throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);				
+				throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);				
 		}
 		else 
 		{	
@@ -408,7 +408,7 @@ class ThumbAssetService extends KalturaAssetService
 		}
 		
 		if (!$entry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 
 		$securyEntryHelper = new KSecureEntryHelper($entry, kCurrentContext::$ks, null, ContextType::THUMBNAIL);
 		$securyEntryHelper->validateAccessControl();
@@ -420,7 +420,7 @@ class ThumbAssetService extends KalturaAssetService
 		
 		$thumbAsset = assetPeer::retrieveByEntryIdAndParams($entryId, $thumbParamId);
 		if(!$thumbAsset)
-			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_PARAMS_ID_NOT_FOUND, $thumbParamId);
+			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_PARAMS_ID_NOT_FOUND, $thumbParamId);
 		
 		return $this->serveAsset($thumbAsset, $fileName);
 	}
@@ -431,21 +431,21 @@ class ThumbAssetService extends KalturaAssetService
 	 * @action serve
 	 * @param string $thumbAssetId
 	 * @param int $version
-	 * @param KalturaThumbParams $thumbParams
-	 * @param KalturaThumbnailServeOptions $options
+	 * @param BorhanThumbParams $thumbParams
+	 * @param BorhanThumbnailServeOptions $options
 	 * @return file
 	 *  
-	 * @throws KalturaErrors::THUMB_ASSET_IS_NOT_READY
-	 * @throws KalturaErrors::THUMB_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::THUMB_ASSET_IS_NOT_READY
+	 * @throws BorhanErrors::THUMB_ASSET_ID_NOT_FOUND
 	 */
-	public function serveAction($thumbAssetId, $version = null, KalturaThumbParams $thumbParams = null, KalturaThumbnailServeOptions $options = null)
+	public function serveAction($thumbAssetId, $version = null, BorhanThumbParams $thumbParams = null, BorhanThumbnailServeOptions $options = null)
 	{
 		if (!kCurrentContext::$ks)
 		{
 			$thumbAsset = kCurrentContext::initPartnerByAssetId($thumbAssetId);
 			
 			if (!$thumbAsset || $thumbAsset->getStatus() == asset::ASSET_STATUS_DELETED)
-				throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_ID_NOT_FOUND, $thumbAssetId);
+				throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_ID_NOT_FOUND, $thumbAssetId);
 				
 			// enforce entitlement
 			$this->setPartnerFilters(kCurrentContext::getCurrentPartnerId());
@@ -457,13 +457,13 @@ class ThumbAssetService extends KalturaAssetService
 		}
 			
 		if (!$thumbAsset || !($thumbAsset instanceof thumbAsset))
-			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_ID_NOT_FOUND, $thumbAssetId);
+			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_ID_NOT_FOUND, $thumbAssetId);
 			
 		$entry = entryPeer::retrieveByPK($thumbAsset->getEntryId());
 		if(!$entry)
 		{
 			//we will throw thumb asset not found, as the user is not entitled, and should not know that the entry exists.
-			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_ID_NOT_FOUND, $thumbAssetId);
+			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_ID_NOT_FOUND, $thumbAssetId);
 		}
 
 		$referrer = null;
@@ -489,7 +489,7 @@ class ThumbAssetService extends KalturaAssetService
 		
 		$syncKey = $thumbAsset->getSyncKey(asset::FILE_SYNC_ASSET_SUB_TYPE_ASSET, $version);
 		if(!kFileSyncUtils::fileSync_exists($syncKey))
-			throw new KalturaAPIException(KalturaErrors::FILE_DOESNT_EXIST);
+			throw new BorhanAPIException(BorhanErrors::FILE_DOESNT_EXIST);
 			
 		list($fileSync, $local) = kFileSyncUtils::getReadyFileSyncForKey($syncKey, true, false);
 		/* @var $fileSync FileSync */
@@ -497,10 +497,10 @@ class ThumbAssetService extends KalturaAssetService
 		if(!$local)
 		{
 			if ( !in_array($fileSync->getDc(), kDataCenterMgr::getDcIds()) )
-				throw new KalturaAPIException(KalturaErrors::FILE_DOESNT_EXIST);
+				throw new BorhanAPIException(BorhanErrors::FILE_DOESNT_EXIST);
 				
 			$remoteUrl = kDataCenterMgr::getRedirectExternalUrl($fileSync);
-			KalturaLog::info("Redirecting to [$remoteUrl]");
+			BorhanLog::info("Redirecting to [$remoteUrl]");
 			header("Location: $remoteUrl");
 			die;
 		}
@@ -538,14 +538,14 @@ class ThumbAssetService extends KalturaAssetService
 	 *  
 	 * @action setAsDefault
 	 * @param string $thumbAssetId
-	 * @throws KalturaErrors::THUMB_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::THUMB_ASSET_ID_NOT_FOUND
 	 * @validateUser asset::entry thumbAssetId edit 
 	 */
 	public function setAsDefaultAction($thumbAssetId)
 	{
 		$thumbAsset = assetPeer::retrieveById($thumbAssetId);
 		if (!$thumbAsset || !($thumbAsset instanceof thumbAsset))
-			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_ID_NOT_FOUND, $thumbAssetId);
+			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_ID_NOT_FOUND, $thumbAssetId);
 		
 		kBusinessConvertDL::setAsDefaultThumbAsset($thumbAsset);
 	}
@@ -554,26 +554,26 @@ class ThumbAssetService extends KalturaAssetService
 	 * @action generateByEntryId
 	 * @param string $entryId
 	 * @param int $destThumbParamsId indicate the id of the ThumbParams to be generate this thumbnail by
-	 * @return KalturaThumbAsset
+	 * @return BorhanThumbAsset
 	 * 
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::ENTRY_TYPE_NOT_SUPPORTED
-	 * @throws KalturaErrors::ENTRY_MEDIA_TYPE_NOT_SUPPORTED
-	 * @throws KalturaErrors::THUMB_ASSET_PARAMS_ID_NOT_FOUND
-	 * @throws KalturaErrors::INVALID_ENTRY_STATUS
-	 * @throws KalturaErrors::THUMB_ASSET_IS_NOT_READY
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_TYPE_NOT_SUPPORTED
+	 * @throws BorhanErrors::ENTRY_MEDIA_TYPE_NOT_SUPPORTED
+	 * @throws BorhanErrors::THUMB_ASSET_PARAMS_ID_NOT_FOUND
+	 * @throws BorhanErrors::INVALID_ENTRY_STATUS
+	 * @throws BorhanErrors::THUMB_ASSET_IS_NOT_READY
 	 * @validateUser entry entryId edit
 	 */
 	public function generateByEntryIdAction($entryId, $destThumbParamsId)
 	{
 		$entry = entryPeer::retrieveByPK($entryId);
 		if(!$entry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 			
 		if (!in_array($entry->getType(), $this->getEnabledMediaTypes()))
-			throw new KalturaAPIException(KalturaErrors::ENTRY_TYPE_NOT_SUPPORTED, $entry->getType());
+			throw new BorhanAPIException(BorhanErrors::ENTRY_TYPE_NOT_SUPPORTED, $entry->getType());
 		if ($entry->getMediaType() != entry::ENTRY_MEDIA_TYPE_VIDEO)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_MEDIA_TYPE_NOT_SUPPORTED, $entry->getMediaType());
+			throw new BorhanAPIException(BorhanErrors::ENTRY_MEDIA_TYPE_NOT_SUPPORTED, $entry->getMediaType());
 						
 		
 			
@@ -584,17 +584,17 @@ class ThumbAssetService extends KalturaAssetService
 		);
 		
 		if (!in_array($entry->getStatus(), $validStatuses))
-			throw new KalturaAPIException(KalturaErrors::INVALID_ENTRY_STATUS);
+			throw new BorhanAPIException(BorhanErrors::INVALID_ENTRY_STATUS);
 			
 		$destThumbParams = assetParamsPeer::retrieveByPK($destThumbParamsId);
 		if(!$destThumbParams)
-			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_PARAMS_ID_NOT_FOUND, $destThumbParamsId);
+			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_PARAMS_ID_NOT_FOUND, $destThumbParamsId);
 
 		$dbThumbAsset = kBusinessPreConvertDL::decideThumbGenerate($entry, $destThumbParams);
 		if(!$dbThumbAsset)
 			return null;
 			
-		$thumbAsset = new KalturaThumbAsset();
+		$thumbAsset = new BorhanThumbAsset();
 		$thumbAsset->fromObject($dbThumbAsset, $this->getResponseProfile());
 		return $thumbAsset;
 	}
@@ -602,29 +602,29 @@ class ThumbAssetService extends KalturaAssetService
 	/**
 	 * @action generate
 	 * @param string $entryId
-	 * @param KalturaThumbParams $thumbParams
+	 * @param BorhanThumbParams $thumbParams
 	 * @param string $sourceAssetId id of the source asset (flavor or thumbnail) to be used as source for the thumbnail generation
-	 * @return KalturaThumbAsset
+	 * @return BorhanThumbAsset
 	 * 
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::ENTRY_TYPE_NOT_SUPPORTED
-	 * @throws KalturaErrors::ENTRY_MEDIA_TYPE_NOT_SUPPORTED
-	 * @throws KalturaErrors::THUMB_ASSET_PARAMS_ID_NOT_FOUND
-	 * @throws KalturaErrors::INVALID_ENTRY_STATUS
-	 * @throws KalturaErrors::THUMB_ASSET_IS_NOT_READY
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_TYPE_NOT_SUPPORTED
+	 * @throws BorhanErrors::ENTRY_MEDIA_TYPE_NOT_SUPPORTED
+	 * @throws BorhanErrors::THUMB_ASSET_PARAMS_ID_NOT_FOUND
+	 * @throws BorhanErrors::INVALID_ENTRY_STATUS
+	 * @throws BorhanErrors::THUMB_ASSET_IS_NOT_READY
 	 * @validateUser entry entryId edit
 	 */
-	public function generateAction($entryId, KalturaThumbParams $thumbParams, $sourceAssetId = null)
+	public function generateAction($entryId, BorhanThumbParams $thumbParams, $sourceAssetId = null)
 	{
 		$entry = entryPeer::retrieveByPK($entryId);
 		if(!$entry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 			
 		if (!in_array($entry->getType(), $this->getEnabledMediaTypes()))
-			throw new KalturaAPIException(KalturaErrors::ENTRY_TYPE_NOT_SUPPORTED, $entry->getType());
+			throw new BorhanAPIException(BorhanErrors::ENTRY_TYPE_NOT_SUPPORTED, $entry->getType());
 			
 		if ($entry->getMediaType() != entry::ENTRY_MEDIA_TYPE_VIDEO)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_MEDIA_TYPE_NOT_SUPPORTED, $entry->getMediaType());
+			throw new BorhanAPIException(BorhanErrors::ENTRY_MEDIA_TYPE_NOT_SUPPORTED, $entry->getMediaType());
 			
 		
 		
@@ -635,14 +635,14 @@ class ThumbAssetService extends KalturaAssetService
 		);
 		
 		if (!in_array($entry->getStatus(), $validStatuses))
-			throw new KalturaAPIException(KalturaErrors::INVALID_ENTRY_STATUS);
+			throw new BorhanAPIException(BorhanErrors::INVALID_ENTRY_STATUS);
 			
 		$destThumbParams = new thumbParams();
 		$thumbParams->toUpdatableObject($destThumbParams);
 
 		$srcAsset = kBusinessPreConvertDL::getSourceAssetForGenerateThumbnail($sourceAssetId, $destThumbParams->getSourceParamsId(), $entryId);		
 		if (is_null($srcAsset))
-			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_IS_NOT_READY);
+			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_IS_NOT_READY);
 		
 		$sourceFileSyncKey = $srcAsset->getSyncKey(flavorAsset::FILE_SYNC_FLAVOR_ASSET_SUB_TYPE_ASSET); 
 		list($fileSync, $local) = kFileSyncUtils::getReadyFileSyncForKey($sourceFileSyncKey,true);
@@ -650,12 +650,12 @@ class ThumbAssetService extends KalturaAssetService
 		
 		if(is_null($fileSync))
 		{
-			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_IS_NOT_READY);
+			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_IS_NOT_READY);
 		}
 		
 		if($fileSync->getFileType() == FileSync::FILE_SYNC_FILE_TYPE_URL)
 		{
-			throw new KalturaAPIException(KalturaErrors::SOURCE_FILE_REMOTE);
+			throw new BorhanAPIException(BorhanErrors::SOURCE_FILE_REMOTE);
 		}
 		
 		if(!$local)
@@ -667,7 +667,7 @@ class ThumbAssetService extends KalturaAssetService
 		if(!$dbThumbAsset)
 			return null;
 			
-		$thumbAsset = new KalturaThumbAsset();
+		$thumbAsset = new BorhanThumbAsset();
 		$thumbAsset->fromObject($dbThumbAsset, $this->getResponseProfile());
 		return $thumbAsset;
 	}
@@ -675,33 +675,33 @@ class ThumbAssetService extends KalturaAssetService
 	/**
 	 * @action regenerate
 	 * @param string $thumbAssetId
-	 * @return KalturaThumbAsset
+	 * @return BorhanThumbAsset
 	 * 
-	 * @throws KalturaErrors::THUMB_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::ENTRY_TYPE_NOT_SUPPORTED
-	 * @throws KalturaErrors::ENTRY_MEDIA_TYPE_NOT_SUPPORTED
-	 * @throws KalturaErrors::THUMB_ASSET_PARAMS_ID_NOT_FOUND
-	 * @throws KalturaErrors::INVALID_ENTRY_STATUS
+	 * @throws BorhanErrors::THUMB_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_TYPE_NOT_SUPPORTED
+	 * @throws BorhanErrors::ENTRY_MEDIA_TYPE_NOT_SUPPORTED
+	 * @throws BorhanErrors::THUMB_ASSET_PARAMS_ID_NOT_FOUND
+	 * @throws BorhanErrors::INVALID_ENTRY_STATUS
 	 * @validateUser asset::entry thumbAssetId edit
 	 */
 	public function regenerateAction($thumbAssetId)
 	{
 		$thumbAsset = assetPeer::retrieveById($thumbAssetId);
 		if (!$thumbAsset || !($thumbAsset instanceof thumbAsset))
-			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_ID_NOT_FOUND, $thumbAssetId);
+			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_ID_NOT_FOUND, $thumbAssetId);
 			
 		if(is_null($thumbAsset->getFlavorParamsId()))
-			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_PARAMS_ID_NOT_FOUND, null);
+			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_PARAMS_ID_NOT_FOUND, null);
 			
 		$destThumbParams = assetParamsPeer::retrieveByPK($thumbAsset->getFlavorParamsId());
 		if(!$destThumbParams)
-			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_PARAMS_ID_NOT_FOUND, $thumbAsset->getFlavorParamsId());
+			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_PARAMS_ID_NOT_FOUND, $thumbAsset->getFlavorParamsId());
 			
 		$entry = $thumbAsset->getentry();
 		if (!in_array($entry->getType(), $this->getEnabledMediaTypes()))
-			throw new KalturaAPIException(KalturaErrors::ENTRY_TYPE_NOT_SUPPORTED, $entry->getType());
+			throw new BorhanAPIException(BorhanErrors::ENTRY_TYPE_NOT_SUPPORTED, $entry->getType());
 		if ($entry->getMediaType() != entry::ENTRY_MEDIA_TYPE_VIDEO)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_MEDIA_TYPE_NOT_SUPPORTED, $entry->getMediaType());
+			throw new BorhanAPIException(BorhanErrors::ENTRY_MEDIA_TYPE_NOT_SUPPORTED, $entry->getMediaType());
 						
 		
 			
@@ -712,13 +712,13 @@ class ThumbAssetService extends KalturaAssetService
 		);
 		
 		if (!in_array($entry->getStatus(), $validStatuses))
-			throw new KalturaAPIException(KalturaErrors::INVALID_ENTRY_STATUS);
+			throw new BorhanAPIException(BorhanErrors::INVALID_ENTRY_STATUS);
 
 		$dbThumbAsset = kBusinessPreConvertDL::decideThumbGenerate($entry, $destThumbParams);
 		if(!$dbThumbAsset)
 			return null;
 			
-		$thumbAsset = new KalturaThumbAsset();
+		$thumbAsset = new BorhanThumbAsset();
 		$thumbAsset->fromObject($dbThumbAsset, $this->getResponseProfile());
 		return $thumbAsset;
 	}
@@ -726,15 +726,15 @@ class ThumbAssetService extends KalturaAssetService
 	/**
 	 * @action get
 	 * @param string $thumbAssetId
-	 * @return KalturaThumbAsset
+	 * @return BorhanThumbAsset
 	 * 
-	 * @throws KalturaErrors::THUMB_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::THUMB_ASSET_ID_NOT_FOUND
 	 */
 	public function getAction($thumbAssetId)
 	{
 		$thumbAssetsDb = assetPeer::retrieveById($thumbAssetId);
 		if (!$thumbAssetsDb || !($thumbAssetsDb instanceof thumbAsset))
-			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_ID_NOT_FOUND, $thumbAssetId);
+			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_ID_NOT_FOUND, $thumbAssetId);
 			
 		if(kEntitlementUtils::getEntitlementEnforcement())
 		{
@@ -742,40 +742,40 @@ class ThumbAssetService extends KalturaAssetService
 			if(!$entry)
 			{
 				//we will throw thumb asset not found, as the user is not entitled, and should not know that the entry exists.
-				throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_ID_NOT_FOUND, $thumbAssetId);
+				throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_ID_NOT_FOUND, $thumbAssetId);
 			}	
 		}
 		
-		$thumbAssets = KalturaThumbAsset::getInstance($thumbAssetsDb, $this->getResponseProfile());
+		$thumbAssets = BorhanThumbAsset::getInstance($thumbAssetsDb, $this->getResponseProfile());
 		return $thumbAssets;
 	}
 	
 	/**
 	 * @action getByEntryId
 	 * @param string $entryId
-	 * @return KalturaThumbAssetArray
+	 * @return BorhanThumbAssetArray
 	 * 
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 * @deprecated Use thumbAsset.list instead
 	 */
 	public function getByEntryIdAction($entryId)
 	{
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 			
 		// get the thumb assets for this entry
 		$c = new Criteria();
 		$c->add(assetPeer::ENTRY_ID, $entryId);
 		
-		//KMC currently does not support showing thumb asset extending types
-		//$thumbTypes = KalturaPluginManager::getExtendedTypes(assetPeer::OM_CLASS, assetType::THUMBNAIL);
+		//BMC currently does not support showing thumb asset extending types
+		//$thumbTypes = BorhanPluginManager::getExtendedTypes(assetPeer::OM_CLASS, assetType::THUMBNAIL);
 		//$c->add(assetPeer::TYPE, $thumbTypes, Criteria::IN);
 		
 		$c->add(assetPeer::TYPE, assetType::THUMBNAIL, Criteria::EQUAL);
 		
 		$thumbAssetsDb = assetPeer::doSelect($c);
-		$thumbAssets = KalturaThumbAssetArray::fromDbArray($thumbAssetsDb, $this->getResponseProfile());
+		$thumbAssets = BorhanThumbAssetArray::fromDbArray($thumbAssetsDb, $this->getResponseProfile());
 		return $thumbAssets;
 	}
 	
@@ -783,30 +783,30 @@ class ThumbAssetService extends KalturaAssetService
 	 * List Thumbnail Assets by filter and pager
 	 * 
 	 * @action list
-	 * @param KalturaAssetFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaThumbAssetListResponse
+	 * @param BorhanAssetFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanThumbAssetListResponse
 	 */
-	function listAction(KalturaAssetFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanAssetFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if(!$filter)
 		{
-			$filter = new KalturaThumbAssetFilter();
+			$filter = new BorhanThumbAssetFilter();
 		}
-		elseif(! $filter instanceof KalturaThumbAssetFilter)
+		elseif(! $filter instanceof BorhanThumbAssetFilter)
 		{
-                        if(!is_subclass_of('KalturaThumbAssetFilter', get_class($filter)))
-                            $filter = $filter->cast('KalturaAssetFilter');
+                        if(!is_subclass_of('BorhanThumbAssetFilter', get_class($filter)))
+                            $filter = $filter->cast('BorhanAssetFilter');
 		    
-			$filter = $filter->cast('KalturaThumbAssetFilter');
+			$filter = $filter->cast('BorhanThumbAssetFilter');
 		}
 			
 		if(!$pager)
 		{
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 		}
 			
-		$types = KalturaPluginManager::getExtendedTypes(assetPeer::OM_CLASS, assetType::THUMBNAIL);
+		$types = BorhanPluginManager::getExtendedTypes(assetPeer::OM_CLASS, assetType::THUMBNAIL);
 		return $filter->getTypeListResponse($pager, $this->getResponseProfile(), $types);
 	}
 	
@@ -814,7 +814,7 @@ class ThumbAssetService extends KalturaAssetService
 	 * @action addFromUrl
 	 * @param string $entryId
 	 * @param string $url
-	 * @return KalturaThumbAsset
+	 * @return BorhanThumbAsset
 	 * 
 	 * @deprecated use thumbAsset.add and thumbAsset.setContent instead
 	 */
@@ -822,7 +822,7 @@ class ThumbAssetService extends KalturaAssetService
 	{
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 			
 		
 		
@@ -848,7 +848,7 @@ class ThumbAssetService extends KalturaAssetService
 		$dbThumbAsset->setStatusLocalReady();
 		$dbThumbAsset->save();
 		
-		$thumbAssets = new KalturaThumbAsset();
+		$thumbAssets = new BorhanThumbAsset();
 		$thumbAssets->fromObject($dbThumbAsset, $this->getResponseProfile());
 		return $thumbAssets;
 	}
@@ -857,16 +857,16 @@ class ThumbAssetService extends KalturaAssetService
 	 * @action addFromImage
 	 * @param string $entryId
 	 * @param file $fileData
-	 * @return KalturaThumbAsset
+	 * @return BorhanThumbAsset
 	 * 
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 * @validateUser entry entryId edit
 	 */
 	public function addFromImageAction($entryId, $fileData)
 	{
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 			
 		
 		
@@ -898,12 +898,12 @@ class ThumbAssetService extends KalturaAssetService
 		if($dbEntry->getCreateThumb() && 
 			(
 				$dbThumbAsset->hasTag(thumbParams::TAG_DEFAULT_THUMB) || 
-		  		($dbEntry->getStatus() == KalturaEntryStatus::NO_CONTENT && count($dbEntryThumbs) == 1)
+		  		($dbEntry->getStatus() == BorhanEntryStatus::NO_CONTENT && count($dbEntryThumbs) == 1)
 		  	)
 		  )
 				$this->setAsDefaultAction($dbThumbAsset->getId());
 			
-		$thumbAssets = new KalturaThumbAsset();
+		$thumbAssets = new BorhanThumbAsset();
 		$thumbAssets->fromObject($dbThumbAsset, $this->getResponseProfile());
 		return $thumbAssets;
 	}
@@ -912,14 +912,14 @@ class ThumbAssetService extends KalturaAssetService
 	 * @action delete
 	 * @param string $thumbAssetId
 	 * 
-	 * @throws KalturaErrors::THUMB_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::THUMB_ASSET_ID_NOT_FOUND
 	 * @validateUser asset::entry thumbAssetId edit
 	 */
 	public function deleteAction($thumbAssetId)
 	{
 		$thumbAssetDb = assetPeer::retrieveById($thumbAssetId);
 		if (!$thumbAssetDb || !($thumbAssetDb instanceof thumbAsset))
-			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_ID_NOT_FOUND, $thumbAssetId);
+			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_ID_NOT_FOUND, $thumbAssetId);
 
 		if(kEntitlementUtils::getEntitlementEnforcement())
 		{
@@ -927,16 +927,16 @@ class ThumbAssetService extends KalturaAssetService
 			if(!$entry)
 			{
 				//we will throw thumb asset not found, as the user is not entitled, and should not know that the entry exists.
-				throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_ID_NOT_FOUND, $thumbAssetId);
+				throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_ID_NOT_FOUND, $thumbAssetId);
 			}	
 		}
 			
 		if($thumbAssetDb->hasTag(thumbParams::TAG_DEFAULT_THUMB))
-			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_IS_DEFAULT, $thumbAssetId);
+			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_IS_DEFAULT, $thumbAssetId);
 		
 		$entry = $thumbAssetDb->getEntry();
 		if (!$entry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $thumbAssetDb->getEntryId());
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $thumbAssetDb->getEntryId());
 			
 		
 		
@@ -951,26 +951,26 @@ class ThumbAssetService extends KalturaAssetService
 	 * @action getUrl
 	 * @param string $id
 	 * @param int $storageId
-	 * @param KalturaThumbParams $thumbParams
+	 * @param BorhanThumbParams $thumbParams
 	 * @return string
-	 * @throws KalturaErrors::THUMB_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::THUMB_ASSET_IS_NOT_READY
+	 * @throws BorhanErrors::THUMB_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::THUMB_ASSET_IS_NOT_READY
 	 */
-	public function getUrlAction($id, $storageId = null, KalturaThumbParams $thumbParams = null)
+	public function getUrlAction($id, $storageId = null, BorhanThumbParams $thumbParams = null)
 	{
 		$assetDb = assetPeer::retrieveById($id);
 		if (!$assetDb || !($assetDb instanceof thumbAsset))
-			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_ID_NOT_FOUND, $id);
 
 		$entry = entryPeer::retrieveByPK($assetDb->getEntryId());
 		if(!$entry)
 		{
 			//we will throw thumb asset not found, as the user is not entitled, and should not know that the entry exists or entry does not exist.
-			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_ID_NOT_FOUND, $id);
 		}
 
 		if ($assetDb->getStatus() != asset::ASSET_STATUS_READY)
-			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_IS_NOT_READY);
+			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_IS_NOT_READY);
 		
 		$securyEntryHelper = new KSecureEntryHelper($entry, kCurrentContext::$ks, null, ContextType::THUMBNAIL);
 		$securyEntryHelper->validateAccessControl();
@@ -983,15 +983,15 @@ class ThumbAssetService extends KalturaAssetService
 	 * 
 	 * @action getRemotePaths
 	 * @param string $id
-	 * @return KalturaRemotePathListResponse
-	 * @throws KalturaErrors::THUMB_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::THUMB_ASSET_IS_NOT_READY
+	 * @return BorhanRemotePathListResponse
+	 * @throws BorhanErrors::THUMB_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::THUMB_ASSET_IS_NOT_READY
 	 */
 	public function getRemotePathsAction($id)
 	{
 		$assetDb = assetPeer::retrieveById($id);
 		if (!$assetDb || !($assetDb instanceof thumbAsset))
-			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_ID_NOT_FOUND, $id);
 			
 		if(kEntitlementUtils::getEntitlementEnforcement())
 		{
@@ -999,12 +999,12 @@ class ThumbAssetService extends KalturaAssetService
 			if(!$entry)
 			{
 				//we will throw thumb asset not found, as the user is not entitled, and should not know that the entry exists.
-				throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_ID_NOT_FOUND, $id);
+				throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_ID_NOT_FOUND, $id);
 			}	
 		}
 
 		if ($assetDb->getStatus() != asset::ASSET_STATUS_READY)
-			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_IS_NOT_READY);
+			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_IS_NOT_READY);
 
 		$c = new Criteria();
 		$c->add(FileSyncPeer::OBJECT_TYPE, FileSyncObjectType::ASSET);
@@ -1016,8 +1016,8 @@ class ThumbAssetService extends KalturaAssetService
 		$c->add(FileSyncPeer::FILE_TYPE, FileSync::FILE_SYNC_FILE_TYPE_URL);
 		$fileSyncs = FileSyncPeer::doSelect($c);
 			
-		$listResponse = new KalturaRemotePathListResponse();
-		$listResponse->objects = KalturaRemotePathArray::fromDbArray($fileSyncs, $this->getResponseProfile());
+		$listResponse = new BorhanRemotePathListResponse();
+		$listResponse->objects = BorhanRemotePathArray::fromDbArray($fileSyncs, $this->getResponseProfile());
 		$listResponse->totalCount = count($listResponse->objects);
 		return $listResponse;
 	}
@@ -1028,10 +1028,10 @@ class ThumbAssetService extends KalturaAssetService
 	 * @action export
 	 * @param string $assetId
 	 * @param int $storageProfileId
-	 * @throws KalturaErrors::INVALID_FLAVOR_ASSET_ID
-	 * @throws KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND
-	 * @throws KalturaErrors::INTERNAL_SERVERL_ERROR
-	 * @return KalturaFlavorAsset The exported asset
+	 * @throws BorhanErrors::INVALID_FLAVOR_ASSET_ID
+	 * @throws BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::INTERNAL_SERVERL_ERROR
+	 * @return BorhanFlavorAsset The exported asset
 	 */
 	public function exportAction ( $assetId , $storageProfileId )
 	{

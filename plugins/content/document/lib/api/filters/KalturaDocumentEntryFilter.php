@@ -3,7 +3,7 @@
  * @package plugins.document
  * @subpackage api.filters
  */
-class KalturaDocumentEntryFilter extends KalturaDocumentEntryBaseFilter
+class BorhanDocumentEntryFilter extends BorhanDocumentEntryBaseFilter
 {
 	static private $map_between_objects = array
 	(
@@ -17,14 +17,14 @@ class KalturaDocumentEntryFilter extends KalturaDocumentEntryBaseFilter
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseEntryFilter::getListResponse()
+	 * @see BorhanBaseEntryFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		list($list, $totalCount) = $this->doGetListResponse($pager);
 		
-	    $newList = KalturaDocumentEntryArray::fromDbArray($list, $responseProfile);
-		$response = new KalturaBaseEntryListResponse();
+	    $newList = BorhanDocumentEntryArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanBaseEntryListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $totalCount;
 		

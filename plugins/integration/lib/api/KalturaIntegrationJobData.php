@@ -3,7 +3,7 @@
  * @package plugins.integration
  * @subpackage api.objects
  */
-class KalturaIntegrationJobData extends KalturaJobData
+class BorhanIntegrationJobData extends BorhanJobData
 {
 	/**
 	 * @var string
@@ -12,24 +12,24 @@ class KalturaIntegrationJobData extends KalturaJobData
 	public $callbackNotificationUrl;
 	
 	/**
-	 * @var KalturaIntegrationProviderType
+	 * @var BorhanIntegrationProviderType
 	 */
 	public $providerType;
 
 	/**
 	 * Additional data that relevant for the provider only
-	 * @var KalturaIntegrationJobProviderData
+	 * @var BorhanIntegrationJobProviderData
 	 */
 	public $providerData;
 
 	/**
-	 * @var KalturaIntegrationTriggerType
+	 * @var BorhanIntegrationTriggerType
 	 */
 	public $triggerType;
 
 	/**
 	 * Additional data that relevant for the trigger only
-	 * @var KalturaIntegrationJobTriggerData
+	 * @var BorhanIntegrationJobTriggerData
 	 */
 	public $triggerData;
 	
@@ -41,7 +41,7 @@ class KalturaIntegrationJobData extends KalturaJobData
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -49,27 +49,27 @@ class KalturaIntegrationJobData extends KalturaJobData
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject($srcObj)
+	 * @see BorhanObject::fromObject($srcObj)
 	 */
-	public function doFromObject($sourceObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($sourceObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($sourceObject, $responseProfile);
 		
 		$providerType = $sourceObject->getProviderType();
-		$this->providerData = KalturaPluginManager::loadObject('KalturaIntegrationJobProviderData', $providerType);
+		$this->providerData = BorhanPluginManager::loadObject('BorhanIntegrationJobProviderData', $providerType);
 		$providerData = $sourceObject->getProviderData();
 		if($this->providerData && $providerData && $providerData instanceof kIntegrationJobProviderData)
 			$this->providerData->fromObject($providerData);
 			
 		$triggerType = $sourceObject->getTriggerType();
-		$this->triggerData = KalturaPluginManager::loadObject('KalturaIntegrationJobTriggerData', $triggerType);
+		$this->triggerData = BorhanPluginManager::loadObject('BorhanIntegrationJobTriggerData', $triggerType);
 		$triggerData = $sourceObject->getTriggerData();
 		if($this->triggerData && $triggerData && $triggerData instanceof kIntegrationJobTriggerData)
 			$this->triggerData->fromObject($triggerData);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($object = null, $skip = array())
 	{
@@ -79,9 +79,9 @@ class KalturaIntegrationJobData extends KalturaJobData
 		} 
 		$object = parent::toObject($object, $skip);
 				
-		if($this->providerType && $this->providerData && $this->providerData instanceof KalturaIntegrationJobProviderData)
+		if($this->providerType && $this->providerData && $this->providerData instanceof BorhanIntegrationJobProviderData)
 		{
-			$providerData = KalturaPluginManager::loadObject('kIntegrationJobProviderData', $this->providerType);
+			$providerData = BorhanPluginManager::loadObject('kIntegrationJobProviderData', $this->providerType);
 			if($providerData)
 			{
 				$providerData = $this->providerData->toObject($providerData);
@@ -89,9 +89,9 @@ class KalturaIntegrationJobData extends KalturaJobData
 			}
 		}
 		
-		if($this->triggerType && $this->triggerData && $this->triggerData instanceof KalturaIntegrationJobTriggerData)
+		if($this->triggerType && $this->triggerData && $this->triggerData instanceof BorhanIntegrationJobTriggerData)
 		{
-			$triggerData = KalturaPluginManager::loadObject('kIntegrationJobTriggerData', $this->triggerType);
+			$triggerData = BorhanPluginManager::loadObject('kIntegrationJobTriggerData', $this->triggerType);
 			if($triggerData)
 			{
 				$triggerData = $this->triggerData->toObject($triggerData);
@@ -103,7 +103,7 @@ class KalturaIntegrationJobData extends KalturaJobData
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUsage($sourceObject, $propertiesToSkip)
+	 * @see BorhanObject::validateForUsage($sourceObject, $propertiesToSkip)
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -113,12 +113,12 @@ class KalturaIntegrationJobData extends KalturaJobData
 		$this->validatePropertyNotNull('providerData');
 		$this->validatePropertyNotNull('triggerType');
 		
-		if ($this->triggerType != KalturaIntegrationTriggerType::MANUAL)
+		if ($this->triggerType != BorhanIntegrationTriggerType::MANUAL)
 			$this->validatePropertyNotNull('triggerData');
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaJobData::toSubType()
+	 * @see BorhanJobData::toSubType()
 	 */
 	public function toSubType($subType)
 	{
@@ -126,7 +126,7 @@ class KalturaIntegrationJobData extends KalturaJobData
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaJobData::fromSubType()
+	 * @see BorhanJobData::fromSubType()
 	 */
 	public function fromSubType($subType)
 	{

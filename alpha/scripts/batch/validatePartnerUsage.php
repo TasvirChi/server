@@ -11,7 +11,7 @@ if($argc > 2 && is_numeric($argv[2]))
 	$partnerPackage = $argv[2];
 	
 if(in_array('dryRun', $argv))
-	KalturaStatement::setDryRun(true);
+	BorhanStatement::setDryRun(true);
 	
 kCurrentContext::$master_partner_id = -2;
 kCurrentContext::$uid = "PARTNER USAGE DAEMON";
@@ -21,4 +21,4 @@ kEventsManager::enableDeferredEvents(false);
 
 $batchClient = new myBatchPartnerUsage($partnerId, $partnerPackage);
 
-KalturaLog::debug('Done.');
+BorhanLog::debug('Done.');

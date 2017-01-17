@@ -6,8 +6,8 @@
 interface KIntegrationCloserEngine extends KIntegrationEngine
 {	
 	/**
-	 * @param KalturaBatchJob $job
-	 * @param KalturaIntegrationJobData $data
+	 * @param BorhanBatchJob $job
+	 * @param BorhanIntegrationJobData $data
 	 */
-	public function close(KalturaBatchJob $job, KalturaIntegrationJobData &$data);
+	public function close(BorhanBatchJob $job, BorhanIntegrationJobData &$data);
 }

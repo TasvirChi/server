@@ -196,7 +196,7 @@ class webVttCaptionsContentManager extends kCaptionsContentManager
 			}
 		} catch (Exception $e)
 		{
-			KalturaLog::err($e->getMessage());
+			BorhanLog::err($e->getMessage());
 			return null;
 		}
 		return trim(preg_replace('/\s+/', ' ', $content));
@@ -228,7 +228,7 @@ class webVttCaptionsContentManager extends kCaptionsContentManager
 
 		if (!$this->validateWebVttHeader($header))
 		{
-			KalturaLog::err("Error Parsing WebVTT file. The following errors were found while parsing the file: \n" . print_r($this->parsingErrors, true));
+			BorhanLog::err("Error Parsing WebVTT file. The following errors were found while parsing the file: \n" . print_r($this->parsingErrors, true));
 			return array();
 		}
 
@@ -258,7 +258,7 @@ class webVttCaptionsContentManager extends kCaptionsContentManager
 		};
 		if (count($this->parsingErrors) > 0)
 		{
-			KalturaLog::err("Error Parsing WebVTT file. The following errors were found while parsing the file: \n" . print_r($this->parsingErrors, true));
+			BorhanLog::err("Error Parsing WebVTT file. The following errors were found while parsing the file: \n" . print_r($this->parsingErrors, true));
 			return array();
 		}
 		return $itemsData;

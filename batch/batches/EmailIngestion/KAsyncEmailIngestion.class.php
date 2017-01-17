@@ -42,7 +42,7 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::EMAIL_INGESTION;
+		return BorhanBatchJobType::EMAIL_INGESTION;
 	}
 
 	public function __destruct()
@@ -72,13 +72,13 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 			$this->TEMP_FILE_DIR = self::$taskConfig->params->localTempPath;
 		}
 		catch (Exception $e) {
-			KalturaLog::crit("Cannot find all required parameters from config file");
+			BorhanLog::crit("Cannot find all required parameters from config file");
 		}
 
 		// create a temp file path
 		if ( !self::createDir( $this->TEMP_FILE_DIR ) )
 		{
-			KalturaLog::crit( "Cannot continue email ingestion without a temp directory");
+			BorhanLog::crit( "Cannot continue email ingestion without a temp directory");
 			return false; // quit run()
 		}
 
@@ -108,7 +108,7 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 				$mailboxId = $params->mailboxIdentifier;
 			}
 			catch (Exception $e) {
-				KalturaLog::crit("Cannot find all required parameters from config file for mailbox number [$mailboxNumber]");
+				BorhanLog::crit("Cannot find all required parameters from config file for mailbox number [$mailboxNumber]");
 				continue; // skip current mailbox
 			}
 
@@ -116,19 +116,19 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 			// connect to current mailbox
 			$mailChecker = new KMailChecker($host, $port, $user, $pass, $options);
 			if (!$mailChecker->connect()) {
-				KalturaLog::crit("Error connecting to [$host:$port] as [$user] - ".imap_last_error());
+				BorhanLog::crit("Error connecting to [$host:$port] as [$user] - ".imap_last_error());
 				continue; // skip current mailbox
 			}
-			KalturaLog::info("Sucessfuly connected to [$host:$port] as [$user]");
+			BorhanLog::info("Sucessfuly connected to [$host:$port] as [$user]");
 				
 			// check for unread mails
 			$newMails = $mailChecker->getUnreadIds();
 			if (!$newMails || count($newMails) <= 0) {
 				// no new mail availble in current mailbox
-				KalturaLog::info("No new mails found on [$user@$host]");
+				BorhanLog::info("No new mails found on [$user@$host]");
 				continue; // skip current mailbox
 			}
-			KalturaLog::info('['.count($newMails)."] unread mails found on [$user@$host]");
+			BorhanLog::info('['.count($newMails)."] unread mails found on [$user@$host]");
 
 			// -----------------------------------------
 			// loop through all mails in current mailbox
@@ -136,7 +136,7 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 			while ($keepCurMailbox && (list(,$curId) = each($newMails))) {
 
 				if ($mailesProcessed >= $maxMails) {
-					KalturaLog::info("Reached the max mails per job for current mailbox [$mailboxNumber] - skipping to next mailbox");
+					BorhanLog::info("Reached the max mails per job for current mailbox [$mailboxNumber] - skipping to next mailbox");
 					$keepCurMailbox = false; // skip current mailbox
 					continue; // skip current mail --> skip current mailbox
 				}
@@ -146,16 +146,16 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 				// fetch current message
 				$curMail = $mailChecker->fetchMsg($curId);
 				if (!$curMail) {
-					KalturaLog::err("Error fetching message with folder ID [$curId] from [$user@$host] - ".imap_last_error());
+					BorhanLog::err("Error fetching message with folder ID [$curId] from [$user@$host] - ".imap_last_error());
 					continue; // skip current mail - error fetching
 				}
 
 				// check if mail contains attachments
 				if (!$curMail->attachments || count($curMail->attachments) == 0) {
 					// no attachments found
-					KalturaLog::info('No attachments found for mail ['.$curMail->header->msgid."] on [$user@$host] from [".$curMail->header->fromadd.'] with subject ['.$curMail->header->subject.']');
+					BorhanLog::info('No attachments found for mail ['.$curMail->header->msgid."] on [$user@$host] from [".$curMail->header->fromadd.'] with subject ['.$curMail->header->subject.']');
 					if (!$mailChecker->moveMsg($curId, self::NO_ATTACHMENT)) {
-						KalturaLog::err('Failed moving msg ['.$curMail->header->msgid.'] to the ['.self::NO_ATTACHMENT.'] folder - '.imap_last_error());
+						BorhanLog::err('Failed moving msg ['.$curMail->header->msgid.'] to the ['.self::NO_ATTACHMENT.'] folder - '.imap_last_error());
 					}
 					continue; // skip current mail - no attachments
 				}
@@ -165,9 +165,9 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 				$email_profiles = $this->validePartnerAndGetProfile(array($curMail->header->fromadd), $mailboxId);
 				if (!$email_profiles) {
 					// error validating partner
-					KalturaLog::err('Partner validation failed for ['.$curMail->header->msgid."] on [$user@$host] from [".$curMail->header->fromadd.'] with subject ['.$curMail->header->subject.']');
+					BorhanLog::err('Partner validation failed for ['.$curMail->header->msgid."] on [$user@$host] from [".$curMail->header->fromadd.'] with subject ['.$curMail->header->subject.']');
 					if (!$mailChecker->moveMsg($curId, self::PARTNER_INVALID)) {
-						KalturaLog::err('Failed moving msg ['.$curMail->header->msgid.'] to the ['.self::PARTNER_INVALID.'] folder - '.imap_last_error());
+						BorhanLog::err('Failed moving msg ['.$curMail->header->msgid.'] to the ['.self::PARTNER_INVALID.'] folder - '.imap_last_error());
 					}
 					continue; // skip current mail - partner invalid
 				}
@@ -178,11 +178,11 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 				// add the mail's attachment for each valid email profile
 				$failures = new AddEntriesFailures();			
 				foreach ($email_profiles as $profile) {		
-					KalturaLog::info("*** Currently processing attachments for email profile id [$profile->id] of partner id [$profile->partnerId]");
+					BorhanLog::info("*** Currently processing attachments for email profile id [$profile->id] of partner id [$profile->partnerId]");
 					// add a new entry for each attachment
 					//TODO: currently, the same attachment will be uploaded again and again for each different profile because the uploaded file is being transferred on the server - this should be changed.
 					if (!$this->addEntries($curMail, $profile, $mediaEntry, $failures)) {
-						KalturaLog::err("Some errors occured while adding entries for email profile id [$profile->id] of partner id [$profile->partnerId]");					
+						BorhanLog::err("Some errors occured while adding entries for email profile id [$profile->id] of partner id [$profile->partnerId]");					
 					}
 				}
 				
@@ -192,32 +192,32 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 					if ($failures->upload_failed || $failures->add_entry_failed || $failures->error_saving_temp_file) {
 						// some attachments had problems
 						$new_folder = self::ADD_ENTRY_FAIL;
-						KalturaLog::crit('Failed adding some attachments for ['.$curMail->header->msgid."] on [$user@$host] Moving msg to [".$new_folder.'] folder');
+						BorhanLog::crit('Failed adding some attachments for ['.$curMail->header->msgid."] on [$user@$host] Moving msg to [".$new_folder.'] folder');
 					}
 					else if ($failures->too_many_attachments) {
 						// too many attachments
 						$new_folder = self::INCOMPLETE;
-						KalturaLog::err('Msg ['.$curMail->header->msgid."] on [$user@$host] from [".$curMail->header->fromadd.'] with subject ['.$curMail->header->subject."] contains too many attachments. Moving msg to [$new_folder] folder");
+						BorhanLog::err('Msg ['.$curMail->header->msgid."] on [$user@$host] from [".$curMail->header->fromadd.'] with subject ['.$curMail->header->subject."] contains too many attachments. Moving msg to [$new_folder] folder");
 					}
 					else if ($failures->attachment_too_big || $failures->attachment_invalid) {
 						// errors in specific attachments
 						if (count($curMail->attachments) > 1) {
 							$new_folder = self::INCOMPLETE;
-							KalturaLog::err('Some invalid attachments found for msg ['.$curMail->header->msgid."] on [$user@$host] from [".$curMail->header->fromadd.'] with subject ['.$curMail->header->subject."]. Moving msg to [$new_folder] folder");
+							BorhanLog::err('Some invalid attachments found for msg ['.$curMail->header->msgid."] on [$user@$host] from [".$curMail->header->fromadd.'] with subject ['.$curMail->header->subject."]. Moving msg to [$new_folder] folder");
 						}
 						else {
 							$new_folder = self::ATTACHMENT_INVALID;
-							KalturaLog::err('Msg attachment is invalid for msg ['.$curMail->header->msgid."] on [$user@$host] from [".$curMail->header->fromadd.'] with subject ['.$curMail->header->subject."]. Moving msg to [$new_folder] folder");
+							BorhanLog::err('Msg attachment is invalid for msg ['.$curMail->header->msgid."] on [$user@$host] from [".$curMail->header->fromadd.'] with subject ['.$curMail->header->subject."]. Moving msg to [$new_folder] folder");
 						}
 					}
 					else {
 						// shouldn't get here
-						KalturaLog::err('*** Not all addEntriesFailures situations were handled.');
+						BorhanLog::err('*** Not all addEntriesFailures situations were handled.');
 					}
 					
 					// move msg to the right error folder
 					if (!$mailChecker->moveMsg($curId, $new_folder)) {
-						KalturaLog::err('Failed moving msg ['.$curMail->header->msgid.'] to the ['.$new_folder.'] folder - '.imap_last_error());
+						BorhanLog::err('Failed moving msg ['.$curMail->header->msgid.'] to the ['.$new_folder.'] folder - '.imap_last_error());
 					}			
 				}
 				
@@ -226,7 +226,7 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 					// all attachments were added succesfuly for all profiles
 					// ------------------------------------------------------
 					if (!$mailChecker->moveMsg($curId, self::PROCESS_OK)) {
-						KalturaLog::err('Msg ['.$curMail->header->msgid.'] from ['.$curMail->header->fromadd.'] with subject ['.$curMail->header->subject.'] was processed OK but failed moving to the ['.self::PROCESS_OK.'] folder - '.imap_last_error());
+						BorhanLog::err('Msg ['.$curMail->header->msgid.'] from ['.$curMail->header->fromadd.'] with subject ['.$curMail->header->subject.'] was processed OK but failed moving to the ['.self::PROCESS_OK.'] folder - '.imap_last_error());
 					}
 				}
 								
@@ -243,7 +243,7 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 	 *
 	 * @param <string> $toAddress
 	 * @param <string> $mailbox user@host
-	 * @return <KalturaEmailIngestionProfile>
+	 * @return <BorhanEmailIngestionProfile>
 	 */
 	private function validePartnerAndGetProfile($toAddresses, $mailbox)
 	{
@@ -258,7 +258,7 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 		}
 		catch (Exception $e) {
 			// problem
-			KalturaLog::err('There was an error getting email profiles from the server - '.$e->getMessage());
+			BorhanLog::err('There was an error getting email profiles from the server - '.$e->getMessage());
 			$email_profiles = false;
 		}
 		
@@ -284,12 +284,12 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 	 * Add new entries for all attachments under $mailData->attachments
 	 *
 	 * @param MailMsg $mailData
-	 * @param KalturaEmailIngestionProfile $profile
-	 * @param KalturaMediaEntry $mediaEntry media entry with data from mail's body
+	 * @param BorhanEmailIngestionProfile $profile
+	 * @param BorhanMediaEntry $mediaEntry media entry with data from mail's body
 	 * @param AddEntriesFailures $failures
 	 * @return <bool> true/false according to success
 	 */
-	private function addEntries(MailMsg &$mailData, KalturaEmailIngestionProfile $profile, KalturaMediaEntry $mediaEntry, AddEntriesFailures $failures)
+	private function addEntries(MailMsg &$mailData, BorhanEmailIngestionProfile $profile, BorhanMediaEntry $mediaEntry, AddEntriesFailures $failures)
 	{
 		$problems_happened = false;
 		$entry_name = $mediaEntry->name;
@@ -302,7 +302,7 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 		foreach ($mailData->attachments as $cur_attach) {
 			
 			if ($profile->maxAttachmentsPerMail && ($num > $profile->maxAttachmentsPerMail)) {
-				KalturaLog::info ('Mail msg ['.$mailData->header->msgid.'] has more than ['.$profile->maxAttachmentsPerMail.'] attachments - ignoring the rest.');
+				BorhanLog::info ('Mail msg ['.$mailData->header->msgid.'] has more than ['.$profile->maxAttachmentsPerMail.'] attachments - ignoring the rest.');
 				$problems_happened = true;
 				$failures->too_many_attachments = true;				
 				break; // quit adding attachments
@@ -311,7 +311,7 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 			if (!$this->validateAttachment($cur_attach, $errorMsg)) {
 				$problems_happened = true;
 				$failures->attachment_invalid = true;
-				KalturaLog::err("Attachment [{$cur_attach->filename}] is not valid - $errorMsg");
+				BorhanLog::err("Attachment [{$cur_attach->filename}] is not valid - $errorMsg");
 				continue; // next attachment
 			}
 
@@ -335,13 +335,13 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 			while (file_exists($filename)) {
 				$filename = $this->TEMP_FILE_DIR.DIRECTORY_SEPARATOR.time().'.'.$extension;
 			}
-			KalturaLog::info("Attachment [{$cur_attach->filename}] is temporarly saved with name [$filename]");
+			BorhanLog::info("Attachment [{$cur_attach->filename}] is temporarly saved with name [$filename]");
 			$this->temp_files[] = $filename; // keep a list of saved files that will be cleaned up during destruction
 			$handle = fopen($filename, 'w');
 			$fileWritten = $handle && fwrite($handle, $cur_attach->content);
 			$fileWritten = $fileWritten && fclose($handle);
 			if (!$fileWritten) {
-				KalturaLog::err("Error writing to [$filename] in the temp directory.");
+				BorhanLog::err("Error writing to [$filename] in the temp directory.");
 				$failures->error_saving_temp_file = true;
 				$problems_happened = true;
 				continue; // next attachment
@@ -349,17 +349,17 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 			
 			// check if attachment size is valid according to the email ingestion profile configuration
 			if ($profile->maxAttachmentSizeKbytes && (kFile::fileSize($filename)/1024 > $profile->maxAttachmentSizeKbytes)) {
-				KalturaLog::info("Attachment [$cur_attach->filename] is too big for profile [$profile->id] - ignoring.");
+				BorhanLog::info("Attachment [$cur_attach->filename] is too big for profile [$profile->id] - ignoring.");
 				// delete the temporary file from the disk			
 				if (!unlink($filename)) {
-					KalturaLog::info("Cannot delete [$filename] from the temp directory");
+					BorhanLog::info("Cannot delete [$filename] from the temp directory");
 				}
 				$failures->attachment_too_big = true;
 				$problems_happened = true;
 				continue; // next attachment
 			}
 
-			// upload file to the kaltura server
+			// upload file to the borhan server
 			// ---------------------------------
 			try {
 				$requestResults = $this->createUploadTokenAndUpload($profile, $filename);
@@ -368,15 +368,15 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 			}
 			catch (Exception $e) {
 				$token = null;
-				KalturaLog::err($e->getMessage());
+				BorhanLog::err($e->getMessage());
 			}
 			if ($token->id == null || !$token->id) {
-				KalturaLog::err("Error uploading [$filename] to the kaltura server.");
+				BorhanLog::err("Error uploading [$filename] to the borhan server.");
 				$problems_happened = true;
 				$failures->upload_failed = true;
 				// delete the temporary file from the disk
 				if (!unlink($filename)) {
-					KalturaLog::info("Cannot delete [$filename] from the temp directory");
+					BorhanLog::info("Cannot delete [$filename] from the temp directory");
 				}
 				continue; // next attachment
 			}
@@ -388,26 +388,26 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 			}
 			catch (Exception $e) {
 				$newEntry = null;
-				KalturaLog::err($e->getMessage());
+				BorhanLog::err($e->getMessage());
 			}
 			if ($newEntry == null || !$newEntry) {
-				KalturaLog::err("Error adding entry from uploaded file [$filename], token  [".$token->id."].");
+				BorhanLog::err("Error adding entry from uploaded file [$filename], token  [".$token->id."].");
 				$problems_happened = true;
 				$failures->add_entry_failed = true;
 				// delete the temporary file from the disk
 				if (!unlink($filename)) {
-					KalturaLog::info("Cannot delete [$filename] from the temp directory");
+					BorhanLog::info("Cannot delete [$filename] from the temp directory");
 				}
 				continue; // next attachment
 			}
 
 			// entry created succesfully
-			KalturaLog::info("New entry added succesfully with id [{$newEntry->id}]");
+			BorhanLog::info("New entry added succesfully with id [{$newEntry->id}]");
 			$num++;
 
 			// delete the temporary file from the disk
 			if (!unlink($filename)) {
-				KalturaLog::info("Cannot delete [$filename] from the temp directory");
+				BorhanLog::info("Cannot delete [$filename] from the temp directory");
 			}
 		}
 		
@@ -418,7 +418,7 @@ class KAsyncEmailIngestion extends KPeriodicWorker
     /**
      * 
      * Creates an upload token and uploads the file using the token.
-     * @param KalturaEmailIngestionProfile $profile
+     * @param BorhanEmailIngestionProfile $profile
      * @param string $filename
      */
     private function createUploadTokenAndUpload ($profile, $filename)
@@ -427,7 +427,7 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 			    
 	    $this->getClient()->startMultiRequest();
 	    
-	    $uploadToken = new KalturaUploadToken(); 
+	    $uploadToken = new BorhanUploadToken(); 
 	    
 	    $uploadToken->fileName = $filename;
 	    
@@ -446,11 +446,11 @@ class KAsyncEmailIngestion extends KPeriodicWorker
 	 *
 	 * @param MailHeader $mailHeader
 	 * @param <string> $mailBody
-	 * @return <KalturaMediaEntry>
+	 * @return <BorhanMediaEntry>
 	 */
 	private function createMediaEntry(MailHeader $mailHeader, $mailBody)
 	{
-		$mediaEntry = new KalturaMediaEntry();
+		$mediaEntry = new BorhanMediaEntry();
 		$mailBody = str_ireplace(array('“','”'), '"', $mailBody);
 
 		// create a new entry from the mail data

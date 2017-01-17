@@ -3,17 +3,17 @@
  * @package api
  * @subpackage objects
  */
-class KalturaLiveChannelArray extends KalturaTypedArray
+class BorhanLiveChannelArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaLiveChannelArray();
+		$newArr = new BorhanLiveChannelArray();
 		if ($arr == null)
 			return $newArr;
 			
 		foreach ($arr as $obj)
 		{
-    		$nObj = KalturaEntryFactory::getInstanceByType($obj->getType());
+    		$nObj = BorhanEntryFactory::getInstanceByType($obj->getType());
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaLiveChannelArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaLiveChannel");	
+		parent::__construct("BorhanLiveChannel");	
 	}
 }

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaConvertCollectionJobData extends KalturaConvartableJobData
+class BorhanConvertCollectionJobData extends BorhanConvartableJobData
 {
 	/**
 	 * @var string
@@ -37,7 +37,7 @@ class KalturaConvertCollectionJobData extends KalturaConvartableJobData
 	
 	
 	/**
-	 * @var KalturaConvertCollectionFlavorDataArray
+	 * @var BorhanConvertCollectionFlavorDataArray
 	 */
 	public $flavors;
     

@@ -4,7 +4,7 @@
  * @subpackage api.enum
  * @see IntegrationProviderType
  */
-class KalturaIntegrationProviderType extends KalturaDynamicEnum implements IntegrationProviderType
+class BorhanIntegrationProviderType extends BorhanDynamicEnum implements IntegrationProviderType
 {
 	public static function getEnumClass()
 	{

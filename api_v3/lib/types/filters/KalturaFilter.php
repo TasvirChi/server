@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters
  */
-abstract class KalturaFilter extends KalturaObject
+abstract class BorhanFilter extends BorhanObject
 {
 	const LT = "lt";
 	const LTE = "lte";
@@ -40,7 +40,7 @@ abstract class KalturaFilter extends KalturaObject
 	public $orderBy;
 	
 	/**
-	 * @var KalturaSearchItem
+	 * @var BorhanSearchItem
 	 */
 	public $advancedSearch;
 	
@@ -75,7 +75,7 @@ abstract class KalturaFilter extends KalturaObject
 		
 		$this->orderBy = $newOrderBy;
 		
-		$typeReflector = KalturaTypeReflectorCacher::get(get_class($this));
+		$typeReflector = BorhanTypeReflectorCacher::get(get_class($this));
 		
 		foreach ( $this->getMapBetweenObjects() as $this_prop => $object_prop )
 		{
@@ -89,7 +89,7 @@ abstract class KalturaFilter extends KalturaObject
 			$propertyInfo = $typeReflector->getProperty($this_prop);
 			if(!$propertyInfo)
 			{
-				KalturaLog::alert("Cannot load property info for attribute [$this_prop] in object [" . get_class($this) . "] try delete the cache");
+				BorhanLog::alert("Cannot load property info for attribute [$this_prop] in object [" . get_class($this) . "] try delete the cache");
 				continue;
 			}
 			
@@ -118,7 +118,7 @@ abstract class KalturaFilter extends KalturaObject
 		 		
 		if(is_object($this->advancedSearch))
 		{
-			if($this->advancedSearch instanceof KalturaSearchItem)
+			if($this->advancedSearch instanceof BorhanSearchItem)
 			{
 				$advancedSearch = $this->advancedSearch->toObject();
 				if($advancedSearch)
@@ -129,9 +129,9 @@ abstract class KalturaFilter extends KalturaObject
 		return $object_to_fill;		
 	}	
 	
-	public function doFromObject($source_object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($source_object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$reflector = KalturaTypeReflectorCacher::get(get_class($this));
+		$reflector = BorhanTypeReflectorCacher::get(get_class($this));
 		
 		foreach ($this->getMapBetweenObjects() as $this_prop => $object_prop )
 		{
@@ -166,7 +166,7 @@ abstract class KalturaFilter extends KalturaObject
 		    }
 		    else
 		    {
-		    	KalturaLog::alert("field [$object_prop] was not found on filter object class [" . get_class($source_object) . "]");
+		    	BorhanLog::alert("field [$object_prop] was not found on filter object class [" . get_class($source_object) . "]");
 		    }
 		}
 		
@@ -192,10 +192,10 @@ abstract class KalturaFilter extends KalturaObject
 	    $advancedSearch = $source_object->getAdvancedSearch();
 		if(is_object($advancedSearch) && $advancedSearch instanceof AdvancedSearchFilterItem)
 		{
-			$apiClass = $advancedSearch->getKalturaClass();
+			$apiClass = $advancedSearch->getBorhanClass();
 			if(!class_exists($apiClass))
 			{
-				KalturaLog::err("Class [$apiClass] not found");
+				BorhanLog::err("Class [$apiClass] not found");
 			}
 			else 
 			{

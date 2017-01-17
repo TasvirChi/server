@@ -22,7 +22,7 @@ class KFFMpegThumbnailMaker extends KBaseThumbnailMaker
 			$frameCount = 1;
 		if(!isset($targetType))
 			$targetType = "image2";
-		KalturaLog::debug("position[$position], width[$width], height[$height], frameCount[$frameCount], frameCount[$frameCount], dar[$dar], vidDur[$vidDur]");
+		BorhanLog::debug("position[$position], width[$width], height[$height], frameCount[$frameCount], frameCount[$frameCount], dar[$dar], vidDur[$vidDur]");
 		if(isset($dar) && $dar>0 && isset($height)){
 			$width = floor(round($height*$dar)  /2) * 2;
 		}
@@ -31,7 +31,7 @@ class KFFMpegThumbnailMaker extends KBaseThumbnailMaker
 
 		$cmd= $cmdArr[0];
 		$rv = null;
-		KalturaLog::info("Executing: $cmd");
+		BorhanLog::info("Executing: $cmd");
 		$logFilePath = "$this->targetPath.log";
 		
 		$logFileDir = dirname($logFilePath);
@@ -40,23 +40,23 @@ class KFFMpegThumbnailMaker extends KBaseThumbnailMaker
 			
 		file_put_contents($logFilePath, $cmd, FILE_APPEND);
 		$output = system( $cmd , $rv );
-		KalturaLog::debug("Returned value: '$rv'");
+		BorhanLog::debug("Returned value: '$rv'");
 
 		if($rv==0 && $this->parseOutput($output)==true)
 			return true;
 
-		KalturaLog::warning("First attempt failed due to ffmpeg crash or 'missing-keyframe' issue.\nSecond attempt with 'slow-thumb-capture' mode");
+		BorhanLog::warning("First attempt failed due to ffmpeg crash or 'missing-keyframe' issue.\nSecond attempt with 'slow-thumb-capture' mode");
 		$cmd= $cmdArr[1];
 		if(isset($cmd) ){
 			if($position>30) {
-				KalturaLog::err("Can not run 2nd attempt - 'slow-thumb-capture' is allowed up to 30 sec position");
+				BorhanLog::err("Can not run 2nd attempt - 'slow-thumb-capture' is allowed up to 30 sec position");
 			}
 			else {
 				$rv = null;
-				KalturaLog::info("Executing: $cmd");
+				BorhanLog::info("Executing: $cmd");
 				file_put_contents($logFilePath, $cmd, FILE_APPEND);
 				$output = system( $cmd , $rv );
-				KalturaLog::debug("Returned value: '$rv'");
+				BorhanLog::debug("Returned value: '$rv'");
 				
 				if($rv==0 && $this->parseOutput($output)==true)
 					;//return true;

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage errors
  */
-class KalturaErrors extends APIErrors
+class BorhanErrors extends APIErrors
 {
 	/**
 	 * General Errors
@@ -439,7 +439,7 @@ class KalturaErrors extends APIErrors
 
 	const SYNDICATION_FEED_INVALID_STORAGE_ID = "SYNDICATION_FEED_INVALID_STORAGE_ID;;Invalid storage id";
 
-	const SYNDICATION_FEED_KALTURA_DC_ONLY = "SYNDICATION_FEED_KALTURA_DC_ONLY;;Partner configured to use Kaltura data centers only";
+	const SYNDICATION_FEED_BORHAN_DC_ONLY = "SYNDICATION_FEED_BORHAN_DC_ONLY;;Partner configured to use Borhan data centers only";
 
 	/*
 	 * file sync
@@ -564,9 +564,9 @@ class KalturaErrors extends APIErrors
 	
 	const CANNOT_REGENERATE_STREAM_TOKEN_FOR_EXTERNAL_LIVE_STREAMS = "CANNOT_REGENERATE_STREAM_TOKEN_FOR_EXTERNAL_LIVE_STREAMS;TYPE;Cannot regenerate stream token for external type [@TYPE@] live stream";
 	
-	const KALTURA_RECORDING_ENABLED = "KALTURA_RECORDING_ENABLED;PARTNER_ID;Kaltura recording is enabled for partner [@PARTNER_ID@] use liveStream->setRecordedContent to set the live recorded content";
+	const BORHAN_RECORDING_ENABLED = "BORHAN_RECORDING_ENABLED;PARTNER_ID;Borhan recording is enabled for partner [@PARTNER_ID@] use liveStream->setRecordedContent to set the live recorded content";
 	
-	const KALTURA_RECORDING_DISABLED = "KALTURA_RECORDING_DISABLED;PARTNER_ID;Kaltura recording is disabled for partner [@PARTNER_ID@] use liveStream->appendRecording to set the live recorded content";
+	const BORHAN_RECORDING_DISABLED = "BORHAN_RECORDING_DISABLED;PARTNER_ID;Borhan recording is disabled for partner [@PARTNER_ID@] use liveStream->appendRecording to set the live recorded content";
 	
 	/*
 	 * BaseEntry Service

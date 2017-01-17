@@ -21,12 +21,12 @@ class MetroPcsDistributionFeedHelper
 	protected $distributionProfile;
 
 	/**
-	 * @var KalturaEntryDistribution
+	 * @var BorhanEntryDistribution
 	 */
 	protected $entryDistribution;
 	
 	/**
-	 * @var KalturaMetroPcsDistributionJobProviderData
+	 * @var BorhanMetroPcsDistributionJobProviderData
 	 */
 	protected $providerData;
 	
@@ -40,7 +40,7 @@ class MetroPcsDistributionFeedHelper
 	 * @param $templateName
 	 * @param $distributionProfile
 	 */
-	public function __construct($templateName, $entryDistribution, KalturaMetroPcsDistributionProfile $distributionProfile, KalturaMetroPcsDistributionJobProviderData $providerData) 
+	public function __construct($templateName, $entryDistribution, BorhanMetroPcsDistributionProfile $distributionProfile, BorhanMetroPcsDistributionJobProviderData $providerData) 
 	{
 		$this->entryDistribution = $entryDistribution;
 		$this->distributionProfile = $distributionProfile;
@@ -55,43 +55,43 @@ class MetroPcsDistributionFeedHelper
 		$this->xpath = new DOMXPath($this->doc);
 		$this->xpath->registerNamespace('msdp', 'http://www.real.com/msdp');	
 		
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:title', $this->getValueForField(KalturaMetroPcsDistributionField::TITLE));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:link', $this->getValueForField(KalturaMetroPcsDistributionField::LINK));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:externalId', $this->getValueForField(KalturaMetroPcsDistributionField::EXTERNAL_ID));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:providerId', $this->getValueForField(KalturaMetroPcsDistributionField::PROVIDER_ID));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:shortDescription', $this->getValueForField(KalturaMetroPcsDistributionField::SHORT_DESCRIPTION));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:description', $this->getValueForField(KalturaMetroPcsDistributionField::DESCRIPTION));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:language', $this->getValueForField(KalturaMetroPcsDistributionField::LANGUAGE));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:copyright', $this->getValueForField(KalturaMetroPcsDistributionField::COPYRIGHT));		
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:managingEditor', $this->getValueForField(KalturaMetroPcsDistributionField::MANAGING_EDITOR));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:title', $this->getValueForField(BorhanMetroPcsDistributionField::TITLE));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:link', $this->getValueForField(BorhanMetroPcsDistributionField::LINK));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:externalId', $this->getValueForField(BorhanMetroPcsDistributionField::EXTERNAL_ID));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:providerId', $this->getValueForField(BorhanMetroPcsDistributionField::PROVIDER_ID));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:shortDescription', $this->getValueForField(BorhanMetroPcsDistributionField::SHORT_DESCRIPTION));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:description', $this->getValueForField(BorhanMetroPcsDistributionField::DESCRIPTION));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:language', $this->getValueForField(BorhanMetroPcsDistributionField::LANGUAGE));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:copyright', $this->getValueForField(BorhanMetroPcsDistributionField::COPYRIGHT));		
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:managingEditor', $this->getValueForField(BorhanMetroPcsDistributionField::MANAGING_EDITOR));
 		
-		$pubDate = $this->getValueForField(KalturaMetroPcsDistributionField::PUB_DATE);
+		$pubDate = $this->getValueForField(BorhanMetroPcsDistributionField::PUB_DATE);
 		if ($pubDate) 
 		{
 		   kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:pubDate',date('D M j G:i:s T Y', intval($pubDate))); 
 		}
 					
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:category', $this->getValueForField(KalturaMetroPcsDistributionField::CATEGORY));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:upc', $this->getValueForField(KalturaMetroPcsDistributionField::UPC));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:isrc', $this->getValueForField(KalturaMetroPcsDistributionField::ISRC));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:program', $this->getValueForField(KalturaMetroPcsDistributionField::PROGRAM));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:seasonId', $this->getValueForField(KalturaMetroPcsDistributionField::SEASON_ID));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:episodicId', $this->getValueForField(KalturaMetroPcsDistributionField::EPISODIC_ID));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:chapterId', $this->getValueForField(KalturaMetroPcsDistributionField::CHAPTER_ID));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:artist', $this->getValueForField(KalturaMetroPcsDistributionField::ARTIST));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:performer', $this->getValueForField(KalturaMetroPcsDistributionField::PERFORMER));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:director', $this->getValueForField(KalturaMetroPcsDistributionField::DIRECTOR));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:studio', $this->getValueForField(KalturaMetroPcsDistributionField::STUDIO));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:originalRelease', $this->getValueForField(KalturaMetroPcsDistributionField::ORIGINAL_RELEASE));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:topStory', $this->getValueForField(KalturaMetroPcsDistributionField::TOP_STORY));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:sortOrder', $this->getValueForField(KalturaMetroPcsDistributionField::SORT_ORDER));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:sortName', $this->getValueForField(KalturaMetroPcsDistributionField::SORT_NAME));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:genre', $this->getValueForField(KalturaMetroPcsDistributionField::GENRE));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:keywords', $this->getValueForField(KalturaMetroPcsDistributionField::KEYWORDS));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:localCode', $this->getValueForField(KalturaMetroPcsDistributionField::LOCAL_CODE));
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:entitlements', $this->getValueForField(KalturaMetroPcsDistributionField::ENTITLEMENTS));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:category', $this->getValueForField(BorhanMetroPcsDistributionField::CATEGORY));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:upc', $this->getValueForField(BorhanMetroPcsDistributionField::UPC));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:isrc', $this->getValueForField(BorhanMetroPcsDistributionField::ISRC));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:program', $this->getValueForField(BorhanMetroPcsDistributionField::PROGRAM));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:seasonId', $this->getValueForField(BorhanMetroPcsDistributionField::SEASON_ID));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:episodicId', $this->getValueForField(BorhanMetroPcsDistributionField::EPISODIC_ID));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:chapterId', $this->getValueForField(BorhanMetroPcsDistributionField::CHAPTER_ID));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:artist', $this->getValueForField(BorhanMetroPcsDistributionField::ARTIST));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:performer', $this->getValueForField(BorhanMetroPcsDistributionField::PERFORMER));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:director', $this->getValueForField(BorhanMetroPcsDistributionField::DIRECTOR));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:studio', $this->getValueForField(BorhanMetroPcsDistributionField::STUDIO));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:originalRelease', $this->getValueForField(BorhanMetroPcsDistributionField::ORIGINAL_RELEASE));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:topStory', $this->getValueForField(BorhanMetroPcsDistributionField::TOP_STORY));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:sortOrder', $this->getValueForField(BorhanMetroPcsDistributionField::SORT_ORDER));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:sortName', $this->getValueForField(BorhanMetroPcsDistributionField::SORT_NAME));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:genre', $this->getValueForField(BorhanMetroPcsDistributionField::GENRE));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:keywords', $this->getValueForField(BorhanMetroPcsDistributionField::KEYWORDS));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:localCode', $this->getValueForField(BorhanMetroPcsDistributionField::LOCAL_CODE));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:entitlements', $this->getValueForField(BorhanMetroPcsDistributionField::ENTITLEMENTS));
 				
-		$startDate = new DateTime('@'.$this->getValueForField(KalturaMetroPcsDistributionField::START_DATE));
+		$startDate = new DateTime('@'.$this->getValueForField(BorhanMetroPcsDistributionField::START_DATE));
 		if ($startDate) 
 		{	
 			// force time zone to EST
@@ -100,7 +100,7 @@ class MetroPcsDistributionFeedHelper
 		    kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:startDate',$date);  
 		}		
 		
-		$endDate = new DateTime('@'.$this->getValueForField(KalturaMetroPcsDistributionField::END_DATE));
+		$endDate = new DateTime('@'.$this->getValueForField(BorhanMetroPcsDistributionField::END_DATE));
 		if ($endDate) 
 		{
 			// force time zone to EST
@@ -109,7 +109,7 @@ class MetroPcsDistributionFeedHelper
 		    kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:endDate',$date); 
 		}	
 
-		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:rating', $this->getValueForField(KalturaMetroPcsDistributionField::RATING));
+		kXml::setNodeValue($this->xpath,'/msdp:rss/msdp:channel/msdp:rating', $this->getValueForField(BorhanMetroPcsDistributionField::RATING));
 	}
 				
 	/**
@@ -143,7 +143,7 @@ class MetroPcsDistributionFeedHelper
 		
 	/**
 	 * set flavors in XML
-	 * @param KalturaThumbAsset $thumbAssets
+	 * @param BorhanThumbAsset $thumbAssets
 	 */
 	public function setThumbnails($thumbAssets, $thumbUrls)
 	{	
@@ -171,16 +171,16 @@ class MetroPcsDistributionFeedHelper
 	
 	/**
 	 * set flavors in XML
-	 * @param KalturaFlavorAsset $flavorAssets
+	 * @param BorhanFlavorAsset $flavorAssets
 	 */
 	public function setFlavor ($flavorAsset, $entryDuration, $currenTime)
 	{	
 		$templateItemNode = $this->xpath->query('/msdp:rss/msdp:channel/msdp:item')->item(0);
 		if($flavorAsset)
 		{	
-			$itemTitle = $this->getValueForField(KalturaMetroPcsDistributionField::ITEM_TITLE);
-			$itemDescription= $this->getValueForField(KalturaMetroPcsDistributionField::ITEM_DESCRIPTION);
-			$itemType= $this->getValueForField(KalturaMetroPcsDistributionField::ITEM_TYPE);
+			$itemTitle = $this->getValueForField(BorhanMetroPcsDistributionField::ITEM_TITLE);
+			$itemDescription= $this->getValueForField(BorhanMetroPcsDistributionField::ITEM_DESCRIPTION);
+			$itemType= $this->getValueForField(BorhanMetroPcsDistributionField::ITEM_TYPE);
 			//$url = $this->getAssetUrl($flavorAsset);
 			$url = $this->flavorAssetUniqueName($flavorAsset, $currenTime);			
 			kXml::setNodeValue($this->xpath,'msdp:title', $itemTitle, $templateItemNode);
@@ -240,7 +240,7 @@ class MetroPcsDistributionFeedHelper
 	public function setItemIgnore()
 	{		
 		$itemNode = $this->xpath->query('/msdp:rss/msdp:channel/msdp:item')->item(0);
-		kXml::setNodeValue($this->xpath,'msdp:type', $this->getValueForField(KalturaMetroPcsDistributionField::ITEM_TYPE), $itemNode);
+		kXml::setNodeValue($this->xpath,'msdp:type', $this->getValueForField(BorhanMetroPcsDistributionField::ITEM_TYPE), $itemNode);
 		kXml::setNodeValue($this->xpath,'@ignore', "Y", $itemNode);		
 	}
 	
@@ -251,7 +251,7 @@ class MetroPcsDistributionFeedHelper
 		
 	/**
 	 * creates unique name for flavor asset
-	 * @param KalturaFlavorAsset $flavorAsset
+	 * @param BorhanFlavorAsset $flavorAsset
 	 */
 	public function flavorAssetUniqueName($flavorAsset, $currentTime)
 	{

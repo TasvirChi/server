@@ -2,7 +2,7 @@
 /**
  * @package plugins.integration
  */
-class IntegrationPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaServices, IKalturaEventConsumers, IKalturaEnumerator, IKalturaVersion, IKalturaPending, IKalturaObjectLoader
+class IntegrationPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanServices, IBorhanEventConsumers, IBorhanEnumerator, IBorhanVersion, IBorhanPending, IBorhanObjectLoader
 {
 	const PLUGIN_NAME = 'integration';
 	const PLUGIN_VERSION_MAJOR = 1;
@@ -11,7 +11,7 @@ class IntegrationPlugin extends KalturaPlugin implements IKalturaPermissions, IK
 	const INTEGRATION_FLOW_MANAGER = 'kIntegrationFlowManager';
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -19,16 +19,16 @@ class IntegrationPlugin extends KalturaPlugin implements IKalturaPermissions, IK
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$dependency = new KalturaDependency(MetadataPlugin::getPluginName());
+		$dependency = new BorhanDependency(MetadataPlugin::getPluginName());
 		return array($dependency);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissions::isAllowedPartner()
+	 * @see IBorhanPermissions::isAllowedPartner()
 	 */
 	public static function isAllowedPartner($partnerId)
 	{
@@ -40,7 +40,7 @@ class IntegrationPlugin extends KalturaPlugin implements IKalturaPermissions, IK
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaServices::getServicesMap()
+	 * @see IBorhanServices::getServicesMap()
 	 */
 	public static function getServicesMap()
 	{
@@ -51,7 +51,7 @@ class IntegrationPlugin extends KalturaPlugin implements IKalturaPermissions, IK
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	 */
 	public static function getEventConsumers()
 	{
@@ -61,7 +61,7 @@ class IntegrationPlugin extends KalturaPlugin implements IKalturaPermissions, IK
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -75,11 +75,11 @@ class IntegrationPlugin extends KalturaPlugin implements IKalturaPermissions, IK
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaVersion::getVersion()
+	 * @see IBorhanVersion::getVersion()
 	 */
 	public static function getVersion()
 	{
-		return new KalturaVersion(
+		return new BorhanVersion(
 			self::PLUGIN_VERSION_MAJOR,
 			self::PLUGIN_VERSION_MINOR,
 			self::PLUGIN_VERSION_BUILD
@@ -87,7 +87,7 @@ class IntegrationPlugin extends KalturaPlugin implements IKalturaPermissions, IK
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{			
@@ -109,7 +109,7 @@ class IntegrationPlugin extends KalturaPlugin implements IKalturaPermissions, IK
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
@@ -119,10 +119,10 @@ class IntegrationPlugin extends KalturaPlugin implements IKalturaPermissions, IK
 				return 'kIntegrationJobData';
 		}
 	
-		if($baseClass == 'KalturaJobData')
+		if($baseClass == 'BorhanJobData')
 		{
 			if($enumValue == self::getApiValue(IntegrationBatchJobType::INTEGRATION) || $enumValue == self::getBatchJobTypeCoreValue(IntegrationBatchJobType::INTEGRATION))
-				return 'KalturaIntegrationJobData';
+				return 'BorhanIntegrationJobData';
 		}		
 	}
 	
@@ -131,7 +131,7 @@ class IntegrationPlugin extends KalturaPlugin implements IKalturaPermissions, IK
 	 */
 	public static function getBatchJobTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('BatchJobType', $value);
 	}
 	
@@ -140,6 +140,6 @@ class IntegrationPlugin extends KalturaPlugin implements IKalturaPermissions, IK
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 }

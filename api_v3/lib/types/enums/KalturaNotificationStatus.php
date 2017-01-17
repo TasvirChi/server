@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaNotificationStatus extends KalturaEnum 
+class BorhanNotificationStatus extends BorhanEnum 
 {
 	const PENDING = 1;
 	const SENT = 2;

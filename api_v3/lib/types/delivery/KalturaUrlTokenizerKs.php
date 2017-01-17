@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaUrlTokenizerKs extends KalturaUrlTokenizer
+class BorhanUrlTokenizerKs extends BorhanUrlTokenizer
 {
 	/**
 	 * @var bool

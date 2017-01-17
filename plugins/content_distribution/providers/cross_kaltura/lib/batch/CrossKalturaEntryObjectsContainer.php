@@ -1,52 +1,52 @@
 <?php
 /**
- * @package plugins.crossKalturaDistribution
+ * @package plugins.crossBorhanDistribution
  * @subpackage lib.batch
  */
-class CrossKalturaEntryObjectsContainer
+class CrossBorhanEntryObjectsContainer
 {
     /**
-     * @var KalturaBaseEntry
+     * @var BorhanBaseEntry
      */
     public $entry;
         
     /**
-     * @var array<KalturaMetadata>
+     * @var array<BorhanMetadata>
      */
     public $metadataObjects;
     
     /**
-     * @var array<KalturaFlavorAsset>
+     * @var array<BorhanFlavorAsset>
      */
     public $flavorAssets;
     
     /**
-     * @var array<KalturaContentResource>
+     * @var array<BorhanContentResource>
      */
     public $flavorAssetsContent;
     
     /**
-     * @var array<KalturaThumbAsset>
+     * @var array<BorhanThumbAsset>
      */
     public $thumbAssets;
     
     /**
-     * @var array<KalturaContentResource>
+     * @var array<BorhanContentResource>
      */
     public $thumbAssetsContent;
     
     /**
-     * @var array<KalturaCaptionAsset>
+     * @var array<BorhanCaptionAsset>
      */
     public $captionAssets;
     
     /**
-     * @var array<KalturaContentResource>
+     * @var array<BorhanContentResource>
      */
     public $captionAssetsContent;
     
     /**
-     * @var array<KalturaCuePoint>
+     * @var array<BorhanCuePoint>
      */
     public $cuePoints;
     

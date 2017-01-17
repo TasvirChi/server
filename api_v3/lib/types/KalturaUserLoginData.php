@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaUserLoginData extends KalturaObject implements IRelatedFilterable
+class BorhanUserLoginData extends BorhanObject implements IRelatedFilterable
 
 {
 	/**

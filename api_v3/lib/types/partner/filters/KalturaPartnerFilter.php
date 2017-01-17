@@ -3,10 +3,10 @@
  * @package api
  * @subpackage filters
  */
-class KalturaPartnerFilter extends KalturaPartnerBaseFilter
+class BorhanPartnerFilter extends BorhanPartnerBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{

@@ -2,14 +2,14 @@
 /**
  * @package api
  * @subpackage objects
- * @deprecated use KalturaRule instead
+ * @deprecated use BorhanRule instead
  */
-class KalturaCountryRestriction extends KalturaBaseRestriction 
+class BorhanCountryRestriction extends BorhanBaseRestriction 
 {
 	/**
 	 * Country restriction type (Allow or deny)
 	 * 
-	 * @var KalturaCountryRestrictionType
+	 * @var BorhanCountryRestrictionType
 	 */
 	public $countryRestrictionType; 
 	
@@ -32,9 +32,9 @@ class KalturaCountryRestriction extends KalturaBaseRestriction
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseRestriction::toRule()
+	 * @see BorhanBaseRestriction::toRule()
 	 */
-	public function toRule(KalturaRestrictionArray $restrictions)
+	public function toRule(BorhanRestrictionArray $restrictions)
 	{
 		return $this->toObject(new kAccessControlCountryRestriction());
 	}

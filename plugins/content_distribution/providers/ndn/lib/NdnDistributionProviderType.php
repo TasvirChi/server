@@ -3,7 +3,7 @@
  * @package plugins.ndnDistribution
  * @subpackage lib
  */
-class NdnDistributionProviderType implements IKalturaPluginEnum, DistributionProviderType
+class NdnDistributionProviderType implements IBorhanPluginEnum, DistributionProviderType
 {
 	const NDN = 'NDN';
 	

@@ -158,7 +158,7 @@ function moveJobs($c, $maxMovedJobs, $sourceDc, $targetDc, $jobType, $jobSubType
 				continue;
 			}
 				
-			KalturaLog::log('Moved job '.$job->getId()." PartnerId ".$job->getPartnerId()." EntryId ".$job->getEntryId()." FlavorId ".$job->getObjectId()."\n");
+			BorhanLog::log('Moved job '.$job->getId()." PartnerId ".$job->getPartnerId()." EntryId ".$job->getEntryId()." FlavorId ".$job->getObjectId()."\n");
 			$movedJobsCount++;
 			if ($movedJobsCount >= $maxMovedJobs)
 				break;
@@ -321,14 +321,14 @@ function autoMoveJobs($jobType, $jobSubType)
 		}
 	}
 
-	KalturaLog::log('running jobs status '.print_r($runningJobs, true));
-	KalturaLog::log('idle dcs ' . implode(',', $idleDcs));
+	BorhanLog::log('running jobs status '.print_r($runningJobs, true));
+	BorhanLog::log('idle dcs ' . implode(',', $idleDcs));
 	
 	// get the pending jobs count
 	$countByDcPartner = getPendingJobsCount(
 			$jobType, $jobSubType, !$idleDcs ? MAX_PARTNER_JOB_COUNT : 0);
 	
-	KalturaLog::log('pending jobs status '.print_r($countByDcPartner, true));
+	BorhanLog::log('pending jobs status '.print_r($countByDcPartner, true));
 	
 	// Note: only move jobs away from current DC - can't safely lock a job belonging
 	//		to another DC - a worker may lock the job at the same time on the master DB
@@ -344,7 +344,7 @@ function autoMoveJobs($jobType, $jobSubType)
 	{
 		if (count($countByDcPartner[$sourceDc]) < BUSY_DC_MIN_PARTNER_COUNT)
 		{
-			KalturaLog::log('current dc has only '.count($countByDcPartner[$sourceDc]).' partners waiting');
+			BorhanLog::log('current dc has only '.count($countByDcPartner[$sourceDc]).' partners waiting');
 			return 0;
 		}
 		
@@ -359,7 +359,7 @@ function autoMoveJobs($jobType, $jobSubType)
 		
 		if (!$availDcs)
 		{
-			KalturaLog::log('no available dcs to push jobs to');
+			BorhanLog::log('no available dcs to push jobs to');
 			return 0;
 		}
 		
@@ -391,7 +391,7 @@ function autoMoveJobs($jobType, $jobSubType)
 		$createdAtCriterion->addAnd($c->getNewCriterion(BatchJobLockPeer::CREATED_AT, time() - MIN_JOB_AGE, Criteria::LESS_EQUAL));
 		$c->addAnd($createdAtCriterion);
 		
-		KalturaLog::log("moving jobs: partnerId=$partnerId max=$maxMovedJobs, source=$sourceDc, target=$targetDc, type=$jobType, subType=$jobSubType");
+		BorhanLog::log("moving jobs: partnerId=$partnerId max=$maxMovedJobs, source=$sourceDc, target=$targetDc, type=$jobType, subType=$jobSubType");
 	
 		$movedJobsCount += moveJobs($c, $maxMovedJobs, $sourceDc, $targetDc, $jobType, $jobSubType);
 	}
@@ -441,11 +441,11 @@ if ($argv[1] == 'manual')
 		}
 	}
 
-	KalturaLog::log("moving jobs: partnerId=$partnerId max=$maxMovedJobs, source=$sourceDc, target=$targetDc, type=$jobType, subType=$jobSubType");
+	BorhanLog::log("moving jobs: partnerId=$partnerId max=$maxMovedJobs, source=$sourceDc, target=$targetDc, type=$jobType, subType=$jobSubType");
 	
 	$movedJobsCount = moveJobs($c, $maxMovedJobs, $sourceDc, $targetDc, $jobType, $jobSubType);
 
-	KalturaLog::log("Moved {$movedJobsCount} jobs");
+	BorhanLog::log("Moved {$movedJobsCount} jobs");
 }
 else
 {
@@ -453,6 +453,6 @@ else
 	foreach (explode(',', $jobSubTypes) as $jobSubType)
 	{
 		$movedJobsCount = autoMoveJobs($jobType, $jobSubType);
-		KalturaLog::log("Moved jobs, subtype=$jobSubType count={$movedJobsCount}");
+		BorhanLog::log("Moved jobs, subtype=$jobSubType count={$movedJobsCount}");
 	}
 }

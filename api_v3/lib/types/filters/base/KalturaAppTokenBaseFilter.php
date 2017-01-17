@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaAppTokenBaseFilter extends KalturaFilter
+abstract class BorhanAppTokenBaseFilter extends BorhanFilter
 {
 	static private $map_between_objects = array
 	(
@@ -67,7 +67,7 @@ abstract class KalturaAppTokenBaseFilter extends KalturaFilter
 	public $updatedAtLessThanOrEqual;
 
 	/**
-	 * @var KalturaAppTokenStatus
+	 * @var BorhanAppTokenStatus
 	 */
 	public $statusEqual;
 

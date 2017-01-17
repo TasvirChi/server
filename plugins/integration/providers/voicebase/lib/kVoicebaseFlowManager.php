@@ -67,13 +67,13 @@ class kVoicebaseFlowManager implements kBatchJobStatusEventConsumer
 			$externalEntryExists = $clientHelper->checkExistingExternalContent($entryId);
 			if (!$externalEntryExists)
 			{
-				KalturaLog::err('remote content does not exist');
+				BorhanLog::err('remote content does not exist');
 				return true;     	
 			}
 			$formatsArray = explode(',',$formatsString);
 			$formatsArray[] = "TXT";
 			$contentsArray = $clientHelper->getRemoteTranscripts($entryId, $formatsArray);
-			KalturaLog::debug('contents are - ' . print_r($contentsArray, true));
+			BorhanLog::debug('contents are - ' . print_r($contentsArray, true));
 			$captions = $this->getAssetsByLanguage($entryId, array(CaptionPlugin::getAssetTypeCoreValue(CaptionAssetType::CAPTION)), $spokenLanguage);
 			$accuracy = $clientHelper->calculateAccuracy($entryId);
 			if($accuracy)
@@ -85,7 +85,7 @@ class kVoicebaseFlowManager implements kBatchJobStatusEventConsumer
 	
 			foreach ($contentsArray as $format => $content)
 			{        
-				$captionFormatConst = constant("KalturaCaptionType::" . $format);
+				$captionFormatConst = constant("BorhanCaptionType::" . $format);
 				if(isset($captions[$captionFormatConst]))
 					$caption = $captions[$captionFormatConst];
 				else
@@ -98,7 +98,7 @@ class kVoicebaseFlowManager implements kBatchJobStatusEventConsumer
 					$caption->setStatus(CaptionAsset::ASSET_STATUS_QUEUED);
 					$caption->save();
 				}
-				if ($captionFormatConst == KalturaCaptionType::DFXP) {
+				if ($captionFormatConst == BorhanCaptionType::DFXP) {
 					$voicebaseOptions = VoicebasePlugin::getPartnerVoicebaseOptions($partnerId);
 					if ($voicebaseOptions->transformDfxp)
 						$content = $this->transformDfxp($content);
@@ -183,7 +183,7 @@ class kVoicebaseFlowManager implements kBatchJobStatusEventConsumer
 		$content = preg_replace('/&(?!(?:#x?[0-9a-f]+|[a-z]+);)/i', '&amp;', $content);
 
 		if (!$doc->loadXML($content)) {
-			KalturaLog::err('Failed to load XML');
+			BorhanLog::err('Failed to load XML');
 			return $content;
 		}
 

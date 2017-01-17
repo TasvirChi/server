@@ -2,7 +2,7 @@
 /**
  * @package plugins.edgeCast
  */
-class EdgeCastPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaEventConsumers, IKalturaEnumerator, IKalturaObjectLoader
+class EdgeCastPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanEventConsumers, IBorhanEnumerator, IBorhanObjectLoader
 {
 	const PLUGIN_NAME = 'edgeCast';
 	const EDGECAST_FLOW_MANAGER = 'kEdgeCastFlowManager';
@@ -46,7 +46,7 @@ class EdgeCastPlugin extends KalturaPlugin implements IKalturaPermissions, IKalt
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	/**
@@ -73,7 +73,7 @@ class EdgeCastPlugin extends KalturaPlugin implements IKalturaPermissions, IKalt
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	*/
 	public static function getObjectClass($baseClass, $enumValue) {
 		if ($baseClass == 'DeliveryProfile') {

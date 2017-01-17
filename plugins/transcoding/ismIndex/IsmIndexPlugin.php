@@ -2,7 +2,7 @@
 /**
  * @package plugins.ismIndex
  */
-class IsmIndexPlugin extends KalturaPlugin implements IKalturaObjectLoader, IKalturaEnumerator, IKalturaEventConsumers, IKalturaBatchJobDataContributor
+class IsmIndexPlugin extends BorhanPlugin implements IBorhanObjectLoader, IBorhanEnumerator, IBorhanEventConsumers, IBorhanBatchJobDataContributor
 {
 	const PLUGIN_NAME = 'ismIndex';
 	const ISM_INDEX_EVENTS_CONSUMER = 'kIsmIndexEventsConsumer';
@@ -20,7 +20,7 @@ class IsmIndexPlugin extends KalturaPlugin implements IKalturaObjectLoader, IKal
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if($baseClass == 'KOperationEngine' && $enumValue == KalturaConversionEngineType::ISMINDEX)
+		if($baseClass == 'KOperationEngine' && $enumValue == BorhanConversionEngineType::ISMINDEX)
 		{
 			if(!isset($constructorArgs['params']) || !isset($constructorArgs['outFilePath']))
 				return null;
@@ -34,7 +34,7 @@ class IsmIndexPlugin extends KalturaPlugin implements IKalturaObjectLoader, IKal
 			return new KDLOperatorIsmIndex($enumValue);
 		}
 		
-		if($baseClass == 'KOperationEngine' && $enumValue == KalturaConversionEngineType::ISM_MANIFEST)
+		if($baseClass == 'KOperationEngine' && $enumValue == BorhanConversionEngineType::ISM_MANIFEST)
 		{
 			if(!isset($constructorArgs['params']) || !isset($constructorArgs['outFilePath']))
 				return null;
@@ -94,7 +94,7 @@ class IsmIndexPlugin extends KalturaPlugin implements IKalturaObjectLoader, IKal
 	 */
 	public static function getConversionEngineCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('conversionEngineType', $value);
 	}
 	
@@ -103,7 +103,7 @@ class IsmIndexPlugin extends KalturaPlugin implements IKalturaObjectLoader, IKal
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	public static function contributeToConvertJobData ($jobType, $jobSubType, kConvertJobData $jobData)

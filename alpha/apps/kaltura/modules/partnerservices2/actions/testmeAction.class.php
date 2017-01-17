@@ -3,7 +3,7 @@
  * @package api
  * @subpackage ps2
  */
-class testmeAction extends kalturaAction
+class testmeAction extends borhanAction
 {
 	public function execute ()
 	{

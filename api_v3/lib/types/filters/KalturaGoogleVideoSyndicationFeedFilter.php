@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters
  */
-class KalturaGoogleVideoSyndicationFeedFilter extends KalturaBaseSyndicationFeedFilter
+class BorhanGoogleVideoSyndicationFeedFilter extends BorhanBaseSyndicationFeedFilter
 {
 	static private $map_between_objects = array
 	(

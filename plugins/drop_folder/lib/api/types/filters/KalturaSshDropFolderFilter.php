@@ -3,6 +3,6 @@
  * @package plugins.dropFolder
  * @subpackage api.filters
  */
-class KalturaSshDropFolderFilter extends KalturaSshDropFolderBaseFilter
+class BorhanSshDropFolderFilter extends BorhanSshDropFolderBaseFilter
 {
 }

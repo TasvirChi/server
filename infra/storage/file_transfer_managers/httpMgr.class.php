@@ -80,7 +80,7 @@ class httpMgr extends kFileTransferMgr
 			{
 				if($url_parts["scheme"] != "http" && $url_parts["scheme"] != "https" )
 				{
-					KalturaLog::err("URL [$http_server] is not http");
+					BorhanLog::err("URL [$http_server] is not http");
 					return false;
 				}
 			}

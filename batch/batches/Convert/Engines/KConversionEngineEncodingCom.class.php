@@ -18,7 +18,7 @@ class KConversionEngineEncodingCom  extends KJobConversionEngine
 	
 	public function getType()
 	{
-		return KalturaConversionEngineType::ENCODING_COM;
+		return BorhanConversionEngineType::ENCODING_COM;
 	}
 	
 	public function getLogData()
@@ -49,7 +49,7 @@ class KConversionEngineEncodingCom  extends KJobConversionEngine
 	/* (non-PHPdoc)
 	 * @see batches/Convert/Engines/KConversionEngine#convertJob()
 	 */
-	public function convertJob ( KalturaConvertJobData &$data )
+	public function convertJob ( BorhanConvertJobData &$data )
 	{
 		$sendData = new KEncodingComData();
 		
@@ -63,29 +63,29 @@ class KConversionEngineEncodingCom  extends KJobConversionEngine
 		
 		switch($data->flavorParamsOutput->videoCodec)
 		{
-			case KalturaVideoCodec::NONE:
+			case BorhanVideoCodec::NONE:
 				$sendData->setFormatOutput('mp3');
 				//$sendData->setFormatVideoCodec('none');
 				break;
 				
-			case KalturaVideoCodec::VP6:
+			case BorhanVideoCodec::VP6:
 				$sendData->setFormatOutput('flv');
 				$sendData->setFormatVideoCodec('vp6');
 				break;
 				
-			case KalturaVideoCodec::FLV:
+			case BorhanVideoCodec::FLV:
 				$sendData->setFormatOutput('flv');
 				$sendData->setFormatVideoCodec('vp6');
 				break;
 				
-			case KalturaVideoCodec::H263:
+			case BorhanVideoCodec::H263:
 				return array(false, "Do not support H263");
 				
 				$sendData->setFormatOutput('3gp');
 				$sendData->setFormatVideoCodec('h263');
 				break;
 				
-			case KalturaVideoCodec::H264:
+			case BorhanVideoCodec::H264:
 				$sendData->setFormatOutput('mp4');
 				$sendData->setFormatVideoCodec('libx264');
 				break;
@@ -147,7 +147,7 @@ class KConversionEngineEncodingCom  extends KJobConversionEngine
 	 */
 	private function sendRequest($requestXml, &$err)
 	{
-		KalturaLog::info("sendRequest($requestXml)");
+		BorhanLog::info("sendRequest($requestXml)");
 
 		$url = $this->getUrl();
 		
@@ -175,7 +175,7 @@ class KConversionEngineEncodingCom  extends KJobConversionEngine
 		
 		curl_close($ch);
 		
-		KalturaLog::info("request results: ($result)");
+		BorhanLog::info("request results: ($result)");
 		return $result;
 	}
 	

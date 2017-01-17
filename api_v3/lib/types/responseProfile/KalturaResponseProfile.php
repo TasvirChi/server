@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaResponseProfile extends KalturaDetachedResponseProfile implements IFilterable
+class BorhanResponseProfile extends BorhanDetachedResponseProfile implements IFilterable
 {
 	/**
 	 * Auto generated numeric identifier
@@ -47,7 +47,7 @@ class KalturaResponseProfile extends KalturaDetachedResponseProfile implements I
 	public $updatedAt;
 	
 	/**
-	 * @var KalturaResponseProfileStatus
+	 * @var BorhanResponseProfileStatus
 	 * @readonly
 	 * @filter eq,in
 	 */
@@ -79,7 +79,7 @@ class KalturaResponseProfile extends KalturaDetachedResponseProfile implements I
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -87,7 +87,7 @@ class KalturaResponseProfile extends KalturaDetachedResponseProfile implements I
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUsage($sourceObject, $propertiesToSkip)
+	 * @see BorhanObject::validateForUsage($sourceObject, $propertiesToSkip)
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -97,7 +97,7 @@ class KalturaResponseProfile extends KalturaDetachedResponseProfile implements I
 		//Check uniqueness of new object's system name
 		$systemNameProfile = ResponseProfilePeer::retrieveBySystemName($this->systemName, ($sourceObject && $sourceObject->getId()) ? $sourceObject->getId() : null);
 		if ($systemNameProfile)
-			throw new KalturaAPIException(KalturaErrors::RESPONSE_PROFILE_DUPLICATE_SYSTEM_NAME, $this->systemName);
+			throw new BorhanAPIException(BorhanErrors::RESPONSE_PROFILE_DUPLICATE_SYSTEM_NAME, $this->systemName);
 	
 		
 		$id = $this->id;
@@ -110,7 +110,7 @@ class KalturaResponseProfile extends KalturaDetachedResponseProfile implements I
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($object = null, $propertiesToSkip = array())
 	{
@@ -139,7 +139,7 @@ class KalturaResponseProfile extends KalturaDetachedResponseProfile implements I
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaDetachedResponseProfile::getKey()
+	 * @see BorhanDetachedResponseProfile::getKey()
 	 */
 	public function getKey()
 	{

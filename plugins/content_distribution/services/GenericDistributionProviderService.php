@@ -6,7 +6,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.services
  */
-class GenericDistributionProviderService extends KalturaBaseService
+class GenericDistributionProviderService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -16,17 +16,17 @@ class GenericDistributionProviderService extends KalturaBaseService
 		$this->applyPartnerFilterForClass('GenericDistributionProvider');
 		
 		if(!ContentDistributionPlugin::isAllowedPartner(kCurrentContext::$master_partner_id))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, ContentDistributionPlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, ContentDistributionPlugin::PLUGIN_NAME);
 	}
 	
 	/**
 	 * Add new Generic Distribution Provider
 	 * 
 	 * @action add
-	 * @param KalturaGenericDistributionProvider $genericDistributionProvider
-	 * @return KalturaGenericDistributionProvider
+	 * @param BorhanGenericDistributionProvider $genericDistributionProvider
+	 * @return BorhanGenericDistributionProvider
 	 */
-	function addAction(KalturaGenericDistributionProvider $genericDistributionProvider)
+	function addAction(BorhanGenericDistributionProvider $genericDistributionProvider)
 	{
 		$genericDistributionProvider->validatePropertyMinLength("name", 1);
 		
@@ -36,7 +36,7 @@ class GenericDistributionProviderService extends KalturaBaseService
 		$dbGenericDistributionProvider->setStatus(GenericDistributionProviderStatus::ACTIVE);
 		$dbGenericDistributionProvider->save();
 		
-		$genericDistributionProvider = new KalturaGenericDistributionProvider();
+		$genericDistributionProvider = new BorhanGenericDistributionProvider();
 		$genericDistributionProvider->fromObject($dbGenericDistributionProvider, $this->getResponseProfile());
 		return $genericDistributionProvider;
 	}
@@ -46,16 +46,16 @@ class GenericDistributionProviderService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param int $id
-	 * @return KalturaGenericDistributionProvider
+	 * @return BorhanGenericDistributionProvider
 	 * @throws ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_NOT_FOUND
 	 */
 	function getAction($id)
 	{
 		$dbGenericDistributionProvider = GenericDistributionProviderPeer::retrieveByPK($id);
 		if (!$dbGenericDistributionProvider)
-			throw new KalturaAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_NOT_FOUND, $id);
+			throw new BorhanAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_NOT_FOUND, $id);
 			
-		$genericDistributionProvider = new KalturaGenericDistributionProvider();
+		$genericDistributionProvider = new BorhanGenericDistributionProvider();
 		$genericDistributionProvider->fromObject($dbGenericDistributionProvider, $this->getResponseProfile());
 		return $genericDistributionProvider;
 	}
@@ -65,15 +65,15 @@ class GenericDistributionProviderService extends KalturaBaseService
 	 * 
 	 * @action update
 	 * @param int $id
-	 * @param KalturaGenericDistributionProvider $genericDistributionProvider
-	 * @return KalturaGenericDistributionProvider
+	 * @param BorhanGenericDistributionProvider $genericDistributionProvider
+	 * @return BorhanGenericDistributionProvider
 	 * @throws ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_NOT_FOUND
 	 */
-	function updateAction($id, KalturaGenericDistributionProvider $genericDistributionProvider)
+	function updateAction($id, BorhanGenericDistributionProvider $genericDistributionProvider)
 	{
 		$dbGenericDistributionProvider = GenericDistributionProviderPeer::retrieveByPK($id);
 		if (!$dbGenericDistributionProvider)
-			throw new KalturaAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_NOT_FOUND, $id);
+			throw new BorhanAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_NOT_FOUND, $id);
 		
 		if ($genericDistributionProvider->name !== null)
 			$genericDistributionProvider->validatePropertyMinLength("name", 1);
@@ -81,7 +81,7 @@ class GenericDistributionProviderService extends KalturaBaseService
 		$genericDistributionProvider->toUpdatableObject($dbGenericDistributionProvider);
 		$dbGenericDistributionProvider->save();
 		
-		$genericDistributionProvider = new KalturaGenericDistributionProvider();
+		$genericDistributionProvider = new BorhanGenericDistributionProvider();
 		$genericDistributionProvider->fromObject($dbGenericDistributionProvider, $this->getResponseProfile());
 		return $genericDistributionProvider;
 	}
@@ -98,10 +98,10 @@ class GenericDistributionProviderService extends KalturaBaseService
 	{
 		$dbGenericDistributionProvider = GenericDistributionProviderPeer::retrieveByPK($id);
 		if (!$dbGenericDistributionProvider)
-			throw new KalturaAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_NOT_FOUND, $id);
+			throw new BorhanAPIException(ContentDistributionErrors::GENERIC_DISTRIBUTION_PROVIDER_NOT_FOUND, $id);
 
 		if($this->getPartnerId() != Partner::ADMIN_CONSOLE_PARTNER_ID && $dbGenericDistributionProvider->getIsDefault())
-			throw new KalturaAPIException(ContentDistributionErrors::CANNOT_DELETE_DEFAULT_DISTRIBUTION_PROVIDER);
+			throw new BorhanAPIException(ContentDistributionErrors::CANNOT_DELETE_DEFAULT_DISTRIBUTION_PROVIDER);
 			
 		$dbGenericDistributionProvider->setStatus(GenericDistributionProviderStatus::DELETED);
 		$dbGenericDistributionProvider->save();
@@ -112,14 +112,14 @@ class GenericDistributionProviderService extends KalturaBaseService
 	 * List all distribution providers
 	 * 
 	 * @action list
-	 * @param KalturaGenericDistributionProviderFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaGenericDistributionProviderListResponse
+	 * @param BorhanGenericDistributionProviderFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanGenericDistributionProviderListResponse
 	 */
-	function listAction(KalturaGenericDistributionProviderFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanGenericDistributionProviderFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaGenericDistributionProviderFilter();
+			$filter = new BorhanGenericDistributionProviderFilter();
 			
 		$c = new Criteria();
 		$genericDistributionProviderFilter = new GenericDistributionProviderFilter();
@@ -129,12 +129,12 @@ class GenericDistributionProviderService extends KalturaBaseService
 		$count = GenericDistributionProviderPeer::doCount($c);
 		
 		if (! $pager)
-			$pager = new KalturaFilterPager ();
+			$pager = new BorhanFilterPager ();
 		$pager->attachToCriteria($c);
 		$list = GenericDistributionProviderPeer::doSelect($c);
 		
-		$response = new KalturaGenericDistributionProviderListResponse();
-		$response->objects = KalturaGenericDistributionProviderArray::fromDbArray($list, $this->getResponseProfile());
+		$response = new BorhanGenericDistributionProviderListResponse();
+		$response->objects = BorhanGenericDistributionProviderArray::fromDbArray($list, $this->getResponseProfile());
 		$response->totalCount = $count;
 	
 		return $response;

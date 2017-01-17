@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaFlavorAsset extends KalturaAsset 
+class BorhanFlavorAsset extends BorhanAsset 
 {
 	/**
 	 * The Flavor Params used to create this Flavor Asset
@@ -55,7 +55,7 @@ class KalturaFlavorAsset extends KalturaAsset
 	public $isOriginal;
 	
 	/**
-	 * True if this Flavor Asset is playable in KDP
+	 * True if this Flavor Asset is playable in BDP
 	 * 
 	 * @var bool
 	 * @readonly
@@ -81,7 +81,7 @@ class KalturaFlavorAsset extends KalturaAsset
 	/**
 	 * The status of the Flavor Asset
 	 * 
-	 * @var KalturaFlavorAssetStatus
+	 * @var BorhanFlavorAssetStatus
 	 * @readonly 
 	 * @filter eq,in,notin
 	 */
@@ -90,7 +90,7 @@ class KalturaFlavorAsset extends KalturaAsset
 	/**
 	 * The language of the flavor asset
 	 *
-	 * @var KalturaLanguage
+	 * @var BorhanLanguage
 	 */
 	public $language;
 	

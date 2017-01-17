@@ -3,7 +3,7 @@
  * @package plugins.virusScan
  * @subpackage api.enum
  */
-class KalturaVirusScanProfileStatus extends KalturaEnum implements VirusScanProfileStatus
+class BorhanVirusScanProfileStatus extends BorhanEnum implements VirusScanProfileStatus
 {
 	// see VirusScanProfileStatus interface
 }

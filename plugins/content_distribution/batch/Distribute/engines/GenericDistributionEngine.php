@@ -30,7 +30,7 @@ class GenericDistributionEngine extends DistributionEngine implements
 		}
 		else
 		{
-			KalturaLog::err("params.tempXmlPath configuration not supplied");
+			BorhanLog::err("params.tempXmlPath configuration not supplied");
 			$this->tempXmlPath = sys_get_temp_dir();
 		}
 	}
@@ -38,26 +38,26 @@ class GenericDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineSubmit::submit()
 	 */
-	public function submit(KalturaDistributionSubmitJobData $data)
+	public function submit(BorhanDistributionSubmitJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaGenericDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaGenericDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanGenericDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanGenericDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaGenericDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaGenericDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanGenericDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanGenericDistributionJobProviderData");
 		
 		return $this->handleAction($data, $data->distributionProfile, $data->distributionProfile->submitAction, $data->providerData);
 	}
 
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaGenericDistributionProfile $distributionProfile
-	 * @param KalturaGenericDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanGenericDistributionProfile $distributionProfile
+	 * @param BorhanGenericDistributionJobProviderData $providerData
 	 * @throws Exception
 	 * @throws kFileTransferMgrException
 	 * @return boolean true if finished, false if will be finished asynchronously
 	 */
-	protected function handleAction(KalturaDistributionJobData $data, KalturaGenericDistributionProfile $distributionProfile, KalturaGenericDistributionProfileAction $distributionProfileAction, KalturaGenericDistributionJobProviderData $providerData)
+	protected function handleAction(BorhanDistributionJobData $data, BorhanGenericDistributionProfile $distributionProfile, BorhanGenericDistributionProfileAction $distributionProfileAction, BorhanGenericDistributionJobProviderData $providerData)
 	{
 		if(!$providerData->xml)
 			throw new Exception("XML data not supplied");
@@ -66,13 +66,13 @@ class GenericDistributionEngine extends DistributionEngine implements
 		$srcFile = $this->tempXmlPath . '/' . $fileName;
 		$destFile = $distributionProfileAction->serverPath;
 			
-		if($distributionProfileAction->protocol != KalturaDistributionProtocol::HTTP && $distributionProfileAction->protocol != KalturaDistributionProtocol::HTTPS)
+		if($distributionProfileAction->protocol != BorhanDistributionProtocol::HTTP && $distributionProfileAction->protocol != BorhanDistributionProtocol::HTTPS)
 			$destFile .= '/' . $fileName;
 			
 		$destFile = str_replace('{REMOTE_ID}', $data->remoteId, $destFile);
 		
 		file_put_contents($srcFile, $providerData->xml);
-		KalturaLog::log("XML written to file [$srcFile]");
+		BorhanLog::log("XML written to file [$srcFile]");
 		
 		$engineOptions = isset(KBatchBase::$taskConfig->engineOptions) ? KBatchBase::$taskConfig->engineOptions->toArray() : array();
 		$engineOptions['passiveMode'] = $distributionProfileAction->ftpPassiveMode;
@@ -100,7 +100,7 @@ class GenericDistributionEngine extends DistributionEngine implements
 
 	/**
 	 * @param string $results
-	 * @param KalturaGenericDistributionProviderParser $resultParserType
+	 * @param BorhanGenericDistributionProviderParser $resultParserType
 	 * @param string $resultParseData
 	 * @return array of parsed values
 	 */
@@ -108,7 +108,7 @@ class GenericDistributionEngine extends DistributionEngine implements
 	{
 		switch($resultParserType)
 		{
-			case KalturaGenericDistributionProviderParser::XSL;
+			case BorhanGenericDistributionProviderParser::XSL;
 				$xml = new DOMDocument();
 				if(!$xml->loadXML($results))
 					return false;
@@ -126,7 +126,7 @@ class GenericDistributionEngine extends DistributionEngine implements
 					
 				return explode(',', $data);
 				
-			case KalturaGenericDistributionProviderParser::XPATH;
+			case BorhanGenericDistributionProviderParser::XPATH;
 				$xml = new DOMDocument();
 				if(!$xml->loadXML($results))
 					return false;
@@ -142,7 +142,7 @@ class GenericDistributionEngine extends DistributionEngine implements
 					
 				return $matches;;
 				
-			case KalturaGenericDistributionProviderParser::REGEX;
+			case BorhanGenericDistributionProviderParser::REGEX;
 				$matches = array();
 				if(!preg_match("/$resultParseData/", $results, $matches))
 					return false;
@@ -157,7 +157,7 @@ class GenericDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseSubmit::closeSubmit()
 	 */
-	public function closeSubmit(KalturaDistributionSubmitJobData $data)
+	public function closeSubmit(BorhanDistributionSubmitJobData $data)
 	{
 		// not supported
 		return false;
@@ -166,13 +166,13 @@ class GenericDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineDelete::delete()
 	 */
-	public function delete(KalturaDistributionDeleteJobData $data)
+	public function delete(BorhanDistributionDeleteJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaGenericDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaGenericDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanGenericDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanGenericDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaGenericDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaGenericDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanGenericDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanGenericDistributionJobProviderData");
 		
 		return $this->handleAction($data, $data->distributionProfile, $data->distributionProfile->deleteAction, $data->providerData);
 	}
@@ -180,7 +180,7 @@ class GenericDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseDelete::closeDelete()
 	 */
-	public function closeDelete(KalturaDistributionDeleteJobData $data)
+	public function closeDelete(BorhanDistributionDeleteJobData $data)
 	{
 		// not supported
 		return false;
@@ -189,7 +189,7 @@ class GenericDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseReport::closeReport()
 	 */
-	public function closeReport(KalturaDistributionFetchReportJobData $data)
+	public function closeReport(BorhanDistributionFetchReportJobData $data)
 	{
 		// not supported
 		return false;
@@ -198,7 +198,7 @@ class GenericDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseUpdate::closeUpdate()
 	 */
-	public function closeUpdate(KalturaDistributionUpdateJobData $data)
+	public function closeUpdate(BorhanDistributionUpdateJobData $data)
 	{
 		// not supported
 		return false;
@@ -207,31 +207,31 @@ class GenericDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineReport::fetchReport()
 	 */
-	public function fetchReport(KalturaDistributionFetchReportJobData $data)
+	public function fetchReport(BorhanDistributionFetchReportJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaGenericDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaGenericDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanGenericDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanGenericDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaGenericDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaGenericDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanGenericDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanGenericDistributionJobProviderData");
 		
 		return $this->handleFetchReport($data, $data->distributionProfile, $data->distributionProfile->report, $data->providerData);
 	}
 
 
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaGenericDistributionProfile $distributionProfile
-	 * @param KalturaGenericDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanGenericDistributionProfile $distributionProfile
+	 * @param BorhanGenericDistributionJobProviderData $providerData
 	 * @throws Exception
 	 * @throws kFileTransferMgrException
 	 * @return boolean true if finished, false if will be finished asynchronously
 	 */
-	protected function handleFetchReport(KalturaDistributionFetchReportJobData $data, KalturaGenericDistributionProfile $distributionProfile, KalturaGenericDistributionProfileAction $distributionProfileAction, KalturaGenericDistributionJobProviderData $providerData)
+	protected function handleFetchReport(BorhanDistributionFetchReportJobData $data, BorhanGenericDistributionProfile $distributionProfile, BorhanGenericDistributionProfileAction $distributionProfileAction, BorhanGenericDistributionJobProviderData $providerData)
 	{
 		$srcFile = str_replace('{REMOTE_ID}', $data->remoteId, $distributionProfileAction->serverPath);
 		
-		KalturaLog::log("Fetch report from url [$srcFile]");
+		BorhanLog::log("Fetch report from url [$srcFile]");
 		$results = file_get_contents($srcFile);
 	
 		if($results && is_string($results))
@@ -248,13 +248,13 @@ class GenericDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineUpdate::update()
 	 */
-	public function update(KalturaDistributionUpdateJobData $data)
+	public function update(BorhanDistributionUpdateJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaGenericDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaGenericDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanGenericDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanGenericDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaGenericDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaGenericDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanGenericDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanGenericDistributionJobProviderData");
 		
 		return $this->handleAction($data, $data->distributionProfile, $data->distributionProfile->updateAction, $data->providerData);
 	}

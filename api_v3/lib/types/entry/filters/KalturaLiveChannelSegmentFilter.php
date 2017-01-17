@@ -3,10 +3,10 @@
  * @package api
  * @subpackage filters
  */
-class KalturaLiveChannelSegmentFilter extends KalturaLiveChannelSegmentBaseFilter
+class BorhanLiveChannelSegmentFilter extends BorhanLiveChannelSegmentBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -14,9 +14,9 @@ class KalturaLiveChannelSegmentFilter extends KalturaLiveChannelSegmentBaseFilte
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::getListResponse()
+	 * @see BorhanRelatedFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$liveChannelSegmentFilter = $this->toObject();
 
@@ -28,8 +28,8 @@ class KalturaLiveChannelSegmentFilter extends KalturaLiveChannelSegmentBaseFilte
 		$pager->attachToCriteria($c);
 		$dbList = LiveChannelSegmentPeer::doSelect($c);
 		
-		$list = KalturaLiveChannelSegmentArray::fromDbArray($dbList, $responseProfile);
-		$response = new KalturaLiveChannelSegmentListResponse();
+		$list = BorhanLiveChannelSegmentArray::fromDbArray($dbList, $responseProfile);
+		$response = new BorhanLiveChannelSegmentListResponse();
 		$response->objects = $list;
 		$response->totalCount = $totalCount;
 		return $response;    

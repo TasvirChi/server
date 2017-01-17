@@ -76,7 +76,7 @@
 			else
 				$streamsColStr = "0+".$streamsCnt.":".$streamsColStr;
 //			$dataSet->_multiStream = $streamsColStr;
-//			KalturaLog::info("StreamsColStr- ".$dataSet->_multiStream);
+//			BorhanLog::info("StreamsColStr- ".$dataSet->_multiStream);
 		}
 
 		/* ------------------------------

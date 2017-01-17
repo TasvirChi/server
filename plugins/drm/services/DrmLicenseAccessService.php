@@ -8,14 +8,14 @@
  * @subpackage api.services
  */
 
-class DrmLicenseAccessService extends KalturaBaseService
+class DrmLicenseAccessService extends BorhanBaseService
 {
 
 	public function initService($serviceId, $serviceName, $actionName)
 	{
 		parent::initService($serviceId, $serviceName, $actionName);
 		if (!DrmPlugin::isAllowedPartner(kCurrentContext::$ks_partner_id))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, DrmPlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, DrmPlugin::PLUGIN_NAME);
 	}
 
     /**
@@ -26,11 +26,11 @@ class DrmLicenseAccessService extends KalturaBaseService
      * @param string $entryId
      * @param string $flavorIds
      * @param string $referrer
-* @return KalturaDrmLicenseAccessDetails
+* @return BorhanDrmLicenseAccessDetails
      **/
     public function getAccessAction($entryId, $flavorIds, $referrer)
     {
-        $response = new KalturaDrmLicenseAccessDetails();
+        $response = new BorhanDrmLicenseAccessDetails();
         $response->policy = "";
         $response->duration = 0;
         $response->absolute_duration = 0;
@@ -44,7 +44,7 @@ class DrmLicenseAccessService extends KalturaBaseService
                 if ($this->validateFlavorAssetssAllowed($drmLU, $flavorIdsArr) == true)
                 {
                     $policyId = $drmLU->getPolicyId();
-                    KalturaLog::info("policy_id is '$policyId'");
+                    BorhanLog::info("policy_id is '$policyId'");
 
                     $dbPolicy = DrmPolicyPeer::retrieveByPK($policyId);
                     if (isset($dbPolicy)) {
@@ -54,18 +54,18 @@ class DrmLicenseAccessService extends KalturaBaseService
                         $response->policy = $dbPolicy->getName();
                         $response->duration = $expirationDate;
                         $response->absolute_duration = $expirationDate;
-                        KalturaLog::info("response is  '" . print_r($response, true) . "' ");
+                        BorhanLog::info("response is  '" . print_r($response, true) . "' ");
                     } else {
-                        KalturaLog::err("Could not get DRM policy from DB");
+                        BorhanLog::err("Could not get DRM policy from DB");
                     }
                 }
             } catch (Exception $e) {
-                KalturaLog::err("Could not validate license access, returned with message '".$e->getMessage()."'");
+                BorhanLog::err("Could not validate license access, returned with message '".$e->getMessage()."'");
             }
         }
         else
         {
-            KalturaLog::err("Entry '$entryId' not found");
+            BorhanLog::err("Entry '$entryId' not found");
         }
         return $response;
 
@@ -81,7 +81,7 @@ class DrmLicenseAccessService extends KalturaBaseService
             {
                 if (!$secureEntryHelper->isAssetAllowed($flavorAsset))
                 {
-                    KalturaLog::err("Asset '$flavorId' is not allowed according to policy'");
+                    BorhanLog::err("Asset '$flavorId' is not allowed according to policy'");
                     return false;
                 }
             }

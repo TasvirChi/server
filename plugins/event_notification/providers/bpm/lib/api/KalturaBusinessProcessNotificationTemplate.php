@@ -3,7 +3,7 @@
  * @package plugins.businessProcessNotification
  * @subpackage api.objects
  */
-abstract class KalturaBusinessProcessNotificationTemplate extends KalturaEventNotificationTemplate
+abstract class BorhanBusinessProcessNotificationTemplate extends BorhanEventNotificationTemplate
 {	
 	/**
 	 * Define the integrated BPM server id
@@ -36,7 +36,7 @@ abstract class KalturaBusinessProcessNotificationTemplate extends KalturaEventNo
 	);
 		 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -44,7 +44,7 @@ abstract class KalturaBusinessProcessNotificationTemplate extends KalturaEventNo
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUpdate()
+	 * @see BorhanObject::validateForUpdate()
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = array())
 	{
@@ -53,7 +53,7 @@ abstract class KalturaBusinessProcessNotificationTemplate extends KalturaEventNo
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $propertiesToSkip = array())
 	{

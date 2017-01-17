@@ -1,9 +1,9 @@
 <?php
 /**
  * @package    Core
- * @subpackage KMC
+ * @subpackage BMC
  */
-class termsOfUseAction extends kalturaAction
+class termsOfUseAction extends borhanAction
 {
 	public function execute ( ) 
 	{

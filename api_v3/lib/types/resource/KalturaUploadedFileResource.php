@@ -5,7 +5,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaUploadedFileResource extends KalturaDataCenterContentResource
+class BorhanUploadedFileResource extends BorhanDataCenterContentResource
 {
 	/**
 	 * Represents the $_FILE 
@@ -14,7 +14,7 @@ class KalturaUploadedFileResource extends KalturaDataCenterContentResource
 	public $fileData;
 	
 	/* (non-PHPdoc)
-	 * @see KalturaDataCenterContentResource::validateForUsage()
+	 * @see BorhanDataCenterContentResource::validateForUsage()
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -24,7 +24,7 @@ class KalturaUploadedFileResource extends KalturaDataCenterContentResource
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($object_to_fill = null, $props_to_skip = array())
 	{
@@ -37,7 +37,7 @@ class KalturaUploadedFileResource extends KalturaDataCenterContentResource
 		$tempPath = myContentStorage::getFSUploadsPath() . '/' . uniqid(time()) . '.' . $ext;
 		$moved = kFile::moveFile($uploadPath, $tempPath, true);
 		if(!$moved)
-			throw new KalturaAPIException(KalturaErrors::UPLOAD_ERROR);
+			throw new BorhanAPIException(BorhanErrors::UPLOAD_ERROR);
 		
 		$object_to_fill->setLocalFilePath($tempPath);
 		return $object_to_fill;

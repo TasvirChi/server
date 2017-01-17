@@ -15,7 +15,7 @@
         wmode="transparent" allowscriptaccess="always"
         flashvars="file=<?php echo $_GET['entryId']; ?>_1@<?php echo $_GET['streamRemoteId']; ?>&subscribe=true&streamer=rtmp://cp<?php echo $_GET['streamUsername']; ?>.live.edgefcs.net/live/&type=fcsubscribe" />
         <noembed>
-          <a href="http://www.kaltura.org/">Open Source Video</a>
+          <a href="http://www.borhan.org/">Open Source Video</a>
         </noembed>
       </object>
     </div>

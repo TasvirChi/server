@@ -4,7 +4,7 @@
  * @package plugins.scheduledTask
  * @subpackage api.objects
  */
-class KalturaScheduledTaskProfile extends KalturaObject implements IFilterable
+class BorhanScheduledTaskProfile extends BorhanObject implements IFilterable
 {	
 	/**
 	 * @var int
@@ -37,7 +37,7 @@ class KalturaScheduledTaskProfile extends KalturaObject implements IFilterable
 	public $description;
 
 	/**
-	 * @var KalturaScheduledTaskProfileStatus
+	 * @var BorhanScheduledTaskProfileStatus
 	 * @filter eq,in
 	 */
 	public $status;
@@ -45,21 +45,21 @@ class KalturaScheduledTaskProfile extends KalturaObject implements IFilterable
 	/**
 	 * The type of engine to use to list objects using the given "objectFilter"
 	 *
-	 * @var KalturaObjectFilterEngineType
+	 * @var BorhanObjectFilterEngineType
 	 */
 	public $objectFilterEngineType;
 
 	/**
-	 * A filter object (inherits KalturaFilter) that is used to list objects for scheduled tasks
+	 * A filter object (inherits BorhanFilter) that is used to list objects for scheduled tasks
 	 *
-	 * @var KalturaFilter
+	 * @var BorhanFilter
 	 */
 	public $objectFilter;
 
 	/**
 	 * A list of tasks to execute on the founded objects
 	 *
-	 * @var KalturaObjectTaskArray
+	 * @var BorhanObjectTaskArray
 	 */
 	public $objectTasks;
 	
@@ -109,7 +109,7 @@ class KalturaScheduledTaskProfile extends KalturaObject implements IFilterable
 	);
 		 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -119,13 +119,13 @@ class KalturaScheduledTaskProfile extends KalturaObject implements IFilterable
 	public function toInsertableObject($objectToFill = null, $propertiesToSkip = array())
 	{
 		if (is_null($this->status))
-			$this->status = KalturaScheduledTaskProfileStatus::DISABLED;
+			$this->status = BorhanScheduledTaskProfileStatus::DISABLED;
 
 		return parent::toInsertableObject($objectToFill, $propertiesToSkip);
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert()
+	 * @see BorhanObject::validateForInsert()
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{
@@ -137,14 +137,14 @@ class KalturaScheduledTaskProfile extends KalturaObject implements IFilterable
 		$this->validatePropertyNotNull('maxTotalCountAllowed');
 		foreach($this->objectTasks as $objectTask)
 		{
-			/* @var KalturaObjectTask $objectTask */
+			/* @var BorhanObjectTask $objectTask */
 			$objectTask->validateForInsert(array('type'));
 		}
 		parent::validateForInsert($propertiesToSkip);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUpdate()
+	 * @see BorhanObject::validateForUpdate()
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = array())
 	{
@@ -155,7 +155,7 @@ class KalturaScheduledTaskProfile extends KalturaObject implements IFilterable
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $propertiesToSkip = array())
 	{
@@ -171,15 +171,15 @@ class KalturaScheduledTaskProfile extends KalturaObject implements IFilterable
 	/**
 	 * @param ScheduledTaskProfile $srcObj
 	 */
-	public function doFromObject($srcObj, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($srcObj, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($srcObj, $responseProfile);
-		$this->objectTasks = KalturaObjectTaskArray::fromDbArray($srcObj->getObjectTasks());
+		$this->objectTasks = BorhanObjectTaskArray::fromDbArray($srcObj->getObjectTasks());
 		$filterType = $srcObj->getObjectFilterApiType();
 		if (!class_exists($filterType))
 		{
-			KalturaLog::err(sprintf('Class %s not found, cannot initiate object filter instance', $filterType));
-			$this->objectFilter = new KalturaFilter();
+			BorhanLog::err(sprintf('Class %s not found, cannot initiate object filter instance', $filterType));
+			$this->objectFilter = new BorhanFilter();
 		}
 		else
 		{

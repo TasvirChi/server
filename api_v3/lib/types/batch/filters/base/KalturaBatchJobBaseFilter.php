@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaBatchJobBaseFilter extends KalturaFilter
+abstract class BorhanBatchJobBaseFilter extends BorhanFilter
 {
 	static private $map_between_objects = array
 	(
@@ -158,18 +158,18 @@ abstract class KalturaBatchJobBaseFilter extends KalturaFilter
 	public $entryIdEqual;
 
 	/**
-	 * @var KalturaBatchJobType
+	 * @var BorhanBatchJobType
 	 */
 	public $jobTypeEqual;
 
 	/**
-	 * @dynamicType KalturaBatchJobType
+	 * @dynamicType BorhanBatchJobType
 	 * @var string
 	 */
 	public $jobTypeIn;
 
 	/**
-	 * @dynamicType KalturaBatchJobType
+	 * @dynamicType BorhanBatchJobType
 	 * @var string
 	 */
 	public $jobTypeNotIn;
@@ -190,7 +190,7 @@ abstract class KalturaBatchJobBaseFilter extends KalturaFilter
 	public $jobSubTypeNotIn;
 
 	/**
-	 * @var KalturaBatchJobStatus
+	 * @var BorhanBatchJobStatus
 	 */
 	public $statusEqual;
 
@@ -265,7 +265,7 @@ abstract class KalturaBatchJobBaseFilter extends KalturaFilter
 	public $finishTimeLessThanOrEqual;
 
 	/**
-	 * @var KalturaBatchJobErrorTypes
+	 * @var BorhanBatchJobErrorTypes
 	 */
 	public $errTypeEqual;
 

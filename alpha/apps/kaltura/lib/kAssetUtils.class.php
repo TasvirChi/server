@@ -113,11 +113,11 @@ class kAssetUtils
 
 	private static function getExternalStorageUrl(Partner $partner, asset $asset, FileSyncKey $key, $servePlayManifest = false , $playManifestClientTag = null , $storageId = null)
 	{
-		if(!$partner->getStorageServePriority() || $partner->getStorageServePriority() == StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_ONLY)
+		if(!$partner->getStorageServePriority() || $partner->getStorageServePriority() == StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_ONLY)
 			return null;
 			
-		if(is_null($storageId) && $partner->getStorageServePriority() == StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_FIRST)
-			if(kFileSyncUtils::getReadyInternalFileSyncForKey($key)) // check if having file sync on kaltura dcs
+		if(is_null($storageId) && $partner->getStorageServePriority() == StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_FIRST)
+			if(kFileSyncUtils::getReadyInternalFileSyncForKey($key)) // check if having file sync on borhan dcs
 				return null;
 				
 		$fileSync = kFileSyncUtils::getReadyExternalFileSyncForKey($key, $storageId);
@@ -153,7 +153,7 @@ class kAssetUtils
 					$url = rtrim($urlManager->getUrl(), "/") . "/".$url ;
 				}
 			} else {
-				KalturaLog::warning("Couldn't determine delivery profile for storage id");
+				BorhanLog::warning("Couldn't determine delivery profile for storage id");
 				$url = null;
 			}
 		}

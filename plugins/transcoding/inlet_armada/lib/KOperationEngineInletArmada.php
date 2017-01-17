@@ -17,7 +17,7 @@ class KOperationEngineInletArmada  extends KSingleOutputOperationEngine
 	{
 		parent::__construct($cmd,$outFilePath);
 //		$this->prio=5;
-		KalturaLog::info(": cmd($cmd), outFilePath($outFilePath)");
+		BorhanLog::info(": cmd($cmd), outFilePath($outFilePath)");
 	}
 
 	/*************************************
@@ -26,7 +26,7 @@ class KOperationEngineInletArmada  extends KSingleOutputOperationEngine
 	protected function getCmdLine()
 	{
 		$exeCmd =  parent::getCmdLine();
-		KalturaLog::info(print_r($this,true));
+		BorhanLog::info(print_r($this,true));
 		return $exeCmd;
 	}
 
@@ -35,7 +35,7 @@ class KOperationEngineInletArmada  extends KSingleOutputOperationEngine
 	 */
 	public function operate(kOperator $operator = null, $inFilePath, $configFilePath = null)
 	{
-		KalturaLog::debug("operator==>".print_r($operator,1));
+		BorhanLog::debug("operator==>".print_r($operator,1));
 
 $encodingTemplateId = null;
 $encodingTemplateName = null;
@@ -60,14 +60,14 @@ $trgPrefixWindows = null;
 			// ----------------------------------
 			
 		$inlet = new InletAPIWrap($url);
-		KalturaLog::debug(print_r($inlet,1));
+		BorhanLog::debug(print_r($inlet,1));
 		$rvObj=new XmlRpcData;
 		
 		$rv=$inlet->userLogon($login, $passw, $rvObj);
 		if(!$rv) {
 			throw new KOperationEngineException("Inlet failure: login, rv(".(print_r($rvObj,true)).")");
 		}
-		KalturaLog::debug("userLogon - ".print_r($rvObj,1));
+		BorhanLog::debug("userLogon - ".print_r($rvObj,1));
 		
 		$paramsMap = KDLUtils::parseParamStr2Map($operator->extra);
 		foreach($paramsMap as $key=>$param){
@@ -119,7 +119,7 @@ $trgPrefixWindows = null;
 		if(!$rv) {
 			throw new KOperationEngineException("Inlet failure: add job, rv(".print_r($rvObj,1).")");
 		}
-		KalturaLog::debug("jobAdd - encodingTemplate($encodingTemplateId), inFile($srcFileWindows), outFile($outFileWindows),rv-".print_r($rvObj,1));
+		BorhanLog::debug("jobAdd - encodingTemplate($encodingTemplateId), inFile($srcFileWindows), outFile($outFileWindows),rv-".print_r($rvObj,1));
 		
 		$jobId=$rvObj->job_id;
 		$attemptCnt=0;
@@ -139,23 +139,23 @@ $trgPrefixWindows = null;
 				break;
 			}
 			if($attemptCnt%10==0) {
-				KalturaLog::debug("waiting for job completion - ".print_r($rvObj,1));
+				BorhanLog::debug("waiting for job completion - ".print_r($rvObj,1));
 			}
 			$attemptCnt++;
 		}
-//KalturaLog::debug("XXX taskConfig=>".print_r(KBatchBase::$taskConfig,1));
-		KalturaLog::debug("Job completed successfully - ".print_r($rvObj,1));
+//BorhanLog::debug("XXX taskConfig=>".print_r(KBatchBase::$taskConfig,1));
+		BorhanLog::debug("Job completed successfully - ".print_r($rvObj,1));
 
 		if($trgPrefixWindows) {
 			$trgPrefixLinux = $this->addLastSlashInFolderPath(KBatchBase::$taskConfig->params->sharedTempPath, "/");
 			$outFileLinux = str_replace($trgPrefixWindows, $trgPrefixLinux, $rvObj->job_list[0]->job_output_file);
-//KalturaLog::debug("XXX str_replace($trgPrefixWindows, ".$trgPrefixLinux.", ".$rvObj->job_list[0]->job_output_file.")==>$outFileLinux");
+//BorhanLog::debug("XXX str_replace($trgPrefixWindows, ".$trgPrefixLinux.", ".$rvObj->job_list[0]->job_output_file.")==>$outFileLinux");
 		}
 		else
 			$outFileLinux = $rvObj->job_list[0]->job_output_file;
 			
 		if($outFileLinux!=$this->outFilePath) {
-			KalturaLog::debug("copy($outFileLinux, ".$this->outFilePath.")");
+			BorhanLog::debug("copy($outFileLinux, ".$this->outFilePath.")");
 			kFile::moveFile($outFileLinux, $this->outFilePath, true);
 			//copy($outFileLinux, $this->outFilePath);
 		}
@@ -166,7 +166,7 @@ $trgPrefixWindows = null;
 	/*************************************
 	 * 
 	 */
-	public function configure(KalturaConvartableJobData $data, KalturaBatchJob $job)
+	public function configure(BorhanConvartableJobData $data, BorhanBatchJob $job)
 	{
 		parent::configure($data, $job);
 		

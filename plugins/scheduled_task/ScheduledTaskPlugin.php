@@ -2,7 +2,7 @@
 /**
  * @package plugins.scheduledTask
  */
-class ScheduledTaskPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaPermissions, IKalturaServices, IKalturaEnumerator, IKalturaObjectLoader, IKalturaEventConsumers
+class ScheduledTaskPlugin extends BorhanPlugin implements IBorhanVersion, IBorhanPermissions, IBorhanServices, IBorhanEnumerator, IBorhanObjectLoader, IBorhanEventConsumers
 {
 	const PLUGIN_NAME = 'scheduledTask';
 	const PLUGIN_VERSION_MAJOR = 1;
@@ -17,11 +17,11 @@ class ScheduledTaskPlugin extends KalturaPlugin implements IKalturaVersion, IKal
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaVersion::getVersion()
+	 * @see IBorhanVersion::getVersion()
 	 */
 	public static function getVersion()
 	{
-		return new KalturaVersion(
+		return new BorhanVersion(
 			self::PLUGIN_VERSION_MAJOR,
 			self::PLUGIN_VERSION_MINOR,
 			self::PLUGIN_VERSION_BUILD
@@ -29,7 +29,7 @@ class ScheduledTaskPlugin extends KalturaPlugin implements IKalturaVersion, IKal
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissions::isAllowedPartner()
+	 * @see IBorhanPermissions::isAllowedPartner()
  	*/
 	public static function isAllowedPartner($partnerId)
 	{
@@ -44,7 +44,7 @@ class ScheduledTaskPlugin extends KalturaPlugin implements IKalturaVersion, IKal
 	}
 
 	/* (non-PHPdoc)
- 	* @see IKalturaServices::getServicesMap()
+ 	* @see IBorhanServices::getServicesMap()
  	*/
 	public static function getServicesMap()
 	{
@@ -82,8 +82,8 @@ class ScheduledTaskPlugin extends KalturaPlugin implements IKalturaVersion, IKal
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if($baseClass == 'KalturaJobData' && $enumValue == self::getApiValue(ScheduledTaskBatchType::SCHEDULED_TASK))
-			return new KalturaScheduledTaskJobData();
+		if($baseClass == 'BorhanJobData' && $enumValue == self::getApiValue(ScheduledTaskBatchType::SCHEDULED_TASK))
+			return new BorhanScheduledTaskJobData();
 
 		return null;
 	}
@@ -97,8 +97,8 @@ class ScheduledTaskPlugin extends KalturaPlugin implements IKalturaVersion, IKal
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
-		if($baseClass == 'KalturaJobData' && $enumValue == self::getApiValue(ScheduledTaskBatchType::SCHEDULED_TASK))
-			return 'KalturaScheduledTaskJobData';
+		if($baseClass == 'BorhanJobData' && $enumValue == self::getApiValue(ScheduledTaskBatchType::SCHEDULED_TASK))
+			return 'BorhanScheduledTaskJobData';
 
 		return null;
 	}
@@ -119,7 +119,7 @@ class ScheduledTaskPlugin extends KalturaPlugin implements IKalturaVersion, IKal
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 
 	/**
@@ -127,7 +127,7 @@ class ScheduledTaskPlugin extends KalturaPlugin implements IKalturaVersion, IKal
 	 */
 	public static function getBatchJobTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('BatchJobType', $value);
 	}
 
@@ -136,7 +136,7 @@ class ScheduledTaskPlugin extends KalturaPlugin implements IKalturaVersion, IKal
 	 */
 	public static function getBatchJobObjectTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('BatchJobObjectType', $value);
 	}
 }

@@ -3,11 +3,11 @@
  * @package api
  * @subpackage enum
  */
-abstract class KalturaDynamicEnum extends KalturaStringEnum implements IKalturaDynamicEnum
+abstract class BorhanDynamicEnum extends BorhanStringEnum implements IBorhanDynamicEnum
 {
 	public static function mergeDescriptions($baseEnumName, array $descriptions)
 	{
-		$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaEnumerator');
+		$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanEnumerator');
 		foreach($pluginInstances as $pluginInstance)
 		{
 			$pluginName = $pluginInstance->getPluginName();

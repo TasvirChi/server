@@ -3,7 +3,7 @@
  * @package plugins.yahooDistribution
  * @subpackage lib
  */
-class YahooDistributionProviderType implements IKalturaPluginEnum, DistributionProviderType
+class YahooDistributionProviderType implements IBorhanPluginEnum, DistributionProviderType
 {
 	const YAHOO = 'YAHOO';
 	

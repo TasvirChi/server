@@ -3,7 +3,7 @@
  * @package plugins.attUverseDistribution
  * @subpackage api.objects
  */
-class KalturaAttUverseDistributionFile extends KalturaObject
+class BorhanAttUverseDistributionFile extends BorhanObject
 {
 	
 	/**
@@ -17,7 +17,7 @@ class KalturaAttUverseDistributionFile extends KalturaObject
 	public $localFilePath;
 	
 	/**
-	 * @var KalturaAssetType
+	 * @var BorhanAssetType
 	 */
 	public $assetType;
 	

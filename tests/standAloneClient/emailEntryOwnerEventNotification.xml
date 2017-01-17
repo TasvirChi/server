@@ -10,50 +10,50 @@
 	<session />
 	<multirequest>
 		<request service="eventNotificationTemplate" action="add" plugin="eventNotification" partnerId="0">
-			<template objectType="KalturaEmailNotificationTemplate">
+			<template objectType="BorhanEmailNotificationTemplate">
 				<name>Email Entry Owner</name>
 				<systemName>Email_Entry_Owner</systemName>
 				<automaticDispatchEnabled>0</automaticDispatchEnabled>
 				<contentParameters objectType="array">
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>from_email</key>
 						<description>Server configuration: partner_notification_email</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>kConf::get("partner_notification_email")</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>from_name</key>
 						<description>Server configuration: partner_notification_name</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>kConf::get("partner_notification_name")</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>entry_id</key>
 						<description>Entry ID</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>$scope->getObject()->getId()</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>entry_name</key>
 						<description>Entry name</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>$scope->getObject()->getName()</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>entry_status</key>
 						<description>Entry status</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>$scope->getObject()->getStatus()</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>entry_reference_id</key>
 						<description>Entry reference ID</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>$scope->getObject()->getReferenceID()</code>
 						</value>
 					</item>
@@ -61,13 +61,13 @@
 				<format>1</format>
 				<subject>Replace this text with desired email subject</subject>
 				<body>Replace this text with desired email body. You can use {entry_id}, {entry_name}, {entry_status} and {entry_reference_id} as variables.</body>
-				<to objectType="KalturaEmailNotificationStaticRecipientProvider">
+				<to objectType="BorhanEmailNotificationStaticRecipientProvider">
 					<emailRecipients objectType="array">
-						<item objectType = "KalturaEmailNotificationRecipient">
-							<email objectType="KalturaEvalStringField">
+						<item objectType = "BorhanEmailNotificationRecipient">
+							<email objectType="BorhanEvalStringField">
 								<code>!is_null($scope->getObject()->getkuser()) ? $scope->getObject()->getkuser()->getEmail() : ''</code>
 							</email>
-							<name objectType="KalturaEvalStringField">
+							<name objectType="BorhanEvalStringField">
 								<code>!is_null($scope->getObject()->getkuser()) ? $scope->getObject()->getkuser()->getFirstName().' '.$scope->getObject()->getkuser()->getLastName() : ''</code>
 							</name>
 						</item>

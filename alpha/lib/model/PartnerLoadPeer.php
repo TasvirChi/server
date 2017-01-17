@@ -79,7 +79,7 @@ class PartnerLoadPeer extends BasePartnerLoadPeer {
 		try {
 			$affectedRows = $con->exec($sql);
 		} catch (Exception $e) {
-			KalturaLog::err("Failed to update partner load with error : " . $e->getMessage());
+			BorhanLog::err("Failed to update partner load with error : " . $e->getMessage());
 		}
 		
 	}

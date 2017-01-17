@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaScheduleResourceBaseFilter extends KalturaRelatedFilter
+abstract class BorhanScheduleResourceBaseFilter extends BorhanRelatedFilter
 {
 	static private $map_between_objects = array
 	(
@@ -80,7 +80,7 @@ abstract class KalturaScheduleResourceBaseFilter extends KalturaRelatedFilter
 	public $systemNameIn;
 
 	/**
-	 * @var KalturaScheduleResourceStatus
+	 * @var BorhanScheduleResourceStatus
 	 */
 	public $statusEqual;
 

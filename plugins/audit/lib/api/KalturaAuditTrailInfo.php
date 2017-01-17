@@ -4,7 +4,7 @@
  * @subpackage api.objects
  * @abstract
  */
-abstract class KalturaAuditTrailInfo extends KalturaObject 
+abstract class BorhanAuditTrailInfo extends BorhanObject 
 {
 	/**
 	 * @param kAuditTrailInfo $dbAuditTrail

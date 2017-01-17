@@ -4,7 +4,7 @@
  * @package plugins.scheduledTaskEventNotification
  * @subpackage api.objects.objectTasks
  */
-class KalturaDispatchEventNotificationObjectTask extends KalturaObjectTask
+class BorhanDispatchEventNotificationObjectTask extends BorhanObjectTask
 {
 	/**
 	 * The event notification template id to dispatch
@@ -19,7 +19,7 @@ class KalturaDispatchEventNotificationObjectTask extends KalturaObjectTask
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUsage()
+	 * @see BorhanObject::validateForUsage()
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -30,7 +30,7 @@ class KalturaDispatchEventNotificationObjectTask extends KalturaObjectTask
 		myPartnerUtils::addPartnerToCriteria('EventNotificationTemplate', kCurrentContext::getCurrentPartnerId(), true);
 		$eventNotificationTemplate = EventNotificationTemplatePeer::retrieveByPK($this->eventNotificationTemplateId);
 		if (is_null($eventNotificationTemplate))
-			throw new KalturaAPIException(KalturaEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND, $this->eventNotificationTemplateId);
+			throw new BorhanAPIException(BorhanEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_NOT_FOUND, $this->eventNotificationTemplateId);
 	}
 
 	public function toObject($dbObject = null, $skip = array())
@@ -41,7 +41,7 @@ class KalturaDispatchEventNotificationObjectTask extends KalturaObjectTask
 		return $dbObject;
 	}
 
-	public function doFromObject($srcObj, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($srcObj, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($srcObj, $responseProfile);
 

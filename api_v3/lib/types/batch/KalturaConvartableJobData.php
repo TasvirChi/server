@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaConvartableJobData extends KalturaJobData
+class BorhanConvartableJobData extends BorhanJobData
 {
 	/**
 	 * @var string
@@ -26,7 +26,7 @@ class KalturaConvartableJobData extends KalturaJobData
 
 	/**
 	 * 
-	 * @var KalturaSourceFileSyncDescriptorArray
+	 * @var BorhanSourceFileSyncDescriptorArray
 	 */
 	public $srcFileSyncs;
 	
@@ -41,7 +41,7 @@ class KalturaConvartableJobData extends KalturaJobData
 	public $flavorParamsOutputId;
 	
 	/**
-	 * @var KalturaFlavorParamsOutput
+	 * @var BorhanFlavorParamsOutput
 	 */
 	public $flavorParamsOutput;
 	
@@ -61,7 +61,7 @@ class KalturaConvartableJobData extends KalturaJobData
 	public $currentOperationIndex;
 	
 	/**
-	 * @var KalturaKeyValueArray
+	 * @var BorhanKeyValueArray
 	 */
 	public $pluginData;
 	
@@ -78,7 +78,7 @@ class KalturaConvartableJobData extends KalturaJobData
 
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -86,7 +86,7 @@ class KalturaConvartableJobData extends KalturaJobData
 	}
 	    
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject(  $dbConvartableJobData = null, $props_to_skip = array()) 
 	{
@@ -97,9 +97,9 @@ class KalturaConvartableJobData extends KalturaJobData
 	}
 	    
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject($srcObj)
+	 * @see BorhanObject::fromObject($srcObj)
 	 */
-	public function doFromObject($srcObj, KalturaDetachedResponseProfile $responseProfile = null) 
+	public function doFromObject($srcObj, BorhanDetachedResponseProfile $responseProfile = null) 
 	{
 		/* @var $srcObj kConvartableJobData */
 		$srcObj->migrateOldSerializedData();

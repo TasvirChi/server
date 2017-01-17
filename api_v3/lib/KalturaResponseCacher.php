@@ -3,15 +3,15 @@
  * @package api
  * @subpackage cache
  */
-require_once(dirname(__FILE__) . '/../../alpha/apps/kaltura/lib/cache/kApiCache.php');
+require_once(dirname(__FILE__) . '/../../alpha/apps/borhan/lib/cache/kApiCache.php');
 
 /**
  * @package api
  * @subpackage cache
  */
-class KalturaResponseCacher extends kApiCache
+class BorhanResponseCacher extends kApiCache
 {
-	// copied from KalturaResponseType
+	// copied from BorhanResponseType
 	const RESPONSE_TYPE_XML = 2;
 	const RESPONSE_TYPE_PHP = 3;
 		
@@ -164,7 +164,7 @@ class KalturaResponseCacher extends kApiCache
 		
 		if ($responseMetadata['class'])
 		{
-			require_once(dirname(__FILE__) . "/../../alpha/apps/kaltura/lib/renderers/{$responseMetadata['class']}.php");
+			require_once(dirname(__FILE__) . "/../../alpha/apps/borhan/lib/renderers/{$responseMetadata['class']}.php");
 			
 			$response = unserialize($response);
 			if (!$response->validate())
@@ -276,7 +276,7 @@ class KalturaResponseCacher extends kApiCache
 		else if(!$ks)
 			return false;
 			
-		if($this->clientTag && strpos($this->clientTag, 'kmc') === 0)
+		if($this->clientTag && strpos($this->clientTag, 'bmc') === 0)
 			return false;
         
 		// force caching of actions listed in kConf even if admin ks is used
@@ -352,7 +352,7 @@ class KalturaResponseCacher extends kApiCache
 		
 		$processingTime = microtime(true) - $startTime;
 		$cacheKey = md5("{$partnerId}_{$userId}_{$type}_{$expiry}_{$privileges}");
-		header("X-Kaltura:cached-dispatcher,$cacheKey,$processingTime", false);
+		header("X-Borhan:cached-dispatcher,$cacheKey,$processingTime", false);
 		
 		if ($format == self::RESPONSE_TYPE_XML)
 		{
@@ -372,7 +372,7 @@ class KalturaResponseCacher extends kApiCache
 		self::setExpiry(120);
 		
 		$cacheConditionally = false;
-		if ($ex instanceof KalturaAPIException && kConf::hasParam("v3cache_conditional_cached_errors"))
+		if ($ex instanceof BorhanAPIException && kConf::hasParam("v3cache_conditional_cached_errors"))
 		{
 			$cacheConditionally = in_array($ex->getCode(), kConf::get("v3cache_conditional_cached_errors"));
 		}

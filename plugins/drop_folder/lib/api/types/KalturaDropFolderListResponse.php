@@ -3,10 +3,10 @@
  * @package plugins.dropFolder
  * @subpackage api.objects
  */
-class KalturaDropFolderListResponse extends KalturaListResponse
+class BorhanDropFolderListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaDropFolderArray
+	 * @var BorhanDropFolderArray
 	 * @readonly
 	 */
 	public $objects;

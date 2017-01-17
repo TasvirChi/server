@@ -3,7 +3,7 @@
  * @package plugins.attachment
  * @subpackage api.objects
  */
-class KalturaAttachmentAsset extends KalturaAsset  
+class BorhanAttachmentAsset extends BorhanAsset  
 {
 	/**
 	 * The filename of the attachment asset content
@@ -19,7 +19,7 @@ class KalturaAttachmentAsset extends KalturaAsset
 	
 	/**
 	 * The attachment format
-	 * @var KalturaAttachmentType
+	 * @var BorhanAttachmentType
 	 * @filter eq,in
 	 */
 	public $format;
@@ -27,7 +27,7 @@ class KalturaAttachmentAsset extends KalturaAsset
 	/**
 	 * The status of the asset
 	 * 
-	 * @var KalturaAttachmentAssetStatus
+	 * @var BorhanAttachmentAssetStatus
 	 * @readonly 
 	 * @filter eq,in,notin
 	 */

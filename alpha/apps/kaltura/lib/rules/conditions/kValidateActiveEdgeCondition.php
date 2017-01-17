@@ -42,12 +42,12 @@ class kValidateActiveEdgeCondition extends kCondition
 	 */
 	protected function internalFulfilled(kScope $scope)
 	{
-		KalturaLog::debug("Validating edge server [{$this->getEdgeServerIds()}] are active");
+		BorhanLog::debug("Validating edge server [{$this->getEdgeServerIds()}] are active");
 		$edgeServers = ServerNodePeer::retrieveRegisteredServerNodesArrayByPKs($this->edgeServerIds);
 		
 		if(!count($edgeServers)) 
 		{
-			KalturaLog::debug("Unable to find active edge in list, condition is false");
+			BorhanLog::debug("Unable to find active edge in list, condition is false");
 			return false;
 		}
 		
@@ -58,7 +58,7 @@ class kValidateActiveEdgeCondition extends kCondition
 			if($edgeServer->validateEdgeTreeRegistered())
 			{
 				$isFulfilled = true;
-				KalturaLog::debug("Found active edge in list, condition is true");
+				BorhanLog::debug("Found active edge in list, condition is true");
 				break;
 				
 			}

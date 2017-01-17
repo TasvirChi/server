@@ -8,10 +8,10 @@ class kOperator
 	public function __construct($opr=null)
 	{
 		if($opr==null){
-//			KalturaLog::info("no input");
+//			BorhanLog::info("no input");
 			return;
 		}
-//		KalturaLog::info(print_r($opr,true));
+//		BorhanLog::info(print_r($opr,true));
 		$this->id = $opr->id;
 		$this->extra = isset($opr->extra) ? $opr->extra : null;
 		$this->command = isset($opr->command) ? $opr->command : null;

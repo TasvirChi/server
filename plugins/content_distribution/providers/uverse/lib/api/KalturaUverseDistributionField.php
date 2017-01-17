@@ -3,7 +3,7 @@
  * @package plugins.uverseDistribution
  * @subpackage api.enum
  */
-class KalturaUverseDistributionField extends KalturaStringEnum implements UverseDistributionField
+class BorhanUverseDistributionField extends BorhanStringEnum implements UverseDistributionField
 {
 	// see UverseDistributionField interface
 }

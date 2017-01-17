@@ -152,7 +152,7 @@ while(!feof($f))
 	// once flushed to disk - the api_event is removed from the array.
 	
 
-	// 2009-11-30 07:52:11 [1784322224] [API] [KalturaDispatcher->dispatch] DEBUG: Dispatching service [playlist], action [list] with params Array
+	// 2009-11-30 07:52:11 [1784322224] [API] [BorhanDispatcher->dispatch] DEBUG: Dispatching service [playlist], action [list] with params Array
 	if ( preg_match ( "/([\d\- \:]*) \[([\d]*)].*service \[(.*)\], action \[(.*)\]/" , $s , $matches ) )
 	{
 		$multi_request = 0;
@@ -246,7 +246,7 @@ while(!feof($f))
 	
 	
 	// collect invoke_duration
-	// 2009-11-29 04:23:31 [59843975] [API] [KalturaDispatcher->dispatch] DEBUG: Invoke took - 0.012482881546021 seconds
+	// 2009-11-29 04:23:31 [59843975] [API] [BorhanDispatcher->dispatch] DEBUG: Invoke took - 0.012482881546021 seconds
 	if ( preg_match ( "/([\d\- \:]*) \[([\d]*)].*Invoke took - ([\d\.]*)/" , $s , $matches ) )
 	{
 		$api_e = getApiEvent ( $matches[2] );
@@ -258,7 +258,7 @@ while(!feof($f))
 	
 	
 	// collect dispatch_duration
-	// 2009-11-29 04:23:31 [59843975] [API] [KalturaDispatcher->dispatch] DEBUG: Dispatch took - 0.05302095413208 seconds
+	// 2009-11-29 04:23:31 [59843975] [API] [BorhanDispatcher->dispatch] DEBUG: Dispatch took - 0.05302095413208 seconds
 	if ( preg_match ( "/([\d\- \:]*) \[([\d]*)].*Dispatch took - ([\d\.]*)/" , $s , $matches ) )
 	{
 		$api_e = getApiEvent ( $matches[2] );
@@ -270,7 +270,7 @@ while(!feof($f))
 	
 	
 	// collect serialize_duration
-	// 2009-11-29 04:23:13 [1051747326] [API] [KalturaFrontController->serializeResponse] DEBUG: Serialize took - 0.0041739940643311
+	// 2009-11-29 04:23:13 [1051747326] [API] [BorhanFrontController->serializeResponse] DEBUG: Serialize took - 0.0041739940643311
 	if ( preg_match ( "/([\d\- \:]*) \[([\d]*)].*Serialize took - ([\d\.]*)/" , $s , $matches ) )
 	{
 		$api_e = getApiEvent ( $matches[2] );
@@ -297,7 +297,7 @@ while(!feof($f))
 	}
 	
 	// collect exceptions
-	// 2009-11-29 04:24:16 [520451400] [API] [KalturaFrontController->getExceptionObject] ERR: exception 'KalturaAPIException' with message 'Entry id "zt6jfpo0f4" not found' in /opt/k
+	// 2009-11-29 04:24:16 [520451400] [API] [BorhanFrontController->getExceptionObject] ERR: exception 'BorhanAPIException' with message 'Entry id "zt6jfpo0f4" not found' in /opt/k
 	if ( preg_match ( "/([\d\- \:]*) \[([\d]*)].* ERR: exception (.*)/ms" , $s , $matches ) )
 	{
 		$api_e = getApiEvent ( $matches[2] );

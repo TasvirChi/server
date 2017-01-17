@@ -8,14 +8,14 @@ class KIndexingKuserPermissionsEngine extends KIndexingEngine
 	/* (non-PHPdoc)
 	 * @see KIndexingEngine::index()
 	 */
-	protected function index(KalturaFilter $filter, $shouldUpdate) 
+	protected function index(BorhanFilter $filter, $shouldUpdate) 
 	{
 		$this->indexPermissionsForUsers ($filter, $shouldUpdate);
 	}
 
-	protected function indexPermissionsForUsers (KalturaFilter $filter, $shouldUpdate)
+	protected function indexPermissionsForUsers (BorhanFilter $filter, $shouldUpdate)
 	{
-		$filter->orderBy = KalturaBaseEntryOrderBy::CREATED_AT_ASC;
+		$filter->orderBy = BorhanBaseEntryOrderBy::CREATED_AT_ASC;
 		
 		$usersList = KBatchBase::$kClient->user->listAction($filter, $this->pager);
 		if(!count($usersList->objects))

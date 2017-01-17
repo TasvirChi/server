@@ -1,14 +1,14 @@
 <?php
 /**
  * @package    Core
- * @subpackage KMC
+ * @subpackage BMC
  */
-class varloginAction extends kalturaAction
+class varloginAction extends borhanAction
 {
 	public function execute ( ) 
 	{
 		$this->beta = $this->getRequestParameter( "beta" );
-		$this->kmc_login_version 	= kConf::get('kmc_login_version');
+		$this->bmc_login_version 	= kConf::get('bmc_login_version');
 				
 		sfView::SUCCESS;
 	}

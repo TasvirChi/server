@@ -19,13 +19,13 @@ class kMetadataManager
 	);
 	
 	protected static $metadataFieldTypesToValidate = array(
-	    MetadataSearchFilter::KMC_FIELD_TYPE_OBJECT,
-	    MetadataSearchFilter::KMC_FIELD_TYPE_USER,
-	    MetadataSearchFilter::KMC_FIELD_TYPE_METADATA_OBJECT,
+	    MetadataSearchFilter::BMC_FIELD_TYPE_OBJECT,
+	    MetadataSearchFilter::BMC_FIELD_TYPE_USER,
+	    MetadataSearchFilter::BMC_FIELD_TYPE_METADATA_OBJECT,
 	);
 	
 	/**
-	 * @param KalturaMetadataObjectType $objectType
+	 * @param BorhanMetadataObjectType $objectType
 	 *
 	 * @return IMetadataPeer
 	 */
@@ -46,7 +46,7 @@ class kMetadataManager
 		        return new MetadataKuserPeer();
 		        
 			default:
-				return KalturaPluginManager::loadObject('IMetadataPeer', $objectType);
+				return BorhanPluginManager::loadObject('IMetadataPeer', $objectType);
 		}
 	}
 	
@@ -54,13 +54,13 @@ class kMetadataManager
 	{
 	    switch ($fieldType)
 	    {
-	        case MetadataSearchFilter::KMC_FIELD_TYPE_OBJECT:
+	        case MetadataSearchFilter::BMC_FIELD_TYPE_OBJECT:
 	            return new MetadataEntryPeer();
 	             
-	        case MetadataSearchFilter::KMC_FIELD_TYPE_USER:
+	        case MetadataSearchFilter::BMC_FIELD_TYPE_USER:
 	            return new MetadataKuserPeer();
 
-	        case MetadataSearchFilter::KMC_FIELD_TYPE_METADATA_OBJECT:
+	        case MetadataSearchFilter::BMC_FIELD_TYPE_METADATA_OBJECT:
 	            return new MetadataDynamicObjectPeer();
 	             
 	        default:
@@ -95,7 +95,7 @@ class kMetadataManager
 		$source = kFileSyncUtils::file_get_contents($key, true, false);
 		if(!$source)
 		{
-			KalturaLog::notice("Metadata key $key not found.");
+			BorhanLog::notice("Metadata key $key not found.");
 			return null;
 		}
 		
@@ -115,7 +115,7 @@ class kMetadataManager
 					$xPathPattern .= "/*[local-name()='$match']";
 			}
 		}
-		KalturaLog::info("Metadata xpath [$xPathPattern]");
+		BorhanLog::info("Metadata xpath [$xPathPattern]");
 		
 		$xPath = new DOMXPath($xml);
 		$elementsList = $xPath->query($xPathPattern);
@@ -276,7 +276,7 @@ class kMetadataManager
 
 	public static function setAdditionalProfileFieldData(MetadataProfile $metadataProfile, MetadataProfileField $profileField, $xPathData)
 	{
-		if($profileField->getType() === MetadataSearchFilter::KMC_FIELD_TYPE_METADATA_OBJECT &&
+		if($profileField->getType() === MetadataSearchFilter::BMC_FIELD_TYPE_METADATA_OBJECT &&
 			isset($xPathData['metadataProfileId']))
 		{
 			if ($xPathData['metadataProfileId'] == $metadataProfile->getId())
@@ -297,7 +297,7 @@ class kMetadataManager
 	public static function getSearchValuesByObject($objectType, $objectId)
 	{
 		$metadatas = MetadataPeer::retrieveAllByObject($objectType, $objectId);
-		KalturaLog::info("Found " . count($metadatas) . " metadata object");
+		BorhanLog::info("Found " . count($metadatas) . " metadata object");
 
 		return self::getMetadataValuesByMetadataObjects($metadatas);
 	}
@@ -343,7 +343,7 @@ class kMetadataManager
 		}
 		catch (Exception $ex)
 		{
-			KalturaLog::err('Could not load metadata xml [' . $xmlPath . '] - ' . $ex->getMessage());
+			BorhanLog::err('Could not load metadata xml [' . $xmlPath . '] - ' . $ex->getMessage());
 			return '';
 		}
 					
@@ -358,8 +358,8 @@ class kMetadataManager
 			if(!$nodes->length)
 				continue;
 
-			if($profileField->getType() == MetadataSearchFilter::KMC_FIELD_TYPE_DATE ||
-			   	$profileField->getType() == MetadataSearchFilter::KMC_FIELD_TYPE_INT){
+			if($profileField->getType() == MetadataSearchFilter::BMC_FIELD_TYPE_DATE ||
+			   	$profileField->getType() == MetadataSearchFilter::BMC_FIELD_TYPE_INT){
 				$node = $nodes->item(0);
 				if(!isset($searchValues[MetadataPlugin::SPHINX_DYNAMIC_ATTRIBUTES])) 
 					$searchValues[MetadataPlugin::SPHINX_DYNAMIC_ATTRIBUTES] = array();
@@ -377,8 +377,8 @@ class kMetadataManager
 			if(!count($searchItemValues))
 				continue;
 
-			if($profileField->getType() == MetadataSearchFilter::KMC_FIELD_TYPE_TEXT ||
-				$profileField->getType() == MetadataSearchFilter::KMC_FIELD_TYPE_METADATA_OBJECT)
+			if($profileField->getType() == MetadataSearchFilter::BMC_FIELD_TYPE_TEXT ||
+				$profileField->getType() == MetadataSearchFilter::BMC_FIELD_TYPE_METADATA_OBJECT)
 			{
 				$textItems[] = implode(' ', $searchItemValues);
 
@@ -391,21 +391,21 @@ class kMetadataManager
 					$searchItems[$profileField->getId()][] = $searchItemValue;
 				}
 
-				if ($profileField->getType() == MetadataSearchFilter::KMC_FIELD_TYPE_METADATA_OBJECT &&
+				if ($profileField->getType() == MetadataSearchFilter::BMC_FIELD_TYPE_METADATA_OBJECT &&
 					$profileField->getRelatedMetadataProfileId())
 				{
 					$subMetadataProfileId = $profileField->getRelatedMetadataProfileId();
 					$subMetadataProfile = MetadataProfilePeer::retrieveByPK($subMetadataProfileId);
 					if (!$subMetadataProfile)
 					{
-						KalturaLog::err('Sub metadata profile '.$subMetadataProfileId .' was not found');
+						BorhanLog::err('Sub metadata profile '.$subMetadataProfileId .' was not found');
 						continue;
 					}
 					$subMetadataObjects = MetadataPeer::retrieveByObjects($subMetadataProfileId, $subMetadataProfile->getObjectType(), $searchItemValues);
 					foreach($subMetadataObjects as $subMetadataObject)
 					{
 						/** @var Metadata $subMetadataObject */
-						KalturaLog::info("Found metadata object for profile $subMetadataProfileId and id {$subMetadataObject->getObjectId()}, extracting search data");
+						BorhanLog::info("Found metadata object for profile $subMetadataProfileId and id {$subMetadataObject->getObjectId()}, extracting search data");
 						$subSearchTextsResult = self::getDataSearchValues($subMetadataObject);
 						$subSearchTexts = $subSearchTextsResult[MetadataPlugin::getSphinxFieldName(MetadataPlugin::SPHINX_EXPANDER_FIELD_DATA)];
 						foreach($subSearchTexts as $subSearchText)
@@ -486,7 +486,7 @@ class kMetadataManager
 		if(!$metadataProfile)
 		{
 			$errorMessage = "Metadata profile [$metadataProfileId] not found";
-			KalturaLog::err($errorMessage);
+			BorhanLog::err($errorMessage);
 			return false;
 		}
 		
@@ -500,7 +500,7 @@ class kMetadataManager
 		if(!$xsdData)
 		{
 			$errorMessage = "Metadata profile xsd not found";
-			KalturaLog::err($errorMessage);
+			BorhanLog::err($errorMessage);
 			return false;
 		}
 			
@@ -512,7 +512,7 @@ class kMetadataManager
 		{
 		    if(!self::validateMetadataObjects($metadataProfileId, $xml, $errorMessage))
 		    {
-				KalturaLog::err($errorMessage);
+				BorhanLog::err($errorMessage);
 				return false;
 			}
 			
@@ -520,7 +520,7 @@ class kMetadataManager
 		}
 		
 		$errorMessage = kXml::getLibXmlErrorDescription($metadata);
-		KalturaLog::err("Metadata is invalid:\n$errorMessage");
+		BorhanLog::err("Metadata is invalid:\n$errorMessage");
 		return false;
 	}
 	
@@ -566,7 +566,7 @@ class kMetadataManager
 		);
 		foreach($xPaths as $xPath => $xPathData)
 		{
-			if($xPathData['type'] === MetadataSearchFilter::KMC_FIELD_TYPE_METADATA_OBJECT &&
+			if($xPathData['type'] === MetadataSearchFilter::BMC_FIELD_TYPE_METADATA_OBJECT &&
 				isset($xPathData['metadataProfileId']))
 			{
 				$relatedMetadataProfileId = $xPathData['metadataProfileId'];
@@ -579,7 +579,7 @@ class kMetadataManager
 	
 	/**
 	 * @param Metadata $metadata
-	 * @param KalturaMetadataStatus $status
+	 * @param BorhanMetadataStatus $status
 	 *
 	 * returns metadata status
 	 */
@@ -595,7 +595,7 @@ class kMetadataManager
 	}
 	
 	/**
-	 * @param KalturaMetadataObjectType $objectType
+	 * @param BorhanMetadataObjectType $objectType
 	 *
 	 * @return string
 	 */
@@ -604,7 +604,7 @@ class kMetadataManager
 		if(isset(self::$objectTypeNames[$objectType]))
 			return self::$objectTypeNames[$objectType];
 			
-		return KalturaPluginManager::getObjectClass('IMetadataObject', $objectType);
+		return BorhanPluginManager::getObjectClass('IMetadataObject', $objectType);
 	}
 	
 	/**
@@ -715,7 +715,7 @@ class kMetadataManager
 		if (!$previousVersion)
 		{
 			//On creation of the metadata object, the previous version would be null, and therefore function should exit here.
-			KalturaLog::info("No previous version - exiting.");
+			BorhanLog::info("No previous version - exiting.");
 			return;
 		}
 		

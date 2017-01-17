@@ -302,21 +302,21 @@ class BatchJob extends BaseBatchJob implements ISyncableFile
 		
 			default:
 				// TODO implement IBatchable in relevant plugins
-				return KalturaPluginManager::loadObject('IBatchable', $this->getObjectId());
+				return BorhanPluginManager::loadObject('IBatchable', $this->getObjectId());
 		}
 		
 		return $this->aRootJob;
 	}
 	
 	
-	public function getFormattedCreatedAt( $format = dateUtils::KALTURA_FORMAT )
+	public function getFormattedCreatedAt( $format = dateUtils::BORHAN_FORMAT )
 	{
-		return dateUtils::formatKalturaDate( $this , 'getCreatedAt' , $format );
+		return dateUtils::formatBorhanDate( $this , 'getCreatedAt' , $format );
 	}
 
-	public function getFormattedUpdatedAt( $format = dateUtils::KALTURA_FORMAT )
+	public function getFormattedUpdatedAt( $format = dateUtils::BORHAN_FORMAT )
 	{
-		return dateUtils::formatKalturaDate( $this , 'getUpdatedAt' , $format );
+		return dateUtils::formatBorhanDate( $this , 'getUpdatedAt' , $format );
 	}
 	
 	/**
@@ -350,7 +350,7 @@ class BatchJob extends BaseBatchJob implements ISyncableFile
 		{
 			case self::FILE_SYNC_BATCHJOB_SUB_TYPE_BULKUPLOAD:
 				$ext = 'csv';
-				$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaBulkUpload');
+				$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanBulkUpload');
 				foreach($pluginInstances as $pluginInstance)
 				{
 					$pluginExt = $pluginInstance->getFileExtension($this->getJobSubType());
@@ -532,7 +532,7 @@ class BatchJob extends BaseBatchJob implements ISyncableFile
 	/**
 	 * (non-PHPdoc)
 	 * @see BaseBatchJob::getHistory()
-	 * @return KalturaBatchHistoryDataArray
+	 * @return BorhanBatchHistoryDataArray
 	 */
 	public function getHistory()
 	{
@@ -544,7 +544,7 @@ class BatchJob extends BaseBatchJob implements ISyncableFile
 	
 	/**
 	 * (non-PHPdoc)
-	 * @param KalturaBatchHistoryDataArray
+	 * @param BorhanBatchHistoryDataArray
 	 * @see BaseBatchJob::setHistory()
 	 */
 	public function setHistory($v) {

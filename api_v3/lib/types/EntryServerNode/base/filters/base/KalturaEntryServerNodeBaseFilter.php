@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaEntryServerNodeBaseFilter extends KalturaRelatedFilter
+abstract class BorhanEntryServerNodeBaseFilter extends BorhanRelatedFilter
 {
 	static private $map_between_objects = array
 	(
@@ -74,7 +74,7 @@ abstract class KalturaEntryServerNodeBaseFilter extends KalturaRelatedFilter
 	public $updatedAtLessThanOrEqual;
 	
 	/**
-	 * @var KalturaEntryServerNodeStatus
+	 * @var BorhanEntryServerNodeStatus
 	 */
 	public $statusEqual;
 	
@@ -84,7 +84,7 @@ abstract class KalturaEntryServerNodeBaseFilter extends KalturaRelatedFilter
 	public $statusIn;
 
 	/**
-	 * @var KalturaEntryServerNodeType
+	 * @var BorhanEntryServerNodeType
 	 */
 	public $serverTypeEqual;
 }

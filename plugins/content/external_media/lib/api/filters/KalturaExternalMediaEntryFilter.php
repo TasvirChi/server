@@ -3,7 +3,7 @@
  * @package plugins.externalMedia
  * @subpackage api.filters
  */
-class KalturaExternalMediaEntryFilter extends KalturaExternalMediaEntryBaseFilter
+class BorhanExternalMediaEntryFilter extends BorhanExternalMediaEntryBaseFilter
 {
 	public function __construct()
 	{
@@ -11,7 +11,7 @@ class KalturaExternalMediaEntryFilter extends KalturaExternalMediaEntryBaseFilte
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::toObject()
+	 * @see BorhanFilter::toObject()
 	 */
 	public function toObject($coreFilter = null, $skip = array())
 	{
@@ -42,14 +42,14 @@ class KalturaExternalMediaEntryFilter extends KalturaExternalMediaEntryBaseFilte
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseEntryFilter::getListResponse()
+	 * @see BorhanBaseEntryFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		list($list, $totalCount) = $this->doGetListResponse($pager);
 		
-	    $newList = KalturaExternalMediaEntryArray::fromDbArray($list, $responseProfile);
-		$response = new KalturaExternalMediaEntryListResponse();
+	    $newList = BorhanExternalMediaEntryArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanExternalMediaEntryListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $totalCount;
 		

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaPermission extends KalturaObject implements IRelatedFilterable
+class BorhanPermission extends BorhanObject implements IRelatedFilterable
 {
 	/**
 	 * @var int
@@ -14,7 +14,7 @@ class KalturaPermission extends KalturaObject implements IRelatedFilterable
 	
 	
 	/**
-	 * @var KalturaPermissionType
+	 * @var BorhanPermissionType
 	 * @filter eq,in
 	 * @readonly
 	 */
@@ -43,7 +43,7 @@ class KalturaPermission extends KalturaObject implements IRelatedFilterable
 	
 
 	/**
-	 * @var KalturaPermissionStatus
+	 * @var BorhanPermissionStatus
 	 * @filter eq,in
 	 */
 	public $status;
@@ -134,7 +134,7 @@ class KalturaPermission extends KalturaObject implements IRelatedFilterable
 		return $dbObject;
 	}
 	
-	public function doFromObject($source_object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($source_object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($source_object, $responseProfile);
 		

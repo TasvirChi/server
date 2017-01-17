@@ -956,7 +956,7 @@ CREATE TABLE `partner`
 	`priority_group_id` INTEGER,
 	`partner_group_type` SMALLINT default 1,
 	`partner_parent_id` INTEGER,
-	`kmc_version` VARCHAR(15) default '1',
+	`bmc_version` VARCHAR(15) default '1',
 	PRIMARY KEY (`id`),
 	KEY `partner_alias_index`(`partner_alias`),
 	KEY `partner_parent_index`(`partner_parent_id`),

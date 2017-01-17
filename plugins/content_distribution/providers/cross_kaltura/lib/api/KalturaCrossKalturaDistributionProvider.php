@@ -1,9 +1,9 @@
 <?php
 /**
- * @package plugins.crossKalturaDistribution
+ * @package plugins.crossBorhanDistribution
  * @subpackage api.objects
  */
-class KalturaCrossKalturaDistributionProvider extends KalturaDistributionProvider
+class BorhanCrossBorhanDistributionProvider extends BorhanDistributionProvider
 {
 	// nothing special
 }

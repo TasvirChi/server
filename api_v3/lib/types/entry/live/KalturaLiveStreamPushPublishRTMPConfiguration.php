@@ -5,7 +5,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaLiveStreamPushPublishRTMPConfiguration extends KalturaLiveStreamPushPublishConfiguration
+class BorhanLiveStreamPushPublishRTMPConfiguration extends BorhanLiveStreamPushPublishConfiguration
 {
 	/**
 	 * @var string
@@ -33,7 +33,7 @@ class KalturaLiveStreamPushPublishRTMPConfiguration extends KalturaLiveStreamPus
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -41,7 +41,7 @@ class KalturaLiveStreamPushPublishRTMPConfiguration extends KalturaLiveStreamPus
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($dbObject = null, $propsToSkip = array())
 	{

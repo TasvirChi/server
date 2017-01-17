@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaFlavorAssetStatus extends KalturaAssetStatus
+class BorhanFlavorAssetStatus extends BorhanAssetStatus
 {
 	const CONVERTING = 1;
 	const NOT_APPLICABLE = 4;

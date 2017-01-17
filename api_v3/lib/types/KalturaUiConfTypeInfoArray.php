@@ -1,15 +1,15 @@
 <?php
 /**
- * An array of KalturaUiConfTypeInfo
+ * An array of BorhanUiConfTypeInfo
  * 
  * @package api
  * @subpackage objects
  */
-class KalturaUiConfTypeInfoArray extends KalturaTypedArray
+class BorhanUiConfTypeInfoArray extends BorhanTypedArray
 {
 	public function __construct()
 	{
-		return parent::__construct("KalturaUiConfTypeInfo");
+		return parent::__construct("BorhanUiConfTypeInfo");
 	}
 }
 ?>

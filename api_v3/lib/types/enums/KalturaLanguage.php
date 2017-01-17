@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaLanguage extends KalturaStringEnum
+class BorhanLanguage extends BorhanStringEnum
 {
 	const AB = 'Abkhazian';
 	const AA = 'Afar';

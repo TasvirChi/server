@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaUrlRecognizer extends KalturaObject {
+class BorhanUrlRecognizer extends BorhanObject {
 
 	/**
 	 * The hosts that are recognized

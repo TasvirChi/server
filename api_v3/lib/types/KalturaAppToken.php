@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaAppToken extends KalturaObject implements IFilterable 
+class BorhanAppToken extends BorhanObject implements IFilterable 
 {
 	/**
 	 * The id of the application token
@@ -49,7 +49,7 @@ class KalturaAppToken extends KalturaObject implements IFilterable
 	/**
 	 * Application token status 
 	 * 
-	 * @var KalturaAppTokenStatus
+	 * @var BorhanAppTokenStatus
 	 * @readonly
 	 * @filter eq,in
 	 */
@@ -63,34 +63,34 @@ class KalturaAppToken extends KalturaObject implements IFilterable
 	public $expiry;
 
 	/**
-	 * Type of KS (Kaltura Session) that created using the current token
+	 * Type of KS (Borhan Session) that created using the current token
 	 * 
-	 * @var KalturaSessionType
+	 * @var BorhanSessionType
 	 */
 	public $sessionType;
 
 	/**
-	 * User id of KS (Kaltura Session) that created using the current token
+	 * User id of KS (Borhan Session) that created using the current token
 	 * 
 	 * @var string
 	 */
 	public $sessionUserId;
 
 	/**
-	 * Expiry duration of KS (Kaltura Session) that created using the current token (in seconds)
+	 * Expiry duration of KS (Borhan Session) that created using the current token (in seconds)
 	 * 
 	 * @var int
 	 */
 	public $sessionDuration;
 
 	/**
-	 * Comma separated privileges to be applied on KS (Kaltura Session) that created using the current token
+	 * Comma separated privileges to be applied on KS (Borhan Session) that created using the current token
 	 * @var string
 	 */
 	public $sessionPrivileges;
 
 	/**
-	 * @var KalturaAppTokenHashType
+	 * @var BorhanAppTokenHashType
 	 */
 	public $hashType;
 	
@@ -111,7 +111,7 @@ class KalturaAppToken extends KalturaObject implements IFilterable
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -119,7 +119,7 @@ class KalturaAppToken extends KalturaObject implements IFilterable
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbAppToken = null, $skip = array())
 	{
@@ -130,7 +130,7 @@ class KalturaAppToken extends KalturaObject implements IFilterable
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toInsertableObject()
+	 * @see BorhanObject::toInsertableObject()
 	 */
 	public function toInsertableObject($dbAppToken = null, $skip = array())
 	{

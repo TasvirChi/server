@@ -3,6 +3,6 @@
  * @package api
  * @subpackage enum
  */
-class KalturaPartnerFreeTrialType extends KalturaEnum implements PartnerFreeTrialType
+class BorhanPartnerFreeTrialType extends BorhanEnum implements PartnerFreeTrialType
 {
 }

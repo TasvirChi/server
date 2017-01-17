@@ -4,7 +4,7 @@
  * @package api
  * @subpackage model.enum
  */
-class KalturaLiveReportOrderBy extends KalturaStringEnum
+class BorhanLiveReportOrderBy extends BorhanStringEnum
 {
 	const EVENT_TIME_DESC = "-eventTime";
 	const PLAYS_DESC = "-plays";

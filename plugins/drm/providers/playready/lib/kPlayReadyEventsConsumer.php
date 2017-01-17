@@ -13,7 +13,7 @@ class kPlayReadyEventsConsumer implements kObjectReplacedEventConsumer
 			{
 				$newKeyId = $replacingDrmKey->getDrmKey();
 				
-				KalturaLog::info("replacing drm key with: ".$newKeyId);
+				BorhanLog::info("replacing drm key with: ".$newKeyId);
 				
 				$entryDrmKey = $this->getDrmKey($object);
 				if(!$entryDrmKey)
@@ -33,7 +33,7 @@ class kPlayReadyEventsConsumer implements kObjectReplacedEventConsumer
 		}
 		catch (Exception $e)
 		{
-			KalturaLog::err("Failed to update drm key for entry ".$object->getId());
+			BorhanLog::err("Failed to update drm key for entry ".$object->getId());
 		}
 		
 		return true;

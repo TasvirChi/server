@@ -4,10 +4,10 @@
  * @subpackage objects
  *
  */
-class KalturaReportFilterArray extends KalturaTypedArray
+class BorhanReportFilterArray extends BorhanTypedArray
 {
 	public function __construct()
 	{
-		return parent::__construct("KalturaReportFilter");
+		return parent::__construct("BorhanReportFilter");
 	}
 }

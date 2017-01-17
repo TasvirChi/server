@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaAccessControlLimitFlavorsAction extends KalturaRuleAction
+class BorhanAccessControlLimitFlavorsAction extends BorhanRuleAction
 {
 	/**
 	 * Comma separated list of flavor ids 
@@ -37,7 +37,7 @@ class KalturaAccessControlLimitFlavorsAction extends KalturaRuleAction
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

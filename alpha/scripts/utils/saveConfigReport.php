@@ -14,7 +14,7 @@ while (false !== ($iniFile = $configDir->read()))
 	{
 		$mapName = $matches[1];
 		
-		KalturaLog::info("Loads template file [$iniFile]");
+		BorhanLog::info("Loads template file [$iniFile]");
 		$tamplateConfig = new Zend_Config_Ini("$configPath/$iniFile");
 		$tamplates[$mapName] = $tamplateConfig->toArray();
 	}
@@ -24,7 +24,7 @@ while (false !== ($iniFile = $configDir->read()))
 		if($mapName == 'base')
 			continue;
 		
-		KalturaLog::info("Loads ini file [$iniFile] for map [$mapName]");
+		BorhanLog::info("Loads ini file [$iniFile] for map [$mapName]");
 		kConf::getMap($mapName);
 	}
 }
@@ -35,11 +35,11 @@ $configDir->close();
 //	$config = new Zend_Config(kConf::getAll());
 //	$configWriter = new Zend_Config_Writer_Xml();
 //	$configWriter->write($xmlFilename, $config);
-//	KalturaLog::info("Saved config to history [$xmlFilename]");
+//	BorhanLog::info("Saved config to history [$xmlFilename]");
 //}
 //catch(Exception $e)
 //{
-//	KalturaLog::err($e->getMessage());
+//	BorhanLog::err($e->getMessage());
 //}
 
 $reports = array();
@@ -53,7 +53,7 @@ foreach($tamplates as $mapName => $tamplate)
 	{
 		$msg = $e->getMessage();
 		$reports[] = $msg;
-		KalturaLog::debug($msg);
+		BorhanLog::debug($msg);
 		continue;
 	}
 	$iniFile = realpath("$configPath/$mapName.ini");
@@ -71,12 +71,12 @@ foreach($tamplates as $mapName => $tamplate)
 	{
 		$msg = "Valid config map [$mapName] file [$iniFile]";
 		$reports[] = $msg;
-		KalturaLog::debug($msg);
+		BorhanLog::debug($msg);
 	}
 }
 
 file_put_contents($reportFilename, implode("\n", $reports));
-KalturaLog::info("Saved report to history [$reportFilename]");
+BorhanLog::info("Saved report to history [$reportFilename]");
 
 
 function compareMaps($mapName, $tamplate, $map)

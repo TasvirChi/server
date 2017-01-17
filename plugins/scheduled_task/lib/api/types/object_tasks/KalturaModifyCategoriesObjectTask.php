@@ -4,19 +4,19 @@
  * @package plugins.scheduledTask
  * @subpackage api.objects.objectTasks
  */
-class KalturaModifyCategoriesObjectTask extends KalturaObjectTask
+class BorhanModifyCategoriesObjectTask extends BorhanObjectTask
 {
 	/**
 	 * Should the object task add or remove categories?
 	 *
-	 * @var KalturaScheduledTaskAddOrRemoveType
+	 * @var BorhanScheduledTaskAddOrRemoveType
 	 */
 	public $addRemoveType;
 
 	/**
 	 * The list of category ids to add or remove
 	 *
-	 * @var KalturaIntegerValueArray
+	 * @var BorhanIntegerValueArray
 	 */
 	public $categoryIds;
 
@@ -34,7 +34,7 @@ class KalturaModifyCategoriesObjectTask extends KalturaObjectTask
 		return $dbObject;
 	}
 
-	public function doFromObject($srcObj, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($srcObj, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($srcObj, $responseProfile);
 

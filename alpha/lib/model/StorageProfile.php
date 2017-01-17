@@ -10,8 +10,8 @@
  */ 
 class StorageProfile extends BaseStorageProfile implements IBaseObject
 {
-	const STORAGE_SERVE_PRIORITY_KALTURA_ONLY = 1;
-	const STORAGE_SERVE_PRIORITY_KALTURA_FIRST = 2;
+	const STORAGE_SERVE_PRIORITY_BORHAN_ONLY = 1;
+	const STORAGE_SERVE_PRIORITY_BORHAN_FIRST = 2;
 	const STORAGE_SERVE_PRIORITY_EXTERNAL_FIRST = 3;
 	const STORAGE_SERVE_PRIORITY_EXTERNAL_ONLY = 4;
 	
@@ -19,13 +19,13 @@ class StorageProfile extends BaseStorageProfile implements IBaseObject
 	const STORAGE_STATUS_AUTOMATIC = 2;
 	const STORAGE_STATUS_MANUAL = 3;
 	
-	const STORAGE_KALTURA_DC = 0;
+	const STORAGE_BORHAN_DC = 0;
 	const STORAGE_PROTOCOL_FTP = 1;
 	const STORAGE_PROTOCOL_SCP = 2;
 	const STORAGE_PROTOCOL_SFTP = 3;
 	const STORAGE_PROTOCOL_S3 = 6;
 	
-	const STORAGE_DEFAULT_KALTURA_PATH_MANAGER = 'kPathManager';
+	const STORAGE_DEFAULT_BORHAN_PATH_MANAGER = 'kPathManager';
 	const STORAGE_DEFAULT_EXTERNAL_PATH_MANAGER = 'kExternalPathManager';
 	
 	const CUSTOM_DATA_DELIVERY_IDS = 'delivery_profile_ids';
@@ -50,9 +50,9 @@ class StorageProfile extends BaseStorageProfile implements IBaseObject
 		$class = $this->getPathManagerClass();
 		if(!$class || !strlen(trim($class)) || !class_exists($class))
 		{
-			if($this->getProtocol() == self::STORAGE_KALTURA_DC)
+			if($this->getProtocol() == self::STORAGE_BORHAN_DC)
 			{
-				$class = self::STORAGE_DEFAULT_KALTURA_PATH_MANAGER;
+				$class = self::STORAGE_DEFAULT_BORHAN_PATH_MANAGER;
 			}
 			else
 			{
@@ -200,7 +200,7 @@ class StorageProfile extends BaseStorageProfile implements IBaseObject
 		$scope->setEntryId($scopeEntryId);
 		if(!$this->fulfillsRules($scope))
 		{
-			KalturaLog::log('Storage profile export rules are not fulfilled');
+			BorhanLog::log('Storage profile export rules are not fulfilled');
 			return false;
 		}
 			
@@ -211,12 +211,12 @@ class StorageProfile extends BaseStorageProfile implements IBaseObject
 	{
 		if($this->isExported($key))
 		{
-			KalturaLog::info('Flavor was already exported');
+			BorhanLog::info('Flavor was already exported');
 			return false;
 		}
 		if(!$this->isValidFileSync($key))
 		{
-			KalturaLog::info('File sync is not valid for export');
+			BorhanLog::info('File sync is not valid for export');
 			return false;
 		}
 		return true;	    
@@ -312,7 +312,7 @@ class StorageProfile extends BaseStorageProfile implements IBaseObject
 
 		if($storageFileSync) // already exported or currently being exported
 		{
-			KalturaLog::log(__METHOD__ . " key [$key] already exported or being exported");
+			BorhanLog::log(__METHOD__ . " key [$key] already exported or being exported");
 			return true;
 		}
 		else 
@@ -332,7 +332,7 @@ class StorageProfile extends BaseStorageProfile implements IBaseObject
 
 	    // check if flavor params id is in the list to export
 	    $flavorParamsIdsToExport = $this->getFlavorParamsIds();
-	    KalturaLog::log(__METHOD__ . " flavorParamsIds [$flavorParamsIdsToExport]");
+	    BorhanLog::log(__METHOD__ . " flavorParamsIds [$flavorParamsIdsToExport]");
 	    
 	    if (is_null($flavorParamsIdsToExport) || strlen(trim($flavorParamsIdsToExport)) == 0)
 	    {
@@ -359,25 +359,25 @@ class StorageProfile extends BaseStorageProfile implements IBaseObject
 	
 	public function isValidFileSync(FileSyncKey $key)
 	{
-		KalturaLog::log(__METHOD__ . " - key [$key], externalStorage id[" . $this->getId() . "]");
+		BorhanLog::log(__METHOD__ . " - key [$key], externalStorage id[" . $this->getId() . "]");
 		
-		list($kalturaFileSync, $local) = kFileSyncUtils::getReadyFileSyncForKey($key, false, false);
-		if(!$kalturaFileSync) // no local copy to export from
+		list($borhanFileSync, $local) = kFileSyncUtils::getReadyFileSyncForKey($key, false, false);
+		if(!$borhanFileSync) // no local copy to export from
 		{
-			KalturaLog::log(__METHOD__ . " key [$key] not found localy");
+			BorhanLog::log(__METHOD__ . " key [$key] not found localy");
 			return false;
 		}
 		
-		KalturaLog::log(__METHOD__ . " validating file size [" . $kalturaFileSync->getFileSize() . "] is between min [" . $this->getMinFileSize() . "] and max [" . $this->getMaxFileSize() . "]");
-		if($this->getMaxFileSize() && $kalturaFileSync->getFileSize() > $this->getMaxFileSize()) // too big
+		BorhanLog::log(__METHOD__ . " validating file size [" . $borhanFileSync->getFileSize() . "] is between min [" . $this->getMinFileSize() . "] and max [" . $this->getMaxFileSize() . "]");
+		if($this->getMaxFileSize() && $borhanFileSync->getFileSize() > $this->getMaxFileSize()) // too big
 		{
-			KalturaLog::log(__METHOD__ . " key [$key] file too big");
+			BorhanLog::log(__METHOD__ . " key [$key] file too big");
 			return false;
 		}
 			
-		if($this->getMinFileSize() && $kalturaFileSync->getFileSize() < $this->getMinFileSize()) // too small
+		if($this->getMinFileSize() && $borhanFileSync->getFileSize() < $this->getMinFileSize()) // too small
 		{
-			KalturaLog::log(__METHOD__ . " key [$key] file too small");
+			BorhanLog::log(__METHOD__ . " key [$key] file too small");
 			return false;
 		}
 			

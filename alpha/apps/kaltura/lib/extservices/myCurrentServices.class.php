@@ -9,7 +9,7 @@ class myCurrentServices extends myBaseMediaSource implements IMediaSource
 	protected $source_name = "Current";
 //	protected $auth_method = self::AUTH_METHOD_NONE;
 	protected $search_in_user = false; 
-	protected $logo = "http://www.kaltura.com/images/wizard/logo_current.gif";
+	protected $logo = "http://www.borhan.com/images/wizard/logo_current.gif";
 	protected $id = entry::ENTRY_MEDIA_SOURCE_CURRENT;
 	
 	private static $NEED_MEDIA_INFO = "1";

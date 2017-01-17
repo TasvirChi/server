@@ -1,18 +1,18 @@
 <?php
 
-require_once(dirname(__FILE__) . '/../apps/kaltura/lib/request/kSessionBase.class.php');
+require_once(dirname(__FILE__) . '/../apps/borhan/lib/request/kSessionBase.class.php');
 
 ini_set("memory_limit", "2048M");
 
 define('PS2_START_MARKER', '[sfWebRequest->loadParameters] INFO: {sfRequest} request parameters ');
-define('APIV3_START_MARKER', '[KalturaFrontController->run] DEBUG: Params [');
+define('APIV3_START_MARKER', '[BorhanFrontController->run] DEBUG: Params [');
 define('APIV3_GETFEED_MARKER', '[syndicationFeedRenderer] [global] DEBUG: getFeed Params [');
 
 define('DB_HOST_NAME', 'dbgoeshere');
 define('DB_USER_NAME', 'root');
 define('DB_PASSWORD', 'root');
 define('DB_PORT', 3306);
-define('DB_NAME','kaltura');
+define('DB_NAME','borhan');
 
 define('IP_ADDRESS_SALT', '');
 
@@ -36,7 +36,7 @@ $PS2_TESTED_XML_ACTIONS = array(
 
 $PS2_TESTED_BIN_ACTIONS = array(
 		'extwidget.serveflavor',
-		'extwidget.kwidget',
+		'extwidget.bwidget',
 		'extwidget.thumbnail',
 		'extwidget.download',
 		'keditorservices.flvclipper',
@@ -101,7 +101,7 @@ class PartnerSecretPool
 	{
 	    $this->link = mysqli_connect(DB_HOST_NAME, DB_USER_NAME, DB_PASSWORD, DB_NAME, DB_PORT)
 		or die('Error: Could not connect: ' . mysqli_connect_error() . "\n");
-		mysqli_select_db($this->link,DB_NAME) or die("Error: Could not select 'kaltura' database\n");
+		mysqli_select_db($this->link,DB_NAME) or die("Error: Could not select 'borhan' database\n");
 	}
 
 	public function __destruct()
@@ -217,7 +217,7 @@ function getSignedIpHeader($ipAddress)
 	$baseHeader = array($ipAddress, $curTime, $uniqId);
 	$headerHash = md5(implode(',', $baseHeader) . ',' . $salt);
 	$ipHeader = implode(',', $baseHeader) . ',' . $headerHash;
-	return array("X-KALTURA-REMOTE-ADDR: $ipHeader");
+	return array("X-BORHAN-REMOTE-ADDR: $ipHeader");
 }
 
 function doCurl($url, $params = array(), $files = array(), $range = null, $requestHeaders = array())
@@ -542,7 +542,7 @@ function normalizeResultBuffer($result)
 	$result = preg_replace('/<total_time>[0-9\.]+<\/total_time>/', '', $result);
 	$result = preg_replace('/<server_time>[0-9\.]+<\/server_time>/', '', $result);
 	$result = preg_replace('/server_time="[0-9\.]+"/', '', $result);
-	$result = preg_replace('/kaltura_player_\d+/', 'KP', $result);
+	$result = preg_replace('/borhan_player_\d+/', 'KP', $result);
 	$result = preg_replace('/&ts=[0-9\.]+&/', '&ts=0&', $result);
 
 	if (strlen($serviceUrlOld) < strlen($serviceUrlNew))		// this if is for case where one of the url is a prefix of the other
@@ -575,24 +575,24 @@ function countDifferences($buffer1, $buffer2)
 }
 
 
-define('KWIDGET_API_START', '<xml><result>');
-define('KWIDGET_API_END', '</result></xml>');
-define('KWIDGET_PARAMS_START', 'widgetId=');
+define('BWIDGET_API_START', '<xml><result>');
+define('BWIDGET_API_END', '</result></xml>');
+define('BWIDGET_PARAMS_START', 'widgetId=');
 
 function parseWidget($buffer)
 {
 	$uncomp = gzuncompress(substr($buffer, 8));
 
-	$apiResponseStart = strpos($uncomp, KWIDGET_API_START);
-	$apiResponseEnd = strrpos($uncomp, KWIDGET_API_END);
+	$apiResponseStart = strpos($uncomp, BWIDGET_API_START);
+	$apiResponseEnd = strrpos($uncomp, BWIDGET_API_END);
 	$apiResponse = null;
 	if ($apiResponseStart !== false && $apiResponseEnd !== false)
 	{
-		$apiResponse = substr($uncomp, $apiResponseStart, $apiResponseEnd + strlen(KWIDGET_API_END) - $apiResponseStart);
+		$apiResponse = substr($uncomp, $apiResponseStart, $apiResponseEnd + strlen(BWIDGET_API_END) - $apiResponseStart);
 		$uncomp = str_replace($apiResponse, '', $uncomp);
 	}
 
-	$paramsStart = strpos($uncomp, KWIDGET_PARAMS_START);
+	$paramsStart = strpos($uncomp, BWIDGET_PARAMS_START);
 	$params = null;
 	if ($paramsStart !== false)
 	{
@@ -1302,7 +1302,7 @@ function processPS2Request($ipAddress, $parsedParams)
 
 	if (in_array($fullActionName, $PS2_TESTED_XML_ACTIONS))
 		$compareMode = CM_XML;
-	else if ($fullActionName == 'extwidget.kwidget')
+	else if ($fullActionName == 'extwidget.bwidget')
 		$compareMode = CM_WIDGET;
 	else
 		$compareMode = CM_BINARY;

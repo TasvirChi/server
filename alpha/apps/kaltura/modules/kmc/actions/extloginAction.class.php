@@ -1,9 +1,9 @@
 <?php
 /**
  * @package    Core
- * @subpackage KMC
+ * @subpackage BMC
  */
-class extloginAction extends kalturaAction
+class extloginAction extends borhanAction
 {
 	
 	private function dieOnError($error_code)
@@ -23,8 +23,8 @@ class extloginAction extends kalturaAction
 		$error_code = $errorData['code'];
 		$formated_desc = $errorData['message'];
 		
-		header("X-Kaltura:error-$error_code");
-		header('X-Kaltura-App: exiting on error '.$error_code.' - '.$formated_desc);
+		header("X-Borhan:error-$error_code");
+		header('X-Borhan-App: exiting on error '.$error_code.' - '.$formated_desc);
 		
 		die();
 	}
@@ -103,7 +103,7 @@ class extloginAction extends kalturaAction
 		$exp = (isset($expired) && is_numeric($expired)) ? time() + $expired: 0;
 		
 		$noUserInKs = is_null($ksObj->user) || $ksObj->user === '';
-		if ( ($ksPartnerId != $partner_id) || ($partner->getKmcVersion() >= 4 && $noUserInKs) )
+		if ( ($ksPartnerId != $partner_id) || ($partner->getBmcVersion() >= 4 && $noUserInKs) )
 		{
 			$ks = null;
 			$sessionType = $adminKuser->getIsAdmin() ? SessionType::ADMIN : SessionType::USER;
@@ -113,16 +113,16 @@ class extloginAction extends kalturaAction
 		
 		$path = "/";
 		$domain = null;
-		$force_ssl = PermissionPeer::isValidForPartner(PermissionName::FEATURE_KMC_ENFORCE_HTTPS, $partner_id);
+		$force_ssl = PermissionPeer::isValidForPartner(PermissionName::FEATURE_BMC_ENFORCE_HTTPS, $partner_id);
 		$secure = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' && $force_ssl) ? true : false;
 		$http_only = true;
 		
 		$this->getResponse()->setCookie("pid", $partner_id, $exp, $path, $domain, $secure, $http_only);
 		$this->getResponse()->setCookie("subpid", $subp_id, $exp, $path, $domain, $secure, $http_only);
-		$this->getResponse()->setCookie("kmcks", $ks, $exp, $path, $domain, $secure, $http_only);
+		$this->getResponse()->setCookie("bmcks", $ks, $exp, $path, $domain, $secure, $http_only);
 
 		$redirect_url =  ($force_ssl) ? 'https' : 'http';
-		$redirect_url .= '://' . $_SERVER["HTTP_HOST"] . '/index.php/kmc/kmc2';
+		$redirect_url .= '://' . $_SERVER["HTTP_HOST"] . '/index.php/bmc/bmc2';
 		$this->redirect($redirect_url);
 	}
 	

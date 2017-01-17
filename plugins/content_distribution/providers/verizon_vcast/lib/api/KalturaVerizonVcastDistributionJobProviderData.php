@@ -3,7 +3,7 @@
  * @package plugins.verizonVcastDistribution
  * @subpackage api.objects
  */
-class KalturaVerizonVcastDistributionJobProviderData extends KalturaConfigurableDistributionJobProviderData
+class BorhanVerizonVcastDistributionJobProviderData extends BorhanConfigurableDistributionJobProviderData
 {
 	/**
 	 * @var string
@@ -13,15 +13,15 @@ class KalturaVerizonVcastDistributionJobProviderData extends KalturaConfigurable
 	/**
 	 * Called on the server side and enables you to populate the object with any data from the DB
 	 * 
-	 * @param KalturaDistributionJobData $distributionJobData
+	 * @param BorhanDistributionJobData $distributionJobData
 	 */
-	public function __construct(KalturaDistributionJobData $distributionJobData = null)
+	public function __construct(BorhanDistributionJobData $distributionJobData = null)
 	{
 		parent::__construct($distributionJobData);
 		if(!$distributionJobData)
 			return;
 			
-		if(!($distributionJobData->distributionProfile instanceof KalturaVerizonVcastDistributionProfile))
+		if(!($distributionJobData->distributionProfile instanceof BorhanVerizonVcastDistributionProfile))
 			return;
 
 		// loads all the flavor assets that should be submitted to the remote destination site
@@ -31,10 +31,10 @@ class KalturaVerizonVcastDistributionJobProviderData extends KalturaConfigurable
 		$this->xml = $verizonFeed->getXml();
 		
 		// save the flavors & their versions that we are sending
-		$distributionJobData->mediaFiles = new KalturaDistributionRemoteMediaFileArray();
+		$distributionJobData->mediaFiles = new BorhanDistributionRemoteMediaFileArray();
 		foreach($flavorAssets as $flavorAsset)
 		{
-			$mediaFile = new KalturaDistributionRemoteMediaFile();
+			$mediaFile = new BorhanDistributionRemoteMediaFile();
 			$mediaFile->assetId = $flavorAsset->getId();
 			$mediaFile->version = $flavorAsset->getVersion();
 			$distributionJobData->mediaFiles[] = $mediaFile;
@@ -52,7 +52,7 @@ class KalturaVerizonVcastDistributionJobProviderData extends KalturaConfigurable
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{

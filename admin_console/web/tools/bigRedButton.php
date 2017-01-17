@@ -20,7 +20,7 @@ $html5Version = $_GET['playerVersion'];
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	
 	<title>Big-Red-Button Demo</title>
-	<link type="text/css" rel="stylesheet" href="/lib/css/kmc.css" />
+	<link type="text/css" rel="stylesheet" href="/lib/css/bmc.css" />
 	<style>
 		#main .content .title h1 { font-size: 24px; font-weight: bold; }
 		#main p { margin-bottom: 20px; font-size: 18px; }
@@ -62,7 +62,7 @@ $html5Version = $_GET['playerVersion'];
 			html += '<b>HDS URL:</b> <a href="' + hdsUrl + '" target="_tab">' + hdsUrl + '</a>';
 			$('#lblUrl').html(html);
 
-			 mw.setConfig('Kaltura.LeadWithHTML5', true);
+			 mw.setConfig('Borhan.LeadWithHTML5', true);
 			loadAdminPlayer(entryId, uiConfId);
 			loadUserPlayer(entryId, uiConfId);
 			startSession();
@@ -94,7 +94,7 @@ $html5Version = $_GET['playerVersion'];
 		}
 
 		function loadUserPlayer(entryId, uiConfId){
-            kWidget.embed({
+            bWidget.embed({
                     targetId: 'userPlayerContainer',
                     wid: '_' + partnerId,
                     "uiconf_id": uiConfId,
@@ -102,7 +102,7 @@ $html5Version = $_GET['playerVersion'];
                             "streamerType": "auto",
                             "autoPlay": true,
                             "LeadWithHLSOnFlash": true,
-							"Kaltura.Protocol":"http"
+							"Borhan.Protocol":"http"
                     },
                     "cache_st": 1410340114,
                     "entry_id": entryId
@@ -110,7 +110,7 @@ $html5Version = $_GET['playerVersion'];
 		}
 
 		function loadAdminPlayer(entryId, uiConfId){
-		     kWidget.embed({
+		     bWidget.embed({
 					 targetId: 'adminPlayerContainer',
 					 wid: '_' + partnerId,
 					 "uiconf_id": uiConfId,
@@ -124,15 +124,15 @@ $html5Version = $_GET['playerVersion'];
 					 "cache_st": 1410340114,
 					 "entry_id": entryId,
 					 "readyCallback": function( playerId ){
-						var adminKdp = document.getElementById( playerId );
-						adminKdp.addJsListener( 'videoMetadataReceived', 'onSyncPoint' );
-						adminKdp.addJsListener( 'onId3Tag', 'onSyncPoint' );
+						var adminBdp = document.getElementById( playerId );
+						adminBdp.addJsListener( 'videoMetadataReceived', 'onSyncPoint' );
+						adminBdp.addJsListener( 'onId3Tag', 'onSyncPoint' );
 					}
 			 });
 		}
 
 		function onSyncPoint(metadata){
-			if ( metadata && metadata.objectType == "KalturaSyncPoint") {
+			if ( metadata && metadata.objectType == "BorhanSyncPoint") {
 				if(lastSyncPointTimestamp && lastSyncPointTimestamp >= metadata.timestamp)
 					return;
 				var date = new Date();
@@ -147,7 +147,7 @@ $html5Version = $_GET['playerVersion'];
 		
 		function enableAds(){
 			if(!ks){
-				alert('kaltura API is not enabled');
+				alert('borhan API is not enabled');
 				return;
 			}
 
@@ -191,7 +191,7 @@ $html5Version = $_GET['playerVersion'];
 						data: {
 							format: 1,
 							ks: ks,
-							'cuePoint:objectType': 'KalturaAdCuePoint',
+							'cuePoint:objectType': 'BorhanAdCuePoint',
 							'cuePoint:entryId': entryId,
 							'cuePoint:startTime': startTime,
 							'cuePoint:protocolType': 'VPAID',
@@ -222,7 +222,7 @@ $html5Version = $_GET['playerVersion'];
 					data: {
 						format: 1,
 						ks: ks,
-						'cuePoint:objectType': 'KalturaAdCuePoint',
+						'cuePoint:objectType': 'BorhanAdCuePoint',
 						'cuePoint:entryId': entryId,
 						'cuePoint:triggeredAt': triggeredAt,
 						'cuePoint:protocolType': 'VPAID',
@@ -325,7 +325,7 @@ $html5Version = $_GET['playerVersion'];
 		</tr>
 		<tr>
 			<td>Ad URL:</td>
-			<td><input type="text" id="txtAdUrl" value="http://projects.kaltura.com/vast/vast10.xml" />
+			<td><input type="text" id="txtAdUrl" value="http://projects.borhan.com/vast/vast10.xml" />
 		</td>
 		<tr>
 			<td>Ad Duration (milliseconds):</td>

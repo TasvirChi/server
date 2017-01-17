@@ -3,10 +3,10 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaGenericDistributionProfileAction extends KalturaObject
+class BorhanGenericDistributionProfileAction extends BorhanObject
 {
 	/**
-	 * @var KalturaDistributionProtocol
+	 * @var BorhanDistributionProtocol
 	 */
 	public $protocol;
 	

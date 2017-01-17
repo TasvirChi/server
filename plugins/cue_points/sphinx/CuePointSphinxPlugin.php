@@ -3,12 +3,12 @@
  * Enable indexing and searching cue point objects in sphinx
  * @package plugins.cuePoint
  */
-class CuePointSphinxPlugin extends KalturaPlugin implements IKalturaCriteriaFactory, IKalturaSphinxConfiguration
+class CuePointSphinxPlugin extends BorhanPlugin implements IBorhanCriteriaFactory, IBorhanSphinxConfiguration
 {
 	const PLUGIN_NAME = 'cuePointSphinx';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -16,9 +16,9 @@ class CuePointSphinxPlugin extends KalturaPlugin implements IKalturaCriteriaFact
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaCriteriaFactory::getKalturaCriteria()
+	 * @see IBorhanCriteriaFactory::getBorhanCriteria()
 	 */
-	public static function getKalturaCriteria($objectType)
+	public static function getBorhanCriteria($objectType)
 	{
 		if ($objectType == "CuePoint")
 			return new SphinxCuePointCriteria();
@@ -27,13 +27,13 @@ class CuePointSphinxPlugin extends KalturaPlugin implements IKalturaCriteriaFact
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSphinxConfiguration::getSphinxSchema()
+	 * @see IBorhanSphinxConfiguration::getSphinxSchema()
 	 */
 	public static function getSphinxSchema()
 	{
 		return array(
 			kSphinxSearchManager::getSphinxIndexName('cue_point') => array (	
-				'path'		=> '/sphinx/kaltura_cue_point_rt',
+				'path'		=> '/sphinx/borhan_cue_point_rt',
 				'fields'	=> array (
 					'parent_id' => SphinxFieldType::RT_FIELD,
 					'entry_id' => SphinxFieldType::RT_FIELD,

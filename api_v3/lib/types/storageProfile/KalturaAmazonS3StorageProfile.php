@@ -3,10 +3,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaAmazonS3StorageProfile extends KalturaStorageProfile
+class BorhanAmazonS3StorageProfile extends BorhanStorageProfile
 {
 	/**
-	 * @var KalturaAmazonS3StorageProfileFilesPermissionLevel
+	 * @var BorhanAmazonS3StorageProfileFilesPermissionLevel
 	 */
 	public $filesPermissionInS3;
 	

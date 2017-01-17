@@ -25,7 +25,7 @@ class KOperationEnginePpt2Image extends KOperationEngineDocument
 		$fileList = kFile::dirList($outDir, false);
 		$fileListXml = $this->createImagesListXML($fileList);
 		kFile::setFileContent($outDir . DIRECTORY_SEPARATOR . $fileName, $fileListXml->asXML());
-		KalturaLog::info('file list xml [' .$outDir . DIRECTORY_SEPARATOR . $fileName . '] created');
+		BorhanLog::info('file list xml [' .$outDir . DIRECTORY_SEPARATOR . $fileName . '] created');
 	}
 	
 	public function operate(kOperator $operator = null, $inFilePath, $configFilePath = null)

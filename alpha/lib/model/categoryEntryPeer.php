@@ -35,7 +35,7 @@ class categoryEntryPeer extends BasecategoryEntryPeer implements IRelatedObjectP
 	{
 		$c = clone $criteria;
 			
-		if($c instanceof KalturaCriteria)
+		if($c instanceof BorhanCriteria)
 		{
 			$c->applyFilters();
 			$criteria->setRecordsCount($c->getRecordsCount());
@@ -49,7 +49,7 @@ class categoryEntryPeer extends BasecategoryEntryPeer implements IRelatedObjectP
 	{
 		$c = clone $criteria;
 
-		if($c instanceof KalturaCriteria)
+		if($c instanceof BorhanCriteria)
 		{
 			$c->applyFilters();
 		}
@@ -182,9 +182,9 @@ class categoryEntryPeer extends BasecategoryEntryPeer implements IRelatedObjectP
 				$newCatsIds = array();	
 				
 			
-			KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+			BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 			$dbCategories = categoryPeer::retrieveByPKs($newCatsIds);
-			KalturaCriterion::restoreTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+			BorhanCriterion::restoreTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 	
 			foreach ($dbCategories as $dbCategory)
 			{
@@ -238,9 +238,9 @@ class categoryEntryPeer extends BasecategoryEntryPeer implements IRelatedObjectP
 		
 		foreach ( $remainingCats as $cat ) 
 		{
-			KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+			BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 			$category = categoryPeer::getByFullNameExactMatch ( $cat );
-			KalturaCriterion::restoreTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+			BorhanCriterion::restoreTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 			if ($category) 
 			{
 				if($category->getPrivacyContext() == '' || $category->getPrivacyContext() == null)
@@ -256,9 +256,9 @@ class categoryEntryPeer extends BasecategoryEntryPeer implements IRelatedObjectP
 			$category = categoryPeer::getByFullNameExactMatch ( $cat );
 			if (!$category)
 			{
-				KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+				BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 				$unentitedCategory = categoryPeer::getByFullNameExactMatch ( $cat );
-				KalturaCriterion::restoreTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+				BorhanCriterion::restoreTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 
 				if(!$unentitedCategory)
 				{
@@ -335,9 +335,9 @@ class categoryEntryPeer extends BasecategoryEntryPeer implements IRelatedObjectP
 			else
 			{
 				//category was not found - it could be that user is not entitled to remove it 
-				KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+				BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 				$category = categoryPeer::getByFullNameExactMatch ( $cat );
-				KalturaCriterion::restoreTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+				BorhanCriterion::restoreTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 				
 				if($category)
 				{

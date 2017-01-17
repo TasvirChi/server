@@ -3,7 +3,7 @@
  * @package plugins.audit
  * @subpackage api.enums
  */
-class KalturaAuditTrailAction extends KalturaStringEnum
+class BorhanAuditTrailAction extends BorhanStringEnum
 {
 	const CREATED = 'CREATED';
 	const COPIED = 'COPIED';

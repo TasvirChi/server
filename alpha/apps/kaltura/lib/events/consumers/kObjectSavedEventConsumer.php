@@ -4,7 +4,7 @@
  * @package Core
  * @subpackage events
  */
-interface kObjectSavedEventConsumer extends KalturaEventConsumer
+interface kObjectSavedEventConsumer extends BorhanEventConsumer
 {
 	/**
 	 * @param BaseObject $object

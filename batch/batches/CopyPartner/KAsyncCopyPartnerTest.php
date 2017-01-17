@@ -44,20 +44,20 @@ class KAsyncCopyPartnerTest extends PHPUnit_Framework_TestCase
 		foreach($jobs as $job)
 		{
 			echo "Asserting job status is FINISHED...\n";				
-			$this->assertEquals(KalturaBatchJobStatus::FINISHED, $job->status);
+			$this->assertEquals(BorhanBatchJobStatus::FINISHED, $job->status);
 		}
 	}
 
 	
 	private function prepareJobs()
 	{
-		$data = new KalturaCopyPartnerJobData();
+		$data = new BorhanCopyPartnerJobData();
 		$data->fromPartnerId = 101;
 		$data->toPartnerId = 104;
 		
-		$job = new KalturaBatchJob();
+		$job = new BorhanBatchJob();
 		$job->id = 1;
-		$job->status = KalturaBatchJobStatus::PENDING;
+		$job->status = BorhanBatchJobStatus::PENDING;
 		$job->data = $data;
 		
 		return array($job);

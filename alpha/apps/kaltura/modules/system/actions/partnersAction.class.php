@@ -4,14 +4,14 @@
  * @subpackage system
  * @deprecated
  */
-require_once ( __DIR__ . "/kalturaSystemAction.class.php" );
+require_once ( __DIR__ . "/borhanSystemAction.class.php" );
 
 /**
  * @package    Core
  * @subpackage system
  * @deprecated
  */
-class partnersAction extends kalturaSystemAction
+class partnersAction extends borhanSystemAction
 {
 	public function execute()
 	{
@@ -39,7 +39,7 @@ class partnersAction extends kalturaSystemAction
 				"mergeEntryLists" , "allowLks" , "allowAnonymousRanking", "isFirstLogin", "matchIp", "host", "defThumbOffset" , "defThumbDensity" ,
 				"landingPage" , "userLandingPage", "status" , "serviceConfigId", "moderateContent" , "currentConversionProfileType" , "monitorUsage",
 				"templatePartnerId", "addEntryMaxFiles" , "defaultConversionProfileId", "partnerGroupType", "partnerParentId", "enableAnalyticsTab",
-				"liveStreamEnabled", "storageServePriority", "storageDeleteFromKaltura", "enableSilverLight", "partnerSpecificServices", "partnerSpecificServices",
+				"liveStreamEnabled", "storageServePriority", "storageDeleteFromBorhan", "enableSilverLight", "partnerSpecificServices", "partnerSpecificServices",
 				"enable508Players", "enableVast", "appStudioExampleEntry", "appStudioExamplePlayList0", "appStudioExamplePlayList1", "delivryBlockCountries",
 				"maxLoginAttempts", "loginBlockPeriod", "numPrevPassToKeep", "passReplaceFreq", 
 //				"partnerPackage", 

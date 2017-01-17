@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-abstract class KalturaRecalculateCacheJobData extends KalturaJobData
+abstract class BorhanRecalculateCacheJobData extends BorhanJobData
 {
 	/**
 	 * @param string $subType

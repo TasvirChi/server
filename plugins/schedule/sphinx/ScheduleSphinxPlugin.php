@@ -3,12 +3,12 @@
  * Enable indexing and searching schedule event objects in sphinx
  * @package plugins.scheduleSphinx
  */
-class ScheduleSphinxPlugin extends KalturaPlugin implements IKalturaCriteriaFactory, IKalturaSphinxConfiguration
+class ScheduleSphinxPlugin extends BorhanPlugin implements IBorhanCriteriaFactory, IBorhanSphinxConfiguration
 {
 	const PLUGIN_NAME = 'scheduleSphinx';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -16,9 +16,9 @@ class ScheduleSphinxPlugin extends KalturaPlugin implements IKalturaCriteriaFact
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaCriteriaFactory::getKalturaCriteria()
+	 * @see IBorhanCriteriaFactory::getBorhanCriteria()
 	 */
-	public static function getKalturaCriteria($objectType)
+	public static function getBorhanCriteria($objectType)
 	{
 		if ($objectType == "ScheduleEvent")
 			return new SphinxScheduleEventCriteria();
@@ -27,13 +27,13 @@ class ScheduleSphinxPlugin extends KalturaPlugin implements IKalturaCriteriaFact
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSphinxConfiguration::getSphinxSchema()
+	 * @see IBorhanSphinxConfiguration::getSphinxSchema()
 	 */
 	public static function getSphinxSchema()
 	{
 		return array(
 			kSphinxSearchManager::getSphinxIndexName('cue_point') => array (	
-				'path'		=> '/sphinx/kaltura_cue_point_rt',
+				'path'		=> '/sphinx/borhan_cue_point_rt',
 				'fields'	=> array (
 					'parent_id' => SphinxFieldType::RT_FIELD,
 					'entry_id' => SphinxFieldType::RT_FIELD,

@@ -3,7 +3,7 @@
  * @package plugins.msnDistribution
  * @subpackage api.objects
  */
-class KalturaMsnDistributionProvider extends KalturaDistributionProvider
+class BorhanMsnDistributionProvider extends BorhanDistributionProvider
 {
 	
 }

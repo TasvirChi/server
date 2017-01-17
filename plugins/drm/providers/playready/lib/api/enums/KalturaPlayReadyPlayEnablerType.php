@@ -3,7 +3,7 @@
  * @package plugins.playReady
  * @subpackage api.enum
  */
-class KalturaPlayReadyPlayEnablerType extends KalturaStringEnum implements PlayReadyPlayEnablerType
+class BorhanPlayReadyPlayEnablerType extends BorhanStringEnum implements PlayReadyPlayEnablerType
 {
 	// see PlayReadyPlayEnablerType interface
 }

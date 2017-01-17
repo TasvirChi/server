@@ -3,7 +3,7 @@
  * @package plugins.exampleDistribution
  * @subpackage api.objects
  */
-class KalturaExampleDistributionProfile extends KalturaDistributionProfile
+class BorhanExampleDistributionProfile extends BorhanDistributionProfile
 {
 	/**
 	 * @var string

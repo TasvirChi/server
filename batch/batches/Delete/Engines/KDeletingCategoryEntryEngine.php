@@ -8,18 +8,18 @@ class KDeletingCategoryEntryEngine extends KDeletingEngine
 	/* (non-PHPdoc)
 	 * @see KDeletingEngine::delete()
 	 */
-	protected function delete(KalturaFilter $filter)
+	protected function delete(BorhanFilter $filter)
 	{
 		return $this->deleteCategoryEntries($filter);
 	}
 	
 	/**
-	 * @param KalturaCategoryEntryFilter $filter The filter should return the list of category entries that need to be deleted
+	 * @param BorhanCategoryEntryFilter $filter The filter should return the list of category entries that need to be deleted
 	 * @return int the number of deleted category entries
 	 */
-	protected function deleteCategoryEntries(KalturaCategoryEntryFilter $filter)
+	protected function deleteCategoryEntries(BorhanCategoryEntryFilter $filter)
 	{
-		$filter->orderBy = KalturaCategoryEntryOrderBy::CREATED_AT_ASC;
+		$filter->orderBy = BorhanCategoryEntryOrderBy::CREATED_AT_ASC;
 		
 		$categoryEntriesList = KBatchBase::$kClient->categoryEntry->listAction($filter, $this->pager);
 		if(!count($categoryEntriesList->objects))
@@ -28,7 +28,7 @@ class KDeletingCategoryEntryEngine extends KDeletingEngine
 		KBatchBase::$kClient->startMultiRequest();
 		foreach($categoryEntriesList->objects as $categoryEntry)
 		{
-			/* @var $categoryEntry KalturaCategoryEntry */
+			/* @var $categoryEntry BorhanCategoryEntry */
 			KBatchBase::$kClient->categoryEntry->delete($categoryEntry->entryId, $categoryEntry->categoryId);
 		}
 		$results = KBatchBase::$kClient->doMultiRequest();

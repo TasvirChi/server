@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaReportResponse extends KalturaObject 
+class BorhanReportResponse extends BorhanObject 
 {
 	/**
 	 * @var string
@@ -11,22 +11,22 @@ class KalturaReportResponse extends KalturaObject
 	public $columns;
 	
 	/**
-	 * @var KalturaStringArray
+	 * @var BorhanStringArray
 	 */
 	public $results;
 	
 	public static function fromColumnsAndRows($columns, $rows)
 	{
-		$reportResponse = new KalturaReportResponse();
+		$reportResponse = new BorhanReportResponse();
 		$reportResponse->columns = implode(',', $columns);
-		$reportResponse->results = new KalturaStringArray();
+		$reportResponse->results = new BorhanStringArray();
 		foreach($rows as $row)
 		{
 			// we are using comma as a seperator, so don't allow it in results
 			foreach($row as &$tempColumnData)
 				$tempColumnData = str_replace(',', '', $tempColumnData);
 				
-			$string = new KalturaString();
+			$string = new BorhanString();
 			$string->value = implode(',', $row);
 			$reportResponse->results[] = $string;
 		}

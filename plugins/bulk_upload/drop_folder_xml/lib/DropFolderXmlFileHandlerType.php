@@ -3,7 +3,7 @@
  * @package plugins.dropFolderXmlBulkUpload
  * @subpackage lib
  */
-class DropFolderXmlFileHandlerType implements IKalturaPluginEnum, DropFolderFileHandlerType
+class DropFolderXmlFileHandlerType implements IBorhanPluginEnum, DropFolderFileHandlerType
 {
 	const XML = 'XML';
 	

@@ -3,10 +3,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaMediaInfoListResponse extends KalturaListResponse
+class BorhanMediaInfoListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaMediaInfoArray
+	 * @var BorhanMediaInfoArray
 	 * @readonly
 	 */
 	public $objects;

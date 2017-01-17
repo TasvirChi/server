@@ -6,7 +6,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.services
  */
-class DistributionProviderService extends KalturaBaseService
+class DistributionProviderService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -14,7 +14,7 @@ class DistributionProviderService extends KalturaBaseService
 		$this->applyPartnerFilterForClass('GenericDistributionProvider');
 		
 		if(!ContentDistributionPlugin::isAllowedPartner($this->getPartnerId()))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, ContentDistributionPlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, ContentDistributionPlugin::PLUGIN_NAME);
 	}
 	
 	
@@ -22,17 +22,17 @@ class DistributionProviderService extends KalturaBaseService
 	 * List all distribution providers
 	 * 
 	 * @action list
-	 * @param KalturaDistributionProviderFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaDistributionProviderListResponse
+	 * @param BorhanDistributionProviderFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanDistributionProviderListResponse
 	 */
-	function listAction(KalturaDistributionProviderFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanDistributionProviderFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaDistributionProviderFilter();
+			$filter = new BorhanDistributionProviderFilter();
 			
 		$c = new Criteria();
-		if($filter instanceof KalturaGenericDistributionProviderFilter)
+		if($filter instanceof BorhanGenericDistributionProviderFilter)
 		{
 			$genericDistributionProviderFilter = new GenericDistributionProviderFilter();
 			$filter->toObject($genericDistributionProviderFilter);
@@ -42,23 +42,23 @@ class DistributionProviderService extends KalturaBaseService
 		$count = GenericDistributionProviderPeer::doCount($c);
 		
 		if (! $pager)
-			$pager = new KalturaFilterPager ();
+			$pager = new BorhanFilterPager ();
 		$pager->attachToCriteria($c);
 		$list = GenericDistributionProviderPeer::doSelect($c);
 		
-		$response = new KalturaDistributionProviderListResponse();
-		$response->objects = KalturaDistributionProviderArray::fromDbArray($list, $this->getResponseProfile());
+		$response = new BorhanDistributionProviderListResponse();
+		$response->objects = BorhanDistributionProviderArray::fromDbArray($list, $this->getResponseProfile());
 		$response->totalCount = $count;
 	
-		$syndicationProvider = new KalturaSyndicationDistributionProvider();
+		$syndicationProvider = new BorhanSyndicationDistributionProvider();
 		$syndicationProvider->fromObject(SyndicationDistributionProvider::get());
 		$response->objects[] = $syndicationProvider;
 		$response->totalCount++;
 		
-		$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaContentDistributionProvider');
+		$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanContentDistributionProvider');
 		foreach($pluginInstances as $pluginInstance)
 		{
-			$provider = $pluginInstance->getKalturaProvider();
+			$provider = $pluginInstance->getBorhanProvider();
 			if($provider)
 			{
 				$response->objects[] = $provider;

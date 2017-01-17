@@ -3,7 +3,7 @@
  * @package    Core
  * @subpackage kEditorServices
  */
-class flvclipperAction extends kalturaAction
+class flvclipperAction extends borhanAction
 {
 	static private function hmac($hashfunc, $key, $data)
     {
@@ -81,7 +81,7 @@ class flvclipperAction extends kalturaAction
 			KExternalErrors::dieError(KExternalErrors::ENTRY_NOT_FOUND);
 		}
 		
-		KalturaMonitorClient::initApiMonitor(false, 'keditorservices.flvclipper', $entry->getPartnerId());
+		BorhanMonitorClient::initApiMonitor(false, 'keditorservices.flvclipper', $entry->getPartnerId());
 		
 		myPartnerUtils::blockInactivePartner($entry->getPartnerId());
 		
@@ -223,7 +223,7 @@ class flvclipperAction extends kalturaAction
 			
 			if (is_null($fileSync))
 			{
-				KalturaLog::log("Error - no FileSync for flavor [".$flavorAsset->getId()."]");
+				BorhanLog::log("Error - no FileSync for flavor [".$flavorAsset->getId()."]");
 				KExternalErrors::dieError(KExternalErrors::FILE_NOT_FOUND);
 			}
 			
@@ -233,7 +233,7 @@ class flvclipperAction extends kalturaAction
 						DeliveryProfileDynamicAttributes::init($fileSync->getDc(), $flavorAsset->getEntryId()), null, $flavorAsset);
 				if (!$urlManager)
 				{
-					KalturaLog::log("Error - failed to find an HTTP delivery for storage profile [".$fileSync->getDc()."]");
+					BorhanLog::log("Error - failed to find an HTTP delivery for storage profile [".$fileSync->getDc()."]");
 					KExternalErrors::dieError(KExternalErrors::FILE_NOT_FOUND);
 				}
 
@@ -269,9 +269,9 @@ class flvclipperAction extends kalturaAction
 			$seek_from_bytes = myFlvHandler::FLV_HEADER_SIZE + $flv_wrapper->getMetadataSize( $audio_only  ) + $from_byte - $first_tag_byte;
 		}
 
-		// the direct path without a cdn is "http://s3kaltura.s3.amazonaws.com".$entry->getDataPath();
+		// the direct path without a cdn is "http://s3borhan.s3.amazonaws.com".$entry->getDataPath();
 		$extStorageUrl = $entry->getExtStorageUrl();
-		if ($extStorageUrl && substr_count($extStorageUrl, 's3kaltura'))
+		if ($extStorageUrl && substr_count($extStorageUrl, 's3borhan'))
 		{
 			// if for some reason we didnt set our accurate $seek_from_timestamp reset it to the requested seek_from
 			if ($seek_from_timestamp == -1)
@@ -279,7 +279,7 @@ class flvclipperAction extends kalturaAction
 
 			$request_host = parse_url($extStorageUrl, PHP_URL_HOST);
 
-			$akamai_url = str_replace($request_host, "cdns3akmi.kaltura.com", $extStorageUrl);
+			$akamai_url = str_replace($request_host, "cdns3akmi.borhan.com", $extStorageUrl);
 
 			$akamai_url .= $seek_from_bytes == -1 ? "" : "?aktimeoffset=".floor($seek_from_timestamp / 1000);
 
@@ -450,7 +450,7 @@ class flvclipperAction extends kalturaAction
 					$limit_file_size = floor((@kFile::fileSize($path) * ($clip_to / $duration))*1.2);
 				}
 			}
-			KalturaLog::info("serving file [$path] entry id [$entry_id] limit file size [$limit_file_size] clip_to [$clip_to]");
+			BorhanLog::info("serving file [$path] entry id [$entry_id] limit file size [$limit_file_size] clip_to [$clip_to]");
 			kFileUtils::dumpFile($path, null, null, $limit_file_size);
 		}
 		

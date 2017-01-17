@@ -8,7 +8,7 @@ $parts = parse_url($referer);
 
 
 $var_utmac='UA-7714780-3'; //enter the new urchin code
-$var_utmhn='www.kaltura.com'; //enter your domain
+$var_utmhn='www.borhan.com'; //enter your domain
 $var_utmn=rand(1000000000,9999999999); //random request number
 $var_cookie=rand(10000000,99999999); //random cookie number
 $var_random=rand(1000000000,2147483647); //number under 2147483647

@@ -5,14 +5,14 @@
  * @package api
  * @subpackage objects
  */
-class KalturaCountryContextField extends KalturaStringField
+class BorhanCountryContextField extends BorhanStringField
 {
 	/**
 	 * The ip geo coder engine to be used
 	 * 
-	 * @var KalturaGeoCoderType
+	 * @var BorhanGeoCoderType
 	 */
-	public $geoCoderType = geoCoderType::KALTURA;
+	public $geoCoderType = geoCoderType::BORHAN;
 	
 	static private $map_between_objects = array
 	(
@@ -25,7 +25,7 @@ class KalturaCountryContextField extends KalturaStringField
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

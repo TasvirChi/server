@@ -3,12 +3,12 @@
  * @package api
  * @subpackage filters
  */
-class KalturaCategoryEntryFilter extends KalturaCategoryEntryBaseFilter
+class BorhanCategoryEntryFilter extends BorhanCategoryEntryBaseFilter
 {
 	
 	
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -16,15 +16,15 @@ class KalturaCategoryEntryFilter extends KalturaCategoryEntryBaseFilter
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::getListResponse()
+	 * @see BorhanRelatedFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		if ($this->entryIdEqual == null &&
 			$this->categoryIdIn == null &&
 			$this->categoryIdEqual == null && 
 			(kEntitlementUtils::getEntitlementEnforcement() || !kCurrentContext::$is_admin_session))
-			throw new KalturaAPIException(KalturaErrors::MUST_FILTER_ON_ENTRY_OR_CATEGORY);		
+			throw new BorhanAPIException(BorhanErrors::MUST_FILTER_ON_ENTRY_OR_CATEGORY);		
 			
 		if(kEntitlementUtils::getEntitlementEnforcement())
 		{
@@ -33,7 +33,7 @@ class KalturaCategoryEntryFilter extends KalturaCategoryEntryBaseFilter
 			{
 				$entry = entryPeer::retrieveByPK($this->entryIdEqual);
 				if(!$entry)
-					throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $this->entryIdEqual);
+					throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $this->entryIdEqual);
 			}
 			
 			//validate entitl for entryIn
@@ -41,7 +41,7 @@ class KalturaCategoryEntryFilter extends KalturaCategoryEntryBaseFilter
 			{
 				$entry = entryPeer::retrieveByPKs($this->entryIdIn);
 				if(!$entry)
-					throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $this->entryIdIn);
+					throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $this->entryIdIn);
 			}
 			
 			//validate entitl categories
@@ -54,7 +54,7 @@ class KalturaCategoryEntryFilter extends KalturaCategoryEntryBaseFilter
 				$entitledCategories = categoryPeer::retrieveByPKs($categoryIdInArr);
 				
 				if(!count($entitledCategories) || count($entitledCategories) != count($categoryIdInArr))
-					throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $this->categoryIdIn);
+					throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $this->categoryIdIn);
 					
 				$categoriesIdsUnlisted = array();
 				foreach($entitledCategories as $category)
@@ -66,7 +66,7 @@ class KalturaCategoryEntryFilter extends KalturaCategoryEntryBaseFilter
 				if(count($categoriesIdsUnlisted))
 				{
 					if(!categoryKuserPeer::areCategoriesAllowed($categoriesIdsUnlisted))
-						throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $this->categoryIdIn);
+						throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $this->categoryIdIn);
 				}
 			}
 			
@@ -75,12 +75,12 @@ class KalturaCategoryEntryFilter extends KalturaCategoryEntryBaseFilter
 			{
 				$category = categoryPeer::retrieveByPK($this->categoryIdEqual);
 				if(!$category && kCurrentContext::$master_partner_id != Partner::BATCH_PARTNER_ID)
-					throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $this->categoryIdEqual);
+					throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $this->categoryIdEqual);
 
 				if(($category->getDisplayInSearch() == DisplayInSearchType::CATEGORY_MEMBERS_ONLY) && 
 					!categoryKuserPeer::retrievePermittedKuserInCategory($category->getId(), kCurrentContext::getCurrentKsKuserId()))
 				{
-					throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $this->categoryIdEqual);
+					throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $this->categoryIdEqual);
 				}
 			}
 		}
@@ -88,7 +88,7 @@ class KalturaCategoryEntryFilter extends KalturaCategoryEntryBaseFilter
 		$this->fixUserIds();
 		$categoryEntryFilter = $this->toObject();
 		 
-		$c = KalturaCriteria::create(categoryEntryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(categoryEntryPeer::OM_CLASS);
 		$categoryEntryFilter->attachToCriteria($c);
 		
 		if(!kEntitlementUtils::getEntitlementEnforcement() || $this->entryIdEqual == null)
@@ -103,7 +103,7 @@ class KalturaCategoryEntryFilter extends KalturaCategoryEntryBaseFilter
 			foreach ($dbCategoriesEntry as $dbCategoryEntry)
 				$categoriesIds[] = $dbCategoryEntry->getCategoryId();
 				
-			$c = KalturaCriteria::create(categoryPeer::OM_CLASS);
+			$c = BorhanCriteria::create(categoryPeer::OM_CLASS);
 			$c->add(categoryPeer::ID, $categoriesIds, Criteria::IN);
 			$pager->attachToCriteria($c);
 			$c->applyFilters();
@@ -114,7 +114,7 @@ class KalturaCategoryEntryFilter extends KalturaCategoryEntryBaseFilter
 			{
 				if(!in_array($dbCategoryEntry->getCategoryId(), $categoryIds))
 				{
-					KalturaLog::info('Category [' . print_r($dbCategoryEntry->getCategoryId(),true) . '] is not listed to user');
+					BorhanLog::info('Category [' . print_r($dbCategoryEntry->getCategoryId(),true) . '] is not listed to user');
 					unset($dbCategoriesEntry[$key]);
 				}
 			}
@@ -128,20 +128,20 @@ class KalturaCategoryEntryFilter extends KalturaCategoryEntryBaseFilter
 				$totalCount = ($pager->pageIndex - 1) * $pager->pageSize + $resultCount;
 			else
 			{
-				KalturaFilterPager::detachFromCriteria($c);
+				BorhanFilterPager::detachFromCriteria($c);
 				$totalCount = categoryEntryPeer::doCount($c);
 			}
 		}
 			
-		$categoryEntrylist = KalturaCategoryEntryArray::fromDbArray($dbCategoriesEntry, $responseProfile);
-		$response = new KalturaCategoryEntryListResponse();
+		$categoryEntrylist = BorhanCategoryEntryArray::fromDbArray($dbCategoriesEntry, $responseProfile);
+		$response = new BorhanCategoryEntryListResponse();
 		$response->objects = $categoryEntrylist;
 		$response->totalCount = $totalCount; // no pager since category entry is limited to ENTRY::MAX_CATEGORIES_PER_ENTRY
 		return $response;
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::validateForResponseProfile()
+	 * @see BorhanRelatedFilter::validateForResponseProfile()
 	 */
 	public function validateForResponseProfile()
 	{
@@ -149,11 +149,11 @@ class KalturaCategoryEntryFilter extends KalturaCategoryEntryBaseFilter
 		{
 			if(PermissionPeer::isValidForPartner(PermissionName::FEATURE_ENABLE_RESPONSE_PROFILE_USER_CACHE, kCurrentContext::getCurrentPartnerId()))
 			{
-				KalturaResponseProfileCacher::useUserCache();
+				BorhanResponseProfileCacher::useUserCache();
 				return;
 			}
 			
-			throw new KalturaAPIException(KalturaErrors::CANNOT_LIST_RELATED_ENTITLED_WHEN_ENTITLEMENT_IS_ENABLE, get_class($this));
+			throw new BorhanAPIException(BorhanErrors::CANNOT_LIST_RELATED_ENTITLED_WHEN_ENTITLEMENT_IS_ENABLE, get_class($this));
 		}
 	}
 	

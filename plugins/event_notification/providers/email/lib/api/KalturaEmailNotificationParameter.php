@@ -2,8 +2,8 @@
 /**
  * @package plugins.emailNotification
  * @subpackage api.objects
- * @deprecated use KalturaEventNotificationParameter instead
+ * @deprecated use BorhanEventNotificationParameter instead
  */
-class KalturaEmailNotificationParameter extends KalturaEventNotificationParameter
+class BorhanEmailNotificationParameter extends BorhanEventNotificationParameter
 {
 }

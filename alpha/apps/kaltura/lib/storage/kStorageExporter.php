@@ -118,7 +118,7 @@ class kStorageExporter implements kObjectChangedEventConsumer, kBatchJobStatusEv
 		/* @var $fileSync FileSync */
 		list($fileSync, $local) = kFileSyncUtils::getReadyFileSyncForKey($key,true,false);
 		if (!$fileSync || $fileSync->getFileType() == FileSync::FILE_SYNC_FILE_TYPE_URL) {
-			KalturaLog::info("no ready fileSync was found for key [$key]");
+			BorhanLog::info("no ready fileSync was found for key [$key]");
 			return;
 		}
 		
@@ -145,7 +145,7 @@ class kStorageExporter implements kObjectChangedEventConsumer, kBatchJobStatusEv
 		{
 			if ($e->getCode()==kCoreException::PROFILE_STATUS_DISABLED)
 			{
-				KalturaLog::info("Profile status disabled exportEntry will not be called [{$entry->getId()}]");
+				BorhanLog::info("Profile status disabled exportEntry will not be called [{$entry->getId()}]");
 			}
 			return false;
 		}
@@ -194,7 +194,7 @@ class kStorageExporter implements kObjectChangedEventConsumer, kBatchJobStatusEv
 		foreach ($storageProfiles as $profile) 
 		{			
 			/* @var $profile StorageProfile */
-			KalturaLog::debug('Checking entry ['.$entry->getId().']re-export to storage ['.$profile->getId().']');
+			BorhanLog::debug('Checking entry ['.$entry->getId().']re-export to storage ['.$profile->getId().']');
 			$scope = $profile->getScope();
 			$scope->setEntryId($entry->getId());
 			if($profile->triggerFitsReadyAsset($entry->getId()) && $profile->fulfillsRules($scope))
@@ -292,12 +292,12 @@ class kStorageExporter implements kObjectChangedEventConsumer, kBatchJobStatusEv
                     $entry = entryPeer::retrieveByPKNoFilter($entryId);
                     if (!$entry) 
                     {
-                    	KalturaLog::alert("No entry found by the ID of [$entryId]");
+                    	BorhanLog::alert("No entry found by the ID of [$entryId]");
                     }
                     
                     else if ($entry->getReplacedEntryId())
                     {
-                        KalturaLog::info("Will not handle event - deleted asset belongs to replacement entry");
+                        BorhanLog::info("Will not handle event - deleted asset belongs to replacement entry");
                         return;
                     }
 					

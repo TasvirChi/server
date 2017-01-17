@@ -3,17 +3,17 @@
  * @package plugins.freewheelDistribution
  * @subpackage api.objects
  */
-class KalturaFreewheelDistributionAssetPathArray extends KalturaTypedArray
+class BorhanFreewheelDistributionAssetPathArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaFreewheelDistributionAssetPathArray();
+		$newArr = new BorhanFreewheelDistributionAssetPathArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-    		$nObj = new KalturaFreewheelDistributionAssetPath();
+    		$nObj = new BorhanFreewheelDistributionAssetPath();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaFreewheelDistributionAssetPathArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaFreewheelDistributionAssetPath");	
+		parent::__construct("BorhanFreewheelDistributionAssetPath");	
 	}
 }

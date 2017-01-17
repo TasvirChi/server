@@ -2,11 +2,11 @@
 /**
  * An int representation to return an array of ints
  * 
- * @see KalturaIntegerValueArray
+ * @see BorhanIntegerValueArray
  * @package api
  * @subpackage objects
  */
-class KalturaIntegerValue extends KalturaValue
+class BorhanIntegerValue extends BorhanValue
 {
 	/**
 	 * @var int
@@ -14,7 +14,7 @@ class KalturaIntegerValue extends KalturaValue
     public $value;
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

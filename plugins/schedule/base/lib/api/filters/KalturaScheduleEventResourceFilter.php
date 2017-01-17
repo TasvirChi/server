@@ -3,7 +3,7 @@
  * @package plugins.schedule
  * @subpackage api.filters
  */
-class KalturaScheduleEventResourceFilter extends KalturaScheduleEventResourceBaseFilter
+class BorhanScheduleEventResourceFilter extends BorhanScheduleEventResourceBaseFilter
 {
 	/**
 	 * Find event-resource objects that associated with the event, if none found, find by its parent event
@@ -24,7 +24,7 @@ class KalturaScheduleEventResourceFilter extends KalturaScheduleEventResourceBas
 	
 	
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -32,9 +32,9 @@ class KalturaScheduleEventResourceFilter extends KalturaScheduleEventResourceBas
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::getListResponse()
+	 * @see BorhanRelatedFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$c = new Criteria();
 		$filter = $this->toObject();
@@ -48,12 +48,12 @@ class KalturaScheduleEventResourceFilter extends KalturaScheduleEventResourceBas
 			$totalCount = ($pager->pageIndex - 1) * $pager->pageSize + $resultCount;
 		else
 		{
-			KalturaFilterPager::detachFromCriteria($c);
+			BorhanFilterPager::detachFromCriteria($c);
 			$totalCount = ScheduleEventResourcePeer::doCount($c);
 		}
 		
-		$response = new KalturaScheduleEventResourceListResponse();
-		$response->objects = KalturaScheduleEventResourceArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanScheduleEventResourceListResponse();
+		$response->objects = BorhanScheduleEventResourceArray::fromDbArray($list, $responseProfile);
 		$response->totalCount = $totalCount;
 		return $response;
 	}

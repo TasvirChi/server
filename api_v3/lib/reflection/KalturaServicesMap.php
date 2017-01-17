@@ -3,10 +3,10 @@
  * @package api
  * @subpackage v3
  */
-class KalturaServicesMap
+class BorhanServicesMap
 {
 	/**
-	 * @var array <KalturaServiceActionItem>
+	 * @var array <BorhanServiceActionItem>
 	 */
 	private static $services = array();
 	
@@ -25,11 +25,11 @@ class KalturaServicesMap
 	{
 		if(!count(self::$services))
 		{
-			$cacheFilePathArray = array(kConf::get("cache_root_path"), 'api_v3', 'KalturaServicesMap.cache');
+			$cacheFilePathArray = array(kConf::get("cache_root_path"), 'api_v3', 'BorhanServicesMap.cache');
 			$cacheFilePath = implode(DIRECTORY_SEPARATOR, $cacheFilePathArray);
 			if (!file_exists($cacheFilePath))
 			{
-				$servicesPathArray = array(KALTURA_API_PATH, 'services',);
+				$servicesPathArray = array(BORHAN_API_PATH, 'services',);
 				$servicesPath = implode(DIRECTORY_SEPARATOR, $servicesPathArray);
 				self::cacheMap($servicesPath, $cacheFilePath);
 				if (!file_exists($cacheFilePath))
@@ -90,16 +90,16 @@ class KalturaServicesMap
 				$reflectionClass = new ReflectionClass($class);
 				
 				
-				if ($reflectionClass->isSubclassOf('KalturaBaseService'))
+				if ($reflectionClass->isSubclassOf('BorhanBaseService'))
 				{
-				    $serviceDoccomment = new KalturaDocCommentParser($reflectionClass->getDocComment());
+				    $serviceDoccomment = new BorhanDocCommentParser($reflectionClass->getDocComment());
 				    $serviceClasses[$serviceDoccomment->serviceName] = $class;
 				}
 			}
 		}
 		
 		//Retrieve all plugin service classes.
-		$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaServices');
+		$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanServices');
 		foreach($pluginInstances as $pluginName => $pluginInstance)
 		{
 			$pluginServices = $pluginInstance->getServicesMap();
@@ -115,8 +115,8 @@ class KalturaServicesMap
 		$aliasActions = array();
 		foreach($serviceClasses as $serviceId => $serviceClass)
 		{
-			$serviceReflectionClass = KalturaServiceReflector::constructFromClassName($serviceClass);
-			$serviceMapEntry = new KalturaServiceActionItem();
+			$serviceReflectionClass = BorhanServiceReflector::constructFromClassName($serviceClass);
+			$serviceMapEntry = new BorhanServiceActionItem();
 			$serviceMapEntry->serviceId = $serviceId;
 			$serviceMapEntry->serviceClass = $serviceClass;
 			$serviceMapEntry->serviceInfo = $serviceReflectionClass->getServiceInfo();
@@ -152,7 +152,7 @@ class KalturaServicesMap
 		}
 		
 		// filter out services that have no actions
-		$serviceMap = array_filter($serviceMap, array('KalturaServicesMap', 'filterEmptyServices'));
+		$serviceMap = array_filter($serviceMap, array('BorhanServicesMap', 'filterEmptyServices'));
 
 		if (!is_dir(dirname($cacheFilePath))) {
 			mkdir(dirname($cacheFilePath));
@@ -163,18 +163,18 @@ class KalturaServicesMap
 	
 	public static function getServiceMapModificationTime ()
 	{
-	    $cacheFilePathArray = array(kConf::get("cache_root_path"), 'api_v3', 'KalturaServicesMap.cache');
+	    $cacheFilePathArray = array(kConf::get("cache_root_path"), 'api_v3', 'BorhanServicesMap.cache');
 		$cacheFilePath = implode(DIRECTORY_SEPARATOR, $cacheFilePathArray);
 	    return filemtime($cacheFilePath);
 	}
 	
     /**
-     * Function tpo retrieve a specific KalturaServiceActionItem from the cache by a service ID and action ID.
+     * Function tpo retrieve a specific BorhanServiceActionItem from the cache by a service ID and action ID.
      * If the item was not found, it is retrieved from the services map and cached.
      * @param string $serviceId
      * @param string $actionId
-     * @throws KalturaAPIException
-     * @return KalturaServiceActionItem
+     * @throws BorhanAPIException
+     * @return BorhanServiceActionItem
      */
     public static function retrieveServiceActionItem($serviceId, $actionId)
 	{
@@ -182,7 +182,7 @@ class KalturaServicesMap
         {
             $apcFetchSuccess = null;
             $serviceItemFromCache = apc_fetch($serviceId, $apcFetchSuccess);
-            if ($apcFetchSuccess && $serviceItemFromCache[KalturaServicesMap::SERVICES_MAP_MODIFICATION_TIME] == self::getServiceMapModificationTime())
+            if ($apcFetchSuccess && $serviceItemFromCache[BorhanServicesMap::SERVICES_MAP_MODIFICATION_TIME] == self::getServiceMapModificationTime())
             {
                 return $serviceItemFromCache["serviceActionItem"];
             } 
@@ -193,22 +193,22 @@ class KalturaServicesMap
 		
 		if(!isset($serviceMap[$serviceId]))
 		{
-			KalturaLog::crit("Service [$serviceId] does not exist!");
-			throw new KalturaAPIException(KalturaErrors::SERVICE_DOES_NOT_EXISTS, $serviceId);
+			BorhanLog::crit("Service [$serviceId] does not exist!");
+			throw new BorhanAPIException(BorhanErrors::SERVICE_DOES_NOT_EXISTS, $serviceId);
 		}
 		
 		// check if action exists
 		if(!$actionId)
 		{
-			KalturaLog::crit("Action not specified!");
-			throw new KalturaAPIException(KalturaErrors::ACTION_NOT_SPECIFIED, $serviceId);
+			BorhanLog::crit("Action not specified!");
+			throw new BorhanAPIException(BorhanErrors::ACTION_NOT_SPECIFIED, $serviceId);
 		}
 		$reflector = $serviceMap[$serviceId];
 		
 		if(function_exists('apc_store'))
 		{
 			$servicesMapLastModTime = self::getServiceMapModificationTime();
-			$success = apc_store($serviceId, array("serviceActionItem" => $serviceMap[$serviceId], KalturaServicesMap::SERVICES_MAP_MODIFICATION_TIME => $servicesMapLastModTime));
+			$success = apc_store($serviceId, array("serviceActionItem" => $serviceMap[$serviceId], BorhanServicesMap::SERVICES_MAP_MODIFICATION_TIME => $servicesMapLastModTime));
 		}
 		
 		return $reflector;

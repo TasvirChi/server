@@ -5,13 +5,13 @@
 abstract class kBusinessProcessProvider
 {
 	/**
-	 * @param KalturaBusinessProcessServer $server
+	 * @param BorhanBusinessProcessServer $server
 	 * @return kBusinessProcessProvider
 	 */
 	public static function get($server)
 	{
-		/* @var $server KalturaBusinessProcessServer */
-		return KalturaPluginManager::loadObject('kBusinessProcessProvider', $server->type, array($server));
+		/* @var $server BorhanBusinessProcessServer */
+		return BorhanPluginManager::loadObject('kBusinessProcessProvider', $server->type, array($server));
 	}
 	
 	/**

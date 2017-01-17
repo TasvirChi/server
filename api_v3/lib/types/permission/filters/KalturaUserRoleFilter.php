@@ -3,10 +3,10 @@
  * @package api
  * @subpackage filters
  */
-class KalturaUserRoleFilter extends KalturaUserRoleBaseFilter
+class BorhanUserRoleFilter extends BorhanUserRoleBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -14,9 +14,9 @@ class KalturaUserRoleFilter extends KalturaUserRoleBaseFilter
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::getListResponse()
+	 * @see BorhanRelatedFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$userRoleFilter = $this->toObject();
 
@@ -27,8 +27,8 @@ class KalturaUserRoleFilter extends KalturaUserRoleBaseFilter
 		$pager->attachToCriteria ( $c );
 		$list = UserRolePeer::doSelect($c);
 		
-		$response = new KalturaUserRoleListResponse();
-		$response->objects = KalturaUserRoleArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanUserRoleListResponse();
+		$response->objects = BorhanUserRoleArray::fromDbArray($list, $responseProfile);
 		$response->totalCount = $count;
 		
 		return $response;

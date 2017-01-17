@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaYouTubeDistributionProviderBaseFilter extends KalturaDistributionProviderFilter
+abstract class BorhanYouTubeDistributionProviderBaseFilter extends BorhanDistributionProviderFilter
 {
 	static private $map_between_objects = array
 	(

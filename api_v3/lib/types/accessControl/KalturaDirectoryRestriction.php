@@ -4,19 +4,19 @@
  * @subpackage objects
  * @deprecated
  */
-class KalturaDirectoryRestriction extends KalturaBaseRestriction 
+class BorhanDirectoryRestriction extends BorhanBaseRestriction 
 {
 	/**
-	 * Kaltura directory restriction type
+	 * Borhan directory restriction type
 	 * 
-	 * @var KalturaDirectoryRestrictionType
+	 * @var BorhanDirectoryRestrictionType
 	 */
 	public $directoryRestrictionType;
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseRestriction::toRule()
+	 * @see BorhanBaseRestriction::toRule()
 	 */
-	public function toRule(KalturaRestrictionArray $restrictions)
+	public function toRule(BorhanRestrictionArray $restrictions)
 	{
 		return null;
 	}

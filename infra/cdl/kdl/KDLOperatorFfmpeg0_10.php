@@ -319,13 +319,13 @@ $dnxhd1080BitratesArr = array(220000,145000,185000,120000,36000,175000,115000,45
 			&& (
 				($width==1280 && $height==720) || ($width==1280 && $height==0) || ($width==0	&& $height==720)
 			)){
-KalturaLog::log("Supported DNXHD - br:".$this->_video->_bitRate.",w:$width,h:$height");
+BorhanLog::log("Supported DNXHD - br:".$this->_video->_bitRate.",w:$width,h:$height");
 			}
 			else if(in_array($target->_video->_bitRate,$dnxhd1080BitratesArr)
 			&& (
 				($width==1920 && $height==1080) || ($width==1920 && $height==0) || ($width==0	&& $height==1080)
 			)){
-KalturaLog::log("Supported DNXHD - br:".$target->_video->_bitRate.",w:$width,h:$height");
+BorhanLog::log("Supported DNXHD - br:".$target->_video->_bitRate.",w:$width,h:$height");
 			}
 			else {
 				$str = "br:".$target->_video->_bitRate.",w:$width,h:$height";

@@ -7,7 +7,7 @@
  * @subpackage api.services
  */
 
-class QuizService extends KalturaBaseService
+class QuizService extends BorhanBaseService
 {
 
 	public function initService($serviceId, $serviceName, $actionName)
@@ -16,7 +16,7 @@ class QuizService extends KalturaBaseService
 
 		if(!QuizPlugin::isAllowedPartner($this->getPartnerId()))
 		{
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, QuizPlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, QuizPlugin::PLUGIN_NAME);
 		}
 	}
 
@@ -25,20 +25,20 @@ class QuizService extends KalturaBaseService
 	 *
 	 * @action add
 	 * @param string $entryId
-	 * @param KalturaQuiz $quiz
-	 * @return KalturaQuiz
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::INVALID_USER_ID
-	 * @throws KalturaQuizErrors::PROVIDED_ENTRY_IS_ALREADY_A_QUIZ
+	 * @param BorhanQuiz $quiz
+	 * @return BorhanQuiz
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::INVALID_USER_ID
+	 * @throws BorhanQuizErrors::PROVIDED_ENTRY_IS_ALREADY_A_QUIZ
 	 */
-	public function addAction( $entryId, KalturaQuiz $quiz )
+	public function addAction( $entryId, BorhanQuiz $quiz )
 	{
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 
 		if ( !is_null( QuizPlugin::getQuizData($dbEntry) ) )
-			throw new KalturaAPIException(KalturaQuizErrors::PROVIDED_ENTRY_IS_ALREADY_A_QUIZ, $entryId);
+			throw new BorhanAPIException(BorhanQuizErrors::PROVIDED_ENTRY_IS_ALREADY_A_QUIZ, $entryId);
 
 		return $this->validateAndUpdateQuizData( $dbEntry, $quiz );
 	}
@@ -48,13 +48,13 @@ class QuizService extends KalturaBaseService
 	 *
 	 * @action update
 	 * @param string $entryId
-	 * @param KalturaQuiz $quiz
-	 * @return KalturaQuiz
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::INVALID_USER_ID
-	 * @throws KalturaQuizErrors::PROVIDED_ENTRY_IS_NOT_A_QUIZ
+	 * @param BorhanQuiz $quiz
+	 * @return BorhanQuiz
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::INVALID_USER_ID
+	 * @throws BorhanQuizErrors::PROVIDED_ENTRY_IS_NOT_A_QUIZ
 	 */
-	public function updateAction( $entryId, KalturaQuiz $quiz )
+	public function updateAction( $entryId, BorhanQuiz $quiz )
 	{
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 		$kQuiz = QuizPlugin::validateAndGetQuiz( $dbEntry );
@@ -64,17 +64,17 @@ class QuizService extends KalturaBaseService
 	/**
 	 * if user is entitled for this action will update quizData on entry
 	 * @param entry $dbEntry
-	 * @param KalturaQuiz $quiz
+	 * @param BorhanQuiz $quiz
 	 * @param int $currentVersion
 	 * @param kQuiz|null $newQuiz
-	 * @return KalturaQuiz
-	 * @throws KalturaAPIException
+	 * @return BorhanQuiz
+	 * @throws BorhanAPIException
 	 */
-	private function validateAndUpdateQuizData( entry $dbEntry, KalturaQuiz $quiz, $currentVersion = 0, kQuiz $newQuiz = null )
+	private function validateAndUpdateQuizData( entry $dbEntry, BorhanQuiz $quiz, $currentVersion = 0, kQuiz $newQuiz = null )
 	{
 		if ( !kEntitlementUtils::isEntitledForEditEntry($dbEntry) ) {
-			KalturaLog::debug('Update quiz allowed only with admin KS or entry owner or co-editor');
-			throw new KalturaAPIException(KalturaErrors::INVALID_USER_ID);
+			BorhanLog::debug('Update quiz allowed only with admin KS or entry owner or co-editor');
+			throw new BorhanAPIException(BorhanErrors::INVALID_USER_ID);
 		}
 		$quizData = $quiz->toObject($newQuiz);
 		$quizData->setVersion( $currentVersion+1 );
@@ -90,21 +90,21 @@ class QuizService extends KalturaBaseService
 	 *
 	 * @action get
 	 * @param string $entryId
-	 * @return KalturaQuiz
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @return BorhanQuiz
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 *
 	 */
 	public function getAction( $entryId )
 	{
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 
 		$kQuiz = QuizPlugin::getQuizData($dbEntry);
 		if ( is_null( $kQuiz ) )
-			throw new KalturaAPIException(KalturaQuizErrors::PROVIDED_ENTRY_IS_NOT_A_QUIZ, $entryId);
+			throw new BorhanAPIException(BorhanQuizErrors::PROVIDED_ENTRY_IS_NOT_A_QUIZ, $entryId);
 
-		$quiz = new KalturaQuiz();
+		$quiz = new BorhanQuiz();
 		$quiz->fromObject( $kQuiz );
 		return $quiz;
 	}
@@ -113,17 +113,17 @@ class QuizService extends KalturaBaseService
 	 * List quiz objects by filter and pager
 	 *
 	 * @action list
-	 * @param KalturaQuizFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaQuizListResponse
+	 * @param BorhanQuizFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanQuizListResponse
 	 */
-	function listAction(KalturaQuizFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanQuizFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaQuizFilter;
+			$filter = new BorhanQuizFilter;
 
 		if (! $pager)
-			$pager = new KalturaFilterPager ();
+			$pager = new BorhanFilterPager ();
 
 		return $filter->getListResponse($pager, $this->getResponseProfile());
 	}
@@ -134,29 +134,29 @@ class QuizService extends KalturaBaseService
 	 * Currently only PDF files are supported
 	 * @action serve
 	 * @param string $entryId
-	 * @param KalturaQuizOutputType $quizOutputType
+	 * @param BorhanQuizOutputType $quizOutputType
 	 * @return file
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaQuizErrors::PROVIDED_ENTRY_IS_NOT_A_QUIZ
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanQuizErrors::PROVIDED_ENTRY_IS_NOT_A_QUIZ
 	 */
 	public function serveAction($entryId, $quizOutputType)
 	{
-		KalturaLog::debug("Create a PDF Document for entry id [ " .$entryId. " ]");
+		BorhanLog::debug("Create a PDF Document for entry id [ " .$entryId. " ]");
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 
 		//validity check
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 
 		//validity check
 		$kQuiz = QuizPlugin::getQuizData($dbEntry);
 		if ( is_null( $kQuiz ) )
-			throw new KalturaAPIException(KalturaQuizErrors::PROVIDED_ENTRY_IS_NOT_A_QUIZ, $entryId);
+			throw new BorhanAPIException(BorhanQuizErrors::PROVIDED_ENTRY_IS_NOT_A_QUIZ, $entryId);
 
 		//validity check
 		if (!$kQuiz->getAllowDownload())
 		{
-			throw new KalturaAPIException(KalturaQuizErrors::QUIZ_CANNOT_BE_DOWNLOAD);
+			throw new BorhanAPIException(BorhanQuizErrors::QUIZ_CANNOT_BE_DOWNLOAD);
 		}
 		//create a pdf
 		$kp = new kQuizPdf($entryId);
@@ -173,28 +173,28 @@ class QuizService extends KalturaBaseService
 	 *
 	 * @action getUrl
 	 * @param string $entryId
-	 * @param KalturaQuizOutputType $quizOutputType
+	 * @param BorhanQuizOutputType $quizOutputType
 	 * @return string
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaQuizErrors::PROVIDED_ENTRY_IS_NOT_A_QUIZ
-	 * @throws KalturaQuizErrors::QUIZ_CANNOT_BE_DOWNLOAD
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanQuizErrors::PROVIDED_ENTRY_IS_NOT_A_QUIZ
+	 * @throws BorhanQuizErrors::QUIZ_CANNOT_BE_DOWNLOAD
 	 */
 	public function getUrlAction($entryId, $quizOutputType)
 	{
-		KalturaLog::debug("Create a URL PDF Document download for entry id [ " .$entryId. " ]");
+		BorhanLog::debug("Create a URL PDF Document download for entry id [ " .$entryId. " ]");
 
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 
 		$kQuiz = QuizPlugin::getQuizData($dbEntry);
 		if ( is_null( $kQuiz ) )
-			throw new KalturaAPIException(KalturaQuizErrors::PROVIDED_ENTRY_IS_NOT_A_QUIZ, $entryId);
+			throw new BorhanAPIException(BorhanQuizErrors::PROVIDED_ENTRY_IS_NOT_A_QUIZ, $entryId);
 
 		//validity check
 		if (!$kQuiz->getAllowDownload())
 		{
-			throw new KalturaAPIException(KalturaQuizErrors::QUIZ_CANNOT_BE_DOWNLOAD);
+			throw new BorhanAPIException(BorhanQuizErrors::QUIZ_CANNOT_BE_DOWNLOAD);
 		}
 
 		$finalPath ='/api_v3/service/quiz_quiz/action/serve/quizOutputType/';

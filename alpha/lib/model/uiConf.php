@@ -18,18 +18,18 @@ class uiConf extends BaseuiConf implements ISyncableFile, IRelatedObject
 	const UI_CONF_TYPE_EDITOR = 3;
 	const UI_CONF_TYPE_ADVANCED_EDITOR = 4;
 	const UI_CONF_TYPE_PLAYLIST = 5;			// maybe this is in fact type WIDGET with some flags switched on ?!?
-	const UI_CONF_TYPE_KMC_APP_STUDIO = 6;
+	const UI_CONF_TYPE_BMC_APP_STUDIO = 6;
 	const UI_CONF_TYPE_KRECORD = 7;
-	const UI_CONF_TYPE_KDP3 = 8;
-	const UI_CONF_TYPE_KMC_ACCOUNT = 9;
-	const UI_CONF_TYPE_KMC_ANALYTICS = 10;
-	const UI_CONF_TYPE_KMC_CONTENT = 11;
-	const UI_CONF_TYPE_KMC_DASHBOARD = 12;
-	const UI_CONF_TYPE_KMC_LOGIN = 13;
+	const UI_CONF_TYPE_BDP3 = 8;
+	const UI_CONF_TYPE_BMC_ACCOUNT = 9;
+	const UI_CONF_TYPE_BMC_ANALYTICS = 10;
+	const UI_CONF_TYPE_BMC_CONTENT = 11;
+	const UI_CONF_TYPE_BMC_DASHBOARD = 12;
+	const UI_CONF_TYPE_BMC_LOGIN = 13;
 	const UI_CONF_TYPE_SLP = 14;
 	const UI_CONF_CLIENTSIDE_ENCODER = 15;
-	const UI_CONF_KMC_GENERAL = 16;
-	const UI_CONF_KMC_ROLES_AND_PERMISSIONS = 17;
+	const UI_CONF_BMC_GENERAL = 16;
+	const UI_CONF_BMC_ROLES_AND_PERMISSIONS = 17;
 	const UI_CONF_CLIPPER = 18;
 	const UI_CONF_TYPE_KSR = 19;
 	const UI_CONF_TYPE_KUPLOAD = 20;
@@ -61,22 +61,22 @@ class uiConf extends BaseuiConf implements ISyncableFile, IRelatedObject
 	private $swf_url_version = null;
 
 	//UI_CONF_TYPE_KSR:: This is a general path value the actual jar file should be symlinked under each KSR version dir
-	private static $swf_names = array ( self::UI_CONF_TYPE_WIDGET => "kdp.swf" ,
+	private static $swf_names = array ( self::UI_CONF_TYPE_WIDGET => "bdp.swf" ,
 										self::UI_CONF_TYPE_CW => "ContributionWizard.swf" ,
 										self::UI_CONF_TYPE_EDITOR => "simpleeditor.swf" ,
-										self::UI_CONF_TYPE_ADVANCED_EDITOR => "KalturaAdvancedVideoEditor.swf" ,
-										self::UI_CONF_TYPE_PLAYLIST => "kdp.swf" ,
-										self::UI_CONF_TYPE_KMC_APP_STUDIO => "applicationstudio.swf",
-										self::UI_CONF_TYPE_KDP3 => "kdp3.swf",
-										self::UI_CONF_TYPE_KMC_ACCOUNT => "account.swf",
-										self::UI_CONF_TYPE_KMC_ANALYTICS => "ReportsAndAnalytics.swf",
-										self::UI_CONF_TYPE_KMC_CONTENT => "content.swf",
-										self::UI_CONF_TYPE_KMC_DASHBOARD => "dashboard.swf",
-										self::UI_CONF_TYPE_KMC_LOGIN => "login.swf",
-										self::UI_CONF_TYPE_SLP => "KalturaPlayer.xap",
+										self::UI_CONF_TYPE_ADVANCED_EDITOR => "BorhanAdvancedVideoEditor.swf" ,
+										self::UI_CONF_TYPE_PLAYLIST => "bdp.swf" ,
+										self::UI_CONF_TYPE_BMC_APP_STUDIO => "applicationstudio.swf",
+										self::UI_CONF_TYPE_BDP3 => "bdp3.swf",
+										self::UI_CONF_TYPE_BMC_ACCOUNT => "account.swf",
+										self::UI_CONF_TYPE_BMC_ANALYTICS => "ReportsAndAnalytics.swf",
+										self::UI_CONF_TYPE_BMC_CONTENT => "content.swf",
+										self::UI_CONF_TYPE_BMC_DASHBOARD => "dashboard.swf",
+										self::UI_CONF_TYPE_BMC_LOGIN => "login.swf",
+										self::UI_CONF_TYPE_SLP => "BorhanPlayer.xap",
 										self::UI_CONF_CLIENTSIDE_ENCODER => "KEU_0.8_win.msi",
-										self::UI_CONF_KMC_GENERAL => "kmc.swf",
-										self::UI_CONF_KMC_ROLES_AND_PERMISSIONS => "",
+										self::UI_CONF_BMC_GENERAL => "bmc.swf",
+										self::UI_CONF_BMC_ROLES_AND_PERMISSIONS => "",
 										self::UI_CONF_CLIPPER => "",
 										self::UI_CONF_TYPE_KSR => "ScreencastOMaticRun.jar",
 										self::UI_CONF_TYPE_KRECORD => "KRecord.swf",
@@ -85,22 +85,22 @@ class uiConf extends BaseuiConf implements ISyncableFile, IRelatedObject
 									);
 
 	private static $swf_directory_map = array (
-		self::UI_CONF_TYPE_WIDGET => "kdp",
-		self::UI_CONF_TYPE_CW => "kcw",
+		self::UI_CONF_TYPE_WIDGET => "bdp",
+		self::UI_CONF_TYPE_CW => "bcw",
 		self::UI_CONF_TYPE_EDITOR => "kse",
-		self::UI_CONF_TYPE_ADVANCED_EDITOR => "kae",
-		self::UI_CONF_TYPE_PLAYLIST => "kdp",
-		self::UI_CONF_TYPE_KMC_APP_STUDIO => "kmc/appstudio",
-		self::UI_CONF_TYPE_KDP3 => "kdp3",
-		self::UI_CONF_TYPE_KMC_ACCOUNT => "kmc/account",
-		self::UI_CONF_TYPE_KMC_ANALYTICS => "kmc/analytics",
-		self::UI_CONF_TYPE_KMC_CONTENT => "kmc/content",
-		self::UI_CONF_TYPE_KMC_DASHBOARD => "kmc/dashboard",
-		self::UI_CONF_TYPE_KMC_LOGIN => "kmc/login",
+		self::UI_CONF_TYPE_ADVANCED_EDITOR => "bae",
+		self::UI_CONF_TYPE_PLAYLIST => "bdp",
+		self::UI_CONF_TYPE_BMC_APP_STUDIO => "bmc/appstudio",
+		self::UI_CONF_TYPE_BDP3 => "bdp3",
+		self::UI_CONF_TYPE_BMC_ACCOUNT => "bmc/account",
+		self::UI_CONF_TYPE_BMC_ANALYTICS => "bmc/analytics",
+		self::UI_CONF_TYPE_BMC_CONTENT => "bmc/content",
+		self::UI_CONF_TYPE_BMC_DASHBOARD => "bmc/dashboard",
+		self::UI_CONF_TYPE_BMC_LOGIN => "bmc/login",
 		self::UI_CONF_TYPE_SLP => "slp",
 		self::UI_CONF_CLIENTSIDE_ENCODER => "expressUploader",
-		self::UI_CONF_KMC_GENERAL => "kmc",
-		self::UI_CONF_KMC_ROLES_AND_PERMISSIONS => "",
+		self::UI_CONF_BMC_GENERAL => "bmc",
+		self::UI_CONF_BMC_ROLES_AND_PERMISSIONS => "",
 		self::UI_CONF_CLIPPER => "kclip",
 		self::UI_CONF_TYPE_KSR => "ksr",
 		self::UI_CONF_TYPE_KRECORD => 'krecord',
@@ -192,21 +192,21 @@ class uiConf extends BaseuiConf implements ISyncableFile, IRelatedObject
 				self::UI_CONF_TYPE_EDITOR => "Simple Editor",
 				self::UI_CONF_TYPE_ADVANCED_EDITOR => "Advanced Editor",
 				self::UI_CONF_TYPE_PLAYLIST => "Playlist",
-				self::UI_CONF_TYPE_KDP3 => "KDP3",
-				self::UI_CONF_TYPE_KMC_APP_STUDIO => "KMC AppStudio",
-				self::UI_CONF_TYPE_KMC_ACCOUNT => "KMC Account",
-				self::UI_CONF_TYPE_KMC_ANALYTICS => "KMC Analytics",
-				self::UI_CONF_TYPE_KMC_CONTENT => "KMC Content",
-				self::UI_CONF_TYPE_KMC_DASHBOARD => "KMC Dashboard",
-				self::UI_CONF_TYPE_KMC_LOGIN => "KMC Login",
+				self::UI_CONF_TYPE_BDP3 => "BDP3",
+				self::UI_CONF_TYPE_BMC_APP_STUDIO => "BMC AppStudio",
+				self::UI_CONF_TYPE_BMC_ACCOUNT => "BMC Account",
+				self::UI_CONF_TYPE_BMC_ANALYTICS => "BMC Analytics",
+				self::UI_CONF_TYPE_BMC_CONTENT => "BMC Content",
+				self::UI_CONF_TYPE_BMC_DASHBOARD => "BMC Dashboard",
+				self::UI_CONF_TYPE_BMC_LOGIN => "BMC Login",
 				self::UI_CONF_TYPE_SLP => "SLP",
 				self::UI_CONF_CLIENTSIDE_ENCODER => "Express Uploader",
-				self::UI_CONF_KMC_GENERAL => "KMC",
-				self::UI_CONF_KMC_ROLES_AND_PERMISSIONS => "KMC Roles and Permissions",
-				self::UI_CONF_CLIPPER => "Kaltura Clipper",
-				self::UI_CONF_TYPE_KSR => "Kaltura Screen Recorder",
-				self::UI_CONF_TYPE_KUPLOAD => "Kaltura Simple Uploader",
-				self::UI_CONF_TYPE_WEBCASTING => "Kaltura Webcasting Studio",
+				self::UI_CONF_BMC_GENERAL => "BMC",
+				self::UI_CONF_BMC_ROLES_AND_PERMISSIONS => "BMC Roles and Permissions",
+				self::UI_CONF_CLIPPER => "Borhan Clipper",
+				self::UI_CONF_TYPE_KSR => "Borhan Screen Recorder",
+				self::UI_CONF_TYPE_KUPLOAD => "Borhan Simple Uploader",
+				self::UI_CONF_TYPE_WEBCASTING => "Borhan Webcasting Studio",
 			);
 		}
 	}
@@ -367,7 +367,7 @@ class uiConf extends BaseuiConf implements ISyncableFile, IRelatedObject
 		$contents = kFileSyncUtils::file_get_contents( $sync_key , true , false );
 		
 		if(!$contents)
-			KalturaLog::debug("Conf file of sub type [$subType] not found for key [$sync_key]");
+			BorhanLog::debug("Conf file of sub type [$subType] not found for key [$sync_key]");
 		return $contents;
 	}
 	
@@ -442,8 +442,8 @@ class uiConf extends BaseuiConf implements ISyncableFile, IRelatedObject
 	
 		if($version)
 		{
-			if (strpos($this->swf_url, "kdp3") !== false)
-				$this->setSwfUrl("$flashUrl/kdp3/v{$version}/kdp3.swf");
+			if (strpos($this->swf_url, "bdp3") !== false)
+				$this->setSwfUrl("$flashUrl/bdp3/v{$version}/bdp3.swf");
 			else
 				$this->setSwfUrl("$flashUrl/$dir/v{$version}/$swfName");
 		}
@@ -461,13 +461,13 @@ class uiConf extends BaseuiConf implements ISyncableFile, IRelatedObject
 		return null;
 	}
 
-	private function getCachedContent ( $kaltura_config , $confFilePath )
+	private function getCachedContent ( $borhan_config , $confFilePath )
 	{
 		if ( ! file_exists ( $confFilePath ) ) return null;
 		if ( strpos ( $confFilePath , "://" ) != FALSE )
 		{
 			// remote file (http:// or ftp://) - store the cache in a directory near the base file
-			//$cache_path = dirname( $kaltura_config ) . "cache/" . $confFilePath  . "_cache.xml" ;
+			//$cache_path = dirname( $borhan_config ) . "cache/" . $confFilePath  . "_cache.xml" ;
 			// for now - don't cache for remote files
 			$cache_path = null;
 		}
@@ -480,18 +480,18 @@ class uiConf extends BaseuiConf implements ISyncableFile, IRelatedObject
 		try
 		{
 			$s_time = microtime( true );
-			$config = new kXmlConfig( $kaltura_config , $confFilePath );
+			$config = new kXmlConfig( $borhan_config , $confFilePath );
 			$content = $config->getConfig( $cache_path );
 			$e_time = microtime( true );
 
 			if ( $config->createdCache() )
-				KalturaLog::log( __METHOD__ . " created config cache file [$kaltura_config]+[$confFilePath]->[$cache_path].\ntook [" . ($e_time - $s_time) . "] seconds" );
+				BorhanLog::log( __METHOD__ . " created config cache file [$borhan_config]+[$confFilePath]->[$cache_path].\ntook [" . ($e_time - $s_time) . "] seconds" );
 
 			return $content;
 		}
 		catch ( Exception $ex )
 		{
-			KalturaLog::log( __METHOD__ . " Error creating config [$kaltura_config]+[$confFilePath]:" . $ex->getMessage() );
+			BorhanLog::log( __METHOD__ . " Error creating config [$borhan_config]+[$confFilePath]:" . $ex->getMessage() );
 			return null;
 		}
 	}
@@ -550,7 +550,7 @@ class uiConf extends BaseuiConf implements ISyncableFile, IRelatedObject
 		if ( kString::beginsWith( $v , ".." ) )
 		{
 			$err = "Error in " . __METHOD__ . ": attmpting to set ConfFilePath to [$v]";
-			KalturaLog::log( $err );
+			BorhanLog::log( $err );
 			throw new APIException ( APIErrors::ERROR_SETTING_FILE_PATH_FOR_UI_CONF , $v );
 		}
 
@@ -576,7 +576,7 @@ class uiConf extends BaseuiConf implements ISyncableFile, IRelatedObject
 						if ( $ui_conf->getPartnerId ( ) != $this->getPartnerId() )
 						{
 							$err = "Error in " . __METHOD__ . ": attmpting to set ConfFilePath to [$v]";
-							KalturaLog::log( $err );
+							BorhanLog::log( $err );
 							throw new APIException ( APIErrors::ERROR_SETTING_FILE_PATH_FOR_UI_CONF , $v );
 						}
 					}

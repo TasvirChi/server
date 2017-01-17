@@ -3,14 +3,14 @@
  * @package api
  * @subpackage filters
  */
-class KalturaLiveAssetFilter extends KalturaLiveAssetBaseFilter
+class BorhanLiveAssetFilter extends BorhanLiveAssetBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaAssetFilter::getListResponse()
+	 * @see BorhanAssetFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$types = KalturaPluginManager::getExtendedTypes(assetPeer::OM_CLASS, assetType::LIVE);
+		$types = BorhanPluginManager::getExtendedTypes(assetPeer::OM_CLASS, assetType::LIVE);
 		return $this->getTypeListResponse($pager, $responseProfile, $types);
 	}
 }

@@ -3,11 +3,11 @@
  * @package api
  * @subpackage objects
  */
-class KalturaOperationAttributesArray extends KalturaTypedArray
+class BorhanOperationAttributesArray extends BorhanTypedArray
 {
-	public static function fromDbArray(array $arr = null, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $arr = null, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaOperationAttributesArray();
+		$newArr = new BorhanOperationAttributesArray();
 		if(is_null($arr))
 			return $newArr;
 			
@@ -24,6 +24,6 @@ class KalturaOperationAttributesArray extends KalturaTypedArray
 	
 	public function __construct()
 	{
-		parent::__construct("KalturaOperationAttributes");	
+		parent::__construct("BorhanOperationAttributes");	
 	}
 }

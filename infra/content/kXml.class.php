@@ -344,14 +344,14 @@ class kXml
 		$xml = new KDOMDocument();
 		if(!$xml->loadXML($xmlStr))
 		{
-			KalturaLog::err("Could not load xmlStr");
+			BorhanLog::err("Could not load xmlStr");
 			return null;
 		}
 		
 		$xsl = new KDOMDocument();
 		if(!$xsl->loadXML($xslt))
 		{
-			KalturaLog::err("Could not load xslt");
+			BorhanLog::err("Could not load xslt");
 			return null;
 		}
 		
@@ -372,7 +372,7 @@ class kXml
 
 		if(!$xml)
 		{
-			KalturaLog::err("XML Transformation failed");
+			BorhanLog::err("XML Transformation failed");
 			return null;
 		}
 		

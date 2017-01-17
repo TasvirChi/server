@@ -11,7 +11,7 @@ class KVoicebaseIntegrationEngine implements KIntegrationCloserEngine
 	/* (non-PHPdoc)
 	 * @see KIntegrationCloserEngine::dispatch()
 	 */
-	public function dispatch(KalturaBatchJob $job, KalturaIntegrationJobData &$data)
+	public function dispatch(BorhanBatchJob $job, BorhanIntegrationJobData &$data)
 	{
 		return $this->doDispatch($job, $data, $data->providerData);
 	}
@@ -19,12 +19,12 @@ class KVoicebaseIntegrationEngine implements KIntegrationCloserEngine
 	/* (non-PHPdoc)
 	 * @see KIntegrationCloserEngine::close()
 	 */
-	public function close(KalturaBatchJob $job, KalturaIntegrationJobData &$data)
+	public function close(BorhanBatchJob $job, BorhanIntegrationJobData &$data)
 	{
 		return $this->doClose($job, $data, $data->providerData);
 	}
 	
-	protected function doDispatch(KalturaBatchJob $job, KalturaIntegrationJobData &$data, KalturaVoicebaseJobProviderData $providerData)
+	protected function doDispatch(BorhanBatchJob $job, BorhanIntegrationJobData &$data, BorhanVoicebaseJobProviderData $providerData)
 	{
 		$entryId = $providerData->entryId;
 		$flavorAssetId = $providerData->flavorAssetId;
@@ -36,7 +36,7 @@ class KVoicebaseIntegrationEngine implements KIntegrationCloserEngine
 		$fileLocation = $providerData->fileLocation;
 		$callBackUrl = $data->callbackNotificationUrl;
 	
-		KalturaLog::debug('callback is - ' . $callBackUrl);
+		BorhanLog::debug('callback is - ' . $callBackUrl);
 	
 		$this->clientHelper = VoicebasePlugin::getClientHelper($providerData->apiKey, $providerData->apiPassword);
 		$flavorUrl = KBatchBase::$kClient->flavorAsset->getUrl($flavorAssetId);
@@ -67,7 +67,7 @@ class KVoicebaseIntegrationEngine implements KIntegrationCloserEngine
 		return false;
 	}
 	
-	protected function doClose(KalturaBatchJob $job, KalturaIntegrationJobData &$data, KalturaVoicebaseJobProviderData $providerData)
+	protected function doClose(BorhanBatchJob $job, BorhanIntegrationJobData &$data, BorhanVoicebaseJobProviderData $providerData)
 	{
 		return false;
 	}

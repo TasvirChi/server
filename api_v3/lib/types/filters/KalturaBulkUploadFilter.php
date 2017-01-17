@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters
  */
-class KalturaBulkUploadFilter extends KalturaBulkUploadBaseFilter
+class BorhanBulkUploadFilter extends BorhanBulkUploadBaseFilter
 {
     static private $map_between_objects = array
 	(
@@ -20,7 +20,7 @@ class KalturaBulkUploadFilter extends KalturaBulkUploadBaseFilter
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{

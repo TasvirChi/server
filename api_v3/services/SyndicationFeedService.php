@@ -6,7 +6,7 @@
  * @package api
  * @subpackage services
  */
-class SyndicationFeedService extends KalturaBaseService 
+class SyndicationFeedService extends BorhanBaseService 
 {
 	
 	public function initService($serviceId, $serviceName, $actionName)
@@ -28,7 +28,7 @@ class SyndicationFeedService extends KalturaBaseService
 		return parent::partnerGroup();
 	}
 	
-	protected function kalturaNetworkAllowed($actionName)
+	protected function borhanNetworkAllowed($actionName)
 	{
 		if ($actionName === 'get') {
 			return true;
@@ -37,22 +37,22 @@ class SyndicationFeedService extends KalturaBaseService
 			return true;
 		}
 
-		return parent::kalturaNetworkAllowed($actionName);
+		return parent::borhanNetworkAllowed($actionName);
 	}
 	
 	/**
 	 * Add new Syndication Feed
 	 * 
 	 * @action add
-	 * @param KalturaBaseSyndicationFeed $syndicationFeed
-	 * @return KalturaBaseSyndicationFeed 
+	 * @param BorhanBaseSyndicationFeed $syndicationFeed
+	 * @return BorhanBaseSyndicationFeed 
 	 */
-	public function addAction(KalturaBaseSyndicationFeed $syndicationFeed)
+	public function addAction(BorhanBaseSyndicationFeed $syndicationFeed)
 	{
 		$syndicationFeed->validatePlaylistId();
 		$syndicationFeed->validateStorageId($this->getPartnerId());
 		
-		if ($syndicationFeed instanceof KalturaGenericXsltSyndicationFeed ){
+		if ($syndicationFeed instanceof BorhanGenericXsltSyndicationFeed ){
 			$syndicationFeed->validatePropertyNotNull('xslt');				
 			$syndicationFeedDB = new genericSyndicationFeed();
 			$syndicationFeedDB->incrementVersion();	
@@ -63,7 +63,7 @@ class SyndicationFeedService extends KalturaBaseService
 			
 		$syndicationFeed->toInsertableObject($syndicationFeedDB);
 		$syndicationFeedDB->setPartnerId($this->getPartnerId());
-		$syndicationFeedDB->setStatus(KalturaSyndicationFeedStatus::ACTIVE);
+		$syndicationFeedDB->setStatus(BorhanSyndicationFeedStatus::ACTIVE);
 		$syndicationFeedDB->save();
 		
 		if($syndicationFeed->addToDefaultConversionProfile)
@@ -99,7 +99,7 @@ class SyndicationFeedService extends KalturaBaseService
 			}
 		}
 		
-		if ($syndicationFeed instanceof KalturaGenericXsltSyndicationFeed ){
+		if ($syndicationFeed instanceof BorhanGenericXsltSyndicationFeed ){
 			$key = $syndicationFeedDB->getSyncKey(genericSyndicationFeed::FILE_SYNC_SYNDICATION_FEED_XSLT);
 			kFileSyncUtils::file_put_contents($key, $syndicationFeed->xslt);
 		}
@@ -114,16 +114,16 @@ class SyndicationFeedService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param string $id
-	 * @return KalturaBaseSyndicationFeed
-	 * @throws KalturaErrors::INVALID_FEED_ID
+	 * @return BorhanBaseSyndicationFeed
+	 * @throws BorhanErrors::INVALID_FEED_ID
 	 */
 	public function getAction($id)
 	{
 		$syndicationFeedDB = syndicationFeedPeer::retrieveByPK($id);
 		if (!$syndicationFeedDB)
-			throw new KalturaAPIException(KalturaErrors::INVALID_FEED_ID, $id);
+			throw new BorhanAPIException(BorhanErrors::INVALID_FEED_ID, $id);
 			
-		$syndicationFeed = KalturaSyndicationFeedFactory::getInstanceByType($syndicationFeedDB->getType());
+		$syndicationFeed = BorhanSyndicationFeedFactory::getInstanceByType($syndicationFeedDB->getType());
 		//echo $syndicationFeed->feedUrl; die;
 		$syndicationFeed->fromObject($syndicationFeedDB, $this->getResponseProfile());
 		return $syndicationFeed;
@@ -134,36 +134,36 @@ class SyndicationFeedService extends KalturaBaseService
 	 * 
 	 * @action update
 	 * @param string $id
-	 * @param KalturaBaseSyndicationFeed $syndicationFeed
-	 * @return KalturaBaseSyndicationFeed
-	 * @throws KalturaErrors::INVALID_FEED_ID
+	 * @param BorhanBaseSyndicationFeed $syndicationFeed
+	 * @return BorhanBaseSyndicationFeed
+	 * @throws BorhanErrors::INVALID_FEED_ID
 	 */
-	public function updateAction($id, KalturaBaseSyndicationFeed $syndicationFeed)
+	public function updateAction($id, BorhanBaseSyndicationFeed $syndicationFeed)
 	{
 		$syndicationFeedDB = syndicationFeedPeer::retrieveByPK($id);
 		if (!$syndicationFeedDB)
-			throw new KalturaAPIException(KalturaErrors::INVALID_FEED_ID, $id);
+			throw new BorhanAPIException(BorhanErrors::INVALID_FEED_ID, $id);
 		
 		$syndicationFeed->validateStorageId($this->getPartnerId());
 		$syndicationFeed->toUpdatableObject($syndicationFeedDB, array('type'));	
 		
-		if (($syndicationFeed instanceof KalturaGenericXsltSyndicationFeed) && ($syndicationFeed->xslt != null)){
+		if (($syndicationFeed instanceof BorhanGenericXsltSyndicationFeed) && ($syndicationFeed->xslt != null)){
 			if(!($syndicationFeedDB instanceof genericSyndicationFeed))
-				throw new KalturaAPIException(KalturaErrors::INVALID_FEED_TYPE, get_class($syndicationFeedDB));
+				throw new BorhanAPIException(BorhanErrors::INVALID_FEED_TYPE, get_class($syndicationFeedDB));
 				
 			$syndicationFeedDB->incrementVersion();
 		}
 		$syndicationFeedDB->save();		
 		
 		
-		if (($syndicationFeed instanceof KalturaGenericXsltSyndicationFeed) && ($syndicationFeed->xslt != null)){			
+		if (($syndicationFeed instanceof BorhanGenericXsltSyndicationFeed) && ($syndicationFeed->xslt != null)){			
 			$key = $syndicationFeedDB->getSyncKey(genericSyndicationFeed::FILE_SYNC_SYNDICATION_FEED_XSLT);
 			kFileSyncUtils::file_put_contents($key, $syndicationFeed->xslt);
 		}
 		
         $syndicationFeed->type = null;
         
-		$syndicationFeed = KalturaSyndicationFeedFactory::getInstanceByType($syndicationFeedDB->getType());
+		$syndicationFeed = BorhanSyndicationFeedFactory::getInstanceByType($syndicationFeedDB->getType());
 		$syndicationFeed->fromObject($syndicationFeedDB, $this->getResponseProfile());
 		return $syndicationFeed;
 	}
@@ -173,16 +173,16 @@ class SyndicationFeedService extends KalturaBaseService
 	 * 
 	 * @action delete
 	 * @param string $id
-	 * @throws KalturaErrors::INVALID_FEED_ID
+	 * @throws BorhanErrors::INVALID_FEED_ID
 	 */
 	public function deleteAction($id)
 	{
 		$syndicationFeedDB = syndicationFeedPeer::retrieveByPK($id);
 		if (!$syndicationFeedDB)
-			throw new KalturaAPIException(KalturaErrors::INVALID_FEED_ID, $id);
+			throw new BorhanAPIException(BorhanErrors::INVALID_FEED_ID, $id);
 		
 		
-		$syndicationFeedDB->setStatus(KalturaSyndicationFeedStatus::DELETED);
+		$syndicationFeedDB->setStatus(BorhanSyndicationFeedStatus::DELETED);
 		$syndicationFeedDB->save();
 	}
 	
@@ -190,17 +190,17 @@ class SyndicationFeedService extends KalturaBaseService
 	 * List Syndication Feeds by filter with paging support
 	 * 
 	 * @action list
-	 * @param KalturaBaseSyndicationFeedFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaBaseSyndicationFeedListResponse
+	 * @param BorhanBaseSyndicationFeedFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanBaseSyndicationFeedListResponse
 	 */
-	public function listAction(KalturaBaseSyndicationFeedFilter $filter = null, KalturaFilterPager $pager = null)
+	public function listAction(BorhanBaseSyndicationFeedFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if ($filter === null)
-			$filter = new KalturaBaseSyndicationFeedFilter();
+			$filter = new BorhanBaseSyndicationFeedFilter();
 			
 		if ($filter->orderBy === null)
-			$filter->orderBy = KalturaBaseSyndicationFeedOrderBy::CREATED_AT_DESC;
+			$filter->orderBy = BorhanBaseSyndicationFeedOrderBy::CREATED_AT_DESC;
 			
 		$syndicationFilter = new syndicationFeedFilter();
 		
@@ -213,13 +213,13 @@ class SyndicationFeedService extends KalturaBaseService
 		$totalCount = syndicationFeedPeer::doCount($c);
                 
         if($pager === null)
-        	$pager = new KalturaFilterPager();
+        	$pager = new BorhanFilterPager();
                 
         $pager->attachToCriteria($c);
 		$dbList = syndicationFeedPeer::doSelect($c);
 		
-		$list = KalturaBaseSyndicationFeedArray::fromDbArray($dbList, $this->getResponseProfile());
-		$response = new KalturaBaseSyndicationFeedListResponse();
+		$list = BorhanBaseSyndicationFeedArray::fromDbArray($dbList, $this->getResponseProfile());
+		$response = new BorhanBaseSyndicationFeedListResponse();
 		$response->objects = $list;
 		$response->totalCount = $totalCount;
 		return $response;
@@ -231,21 +231,21 @@ class SyndicationFeedService extends KalturaBaseService
 	 *
 	 * @action getEntryCount
 	 * @param string $feedId
-	 * @return KalturaSyndicationFeedEntryCount
-	 * @throws KalturaErrors::INVALID_FEED_ID
+	 * @return BorhanSyndicationFeedEntryCount
+	 * @throws BorhanErrors::INVALID_FEED_ID
 	 */
 	public function getEntryCountAction($feedId)
 	{
 		$syndicationFeedDB = syndicationFeedPeer::retrieveByPK($feedId);
 		if (!$syndicationFeedDB)
-			throw new KalturaAPIException(KalturaErrors::INVALID_FEED_ID, $feedId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_FEED_ID, $feedId);
 		
-		$feedCount = new KalturaSyndicationFeedEntryCount();
+		$feedCount = new BorhanSyndicationFeedEntryCount();
 		
-		$feedRenderer = new KalturaSyndicationFeedRenderer($feedId);
+		$feedRenderer = new BorhanSyndicationFeedRenderer($feedId);
 		$feedCount->totalEntryCount = $feedRenderer->getEntriesCount();
 		
-		$feedRenderer = new KalturaSyndicationFeedRenderer($feedId);
+		$feedRenderer = new BorhanSyndicationFeedRenderer($feedId);
 		$feedRenderer->addFlavorParamsAttachedFilter();
 		$feedCount->actualEntryCount = $feedRenderer->getEntriesCount();
 		
@@ -261,16 +261,16 @@ class SyndicationFeedService extends KalturaBaseService
 	 *  @action requestConversion
 	 *  @param string $feedId
 	 *  @return string
-	 * @throws KalturaErrors::INVALID_FEED_ID
+	 * @throws BorhanErrors::INVALID_FEED_ID
 	 */
 	public function requestConversionAction($feedId)
 	{
 		$syndicationFeedDB = syndicationFeedPeer::retrieveByPK($feedId);
 		if (!$syndicationFeedDB)
-			throw new KalturaAPIException(KalturaErrors::INVALID_FEED_ID, $feedId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_FEED_ID, $feedId);
 			
 		// find entry ids that already converted to the flavor
-		$feedRendererWithTheFlavor = new KalturaSyndicationFeedRenderer($feedId);
+		$feedRendererWithTheFlavor = new BorhanSyndicationFeedRenderer($feedId);
 		$feedRendererWithTheFlavor->addFlavorParamsAttachedFilter();
 		$entriesWithTheFlavor = $feedRendererWithTheFlavor->getEntriesIds();
 		
@@ -279,7 +279,7 @@ class SyndicationFeedService extends KalturaBaseService
 		$entryFilter->setIdNotIn($entriesWithTheFlavor);
 		
 		// create feed with the new filter
-		$feedRendererToConvert = new KalturaSyndicationFeedRenderer($feedId);
+		$feedRendererToConvert = new BorhanSyndicationFeedRenderer($feedId);
 		$feedRendererToConvert->addFilter($entryFilter);
 		
 		$createdJobsIds = array();

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layouts>
 	<layout layoutId="full"
-		skinPath="/content/uiconf/kaltura/drupal/kdp_1.1.11/skin_kdp_drupal_gray.swf">
+		skinPath="/content/uiconf/borhan/drupal/bdp_1.1.11/skin_bdp_drupal_gray.swf">
 		<VBox height="100%" styleName="mlayout" width="100%">
 			<HBox height="30" styleName="TopTitle" width="100%">
 				<Label height="22" id="movieName"
-					label="{myKplayer.kalturaShow.kshowName,myKplayer.kalturaEntry.entryName,''}"
+					label="{myKplayer.borhanShow.kshowName,myKplayer.borhanEntry.entryName,''}"
 					styleName="movieName" width="100%" />
-				<Button height="20" id="kalturaLogo"
-					k_click="navigate:http://corp.kaltura.com/download"
-					styleName="kalturaLogo" width="40" />
+				<Button height="20" id="borhanLogo"
+					k_click="navigate:http://corp.borhan.com/download"
+					styleName="borhanLogo" width="40" />
 			</HBox>
 			<HBox height="100%" styleName="playerContainer" width="100%">
 				<Canvas height="100%" id="marginLeft" styleName="playerMarginLeft"

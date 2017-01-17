@@ -3,7 +3,7 @@
  * @package plugins.quiz
  * @subpackage api.objects
  */
-class KalturaQuiz extends KalturaObject
+class BorhanQuiz extends BorhanObject
 {
 	/**
 	 *
@@ -14,38 +14,38 @@ class KalturaQuiz extends KalturaObject
 
 	/**
 	 * Array of key value ui related objects
-	 * @var KalturaKeyValueArray
+	 * @var BorhanKeyValueArray
 	 */
 	public $uiAttributes;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $showResultOnAnswer;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $showCorrectKeyOnAnswer;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $allowAnswerUpdate;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $showCorrectAfterSubmission;
 
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $allowDownload;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $showGradeAfterSubmission;
 
@@ -63,7 +63,7 @@ class KalturaQuiz extends KalturaObject
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -71,7 +71,7 @@ class KalturaQuiz extends KalturaObject
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($dbObject = null, $propsToSkip = array())
 	{

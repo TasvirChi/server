@@ -40,29 +40,29 @@ abstract class kCaptionsContentManager
 				return webVttCaptionsContentManager::get();
 
 			default:
-				return KalturaPluginManager::loadObject('kCaptionsContentManager', $type);
+				return BorhanPluginManager::loadObject('kCaptionsContentManager', $type);
 		}
 	}
 	
 	/**
-	 * @param KalturaCaptionType $type
+	 * @param BorhanCaptionType $type
 	 * @return kCaptionsContentManager
 	 */
 	public static function getApiContentManager($type)
 	{
 		switch($type)
 		{
-			case KalturaCaptionType::SRT:
+			case BorhanCaptionType::SRT:
 				return srtCaptionsContentManager::get(); 
 				
-			case KalturaCaptionType::DFXP:
+			case BorhanCaptionType::DFXP:
 				return dfxpCaptionsContentManager::get();
 
 			case CaptionType::WEBVTT:
 				return webVttCaptionsContentManager::get();
 
 			default:
-				return KalturaPluginManager::loadObject('kCaptionsContentManager', $type);
+				return BorhanPluginManager::loadObject('kCaptionsContentManager', $type);
 		}
 	}
 	

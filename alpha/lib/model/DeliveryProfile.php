@@ -135,7 +135,7 @@ abstract class DeliveryProfile extends BaseDeliveryProfile implements IBaseObjec
 			$object = unserialize($serializedObject);
 		}
 		catch (Exception $e) {
-			KalturaLog::err('Error unserializing recognizer for delivery id ['.$this->getId().']');
+			BorhanLog::err('Error unserializing recognizer for delivery id ['.$this->getId().']');
 			$object = null;
 		}
 		if ($object instanceof kUrlRecognizer) {
@@ -159,7 +159,7 @@ abstract class DeliveryProfile extends BaseDeliveryProfile implements IBaseObjec
 		}
 		else
 		{
-			KalturaLog::err('Given input is not an instance of kUrlRecognizer - ignoring');
+			BorhanLog::err('Given input is not an instance of kUrlRecognizer - ignoring');
 		}
 	}
 
@@ -185,7 +185,7 @@ abstract class DeliveryProfile extends BaseDeliveryProfile implements IBaseObjec
 			$object = unserialize($serializedObject);
 		}
 		catch (Exception $e) {
-			KalturaLog::err('Error unserializing tokenizer for delivery id ['.$this->getId().']');
+			BorhanLog::err('Error unserializing tokenizer for delivery id ['.$this->getId().']');
 			$object = null;
 		}
 		
@@ -210,7 +210,7 @@ abstract class DeliveryProfile extends BaseDeliveryProfile implements IBaseObjec
 		}
 		else
 		{
-			KalturaLog::err('Given input is not an instance of kUrlTokenizer - ignoring');
+			BorhanLog::err('Given input is not an instance of kUrlTokenizer - ignoring');
 		}
 	}
 	
@@ -303,13 +303,13 @@ abstract class DeliveryProfile extends BaseDeliveryProfile implements IBaseObjec
 			$obj = languageCodeManager::getObjectFromThreeCode(strtolower($audioLanguage));
 		}
 		else {
-			$obj = languageCodeManager::getObjectFromKalturaName($lang);
+			$obj = languageCodeManager::getObjectFromBorhanName($lang);
 			$audioLanguage = !is_null($obj)? $obj[languageCodeManager::ISO639_T]: $lang;
 		}
 
-		$audioLanguageName = !is_null($obj) ? $obj[languageCodeManager::KALTURA_NAME] : $audioLanguage;
+		$audioLanguageName = !is_null($obj) ? $obj[languageCodeManager::BORHAN_NAME] : $audioLanguage;
 		if($audioLanguageName == $audioLanguage)
-			KalturaLog::info("Language code [$audioLanguage] was not found. Setting [$audioLanguageName] instead");
+			BorhanLog::info("Language code [$audioLanguage] was not found. Setting [$audioLanguageName] instead");
 
 		return array($audioLanguage, $audioLanguageName);
 	}
@@ -397,7 +397,7 @@ abstract class DeliveryProfile extends BaseDeliveryProfile implements IBaseObjec
 	
 		if(!count($deliveryNodes))
 		{
-			KalturaLog::debug("No active delivery nodes found among the requested edge list: " . print_r($deliveryNodeIds, true));
+			BorhanLog::debug("No active delivery nodes found among the requested edge list: " . print_r($deliveryNodeIds, true));
 			return null;
 		}
 		
@@ -414,7 +414,7 @@ abstract class DeliveryProfile extends BaseDeliveryProfile implements IBaseObjec
 		
 		if(!$deliveryNode)
 		{
-			KalturaLog::debug("Active edges were found but non of them is active, Failed to build valid serving route");
+			BorhanLog::debug("Active edges were found but non of them is active, Failed to build valid serving route");
 			return null;
 		}
 		

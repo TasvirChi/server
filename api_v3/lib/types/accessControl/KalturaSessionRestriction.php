@@ -2,20 +2,20 @@
 /**
  * @package api
  * @subpackage objects
- * @deprecated use KalturaRule instead
+ * @deprecated use BorhanRule instead
  */
-class KalturaSessionRestriction extends KalturaBaseRestriction 
+class BorhanSessionRestriction extends BorhanBaseRestriction 
 {
 	/* (non-PHPdoc)
-	 * @see KalturaBaseRestriction::toRule()
+	 * @see BorhanBaseRestriction::toRule()
 	 */
-	public function toRule(KalturaRestrictionArray $restrictions)
+	public function toRule(BorhanRestrictionArray $restrictions)
 	{	
 		$rule = null;
 		
 		foreach($restrictions as $restriction)
 		{
-			if($restriction instanceof KalturaPreviewRestriction)
+			if($restriction instanceof BorhanPreviewRestriction)
 			{
 				$rule = $restriction->toObject(new kAccessControlPreviewRestriction());
 			}

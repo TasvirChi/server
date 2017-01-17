@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaLiveChannel extends KalturaLiveEntry
+class BorhanLiveChannel extends BorhanLiveEntry
 {
 	/**
 	 * Playlist id to be played
@@ -14,7 +14,7 @@ class KalturaLiveChannel extends KalturaLiveEntry
 	
 	/**
 	 * Indicates that the segments should be repeated for ever
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $repeat;
 	
@@ -25,7 +25,7 @@ class KalturaLiveChannel extends KalturaLiveEntry
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaLiveEntry::getMapBetweenObjects()
+	 * @see BorhanLiveEntry::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -36,22 +36,22 @@ class KalturaLiveChannel extends KalturaLiveEntry
 	{
 		parent::__construct();
 		
-		$this->type = KalturaEntryType::LIVE_CHANNEL;
+		$this->type = BorhanEntryType::LIVE_CHANNEL;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaMediaEntry::fromSourceType()
+	 * @see BorhanMediaEntry::fromSourceType()
 	 */
 	protected function fromSourceType(entry $entry) 
 	{
-		$this->sourceType = KalturaSourceType::LIVE_CHANNEL;
+		$this->sourceType = BorhanSourceType::LIVE_CHANNEL;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaMediaEntry::toSourceType()
+	 * @see BorhanMediaEntry::toSourceType()
 	 */
 	protected function toSourceType(entry $entry) 
 	{
-		$entry->setSource(KalturaSourceType::LIVE_CHANNEL);
+		$entry->setSource(BorhanSourceType::LIVE_CHANNEL);
 	}
 }

@@ -5,11 +5,11 @@
 //													| ' </ _` | |	_| || | '_/ _` |
 //													|_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Borhan Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011	Kaltura Inc.
+// Copyright (C) 2006-2011	Borhan Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -108,7 +108,7 @@ function getClass(obj, forceConstructor) {
 function addIfNotNull(obj, params, paramName, paramValue)
 {
 	if (paramValue !== null) {
-		if(paramValue instanceof KalturaObjectBase) {
+		if(paramValue instanceof BorhanObjectBase) {
 			params[paramName] = toParams(paramValue);
 		} else {
 			params[paramName] = paramValue;
@@ -153,13 +153,13 @@ function ksort(arr) {
 }
 
 /**
- * Construct new Kaltura service action call, if params array contain sub-arrays (for objects), it will be flattened.
- * @param string	service		The Kaltura service to use.
+ * Construct new Borhan service action call, if params array contain sub-arrays (for objects), it will be flattened.
+ * @param string	service		The Borhan service to use.
  * @param string	action			The service action to execute.
  * @param array		params			The parameters to pass to the service action.
  * @param array	 files		 Files to upload or manipulate.
  */
-function KalturaServiceActionCall(service, action, params, files){
+function BorhanServiceActionCall(service, action, params, files){
 	if(!params) {
 		params = {};
 	}
@@ -178,7 +178,7 @@ function KalturaServiceActionCall(service, action, params, files){
  * @param array params	the object to clone.
  * @return the newly cloned object from the input object.
  */
-KalturaServiceActionCall.prototype.parseParams = function(params){
+BorhanServiceActionCall.prototype.parseParams = function(params){
 	var newParams = {};
 	for(var key in params) {
 		var val = params[key];
@@ -195,7 +195,7 @@ KalturaServiceActionCall.prototype.parseParams = function(params){
  * Create params object for a multirequest call.
  * @param int multiRequestIndex		the index of the call inside the multirequest.
  */
-KalturaServiceActionCall.prototype.getParamsForMultiRequest = function(multiRequestIndex){
+BorhanServiceActionCall.prototype.getParamsForMultiRequest = function(multiRequestIndex){
 	var multiRequestParams = {};
 	multiRequestParams[multiRequestIndex + ":service"] = this.service;
 	multiRequestParams[multiRequestIndex + ":action"] = this.action;
@@ -210,7 +210,7 @@ KalturaServiceActionCall.prototype.getParamsForMultiRequest = function(multiRequ
  * Create files object for a multirequest call.
  * @param int multiRequestIndex		the index of the call inside the multirequest.
  */
-KalturaServiceActionCall.prototype.getFilesForMultiRequest = function(multiRequestIndex){
+BorhanServiceActionCall.prototype.getFilesForMultiRequest = function(multiRequestIndex){
 	var multiRequestFiles = {};
 	for(var key in this.files) {
 		var val = this.files[key];
@@ -220,27 +220,27 @@ KalturaServiceActionCall.prototype.getFilesForMultiRequest = function(multiReque
 };
 
 /**
- * Implement to get Kaltura Client logs
+ * Implement to get Borhan Client logs
  * 
  */
-var IKalturaLogger = module.exports.IKalturaLogger = function() {};
-IKalturaLogger.prototype.log = function(msg){
+var IBorhanLogger = module.exports.IBorhanLogger = function() {};
+IBorhanLogger.prototype.log = function(msg){
 	if (console && console.log){
 		console.log(msg);
 	}
 };
 
 /**
- * Kaltura client constructor
+ * Borhan client constructor
  * 
  */
-var KalturaClientBase = module.exports.KalturaClientBase = function() {};
+var BorhanClientBase = module.exports.BorhanClientBase = function() {};
 
 /**
- * Kaltura client init
- * @param KalturaConfiguration config
+ * Borhan client init
+ * @param BorhanConfiguration config
  */
-KalturaClientBase.prototype.init = function(config){
+BorhanClientBase.prototype.init = function(config){
 	this.config = config;
 
 	this.logEnabled = false;
@@ -255,19 +255,19 @@ KalturaClientBase.prototype.init = function(config){
 	}
 };
 
-KalturaClientBase.KALTURA_SERVICE_FORMAT_JSON = 1;
-KalturaClientBase.KALTURA_SERVICE_FORMAT_XML = 2;
-KalturaClientBase.KALTURA_SERVICE_FORMAT_PHP = 3;
-KalturaClientBase.KALTURA_SERVICE_FORMAT_JSONP = 9;
+BorhanClientBase.BORHAN_SERVICE_FORMAT_JSON = 1;
+BorhanClientBase.BORHAN_SERVICE_FORMAT_XML = 2;
+BorhanClientBase.BORHAN_SERVICE_FORMAT_PHP = 3;
+BorhanClientBase.BORHAN_SERVICE_FORMAT_JSONP = 9;
 
-KalturaClientBase.prototype.clientConfiguration = {};
-KalturaClientBase.prototype.requestConfiguration = {};
+BorhanClientBase.prototype.clientConfiguration = {};
+BorhanClientBase.prototype.requestConfiguration = {};
 
 /**
- * Set logger to get kaltura client debug logs.
- * @param IKalturaLogger log
+ * Set logger to get borhan client debug logs.
+ * @param IBorhanLogger log
  */
-KalturaClientBase.prototype.setLogger = function(logger){
+BorhanClientBase.prototype.setLogger = function(logger){
 	this.logger = logger;
 	this.logEnabled = true;
 	if(typeof logger.debug === 'function'){
@@ -278,19 +278,19 @@ KalturaClientBase.prototype.setLogger = function(logger){
 /**
  * prepare a call for service action (queue the call and wait for doQueue).
  */
-KalturaClientBase.prototype.queueServiceActionCall = function (service, action, params, files){
+BorhanClientBase.prototype.queueServiceActionCall = function (service, action, params, files){
 	// in start session partner id is optional (default -1). if partner id was not set, use the one in the config
 	for(var paramName in this.requestConfiguration){
 		this.addParam(params, paramName, this.requestConfiguration[paramName]);
 	}
-	var call = new KalturaServiceActionCall(service, action, params, files);
+	var call = new BorhanServiceActionCall(service, action, params, files);
 	this.callsQueue.push(call);
 };
 
 /**
  * executes the actions queue.
  */
-KalturaClientBase.prototype.doQueue = function(callback){
+BorhanClientBase.prototype.doQueue = function(callback){
 	if (this.callsQueue.length === 0) {
 		return null;
 	}
@@ -342,8 +342,8 @@ KalturaClientBase.prototype.doQueue = function(callback){
 /**
  * Clear all volatile configuration parameters
  */
-KalturaClientBase.prototype.resetRequest = function(){
-	throw new Error('KalturaClientBase.resetRequest should be overriden by KalturaClient.');
+BorhanClientBase.prototype.resetRequest = function(){
+	throw new Error('BorhanClientBase.resetRequest should be overriden by BorhanClient.');
 };
 
 /**
@@ -351,7 +351,7 @@ KalturaClientBase.prototype.resetRequest = function(){
  * @param array params		service action call parameters that will be sent on the request.
  * @return string			a hashed signed signature that can identify the sent request parameters.
  */
-KalturaClientBase.prototype.signature = function(params){
+BorhanClientBase.prototype.signature = function(params){
 	params = ksort(params);
 	var str = "";
 	for(var v in params) {
@@ -363,16 +363,16 @@ KalturaClientBase.prototype.signature = function(params){
 	return md5sum.digest("hex");
 };
 
-KalturaClientBase.requestIndex = 1;
+BorhanClientBase.requestIndex = 1;
 
-KalturaClientBase.prototype.encodeFile = function(boundary, type, name, filename) {
+BorhanClientBase.prototype.encodeFile = function(boundary, type, name, filename) {
 	var returnPart = '--' + boundary + '\r\n';
 	returnPart += 'Content-Disposition: form-data name="' + name + '" filename="' + filename + '"\r\n';
 	returnPart += 'Content-Type: ' + type + '\r\n\r\n';
 	return returnPart;
 };
 
-KalturaClientBase.prototype.sendRequestHelper = function (options, body, requestIndex, onCompleteCallback, timeout) {
+BorhanClientBase.prototype.sendRequestHelper = function (options, body, requestIndex, onCompleteCallback, timeout) {
 	var This = this;
 	var request = http.request(options, function(response) {
 		response.setEncoding('utf8');
@@ -388,7 +388,7 @@ KalturaClientBase.prototype.sendRequestHelper = function (options, body, request
 			}
 			This.debug('Headers [' + requestIndex + ']: \n\t' + headers.join('\n\t'));
 			This.debug('Response [' + requestIndex + ']: ' + data);
-			if (This.config.format != KalturaClientBase.KALTURA_SERVICE_FORMAT_JSON){
+			if (This.config.format != BorhanClientBase.BORHAN_SERVICE_FORMAT_JSON){
 				onCompleteCallback(data);
 			}else {
 				var obj = JSON.parse(data);
@@ -419,9 +419,9 @@ KalturaClientBase.prototype.sendRequestHelper = function (options, body, request
 	request.end();
 }
 
-KalturaClientBase.prototype.isError = function(object) {
+BorhanClientBase.prototype.isError = function(object) {
 	if (object){
-		if( object.hasOwnProperty("objectType") && object.objectType == 'KalturaAPIException' ) {
+		if( object.hasOwnProperty("objectType") && object.objectType == 'BorhanAPIException' ) {
 			return true;
 		}
 		else
@@ -435,9 +435,9 @@ KalturaClientBase.prototype.isError = function(object) {
  * @param parameters params					the parameters to pass.
  * @return array							 the results and errors inside an array.
  */
-KalturaClientBase.prototype.doHttpRequest = function (callCompletedCallback, requestUrl, params, files) {
+BorhanClientBase.prototype.doHttpRequest = function (callCompletedCallback, requestUrl, params, files) {
 
-	var requestIndex = KalturaClientBase.requestIndex++;
+	var requestIndex = BorhanClientBase.requestIndex++;
 	var data = http_build_query(params);
 	var debugUrl = requestUrl + '?' + data;
 	var urlInfo = url.parse(debugUrl);
@@ -491,17 +491,17 @@ KalturaClientBase.prototype.doHttpRequest = function (callCompletedCallback, req
 
 /**
  * getter for the referenced configuration object. 
- * @return KalturaConfiguration
+ * @return BorhanConfiguration
  */
-KalturaClientBase.prototype.getConfig = function()
+BorhanClientBase.prototype.getConfig = function()
 {
 	return this.config;
 };
 
 /**
- * @param KalturaConfiguration config	setter for the referenced configuration object.
+ * @param BorhanConfiguration config	setter for the referenced configuration object.
  */
-KalturaClientBase.prototype.setConfig = function(config){
+BorhanClientBase.prototype.setConfig = function(config){
 	this.config = config;
 
 	var logger = config.getLogger();
@@ -516,7 +516,7 @@ KalturaClientBase.prototype.setConfig = function(config){
  * @param string paramName		the name of the new parameter to add.
  * @param string paramValue		the value of the new parameter to add.
  */
-KalturaClientBase.prototype.addParam = function(params, paramName, paramValue){
+BorhanClientBase.prototype.addParam = function(params, paramName, paramValue){
 	if (paramValue === null) {
 		return;
 	}
@@ -556,28 +556,28 @@ KalturaClientBase.prototype.addParam = function(params, paramName, paramValue){
 /**
  * set to true to indicate a multirequest is being defined.
  */
-KalturaClientBase.prototype.startMultiRequest = function(){
+BorhanClientBase.prototype.startMultiRequest = function(){
 	this.useMultiRequest = true;
 };
 
 /**
  * execute a multirequest.
  */
-KalturaClientBase.prototype.doMultiRequest = function(callback){
+BorhanClientBase.prototype.doMultiRequest = function(callback){
 	return this.doQueue(callback);
 };
 
 /**
  * indicate if current mode is constructing a multirequest or single requests.
  */
-KalturaClientBase.prototype.isMultiRequest = function(){
+BorhanClientBase.prototype.isMultiRequest = function(){
 	return this.useMultiRequest;	
 };
 
 /**
  * @param string msg	client logging utility. 
  */
-KalturaClientBase.prototype.log = function(msg){
+BorhanClientBase.prototype.log = function(msg){
 	if (this.logEnabled) {
 		this.logger.log(msg);
 	}
@@ -586,7 +586,7 @@ KalturaClientBase.prototype.log = function(msg){
 /**
  * @param string msg	client logging utility. 
  */
-KalturaClientBase.prototype.debug = function(msg){
+BorhanClientBase.prototype.debug = function(msg){
 	if (this.debugEnabled) {
 		this.logger.debug(msg);
 	}
@@ -595,7 +595,7 @@ KalturaClientBase.prototype.debug = function(msg){
 /**
  * @param string msg	client logging utility. 
  */
-KalturaClientBase.prototype.error = function(msg){
+BorhanClientBase.prototype.error = function(msg){
 	if (this.logEnabled) {
 		this.logger.error(msg);
 	}
@@ -606,7 +606,7 @@ KalturaClientBase.prototype.error = function(msg){
  * @param value - value of the header you want to add to the client requests
  * @param volatile - if true the header will be sent for the next request only, if false will be added to all requests by the client.
  */
-KalturaClientBase.prototype.addCustomHeader = function(key, value, volatile)
+BorhanClientBase.prototype.addCustomHeader = function(key, value, volatile)
 {
 	this.customHeaders[key] = { 'value': value, 'volatile': volatile };
 }
@@ -614,7 +614,7 @@ KalturaClientBase.prototype.addCustomHeader = function(key, value, volatile)
 /**
  * @param key - name of the custom header to be removed.
  */
-KalturaClientBase.prototype.removeCustomHeader = function(key)
+BorhanClientBase.prototype.removeCustomHeader = function(key)
 {
 	delete this.customHeaders[key];
 }
@@ -623,46 +623,46 @@ KalturaClientBase.prototype.removeCustomHeader = function(key)
 /**
  * Abstract base class for all client objects
  */
-var KalturaObjectBase = module.exports.KalturaObjectBase = function() {};
+var BorhanObjectBase = module.exports.BorhanObjectBase = function() {};
 
 /**
  * Abstract base class for all client services
- * Initialize the service keeping reference to the KalturaClient
- * @param KalturaClientm client
+ * Initialize the service keeping reference to the BorhanClient
+ * @param BorhanClientm client
  */
-var KalturaServiceBase = module.exports.KalturaServiceBase = function () {};
+var BorhanServiceBase = module.exports.BorhanServiceBase = function () {};
 
-KalturaServiceBase.prototype.init = function(client){
+BorhanServiceBase.prototype.init = function(client){
 	this.client = client;
 };
 /**
- * @param KalturaClient
+ * @param BorhanClient
  */
-KalturaServiceBase.prototype.client = null;
+BorhanServiceBase.prototype.client = null;
 
 /**
- * Constructs new Kaltura configuration object
+ * Constructs new Borhan configuration object
  */
-var KalturaConfiguration = module.exports.KalturaConfiguration = function (){
-	this.serviceUrl = "http://www.kaltura.com";
+var BorhanConfiguration = module.exports.BorhanConfiguration = function (){
+	this.serviceUrl = "http://www.borhan.com";
 	this.serviceBase = "/api_v3/service";
-	this.format = KalturaClientBase.KALTURA_SERVICE_FORMAT_JSON;
+	this.format = BorhanClientBase.BORHAN_SERVICE_FORMAT_JSON;
 	this.timeout = 90000;
 	this.logger = null;
 };
 
 /**
- * Set logger to get kaltura client debug logs.
- * @param IKalturaLogger log
+ * Set logger to get borhan client debug logs.
+ * @param IBorhanLogger log
  */
-KalturaConfiguration.prototype.setLogger = function(logger){
+BorhanConfiguration.prototype.setLogger = function(logger){
 	this.logger = logger;
 };
 
 /**
  * Gets the logger (Internal client use)
- * @return IKalturaLogger
+ * @return IBorhanLogger
  */
-KalturaConfiguration.prototype.getLogger = function(){
+BorhanConfiguration.prototype.getLogger = function(){
 	return this.logger;
 };

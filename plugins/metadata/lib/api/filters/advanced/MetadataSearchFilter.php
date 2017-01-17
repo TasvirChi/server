@@ -5,13 +5,13 @@
  */
 class MetadataSearchFilter extends AdvancedSearchFilterOperator
 {
-	const KMC_FIELD_TYPE_TEXT = 'textType';
-	const KMC_FIELD_TYPE_LIST = 'listType';
-	const KMC_FIELD_TYPE_DATE = 'dateType';
-	const KMC_FIELD_TYPE_INT = 'intType';
-	const KMC_FIELD_TYPE_OBJECT = 'objectType';
-	const KMC_FIELD_TYPE_USER = 'userType';
-	const KMC_FIELD_TYPE_METADATA_OBJECT = 'metadataObjectType';
+	const BMC_FIELD_TYPE_TEXT = 'textType';
+	const BMC_FIELD_TYPE_LIST = 'listType';
+	const BMC_FIELD_TYPE_DATE = 'dateType';
+	const BMC_FIELD_TYPE_INT = 'intType';
+	const BMC_FIELD_TYPE_OBJECT = 'objectType';
+	const BMC_FIELD_TYPE_USER = 'userType';
+	const BMC_FIELD_TYPE_METADATA_OBJECT = 'metadataObjectType';
 	 
 	/**
 	 * @var string
@@ -51,9 +51,9 @@ class MetadataSearchFilter extends AdvancedSearchFilterOperator
 	/* (non-PHPdoc)
 	 * @see AdvancedSearchFilterOperator::applyCondition()
 	 */
-	public function applyCondition(IKalturaDbQuery $query, $xPaths = null)
+	public function applyCondition(IBorhanDbQuery $query, $xPaths = null)
 	{
-		if (!($query instanceof IKalturaIndexQuery))
+		if (!($query instanceof IBorhanIndexQuery))
 			return;  
 		$this->parentQuery = $query;
 		
@@ -82,37 +82,37 @@ class MetadataSearchFilter extends AdvancedSearchFilterOperator
 						$field = $item->getField();
 						if(!isset($xPaths[$field])){
 							$this->addCondition('1 <> 1');
-							KalturaLog::ERR("Missing field: $field in xpath array: " . print_r($xPaths,true));
+							BorhanLog::ERR("Missing field: $field in xpath array: " . print_r($xPaths,true));
 							continue;
 						}
 						
 						switch ($item->getComparison()){
-							case KalturaSearchConditionComparison::EQUAL:
+							case BorhanSearchConditionComparison::EQUAL:
 								$comparison = ' = ';
 								break;
-							case KalturaSearchConditionComparison::GREATER_THAN:
+							case BorhanSearchConditionComparison::GREATER_THAN:
 								$comparison = ' > ';
 								break;
-							case KalturaSearchConditionComparison::GREATER_THAN_OR_EQUAL:
+							case BorhanSearchConditionComparison::GREATER_THAN_OR_EQUAL:
 								$comparison = ' >= ';
 								break;
-							case KalturaSearchConditionComparison::LESS_THAN:
+							case BorhanSearchConditionComparison::LESS_THAN:
 								$comparison = " < ";
 								break;
-							case KalturaSearchConditionComparison::LESS_THAN_OR_EQUAL:
+							case BorhanSearchConditionComparison::LESS_THAN_OR_EQUAL:
 								$comparison = " <= ";
 								break;
-							case KalturaSearchConditionComparison::NOT_EQUAL:
+							case BorhanSearchConditionComparison::NOT_EQUAL:
 								$comparison = " <> ";
 								break;
 							default:
-								KalturaLog::err("Missing comparison type");
+								BorhanLog::err("Missing comparison type");
 								continue;
 						}
 											
 						$metadataField = $this->getMetadataSearchField($field, $xPaths);
 						if (!$metadataField){
-							KalturaLog::ERR("Missing metadataField for $field in xpath array: " . print_r($xPaths,true));
+							BorhanLog::ERR("Missing metadataField for $field in xpath array: " . print_r($xPaths,true));
 							continue;
 						}
 					
@@ -132,11 +132,11 @@ class MetadataSearchFilter extends AdvancedSearchFilterOperator
 									break;
 									
 								default:
-									if ($xPaths[$field]->getType() == MetadataSearchFilter::KMC_FIELD_TYPE_DATE || 
-										$xPaths[$field]->getType() == MetadataSearchFilter::KMC_FIELD_TYPE_INT)
+									if ($xPaths[$field]->getType() == MetadataSearchFilter::BMC_FIELD_TYPE_DATE || 
+										$xPaths[$field]->getType() == MetadataSearchFilter::BMC_FIELD_TYPE_INT)
 									{
 										$this->addCondition('1 <> 1');
-										KalturaLog::ERR("wrong search value: $field is numeric. search value: " . print_r($item->getValue(),true));
+										BorhanLog::ERR("wrong search value: $field is numeric. search value: " . print_r($item->getValue(),true));
 										continue;
 									}
 									
@@ -145,12 +145,12 @@ class MetadataSearchFilter extends AdvancedSearchFilterOperator
 							}
 						}
 
-						if ($xPaths[$field]->getType() == MetadataSearchFilter::KMC_FIELD_TYPE_DATE)
+						if ($xPaths[$field]->getType() == MetadataSearchFilter::BMC_FIELD_TYPE_DATE)
 							$value = kTime::getRelativeTime($value);
 
 						$newCondition = $metadataField . $comparison . $value;
 
-						if ($item->getComparison() != KalturaSearchConditionComparison::EQUAL && $item->getComparison() != KalturaSearchConditionComparison::NOT_EQUAL)
+						if ($item->getComparison() != BorhanSearchConditionComparison::EQUAL && $item->getComparison() != BorhanSearchConditionComparison::NOT_EQUAL)
 							$newCondition = "($newCondition AND $metadataField <> 0)";
 							
 						$this->addCondition($newCondition);
@@ -160,7 +160,7 @@ class MetadataSearchFilter extends AdvancedSearchFilterOperator
 						$field = $item->getField();
 						if(!isset($xPaths[$field])){
 							$this->addCondition('1 <> 1');
-							KalturaLog::ERR("Missing field: $field in xpath array: " . print_r($xPaths,true));
+							BorhanLog::ERR("Missing field: $field in xpath array: " . print_r($xPaths,true));
 							continue;
 						}
 	
@@ -175,7 +175,7 @@ class MetadataSearchFilter extends AdvancedSearchFilterOperator
 						}
 						
 						// exact match
-						elseif (in_array($xPaths[$field]->getType(), array(self::KMC_FIELD_TYPE_OBJECT, self::KMC_FIELD_TYPE_USER, self::KMC_FIELD_TYPE_LIST)))
+						elseif (in_array($xPaths[$field]->getType(), array(self::BMC_FIELD_TYPE_OBJECT, self::BMC_FIELD_TYPE_USER, self::BMC_FIELD_TYPE_LIST)))
 						{
 							if ($item instanceof AdvancedSearchFilterMatchCondition && $item->not)
 								$dataCondition = "!\"{$pluginName}_{$fieldId} $value " . kMetadataManager::SEARCH_TEXT_SUFFIX . "_{$fieldId}" . "\"";
@@ -192,7 +192,7 @@ class MetadataSearchFilter extends AdvancedSearchFilterOperator
 								$dataCondition = "{$pluginName}_{$fieldId} << ( \"$value\" ) << " . kMetadataManager::SEARCH_TEXT_SUFFIX . "_{$fieldId}";
 						}
 
-						KalturaLog::debug("add $dataCondition");
+						BorhanLog::debug("add $dataCondition");
 						$dataConditions[] = "( $dataCondition )";
 					}
 					elseif($item instanceof MetadataSearchFilter)
@@ -234,7 +234,7 @@ class MetadataSearchFilter extends AdvancedSearchFilterOperator
 			
 			$metadataFieldType = null;
 			$metadataField = $this->getMetadataSearchField($orderByField, array(), $metadataFieldType);
-			$isIntVal = in_array($metadataFieldType, array(MetadataSearchFilter::KMC_FIELD_TYPE_DATE, MetadataSearchFilter::KMC_FIELD_TYPE_INT));
+			$isIntVal = in_array($metadataFieldType, array(MetadataSearchFilter::BMC_FIELD_TYPE_DATE, MetadataSearchFilter::BMC_FIELD_TYPE_INT));
 			if ($metadataField)
 			{
 				if ($isIntVal)
@@ -261,18 +261,18 @@ class MetadataSearchFilter extends AdvancedSearchFilterOperator
 		}
 
 		if(!isset($xPaths[$field])){
-			KalturaLog::ERR("Missing field: " . $field);
+			BorhanLog::ERR("Missing field: " . $field);
 			return null;
 		}
 		
 		$fieldType = $xPaths[$field]->getType();
 		switch ($xPaths[$field]->getType()){
-			case MetadataSearchFilter::KMC_FIELD_TYPE_DATE:
-			case MetadataSearchFilter::KMC_FIELD_TYPE_INT:
+			case MetadataSearchFilter::BMC_FIELD_TYPE_DATE:
+			case MetadataSearchFilter::BMC_FIELD_TYPE_INT:
 				$metadataField = MetadataPlugin::SPHINX_DYNAMIC_ATTRIBUTES . "." . MetadataPlugin::getSphinxFieldName($xPaths[$field]->getId());
 				break;
 			default:
-				KalturaLog::ERR("Missing field type: ". $xPaths[$field]->getType());
+				BorhanLog::ERR("Missing field type: ". $xPaths[$field]->getType());
 				return null;
 		}
 		
@@ -308,7 +308,7 @@ class MetadataSearchFilter extends AdvancedSearchFilterOperator
 			return $prefix . MetadataSearchFilter::createSphinxSearchCondition(null, $text, false);
 		}
 		
-		if($partnerScope == baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE) 
+		if($partnerScope == baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE) 
 			$partnerScope = kCurrentContext::getCurrentPartnerId();
 			
 			
@@ -327,7 +327,7 @@ class MetadataSearchFilter extends AdvancedSearchFilterOperator
 				$metadataProfileFieldIds[] = $metadataProfileField->getId();
 		}
 
-		KalturaLog::debug("freeText [$freeTexts]");
+		BorhanLog::debug("freeText [$freeTexts]");
 		$additionalConditions = array();
 		
 		if(preg_match('/^"[^"]+"$/', $freeTexts))
@@ -390,7 +390,7 @@ class MetadataSearchFilter extends AdvancedSearchFilterOperator
 	{
 		parent::fillObjectFromXml($xmlElement);
 		
-//		KalturaLog::debug('Fill object from XML [' . $xmlElement->asXML() . ']');
+//		BorhanLog::debug('Fill object from XML [' . $xmlElement->asXML() . ']');
 		
 		$attr = $xmlElement->attributes();
 		if(isset($attr['metadataProfileId']))

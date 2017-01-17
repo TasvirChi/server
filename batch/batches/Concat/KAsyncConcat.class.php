@@ -26,12 +26,12 @@ class KAsyncConcat extends KJobHandlerWorker
 	 */
 	protected function getJobType()
 	{
-		return KalturaBatchJobType::CONCAT;
+		return BorhanBatchJobType::CONCAT;
 	}
 	
 	public static function getType()
 	{
-		return KalturaBatchJobType::CONCAT;
+		return BorhanBatchJobType::CONCAT;
 	}
 
 	/* (non-PHPdoc)
@@ -46,13 +46,13 @@ class KAsyncConcat extends KJobHandlerWorker
 		$res = self::createDir( $this->localTempPath );
 		if ( !$res )
 		{
-			KalturaLog::err( "Cannot continue conversion without temp local directory");
+			BorhanLog::err( "Cannot continue conversion without temp local directory");
 			return null;
 		}
 		$res = self::createDir( $this->sharedTempPath );
 		if ( !$res )
 		{
-			KalturaLog::err( "Cannot continue conversion without temp shared directory");
+			BorhanLog::err( "Cannot continue conversion without temp shared directory");
 			return null;
 		}
 		
@@ -63,14 +63,14 @@ class KAsyncConcat extends KJobHandlerWorker
 	 * (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->concat($job, $job->data);
 	}
 
-	protected function concat(KalturaBatchJob $job, KalturaConcatJobData $data)
+	protected function concat(BorhanBatchJob $job, BorhanConcatJobData $data)
 	{
-		$this->updateJob($job, "Files concatenation started", KalturaBatchJobStatus::PROCESSING);
+		$this->updateJob($job, "Files concatenation started", BorhanBatchJobStatus::PROCESSING);
 		$jobData = $job->data;
 		
 		$ffmpegBin = KBatchBase::$taskConfig->params->ffmpegCmd;
@@ -83,13 +83,13 @@ class KAsyncConcat extends KJobHandlerWorker
 		$srcFiles = array();
 		foreach($data->srcFiles as $srcFile)
 		{
-			/* @var $srcFile KalturaString */
+			/* @var $srcFile BorhanString */
 			$srcFiles[] = $srcFile->value;
 		}
 		
 		$result = $this->concatFiles($ffmpegBin, $ffprobeBin, $srcFiles, $localTempFilePath, $data->offset, $data->duration);
 		if(! $result)
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::RUNTIME, null, "Failed to concat files", KalturaBatchJobStatus::FAILED);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::RUNTIME, null, "Failed to concat files", BorhanBatchJobStatus::FAILED);
 
 		try
 		{
@@ -99,22 +99,22 @@ class KAsyncConcat extends KJobHandlerWorker
 		}
 		catch(Exception $ex)
 		{
-			KalturaLog::warning('failed to get concatenatedDuration ' . print_r($ex));
+			BorhanLog::warning('failed to get concatenatedDuration ' . print_r($ex));
 		}
 
 		return $this->moveFile($job, $data, $localTempFilePath, $sharedTempFilePath);
 	}
 
 	/**
-	 * @param KalturaBatchJob $job
-	 * @param KalturaConcatJobData $data
+	 * @param BorhanBatchJob $job
+	 * @param BorhanConcatJobData $data
 	 * @param string $localTempFilePath
 	 * @param string $sharedTempFilePath
-	 * @return KalturaBatchJob
+	 * @return BorhanBatchJob
 	 */
-	protected function moveFile(KalturaBatchJob $job, KalturaConcatJobData $data, $localTempFilePath, $sharedTempFilePath)
+	protected function moveFile(BorhanBatchJob $job, BorhanConcatJobData $data, $localTempFilePath, $sharedTempFilePath)
 	{
-		$this->updateJob($job, "Moving file from [$localTempFilePath] to [$sharedTempFilePath]", KalturaBatchJobStatus::MOVEFILE);
+		$this->updateJob($job, "Moving file from [$localTempFilePath] to [$sharedTempFilePath]", BorhanBatchJobStatus::MOVEFILE);
 		
 		kFile::moveFile($localTempFilePath, $sharedTempFilePath, true);
 		clearstatcache();
@@ -123,10 +123,10 @@ class KAsyncConcat extends KJobHandlerWorker
 		$this->setFilePermissions($sharedTempFilePath);
 
 		if(!$this->checkFileExists($sharedTempFilePath, $fileSize))
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, 'File not moved correctly', KalturaBatchJobStatus::RETRY);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, 'File not moved correctly', BorhanBatchJobStatus::RETRY);
 			
 		$data->destFilePath = $sharedTempFilePath;
-		return $this->closeJob($job, null, null, 'Succesfully moved file', KalturaBatchJobStatus::FINISHED, $data);
+		return $this->closeJob($job, null, null, 'Succesfully moved file', BorhanBatchJobStatus::FINISHED, $data);
 	}
 	
 	/**
@@ -169,7 +169,7 @@ class KAsyncConcat extends KJobHandlerWorker
 				$mi = $ffParser->getMediaInfo();
 			}
 			catch(Exception $ex) {
-				KalturaLog::log(print_r($ex,1));
+				BorhanLog::log(print_r($ex,1));
 			}
 				/*
 				 * Calculate chunk-br for the cliping flow
@@ -228,7 +228,7 @@ class KAsyncConcat extends KJobHandlerWorker
 						$fixLargeDeltaFlag = true;
 					}
 				}
-				KalturaLog::log("Chunk duration($duration), Wowza chunk setting(".KAsyncConcat::LiveChunkDuration."),max-allowed-delta(".KAsyncConcat::MaxChunkDelta."),fixLargeDeltaFlag($fixLargeDeltaFlag) ");
+				BorhanLog::log("Chunk duration($duration), Wowza chunk setting(".KAsyncConcat::LiveChunkDuration."),max-allowed-delta(".KAsyncConcat::MaxChunkDelta."),fixLargeDeltaFlag($fixLargeDeltaFlag) ");
 			}
 				*/
 		}
@@ -270,7 +270,7 @@ class KAsyncConcat extends KJobHandlerWorker
 			 * otherwise - normal single input
 			 *
 		if($fixLargeDeltaFlag && $audioParamStr) {
-			KalturaLog::log("Will attempt to fix the audio-video drift ");
+			BorhanLog::log("Will attempt to fix the audio-video drift ");
 			$cmdStr = "$ffmpegBin -probesize 15M -analyzeduration 25M -i $concateStr -probesize 15M -analyzeduration 25M -i $concateStr";
 			$cmdStr.= " -map 0:v -map 1:a $videoParamStr $audioParamStr";
 		}
@@ -280,7 +280,7 @@ class KAsyncConcat extends KJobHandlerWorker
 		}
 		$cmdStr .= " $clipStr -f mp4 -y $outFilename 2>&1";
 	
-		KalturaLog::debug("Executing [$cmdStr]");
+		BorhanLog::debug("Executing [$cmdStr]");
 		$output = system($cmdStr, $rv);
 		return ($rv == 0) ? true : false;
 	}

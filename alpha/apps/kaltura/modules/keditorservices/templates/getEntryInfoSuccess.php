@@ -8,7 +8,7 @@ $show_klogo = 1;
 if($entry)
 {
 	$user_name = $entry->getSubpId() == 10003 ? "Facelift" : $kuser->getScreenName();
-	$show_klogo = ($widget_type == 3 && $entry->getPartnerId() == 18) ? 0 : 1; // dont show the kaltura logo while playing on wikieducator
+	$show_klogo = ($widget_type == 3 && $entry->getPartnerId() == 18) ? 0 : 1; // dont show the borhan logo while playing on wikieducator
 }
 
 ?>

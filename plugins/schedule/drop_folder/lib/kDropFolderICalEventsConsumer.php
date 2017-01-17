@@ -25,7 +25,7 @@ class kDropFolderICalEventsConsumer implements kBatchJobStatusEventConsumer, kOb
 			$folder = DropFolderPeer::retrieveByPK($object->getDropFolderId());
 			if(!$folder)
 			{
-				KalturaLog::err('Failed to process ChangedEvent - Failed to retrieve drop-folder [' . $object->getDropFolderId() . ']');
+				BorhanLog::err('Failed to process ChangedEvent - Failed to retrieve drop-folder [' . $object->getDropFolderId() . ']');
 				return false;
 			}
 			
@@ -91,7 +91,7 @@ class kDropFolderICalEventsConsumer implements kBatchJobStatusEventConsumer, kOb
 				}
 				catch(Exception $e)
 				{
-					KalturaLog::err($e);
+					BorhanLog::err($e);
 					throw new APIException(APIErrors::BULK_UPLOAD_CREATE_CSV_FILE_SYNC_ERROR);
 				}
 				
@@ -114,7 +114,7 @@ class kDropFolderICalEventsConsumer implements kBatchJobStatusEventConsumer, kOb
 			case BatchJob::BATCHJOB_STATUS_FATAL:
 				$dropFolderFile->setStatus(DropFolderFileStatus::ERROR_HANDLING);
 				$dropFolderFile->setErrorCode($dbBatchJob->getErrNumber());
-				$dropFolderFile->setErrorDescription('Failed  to execute the bulk upload job in Kaltura');
+				$dropFolderFile->setErrorDescription('Failed  to execute the bulk upload job in Borhan');
 				$dropFolderFile->save();				
 				break;				
 		}		
@@ -124,7 +124,7 @@ class kDropFolderICalEventsConsumer implements kBatchJobStatusEventConsumer, kOb
 			
 	private function setFileError(DropFolderFile $file, $status, $errorCode, $errorDescription)
 	{
-		KalturaLog::err('Error with file ['.$file->getId().'] -'.$errorDescription);
+		BorhanLog::err('Error with file ['.$file->getId().'] -'.$errorDescription);
 		
 		$file->setStatus($status);
 		$file->setErrorCode($errorCode);
@@ -157,7 +157,7 @@ class kDropFolderICalEventsConsumer implements kBatchJobStatusEventConsumer, kOb
 		$objectId = $file->getId();
 		$partner = PartnerPeer::retrieveByPK($file->getPartnerId());
 		
-		$data = KalturaPluginManager::loadObject('kBulkUploadJobData', $coreBulkUploadType);
+		$data = BorhanPluginManager::loadObject('kBulkUploadJobData', $coreBulkUploadType);
 		/* @var $data kBulkUploadICalJobData */
 		$data->setUploadedBy(kDropFolderXmlEventsConsumer::UPLOADED_BY);
 		$data->setFileName($file->getFileName());

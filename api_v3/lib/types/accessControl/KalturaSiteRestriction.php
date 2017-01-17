@@ -2,14 +2,14 @@
 /**
  * @package api
  * @subpackage objects
- * @deprecated use KalturaRule instead
+ * @deprecated use BorhanRule instead
  */
-class KalturaSiteRestriction extends KalturaBaseRestriction 
+class BorhanSiteRestriction extends BorhanBaseRestriction 
 {
 	/**
 	 * The site restriction type (allow or deny)
 	 * 
-	 * @var KalturaSiteRestrictionType
+	 * @var BorhanSiteRestrictionType
 	 */
 	public $siteRestrictionType;
 	
@@ -32,9 +32,9 @@ class KalturaSiteRestriction extends KalturaBaseRestriction
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseRestriction::toRule()
+	 * @see BorhanBaseRestriction::toRule()
 	 */
-	public function toRule(KalturaRestrictionArray $restrictions)
+	public function toRule(BorhanRestrictionArray $restrictions)
 	{
 		return $this->toObject(new kAccessControlSiteRestriction());
 	}

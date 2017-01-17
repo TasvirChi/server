@@ -3,7 +3,7 @@
  * @package plugins.unicornDistribution
  * @subpackage api.objects
  */
-class KalturaUnicornDistributionJobProviderData extends KalturaConfigurableDistributionJobProviderData
+class BorhanUnicornDistributionJobProviderData extends BorhanConfigurableDistributionJobProviderData
 {
 	/**
 	 * The Catalog GUID the video is in or will be ingested into.
@@ -34,13 +34,13 @@ class KalturaUnicornDistributionJobProviderData extends KalturaConfigurableDistr
 	public $flavorAssetVersion;
 	
 	/**
-	 * The schema and host name to the Kaltura server, e.g. http://www.kaltura.com
+	 * The schema and host name to the Borhan server, e.g. http://www.borhan.com
 	 * 
 	 * @var string
 	 */
 	public $notificationBaseUrl;
 	
-	public function __construct(KalturaDistributionJobData $distributionJobData = null)
+	public function __construct(BorhanDistributionJobData $distributionJobData = null)
 	{
 		parent::__construct($distributionJobData);
 		
@@ -49,7 +49,7 @@ class KalturaUnicornDistributionJobProviderData extends KalturaConfigurableDistr
 		if(!$distributionJobData)
 			return;
 		
-		if(!($distributionJobData->distributionProfile instanceof KalturaUnicornDistributionProfile))
+		if(!($distributionJobData->distributionProfile instanceof BorhanUnicornDistributionProfile))
 			return;
 		
 		$entryDistributionDb = EntryDistributionPeer::retrieveByPK($distributionJobData->entryDistributionId);
@@ -81,7 +81,7 @@ class KalturaUnicornDistributionJobProviderData extends KalturaConfigurableDistr
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{

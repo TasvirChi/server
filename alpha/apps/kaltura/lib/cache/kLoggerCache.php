@@ -14,7 +14,7 @@ class kLoggerCache
 	 */
 	static public function InitLogger($configName, $context = null)
 	{
-		if (KalturaLog::getLogger())	// already initialized
+		if (BorhanLog::getLogger())	// already initialized
 			return;
 		
 		if (function_exists('apc_fetch'))
@@ -26,7 +26,7 @@ class kLoggerCache
 				list($logger, $cacheVersionId) = $logger;
 				if ($cacheVersionId == kConf::getCachedVersionId())
 				{
-					KalturaLog::setLogger($logger);
+					BorhanLog::setLogger($logger);
 					return;
 				}
 			}
@@ -36,12 +36,12 @@ class kLoggerCache
 		{
 			$config = new Zend_Config(kConf::getMap('logger'));
 			
-			KalturaLog::initLog($config->$configName);
+			BorhanLog::initLog($config->$configName);
 			if ($context)
-				KalturaLog::setContext($context);
+				BorhanLog::setContext($context);
 					
 			if (function_exists('apc_store'))
-				apc_store($cacheKey, array(KalturaLog::getLogger(), kConf::getCachedVersionId()));
+				apc_store($cacheKey, array(BorhanLog::getLogger(), kConf::getCachedVersionId()));
 		}
 		catch(Zend_Config_Exception $ex)
 		{

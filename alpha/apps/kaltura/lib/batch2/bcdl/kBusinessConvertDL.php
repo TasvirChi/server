@@ -24,7 +24,7 @@ class kBusinessConvertDL
 
 		if(!$tempEntry)
 		{
-			KalturaLog::err("Temp entry id [" . $entry->getReplacingEntryId() . "] not found");
+			BorhanLog::err("Temp entry id [" . $entry->getReplacingEntryId() . "] not found");
 			return;
 		}
 		//Extract all assets of the temp entry
@@ -40,7 +40,7 @@ class kBusinessConvertDL
 		{
 			if($newAsset->getStatus() != asset::FLAVOR_ASSET_STATUS_READY)
 			{
-				KalturaLog::info("Do not add new asset [" . $newAsset->getId() . "] to flavor [" . $newAsset->getFlavorParamsId() . "] status [" . $newAsset->getStatus() . "]");
+				BorhanLog::info("Do not add new asset [" . $newAsset->getId() . "] to flavor [" . $newAsset->getFlavorParamsId() . "] status [" . $newAsset->getStatus() . "]");
 				continue;
 			}
 
@@ -53,12 +53,12 @@ class kBusinessConvertDL
 			if($newAsset->getFlavorParamsId() || $newAsset instanceof flavorAsset)
 			{
 				$newAssets[$newAsset->getType()][$newAsset->getFlavorParamsId()] = $newAsset;
-				KalturaLog::info("Added new asset [" . $newAsset->getId() . "] for asset params [" . $newAsset->getFlavorParamsId() . "]");
+				BorhanLog::info("Added new asset [" . $newAsset->getId() . "] for asset params [" . $newAsset->getFlavorParamsId() . "]");
 			}
 			else
 			{
 				$newAssets[$newAsset->getType()]['asset_' . count($newAssets[$newAsset->getType()])] = $newAsset;
-				KalturaLog::info("Added new asset [" . $newAsset->getId() . "] with no asset params");
+				BorhanLog::info("Added new asset [" . $newAsset->getId() . "] with no asset params");
 			}
 		}
 
@@ -79,7 +79,7 @@ class kBusinessConvertDL
 				}
 
 				/* @var $newAsset asset */
-				KalturaLog::info("Create link from new asset [" . $newAsset->getId() . "] to old asset [" . $oldAsset->getId() . "] for flavor [" . $oldAsset->getFlavorParamsId() . "]");
+				BorhanLog::info("Create link from new asset [" . $newAsset->getId() . "] to old asset [" . $oldAsset->getId() . "] for flavor [" . $oldAsset->getFlavorParamsId() . "]");
 
 				$oldAsset->linkFromAsset($newAsset);
 				$oldAsset->save();
@@ -102,7 +102,7 @@ class kBusinessConvertDL
 				if ($oldAsset->hasTag(thumbParams::TAG_DEFAULT_THUMB))
 				{
 					$defaultThumbAssetNew = $oldAsset;
-					KalturaLog::info("Nominating ThumbAsset [".$oldAsset->getId()."] as the default ThumbAsset after replacent");
+					BorhanLog::info("Nominating ThumbAsset [".$oldAsset->getId()."] as the default ThumbAsset after replacent");
 				}
 
 			}
@@ -110,7 +110,7 @@ class kBusinessConvertDL
 			{
 				if($oldAsset instanceof thumbAsset && $oldAsset->keepOnEntryReplacement())
 				{
-					KalturaLog::info("KeepManualThumbnails ind is set, manual thumbnail is not deleted [" . $oldAsset->getId() . "]");
+					BorhanLog::info("KeepManualThumbnails ind is set, manual thumbnail is not deleted [" . $oldAsset->getId() . "]");
 					if($oldAsset->hasTag(thumbParams::TAG_DEFAULT_THUMB))
 					{
 						$defaultThumbAssetOld = $oldAsset;
@@ -118,7 +118,7 @@ class kBusinessConvertDL
 				}
 				elseif(self::shouldDeleteMissingAssetDuringReplacement($oldAsset))
 				{
-					KalturaLog::info("Delete old asset [" . $oldAsset->getId() . "] for paramsId [" . $oldAsset->getFlavorParamsId() . "]");
+					BorhanLog::info("Delete old asset [" . $oldAsset->getId() . "] for paramsId [" . $oldAsset->getFlavorParamsId() . "]");
 					$oldAsset->setStatus(flavorAsset::FLAVOR_ASSET_STATUS_DELETED);
 					$oldAsset->setDeletedAt(time());
 					$oldAsset->save();
@@ -131,12 +131,12 @@ class kBusinessConvertDL
 			foreach ($newAssetsByTypes as $newAsset)
 			{
 				$createdAsset = $newAsset->copyToEntry($entry->getId(), $entry->getPartnerId());
-				KalturaLog::info("Copied from new asset [" . $newAsset->getId() . "] to copied asset [" . $createdAsset->getId() . "] for flavor [" . $newAsset->getFlavorParamsId() . "]");
+				BorhanLog::info("Copied from new asset [" . $newAsset->getId() . "] to copied asset [" . $createdAsset->getId() . "] for flavor [" . $newAsset->getFlavorParamsId() . "]");
 
 				if ($createdAsset->hasTag(thumbParams::TAG_DEFAULT_THUMB))
 				{
 					$defaultThumbAssetNew = $newAsset;
-					KalturaLog::info("Nominating ThumbAsset [".$newAsset->getId()."] as the default ThumbAsset after replacent");
+					BorhanLog::info("Nominating ThumbAsset [".$newAsset->getId()."] as the default ThumbAsset after replacent");
 				}
 			}
 		}
@@ -144,16 +144,16 @@ class kBusinessConvertDL
 		
 		if($defaultThumbAssetOld)
 		{
-			KalturaLog::info("Kepping ThumbAsset [". $defaultThumbAssetOld->getId() ."] as the default ThumbAsset");
+			BorhanLog::info("Kepping ThumbAsset [". $defaultThumbAssetOld->getId() ."] as the default ThumbAsset");
 		}
 		elseif ($defaultThumbAssetNew)
 		{
 			kBusinessConvertDL::setAsDefaultThumbAsset($defaultThumbAssetNew);
-			KalturaLog::info("Setting ThumbAsset [". $defaultThumbAssetNew->getId() ."] as the default ThumbAsset");
+			BorhanLog::info("Setting ThumbAsset [". $defaultThumbAssetNew->getId() ."] as the default ThumbAsset");
 		}
 		else
 		{
-			KalturaLog::info("No default ThumbAsset found for replacing entry [". $tempEntry->getId() ."]");
+			BorhanLog::info("No default ThumbAsset found for replacing entry [". $tempEntry->getId() ."]");
 			$entry->setThumbnail(".jpg"); // thumbnailversion++
 			$entry->save();
 			$tempEntrySyncKey = $tempEntry->getSyncKey(entry::FILE_SYNC_ENTRY_SUB_TYPE_THUMB);
@@ -193,14 +193,14 @@ class kBusinessConvertDL
 	{
 		if($entry->getSource() != EntrySourceType::RECORDED_LIVE)
 		{
-			KalturaLog::notice("Entry [" . $entry->getId() . "] is not a recorded live");
+			BorhanLog::notice("Entry [" . $entry->getId() . "] is not a recorded live");
 			return;
 		}
 	
 		$liveEntry = entryPeer::retrieveByPKNoFilter($entry->getRootEntryId());
 		if(!$liveEntry || $liveEntry->getStatus() == entryStatus::DELETED || !($liveEntry instanceof LiveEntry))
 		{
-			KalturaLog::notice("Entry root [" . $entry->getRootEntryId() . "] is not a valid live entry");
+			BorhanLog::notice("Entry root [" . $entry->getRootEntryId() . "] is not a valid live entry");
 			return;
 		}
 		/* @var $liveEntry LiveEntry */
@@ -212,7 +212,7 @@ class kBusinessConvertDL
 			
 			if($pendingMediaEntry->getRequiredDuration() && $pendingMediaEntry->getRequiredDuration() > $entry->getLengthInMsecs())
 			{
-				KalturaLog::info("Pending entry [" . $pendingMediaEntry->getEntryId() . "] required duration [" . $pendingMediaEntry->getRequiredDuration() . "] while entry duration [" . $entry->getLengthInMsecs() . "] is too short");
+				BorhanLog::info("Pending entry [" . $pendingMediaEntry->getEntryId() . "] required duration [" . $pendingMediaEntry->getRequiredDuration() . "] while entry duration [" . $entry->getLengthInMsecs() . "] is too short");
 				continue;
 			}
 			$liveEntry->dettachPendingMediaEntry($pendingMediaEntry->getEntryId());
@@ -220,7 +220,7 @@ class kBusinessConvertDL
 			$pendingEntry = entryPeer::retrieveByPK($pendingMediaEntry->getEntryId());
 			if(!$pendingEntry)
 			{
-				KalturaLog::info("Pending entry [" . $pendingMediaEntry->getEntryId() . "] not found");
+				BorhanLog::info("Pending entry [" . $pendingMediaEntry->getEntryId() . "] not found");
 				continue;
 			}
 			
@@ -232,7 +232,7 @@ class kBusinessConvertDL
  			}
 			if(!$sourceAsset)
 			{
-				KalturaLog::info("Pending entry [" . $pendingMediaEntry->getEntryId() . "] source asset not found");
+				BorhanLog::info("Pending entry [" . $pendingMediaEntry->getEntryId() . "] source asset not found");
 				continue;
 			}
  			/* @var $sourceAsset flavorAsset */
@@ -290,10 +290,10 @@ class kBusinessConvertDL
 
 		if(!$thumbAsset->hasTag(thumbParams::TAG_DEFAULT_THUMB))
 		{
-			/* @var $thumbAsset KalturaThumbAsset */
+			/* @var $thumbAsset BorhanThumbAsset */
 			$thumbAsset->addTags(array(thumbParams::TAG_DEFAULT_THUMB));
 			$thumbAsset->save();
-			KalturaLog::info("Setting entry [". $thumbAsset->getEntryId() ."] default ThumbAsset to [". $thumbAsset->getId() ."]");
+			BorhanLog::info("Setting entry [". $thumbAsset->getEntryId() ."] default ThumbAsset to [". $thumbAsset->getId() ."]");
 		}
 
 		$entry->setThumbnail(".jpg");
@@ -314,7 +314,7 @@ class kBusinessConvertDL
 			foreach($flavor->_errors as $section => $errors)
 				$errDesc .= "$section errors: " . join("; ", $errors) . "\n";
 
-			KalturaLog::log("Flavor errors: $errDesc");
+			BorhanLog::log("Flavor errors: $errDesc");
 			$description .= $errDesc;
 		}
 
@@ -324,7 +324,7 @@ class kBusinessConvertDL
 			foreach($flavor->_warnings as $section => $errors)
 				$errDesc .= "$section warnings: " . join("; ", $errors) . "\n";
 
-			KalturaLog::log("Flavor warnings: $errDesc");
+			BorhanLog::log("Flavor warnings: $errDesc");
 			$description .= $errDesc;
 		}
 		return $description;
@@ -338,7 +338,7 @@ class kBusinessConvertDL
 
 	public static function filterTagFlavors(array $flavors)
 	{
-		KalturaLog::log("Filter Tag Flavors, " . count($flavors) . " flavors supplied");
+		BorhanLog::log("Filter Tag Flavors, " . count($flavors) . " flavors supplied");
 
 		// check if there is a complete flavor
 		$hasComplied = false;
@@ -365,11 +365,11 @@ class kBusinessConvertDL
 
 		// return only complete flavors
 		if($hasComplied)
-			KalturaLog::log("Has complied flavors");
+			BorhanLog::log("Has complied flavors");
 		if($hasForced)
-			KalturaLog::log("Has forced flavors");
+			BorhanLog::log("Has forced flavors");
 		if($hasCreateAnyway)
-			KalturaLog::log("Has createAnyway flavors");
+			BorhanLog::log("Has createAnyway flavors");
 		if($hasComplied || $hasForced || $hasCreateAnyway)
 			return $flavors;
 
@@ -400,7 +400,7 @@ class kBusinessConvertDL
 
 		if($lowestFlavorParamsId)
 		{
-			KalturaLog::log("Lowest flavor selected [$lowestFlavorParamsId]");
+			BorhanLog::log("Lowest flavor selected [$lowestFlavorParamsId]");
 			$flavors[$lowestFlavorParamsId]->_create_anyway = true;
 		}
 
@@ -463,12 +463,12 @@ class kBusinessConvertDL
 
 		if(in_array($a->getFlavorParamsId(), $bSources))
 		{
-			KalturaLog::info('Flavor '.$a->getId().' is source of flavor '.$b->getId());
+			BorhanLog::info('Flavor '.$a->getId().' is source of flavor '.$b->getId());
 			return -1;
 		}
 		if(in_array($b->getFlavorParamsId(), $aSources))
 		{
-			KalturaLog::info('Flavor '.$b->getId().' is source of flavor '.$a->getId());
+			BorhanLog::info('Flavor '.$b->getId().' is source of flavor '.$a->getId());
 			return 1;
 		}
 

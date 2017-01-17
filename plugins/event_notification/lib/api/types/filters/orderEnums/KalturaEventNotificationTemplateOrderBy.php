@@ -3,7 +3,7 @@
  * @package plugins.eventNotification
  * @subpackage api.filters.enum
  */
-class KalturaEventNotificationTemplateOrderBy extends KalturaStringEnum
+class BorhanEventNotificationTemplateOrderBy extends BorhanStringEnum
 {
 	const ID_ASC = "+id";
 	const ID_DESC = "-id";

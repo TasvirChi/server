@@ -3,7 +3,7 @@
  * @package plugins.bulkUploadXml
  * @subpackage lib
  */
-class BulkUploadXmlType implements IKalturaPluginEnum, BulkUploadType
+class BulkUploadXmlType implements IBorhanPluginEnum, BulkUploadType
 {
 	const XML = 'XML';
 	

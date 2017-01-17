@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaStorageAddAction extends KalturaRuleAction
+class BorhanStorageAddAction extends BorhanRuleAction
 {
 	/**
 	 * Init object type
@@ -14,7 +14,7 @@ class KalturaStorageAddAction extends KalturaRuleAction
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

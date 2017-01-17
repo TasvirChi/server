@@ -19,7 +19,7 @@ class MetroPcsDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineSubmit::submit()
 	 */
-	public function submit(KalturaDistributionSubmitJobData $data)
+	public function submit(BorhanDistributionSubmitJobData $data)
 	{
 		$this->validateJobDataObjectTypes($data);
 		
@@ -31,7 +31,7 @@ class MetroPcsDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseSubmit::closeSubmit()
 	 */
-	public function closeSubmit(KalturaDistributionSubmitJobData $data)
+	public function closeSubmit(BorhanDistributionSubmitJobData $data)
 	{
 		$this->validateJobDataObjectTypes($data);
 		
@@ -55,7 +55,7 @@ class MetroPcsDistributionEngine extends DistributionEngine implements
 	 * (non-PHPdoc)
 	 * @see IDistributionEngineUpdate::update()
 	 */
-	public function update(KalturaDistributionUpdateJobData $data)
+	public function update(BorhanDistributionUpdateJobData $data)
 	{
 		$this->validateJobDataObjectTypes($data);
 		
@@ -68,7 +68,7 @@ class MetroPcsDistributionEngine extends DistributionEngine implements
 	 * (non-PHPdoc)
 	 * @see IDistributionEngineCloseUpdate::closeUpdate()
 	 */
-	public function closeUpdate(KalturaDistributionUpdateJobData $data)
+	public function closeUpdate(BorhanDistributionUpdateJobData $data)
 	{
 		$this->validateJobDataObjectTypes($data);
 		return true;
@@ -78,7 +78,7 @@ class MetroPcsDistributionEngine extends DistributionEngine implements
 	 * (non-PHPdoc)
 	 * @see IDistributionEngineDelete::delete()
 	 */
-	public function delete(KalturaDistributionDeleteJobData $data)
+	public function delete(BorhanDistributionDeleteJobData $data)
 	{
 		$this->validateJobDataObjectTypes($data);
 		
@@ -91,32 +91,32 @@ class MetroPcsDistributionEngine extends DistributionEngine implements
 	 * (non-PHPdoc)
 	 * @see IDistributionEngineCloseDelete::closeDelete()
 	 */
-	public function closeDelete(KalturaDistributionDeleteJobData $data)
+	public function closeDelete(BorhanDistributionDeleteJobData $data)
 	{
 		$this->validateJobDataObjectTypes($data);
 		return true;
 	}
 	
 	/**
-	 * @param KalturaDistributionJobData $data
+	 * @param BorhanDistributionJobData $data
 	 * @throws Exception
 	 */
-	protected function validateJobDataObjectTypes(KalturaDistributionJobData $data)
+	protected function validateJobDataObjectTypes(BorhanDistributionJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaMetroPcsDistributionProfile))
-			throw new Exception("Distribution profile must be of type KalturaMetroPcsDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanMetroPcsDistributionProfile))
+			throw new Exception("Distribution profile must be of type BorhanMetroPcsDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaMetroPcsDistributionJobProviderData))
-			throw new Exception("Provider data must be of type KalturaMetroPcsDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanMetroPcsDistributionJobProviderData))
+			throw new Exception("Provider data must be of type BorhanMetroPcsDistributionJobProviderData");
 	}
 	
 	/**
 	 * @param string $path
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaMetroPcsDistributionProfile $distributionProfile
-	 * @param KalturaMetroPcsDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanMetroPcsDistributionProfile $distributionProfile
+	 * @param BorhanMetroPcsDistributionJobProviderData $providerData
 	 */
-	public function handleSubmit(KalturaDistributionJobData $data, KalturaMetroPcsDistributionProfile $distributionProfile, KalturaMetroPcsDistributionJobProviderData $providerData)
+	public function handleSubmit(BorhanDistributionJobData $data, BorhanMetroPcsDistributionProfile $distributionProfile, BorhanMetroPcsDistributionJobProviderData $providerData)
 	{
 		$entryDistribution = $data->entryDistribution;
 			
@@ -145,7 +145,7 @@ class MetroPcsDistributionEngine extends DistributionEngine implements
 		$destXmlFile = "{$path}/{$xmlFileName}";		
 		$xmlString = $feed->getXmlString();
 		
-		KalturaLog::info('result xml - '.PHP_EOL.$xmlString);
+		BorhanLog::info('result xml - '.PHP_EOL.$xmlString);
 		$tempFile = $this->getTempFileWithContent($xmlString);
 		
 		//load the FTP
@@ -165,11 +165,11 @@ class MetroPcsDistributionEngine extends DistributionEngine implements
 	
 	/**
 	 * @param string $path
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaMetroPcsDistributionProfile $distributionProfile
-	 * @param KalturaMetroPcsDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanMetroPcsDistributionProfile $distributionProfile
+	 * @param BorhanMetroPcsDistributionJobProviderData $providerData
 	 */
-	public function handleDelete(KalturaDistributionJobData $data, KalturaMetroPcsDistributionProfile $distributionProfile, KalturaMetroPcsDistributionJobProviderData $providerData)
+	public function handleDelete(BorhanDistributionJobData $data, BorhanMetroPcsDistributionProfile $distributionProfile, BorhanMetroPcsDistributionJobProviderData $providerData)
 	{
 		$entryDistribution = $data->entryDistribution;
 		$entryDuration = $this->getEntryDuration($entryDistribution);
@@ -188,7 +188,7 @@ class MetroPcsDistributionEngine extends DistributionEngine implements
 		$path = $distributionProfile->ftpPath;
 		$destXmlFile = "{$path}/{$xmlFileName}";		
 		$xmlString = $feed->getXmlString();	
-		KalturaLog::info('result xml - '.PHP_EOL.$xmlString);
+		BorhanLog::info('result xml - '.PHP_EOL.$xmlString);
 		$tempFile = $this->getTempFileWithContent($xmlString);
 	
 		//load the FTP
@@ -205,10 +205,10 @@ class MetroPcsDistributionEngine extends DistributionEngine implements
 	
 	/**
 	 * 
-	 * @param KalturaMetroPcsDistributionProfile $distributionProfile
+	 * @param BorhanMetroPcsDistributionProfile $distributionProfile
 	 * @return ftpMgr
 	 */
-	protected function getFTPManager(KalturaMetroPcsDistributionProfile $distributionProfile)
+	protected function getFTPManager(BorhanMetroPcsDistributionProfile $distributionProfile)
 	{
 		$host = $distributionProfile->ftpHost;
 		$login = $distributionProfile->ftpLogin;
@@ -220,13 +220,13 @@ class MetroPcsDistributionEngine extends DistributionEngine implements
 	}
 	
 	/**
-	 * @param KalturaDistributionSubmitJobData $data
+	 * @param BorhanDistributionSubmitJobData $data
 	 * @return string status
 	 */
-	protected function fetchStatus(KalturaDistributionJobData $data)
+	protected function fetchStatus(BorhanDistributionJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaMetroPcsDistributionProfile))
-			return KalturaLog::err("Distribution profile must be of type KalturaMetroPcsDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanMetroPcsDistributionProfile))
+			return BorhanLog::err("Distribution profile must be of type BorhanMetroPcsDistributionProfile");
 	
 		$fileArray = $this->fetchFilesList($data->distributionProfile);
 		
@@ -249,9 +249,9 @@ class MetroPcsDistributionEngine extends DistributionEngine implements
 	}
 
 	/**
-	 * @param KalturaMetroPcsDistributionProfile $distributionProfile
+	 * @param BorhanMetroPcsDistributionProfile $distributionProfile
 	 */
-	protected function fetchFilesList(KalturaMetroPcsDistributionProfile $distributionProfile)
+	protected function fetchFilesList(BorhanMetroPcsDistributionProfile $distributionProfile)
 	{
 		$host = $distributionProfile->ftpHost;
 		$login = $distributionProfile->ftpLogin;
@@ -266,9 +266,9 @@ class MetroPcsDistributionEngine extends DistributionEngine implements
 		return $fileTransferMgr->listDir('/');
 	}
 	
-	protected function getThumbAssets(KalturaEntryDistribution $entryDistribution)
+	protected function getThumbAssets(BorhanEntryDistribution $entryDistribution)
 	{
-		$thumbAssetFilter = new KalturaThumbAssetFilter();
+		$thumbAssetFilter = new BorhanThumbAssetFilter();
 		$thumbAssetFilter->entryIdEqual = $entryDistribution->entryId;
 		$thumbAssetFilter->idIn = $entryDistribution->thumbAssetIds;
 		
@@ -284,9 +284,9 @@ class MetroPcsDistributionEngine extends DistributionEngine implements
 		return $thumbAssets->objects;		
 	}
 	
-	protected function getFlavorAsset(KalturaEntryDistribution $entryDistribution, $flavorAssetId)
+	protected function getFlavorAsset(BorhanEntryDistribution $entryDistribution, $flavorAssetId)
 	{
-		$flavorAssetFilter = new KalturaFlavorAssetFilter();
+		$flavorAssetFilter = new BorhanFlavorAssetFilter();
 		$flavorAssetFilter->entryIdEqual = $entryDistribution->entryId;
 		$flavorAssetFilter->idIn = $flavorAssetId;
 		
@@ -302,7 +302,7 @@ class MetroPcsDistributionEngine extends DistributionEngine implements
 		return $flavorAssets->objects;		
 	}
 	
-	protected function getEntryDuration(KalturaEntryDistribution $entryDistribution)
+	protected function getEntryDuration(BorhanEntryDistribution $entryDistribution)
 	{		
 		try {
 			KBatchBase::impersonate($entryDistribution->partnerId);

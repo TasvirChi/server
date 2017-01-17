@@ -3,7 +3,7 @@
  * @package plugins.eventNotification
  * @subpackage api.objects
  */
-class KalturaEventNotificationDispatchJobData extends KalturaJobData
+class BorhanEventNotificationDispatchJobData extends BorhanJobData
 {
 	/**
 	 * @var int
@@ -12,7 +12,7 @@ class KalturaEventNotificationDispatchJobData extends KalturaJobData
 
 	/**
 	 * Define the content dynamic parameters
-	 * @var KalturaKeyValueArray
+	 * @var BorhanKeyValueArray
 	 */
 	public $contentParameters;
 	
@@ -46,13 +46,13 @@ class KalturaEventNotificationDispatchJobData extends KalturaJobData
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject()
+	 * @see BorhanObject::fromObject()
 	 */
-	protected function doFromObject($dbObject, KalturaDetachedResponseProfile $responseProfile = null)
+	protected function doFromObject($dbObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		/* @var $dbObject kEventNotificationDispatchJobData */
 		parent::doFromObject($dbObject, $responseProfile);
 		
-		$this->contentParameters = KalturaKeyValueArray::fromKeyValueArray($dbObject->getContentParameters());
+		$this->contentParameters = BorhanKeyValueArray::fromKeyValueArray($dbObject->getContentParameters());
 	}
 }

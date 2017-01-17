@@ -36,7 +36,7 @@ class kSphinxQueryCache extends kQueryCache
 		if (!$invalidationKeys)
 			return null;
 
-		//KalturaLog::log("sphinx invalidationKeys ".print_r($invalidationKeys, true));
+		//BorhanLog::log("sphinx invalidationKeys ".print_r($invalidationKeys, true));
 
 		self::initGlobalMemcache();
 		if (self::$s_memcacheQueries === null)                  // we must have both memcaches initialized
@@ -56,11 +56,11 @@ class kSphinxQueryCache extends kQueryCache
 
 		$queryStart = microtime(true);
 		$cacheResult = self::$s_memcacheKeys->multiGet($keysToGet);
-		KalturaLog::debug("kQueryCache: keys query took " . (microtime(true) - $queryStart) . " seconds");
+		BorhanLog::debug("kQueryCache: keys query took " . (microtime(true) - $queryStart) . " seconds");
 
 		if ($cacheResult === false)
 		{
-			KalturaLog::log("kQueryCache: failed to query keys memcache, not using query cache");
+			BorhanLog::log("kQueryCache: failed to query keys memcache, not using query cache");
 			return null;
 		}
 
@@ -69,7 +69,7 @@ class kSphinxQueryCache extends kQueryCache
 		if (array_key_exists(self::DONT_CACHE_KEY, $cacheResult) && 
 			$cacheResult[self::DONT_CACHE_KEY])
 		{
-			KalturaLog::log("kQueryCache: dontCache key is set -> not caching the result");
+			BorhanLog::log("kQueryCache: dontCache key is set -> not caching the result");
 			$cacheQuery = false;
 		}
 		unset($cacheResult[self::DONT_CACHE_KEY]);
@@ -111,11 +111,11 @@ class kSphinxQueryCache extends kQueryCache
 		// check whether we have a valid cached query
 		$queryStart = microtime(true);
 		$queryResult = self::$s_memcacheQueries->get($cacheKey);
-		KalturaLog::debug("kQueryCache: query took " . (microtime(true) - $queryStart) . " seconds");
+		BorhanLog::debug("kQueryCache: query took " . (microtime(true) - $queryStart) . " seconds");
 
 		if (!$queryResult)
 		{
-			KalturaLog::debug("kQueryCache: cache miss, peer=$objectClass, key=$cacheKey");
+			BorhanLog::debug("kQueryCache: cache miss, peer=$objectClass, key=$cacheKey");
 			return null;
 		}
 
@@ -124,7 +124,7 @@ class kSphinxQueryCache extends kQueryCache
 		if (!is_null($maxInvalidationTime) &&
 			$queryTime < $maxInvalidationTime + self::CLOCK_SYNC_TIME_MARGIN_SEC)
 		{
-			KalturaLog::debug("kQueryCache: cached query invalid, peer=$objectClass, key=$cacheKey, invkey=$maxInvalidationKey querytime=$queryTime debugInfo=$debugInfo invtime=$maxInvalidationTime");
+			BorhanLog::debug("kQueryCache: cached query invalid, peer=$objectClass, key=$cacheKey, invkey=$maxInvalidationKey querytime=$queryTime debugInfo=$debugInfo invtime=$maxInvalidationTime");
 			return null;
 		}
 		
@@ -136,7 +136,7 @@ class kSphinxQueryCache extends kQueryCache
 		}
 		$existingInvKeys = implode(',', $existingInvKeys);
 
-		KalturaLog::debug("kQueryCache: returning from memcache, peer=$objectClass, key=$cacheKey queryTime=$queryTime debugInfo=$debugInfo invkeys=[$existingInvKeys]");
+		BorhanLog::debug("kQueryCache: returning from memcache, peer=$objectClass, key=$cacheKey queryTime=$queryTime debugInfo=$debugInfo invkeys=[$existingInvKeys]");
 		return $queryResult;
 	}
 
@@ -154,7 +154,7 @@ class kSphinxQueryCache extends kQueryCache
 			if (self::$reduceConditionalExpiry)
 			{
 				$finalExpiry = max(self::$reduceConditionalExpiry, self::MIN_CONDITIONAL_EXPIRY_INVALIDATION_WAIT);
-				KalturaLog::debug("kQueryCache: setConditionalCacheExpiry targetExpiry=".self::$reduceConditionalExpiry." finalExpiry=$finalExpiry");
+				BorhanLog::debug("kQueryCache: setConditionalCacheExpiry targetExpiry=".self::$reduceConditionalExpiry." finalExpiry=$finalExpiry");
 				kApiCache::setConditionalCacheExpiry($finalExpiry);
 			}
 		}
@@ -178,7 +178,7 @@ class kSphinxQueryCache extends kQueryCache
 			// in case of sphinx conditional queries, shorten the cache expiry till the sphinx server will reach the required invalidation update time
 			self::$reduceConditionalExpiry = self::$maxInvalidationTime - $queryTime;
 			$currentTime = time();
-			KalturaLog::debug("kQueryCache: using an out of date sphinx  -> not caching the result, peer=$objectClass, invkey=".self::$maxInvalidationKey." querytime=$currentTime invtime=".self::$maxInvalidationTime." sphinxLag=$queryTime");
+			BorhanLog::debug("kQueryCache: using an out of date sphinx  -> not caching the result, peer=$objectClass, invkey=".self::$maxInvalidationKey." querytime=$currentTime invtime=".self::$maxInvalidationTime." sphinxLag=$queryTime");
 			return false;
 		}
 		
@@ -186,7 +186,7 @@ class kSphinxQueryCache extends kQueryCache
 		$debugInfo = (isset($_SERVER["HOSTNAME"]) ? $_SERVER["HOSTNAME"] : '');
 		$debugInfo .= "[$uniqueId]";
 
-		KalturaLog::debug("kQueryCache: Updating memcache, key=$cacheKey queryTime=$queryTime");
+		BorhanLog::debug("kQueryCache: Updating memcache, key=$cacheKey queryTime=$queryTime");
 		self::$s_memcacheQueries->set($cacheKey, array($queryResult, $queryTime, $debugInfo), self::CACHED_QUERIES_EXPIRY_SEC);
 		
 		return true;
@@ -216,11 +216,11 @@ class kSphinxQueryCache extends kQueryCache
 		foreach ($invalidationKeys as $invalidationKey)
 		{
 			$invalidationKey = self::CACHE_PREFIX_INVALIDATION_KEY . str_replace(' ', '_', $invalidationKey);
-			KalturaLog::debug("kQueryCache: updating invalidation key, invkey=$invalidationKey");
+			BorhanLog::debug("kQueryCache: updating invalidation key, invkey=$invalidationKey");
 			if (!self::$s_memcacheKeys->set($invalidationKey, $currentTime, 
 				self::CACHED_QUERIES_EXPIRY_SEC + self::INVALIDATION_KEYS_EXPIRY_MARGIN))
 			{
-				KalturaLog::err("kQueryCache: failed to update invalidation key");
+				BorhanLog::err("kQueryCache: failed to update invalidation key");
 			}
 		}
 	}

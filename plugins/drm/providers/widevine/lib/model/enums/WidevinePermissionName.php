@@ -3,7 +3,7 @@
  * @package plugins.widevine
  * @subpackage model.enum
  */ 
-class WidevinePermissionName implements IKalturaPluginEnum, PermissionName
+class WidevinePermissionName implements IBorhanPluginEnum, PermissionName
 {
 	const WIDEVINE_BASE = 'WIDEVINE_BASE';
 	

@@ -44,7 +44,7 @@ class PodcastDistributionProfile extends DistributionProfile
 		$entry = entryPeer::retrieveByPK($entryDistribution->getEntryId());
 		if(!$entry)
 		{
-			KalturaLog::err("Entry [" . $entryDistribution->getEntryId() . "] not found");
+			BorhanLog::err("Entry [" . $entryDistribution->getEntryId() . "] not found");
 			$validationErrors[] = $this->createValidationError($action, DistributionErrorType::INVALID_DATA, 'entry', 'entry not found');
 			return $validationErrors;
 		}
@@ -134,12 +134,12 @@ class PodcastDistributionProfile extends DistributionProfile
 		$podcastFeed->setStatus(syndicationFeed::SYNDICATION_ACTIVE);
 		$podcastFeed->setDisplayInSearch(mySearchUtils::DISPLAY_IN_SEARCH_SYSTEM);
 		$podcastFeed->setAllowEmbed(false);
-		$podcastFeed->setType(syndicationFeedType::KALTURA);
+		$podcastFeed->setType(syndicationFeedType::BORHAN);
 		$podcastFeed->setAddXmlHeader(true);
 		$podcastFeed->save();
 		
 		$this->setFeedId($podcastFeed->getId());
-		KalturaLog::log("Podcast feed created id [" . $this->getFeedId() . "]");
+		BorhanLog::log("Podcast feed created id [" . $this->getFeedId() . "]");
 		
 		return parent::preSave($con);	
 	}
@@ -190,7 +190,7 @@ class PodcastDistributionProfile extends DistributionProfile
 		$playlist->setDataContent($playlistContent);
 		$playlist->save();
 		
-		KalturaLog::log("Playlist [" . $playlist->getId() . "] created");
+		BorhanLog::log("Playlist [" . $playlist->getId() . "] created");
 		
 		// creates feed based on the playlist
 		$podcastFeed->setPlaylistId($playlist->getId());
@@ -209,7 +209,7 @@ class PodcastDistributionProfile extends DistributionProfile
 			$podcastFeed = syndicationFeedPeer::retrieveByPK($this->getFeedId());
 			if($podcastFeed && $podcastFeed instanceof genericSyndicationFeed)
 			{
-				$podcastFeed->setType(syndicationFeedType::KALTURA_XSLT);
+				$podcastFeed->setType(syndicationFeedType::BORHAN_XSLT);
 				$podcastFeed->incrementVersion();
 				$podcastFeed->save();
 				$syncKey = $podcastFeed->getSyncKey(genericSyndicationFeed::FILE_SYNC_SYNDICATION_FEED_XSLT);

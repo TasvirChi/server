@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaDropFolderBaseFilter extends KalturaFilter
+abstract class BorhanDropFolderBaseFilter extends BorhanFilter
 {
 	static private $map_between_objects = array
 	(
@@ -87,18 +87,18 @@ abstract class KalturaDropFolderBaseFilter extends KalturaFilter
 	public $nameLike;
 
 	/**
-	 * @var KalturaDropFolderType
+	 * @var BorhanDropFolderType
 	 */
 	public $typeEqual;
 
 	/**
-	 * @dynamicType KalturaDropFolderType
+	 * @dynamicType BorhanDropFolderType
 	 * @var string
 	 */
 	public $typeIn;
 
 	/**
-	 * @var KalturaDropFolderStatus
+	 * @var BorhanDropFolderStatus
 	 */
 	public $statusEqual;
 
@@ -138,12 +138,12 @@ abstract class KalturaDropFolderBaseFilter extends KalturaFilter
 	public $pathLike;
 
 	/**
-	 * @var KalturaDropFolderFileHandlerType
+	 * @var BorhanDropFolderFileHandlerType
 	 */
 	public $fileHandlerTypeEqual;
 
 	/**
-	 * @dynamicType KalturaDropFolderFileHandlerType
+	 * @dynamicType BorhanDropFolderFileHandlerType
 	 * @var string
 	 */
 	public $fileHandlerTypeIn;
@@ -179,12 +179,12 @@ abstract class KalturaDropFolderBaseFilter extends KalturaFilter
 	public $tagsMultiLikeAnd;
 
 	/**
-	 * @var KalturaDropFolderErrorCode
+	 * @var BorhanDropFolderErrorCode
 	 */
 	public $errorCodeEqual;
 
 	/**
-	 * @dynamicType KalturaDropFolderErrorCode
+	 * @dynamicType BorhanDropFolderErrorCode
 	 * @var string
 	 */
 	public $errorCodeIn;

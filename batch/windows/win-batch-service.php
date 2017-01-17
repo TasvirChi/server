@@ -32,7 +32,7 @@ if(!file_exists($iniDir))
 require_once(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'bootstrap_scheduler.php');
 require_once(__DIR__ . DIRECTORY_SEPARATOR . 'win-service-constants.php');
 
-$serviceName = 'kaltura_batch';
+$serviceName = 'borhan_batch';
 
 //Windows Service Control 
 $serviceAction = 'status';
@@ -51,64 +51,64 @@ switch($serviceAction)
 		$ServiceStatus = win32_query_service_status($serviceName);
 		if($ServiceStatus['CurrentState'] == WIN32_SERVICE_STOPPED)
 		{
-			KalturaLog::info('Service Stopped');
+			BorhanLog::info('Service Stopped');
 		}
 		else if($ServiceStatus['CurrentState'] == WIN32_SERVICE_START_PENDING)
 		{
-			KalturaLog::info('Service Start Pending');
+			BorhanLog::info('Service Start Pending');
 		}
 		else if($ServiceStatus['CurrentState'] == WIN32_SERVICE_STOP_PENDING)
 		{
-			KalturaLog::info('Service Stop Pending');
+			BorhanLog::info('Service Stop Pending');
 		}
 		else if($ServiceStatus['CurrentState'] == WIN32_SERVICE_RUNNING)
 		{
-			KalturaLog::info('Service Running');
+			BorhanLog::info('Service Running');
 		}
 		else if($ServiceStatus['CurrentState'] == WIN32_SERVICE_CONTINUE_PENDING)
 		{
-			KalturaLog::info('Service Continue Pending');
+			BorhanLog::info('Service Continue Pending');
 		}
 		else if($ServiceStatus['CurrentState'] == WIN32_SERVICE_PAUSE_PENDING)
 		{
-			KalturaLog::info('Service Pause Pending');
+			BorhanLog::info('Service Pause Pending');
 		}
 		else if($ServiceStatus['CurrentState'] == WIN32_SERVICE_PAUSED)
 		{
-			KalturaLog::info('Service Paused');
+			BorhanLog::info('Service Paused');
 		}
 		else
 		{
-			KalturaLog::info('Service Status Unknown');
+			BorhanLog::info('Service Status Unknown');
 		}
 		exit(0);
 		
 	case 'install':
 		win32_create_service(array(
 			'service' => $serviceName, 
-			'display' => 'Kaltura asynchronous batch jobs scheduler',
-			'description' => 'Kaltura asynchronous batch jobs scheduler', 
+			'display' => 'Borhan asynchronous batch jobs scheduler',
+			'description' => 'Borhan asynchronous batch jobs scheduler', 
 			'params' => __FILE__ . " run $phpPath $iniDir", 
 			'path' => $phpPath,
 			'start_type' => WIN32_SERVICE_AUTO_START,
 			'error_control' => WIN32_SERVER_ERROR_NORMAL,
 		));
-		KalturaLog::info('Service Installed');
+		BorhanLog::info('Service Installed');
 		exit(0);
 		
 	case 'uninstall':
 		win32_delete_service($serviceName);
-		KalturaLog::info('Service Removed');
+		BorhanLog::info('Service Removed');
 		exit(0);
 		
 	case 'start': 
 		win32_start_service($serviceName);
-		KalturaLog::info('Service Started');
+		BorhanLog::info('Service Started');
 		exit(0);
 		
 	case 'stop': 
 		win32_stop_service($serviceName);
-		KalturaLog::info('Service Stopped');
+		BorhanLog::info('Service Stopped');
 		exit(0);
 		
 	case 'run':
@@ -121,7 +121,7 @@ switch($serviceAction)
 		break;
 		
 	default:
-		KalturaLog::info('Unkown action');
+		BorhanLog::info('Unkown action');
 		exit(-1);
 }
 
@@ -141,7 +141,7 @@ while(1)
 				break;
 				
 			case WIN32_SERVICE_CONTROL_STOP:
-				KalturaLog::info('Service stopped gracefully');
+				BorhanLog::info('Service stopped gracefully');
 				if(file_exists($pid))
 					unlink($pid);
 					

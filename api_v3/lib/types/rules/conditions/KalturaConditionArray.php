@@ -3,11 +3,11 @@
  * @package api
  * @subpackage objects
  */
-class KalturaConditionArray extends KalturaTypedArray
+class BorhanConditionArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaConditionArray();
+		$newArr = new BorhanConditionArray();
 		if ($arr == null)
 			return $newArr;
 
@@ -16,7 +16,7 @@ class KalturaConditionArray extends KalturaTypedArray
 			$nObj = self::getInstanceByDbObject($obj);
 			if(!$nObj)
 			{
-				KalturaLog::alert("Object [" . get_class($obj) . "] type [" . $obj->getType() . "] could not be translated to API object");
+				BorhanLog::alert("Object [" . get_class($obj) . "] type [" . $obj->getType() . "] could not be translated to API object");
 				continue;
 			}
 			$nObj->fromObject($obj, $responseProfile);
@@ -31,40 +31,40 @@ class KalturaConditionArray extends KalturaTypedArray
 		switch($dbObject->getType())
 		{
 			case ConditionType::AUTHENTICATED:
-				return new KalturaAuthenticatedCondition();
+				return new BorhanAuthenticatedCondition();
 			case ConditionType::COUNTRY:
-				return new KalturaCountryCondition();
+				return new BorhanCountryCondition();
 			case ConditionType::IP_ADDRESS:
-				return new KalturaIpAddressCondition();
+				return new BorhanIpAddressCondition();
 			case ConditionType::SITE:
-				return new KalturaSiteCondition();
+				return new BorhanSiteCondition();
 			case ConditionType::USER_AGENT:
-				return new KalturaUserAgentCondition();
+				return new BorhanUserAgentCondition();
 			case ConditionType::FIELD_COMPARE:
-				return new KalturaFieldCompareCondition();
+				return new BorhanFieldCompareCondition();
 			case ConditionType::FIELD_MATCH:
-				return new KalturaFieldMatchCondition();
+				return new BorhanFieldMatchCondition();
 			case ConditionType::ASSET_PROPERTIES_COMPARE:
-				return new KalturaAssetPropertiesCompareCondition();
+				return new BorhanAssetPropertiesCompareCondition();
 			case ConditionType::USER_ROLE:
-				return new KalturaUserRoleCondition();
+				return new BorhanUserRoleCondition();
 			case ConditionType::GEO_DISTANCE:
-				return new KalturaGeoDistanceCondition();
+				return new BorhanGeoDistanceCondition();
 			case ConditionType::OR_OPERATOR:
-			    return new KalturaOrCondition();
+			    return new BorhanOrCondition();
 			case ConditionType::HASH:
-			    return new KalturaHashCondition();
+			    return new BorhanHashCondition();
 			case ConditionType::DELIVERY_PROFILE:
-				return new KalturaDeliveryProfileCondition();
+				return new BorhanDeliveryProfileCondition();
 			case ConditionType::ACTIVE_EDGE_VALIDATE:
-				return new KalturaValidateActiveEdgeCondition();
+				return new BorhanValidateActiveEdgeCondition();
 			default:
-			     return KalturaPluginManager::loadObject('KalturaCondition', $dbObject->getType());
+			     return BorhanPluginManager::loadObject('BorhanCondition', $dbObject->getType());
 		}
 	}
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaCondition");	
+		parent::__construct("BorhanCondition");	
 	}
 }

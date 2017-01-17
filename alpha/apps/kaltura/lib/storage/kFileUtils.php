@@ -72,7 +72,7 @@ class kFileUtils extends kFile
 		if($onlyIfAvailable){
 			//validate that the other DC is available before dumping the request
 			if(kConf::hasParam('disable_dump_api_request') && kConf::get('disable_dump_api_request')){
-				KalturaLog::info('dumpApiRequest is disabled');
+				BorhanLog::info('dumpApiRequest is disabled');
 				return;
 			}			
 		}
@@ -80,8 +80,8 @@ class kFileUtils extends kFile
             KExternalErrors::dieError(KExternalErrors::MULTIREQUEST_PROXY_FAILED);
 		self::closeDbConnections();
 		
-		// prevent loop back of the proxied request by detecting the "X-Kaltura-Proxy header
-		if (isset($_SERVER["HTTP_X_KALTURA_PROXY"]))
+		// prevent loop back of the proxied request by detecting the "X-Borhan-Proxy header
+		if (isset($_SERVER["HTTP_X_BORHAN_PROXY"]))
 			KExternalErrors::dieError(KExternalErrors::PROXY_LOOPBACK);
 			
 		$get_params = $post_params = array();
@@ -110,7 +110,7 @@ class kFileUtils extends kFile
 			$url = $url . $concatStr . 'apiProtocol=https_' . kConf::get('https_param_salt');
 		}
 			
-		$httpHeader = array("X-Kaltura-Proxy: dumpApiRequest");
+		$httpHeader = array("X-Borhan-Proxy: dumpApiRequest");
 		
 		if(isset(infraRequestUtils::$jsonData))
 		{
@@ -137,7 +137,7 @@ class kFileUtils extends kFile
 		// Set callback function for headers
 		curl_setopt($ch, CURLOPT_HEADERFUNCTION, 'kFileUtils::read_header');
 		
-		header("X-Kaltura:dumpApiRequest " . kDataCenterMgr::getCurrentDcId());
+		header("X-Borhan:dumpApiRequest " . kDataCenterMgr::getCurrentDcId());
 		// grab URL and pass it to the browser
 		$content = curl_exec($ch);
 		
@@ -148,7 +148,7 @@ class kFileUtils extends kFile
 	
     public static function dumpUrl($url, $allowRange = true, $passHeaders = false, $additionalHeaders = null)
 	{
-		KalturaLog::debug("URL [$url], $allowRange [$allowRange], $passHeaders [$passHeaders]");
+		BorhanLog::debug("URL [$url], $allowRange [$allowRange], $passHeaders [$passHeaders]");
 		self::closeDbConnections();
 	
 		$ch = curl_init();
@@ -164,11 +164,11 @@ class kFileUtils extends kFile
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, infraRequestUtils::isIpPrivate($urlHost) ? 0 : 2);
 
 
-		// prevent loop back of the proxied request by detecting the "X-Kaltura-Proxy header
-		if (isset($_SERVER["HTTP_X_KALTURA_PROXY"]))
+		// prevent loop back of the proxied request by detecting the "X-Borhan-Proxy header
+		if (isset($_SERVER["HTTP_X_BORHAN_PROXY"]))
 			KExternalErrors::dieError(KExternalErrors::PROXY_LOOPBACK);
 			
-		$sendHeaders = array("X-Kaltura-Proxy: dumpUrl");
+		$sendHeaders = array("X-Borhan-Proxy: dumpUrl");
 		
 		$ipHeader = infraRequestUtils::getSignedIpAddressHeader();
 		if ($ipHeader){
@@ -235,10 +235,10 @@ class kFileUtils extends kFile
 		//curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
 		
 		header("Access-Control-Allow-Origin:*"); // avoid html5 xss issues
-		header("X-Kaltura:dumpUrl");
+		header("X-Borhan:dumpUrl");
 		// grab URL and pass it to the browser
 		$content = curl_exec($ch);
-		KalturaLog::debug("CURL executed [$content]");
+		BorhanLog::debug("CURL executed [$content]");
 		
 		// close curl resource, and free up system resources
 		curl_close($ch);

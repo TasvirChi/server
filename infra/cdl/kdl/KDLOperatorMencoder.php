@@ -135,7 +135,7 @@ $aud = $target->_audio;
 //				if($aud->_channels)
 //					$cmdStr.= " -ac ".$aud->_channels;
 		}
-///web/kaltura/bin/x64/mencoder -endpos 2 $1 -of lavf -lavfopts format=avi -ovc x264 -ofps 25 -x264encopts bitrate=500 -vf scale=1280:720,harddup -oac faac -srate 48000 -channels 5 -faacopts mpeg=4:object=2:br=32 -o $outputFile
+///web/borhan/bin/x64/mencoder -endpos 2 $1 -of lavf -lavfopts format=avi -ovc x264 -ofps 25 -x264encopts bitrate=500 -vf scale=1280:720,harddup -oac faac -srate 48000 -channels 5 -faacopts mpeg=4:object=2:br=32 -o $outputFile
 		else if($aud->_id==KDLAudioTarget::AAC){
 			$cmdStr.= " -oac faac -faacopts mpeg=4:object=2:tns:raw";
 			if($aud->_bitRate)

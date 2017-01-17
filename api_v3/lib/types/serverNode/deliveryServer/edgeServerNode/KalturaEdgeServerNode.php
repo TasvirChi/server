@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaEdgeServerNode extends KalturaDeliveryServerNode
+class BorhanEdgeServerNode extends BorhanDeliveryServerNode
 {
 	/**
 	 * Delivery server playback Domain
@@ -26,7 +26,7 @@ class KalturaEdgeServerNode extends KalturaDeliveryServerNode
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -34,7 +34,7 @@ class KalturaEdgeServerNode extends KalturaDeliveryServerNode
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert()
+	 * @see BorhanObject::validateForInsert()
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{
@@ -42,7 +42,7 @@ class KalturaEdgeServerNode extends KalturaDeliveryServerNode
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUpdate()
+	 * @see BorhanObject::validateForUpdate()
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = array())
 	{
@@ -50,7 +50,7 @@ class KalturaEdgeServerNode extends KalturaDeliveryServerNode
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toInsertableObject()
+	 * @see BorhanObject::toInsertableObject()
 	 */
 	public function toInsertableObject($object_to_fill = null, $props_to_skip = array())
 	{

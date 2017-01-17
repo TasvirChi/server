@@ -1,8 +1,8 @@
 <layouts isPlaylist="multi">
-  <layout layoutId="AppStudioTemplate" skinPath="/content/uiconf/kaltura/appstudio/v.1/kdp_skin_aps_v2.swf" playerName="dark playlist">
+  <layout layoutId="AppStudioTemplate" skinPath="/content/uiconf/borhan/appstudio/v.1/bdp_skin_aps_v2.swf" playerName="dark playlist">
     <Canvas id="topLevelLayout" width="100%" height="100%" styleName="topLevelLayout">
       <VBox id="horizontalPlayerHolder" width="100%" height="100%" styleName="noGapsNoPadding">
-      	<Module height="0" id="stats" k_path="stats/KalturaStatsModule.swf" width="0"/>
+      	<Module height="0" id="stats" k_path="stats/BorhanStatsModule.swf" width="0"/>
         <VBox id="player" width="100%" height="100%" styleName="noGapsNoPadding">
           <Canvas height="100%" id="PlayerHolder" styleName="PlayerBackground" width="100%">
             <KplayerModule height="100%" id="myKplayer" k_path="kplayer/KplayerModule.swf" styleName="centered" width="100%"/>
@@ -29,7 +29,7 @@
               <Button id="shareBtnControllerScreen" k_buttonType="buttonIconControllerArea" command="gigyaButton" label="Share" styleName="shareBtn" tooltip="share with friends"/>
             </HBox>
             <Spacer width="3"/>
-            <Button id="poweredByControllerScreen" width="32" height="20" k_click="navigate('http://www.kaltura.com')" styleName="kalturaLogoDark" k_theme_change="true"/>
+            <Button id="poweredByControllerScreen" width="32" height="20" k_click="navigate('http://www.borhan.com')" styleName="borhanLogoDark" k_theme_change="true"/>
             <Spacer width="3"/>
           </HBox>
         </VBox>
@@ -115,7 +115,7 @@
         <cssSelector componentId="listDemo" newClass="plItemsListDark"/>
         <cssSelector componentId="TopTitleScreen" newClass="controllerBoxDark"/>
         <cssSelector componentId="ControllerScreen" newClass="controllerBoxDark"/>
-        <cssSelector componentId="poweredByControllerScreen" newClass="kalturaLogoDark"/>
+        <cssSelector componentId="poweredByControllerScreen" newClass="borhanLogoDark"/>
         <cssSelector componentId="plTabs" newClass="scrollingTabsDark"/>
         <cssSelector componentId="plPrevButton" newClass="nextPrevButtonsDark"/>
         <font>Arial</font>

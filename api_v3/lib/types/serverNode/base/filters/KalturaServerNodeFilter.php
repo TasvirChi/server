@@ -3,27 +3,27 @@
  * @package api
  * @subpackage filters
  */
-class KalturaServerNodeFilter extends KalturaServerNodeBaseFilter
+class BorhanServerNodeFilter extends BorhanServerNodeBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
 		return new ServerNodeFilter();
 	}
 	
-	public function getTypeListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null, $type = null)
+	public function getTypeListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null, $type = null)
 	{
 		list($list, $totalCount) = $this->doGetListResponse($pager, $type);
-		$response = new KalturaServerNodeListResponse();
-		$response->objects = KalturaServerNodeArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanServerNodeListResponse();
+		$response->objects = BorhanServerNodeArray::fromDbArray($list, $responseProfile);
 		$response->totalCount = $totalCount;
 	
 		return $response;
 	}
 	
-	protected function doGetListResponse(KalturaFilterPager $pager, $type = null)
+	protected function doGetListResponse(BorhanFilterPager $pager, $type = null)
 	{
 		$c = new Criteria();
 			
@@ -40,7 +40,7 @@ class KalturaServerNodeFilter extends KalturaServerNodeBaseFilter
 		return array($list, $totalCount);
 	}
 
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		return $this->getTypeListResponse($pager, $responseProfile);
 	}

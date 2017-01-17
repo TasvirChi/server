@@ -3,7 +3,7 @@
  * @package plugins.podcastDistribution
  * @subpackage api.objects
  */
-class KalturaPodcastDistributionJobProviderData extends KalturaDistributionJobProviderData
+class BorhanPodcastDistributionJobProviderData extends BorhanDistributionJobProviderData
 {
 	/**
 	 * @var string
@@ -21,12 +21,12 @@ class KalturaPodcastDistributionJobProviderData extends KalturaDistributionJobPr
 	public $distributionProfileId;
 
 	
-	public function __construct(KalturaDistributionJobData $distributionJobData = null)
+	public function __construct(BorhanDistributionJobData $distributionJobData = null)
 	{
 		if(!$distributionJobData)
 			return;
 			
-		if(!($distributionJobData->distributionProfile instanceof KalturaPodcastDistributionProfile))
+		if(!($distributionJobData->distributionProfile instanceof BorhanPodcastDistributionProfile))
 			return;
 	
 		$this->distributionProfileId = $distributionJobData->distributionProfile->id;

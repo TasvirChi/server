@@ -64,9 +64,9 @@ mail:
   url:   /mail
   param: { module: mail , action: defMail }
 
-mykaltura:
-  url:   /mykaltura
-  param: { module: mykaltura , action: defMykaltura }
+myborhan:
+  url:   /myborhan
+  param: { module: myborhan , action: defMyborhan }
 
 produce:
   url:   /produce
@@ -116,13 +116,13 @@ widget4:
   url:  /widget/:kshow_id/:entry_id/:kmedia_type/:widget_type/:version/:kdata
   param: { module: browse , action: widget }
 
-kwidgetThumbail:
-  url:  /kwidget/thumbnail/:wid
+bwidgetThumbail:
+  url:  /bwidget/thumbnail/:wid
   param: { module: extwidget, action: getWidgetThumbnail }
   
-kwidget:
-  url:  /kwidget/*
-  param: { module: extwidget , action: kwidget }
+bwidget:
+  url:  /bwidget/*
+  param: { module: extwidget , action: bwidget }
 
 forum:
   url:   /forum
@@ -152,9 +152,9 @@ cms:
   url:   /cms
   param: { module: cms , action: signup }
 
-kmc:
-  url:   /kmc
-  param: { module: kmc , action: kmc }
+bmc:
+  url:   /bmc
+  param: { module: bmc , action: bmc }
 
 default_index:
   url:   /:module

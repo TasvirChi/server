@@ -31,7 +31,7 @@ class BulkUploadScheduleResourceEngineCsv extends BulkUploadEngineCsv
 		if(!$bulkUploadResult)
 			return;
 		
-		$bulkUploadResult->bulkUploadResultObjectType = KalturaBulkUploadObjectType::SCHEDULE_RESOURCE;
+		$bulkUploadResult->bulkUploadResultObjectType = BorhanBulkUploadObjectType::SCHEDULE_RESOURCE;
 		
 		// trim the values
 		array_walk($values, array('BulkUploadScheduleResourceEngineCsv', 'trimArray'));
@@ -48,12 +48,12 @@ class BulkUploadScheduleResourceEngineCsv extends BulkUploadEngineCsv
 			}
 		}
 		
-		$bulkUploadResult->objectStatus = KalturaScheduleResourceStatus::ACTIVE;
-		$bulkUploadResult->status = KalturaBulkUploadResultStatus::IN_PROGRESS;
+		$bulkUploadResult->objectStatus = BorhanScheduleResourceStatus::ACTIVE;
+		$bulkUploadResult->status = BorhanBulkUploadResultStatus::IN_PROGRESS;
 		
 		if(!$bulkUploadResult->action)
 		{
-			$bulkUploadResult->action = KalturaBulkUploadAction::ADD;
+			$bulkUploadResult->action = BorhanBulkUploadAction::ADD;
 		}
 		
 		$bulkUploadResult = $this->validateBulkUploadResult($bulkUploadResult);
@@ -61,20 +61,20 @@ class BulkUploadScheduleResourceEngineCsv extends BulkUploadEngineCsv
 			$this->bulkUploadResults[] = $bulkUploadResult;
 	}
 	
-	protected function validateBulkUploadResult(KalturaBulkUploadResult $bulkUploadResult)
+	protected function validateBulkUploadResult(BorhanBulkUploadResult $bulkUploadResult)
 	{
-		/* @var $bulkUploadResult KalturaBulkUploadResultScheduleResource */
-		if(!$bulkUploadResult->resourceId && !$bulkUploadResult->systemName && ($bulkUploadResult->action == KalturaBulkUploadAction::UPDATE || $bulkUploadResult->action == KalturaBulkUploadAction::DELETE))
+		/* @var $bulkUploadResult BorhanBulkUploadResultScheduleResource */
+		if(!$bulkUploadResult->resourceId && !$bulkUploadResult->systemName && ($bulkUploadResult->action == BorhanBulkUploadAction::UPDATE || $bulkUploadResult->action == BorhanBulkUploadAction::DELETE))
 		{
-			$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-			$bulkUploadResult->errorType = KalturaBatchJobErrorTypes::APP;
+			$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+			$bulkUploadResult->errorType = BorhanBatchJobErrorTypes::APP;
 			$bulkUploadResult->errorDescription = "Mandatory Columns [resourceId or systemName] missing from CSV.";
 		}
 		
 		if($bulkUploadResult->type && !in_array($bulkUploadResult->type, self::$validTypes))
 		{
-			$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-			$bulkUploadResult->errorType = KalturaBatchJobErrorTypes::APP;
+			$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+			$bulkUploadResult->errorType = BorhanBatchJobErrorTypes::APP;
 			$bulkUploadResult->errorDescription = "Wrong value passed for property type [$bulkUploadResult->type]";
 		}
 		if(!$bulkUploadResult->type)
@@ -84,8 +84,8 @@ class BulkUploadScheduleResourceEngineCsv extends BulkUploadEngineCsv
 		
 		if($bulkUploadResult->parentType && !in_array($bulkUploadResult->parentType, self::$validTypes))
 		{
-			$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-			$bulkUploadResult->errorType = KalturaBatchJobErrorTypes::APP;
+			$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+			$bulkUploadResult->errorType = BorhanBatchJobErrorTypes::APP;
 			$bulkUploadResult->errorDescription = "Wrong value passed for property parentType [$bulkUploadResult->parentType]";
 		}
 		if(!$bulkUploadResult->parentType)
@@ -95,12 +95,12 @@ class BulkUploadScheduleResourceEngineCsv extends BulkUploadEngineCsv
 		
 		if($this->maxRecords && $this->lineNumber > $this->maxRecords) // check max records
 		{
-			$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-			$bulkUploadResult->errorType = KalturaBatchJobErrorTypes::APP;
+			$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+			$bulkUploadResult->errorType = BorhanBatchJobErrorTypes::APP;
 			$bulkUploadResult->errorDescription = "Exeeded max records count per bulk";
 		}
 		
-		if($bulkUploadResult->status == KalturaBulkUploadResultStatus::ERROR)
+		if($bulkUploadResult->status == BorhanBulkUploadResultStatus::ERROR)
 		{
 			$this->addBulkUploadResult($bulkUploadResult);
 			return null;
@@ -114,21 +114,21 @@ class BulkUploadScheduleResourceEngineCsv extends BulkUploadEngineCsv
 	 */
 	protected function validateSystemNames($type, $filterSystemNames)
 	{
-		$schedulePlugin = KalturaScheduleClientPlugin::get(KBatchBase::$kClient);
+		$schedulePlugin = BorhanScheduleClientPlugin::get(KBatchBase::$kClient);
 		
 		KBatchBase::impersonate($this->currentPartnerId);
 		switch($type)
 		{
 			case 'location':
-				$filter = new KalturaLocationScheduleResourceFilter();
+				$filter = new BorhanLocationScheduleResourceFilter();
 				break;
 
 			case 'camera':
-				$filter = new KalturaCameraScheduleResourceFilter();
+				$filter = new BorhanCameraScheduleResourceFilter();
 				break;
 
 			case 'live_entry':
-				$filter = new KalturaLiveEntryScheduleResourceFilter();
+				$filter = new BorhanLiveEntryScheduleResourceFilter();
 				break;
 						
 		}
@@ -149,12 +149,12 @@ class BulkUploadScheduleResourceEngineCsv extends BulkUploadEngineCsv
 	 */
 	protected function createObjects()
 	{
-		$schedulePlugin = KalturaScheduleClientPlugin::get(KBatchBase::$kClient);
+		$schedulePlugin = BorhanScheduleClientPlugin::get(KBatchBase::$kClient);
 		
 		$filterSystemNames = array();
 		foreach($this->bulkUploadResults as $bulkUploadResult)
 		{
-			if($bulkUploadResult->systemName && !$bulkUploadResult->resourceId && $bulkUploadResult->action != KalturaBulkUploadAction::ADD)
+			if($bulkUploadResult->systemName && !$bulkUploadResult->resourceId && $bulkUploadResult->action != BorhanBulkUploadAction::ADD)
 			{
 				if(!isset($filterSystemNames[$bulkUploadResult->type]))
 					$filterSystemNames[$bulkUploadResult->type] = array();
@@ -189,13 +189,13 @@ class BulkUploadScheduleResourceEngineCsv extends BulkUploadEngineCsv
 		// start a multi request for add entries
 		KBatchBase::$kClient->startMultiRequest();
 		
-		KalturaLog::info("job[{$this->job->id}] start creating resources");
+		BorhanLog::info("job[{$this->job->id}] start creating resources");
 		$bulkUploadResultChunk = array(); // store the results of the created entries
 		
 		foreach($this->bulkUploadResults as $bulkUploadResult)
 		{
-			/* @var $bulkUploadResult KalturaBulkUploadResultScheduleResource */
-			KalturaLog::info("Handling bulk upload result: [" . ($bulkUploadResult->resourceId ? $bulkUploadResult->resourceId : $bulkUploadResult->systemName) . "]");
+			/* @var $bulkUploadResult BorhanBulkUploadResultScheduleResource */
+			BorhanLog::info("Handling bulk upload result: [" . ($bulkUploadResult->resourceId ? $bulkUploadResult->resourceId : $bulkUploadResult->systemName) . "]");
 
 			if(!$bulkUploadResult->resourceId && $bulkUploadResult->systemName && isset($this->existingSystemNames[$bulkUploadResult->type]))
 			{
@@ -206,16 +206,16 @@ class BulkUploadScheduleResourceEngineCsv extends BulkUploadEngineCsv
 				}
 			}
 			
-			if($bulkUploadResult->action == KalturaBulkUploadAction::ADD_OR_UPDATE)
+			if($bulkUploadResult->action == BorhanBulkUploadAction::ADD_OR_UPDATE)
 			{
-				$bulkUploadResult->action = $bulkUploadResult->resourceId ? KalturaBulkUploadAction::UPDATE : KalturaBulkUploadAction::ADD;
+				$bulkUploadResult->action = $bulkUploadResult->resourceId ? BorhanBulkUploadAction::UPDATE : BorhanBulkUploadAction::ADD;
 			}
 			
 			
 			KBatchBase::impersonate($this->currentPartnerId);
 			switch($bulkUploadResult->action)
 			{
-				case KalturaBulkUploadAction::ADD:
+				case BorhanBulkUploadAction::ADD:
 					$scheduleResource = $this->createScheduleResourceFromResultAndJobData($bulkUploadResult);
 					$bulkUploadResultChunk[] = $bulkUploadResult;
 					if($scheduleResource)
@@ -235,13 +235,13 @@ class BulkUploadScheduleResourceEngineCsv extends BulkUploadEngineCsv
 					}
 					break;
 				
-				case KalturaBulkUploadAction::UPDATE:
+				case BorhanBulkUploadAction::UPDATE:
 				
 					$scheduleResource = null;
 					if(!$bulkUploadResult->resourceId)
 					{
-						$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-						$bulkUploadResult->errorType = KalturaBatchJobErrorTypes::APP;
+						$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+						$bulkUploadResult->errorType = BorhanBatchJobErrorTypes::APP;
 						$bulkUploadResult->errorDescription = "Unable to find {$bulkUploadResult->type} resource [$bulkUploadResult->systemName]";
 					}
 					else
@@ -266,11 +266,11 @@ class BulkUploadScheduleResourceEngineCsv extends BulkUploadEngineCsv
 					}
 					break;
 				
-				case KalturaBulkUploadAction::DELETE:
+				case BorhanBulkUploadAction::DELETE:
 					if(!$bulkUploadResult->resourceId)
 					{
-						$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-						$bulkUploadResult->errorType = KalturaBatchJobErrorTypes::APP;
+						$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+						$bulkUploadResult->errorType = BorhanBatchJobErrorTypes::APP;
 						$bulkUploadResult->errorDescription = "Unable to find {$bulkUploadResult->type} resource [$bulkUploadResult->systemName]";
 					}
 					$bulkUploadResultChunk[] = $bulkUploadResult;
@@ -285,7 +285,7 @@ class BulkUploadScheduleResourceEngineCsv extends BulkUploadEngineCsv
 					break;
 				
 				default:
-					$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
+					$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
 					$bulkUploadResult->errorDescription = "Unknown action passed: [" . $bulkUploadResult->action . "]";
 					break;
 			}
@@ -309,29 +309,29 @@ class BulkUploadScheduleResourceEngineCsv extends BulkUploadEngineCsv
 		if(count($requestResults))
 			$this->updateObjectsResults($requestResults, $bulkUploadResultChunk);
 		
-		KalturaLog::info("job[{$this->job->id}] finish modifying resources");
+		BorhanLog::info("job[{$this->job->id}] finish modifying resources");
 	}
 	
 	/**
 	 * Function to create a new schedule-resource from bulk upload result.
 	 * 
-	 * @param KalturaBulkUploadResultScheduleResource $bulkUploadResult   
-	 * @return KalturaScheduleResource
+	 * @param BorhanBulkUploadResultScheduleResource $bulkUploadResult   
+	 * @return BorhanScheduleResource
 	 */
-	protected function createScheduleResourceFromResultAndJobData(KalturaBulkUploadResultScheduleResource &$bulkUploadResult)
+	protected function createScheduleResourceFromResultAndJobData(BorhanBulkUploadResultScheduleResource &$bulkUploadResult)
 	{
 		switch($bulkUploadResult->type)
 		{
 			case 'location':
-				$scheduleResource = new KalturaLocationScheduleResource();
+				$scheduleResource = new BorhanLocationScheduleResource();
 				break;
 
 			case 'camera':
-				$scheduleResource = new KalturaCameraScheduleResource();
+				$scheduleResource = new BorhanCameraScheduleResource();
 				break;
 
 			case 'live_entry':
-				$scheduleResource = new KalturaLiveEntryScheduleResource();
+				$scheduleResource = new BorhanLiveEntryScheduleResource();
 				break;
 						
 		}
@@ -360,8 +360,8 @@ class BulkUploadScheduleResourceEngineCsv extends BulkUploadEngineCsv
 			}
 			else
 			{
-				$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-				$bulkUploadResult->errorType = KalturaBatchJobErrorTypes::APP;
+				$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+				$bulkUploadResult->errorType = BorhanBatchJobErrorTypes::APP;
 				$bulkUploadResult->errorDescription = "Unable to find parent {$bulkUploadResult->parentType} resource [$bulkUploadResult->parentSystemName]";
 				return null;
 			}
@@ -404,8 +404,8 @@ class BulkUploadScheduleResourceEngineCsv extends BulkUploadEngineCsv
 			
 			if(is_array($requestResult) && isset($requestResult['code']))
 			{
-				$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-				$bulkUploadResult->errorType = KalturaBatchJobErrorTypes::KALTURA_API;
+				$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+				$bulkUploadResult->errorType = BorhanBatchJobErrorTypes::BORHAN_API;
 				$bulkUploadResult->objectStatus = $requestResult['code'];
 				$bulkUploadResult->errorDescription = $requestResult['message'];
 				$this->addBulkUploadResult($bulkUploadResult);
@@ -414,14 +414,14 @@ class BulkUploadScheduleResourceEngineCsv extends BulkUploadEngineCsv
 			
 			if($requestResult instanceof Exception)
 			{
-				$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-				$bulkUploadResult->errorType = KalturaBatchJobErrorTypes::KALTURA_API;
+				$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+				$bulkUploadResult->errorType = BorhanBatchJobErrorTypes::BORHAN_API;
 				$bulkUploadResult->errorDescription = $requestResult->getMessage();
 				$this->addBulkUploadResult($bulkUploadResult);
 				continue;
 			}
 			
-			if($requestResult instanceof KalturaScheduleResource)
+			if($requestResult instanceof BorhanScheduleResource)
 			{
 				if ($requestResult->id)
 				    $bulkUploadResult->objectId = $requestResult->id;
@@ -448,7 +448,7 @@ class BulkUploadScheduleResourceEngineCsv extends BulkUploadEngineCsv
 	 */
 	protected function getUploadResultInstance()
 	{
-		return new KalturaBulkUploadResultScheduleResource();
+		return new BorhanBulkUploadResultScheduleResource();
 	}
 	
 	/**

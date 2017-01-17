@@ -3,7 +3,7 @@
  * @package plugins.cuePoint
  * @subpackage api.errors
  */
-class KalturaCuePointErrors extends KalturaErrors implements kCuePointErrors
+class BorhanCuePointErrors extends BorhanErrors implements kCuePointErrors
 {
 	const INVALID_CUE_POINT_ID = "INVALID_ID;ID;Invalid cue point id [@ID@]";
 	

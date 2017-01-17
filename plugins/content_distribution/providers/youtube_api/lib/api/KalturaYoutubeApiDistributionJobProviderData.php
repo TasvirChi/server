@@ -3,7 +3,7 @@
  * @package plugins.youtubeApiDistribution
  * @subpackage api.objects
  */
-class KalturaYoutubeApiDistributionJobProviderData extends KalturaConfigurableDistributionJobProviderData
+class BorhanYoutubeApiDistributionJobProviderData extends BorhanConfigurableDistributionJobProviderData
 {
 	/**
 	 * @var string
@@ -16,18 +16,18 @@ class KalturaYoutubeApiDistributionJobProviderData extends KalturaConfigurableDi
 	public $thumbAssetFilePath;
 
 	/**
-	 * @var KalturaYouTubeApiCaptionDistributionInfoArray
+	 * @var BorhanYouTubeApiCaptionDistributionInfoArray
 	 */
 	public $captionsInfo;
 
-	public function __construct(KalturaDistributionJobData $distributionJobData = null)
+	public function __construct(BorhanDistributionJobData $distributionJobData = null)
 	{
 		parent::__construct($distributionJobData);
 	    
 		if(!$distributionJobData)
 			return;
 		
-		if(!($distributionJobData->distributionProfile instanceof KalturaYoutubeApiDistributionProfile))
+		if(!($distributionJobData->distributionProfile instanceof BorhanYoutubeApiDistributionProfile))
 			return;
 			
 		$flavorAssets = assetPeer::retrieveByIds(explode(',', $distributionJobData->entryDistribution->flavorAssetIds));
@@ -66,25 +66,25 @@ class KalturaYoutubeApiDistributionJobProviderData extends KalturaConfigurableDi
 		return array_merge ( parent::getMapBetweenObjects() , self::$map_between_objects );
 	}
 	
-	private function addCaptionsData(KalturaDistributionJobData $distributionJobData) {
-		/* @var $mediaFile KalturaDistributionRemoteMediaFile */
+	private function addCaptionsData(BorhanDistributionJobData $distributionJobData) {
+		/* @var $mediaFile BorhanDistributionRemoteMediaFile */
 		$assetIdsArray = explode ( ',', $distributionJobData->entryDistribution->assetIds );
 		if (empty($assetIdsArray)) return;
 		$assets = array ();
-		$this->captionsInfo = new KalturaYouTubeApiCaptionDistributionInfoArray();
+		$this->captionsInfo = new BorhanYouTubeApiCaptionDistributionInfoArray();
 		
 		foreach ( $assetIdsArray as $assetId ) {
 			$asset = assetPeer::retrieveByIdNoFilter( $assetId );
 			if (!$asset){
-				KalturaLog::err("Asset [$assetId] not found");
+				BorhanLog::err("Asset [$assetId] not found");
 				continue;
 			}
 			if ($asset->getStatus() == asset::ASSET_STATUS_READY) {
 				$assets [] = $asset;
 			}
 			elseif($asset->getStatus()== asset::ASSET_STATUS_DELETED) {
-				$captionInfo = new KalturaYouTubeApiCaptionDistributionInfo ();
-				$captionInfo->action = KalturaYouTubeApiDistributionCaptionAction::DELETE_ACTION;
+				$captionInfo = new BorhanYouTubeApiCaptionDistributionInfo ();
+				$captionInfo->action = BorhanYouTubeApiDistributionCaptionAction::DELETE_ACTION;
 				$captionInfo->assetId = $assetId;
 				//getting the asset's remote id
 				foreach ( $distributionJobData->mediaFiles as $mediaFile ) {
@@ -96,7 +96,7 @@ class KalturaYoutubeApiDistributionJobProviderData extends KalturaConfigurableDi
 				}
 			}
 			else{
-				KalturaLog::err("Asset [$assetId] has status [".$asset->getStatus()."]. not added to provider data");
+				BorhanLog::err("Asset [$assetId] has status [".$asset->getStatus()."]. not added to provider data");
 			}
 		}
 
@@ -115,7 +115,7 @@ class KalturaYoutubeApiDistributionJobProviderData extends KalturaConfigurableDi
 							if ($captionInfo->language)
 								$this->captionsInfo [] = $captionInfo;
 							else
-								KalturaLog::err('The caption ['.$asset->getId().'] has unrecognized language ['.$asset->getLanguage().']'); 
+								BorhanLog::err('The caption ['.$asset->getId().'] has unrecognized language ['.$asset->getLanguage().']'); 
 						}
 					}
 					break;
@@ -129,12 +129,12 @@ class KalturaYoutubeApiDistributionJobProviderData extends KalturaConfigurableDi
 							$captionInfo->label = $asset->getTitle();
 							$captionInfo->language = $asset->getTitle();
 							
-							$languageCodeReflector = KalturaTypeReflectorCacher::get('KalturaLanguageCode');
+							$languageCodeReflector = BorhanTypeReflectorCacher::get('BorhanLanguageCode');
 							//check if the language code exists 
 						    if($languageCodeReflector && $languageCodeReflector->getConstantName($captionInfo->language))
 								$this->captionsInfo [] = $captionInfo;
 							else
-								KalturaLog::err('The attachment ['.$asset->getId().'] has unrecognized language ['.$asset->getTitle().']'); 		    
+								BorhanLog::err('The attachment ['.$asset->getId().'] has unrecognized language ['.$asset->getTitle().']'); 		    
 						}
 					}
 					break;
@@ -143,8 +143,8 @@ class KalturaYoutubeApiDistributionJobProviderData extends KalturaConfigurableDi
 	}
 	
 	private function getLanguageCode($language = null){
-		$languageReflector = KalturaTypeReflectorCacher::get('KalturaLanguage');
-		$languageCodeReflector = KalturaTypeReflectorCacher::get('KalturaLanguageCode');
+		$languageReflector = BorhanTypeReflectorCacher::get('BorhanLanguage');
+		$languageCodeReflector = BorhanTypeReflectorCacher::get('BorhanLanguageCode');
 		if($languageReflector && $languageCodeReflector)
 		{
 			$languageCode = $languageReflector->getConstantName($language);
@@ -154,25 +154,25 @@ class KalturaYoutubeApiDistributionJobProviderData extends KalturaConfigurableDi
 		return null;
 	}
 	
-	private function getCaptionInfo($asset, $syncKey, KalturaDistributionJobData $distributionJobData) {
-		$captionInfo = new KalturaYouTubeApiCaptionDistributionInfo ();
+	private function getCaptionInfo($asset, $syncKey, BorhanDistributionJobData $distributionJobData) {
+		$captionInfo = new BorhanYouTubeApiCaptionDistributionInfo ();
 		$captionInfo->filePath = kFileSyncUtils::getLocalFilePathForKey ( $syncKey, false );
 		$captionInfo->assetId = $asset->getId();
 		$captionInfo->version = $asset->getVersion();
-		/* @var $mediaFile KalturaDistributionRemoteMediaFile */
+		/* @var $mediaFile BorhanDistributionRemoteMediaFile */
 		$distributed = false;
 		foreach ( $distributionJobData->mediaFiles as $mediaFile ) {
 			if ($mediaFile->assetId == $asset->getId ()) {
 				$distributed = true;
 				if ($asset->getVersion () > $mediaFile->version) {
-					$captionInfo->action = KalturaYouTubeApiDistributionCaptionAction::UPDATE_ACTION;
+					$captionInfo->action = BorhanYouTubeApiDistributionCaptionAction::UPDATE_ACTION;
 				}
 				break;
 			}
 		}
 		if (! $distributed)
-			$captionInfo->action = KalturaYouTubeApiDistributionCaptionAction::SUBMIT_ACTION;
-		elseif ($captionInfo->action != KalturaYouTubeApiDistributionCaptionAction::UPDATE_ACTION) {
+			$captionInfo->action = BorhanYouTubeApiDistributionCaptionAction::SUBMIT_ACTION;
+		elseif ($captionInfo->action != BorhanYouTubeApiDistributionCaptionAction::UPDATE_ACTION) {
 			return;
 		}
 		return $captionInfo;

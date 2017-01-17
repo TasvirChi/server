@@ -3,7 +3,7 @@
  * @package plugins.fileSync
  * @subpackage api.enum
  */
-class KalturaFileSyncStatus extends KalturaEnum 
+class BorhanFileSyncStatus extends BorhanEnum 
 {
 	const ERROR = -1;
 	const PENDING = 1;

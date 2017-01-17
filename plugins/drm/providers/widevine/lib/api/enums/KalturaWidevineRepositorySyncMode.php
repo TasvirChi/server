@@ -3,6 +3,6 @@
  * @package plugins.widevine
  * @subpackage api.enum
  */
-class KalturaWidevineRepositorySyncMode extends KalturaEnum implements WidevineRepositorySyncMode
+class BorhanWidevineRepositorySyncMode extends BorhanEnum implements WidevineRepositorySyncMode
 {
 }

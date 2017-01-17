@@ -3,10 +3,10 @@
  * @package plugins.adminConsole
  * @subpackage api.objects
  */
-class KalturaTrackEntryListResponse extends KalturaListResponse
+class BorhanTrackEntryListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaTrackEntryArray
+	 * @var BorhanTrackEntryArray
 	 * @readonly
 	 */
 	public $objects;

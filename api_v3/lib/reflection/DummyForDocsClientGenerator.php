@@ -83,7 +83,7 @@ class DummyForDocsClientGenerator extends ClientGeneratorFromPhp
 		
 	}
 	
-	protected function writeType(KalturaTypeReflector $typeReflector)
+	protected function writeType(BorhanTypeReflector $typeReflector)
 	{
 	}
 	
@@ -95,7 +95,7 @@ class DummyForDocsClientGenerator extends ClientGeneratorFromPhp
 	{
 	}
 
-	protected function writeBeforeService(KalturaServiceActionItem $serviceReflector)
+	protected function writeBeforeService(BorhanServiceActionItem $serviceReflector)
 	{
 	}
 	
@@ -103,7 +103,7 @@ class DummyForDocsClientGenerator extends ClientGeneratorFromPhp
 	{
 	}
 	
-	protected function writeAfterService(KalturaServiceActionItem $serviceReflector)
+	protected function writeAfterService(BorhanServiceActionItem $serviceReflector)
 	{
 	}
 	
@@ -115,7 +115,7 @@ class DummyForDocsClientGenerator extends ClientGeneratorFromPhp
 	{
 	}
 	
-	private function writeMainClassServiceDeclaration(KalturaServiceActionItem $serviceReflector)
+	private function writeMainClassServiceDeclaration(BorhanServiceActionItem $serviceReflector)
 	{
 	}
 	
@@ -123,7 +123,7 @@ class DummyForDocsClientGenerator extends ClientGeneratorFromPhp
 	{
 	}
 	
-	private function writeMainClassServiceInitialization(KalturaServiceActionItem $serviceReflector)
+	private function writeMainClassServiceInitialization(BorhanServiceActionItem $serviceReflector)
 	{
 	}
 	

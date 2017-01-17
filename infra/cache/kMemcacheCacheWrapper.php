@@ -77,8 +77,8 @@ class kMemcacheCacheWrapper extends kBaseCacheWrapper
 		$connTook = microtime(true) - $connStart;
 		self::safeLog("connect took - {$connTook} seconds to {$this->hostName}:{$this->port} attempts {$this->connectAttempts}");
 		
-		if (class_exists("KalturaMonitorClient"))
-			KalturaMonitorClient::monitorConnTook($this->hostName, $connTook);
+		if (class_exists("BorhanMonitorClient"))
+			BorhanMonitorClient::monitorConnTook($this->hostName, $connTook);
 
 		if (!$connectResult)
 		{

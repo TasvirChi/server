@@ -3,7 +3,7 @@
  * @package plugins.wowza
  * @subpackage lib.enum
  */
-class WowzaMediaServerNodeType implements IKalturaPluginEnum, serverNodeType
+class WowzaMediaServerNodeType implements IBorhanPluginEnum, serverNodeType
 {
 	const WOWZA_MEDIA_SERVER = 'WOWZA_MEDIA_SERVER';
 	

@@ -27,13 +27,13 @@ while(count($captions))
 {
 	foreach($captions as $caption)
 	{
-		KalturaLog::log('caption_asset_id ' . $caption->getId() . ' int id[' . $caption->getIntId() . '] crc id[' . $sphinx->getSphinxId($caption) . '] last updated at ['. $caption->getUpdatedAt(null) .']');
+		BorhanLog::log('caption_asset_id ' . $caption->getId() . ' int id[' . $caption->getIntId() . '] crc id[' . $sphinx->getSphinxId($caption) . '] last updated at ['. $caption->getUpdatedAt(null) .']');
 		
 		try {
 			$ret = $sphinx->saveToSphinx($caption, true);
 		}
 		catch(Exception $e){
-			KalturaLog::err($e->getMessage());
+			BorhanLog::err($e->getMessage());
 			exit -1;
 		}
 	}
@@ -43,5 +43,5 @@ while(count($captions))
 	$captions = CaptionAssetItemPeer::doSelect($c, $con);
 }
 
-KalturaLog::log('Done. Cureent time: ' . time());
+BorhanLog::log('Done. Cureent time: ' . time());
 exit(0);

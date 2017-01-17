@@ -16,26 +16,26 @@ class KAsyncIndexTest extends PHPUnit_Framework_TestCase
 	
 	public function testMediaEntryFilter()
 	{
-		$filter = new KalturaMediaEntryFilter();
+		$filter = new BorhanMediaEntryFilter();
 		// TODO define the filter
 		
-		$this->doTestEntry($filter, KalturaBatchJobStatus::FINISHED);
+		$this->doTestEntry($filter, BorhanBatchJobStatus::FINISHED);
 	}
 
 	public function testDocumentEntryFilter()
 	{
-		$filter = new KalturaDocumentEntryFilter();
+		$filter = new BorhanDocumentEntryFilter();
 		// TODO define the filter
 		
-		$this->doTestEntry($filter, KalturaBatchJobStatus::FINISHED);
+		$this->doTestEntry($filter, BorhanBatchJobStatus::FINISHED);
 	}
 	
-	public function doTestEntry(KalturaBaseEntryFilter $filter, $expectedStatus)
+	public function doTestEntry(BorhanBaseEntryFilter $filter, $expectedStatus)
 	{
-		$this->doTest(KalturaIndexObjectType::ENTRY, $filter, $expectedStatus);
+		$this->doTest(BorhanIndexObjectType::ENTRY, $filter, $expectedStatus);
 	}
 	
-	public function doTest($objectType, KalturaFilter $filter, $expectedStatus)
+	public function doTest($objectType, BorhanFilter $filter, $expectedStatus)
 	{
 		$iniFile = "batch_config.ini";
 		$schedulerConfig = new KSchedulerConfig($iniFile);
@@ -61,15 +61,15 @@ class KAsyncIndexTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals($expectedStatus, $job->status);
 	}
 	
-	private function prepareJobs($objectType, KalturaFilter $filter)
+	private function prepareJobs($objectType, BorhanFilter $filter)
 	{
-		$data = new KalturaIndexJobData();
+		$data = new BorhanIndexJobData();
 		$data->filter = $filter;
 		
-		$job = new KalturaBatchJob();
+		$job = new BorhanBatchJob();
 		$job->id = 1;
 		$job->jobSubType = $objectType;
-		$job->status = KalturaBatchJobStatus::PENDING;
+		$job->status = BorhanBatchJobStatus::PENDING;
 		$job->data = $data;
 		
 		return array($job);

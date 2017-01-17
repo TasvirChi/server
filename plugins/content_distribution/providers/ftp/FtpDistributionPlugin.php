@@ -2,7 +2,7 @@
 /**
  * @package plugins.ftpDistribution
  */
-class FtpDistributionPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaEnumerator, IKalturaPending, IKalturaObjectLoader, IKalturaContentDistributionProvider
+class FtpDistributionPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanEnumerator, IBorhanPending, IBorhanObjectLoader, IBorhanContentDistributionProvider
 {
 	const PLUGIN_NAME = 'ftpDistribution';
 	const CONTENT_DSTRIBUTION_VERSION_MAJOR = 2;
@@ -16,12 +16,12 @@ class FtpDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	
 	public static function dependsOn()
 	{
-		$contentDistributionVersion = new KalturaVersion(
+		$contentDistributionVersion = new BorhanVersion(
 			self::CONTENT_DSTRIBUTION_VERSION_MAJOR,
 			self::CONTENT_DSTRIBUTION_VERSION_MINOR,
 			self::CONTENT_DSTRIBUTION_VERSION_BUILD);
 			
-		$dependency = new KalturaDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
+		$dependency = new BorhanDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
 		return array($dependency);
 	}
 	
@@ -57,7 +57,7 @@ class FtpDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && ($enumValue == KalturaDistributionProviderType::FTP || $enumValue == KalturaDistributionProviderType::FTP_SCHEDULED))
+		if (class_exists('BorhanClient') && ($enumValue == BorhanDistributionProviderType::FTP || $enumValue == BorhanDistributionProviderType::FTP_SCHEDULED))
 		{
 			if($baseClass == 'IDistributionEngineCloseDelete')
 				return new FtpDistributionEngine();
@@ -86,14 +86,14 @@ class FtpDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 			if($baseClass == 'IDistributionEngineDisable')
 				return new FtpDistributionEngine();
 		
-			if($baseClass == 'KalturaDistributionProfile')
-				return new KalturaFtpDistributionProfile();
+			if($baseClass == 'BorhanDistributionProfile')
+				return new BorhanFtpDistributionProfile();
 		
-			if($baseClass == 'KalturaDistributionJobProviderData')
-				return new KalturaFtpDistributionJobProviderData();
+			if($baseClass == 'BorhanDistributionJobProviderData')
+				return new BorhanFtpDistributionJobProviderData();
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && ($enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::FTP || $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::FTP_SCHEDULED))
+		if (class_exists('Borhan_Client_Client') && ($enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::FTP || $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::FTP_SCHEDULED))
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 			{
@@ -102,9 +102,9 @@ class FtpDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 			}
 		}
 
-		if($baseClass == 'KalturaDistributionJobProviderData' && ($enumValue == self::getDistributionProviderTypeCoreValue(FtpDistributionProviderType::FTP) || $enumValue == self::getDistributionProviderTypeCoreValue(FtpDistributionProviderType::FTP_SCHEDULED)))
+		if($baseClass == 'BorhanDistributionJobProviderData' && ($enumValue == self::getDistributionProviderTypeCoreValue(FtpDistributionProviderType::FTP) || $enumValue == self::getDistributionProviderTypeCoreValue(FtpDistributionProviderType::FTP_SCHEDULED)))
 		{
-			$reflect = new ReflectionClass('KalturaFtpDistributionJobProviderData');
+			$reflect = new ReflectionClass('BorhanFtpDistributionJobProviderData');
 			return $reflect->newInstanceArgs($constructorArgs);
 		}
 	
@@ -114,8 +114,8 @@ class FtpDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 			return $reflect->newInstanceArgs($constructorArgs);
 		}
 	
-		if($baseClass == 'KalturaDistributionProfile' && ($enumValue == self::getDistributionProviderTypeCoreValue(FtpDistributionProviderType::FTP) || $enumValue == self::getDistributionProviderTypeCoreValue(FtpDistributionProviderType::FTP_SCHEDULED)))
-			return new KalturaFtpDistributionProfile();
+		if($baseClass == 'BorhanDistributionProfile' && ($enumValue == self::getDistributionProviderTypeCoreValue(FtpDistributionProviderType::FTP) || $enumValue == self::getDistributionProviderTypeCoreValue(FtpDistributionProviderType::FTP_SCHEDULED)))
+			return new BorhanFtpDistributionProfile();
 			
 		if($baseClass == 'DistributionProfile' && ($enumValue == self::getDistributionProviderTypeCoreValue(FtpDistributionProviderType::FTP) || $enumValue == self::getDistributionProviderTypeCoreValue(FtpDistributionProviderType::FTP_SCHEDULED)))
 			return new FtpDistributionProfile();
@@ -131,7 +131,7 @@ class FtpDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	public static function getObjectClass($baseClass, $enumValue)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && ($enumValue == KalturaDistributionProviderType::FTP || $enumValue == KalturaDistributionProviderType::FTP_SCHEDULED))
+		if (class_exists('BorhanClient') && ($enumValue == BorhanDistributionProviderType::FTP || $enumValue == BorhanDistributionProviderType::FTP_SCHEDULED))
 		{
 			if($baseClass == 'IDistributionEngineCloseDelete')
 				return 'FtpDistributionEngine';
@@ -160,30 +160,30 @@ class FtpDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 			if($baseClass == 'IDistributionEngineDisable')
 				return 'FtpDistributionEngine';
 		
-			if($baseClass == 'KalturaDistributionProfile')
-				return 'KalturaFtpDistributionProfile';
+			if($baseClass == 'BorhanDistributionProfile')
+				return 'BorhanFtpDistributionProfile';
 		
-			if($baseClass == 'KalturaDistributionJobProviderData')
-				return 'KalturaFtpDistributionJobProviderData';
+			if($baseClass == 'BorhanDistributionJobProviderData')
+				return 'BorhanFtpDistributionJobProviderData';
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && ($enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::FTP || $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::FTP_SCHEDULED))
+		if (class_exists('Borhan_Client_Client') && ($enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::FTP || $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::FTP_SCHEDULED))
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 				return 'Form_FtpProfileConfiguration';
 				
-			if($baseClass == 'Kaltura_Client_ContentDistribution_Type_DistributionProfile')
-				return 'Kaltura_Client_FtpDistribution_Type_FtpDistributionProfile';
+			if($baseClass == 'Borhan_Client_ContentDistribution_Type_DistributionProfile')
+				return 'Borhan_Client_FtpDistribution_Type_FtpDistributionProfile';
 		}
 		
-		if($baseClass == 'KalturaDistributionJobProviderData' && ($enumValue == self::getDistributionProviderTypeCoreValue(FtpDistributionProviderType::FTP) || $enumValue == self::getDistributionProviderTypeCoreValue(FtpDistributionProviderType::FTP_SCHEDULED)))
-			return 'KalturaFtpDistributionJobProviderData';
+		if($baseClass == 'BorhanDistributionJobProviderData' && ($enumValue == self::getDistributionProviderTypeCoreValue(FtpDistributionProviderType::FTP) || $enumValue == self::getDistributionProviderTypeCoreValue(FtpDistributionProviderType::FTP_SCHEDULED)))
+			return 'BorhanFtpDistributionJobProviderData';
 	
 		if($baseClass == 'kDistributionJobProviderData' && ($enumValue == self::getApiValue(FtpDistributionProviderType::FTP) || $enumValue == self::getApiValue(FtpDistributionProviderType::FTP_SCHEDULED)))
 			return 'kFtpDistributionJobProviderData';
 	
-		if($baseClass == 'KalturaDistributionProfile' && ($enumValue == self::getDistributionProviderTypeCoreValue(FtpDistributionProviderType::FTP) || $enumValue == self::getDistributionProviderTypeCoreValue(FtpDistributionProviderType::FTP_SCHEDULED)))
-			return 'KalturaFtpDistributionProfile';
+		if($baseClass == 'BorhanDistributionProfile' && ($enumValue == self::getDistributionProviderTypeCoreValue(FtpDistributionProviderType::FTP) || $enumValue == self::getDistributionProviderTypeCoreValue(FtpDistributionProviderType::FTP_SCHEDULED)))
+			return 'BorhanFtpDistributionProfile';
 			
 		if($baseClass == 'DistributionProfile' && ($enumValue == self::getDistributionProviderTypeCoreValue(FtpDistributionProviderType::FTP) || $enumValue == self::getDistributionProviderTypeCoreValue(FtpDistributionProviderType::FTP_SCHEDULED)))
 			return 'FtpDistributionProfile';
@@ -204,11 +204,11 @@ class FtpDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	/**
 	 * Return an API distribution provider instance
 	 * 
-	 * @return KalturaDistributionProvider
+	 * @return BorhanDistributionProvider
 	 */
-	public static function getKalturaProvider()
+	public static function getBorhanProvider()
 	{
-		$distributionProvider = new KalturaFtpDistributionProvider();
+		$distributionProvider = new BorhanFtpDistributionProvider();
 		$distributionProvider->fromObject(self::getProvider());
 		return $distributionProvider;
 	}
@@ -228,7 +228,7 @@ class FtpDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	 */
 	public static function getDistributionProviderTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('DistributionProviderType', $value);
 	}
 	
@@ -237,6 +237,6 @@ class FtpDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 }

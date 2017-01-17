@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layouts>
-	<layout layoutId="" skinPath="/content/uiconf/kaltura/default_player/kdp_2.0.0/kdp_skin_dark3a.swf">
+	<layout layoutId="" skinPath="/content/uiconf/borhan/default_player/bdp_2.0.0/bdp_skin_dark3a.swf">
 		<VBox height="100%" styleName="mlayout" width="100%">
 				<Canvas width="100%" height="100%" id="PlayerHolder" 
 					styleName="PlayerBackground" >
@@ -55,8 +55,8 @@
 					tooltip="Share this video" command="gigyaButton" />
 				<Button k_theme_change="true" id="poweredByController" 
 					width="40" height="20" 
-					k_click="navigate('http://www.kaltura.com')" 
-					styleName="kalturaLogo" />
+					k_click="navigate('http://www.borhan.com')" 
+					styleName="borhanLogo" />
 			</HBox>
 		</VBox>
 		<popups>
@@ -105,7 +105,7 @@
 				<cssSelector componentId="controller" 
 					newClass="controllerBox"/>
 				<cssSelector componentId="poweredByController" 
-					newClass="kalturaLogoWhite" />
+					newClass="borhanLogoWhite" />
 				<font>Arial</font>
 			</theme>
 			<theme id="dark">

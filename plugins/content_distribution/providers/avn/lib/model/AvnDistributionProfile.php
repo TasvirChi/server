@@ -137,7 +137,7 @@ class AvnDistributionProfile extends ConfigurableDistributionProfile
 		
 		if (!$allFieldValues || !is_array($allFieldValues)) 
 		{
-			KalturaLog::err('Error getting field values from entry distribution id ['.$entryDistribution->getId().'] profile id ['.$this->getId().']');
+			BorhanLog::err('Error getting field values from entry distribution id ['.$entryDistribution->getId().'] profile id ['.$this->getId().']');
 			return $validationErrors;
 		}
 		

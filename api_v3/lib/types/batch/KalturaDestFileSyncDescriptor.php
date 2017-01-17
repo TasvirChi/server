@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaDestFileSyncDescriptor extends KalturaFileSyncDescriptor
+class BorhanDestFileSyncDescriptor extends BorhanFileSyncDescriptor
 {
 	public function toObject($dbObject = null, $skip = array())
 	{

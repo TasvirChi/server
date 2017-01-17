@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaInheritanceType extends KalturaEnum implements InheritanceType
+class BorhanInheritanceType extends BorhanEnum implements InheritanceType
 {
 
 }

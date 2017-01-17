@@ -76,7 +76,7 @@ class PartnerTableMap extends TableMap {
 		$this->addColumn('PRIORITY_GROUP_ID', 'PriorityGroupId', 'INTEGER', false, null, null);
 		$this->addColumn('PARTNER_GROUP_TYPE', 'PartnerGroupType', 'SMALLINT', false, null, 1);
 		$this->addColumn('PARTNER_PARENT_ID', 'PartnerParentId', 'INTEGER', false, null, null);
-		$this->addColumn('KMC_VERSION', 'KmcVersion', 'VARCHAR', false, 15, '1');
+		$this->addColumn('BMC_VERSION', 'BmcVersion', 'VARCHAR', false, 15, '1');
 		// validators
 	} // initialize()
 

@@ -3,7 +3,7 @@
  * @package plugins.scheduleBulkUpload
  * @subpackage lib
  */
-class BulkUploadObjectScheduleType implements IKalturaPluginEnum, BulkUploadObjectType
+class BulkUploadObjectScheduleType implements IBorhanPluginEnum, BulkUploadObjectType
 {
 	const SCHEDULE_EVENT = 'SCHEDULE_EVENT';
 	const SCHEDULE_RESOURCE = 'SCHEDULE_RESOURCE';

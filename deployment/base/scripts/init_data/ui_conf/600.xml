@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layouts>
-	<layout layoutId="fullLarge" skinPath="/content/uiconf/kaltura/drupal/styles_KDP_blue.swf">
+	<layout layoutId="fullLarge" skinPath="/content/uiconf/borhan/drupal/styles_BDP_blue.swf">
 		<VBox width="100%" height="100%" styleName="mlayout" >
 			<HBox width="100%" height="30" styleName="TopTitle" >
-				<Label id="movieName" styleName="movieName" height="22" width="100%" label="{myKplayer.kalturaShow.kshowName,myKplayer.kalturaEntry.entryName,''}"/>
-				<Button id="kalturaLogo" widht="20" height="20" styleName="kalturaLogo" />
+				<Label id="movieName" styleName="movieName" height="22" width="100%" label="{myKplayer.borhanShow.kshowName,myKplayer.borhanEntry.entryName,''}"/>
+				<Button id="borhanLogo" widht="20" height="20" styleName="borhanLogo" />
 				<poweredBy id="poweredBy" k_path="poweredby/PoweredBy.swf" styleName="poweredBy" width="120" height="18"/>
 			</HBox> 
 			<HBox width="100%" height="100%" styleName="playerContainer"> 

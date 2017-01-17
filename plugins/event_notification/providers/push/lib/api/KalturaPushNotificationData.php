@@ -3,7 +3,7 @@
  * @package plugins.pushNotification
  * @subpackage api.objects
  */
-class KalturaPushNotificationData extends KalturaObject 
+class BorhanPushNotificationData extends BorhanObject 
 {
 	/**
 	 * @var string

@@ -1,6 +1,6 @@
 <?php
 /**
- * Evaluates Kaltura API object, depends on the execution context
+ * Evaluates Borhan API object, depends on the execution context
  *  
  * @package plugins.httpNotification
  * @subpackage model.data
@@ -8,7 +8,7 @@
 class kHttpNotificationObjectData extends kHttpNotificationData
 {
 	/**
-	 * Kaltura API object type
+	 * Borhan API object type
 	 * @var string
 	 */
 	protected $objectType;

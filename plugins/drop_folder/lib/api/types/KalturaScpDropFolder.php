@@ -4,7 +4,7 @@
  * @package plugins.dropFolder
  * @subpackage api.objects
  */
-class KalturaScpDropFolder extends KalturaSshDropFolder
+class BorhanScpDropFolder extends BorhanSshDropFolder
 {
 	public function toObject($dbObject = null, $skip = array())
 	{

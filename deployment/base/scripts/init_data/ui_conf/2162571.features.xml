@@ -2,8 +2,8 @@
   <featuresData>
     <feature k_fullName="TopTitleScreen" k_value="false"/>
     <feature k_fullName="watermark" k_value="false"/>
-    <feature k_fullName="watermark.watermarkPath" k_value="http://www.kaltura.com/content/uiconf/kaltura/kmc/appstudio/kdp3/exampleWatermark.png"/>
-    <feature k_fullName="watermark.watermarkClickPath" k_value="http://www.kaltura.com/"/>
+    <feature k_fullName="watermark.watermarkPath" k_value="http://www.borhan.com/content/uiconf/borhan/bmc/appstudio/bdp3/exampleWatermark.png"/>
+    <feature k_fullName="watermark.watermarkClickPath" k_value="http://www.borhan.com/"/>
     <feature k_fullName="watermark.watermarkPosition" k_value="bottomLeft"/>
     <feature k_fullName="watermark.padding" k_value="5"/>
     <feature k_fullName="timerControllerScreen1" k_value="false"/>

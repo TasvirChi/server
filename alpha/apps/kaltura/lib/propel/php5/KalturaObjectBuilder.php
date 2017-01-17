@@ -14,16 +14,16 @@ require_once 'propel/engine/builder/om/php5/PHP5ObjectBuilder.php';
  * @package server-infra
  * @subpackage propel
  */
-class KalturaObjectBuilder extends PHP5ObjectBuilder
+class BorhanObjectBuilder extends PHP5ObjectBuilder
 {
-	const KALTURA_COLUMN_CREATED_AT = 'created_at';
-	const KALTURA_COLUMN_UPDATED_AT = 'updated_at';
-	const KALTURA_COLUMN_CUSTOM_DATA = 'custom_data';
+	const BORHAN_COLUMN_CREATED_AT = 'created_at';
+	const BORHAN_COLUMN_UPDATED_AT = 'updated_at';
+	const BORHAN_COLUMN_CUSTOM_DATA = 'custom_data';
 	
 	protected static $systemColumns = array(
-		self::KALTURA_COLUMN_CREATED_AT,
-		self::KALTURA_COLUMN_UPDATED_AT,
-		self::KALTURA_COLUMN_CUSTOM_DATA,
+		self::BORHAN_COLUMN_CREATED_AT,
+		self::BORHAN_COLUMN_UPDATED_AT,
+		self::BORHAN_COLUMN_CUSTOM_DATA,
 	);
 
 	/* (non-PHPdoc)
@@ -191,7 +191,7 @@ abstract class ".$this->getClassname()." extends ".ClassTools::classname($this->
 		$newLine = "\n\t\t";
 		
 		$table = $this->getTable();
-		$customDataColumn = $table->getColumn(self::KALTURA_COLUMN_CUSTOM_DATA);
+		$customDataColumn = $table->getColumn(self::BORHAN_COLUMN_CUSTOM_DATA);
 		if($customDataColumn) {
 			$script .= $newLine . "// Nullify cached objects";
 			$script .= $newLine . "\$this->m_custom_data = null;" . $newLine;
@@ -240,11 +240,11 @@ abstract class ".$this->getClassname()." extends ".ClassTools::classname($this->
 	 */
 	protected function addSaveBody(&$script) {
 		$table = $this->getTable();
-		if (!$table->containsColumn(self::KALTURA_COLUMN_CUSTOM_DATA))
+		if (!$table->containsColumn(self::BORHAN_COLUMN_CUSTOM_DATA))
 			return parent::addSaveBody($script);
 		$reloadOnUpdate = $table->isReloadOnUpdate();
 		$reloadOnInsert = $table->isReloadOnInsert();
-		$customDataColumn = $table->getColumn(self::KALTURA_COLUMN_CUSTOM_DATA);
+		$customDataColumn = $table->getColumn(self::BORHAN_COLUMN_CUSTOM_DATA);
 
 		$script .= "
 		if (\$this->isDeleted()) {
@@ -280,13 +280,13 @@ abstract class ".$this->getClassname()." extends ".ClassTools::classname($this->
 				return 0;
 			}
 			
-			for (\$retries = 1; \$retries < KalturaPDO::SAVE_MAX_RETRIES; \$retries++)
+			for (\$retries = 1; \$retries < BorhanPDO::SAVE_MAX_RETRIES; \$retries++)
 			{
                \$affectedRows = \$this->doSave(\$con);
                 if (\$affectedRows || !\$this->isColumnModified(".$this->getPeerClassname()."::CUSTOM_DATA)) //ask if custom_data wasn't modified to avoid retry with atomic column 
                 	break;
 
-                KalturaLog::debug(\"was unable to save! retrying for the \$retries time\");
+                BorhanLog::debug(\"was unable to save! retrying for the \$retries time\");
                 \$criteria = \$this->buildPkeyCriteria();
 				\$criteria->addSelectColumn(".$this->getPeerClassname()."::CUSTOM_DATA);
                 \$stmt = BasePeer::doSelect(\$criteria, \$con);
@@ -600,9 +600,9 @@ abstract class ".$this->getClassname()." extends ".ClassTools::classname($this->
 	protected function addSaveHooks(&$script)
 	{
 		$table = $this->getTable();
-		$createdAtColumn = $table->getColumn(self::KALTURA_COLUMN_CREATED_AT);
-		$updatedAtColumn = $table->getColumn(self::KALTURA_COLUMN_UPDATED_AT);
-		$customDataColumn = $table->getColumn(self::KALTURA_COLUMN_CUSTOM_DATA);
+		$createdAtColumn = $table->getColumn(self::BORHAN_COLUMN_CREATED_AT);
+		$updatedAtColumn = $table->getColumn(self::BORHAN_COLUMN_UPDATED_AT);
+		$customDataColumn = $table->getColumn(self::BORHAN_COLUMN_CUSTOM_DATA);
 		$reloadOnInsert = $table->isReloadOnInsert();
 		
 		$script .= "
@@ -886,7 +886,7 @@ abstract class ".$this->getClassname()." extends ".ClassTools::classname($this->
 		parent::addClassBody($script);
 		
 		$table = $this->getTable();
-		$customDataColumn = $table->getColumn(self::KALTURA_COLUMN_CUSTOM_DATA);
+		$customDataColumn = $table->getColumn(self::BORHAN_COLUMN_CUSTOM_DATA);
 		if($customDataColumn)
 			$this->addCustomDataMethods($script);
 	}
@@ -1161,14 +1161,14 @@ abstract class ".$this->getClassname()." extends ".ClassTools::classname($this->
 	protected function addBuildPkeyCriteriaClose(&$script) 
 	{
 		$table = $this->getTable();
-		if(!$table->getColumn(self::KALTURA_COLUMN_UPDATED_AT))
+		if(!$table->getColumn(self::BORHAN_COLUMN_UPDATED_AT))
 			return parent::addBuildPkeyCriteriaClose($script);
 			
 		$script .= "
 		
 		if(\$this->alreadyInSave)
 		{";
-		if ($table->containsColumn(self::KALTURA_COLUMN_CUSTOM_DATA)){	
+		if ($table->containsColumn(self::BORHAN_COLUMN_CUSTOM_DATA)){	
 			$script .= "
 			if (\$this->isColumnModified(".$this->getPeerClassname()."::CUSTOM_DATA))
 			{

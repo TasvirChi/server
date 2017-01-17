@@ -44,14 +44,14 @@ class KOperationEngineImageMagick extends KOperationEngineDocument
 	public function __construct($cmd, $outFilePath)
 	{
 		parent::__construct($cmd,$outFilePath);
-		KalturaLog::info("cmd [$cmd], outFilePath [$outFilePath]");
+		BorhanLog::info("cmd [$cmd], outFilePath [$outFilePath]");
 	}
 
 	protected function getCmdLine()
 	{
 		putenv("MAGICK_THREAD_LIMIT=1");
 		$exeCmd =  parent::getCmdLine();
-		KalturaLog::info("command line: [$exeCmd]");
+		BorhanLog::info("command line: [$exeCmd]");
 		return $exeCmd;
 	}
 
@@ -103,7 +103,7 @@ class KOperationEngineImageMagick extends KOperationEngineDocument
 		
 		$imagesListXML = $this->createImagesListXML($imagesList);
 	    kFile::setFileContent($outDirPath.DIRECTORY_SEPARATOR.self::IMAGES_LIST_XML_NAME, $imagesListXML->asXML());
-	    KalturaLog::info('images list xml ['.$outDirPath.DIRECTORY_SEPARATOR.self::IMAGES_LIST_XML_NAME.'] created');
+	    BorhanLog::info('images list xml ['.$outDirPath.DIRECTORY_SEPARATOR.self::IMAGES_LIST_XML_NAME.'] created');
 	    return true;
 	}
 	
@@ -146,7 +146,7 @@ class KOperationEngineImageMagick extends KOperationEngineDocument
 		$returnValue = null;
 		$output = null;
 		$command = $identifyExe . " -verbose '{$filePath}' 2>&1";
-		KalturaLog::info("Executing: $command");
+		BorhanLog::info("Executing: $command");
 		exec($command, $output, $returnValue);
 	
 		$std = -1;

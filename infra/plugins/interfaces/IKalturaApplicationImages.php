@@ -4,7 +4,7 @@
  * @package infra
  * @subpackage Plugins
  */
-interface IKalturaApplicationImages extends IKalturaBase
+interface IBorhanApplicationImages extends IBorhanBase
 {
 	/**
 	 * Returns the physical path to the image file

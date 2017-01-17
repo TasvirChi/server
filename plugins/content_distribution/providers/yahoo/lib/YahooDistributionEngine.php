@@ -32,13 +32,13 @@ class YahooDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineSubmit::submit()
 	 */
-	public function submit(KalturaDistributionSubmitJobData $data)
+	public function submit(BorhanDistributionSubmitJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaYahooDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaYahooDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanYahooDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanYahooDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaYahooDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaYahooDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanYahooDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanYahooDistributionJobProviderData");
 
 		return $this->handleSubmit($data, $data->distributionProfile, $data->providerData);
 	}
@@ -46,7 +46,7 @@ class YahooDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseSubmit::closeSubmit()
 	 */
-	public function closeSubmit(KalturaDistributionSubmitJobData $data)
+	public function closeSubmit(BorhanDistributionSubmitJobData $data)
 	{
 		
 	}
@@ -54,13 +54,13 @@ class YahooDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineDelete::delete()
 	 */
-	public function delete(KalturaDistributionDeleteJobData $data)
+	public function delete(BorhanDistributionDeleteJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaYahooDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaYahooDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanYahooDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanYahooDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaYahooDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaYahooDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanYahooDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanYahooDistributionJobProviderData");
 		
 		return $this->handleDelete($data, $data->distributionProfile, $data->providerData);
 		
@@ -69,7 +69,7 @@ class YahooDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseDelete::closeDelete()
 	 */
-	public function closeDelete(KalturaDistributionDeleteJobData $data)
+	public function closeDelete(BorhanDistributionDeleteJobData $data)
 	{
 		
 	}
@@ -77,13 +77,13 @@ class YahooDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineUpdate::update()
 	 */
-	public function update(KalturaDistributionUpdateJobData $data)
+	public function update(BorhanDistributionUpdateJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaYahooDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaYahooDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanYahooDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanYahooDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaYahooDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaYahooDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanYahooDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanYahooDistributionJobProviderData");
 		
 		return $this->handleSubmit($data, $data->distributionProfile, $data->providerData);
 	
@@ -92,17 +92,17 @@ class YahooDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseUpdate::closeUpdate()
 	 */
-	public function closeUpdate(KalturaDistributionUpdateJobData $data)
+	public function closeUpdate(BorhanDistributionUpdateJobData $data)
 	{
 		
 	}
 
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaYahooDistributionProfile $distributionProfile
-	 * @param KalturaYahooDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanYahooDistributionProfile $distributionProfile
+	 * @param BorhanYahooDistributionJobProviderData $providerData
 	 */
-	protected function handleSubmit(KalturaDistributionJobData $data, KalturaYahooDistributionProfile $distributionProfile, KalturaYahooDistributionJobProviderData $providerData)
+	protected function handleSubmit(BorhanDistributionJobData $data, BorhanYahooDistributionProfile $distributionProfile, BorhanYahooDistributionJobProviderData $providerData)
 	{
 		$distributionProfile = $data->distributionProfile;
 		$providerData = $data->providerData;
@@ -110,7 +110,7 @@ class YahooDistributionEngine extends DistributionEngine implements
 
 		$this->fieldValues = unserialize($providerData->fieldValues);
 		if (!$this->fieldValues) {
-			KalturaLog::err("fieldValues array is empty or null");
+			BorhanLog::err("fieldValues array is empty or null");
 			throw new Exception("fieldValues array is empty or null");	
 		}			
 		//xml creation
@@ -135,7 +135,7 @@ class YahooDistributionEngine extends DistributionEngine implements
 			
 		$xmlString = $feed->getXmlString();	
 		file_put_contents($srcFile, $xmlString);	
-		KalturaLog::info("XML written to file [$srcFile]");
+		BorhanLog::info("XML written to file [$srcFile]");
 		//upload file to FTP
 
 		$ftpManager = $this->getFTPManager($distributionProfile);
@@ -151,7 +151,7 @@ class YahooDistributionEngine extends DistributionEngine implements
 		$data->sentData = $xmlString;
 		$data->results = 'none'; 
 		// the url should be accessed automatically
-		if ($distributionProfile->processFeed == KalturaYahooDistributionProcessFeedActionStatus::AUTOMATIC)
+		if ($distributionProfile->processFeed == BorhanYahooDistributionProcessFeedActionStatus::AUTOMATIC)
 		{
 			$accessUrlResult = $this->accessUrl($distributionProfile, $destFile);
 			$data->results = $accessUrlResult['result'];
@@ -160,15 +160,15 @@ class YahooDistributionEngine extends DistributionEngine implements
 	}
 	
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaYahooDistributionProfile $distributionProfile
-	 * @param KalturaYahooDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanYahooDistributionProfile $distributionProfile
+	 * @param BorhanYahooDistributionJobProviderData $providerData
 	 */
-	protected function handleDelete(KalturaDistributionJobData $data, KalturaYahooDistributionProfile $distributionProfile, KalturaYahooDistributionJobProviderData $providerData)
+	protected function handleDelete(BorhanDistributionJobData $data, BorhanYahooDistributionProfile $distributionProfile, BorhanYahooDistributionJobProviderData $providerData)
 	{	
 		$this->fieldValues = unserialize($providerData->fieldValues);
 		if (!$this->fieldValues) {
-			KalturaLog::err("fieldValues array is empty or null");
+			BorhanLog::err("fieldValues array is empty or null");
 			throw new Exception("fieldValues array is empty or null");	
 		}		
 		$entryDistribution = $data->entryDistribution;	
@@ -190,7 +190,7 @@ class YahooDistributionEngine extends DistributionEngine implements
 	
 		$xmlString = $feed->getXmlString();
 		file_put_contents($srcFile, $xmlString);
-		KalturaLog::info("XML written to file [$srcFile]");
+		BorhanLog::info("XML written to file [$srcFile]");
 		//upload file to FTP
 		$ftpManager = $this->getFTPManager($distributionProfile);
 		$ftpManager->putFile($destFile, $srcFile, true);
@@ -198,7 +198,7 @@ class YahooDistributionEngine extends DistributionEngine implements
 		$data->sentData = $xmlString;
 		$data->results = 'none'; 
 		// the url should be accessed automatically
-		if ($distributionProfile->processFeed == KalturaYahooDistributionProcessFeedActionStatus::AUTOMATIC)
+		if ($distributionProfile->processFeed == BorhanYahooDistributionProcessFeedActionStatus::AUTOMATIC)
 		{
 			$accessUrlResult = $this->accessUrl($distributionProfile, $destFile);
 			$data->results = $accessUrlResult['result'];
@@ -208,10 +208,10 @@ class YahooDistributionEngine extends DistributionEngine implements
 				
 	/**
 	 * 
-	 * @param KalturaYahooDistributionProfile $distributionProfile
+	 * @param BorhanYahooDistributionProfile $distributionProfile
 	 * @return ftpMgr
 	 */
-	protected function getFTPManager(KalturaYahooDistributionProfile $distributionProfile)
+	protected function getFTPManager(BorhanYahooDistributionProfile $distributionProfile)
 	{
 		$ftpHost = $distributionProfile->ftpHost;
 		$ftpUsername = $distributionProfile->ftpUsername;
@@ -226,9 +226,9 @@ class YahooDistributionEngine extends DistributionEngine implements
 		return $ftpManager;
 	}
 	
-	protected function getFlavorAssets(KalturaEntryDistribution $entryDistribution)
+	protected function getFlavorAssets(BorhanEntryDistribution $entryDistribution)
 	{
-		$flavorAssetFilter = new KalturaFlavorAssetFilter();
+		$flavorAssetFilter = new BorhanFlavorAssetFilter();
 		$flavorAssetFilter->entryIdEqual = $entryDistribution->entryId;
 		$flavorAssetFilter->idIn = $entryDistribution->flavorAssetIds;
 		
@@ -245,9 +245,9 @@ class YahooDistributionEngine extends DistributionEngine implements
 		return $flavorAssets->objects;		
 	}
 	
-	protected function getThumbAssets(KalturaEntryDistribution $entryDistribution)
+	protected function getThumbAssets(BorhanEntryDistribution $entryDistribution)
 	{
-		$thumbAssetFilter = new KalturaThumbAssetFilter();
+		$thumbAssetFilter = new BorhanThumbAssetFilter();
 		$thumbAssetFilter->entryIdEqual = $entryDistribution->entryId;
 		$thumbAssetFilter->idIn = $entryDistribution->thumbAssetIds;
 		
@@ -266,13 +266,13 @@ class YahooDistributionEngine extends DistributionEngine implements
 	
 	/**
 	 * upload all flavor assets files to FTP
-	 * @param KalturaYahooDistributionJobProviderData $providerData
+	 * @param BorhanYahooDistributionJobProviderData $providerData
 	 * @param YahooDistributionFeedHelper $feed
 	 */
 	protected function uploadFlavorAssetsFiles($path, $feed, $providerData, $ftpManager, $flavorAssets, $currentTime)
 	{
 		/* @var $feed YahooDistributionFeedHelper */
-		/* @var $providerData KalturaYahooDistributionJobProviderData */
+		/* @var $providerData BorhanYahooDistributionJobProviderData */
 		foreach ($flavorAssets as $asset)
 		{
 			$destName = $feed->flavorAssetUniqueName($asset, $currentTime);
@@ -293,9 +293,9 @@ class YahooDistributionEngine extends DistributionEngine implements
 	
 	/**
 	 * access url.
-	 * @param KalturaYahooDistributionProfile $distributionProfile
+	 * @param BorhanYahooDistributionProfile $distributionProfile
 	 */
-	private function accessUrl(KalturaYahooDistributionProfile $distributionProfile, $fileName)
+	private function accessUrl(BorhanYahooDistributionProfile $distributionProfile, $fileName)
 	{
 		$url = self::ACCESS_URL;
 		$params = array(

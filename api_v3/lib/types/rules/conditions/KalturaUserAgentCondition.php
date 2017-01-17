@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaUserAgentCondition extends KalturaRegexCondition
+class BorhanUserAgentCondition extends BorhanRegexCondition
 {
 	/**
 	 * Init object type
@@ -14,7 +14,7 @@ class KalturaUserAgentCondition extends KalturaRegexCondition
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

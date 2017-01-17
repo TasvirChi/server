@@ -13,7 +13,7 @@ class Infra_AuthAdapter implements Zend_Auth_Adapter_Interface
     
     const USER_NOT_FOUND = 'USER_NOT_FOUND';
 	
-	const X_KALTURA_REMOTE_ADDR = 'X-KALTURA-REMOTE-ADDR';
+	const X_BORHAN_REMOTE_ADDR = 'X-BORHAN-REMOTE-ADDR';
     
 	/**
 	 * @var string
@@ -84,13 +84,13 @@ class Infra_AuthAdapter implements Zend_Auth_Adapter_Interface
 	}
 	
 	/**
-	 * @param Kaltura_Client_Type_User $user
+	 * @param Borhan_Client_Type_User $user
 	 * @param string $ks
 	 * @param int $partnerId
 	 *
 	 * @return Infra_UserIdentity
 	 */
-	protected function getUserIdentity(Kaltura_Client_Type_User $user = null, $ks = null, $partnerId = null)
+	protected function getUserIdentity(Borhan_Client_Type_User $user = null, $ks = null, $partnerId = null)
 	{
 		return new Infra_UserIdentity($user, $ks, $this->timezoneOffset, $partnerId);
 	}
@@ -114,7 +114,7 @@ class Infra_AuthAdapter implements Zend_Auth_Adapter_Interface
 			$client->setKs($this->ks);
 			
     		$user = $client->user->get();
-    		/* @var $user Kaltura_Client_Type_User */
+    		/* @var $user Borhan_Client_Type_User */
     		$identity = $this->getUserIdentity($user, $this->ks, $user->partnerId);
     		return new Zend_Auth_Result(Zend_Auth_Result::SUCCESS, $identity);
 		}
@@ -167,7 +167,7 @@ class Infra_AuthAdapter implements Zend_Auth_Adapter_Interface
 
 	protected function constructXRemoteAddrHeader ($remoteIp, $time, $uniqueId, $salt)
 	{
-		return self::X_KALTURA_REMOTE_ADDR . ":$remoteIp,$time,$uniqueId," . md5("$remoteIp,$time,$uniqueId,$salt");	
+		return self::X_BORHAN_REMOTE_ADDR . ":$remoteIp,$time,$uniqueId," . md5("$remoteIp,$time,$uniqueId,$salt");	
 	}
 
 }

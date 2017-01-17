@@ -13,13 +13,13 @@ class KAsyncProvisionProvide extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::PROVISION_PROVIDE;
+		return BorhanBatchJobType::PROVISION_PROVIDE;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->provision($job, $job->data);
 	}
@@ -32,25 +32,25 @@ class KAsyncProvisionProvide extends KJobHandlerWorker
 		return 1;
 	}
 	
-	protected function provision(KalturaBatchJob $job, KalturaProvisionJobData $data)
+	protected function provision(BorhanBatchJob $job, BorhanProvisionJobData $data)
 	{
-		$job = $this->updateJob($job, null, KalturaBatchJobStatus::QUEUED);
+		$job = $this->updateJob($job, null, BorhanBatchJobStatus::QUEUED);
 		
 		$engine = KProvisionEngine::getInstance( $job->jobSubType , $data);
 		
 		if ( $engine == null )
 		{
 			$err = "Cannot find provision engine [{$job->jobSubType}] for job id [{$job->id}]";
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::ENGINE_NOT_FOUND, $err, KalturaBatchJobStatus::FAILED);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::ENGINE_NOT_FOUND, $err, BorhanBatchJobStatus::FAILED);
 		}
 		
-		KalturaLog::info( "Using engine: " . $engine->getName() );
+		BorhanLog::info( "Using engine: " . $engine->getName() );
 	
 		$results = $engine->provide($job, $data);
 
-		if($results->status == KalturaBatchJobStatus::FINISHED)
-			return $this->closeJob($job, null, null, null, KalturaBatchJobStatus::ALMOST_DONE, $results->data);
+		if($results->status == BorhanBatchJobStatus::FINISHED)
+			return $this->closeJob($job, null, null, null, BorhanBatchJobStatus::ALMOST_DONE, $results->data);
 			
-		return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, null, $results->errMessage, $results->status, $results->data);
+		return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, null, $results->errMessage, $results->status, $results->data);
 	}
 }

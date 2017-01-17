@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaAsset extends KalturaObject implements IRelatedFilterable, IApiObjectFactory
+class BorhanAsset extends BorhanObject implements IRelatedFilterable, IApiObjectFactory
 {
 	/**
 	 * The ID of the Flavor Asset
@@ -148,33 +148,33 @@ class KalturaAsset extends KalturaObject implements IRelatedFilterable, IApiObje
 		return array();
 	}
 	
-	public static function getInstance($sourceObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function getInstance($sourceObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 	     $type = $sourceObject->getType();
 	     $object = null;
 	     switch ($type)
 	     {
-	         case KalturaAssetType::FLAVOR:
-	             $object = new KalturaFlavorAsset();
+	         case BorhanAssetType::FLAVOR:
+	             $object = new BorhanFlavorAsset();
 	             break;
-	         case KalturaAssetType::LIVE:
-	             $object = new KalturaLiveAsset();
+	         case BorhanAssetType::LIVE:
+	             $object = new BorhanLiveAsset();
 	             break;
-	         case KalturaAssetType::THUMBNAIL:
-	             $object = new KalturaThumbAsset();
+	         case BorhanAssetType::THUMBNAIL:
+	             $object = new BorhanThumbAsset();
 	             break;
 	         default:
 	             if($sourceObject instanceof thumbAsset)
                      {
-	                 $object = KalturaPluginManager::loadObject('KalturaThumbAsset', $type);
+	                 $object = BorhanPluginManager::loadObject('BorhanThumbAsset', $type);
 	             }
 	             elseif($sourceObject instanceof flavorAsset)
                      {
-	                 $object = KalturaPluginManager::loadObject('KalturaFlavorAsset', $type);
+	                 $object = BorhanPluginManager::loadObject('BorhanFlavorAsset', $type);
 	             }
 	             else
 	             {
-	                 $object = KalturaPluginManager::loadObject('KalturaAsset', $type);
+	                 $object = BorhanPluginManager::loadObject('BorhanAsset', $type);
 	             }
 	     }
 	     

@@ -3,7 +3,7 @@
  * @package Core
  * @subpackage externalWidgets
  */
-class previewAction extends kalturaAction
+class previewAction extends borhanAction
 {
 	public function execute ( ) 
 	{
@@ -67,7 +67,7 @@ class previewAction extends kalturaAction
 			'uiConfId'				=>	$this->uiconf_id,
 			'width'					=>	$this->uiConf->getWidth(),
 			'height'				=>	$this->uiConf->getHeight(),
-			'includeKalturaLinks'	=>	true,
+			'includeBorhanLinks'	=>	true,
 			'cacheSt'				=>	$cacheSt,
 		);
 
@@ -141,7 +141,7 @@ class previewAction extends kalturaAction
 		$this->embedParams = $embedParams;
 
 		// Build SWF Path
-		$swfPath = "/index.php/kwidget";
+		$swfPath = "/index.php/bwidget";
 		$swfPath .= "/cache_st/" . $cacheSt;
 		$swfPath .= "/wid/_" . $this->partner_id;
 		$swfPath .= "/uiconf_id/" . $this->uiconf_id;
@@ -166,7 +166,7 @@ class previewAction extends kalturaAction
 
 		// Set Page name
 		if(!$this->entry_id) {
-			$this->entry_name = ($playlist_name) ? $playlist_name : 'Kaltura Player';
+			$this->entry_name = ($playlist_name) ? $playlist_name : 'Borhan Player';
 			$this->entry_description = ($playlist_description) ? $playlist_description : '';
 		}
 

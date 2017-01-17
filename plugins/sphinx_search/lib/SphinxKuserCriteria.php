@@ -45,7 +45,7 @@ class SphinxKuserCriteria extends SphinxCriteria
 		if($filter->get('_likex_puser_id_or_screen_name'))
 		{
 			$freeTexts = $filter->get('_likex_puser_id_or_screen_name');
-			KalturaLog::debug("Attach free text [$freeTexts]");
+			BorhanLog::debug("Attach free text [$freeTexts]");
 			
 			$additionalConditions = array();
 			$advancedSearch = $filter->getAdvancedSearch();
@@ -61,7 +61,7 @@ class SphinxKuserCriteria extends SphinxCriteria
 		if($filter->get('_likex_first_name_or_last_name'))
 		{
 			$names = $filter->get('_likex_first_name_or_last_name');
-			KalturaLog::debug("Attach free text [$names]");
+			BorhanLog::debug("Attach free text [$names]");
 			
 			$this->addFreeTextToMatchClauseByMatchFields($names, kuserFilter::FIRST_NAME_OR_LAST_NAME, null, true);
 		}

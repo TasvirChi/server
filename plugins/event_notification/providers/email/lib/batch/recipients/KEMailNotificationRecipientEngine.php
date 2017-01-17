@@ -9,11 +9,11 @@ abstract class KEmailNotificationRecipientEngine
 {
 	/**
 	 * Job data for the email notification recipients
-	 * @var KalturaEmailNotificationRecipientJobData
+	 * @var BorhanEmailNotificationRecipientJobData
 	 */
 	protected $recipientJobData;
 	
-	public function __construct(KalturaEmailNotificationRecipientJobData $recipientJobData)
+	public function __construct(BorhanEmailNotificationRecipientJobData $recipientJobData)
 	{
 		$this->recipientJobData = $recipientJobData;
 		
@@ -21,13 +21,13 @@ abstract class KEmailNotificationRecipientEngine
 	
 	/**
 	 * Function retrieves instance of recipient job data
-	 * @param KalturaEmailNotificationRecipientJobData $recipientJobData
-	 * @param KalturaClient $kClient
+	 * @param BorhanEmailNotificationRecipientJobData $recipientJobData
+	 * @param BorhanClient $kClient
 	 * @return KEmailNotificationRecipientEngine
 	 */
-	public static function getEmailNotificationRecipientEngine(KalturaEmailNotificationRecipientJobData $recipientJobData)
+	public static function getEmailNotificationRecipientEngine(BorhanEmailNotificationRecipientJobData $recipientJobData)
 	{
-		return KalturaPluginManager::loadObject('KEmailNotificationRecipientEngine', $recipientJobData->providerType, array($recipientJobData));
+		return BorhanPluginManager::loadObject('KEmailNotificationRecipientEngine', $recipientJobData->providerType, array($recipientJobData));
 	}
 
 	

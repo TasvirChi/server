@@ -3,12 +3,12 @@
 /**
  * Auto-generated class.
  * 
- * Used to search KalturaLiveEntry attributes. Use KalturaLiveEntryCompareAttribute enum to provide attribute name.
+ * Used to search BorhanLiveEntry attributes. Use BorhanLiveEntryCompareAttribute enum to provide attribute name.
 */
-class KalturaLiveEntryCompareAttributeCondition extends KalturaSearchComparableAttributeCondition
+class BorhanLiveEntryCompareAttributeCondition extends BorhanSearchComparableAttributeCondition
 {
 	/**
-	 * @var KalturaLiveEntryCompareAttribute
+	 * @var BorhanLiveEntryCompareAttribute
 	 */
 	public $attribute;
 

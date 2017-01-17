@@ -3,12 +3,12 @@
  * Enable 'liking' or 'unliking' an entry as the current user, rather than anonymously ranking it.
  * @package plugins.like
  */
-class LikePlugin extends KalturaPlugin implements IKalturaServices, IKalturaPermissions
+class LikePlugin extends BorhanPlugin implements IBorhanServices, IBorhanPermissions
 {
     const PLUGIN_NAME = "like";
     
 	/* (non-PHPdoc)
-     * @see IKalturaServices::getServicesMap()
+     * @see IBorhanServices::getServicesMap()
      */
     public static function getServicesMap ()
     {
@@ -19,18 +19,18 @@ class LikePlugin extends KalturaPlugin implements IKalturaServices, IKalturaPerm
     }
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissions::isAllowedPartner()
+	 * @see IBorhanPermissions::isAllowedPartner()
 	 */
 	public static function isAllowedPartner($partnerId)
 	{
 		$partner = PartnerPeer::retrieveByPK($partnerId);
 		
-		return $partner->getEnabledService(KalturaPermissionName::FEATURE_LIKE);
+		return $partner->getEnabledService(BorhanPermissionName::FEATURE_LIKE);
 	}
 	
 
 	/* (non-PHPdoc)
-     * @see IKalturaPlugin::getPluginName()
+     * @see IBorhanPlugin::getPluginName()
      */
     public static function getPluginName ()
     {

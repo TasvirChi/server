@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaDistributionValidationErrorMissingAsset extends KalturaDistributionValidationError
+class BorhanDistributionValidationErrorMissingAsset extends BorhanDistributionValidationError
 {
 	/**
 	 * @var string

@@ -3,7 +3,7 @@
  * @package plugins.quickPlayDistribution
  * @subpackage api.enum
  */
-class KalturaQuickPlayDistributionField extends KalturaStringEnum implements QuickPlayDistributionField
+class BorhanQuickPlayDistributionField extends BorhanStringEnum implements QuickPlayDistributionField
 {
 	// see QuickPlayDistributionField interface
 }

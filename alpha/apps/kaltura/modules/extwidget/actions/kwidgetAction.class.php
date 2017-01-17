@@ -9,15 +9,15 @@ require_once ( MODULES . "/partnerservices2/actions/getwidgetAction.class.php" )
  * @package Core
  * @subpackage externalWidgets
  */
-class kwidgetAction extends sfAction
+class bwidgetAction extends sfAction
 {
 	/**
 	 * Will forward to the regular swf player according to the widget_id 
 	 */
 	public function execute()
 	{
-		// check if this is a request for the kdp without a wrapper
-		// in case of an application loading the kdp (e.g. kmc)
+		// check if this is a request for the bdp without a wrapper
+		// in case of an application loading the bdp (e.g. bmc)
 		$nowrapper = $this->getRequestParameter( "nowrapper", false);
 		
 		// allow caching if either the cache start time (cache_st) parameter
@@ -35,7 +35,7 @@ class kwidgetAction extends sfAction
 		strstr($referer, "facebook.com") === false &&
 		strstr($referer, "friendster.com") === false) ? "" : "&externalInterfaceDisabled=1";
 		
-		// if there is no wrapper the loader is responsible for setting extra params to the kdp
+		// if there is no wrapper the loader is responsible for setting extra params to the bdp
 		$noncached_params = "";
 		if (!$nowrapper)
 			$noncached_params =	$externalInterfaceDisabled."&referer=".urlencode($referer);
@@ -44,11 +44,11 @@ class kwidgetAction extends sfAction
 		$requestKey = $protocol.$_SERVER["REQUEST_URI"];
 		
 		// check if we cached the redirect url
-		$cache_redirect = new myCache("kwidget", 10 * 60); // 10 minutes
+		$cache_redirect = new myCache("bwidget", 10 * 60); // 10 minutes
 		$cachedResponse  = $cache_redirect->get($requestKey);
 		if ($allowCache && $cachedResponse) // dont use cache if we want to force no caching
 		{
-			header("X-Kaltura:cached-action");
+			header("X-Borhan:cached-action");
 
 			header("Expires: Sun, 19 Nov 2000 08:52:00 GMT");
 			header( "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0");
@@ -60,11 +60,11 @@ class kwidgetAction extends sfAction
 		}
 		
 		// check if we cached the patched swf with flashvars
-		$cache_swfdata = new myCache("kwidgetswf", 10 * 60); // 10 minutes
+		$cache_swfdata = new myCache("bwidgetswf", 10 * 60); // 10 minutes
 		$cachedResponse  = $cache_swfdata->get($requestKey);
 		if ($allowCache && $cachedResponse) // dont use cache if we want to force no caching
 		{
-			header("X-Kaltura:cached-action");
+			header("X-Borhan:cached-action");
 			requestUtils::sendCdnHeaders("swf", strlen($cachedResponse), 60 * 10, null, true, time());
 			echo $cachedResponse;
 			KExternalErrors::dieGracefully();
@@ -72,7 +72,7 @@ class kwidgetAction extends sfAction
 		
 		$widget_id = $this->getRequestParameter( "wid" );
 		$show_version = $this->getRequestParameter( "v" );
-		$debug_kdp = $this->getRequestParameter( "debug_kdp" , false );
+		$debug_bdp = $this->getRequestParameter( "debug_bdp" , false );
 
 		$widget = widgetPeer::retrieveByPK( $widget_id );
 
@@ -124,7 +124,7 @@ class kwidgetAction extends sfAction
 				$valid_country = requestUtils::matchIpCountry( $countries_str , $current_country );
 				if ( ! $valid_country )
 				{
-					KalturaLog::log ( "kwidgetAction: Attempting to access widget [$widget_id] and entry [$entry_id] from country [$current_country]. Retrning entry_id: [$fallback_entry_id] kshow_id [$fallback_kshow_id]" );
+					BorhanLog::log ( "bwidgetAction: Attempting to access widget [$widget_id] and entry [$entry_id] from country [$current_country]. Retrning entry_id: [$fallback_entry_id] kshow_id [$fallback_kshow_id]" );
 					$entry_id= $fallback_entry_id;
 					$kshow_id = $fallback_kshow_id;
 				}
@@ -193,9 +193,9 @@ class kwidgetAction extends sfAction
 				$swf_url =  $host . myPartnerUtils::getUrlForPartner ( $partner_id , $subp_id ) . $ui_conf_swf_url;
 			}
 
-			if ( $debug_kdp )
+			if ( $debug_bdp )
 			{
-				$swf_url = str_replace( "/kdp/" , "/kdp_debug/" , $swf_url );
+				$swf_url = str_replace( "/bdp/" , "/bdp_debug/" , $swf_url );
 			}
 		}
 
@@ -210,8 +210,8 @@ class kwidgetAction extends sfAction
 
 		if ( $entry_id == -1 ) $entry_id = null;
 
-		$kdp3 = false;
-		$base_wrapper_swf = myContentStorage::getFSFlashRootPath ()."/kdpwrapper/".kConf::get('kdp_wrapper_version')."/kdpwrapper.swf";
+		$bdp3 = false;
+		$base_wrapper_swf = myContentStorage::getFSFlashRootPath ()."/bdpwrapper/".kConf::get('bdp_wrapper_version')."/bdpwrapper.swf";
 		$widgetIdStr = "widget_id=$widget_id";
 		$partnerIdStr = "partner_id=$partner_id&subp_id=$subp_id";
 		
@@ -238,9 +238,9 @@ class kwidgetAction extends sfAction
 
 			if (version_compare($uiConf->getSwfUrlVersion(), "3.0", ">="))
 			{
-				$kdp3 = true;
+				$bdp3 = true;
 				// further in the code, $wrapper_swf is being used and not $base_wrapper_swf
-				$wrapper_swf = $base_wrapper_swf = myContentStorage::getFSFlashRootPath ().'/kdp3wrapper/'.kConf::get('kdp3_wrapper_version').'/kdp3wrapper.swf';
+				$wrapper_swf = $base_wrapper_swf = myContentStorage::getFSFlashRootPath ().'/bdp3wrapper/'.kConf::get('bdp3_wrapper_version').'/bdp3wrapper.swf';
 				$widgetIdStr = "widgetId=$widget_id";
 				$uiconf_id_str = "&uiConfId=$uiconf_id";
 				$partnerIdStr = "partnerId=$partner_id&subpId=$subp_id";
@@ -265,7 +265,7 @@ class kwidgetAction extends sfAction
 			{
 				$swf_data = null;
 				
-				// if kdp version >= 2.5
+				// if bdp version >= 2.5
 				if (version_compare($uiConf->getSwfUrlVersion(), "2.5", ">="))
 				{
 					// create an anonymous session
@@ -291,12 +291,12 @@ class kwidgetAction extends sfAction
 					}
 					
 		
-					// patch kdpwrapper with getwidget and getuiconf
+					// patch bdpwrapper with getwidget and getuiconf
 					$root = myContentStorage::getFSContentRootPath();
 					$confFile_mtime = $uiConf->getUpdatedAt(null);
 					$swf_key = "widget_{$widget_id}_{$widget_type}_{$confFile_mtime}_".md5($base_wrapper_swf.$swf_url).".swf";
 					
-					$cache = kCacheManager::getSingleLayerCache(kCacheManager::CACHE_TYPE_KWIDGET_SWF);
+					$cache = kCacheManager::getSingleLayerCache(kCacheManager::CACHE_TYPE_BWIDGET_SWF);
 					
 					if ($cache)
 						$swf_data = $cache->get($swf_key);
@@ -304,7 +304,7 @@ class kwidgetAction extends sfAction
 					if (!$swf_data)
 					{
 						require_once(SF_ROOT_DIR . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "api_v3" . DIRECTORY_SEPARATOR . "bootstrap.php");
-						$dispatcher = KalturaDispatcher::getInstance();
+						$dispatcher = BorhanDispatcher::getInstance();
 						try
 						{
 							$widget_result = $dispatcher->dispatch("widget", "get", array("ks"=> $ks, "id" => $widget_id));
@@ -318,10 +318,10 @@ class kwidgetAction extends sfAction
 						if (!$ui_conf_result->confFile)
 							KExternalErrors::dieGracefully();
 							
-						$serializer = new KalturaXmlSerializer(false);
+						$serializer = new BorhanXmlSerializer(false);
 						$widget_xml = $serializer->serialize($widget_result);
 
-						$serializer = new KalturaXmlSerializer(false);
+						$serializer = new BorhanXmlSerializer(false);
 						$ui_conf_xml = $serializer->serialize($ui_conf_result);
 
 						$result = "<xml><result>$widget_xml</result><result>$ui_conf_xml</result></xml>";
@@ -335,15 +335,15 @@ class kwidgetAction extends sfAction
 				}
 				
 	
-				$kdp_version_2 = strpos($swf_url, "kdp/v2." ) > 0;
-				if ($partner_host == "http://www.kaltura.com" && !$kdp_version_2 && !$kdp3)
+				$bdp_version_2 = strpos($swf_url, "bdp/v2." ) > 0;
+				if ($partner_host == "http://www.borhan.com" && !$bdp_version_2 && !$bdp3)
 				{
-					$partner_host = 1; // otherwise the kdp will try going to cdnwww.kaltura.com
+					$partner_host = 1; // otherwise the bdp will try going to cdnwww.borhan.com
 				}
 				
 				$track_wrapper = '';
-				if (kConf::get('track_kdpwrapper') && kConf::get('kdpwrapper_track_url')) {
-					$track_wrapper = "&wrapper_tracker_url=".urlencode(kConf::get('kdpwrapper_track_url')."?activation_key=".kConf::get('kaltura_activation_key')."&package_version=".kConf::get('kaltura_version'));
+				if (kConf::get('track_bdpwrapper') && kConf::get('bdpwrapper_track_url')) {
+					$track_wrapper = "&wrapper_tracker_url=".urlencode(kConf::get('bdpwrapper_track_url')."?activation_key=".kConf::get('borhan_activation_key')."&package_version=".kConf::get('borhan_version'));
 				}
 			
 				$optimizedConfVars = null;
@@ -353,10 +353,10 @@ class kwidgetAction extends sfAction
 					$optimizedPlayback = kConf::getMap("optimized_playback");
 					if (array_key_exists($partner_id, $optimizedPlayback))
 					{
-						// force a specific kdp for the partner
+						// force a specific bdp for the partner
 						$params = $optimizedPlayback[$partner_id];
-						if (array_key_exists('kdp_version', $params))
-							$swf_url =  $partner_cdnHost . myPartnerUtils::getUrlForPartner ( $partner_id , $subp_id ) . "/flash/kdp3/".$params['kdp_version']."/kdp3.swf";
+						if (array_key_exists('bdp_version', $params))
+							$swf_url =  $partner_cdnHost . myPartnerUtils::getUrlForPartner ( $partner_id , $subp_id ) . "/flash/bdp3/".$params['bdp_version']."/bdp3.swf";
 							
 						if (array_key_exists('conf_vars', $params))
 							$optimizedConfVars = $params['conf_vars'];
@@ -376,8 +376,8 @@ class kwidgetAction extends sfAction
 				$conf_vars = "&$optimizedConfVars&" . $conf_vars;
 	
 				$stats_host = ($protocol == "https") ? kConf::get("stats_host_https") : kConf::get("stats_host");	
-				$wrapper_stats = kConf::get('kdp3_wrapper_stats_url') ? "&wrapper_stats_url=$protocol://$stats_host".
-					urlencode(str_replace("{partnerId}", $partner_id, kConf::get('kdp3_wrapper_stats_url'))) : "";
+				$wrapper_stats = kConf::get('bdp3_wrapper_stats_url') ? "&wrapper_stats_url=$protocol://$stats_host".
+					urlencode(str_replace("{partnerId}", $partner_id, kConf::get('bdp3_wrapper_stats_url'))) : "";
 
 				$partner_host = str_replace("http://", "", str_replace("https://", "", $partner_host));
 				// if the host is the default www domain use the cdn api domain
@@ -392,7 +392,7 @@ class kwidgetAction extends sfAction
 				$dynamic_date = $widgetIdStr .
 					$track_wrapper.
 					$wrapper_stats.
-					"&kdpUrl=".urlencode($swf_url).
+					"&bdpUrl=".urlencode($swf_url).
 					"&host=" . $partner_host .
 					"&cdnHost=" . str_replace("http://", "", str_replace("https://", "", $partner_cdnHost)).
 					"&statistics.statsDomain=$stats_host".
@@ -408,9 +408,9 @@ class kwidgetAction extends sfAction
 				if (version_compare($uiConf->getSwfUrlVersion(), "2.6.6", ">="))
 				{
 					$startTime = microtime(true);
-					$patcher = new kPatchSwf( $swf_data, "KALTURA_FLASHVARS_DATA");
+					$patcher = new kPatchSwf( $swf_data, "BORHAN_FLASHVARS_DATA");
 					$wrapper_data = $patcher->patch($dynamic_date."&referer=".urlencode($referer));
-					KalturaLog::log('Patching took '. (microtime(true) - $startTime));
+					BorhanLog::log('Patching took '. (microtime(true) - $startTime));
 						
 					requestUtils::sendCdnHeaders("swf", strlen($wrapper_data), $allowCache ? 60 * 10 : 0, null, true, time());
 					
@@ -438,7 +438,7 @@ class kwidgetAction extends sfAction
 					}
 				}
 				
-				// for now changed back to $host since kdp version prior to 1.0.15 didnt support loading by external domain kdpwrapper
+				// for now changed back to $host since bdp version prior to 1.0.15 didnt support loading by external domain bdpwrapper
 				$url =  $host . myPartnerUtils::getUrlForPartner( $partner_id , $subp_id ) . "/$wrapper_swf?$dynamic_date";
 			}
 		}
@@ -455,7 +455,7 @@ class kwidgetAction extends sfAction
 		}
 
 		// if referer has a query string an IE bug will prevent out flashvars to propagate
-		// when nowrapper is true we cant use /swfparams either as there isnt a kdpwrapper
+		// when nowrapper is true we cant use /swfparams either as there isnt a bdpwrapper
 		if (!$nowrapper && $uiConf && version_compare($uiConf->getSwfUrlVersion(), "2.6.6", ">="))
 		{
 			// apart from the /swfparam/ format, add .swf suffix to the end of the stream in case

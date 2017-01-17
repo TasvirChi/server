@@ -127,7 +127,7 @@ class kVirusScanFlowManager implements kBatchJobStatusEventConsumer, kObjectAdde
 		}
 		
 		if (!$response) {
-			KalturaLog::info('Stopping consumption of event ['.get_class($object).']');
+			BorhanLog::info('Stopping consumption of event ['.get_class($object).']');
 		}
 		return $response;	
 	}
@@ -175,14 +175,14 @@ class kVirusScanFlowManager implements kBatchJobStatusEventConsumer, kObjectAdde
 		$flavorAsset = assetPeer::retrieveById($data->getFlavorAssetId());
 		if (!$flavorAsset)
 		{
-			KalturaLog::err('Flavor asset not found with id ['.$data->getFlavorAssetId().']');
+			BorhanLog::err('Flavor asset not found with id ['.$data->getFlavorAssetId().']');
 			throw new Exception('Flavor asset not found with id ['.$data->getFlavorAssetId().']');
 		}
 				
 		switch ($data->getScanResult())
 		{
-			case KalturaVirusScanJobResult::FILE_WAS_CLEANED:									
-			case KalturaVirusScanJobResult::FILE_IS_CLEAN:
+			case BorhanVirusScanJobResult::FILE_WAS_CLEANED:									
+			case BorhanVirusScanJobResult::FILE_IS_CLEAN:
 			    $entry = $flavorAsset->getentry();
 			    if ($entry->getStatus() == VirusScanPlugin::getEntryStatusCoreValue(VirusScanEntryStatus::SCAN_FAILURE))
 			    {
@@ -202,10 +202,10 @@ class kVirusScanFlowManager implements kBatchJobStatusEventConsumer, kObjectAdde
 				$this->resumeEvents($flavorAsset, $dbBatchJob);
 				break;
 				
-			case KalturaVirusScanJobResult::FILE_INFECTED:
+			case BorhanVirusScanJobResult::FILE_INFECTED:
 				$entry = $flavorAsset->getentry();
 				if (!$entry) {
-					KalturaLog::err('Entry not found with id ['.$entry->getId().']');
+					BorhanLog::err('Entry not found with id ['.$entry->getId().']');
 				}
 				else {
 					$entry->setStatus(VirusScanPlugin::getEntryStatusCoreValue(VirusScanEntryStatus::INFECTED));
@@ -213,16 +213,16 @@ class kVirusScanFlowManager implements kBatchJobStatusEventConsumer, kObjectAdde
 				}
 				
 				// delete flavor asset and entry if defined in virus scan profile	
-				if ( $data->getVirusFoundAction() == KalturaVirusFoundAction::CLEAN_DELETE ||
-					 $data->getVirusFoundAction() == KalturaVirusFoundAction::DELETE          )
+				if ( $data->getVirusFoundAction() == BorhanVirusFoundAction::CLEAN_DELETE ||
+					 $data->getVirusFoundAction() == BorhanVirusFoundAction::DELETE          )
 				{
 					$syncKey = $flavorAsset->getSyncKey(flavorAsset::FILE_SYNC_FLAVOR_ASSET_SUB_TYPE_ASSET);
 					$filePath = kFileSyncUtils::getLocalFilePathForKey($syncKey);
-					KalturaLog::info('FlavorAsset ['.$flavorAsset->getId().'] marked as deleted');
+					BorhanLog::info('FlavorAsset ['.$flavorAsset->getId().'] marked as deleted');
 					$flavorAsset->setStatus(flavorAsset::FLAVOR_ASSET_STATUS_DELETED);
 					$flavorAsset->setDeletedAt(time());
 					$flavorAsset->save();
-					KalturaLog::info('Physically deleting file ['.$filePath.']');
+					BorhanLog::info('Physically deleting file ['.$filePath.']');
 					unlink($filePath);
 					if ($entry)	{
 						myEntryUtils::deleteEntry($entry);
@@ -253,7 +253,7 @@ class kVirusScanFlowManager implements kBatchJobStatusEventConsumer, kObjectAdde
 		}
 		else
 		{
-			KalturaLog::err('Entry not found with id ['.$dbBatchJob->getEntryId().']');
+			BorhanLog::err('Entry not found with id ['.$dbBatchJob->getEntryId().']');
 			throw new Exception('Entry not found with id ['.$dbBatchJob->getEntryId().']');
 		}
 		$flavorAsset = assetPeer::retrieveById($data->getFlavorAssetId());
@@ -265,7 +265,7 @@ class kVirusScanFlowManager implements kBatchJobStatusEventConsumer, kObjectAdde
 		}
 		else
 		{
-			KalturaLog::err('Flavor asset not found with id ['.$data->getFlavorAssetId().']');
+			BorhanLog::err('Flavor asset not found with id ['.$data->getFlavorAssetId().']');
 			throw new Exception('Flavor asset not found with id ['.$data->getFlavorAssetId().']');
 		}					
 		// do not resume flavor asset added event consumption

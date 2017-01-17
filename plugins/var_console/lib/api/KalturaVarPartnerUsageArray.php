@@ -3,10 +3,10 @@
  * @package plugins.varConsole
  * @subpackage api.objects
  */
-class KalturaVarPartnerUsageArray extends KalturaTypedArray
+class BorhanVarPartnerUsageArray extends BorhanTypedArray
 {
 	public function __construct()
 	{
-		return parent::__construct("KalturaVarPartnerUsageItem");
+		return parent::__construct("BorhanVarPartnerUsageItem");
 	}
 }

@@ -2,6 +2,6 @@
 /**
  * @package Scheduler
  */
-class KalturaBatchException extends KalturaException 
+class BorhanBatchException extends BorhanException 
 {
 }

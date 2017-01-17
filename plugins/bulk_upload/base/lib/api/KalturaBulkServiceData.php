@@ -7,8 +7,8 @@
  * @subpackage api.objects
  *
  */
-abstract class KalturaBulkServiceData extends KalturaObject
+abstract class BorhanBulkServiceData extends BorhanObject
 {
 	abstract public function getType ();
-	abstract public function toBulkUploadJobData(KalturaBulkUploadJobData $jobData);
+	abstract public function toBulkUploadJobData(BorhanBulkUploadJobData $jobData);
 }

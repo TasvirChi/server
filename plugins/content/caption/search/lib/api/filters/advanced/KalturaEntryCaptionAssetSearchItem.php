@@ -3,7 +3,7 @@
  * @package plugins.captionSearch
  * @subpackage api.filters
  */
-class KalturaEntryCaptionAssetSearchItem extends KalturaSearchItem
+class BorhanEntryCaptionAssetSearchItem extends BorhanSearchItem
 {
 	/**
 	 * @var string

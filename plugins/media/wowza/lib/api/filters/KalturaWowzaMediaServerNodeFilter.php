@@ -3,9 +3,9 @@
  * @package plugins.wowza
  * @subpackage api.filters
  */
-class KalturaWowzaMediaServerNodeFilter extends KalturaWowzaMediaServerNodeBaseFilter
+class BorhanWowzaMediaServerNodeFilter extends BorhanWowzaMediaServerNodeBaseFilter
 {
-	public function getTypeListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null, $type = null)
+	public function getTypeListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null, $type = null)
 	{
 		if(!$type)
 			$type = WowzaPlugin::getWowzaMediaServerTypeCoreValue(WowzaMediaServerNodeType::WOWZA_MEDIA_SERVER);

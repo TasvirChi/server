@@ -20,7 +20,7 @@ class serveMultiFileAction extends sfAction
 		if ($hash !== $expectedHash)  
 		{
 			$error = "Invalid hash - ids [$fileSyncIds] got [$hash] expected [$expectedHash]";
-			KalturaLog::err($error); 
+			BorhanLog::err($error); 
 			KExternalErrors::dieError(KExternalErrors::INVALID_TOKEN);
 		}
 		
@@ -28,7 +28,7 @@ class serveMultiFileAction extends sfAction
 		$fileSyncs = FileSyncPeer::retrieveByPks(explode(',', $fileSyncIds));
 		if ($fileSyncs)
 		{
-			KalturaMonitorClient::initApiMonitor(false, 'extwidget.serveMultiFile', $fileSyncs[0]->getPartnerId());
+			BorhanMonitorClient::initApiMonitor(false, 'extwidget.serveMultiFile', $fileSyncs[0]->getPartnerId());
 		}
 		
 		// resolve file syncs
@@ -38,7 +38,7 @@ class serveMultiFileAction extends sfAction
 			if ( $fileSync->getDc() != $currentDcId )
 			{
 				$error = "FileSync id [".$fileSync->getId()."] does not belong to this DC";
-				KalturaLog::err($error);
+				BorhanLog::err($error);
 				KExternalErrors::dieError(KExternalErrors::BAD_QUERY);
 			}
 			
@@ -50,14 +50,14 @@ class serveMultiFileAction extends sfAction
 			if (is_dir($resolvedPath))
 			{
 				$error = "FileSync id [".$fileSync->getId()."] is a directory";
-				KalturaLog::err($error);
+				BorhanLog::err($error);
 				KExternalErrors::dieError(KExternalErrors::BAD_QUERY);
 			}
 						
 			if (!file_exists($resolvedPath))
 			{
 				$error = "Path [$resolvedPath] for fileSync id [".$fileSync->getId()."] does not exist";
-				KalturaLog::err($error);
+				BorhanLog::err($error);
 				continue;
 			}
 			

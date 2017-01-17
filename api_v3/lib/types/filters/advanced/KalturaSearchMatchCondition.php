@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters
  */
-class KalturaSearchMatchCondition extends KalturaSearchCondition
+class BorhanSearchMatchCondition extends BorhanSearchCondition
 {
 	/**
 	 * @var bool

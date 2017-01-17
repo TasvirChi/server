@@ -3,7 +3,7 @@
  * @package plugins.attachment
  * @subpackage api.enum
  */
-class KalturaAttachmentType extends KalturaDynamicEnum implements AttachmentType
+class BorhanAttachmentType extends BorhanDynamicEnum implements AttachmentType
 {
 	public static function getEnumClass()
 	{

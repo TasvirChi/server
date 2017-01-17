@@ -37,7 +37,7 @@ class kClipAttributes extends kOperationAttributes
 	 */
 	public function getApiType()
 	{
-		return 'KalturaClipAttributes';
+		return 'BorhanClipAttributes';
 	}
 
 	/* (non-PHPdoc)

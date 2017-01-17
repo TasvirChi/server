@@ -2,7 +2,7 @@
 /**
  * @package plugins.webexNbrplayer
  */
-class WebexNbrplayerPlugin extends KalturaPlugin implements IKalturaObjectLoader, IKalturaEnumerator
+class WebexNbrplayerPlugin extends BorhanPlugin implements IBorhanObjectLoader, IBorhanEnumerator
 {
 	const PLUGIN_NAME = 'webexNbrplayer';
 	
@@ -19,7 +19,7 @@ class WebexNbrplayerPlugin extends KalturaPlugin implements IKalturaObjectLoader
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if($baseClass == 'KOperationEngine' && $enumValue == KalturaConversionEngineType::WEBEX_NBRPLAYER)
+		if($baseClass == 'KOperationEngine' && $enumValue == BorhanConversionEngineType::WEBEX_NBRPLAYER)
 		{
 			if(!isset($constructorArgs['params']) || !isset($constructorArgs['outFilePath']))
 				return null;
@@ -71,7 +71,7 @@ class WebexNbrplayerPlugin extends KalturaPlugin implements IKalturaObjectLoader
 	 */
 	public static function getConversionEngineCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('conversionEngineType', $value);
 	}
 	
@@ -80,6 +80,6 @@ class WebexNbrplayerPlugin extends KalturaPlugin implements IKalturaObjectLoader
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 }

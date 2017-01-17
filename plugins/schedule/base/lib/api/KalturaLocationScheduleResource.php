@@ -3,11 +3,11 @@
  * @package plugins.schedule
  * @subpackage api.objects
  */
-class KalturaLocationScheduleResource extends KalturaScheduleResource
+class BorhanLocationScheduleResource extends BorhanScheduleResource
 {
 	/**
 	 * {@inheritDoc}
-	 * @see KalturaScheduleResource::getScheduleResourceType()
+	 * @see BorhanScheduleResource::getScheduleResourceType()
 	 */
 	protected function getScheduleResourceType()
 	{
@@ -15,7 +15,7 @@ class KalturaLocationScheduleResource extends KalturaScheduleResource
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($sourceObject = null, $propertiesToSkip = array())
 	{

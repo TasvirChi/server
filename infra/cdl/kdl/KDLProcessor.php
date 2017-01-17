@@ -59,7 +59,7 @@
 						$rmSrc->_audio->_id = $rmSrc->_audio->_format = "realaudio";
 						$rmSrc->_warnings[KDLConstants::ContainerIndex][] = // "Product bitrate too low - ".$prdAud->_bitRate."kbps, required - ".$trgAud->_bitRate."kbps.";
 							KDLWarnings::ToString(KDLWarnings::RealMediaMissingContent);
-KalturaLog::log("An invalid source RealMedia file thatfails to provide valid mediaInfodata. Set up a flavor with 'default' params.");
+BorhanLog::log("An invalid source RealMedia file thatfails to provide valid mediaInfodata. Set up a flavor with 'default' params.");
 					}
 					/*
 					 * ARF (Webex) sources don't have proper mediaInfo, therefore turn on the Force flag to carry on with conversion processing
@@ -68,7 +68,7 @@ KalturaLog::log("An invalid source RealMedia file thatfails to provide valid med
 						foreach($profile->_flavors as $fl)
 							$fl->_flags=$fl->_flags|KDLFlavor::ForceCommandLineFlagBit;
 						$mediaSet->_errors = array();
-KalturaLog::log("ARF (Webex) sources don't have proper mediaInfo, therefore turn on the Force flag to carry on with conversion processing.");
+BorhanLog::log("ARF (Webex) sources don't have proper mediaInfo, therefore turn on the Force flag to carry on with conversion processing.");
 					}
 					else {
 						return false;
@@ -263,7 +263,7 @@ KalturaLog::log("ARF (Webex) sources don't have proper mediaInfo, therefore turn
 			if(!isset($interSrcProfile))
 				return null;
 
-KalturaLog::log("Automatic Intermediate Source will be generated");
+BorhanLog::log("Automatic Intermediate Source will be generated");
 			$targetList = array();
 			$this->Generate($mediaSet, $interSrcProfile, $targetList);
 			if(count($targetList)==0)
@@ -361,7 +361,7 @@ KalturaLog::log("Automatic Intermediate Source will be generated");
 			$opr = new KDLOperationParams(); 
 			$opr->Set($engine);
 			if($interSrcFlavor->_engineVersion==1) {
-				$opr->_engine = KalturaPluginManager::loadObject('KDLOperatorBase', $opr->_id);
+				$opr->_engine = BorhanPluginManager::loadObject('KDLOperatorBase', $opr->_id);
 			}
 			else {
 				$opr->_engine = new KDLOperatorWrapper($opr->_id);

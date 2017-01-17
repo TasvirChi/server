@@ -3,10 +3,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaBatchJobListResponse extends KalturaListResponse
+class BorhanBatchJobListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaBatchJobArray
+	 * @var BorhanBatchJobArray
 	 * @readonly
 	 */
 	public $objects;

@@ -3,7 +3,7 @@
  * @package plugins.dailymotionDistribution
  * @subpackage api.objects
  */
-class KalturaDailymotionDistributionJobProviderData extends KalturaConfigurableDistributionJobProviderData
+class BorhanDailymotionDistributionJobProviderData extends BorhanConfigurableDistributionJobProviderData
 {
 	/**
 	 * @var string
@@ -21,19 +21,19 @@ class KalturaDailymotionDistributionJobProviderData extends KalturaConfigurableD
 	public $accessControlGeoBlockingCountryList;
 	
 	/**
-	 * @var KalturaDailymotionDistributionCaptionInfoArray
+	 * @var BorhanDailymotionDistributionCaptionInfoArray
 	 */
 	public $captionsInfo;
 	
 	
-	public function __construct(KalturaDistributionJobData $distributionJobData = null)
+	public function __construct(BorhanDistributionJobData $distributionJobData = null)
 	{
 	    parent::__construct($distributionJobData);
 	    
 		if(!$distributionJobData)
 			return;
 			
-		if(!($distributionJobData->distributionProfile instanceof KalturaDailymotionDistributionProfile))
+		if(!($distributionJobData->distributionProfile instanceof BorhanDailymotionDistributionProfile))
 			return;
 			
 		$flavorAssets = assetPeer::retrieveByIds(explode(',', $distributionJobData->entryDistribution->flavorAssetIds));
@@ -122,25 +122,25 @@ class KalturaDailymotionDistributionJobProviderData extends KalturaConfigurableD
 		}
 	}
 	
-	private function addCaptionsData(KalturaDistributionJobData $distributionJobData) {
-		/* @var $mediaFile KalturaDistributionRemoteMediaFile */
+	private function addCaptionsData(BorhanDistributionJobData $distributionJobData) {
+		/* @var $mediaFile BorhanDistributionRemoteMediaFile */
 		$assetIdsArray = explode ( ',', $distributionJobData->entryDistribution->assetIds );
 		if (empty($assetIdsArray)) return;
 		$assets = array ();
-		$this->captionsInfo = new KalturaDailymotionDistributionCaptionInfoArray();
+		$this->captionsInfo = new BorhanDailymotionDistributionCaptionInfoArray();
 		
 		foreach ( $assetIdsArray as $assetId ) {
 			$asset = assetPeer::retrieveByIdNoFilter( $assetId );
 			if (!$asset){
-				KalturaLog::err("Asset [$assetId] not found");
+				BorhanLog::err("Asset [$assetId] not found");
 				continue;
 			}
 			if ($asset->getStatus() == asset::ASSET_STATUS_READY) {
 				$assets [] = $asset;
 			}
 			elseif($asset->getStatus()== asset::ASSET_STATUS_DELETED) {
-				$captionInfo = new KalturaDailymotionDistributionCaptionInfo ();
-				$captionInfo->action = KalturaDailymotionDistributionCaptionAction::DELETE_ACTION;
+				$captionInfo = new BorhanDailymotionDistributionCaptionInfo ();
+				$captionInfo->action = BorhanDailymotionDistributionCaptionAction::DELETE_ACTION;
 				$captionInfo->assetId = $assetId;
 				//getting the asset's remote id
 				foreach ( $distributionJobData->mediaFiles as $mediaFile ) {
@@ -152,7 +152,7 @@ class KalturaDailymotionDistributionJobProviderData extends KalturaConfigurableD
 				}
 			}
 			else{
-				KalturaLog::err("Asset [$assetId] has status [".$asset->getStatus()."]. not added to provider data");
+				BorhanLog::err("Asset [$assetId] has status [".$asset->getStatus()."]. not added to provider data");
 			}
 		}
 		
@@ -169,7 +169,7 @@ class KalturaDailymotionDistributionJobProviderData extends KalturaConfigurableD
 							if ($captionInfo->language)
 								$this->captionsInfo [] = $captionInfo;
 							else
-								KalturaLog::err('The caption ['.$asset->getId().'] has unrecognized language ['.$asset->getLanguage().']'); 
+								BorhanLog::err('The caption ['.$asset->getId().'] has unrecognized language ['.$asset->getLanguage().']'); 
 						}
 					}
 					break;
@@ -181,12 +181,12 @@ class KalturaDailymotionDistributionJobProviderData extends KalturaConfigurableD
 							//language code should be set in the attachments title
 							$captionInfo->language = $asset->getTitle();
 							$captionInfo->format = $this->getCaptionFormat($asset);
-							$languageCodeReflector = KalturaTypeReflectorCacher::get('KalturaLanguageCode');
+							$languageCodeReflector = BorhanTypeReflectorCacher::get('BorhanLanguageCode');
 							//check if the language code exists 
 						    if($languageCodeReflector && $languageCodeReflector->getConstantName($captionInfo->language))
 								$this->captionsInfo [] = $captionInfo;
 							else
-								KalturaLog::err('The attachment ['.$asset->getId().'] has unrecognized language ['.$asset->getTitle().']'); 		    
+								BorhanLog::err('The attachment ['.$asset->getId().'] has unrecognized language ['.$asset->getTitle().']'); 		    
 						}
 					}
 					break;
@@ -195,8 +195,8 @@ class KalturaDailymotionDistributionJobProviderData extends KalturaConfigurableD
 	}
 	
 	private function getLanguageCode($language = null){
-		$languageReflector = KalturaTypeReflectorCacher::get('KalturaLanguage');
-		$languageCodeReflector = KalturaTypeReflectorCacher::get('KalturaLanguageCode');
+		$languageReflector = BorhanTypeReflectorCacher::get('BorhanLanguage');
+		$languageCodeReflector = BorhanTypeReflectorCacher::get('BorhanLanguageCode');
 		if($languageReflector && $languageCodeReflector)
 		{
 			$languageCode = $languageReflector->getConstantName($language);
@@ -206,25 +206,25 @@ class KalturaDailymotionDistributionJobProviderData extends KalturaConfigurableD
 		return null;
 	}
 	
-	private function getCaptionInfo($asset, $syncKey, KalturaDistributionJobData $distributionJobData) {
-		$captionInfo = new KalturaDailymotionDistributionCaptionInfo ();
+	private function getCaptionInfo($asset, $syncKey, BorhanDistributionJobData $distributionJobData) {
+		$captionInfo = new BorhanDailymotionDistributionCaptionInfo ();
 		$captionInfo->filePath = kFileSyncUtils::getLocalFilePathForKey ( $syncKey, false );
 		$captionInfo->assetId = $asset->getId();
 		$captionInfo->version = $asset->getVersion();
-		/* @var $mediaFile KalturaDistributionRemoteMediaFile */
+		/* @var $mediaFile BorhanDistributionRemoteMediaFile */
 		$distributed = false;
 		foreach ( $distributionJobData->mediaFiles as $mediaFile ) {
 			if ($mediaFile->assetId == $asset->getId ()) {
 				$distributed = true;
 				if ($asset->getVersion () > $mediaFile->version) {
-					$captionInfo->action = KalturaDailymotionDistributionCaptionAction::UPDATE_ACTION;
+					$captionInfo->action = BorhanDailymotionDistributionCaptionAction::UPDATE_ACTION;
 				}
 				break;
 			}
 		}
 		if (! $distributed)
-			$captionInfo->action = KalturaDailymotionDistributionCaptionAction::SUBMIT_ACTION;
-		elseif ($captionInfo->action != KalturaDailymotionDistributionCaptionAction::UPDATE_ACTION) {
+			$captionInfo->action = BorhanDailymotionDistributionCaptionAction::SUBMIT_ACTION;
+		elseif ($captionInfo->action != BorhanDailymotionDistributionCaptionAction::UPDATE_ACTION) {
 			return;
 		}
 		return $captionInfo;
@@ -232,17 +232,17 @@ class KalturaDailymotionDistributionJobProviderData extends KalturaConfigurableD
 	
 	private function getCaptionFormat($asset){		
 		if ($asset instanceof  AttachmentAsset && ($asset->getPartnerDescription() == 'smpte-tt'))
-			return KalturaDailymotionDistributionCaptionFormat::TT;
+			return BorhanDailymotionDistributionCaptionFormat::TT;
 			
 		if ($asset instanceof  captionAsset){
 			switch ($asset->getContainerFormat()){
-				case KalturaCaptionType::SRT:
-					return KalturaDailymotionDistributionCaptionFormat::SRT;
-				case KalturaCaptionType::DFXP:
-					return KalturaDailymotionDistributionCaptionFormat::TT;	
+				case BorhanCaptionType::SRT:
+					return BorhanDailymotionDistributionCaptionFormat::SRT;
+				case BorhanCaptionType::DFXP:
+					return BorhanDailymotionDistributionCaptionFormat::TT;	
 			}
 		}
-		KalturaLog::err("caption [".$asset->getId()."] has an unknow format.");
+		BorhanLog::err("caption [".$asset->getId()."] has an unknow format.");
 		return null;
 	}
 }

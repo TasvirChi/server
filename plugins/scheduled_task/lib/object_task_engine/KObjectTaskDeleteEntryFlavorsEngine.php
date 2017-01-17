@@ -7,19 +7,19 @@
 class KObjectTaskDeleteEntryFlavorsEngine extends KObjectTaskEntryEngineBase
 {
 	/**
-	 * @param KalturaBaseEntry $object
+	 * @param BorhanBaseEntry $object
 	 */
 	function processObject($object)
 	{
-		/** @var KalturaDeleteEntryFlavorsObjectTask $objectTask */
+		/** @var BorhanDeleteEntryFlavorsObjectTask $objectTask */
 		$objectTask = $this->getObjectTask();
 		$deleteType = $objectTask->deleteType;
 		$flavorParamsIds = explode(',', $objectTask->flavorParamsIds);
 		$client = $this->getClient();
 
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageSize = 500; // use max size, throw exception in case we got more than 500 flavors where pagination is not supported
-		$filter = new KalturaFlavorAssetFilter();
+		$filter = new BorhanFlavorAssetFilter();
 		$filter->entryIdEqual = $object->id;
 		$this->impersonate($object->partnerId);
 		try
@@ -36,20 +36,20 @@ class KObjectTaskDeleteEntryFlavorsEngine extends KObjectTaskEntryEngineBase
 			throw new Exception('Too many flavors were found where pagination is not supported');
 
 		$flavors = $flavorsResponse->objects;
-		KalturaLog::info('Found '.count($flavors). ' flavors');
+		BorhanLog::info('Found '.count($flavors). ' flavors');
 		if (!count($flavors))
 			return;
 
-		KalturaLog::info('Delete type is '.$deleteType);
+		BorhanLog::info('Delete type is '.$deleteType);
 		switch($deleteType)
 		{
-			case KalturaDeleteFlavorsLogicType::DELETE_LIST:
+			case BorhanDeleteFlavorsLogicType::DELETE_LIST:
 				$this->deleteFlavorByList($flavors, $flavorParamsIds);
 				break;
-			case KalturaDeleteFlavorsLogicType::KEEP_LIST_DELETE_OTHERS:
+			case BorhanDeleteFlavorsLogicType::KEEP_LIST_DELETE_OTHERS:
 				$this->deleteFlavorsKeepingConfiguredList($flavors, $flavorParamsIds);
 				break;
-			case KalturaDeleteFlavorsLogicType::DELETE_KEEP_SMALLEST:
+			case BorhanDeleteFlavorsLogicType::DELETE_KEEP_SMALLEST:
 				$this->deleteAllButKeepSmallest($flavors);
 				break;
 		}
@@ -65,25 +65,25 @@ class KObjectTaskDeleteEntryFlavorsEngine extends KObjectTaskEntryEngineBase
 		try
 		{
 			$client->flavorAsset->delete($id);
-			KalturaLog::info('Flavor id '.$id.' was deleted');
+			BorhanLog::info('Flavor id '.$id.' was deleted');
 			$this->unimpersonate();
 		}
 		catch(Exception $ex)
 		{
 			$this->unimpersonate();
-			KalturaLog::err($ex);
-			KalturaLog::err('Failed to delete flavor id '.$id);
+			BorhanLog::err($ex);
+			BorhanLog::err('Failed to delete flavor id '.$id);
 		}
 	}
 
 	protected function findSmallestFlavor($flavors)
 	{
-		/** @var KalturaFlavorAsset $smallestFlavor */
+		/** @var BorhanFlavorAsset $smallestFlavor */
 		$smallestFlavor = null;
 		foreach($flavors as $flavor)
 		{
-			/** @var KalturaFlavorAsset $flavor */
-			if ($flavor->status != KalturaFlavorAssetStatus::READY)
+			/** @var BorhanFlavorAsset $flavor */
+			if ($flavor->status != BorhanFlavorAssetStatus::READY)
 				continue;
 
 			if (!$flavor->size) // flavor must have size
@@ -108,8 +108,8 @@ class KObjectTaskDeleteEntryFlavorsEngine extends KObjectTaskEntryEngineBase
 		$atLeastOneFlavorWillBeLeft = false;
 		foreach ($flavors as $flavor)
 		{
-			/** @var $flavor KalturaFlavorAsset */
-			if ($flavor->status != KalturaFlavorAssetStatus::READY)
+			/** @var $flavor BorhanFlavorAsset */
+			if ($flavor->status != BorhanFlavorAssetStatus::READY)
 				continue;
 
 			if (in_array($flavor->flavorParamsId, $flavorParamsIds))
@@ -121,13 +121,13 @@ class KObjectTaskDeleteEntryFlavorsEngine extends KObjectTaskEntryEngineBase
 
 		if (!$atLeastOneFlavorWillBeLeft)
 		{
-			KalturaLog::warning('No flavors will be left after deletion, cannot continue.');
+			BorhanLog::warning('No flavors will be left after deletion, cannot continue.');
 			return;
 		}
 
 		foreach ($flavors as $flavor)
 		{
-			/** @var $flavor KalturaFlavorAsset */
+			/** @var $flavor BorhanFlavorAsset */
 			if (!in_array($flavor->flavorParamsId, $flavorParamsIds))
 			{
 				$this->deleteFlavor($flavor->id, $flavor->partnerId);
@@ -143,7 +143,7 @@ class KObjectTaskDeleteEntryFlavorsEngine extends KObjectTaskEntryEngineBase
 	{
 		foreach ($flavors as $flavor)
 		{
-			/** @var $flavor KalturaFlavorAsset */
+			/** @var $flavor BorhanFlavorAsset */
 			if (in_array($flavor->flavorParamsId, $flavorParams))
 			{
 				$this->deleteFlavor($flavor->id, $flavor->partnerId);
@@ -156,7 +156,7 @@ class KObjectTaskDeleteEntryFlavorsEngine extends KObjectTaskEntryEngineBase
 		$smallestFlavor = $this->findSmallestFlavor($flavors);
 		if (is_null($smallestFlavor))
 		{
-			KalturaLog::warning('Smallest flavor was not found, cannot continue');
+			BorhanLog::warning('Smallest flavor was not found, cannot continue');
 			return;
 		}
 		$this->deleteFlavorsKeepingConfiguredList($flavors, array($smallestFlavor->flavorParamsId));

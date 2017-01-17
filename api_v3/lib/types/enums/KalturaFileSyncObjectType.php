@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaFileSyncObjectType extends KalturaDynamicEnum implements FileSyncObjectType 
+class BorhanFileSyncObjectType extends BorhanDynamicEnum implements FileSyncObjectType 
 {
 	/**
 	 * @return string

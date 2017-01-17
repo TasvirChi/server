@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaAssetParams extends KalturaObject implements IRelatedFilterable 
+class BorhanAssetParams extends BorhanObject implements IRelatedFilterable 
 {
 	/**
 	 * The id of the Flavor Params
@@ -52,7 +52,7 @@ class KalturaAssetParams extends KalturaObject implements IRelatedFilterable
 	/**
 	 * True if those Flavor Params are part of system defaults
 	 * 
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 * @readonly
 	 * @filter eq
 	 */
@@ -69,12 +69,12 @@ class KalturaAssetParams extends KalturaObject implements IRelatedFilterable
 	/**
 	 * Array of partner permisison names that required for using this asset params
 	 *  
-	 * @var KalturaStringArray
+	 * @var BorhanStringArray
 	 */
 	public $requiredPermissions;
 
 	/**
-	 * Id of remote storage profile that used to get the source, zero indicates Kaltura data center
+	 * Id of remote storage profile that used to get the source, zero indicates Borhan data center
 	 *  
 	 * @var int
 	 */
@@ -90,7 +90,7 @@ class KalturaAssetParams extends KalturaObject implements IRelatedFilterable
 	/**
 	 * Media parser type to be used for post-conversion validation
 	 *  
-	 * @var KalturaMediaParserType
+	 * @var BorhanMediaParserType
 	 */
 	public $mediaParserType;
 
@@ -118,7 +118,7 @@ class KalturaAssetParams extends KalturaObject implements IRelatedFilterable
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -126,7 +126,7 @@ class KalturaAssetParams extends KalturaObject implements IRelatedFilterable
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject ( $object_to_fill = null , $props_to_skip = array() )
 	{
@@ -148,13 +148,13 @@ class KalturaAssetParams extends KalturaObject implements IRelatedFilterable
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject()
+	 * @see BorhanObject::fromObject()
 	 */
-	public function doFromObject($source_object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($source_object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		/* @var $source_object assetParams */
 		if($this->shouldGet('requiredPermissions', $responseProfile))
-			$this->requiredPermissions = KalturaStringArray::fromStringArray($source_object->getRequiredPermissions());
+			$this->requiredPermissions = BorhanStringArray::fromStringArray($source_object->getRequiredPermissions());
 			
 		return parent::doFromObject($source_object, $responseProfile);
 	}

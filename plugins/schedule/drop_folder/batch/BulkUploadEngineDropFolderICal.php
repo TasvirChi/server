@@ -7,7 +7,7 @@ class BulkUploadEngineDropFolderICal extends BulkUploadEngineICal
 {
 	/**
 	 *
-	 * @var KalturaDropFolder
+	 * @var BorhanDropFolder
 	 */
 	private $dropFolder = null;
 	
@@ -17,12 +17,12 @@ class BulkUploadEngineDropFolderICal extends BulkUploadEngineICal
 	 */
 	private $fileTransferMgr = null;
 	
-	public function __construct(KalturaBatchJob $job)
+	public function __construct(BorhanBatchJob $job)
 	{
 		parent::__construct($job);
 		
 		KBatchBase::impersonate($this->currentPartnerId);
-		$dropFolderPlugin = KalturaDropFolderClientPlugin::get(KBatchBase::$kClient);
+		$dropFolderPlugin = BorhanDropFolderClientPlugin::get(KBatchBase::$kClient);
 		KBatchBase::$kClient->startMultiRequest();
 		$dropFolderFile = $dropFolderPlugin->dropFolderFile->get($this->job->jobObjectId);
 		$dropFolderPlugin->dropFolder->get($dropFolderFile->dropFolderId);
@@ -47,7 +47,7 @@ class BulkUploadEngineDropFolderICal extends BulkUploadEngineICal
 		$dropFolderFilePath = $this->dropFolder->path . '/' . $fileName;
 		
 		// local drop folder
-		if($this->dropFolder->type == KalturaDropFolderType::LOCAL)
+		if($this->dropFolder->type == BorhanDropFolderType::LOCAL)
 		{
 			$dropFolderFilePath = realpath($dropFolderFilePath);
 			return $dropFolderFilePath;
@@ -68,13 +68,13 @@ class BulkUploadEngineDropFolderICal extends BulkUploadEngineICal
 		if(KBatchBase::$taskConfig->getChmod())
 			$chmod = octdec(KBatchBase::$taskConfig->getChmod());
 		
-		KalturaLog::info("chmod($filepath, $chmod)");
+		BorhanLog::info("chmod($filepath, $chmod)");
 		@chmod($filepath, $chmod);
 		
 		$chown_name = KBatchBase::$taskConfig->params->fileOwner;
 		if($chown_name)
 		{
-			KalturaLog::info("Changing owner of file [$filepath] to [$chown_name]");
+			BorhanLog::info("Changing owner of file [$filepath] to [$chown_name]");
 			@chown($filepath, $chown_name);
 		}
 	}

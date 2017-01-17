@@ -5,17 +5,17 @@
  * @package plugins.bulkUploadFilter
  * @subpackage api.objects
  */
-class KalturaBulkServiceFilterData extends KalturaBulkServiceData
+class BorhanBulkServiceFilterData extends BorhanBulkServiceData
 {	
 	/**
 	 * Filter for extracting the objects list to upload 
-	 * @var KalturaFilter
+	 * @var BorhanFilter
 	 */
 	public $filter;
 
 	/**
 	 * Template object for new object creation
-	 * @var KalturaObject
+	 * @var BorhanObject
 	 */
 	public $templateObject;
 	
@@ -24,7 +24,7 @@ class KalturaBulkServiceFilterData extends KalturaBulkServiceData
 	    return kPluginableEnumsManager::apiToCore("BulkUploadType", BulkUploadFilterPlugin::getApiValue(BulkUploadFilterType::FILTER));
 	}
 	
-	public function toBulkUploadJobData(KalturaBulkUploadJobData $jobData)
+	public function toBulkUploadJobData(BorhanBulkUploadJobData $jobData)
 	{
 		$jobData->filter = $this->filter;
 		$jobData->templateObject = $this->templateObject;

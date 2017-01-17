@@ -1770,7 +1770,7 @@ package="lib.model">
     autoIncrement="false" lazyLoad="false" name="partner_parent_id"
     type="integer" default="null" />
     <column primaryKey="false" required="false"
-    autoIncrement="false" lazyLoad="false" name="kmc_version"
+    autoIncrement="false" lazyLoad="false" name="bmc_version"
     type="varchar" default="1" size="15" />
     <foreign-key onDelete="none" onUpdate="none"
     foreignTable="kuser">
@@ -2312,7 +2312,7 @@ package="lib.model">
       <index-column name="int_id" />
     </index>
   </table>
-  <table skipSql="false" abstract="false" name="kwidget_log">
+  <table skipSql="false" abstract="false" name="bwidget_log">
     <column autoIncrement="false" lazyLoad="false" name="id"
     type="integer" required="true" primaryKey="true"
     autoincrement="true" />

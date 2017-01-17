@@ -8,7 +8,7 @@ abstract class LiveReportExporter {
 	protected $params = array();
 	protected $dateFormatter;
 	
-	public function __construct(KalturaLiveReportExportJobData $data, $reportNameFormat, $timeRange) {
+	public function __construct(BorhanLiveReportExportJobData $data, $reportNameFormat, $timeRange) {
 		
 		// Init parameters
 		$this->params[LiveReportConstants::IS_LIVE] = false;
@@ -30,7 +30,7 @@ abstract class LiveReportExporter {
 	 * The Format is:
 	 * Export_<uniqid>_fileName 
 	 */
-	protected function createReportFileName(KalturaLiveReportExportJobData $data, $reportNameFormat, $timeRange) {
+	protected function createReportFileName(BorhanLiveReportExportJobData $data, $reportNameFormat, $timeRange) {
 		$formatter = new LiveReportDateFormatter(LiveReportConstants::DATE_FORMAT_EXTERNAL, $data->timeZoneOffset);
 		$fromTime = $formatter->format($data->timeReference - $timeRange);
 		$toTime = $formatter->format($data->timeReference);
@@ -49,9 +49,9 @@ abstract class LiveReportExporter {
 	/**
 	 * Init function - Empty implementation. 
 	 * Here should be anything that might throw an exception.
-	 * @param KalturaLiveReportExportJobData $jobData
+	 * @param BorhanLiveReportExportJobData $jobData
 	 */
-	public function init(KalturaLiveReportExportJobData $jobData) {
+	public function init(BorhanLiveReportExportJobData $jobData) {
 		// Do nothing
 	}
 	
@@ -62,7 +62,7 @@ abstract class LiveReportExporter {
 		if (! $fp)
 			throw new KOperationEngineException ( "Failed to open report file : " . $fileName );
 		
-		KalturaLog::info ( "Exporting report to $fileName" );
+		BorhanLog::info ( "Exporting report to $fileName" );
 		$engines = $this->getEngines ();
 		foreach ( $engines as $engine ) {
 			$engine->run ( $fp, $this->params );
@@ -79,7 +79,7 @@ abstract class LiveReportEntryExporter extends LiveReportExporter {
 	protected $allEntriesEngines = array();
 	protected $liveEntriesEngines = array();
 	
-	public function __construct(KalturaLiveReportExportJobData $data, $reportNameFormat, $timeRange) {
+	public function __construct(BorhanLiveReportExportJobData $data, $reportNameFormat, $timeRange) {
 		if(!$data->entryIds)
 			throw new KOperationEngineException("Missing mandatory argument entryIds");
 		if(count(explode(",", $data->entryIds)) != 1)

@@ -3,7 +3,7 @@
  * @package plugins.playReady
  * @subpackage api.enum
  */
-class KalturaPlayReadyLicenseRemovalPolicy extends KalturaEnum implements PlayReadyLicenseRemovalPolicy
+class BorhanPlayReadyLicenseRemovalPolicy extends BorhanEnum implements PlayReadyLicenseRemovalPolicy
 {
 	// see PlayReadyLicenseRemovalPolicy interface
 }

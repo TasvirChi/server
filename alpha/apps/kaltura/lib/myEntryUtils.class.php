@@ -19,7 +19,7 @@ class myEntryUtils
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err($e);
+			BorhanLog::err($e);
 		}
 		
 		myNotificationMgr::createNotification(kNotificationJobData::NOTIFICATION_TYPE_ENTRY_UPDATE_THUMBNAIL, $dbEntry);
@@ -229,7 +229,7 @@ class myEntryUtils
 
 	public static function modifyEntryMetadataWithText ( $entry , $text , $duration=6 , $override=false)
 	{
-		KalturaLog::log ( "modifyEntryMetadataWithText:\n$text");
+		BorhanLog::log ( "modifyEntryMetadataWithText:\n$text");
 		$content = myContentStorage::getFSContentRootPath() ;
 		if ( ! $override )
 		{
@@ -243,7 +243,7 @@ class myEntryUtils
 
 		if ( $override || !kFileSyncUtils::file_exists($targetFileSyncKey))
 		{
-//			KalturaLog::log ( "modifyEntryMetadataWithText\n$str_before\n$str_after\n" );
+//			BorhanLog::log ( "modifyEntryMetadataWithText\n$str_before\n$str_after\n" );
 
 			$template_str = file_get_contents( $source ) ;
 			$template_str = str_replace(
@@ -252,7 +252,7 @@ class myEntryUtils
 				$template_str );
 			kFileSyncUtils::file_put_contents($targetFileSyncKey , $template_str);
 
-//	 		KalturaLog::log ( "modifyEntryMetadataWithText:\n$text");
+//	 		BorhanLog::log ( "modifyEntryMetadataWithText:\n$text");
 
 			$entry->save();
 		}
@@ -322,7 +322,7 @@ class myEntryUtils
 			$dbEntryBatchJobLocks = BatchJobLockPeer::retrieveByEntryId($entry->getId());
 			foreach($dbEntryBatchJobLocks as $jobLock) {
 				/* @var $jobLock BatchJobLock */
-				KalturaLog::info("Entry [". $entry->getId() ."] still has an unhandled batchjob [". $jobLock->getId()."] with status [". $jobLock->getStatus()."] - aborting deletion process.");
+				BorhanLog::info("Entry [". $entry->getId() ."] still has an unhandled batchjob [". $jobLock->getId()."] with status [". $jobLock->getStatus()."] - aborting deletion process.");
 				//mark entry for later deletion
 				$entry->setMarkedForDeletion(true);
 				$entry->save();
@@ -335,20 +335,20 @@ class myEntryUtils
 			$recordedEntry = entryPeer::retrieveByPK($entry->getRecordedEntryId());
 			if($recordedEntry && in_array($recordedEntry->getStatus(), array(entryStatus::PENDING, entryStatus::NO_CONTENT, entryStatus::PRECONVERT)))
 			{
-				KalturaLog::info("Live Entry [". $entry->getId() ."] cannot be deleted, associated VOD entry still not in ready status");  
-				throw new KalturaAPIException(KalturaErrors::RECORDED_NOT_READY, $entry->getRecordedEntryId());
+				BorhanLog::info("Live Entry [". $entry->getId() ."] cannot be deleted, associated VOD entry still not in ready status");  
+				throw new BorhanAPIException(BorhanErrors::RECORDED_NOT_READY, $entry->getRecordedEntryId());
 			}
 				
 		}
 
-		KalturaLog::log("myEntryUtils::delete Entry [" . $entry->getId() . "] Partner [" . $entry->getPartnerId() . "]");
+		BorhanLog::log("myEntryUtils::delete Entry [" . $entry->getId() . "] Partner [" . $entry->getPartnerId() . "]");
 		
 		kJobsManager::abortEntryJobs($entry->getId());
 		
 		$media_type = $entry->getMediaType();
 		$need_to_fix_roughcut = false;
 		$thumb_template_file = "&deleted_image.jpg";
-		KalturaLog::log("media type [$media_type]");
+		BorhanLog::log("media type [$media_type]");
 		switch ( $media_type )
 		{
 			case entry::ENTRY_MEDIA_TYPE_AUDIO:
@@ -494,7 +494,7 @@ class myEntryUtils
 		$kshow = kshowPeer::retrieveByPK( $source_entry->getKshowId() );
 		if ( ! $kshow )
 		{
-			KalturaLog::log( "Error: entry [" . $source_entry->getId() . "] does not have a kshow" );	
+			BorhanLog::log( "Error: entry [" . $source_entry->getId() . "] does not have a kshow" );	
 			return false;
 		}
 	
@@ -503,7 +503,7 @@ class myEntryUtils
 			$roughcut = $kshow->getShowEntry();
 			if ( ! $roughcut )
 			{
-				KalturaLog::log( "Error: entry [" . $source_entry->getId() . "] from kshow " . $kshow->getId() . "] does not have a roughcut " );
+				BorhanLog::log( "Error: entry [" . $source_entry->getId() . "] from kshow " . $kshow->getId() . "] does not have a roughcut " );
 				return false;	
 			}
 			
@@ -680,7 +680,7 @@ class myEntryUtils
 		
 		if (file_exists($finalThumbPath) && @filesize($finalThumbPath))
 		{
-			header("X-Kaltura:cached-thumb-exists,".md5($finalThumbPath));
+			header("X-Borhan:cached-thumb-exists,".md5($finalThumbPath));
 			return $finalThumbPath;
 		}
 		
@@ -1133,7 +1133,7 @@ PuserKuserPeer::getCriteriaFilter()->disable();
 			// copy the data
 			$from = $entry->getSyncKey(entry::FILE_SYNC_ENTRY_SUB_TYPE_DATA); // replaced__getDataPath
 			$to = $targetEntry->getSyncKey(entry::FILE_SYNC_ENTRY_SUB_TYPE_DATA); // replaced__getDataPath
-			KalturaLog::log("copyEntriesByType - copying entry data [".$from."] to [".$to."]");
+			BorhanLog::log("copyEntriesByType - copying entry data [".$from."] to [".$to."]");
 			kFileSyncUtils::softCopy($from, $to);
 		}
 
@@ -1141,7 +1141,7 @@ PuserKuserPeer::getCriteriaFilter()->disable();
 		if(kFileSyncUtils::fileSync_exists($ismFrom))
 		{
 			$ismTo = $targetEntry->getSyncKey(entry::FILE_SYNC_ENTRY_SUB_TYPE_ISM);
-			KalturaLog::log("copying entry ism [".$ismFrom."] to [".$ismTo."]");
+			BorhanLog::log("copying entry ism [".$ismFrom."] to [".$ismTo."]");
 			kFileSyncUtils::softCopy($ismFrom, $ismTo);
 		}
 
@@ -1149,7 +1149,7 @@ PuserKuserPeer::getCriteriaFilter()->disable();
 		if(kFileSyncUtils::fileSync_exists($ismcFrom))
 		{
 			$ismcTo = $targetEntry->getSyncKey(entry::FILE_SYNC_ENTRY_SUB_TYPE_ISMC);
-			KalturaLog::log("copying entry ism [".$ismcFrom."] to [".$ismcTo."]");
+			BorhanLog::log("copying entry ism [".$ismcFrom."] to [".$ismcTo."]");
 			kFileSyncUtils::softCopy($ismcFrom, $ismcTo);
 		}
 
@@ -1177,7 +1177,7 @@ PuserKuserPeer::getCriteriaFilter()->disable();
 			if(!$skipThumb)
 			{
 				$to = $targetEntry->getSyncKey(entry::FILE_SYNC_ENTRY_SUB_TYPE_THUMB); // replaced__getThumbnailPath
-				KalturaLog::log("copyEntriesByType - copying entry thumbnail [".$from."] to [".$to."]");
+				BorhanLog::log("copyEntriesByType - copying entry thumbnail [".$from."] to [".$to."]");
 				kFileSyncUtils::softCopy($from, $to);
 			}
 		}
@@ -1215,7 +1215,7 @@ PuserKuserPeer::getCriteriaFilter()->disable();
 	public static function copyEntry(entry $entry, Partner $toPartner = null,
 									 array $cloneOptions)
  	{
- 		KalturaLog::log("copyEntry - Copying entry [".$entry->getId()."] to partner [".$toPartner->getId().
+ 		BorhanLog::log("copyEntry - Copying entry [".$entry->getId()."] to partner [".$toPartner->getId().
 			" ] with clone options [ ".print_r($cloneOptions, true)." ]");
 
 		$copyUsers = true;
@@ -1297,7 +1297,7 @@ PuserKuserPeer::getCriteriaFilter()->disable();
 		$defaultCategoryFilter->remove(categoryPeer::PARTNER_ID);
  		$defaultCategoryFilter->addAnd(categoryPeer::PARTNER_ID, $oldPartnerId);
  		
- 		KalturaLog::log("copyEntry - New entry [".$newEntry->getId()."] was created");
+ 		BorhanLog::log("copyEntry - New entry [".$newEntry->getId()."] was created");
 
 		if ( $entry->getStatus() != entryStatus::READY ) {
 			$entry->addClonePendingEntry($newEntry->getId());
@@ -1313,7 +1313,7 @@ PuserKuserPeer::getCriteriaFilter()->disable();
 		    {
 		        case entry::ENTRY_MEDIA_TYPE_TEXT:
         		    $from = $entry->getDataContent();
-        		    KalturaLog::debug("Entries to copy from source static playlist: [$from]");
+        		    BorhanLog::debug("Entries to copy from source static playlist: [$from]");
                     $fromEntryIds = explode(",", $from);
                     $toEntryIds = array();
                     foreach ($fromEntryIds as $fromEntryId)
@@ -1374,8 +1374,8 @@ PuserKuserPeer::getCriteriaFilter()->disable();
 		if ($copyCategories)
 		{
 		// copy relationships to categories
-		KalturaLog::debug('Copy relationships to categories from entry [' . $entry->getId() . '] to entry [' . $newEntry->getId() . ']');
-		$c = KalturaCriteria::create(categoryEntryPeer::OM_CLASS);
+		BorhanLog::debug('Copy relationships to categories from entry [' . $entry->getId() . '] to entry [' . $newEntry->getId() . ']');
+		$c = BorhanCriteria::create(categoryEntryPeer::OM_CLASS);
 		$c->addAnd(categoryEntryPeer::ENTRY_ID, $entry->getId());
 		$c->addAnd(categoryEntryPeer::STATUS, CategoryEntryStatus::ACTIVE, Criteria::EQUAL);
 		$c->addAnd(categoryEntryPeer::PARTNER_ID, $entry->getPartnerId());
@@ -1396,7 +1396,7 @@ PuserKuserPeer::getCriteriaFilter()->disable();
 		$illegalCategoryStatus = array( CategoryStatus::DELETED, CategoryStatus::PURGED );
 
 		// Get src category objects
-		$c = KalturaCriteria::create(categoryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(categoryPeer::OM_CLASS);
 		$c->add(categoryPeer::ID, $srcCategoryIdSet, Criteria::IN);
 		$c->addAnd(categoryPeer::PARTNER_ID, $entry->getPartnerId());
 		$c->addAnd(categoryPeer::STATUS, $illegalCategoryStatus, Criteria::NOT_IN);
@@ -1412,8 +1412,8 @@ PuserKuserPeer::getCriteriaFilter()->disable();
 		}
 
 		// Get dst. partner categories based on src. category full-names
-		$c = KalturaCriteria::create(categoryPeer::OM_CLASS);
-		$c->add(categoryPeer::FULL_NAME, array_keys( $fullNamesToSrcCategoryIdMap ), KalturaCriteria::IN);
+		$c = BorhanCriteria::create(categoryPeer::OM_CLASS);
+		$c->add(categoryPeer::FULL_NAME, array_keys( $fullNamesToSrcCategoryIdMap ), BorhanCriteria::IN);
 		$c->addAnd(categoryPeer::PARTNER_ID, $newEntry->getPartnerId());
 		$c->addAnd(categoryPeer::STATUS, $illegalCategoryStatus, Criteria::NOT_IN);
 		categoryPeer::setUseCriteriaFilter(false);
@@ -1499,7 +1499,7 @@ PuserKuserPeer::getCriteriaFilter()->disable();
 	public static function shouldServeVodFromLive(entry $entry)
 	{
 		$typeMatch = $entry->getType() == entryType::MEDIA_CLIP;
-		$sourceMatch = $entry->getSource() == EntrySourceType::KALTURA_RECORDED_LIVE;
+		$sourceMatch = $entry->getSource() == EntrySourceType::BORHAN_RECORDED_LIVE;
 		$statusMatch = $entry->getStatus() == entryStatus::READY;
 		
 		if($typeMatch && $sourceMatch && $statusMatch)

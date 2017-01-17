@@ -7,7 +7,7 @@ class DeliveryProfileLivePackagerHds extends DeliveryProfileLiveHds {
 		$httpUrl = $this->getLivePackagerUrl($serverNode);
 		$httpUrl .= "manifest.f4m";
 		
-		KalturaLog::debug("Live Stream url [$httpUrl]");
+		BorhanLog::debug("Live Stream url [$httpUrl]");
 		return $httpUrl;
 	}
 }

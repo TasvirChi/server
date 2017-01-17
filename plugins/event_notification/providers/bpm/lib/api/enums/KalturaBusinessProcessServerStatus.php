@@ -3,7 +3,7 @@
  * @package plugins.businessProcessNotification
  * @subpackage api.enum
  */
-class KalturaBusinessProcessServerStatus extends KalturaDynamicEnum implements BusinessProcessServerStatus
+class BorhanBusinessProcessServerStatus extends BorhanDynamicEnum implements BusinessProcessServerStatus
 {
 	public static function getEnumClass()
 	{

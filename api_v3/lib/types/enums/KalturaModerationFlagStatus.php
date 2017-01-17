@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaModerationFlagStatus extends KalturaDynamicEnum implements moderationFlagStatus
+class BorhanModerationFlagStatus extends BorhanDynamicEnum implements moderationFlagStatus
 {
 	public static function getEnumClass()
 	{

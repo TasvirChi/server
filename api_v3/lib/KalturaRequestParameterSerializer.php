@@ -1,16 +1,16 @@
 <?php
-class KalturaRequestParameterSerializer
+class BorhanRequestParameterSerializer
 {
 	/**
-	 * Flattens KalturaObject into an array of parameters that can sent over a GET request
-	 * @param KalturaObject $object
+	 * Flattens BorhanObject into an array of parameters that can sent over a GET request
+	 * @param BorhanObject $object
 	 * @param string $prefix
 	 * @return array
 	 */
-	public static function serialize (KalturaObject $object, $prefix)
+	public static function serialize (BorhanObject $object, $prefix)
 	{
 		$params = array();
-		if (!($object instanceof KalturaTypedArray))
+		if (!($object instanceof BorhanTypedArray))
 			$params[] = "$prefix:objectType=".get_class($object);
 		
 		foreach ($object as $prop => $val)
@@ -27,7 +27,7 @@ class KalturaRequestParameterSerializer
 			{
 				$params[] = "$prefix:$prop=$val";
 			}
-			elseif ($val instanceof KalturaTypedArray)
+			elseif ($val instanceof BorhanTypedArray)
 			{
 				$params = array_merge($params, self::serialize($val->toArray(),"$prefix:$prop"));				
 			}

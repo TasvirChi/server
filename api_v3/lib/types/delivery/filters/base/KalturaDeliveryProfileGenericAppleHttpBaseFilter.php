@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaDeliveryProfileGenericAppleHttpBaseFilter extends KalturaDeliveryProfileFilter
+abstract class BorhanDeliveryProfileGenericAppleHttpBaseFilter extends BorhanDeliveryProfileFilter
 {
 	static private $map_between_objects = array
 	(

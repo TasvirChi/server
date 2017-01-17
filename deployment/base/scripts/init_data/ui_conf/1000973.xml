@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<kcw>
+<bcw>
 	<mediaTypes>
 		<media type="video">
 			<provider id="upload" name="upload" code="1">
@@ -125,8 +125,8 @@
 		    <target>
 				ContributionWizard.swf
 		    </target>
-	  		<cssUrl>/content/uiconf/kaltura/generic/kcw_1.6.5/dark/kcw_styles.swf</cssUrl>
-	  		<localeUrl>/content/uiconf/kaltura/generic/kcw_1.6.5/dark/kcw_en_US.swf</localeUrl>
+	  		<cssUrl>/content/uiconf/borhan/generic/bcw_1.6.5/dark/bcw_styles.swf</cssUrl>
+	  		<localeUrl>/content/uiconf/borhan/generic/bcw_1.6.5/dark/bcw_en_US.swf</localeUrl>
 		</UIConfig>
 	</UIConfigList>
 
@@ -144,4 +144,4 @@
 
 			<autoTOUConfirmation>false</autoTOUConfirmation>
 	</StartupDefaults>
-</kcw>
+</bcw>

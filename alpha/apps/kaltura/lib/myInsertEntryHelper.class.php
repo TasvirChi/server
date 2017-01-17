@@ -109,7 +109,7 @@ class myInsertEntryHelper
 		$te->setTrackEventTypeId( TrackEntry::TRACK_ENTRY_EVENT_TYPE_ADD_ENTRY );
 	
 			
-		KalturaLog::debug("handleEntry: media_source: $media_source, prefix: $prefix");
+		BorhanLog::debug("handleEntry: media_source: $media_source, prefix: $prefix");
 		if ($media_source == entry::ENTRY_MEDIA_SOURCE_FILE || $prefix == 'bg_')
 		{
 			$full_path = $this->getParam('entry_full_path');
@@ -182,7 +182,7 @@ class myInsertEntryHelper
 			}
 			else
 			{
-				KalturaLog::err("File [$entry_fullPath] does not exist");
+				BorhanLog::err("File [$entry_fullPath] does not exist");
 				$entry_status = entryStatus::ERROR_IMPORTING;
 			}
 		}
@@ -196,7 +196,7 @@ class myInsertEntryHelper
 			}
 			$entry_fileName = $entry_data_prefix.$urlext;
 			
-			KalturaLog::debug("handleEntry: media_type: $media_type");
+			BorhanLog::debug("handleEntry: media_type: $media_type");
 			if ($media_type == entry::ENTRY_MEDIA_TYPE_IMAGE)
 			{
 				$duration = 0;
@@ -206,13 +206,13 @@ class myInsertEntryHelper
 					$media_source == entry::ENTRY_MEDIA_SOURCE_NYPL ||
 					$media_source == entry::ENTRY_MEDIA_SOURCE_MEDIA_COMMONS ||
 					$media_source == entry::ENTRY_MEDIA_SOURCE_URL ||
-					$media_source == entry::ENTRY_MEDIA_SOURCE_KALTURA )
+					$media_source == entry::ENTRY_MEDIA_SOURCE_BORHAN )
 */
 				{
 					$entry_fullPath = $uploads.$entry_fileName;
 					if (!KCurlWrapper::getDataFromFile($entry_url, $entry_fullPath))
 					{
-						KalturaLog::debug("Failed downloading file[$entry_url]");
+						BorhanLog::debug("Failed downloading file[$entry_url]");
 						$entry_status = entryStatus::ERROR_IMPORTING;
 					}
 				}
@@ -252,7 +252,7 @@ class myInsertEntryHelper
 			// save the Trackentry
 		TrackEntry::addTrackEntry( $te );
 			
-		KalturaLog::debug("handleEntry: ext: $ext");
+		BorhanLog::debug("handleEntry: ext: $ext");
 			
 //		We don't want to reject entries based on file extentions anumore
 //		Remarked by Tan-Tan
@@ -261,7 +261,7 @@ class myInsertEntryHelper
 //		{
 //
 //			$this->errorMsg = "insertEntryAction Error - PRECONVERT file type not acceptable ($ext)";
-//			KalturaLog::debug("handleEntry: err: $this->errorMsg");
+//			BorhanLog::debug("handleEntry: err: $this->errorMsg");
 //			if(is_null($entry) && $this->entry_id)
 //			{
 //				$entry = entryPeer::retrieveByPK($this->entry_id);
@@ -284,7 +284,7 @@ class myInsertEntryHelper
 //			$media_source != entry::ENTRY_MEDIA_SOURCE_WEBCAM && !myContentStorage::fileExtAccepted($ext))
 //		{
 //			$this->errorMsg = "insertEntryAction Error - READY file type not acceptable ($ext)";
-//			KalturaLog::debug("handleEntry: err: $this->errorMsg");
+//			BorhanLog::debug("handleEntry: err: $this->errorMsg");
 //			if(is_null($entry) && $this->entry_id)
 //			{
 //				$entry = entryPeer::retrieveByPK($this->entry_id);
@@ -300,7 +300,7 @@ class myInsertEntryHelper
 		if ($entry_status == entryStatus::ERROR_IMPORTING)
 		{
 			$need_thumb = false; // we wont be needing a thumb for an errornous entry
-			KalturaLog::log("handleEntry: error importing, thumb not needed");
+			BorhanLog::log("handleEntry: error importing, thumb not needed");
 		}
 		else
 		{
@@ -315,7 +315,7 @@ class myInsertEntryHelper
 			$thumbBigFullPath = null;
 			
 			$need_thumb = ($type == entryType::MEDIA_CLIP);
-			KalturaLog::debug("handleEntry: handling media $media_type");
+			BorhanLog::debug("handleEntry: handling media $media_type");
 			if ($media_type == entry::ENTRY_MEDIA_TYPE_IMAGE)
 			{
 				// fetch media creation date
@@ -428,7 +428,7 @@ class myInsertEntryHelper
 		// move thumb to final destination and set db entry
 		if ($media_type != entry::ENTRY_MEDIA_TYPE_AUDIO && $entry_thumbNum && $need_thumb )
 		{
-			KalturaLog::debug("handleEntry: saving none audio thumb [$thumbBigFullPath]");
+			BorhanLog::debug("handleEntry: saving none audio thumb [$thumbBigFullPath]");
 			
 			$entry->setThumbnail('.jpg');
 			
@@ -462,7 +462,7 @@ class myInsertEntryHelper
 		
 		// after extracting the thumb we can move the entry to its next destination
 		
-		KalturaLog::debug("handleEntry: current status [" . $entry->getStatus() . "]");
+		BorhanLog::debug("handleEntry: current status [" . $entry->getStatus() . "]");
 		// if needed a job will be submitted for importing external media sources
 		if ($entry->getStatus() == entryStatus::IMPORT)
  		{
@@ -584,17 +584,17 @@ class myInsertEntryHelper
 						try
 						{
 							$mediaInfoParser = new KMediaInfoMediaParser($sourceFilePath, kConf::get('bin_path_mediainfo'));
-							$KalturaMediaInfo = $mediaInfoParser->getMediaInfo();
-							if ($KalturaMediaInfo)
+							$BorhanMediaInfo = $mediaInfoParser->getMediaInfo();
+							if ($BorhanMediaInfo)
 							{
-								$mediaInfo = $KalturaMediaInfo->toInsertableObject($mediaInfo);
+								$mediaInfo = $BorhanMediaInfo->toInsertableObject($mediaInfo);
 								$mediaInfo->setFlavorAssetId($flavorAsset->getId());
 								$mediaInfo->save();
 							}
 						}
 						catch(Exception $e)
 						{
-							KalturaLog::err("Getting media info: " . $e->getMessage());
+							BorhanLog::err("Getting media info: " . $e->getMessage());
 							$mediaInfo = null;
 						}
 						
@@ -653,7 +653,7 @@ class myInsertEntryHelper
 			}
 			else
 			{
-				KalturaLog::debug("handleEntry: creating data file sync for file [$entry_fullPath]");
+				BorhanLog::debug("handleEntry: creating data file sync for file [$entry_fullPath]");
 				$entryDataKey = $entry->getSyncKey(entry::FILE_SYNC_ENTRY_SUB_TYPE_DATA);
 				if(!kFileSyncUtils::file_exists($entryDataKey))
 				{

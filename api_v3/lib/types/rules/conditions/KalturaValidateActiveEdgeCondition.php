@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaValidateActiveEdgeCondition extends KalturaCondition
+class BorhanValidateActiveEdgeCondition extends BorhanCondition
 {	
 	/**
 	 * Comma separated list of edge servers to validate are active
@@ -31,7 +31,7 @@ class KalturaValidateActiveEdgeCondition extends KalturaCondition
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaMediaType extends KalturaEnum
+class BorhanMediaType extends BorhanEnum
 {
 	const VIDEO = 1;
 	const IMAGE = 2;

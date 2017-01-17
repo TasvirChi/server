@@ -26,18 +26,18 @@ class KAsyncPostConvertTest extends PHPUnit_Framework_TestCase
 	
 	public function testGoodFile()
 	{
-		$this->doTest(realpath(dirname( __FILE__ ) . '/../../../tests/files/example.avi'), true, KalturaBatchJobStatus::FINISHED);
+		$this->doTest(realpath(dirname( __FILE__ ) . '/../../../tests/files/example.avi'), true, BorhanBatchJobStatus::FINISHED);
 	}
 	
 	public function testSpacedFile()
 	{
 		$path = realpath(dirname( __FILE__ ) . '/../../../tests/files/example.avi');
-		$this->doTest(" $path", true, KalturaBatchJobStatus::FINISHED);
+		$this->doTest(" $path", true, BorhanBatchJobStatus::FINISHED);
 	}
 	
 	public function testMissingFile()
 	{
-		$this->doTest('aaa', true, KalturaBatchJobStatus::FAILED);
+		$this->doTest('aaa', true, BorhanBatchJobStatus::FAILED);
 	}
 	
 	public function doTest($filePath, $createThumb, $expectedStatus)
@@ -68,16 +68,16 @@ class KAsyncPostConvertTest extends PHPUnit_Framework_TestCase
 	
 	private function prepareJobs($filePath, $createThumb)
 	{
-		$data = new KalturaPostConvertJobData();
-		$srcFileSyncDescriptor = new KalturaSourceFileSyncDescriptor();
+		$data = new BorhanPostConvertJobData();
+		$srcFileSyncDescriptor = new BorhanSourceFileSyncDescriptor();
 		$srcFileSyncDescriptor->fileSyncLocalPath = $filePath;
-		$data->srcFileSyncs = new KalturaSourceFileSyncDescriptorArray();
+		$data->srcFileSyncs = new BorhanSourceFileSyncDescriptorArray();
 		$data->srcFileSyncs[] = $srcFileSyncDescriptor;		
 		$data->createThumb = $createThumb;
 		
-		$job = new KalturaBatchJob();
+		$job = new BorhanBatchJob();
 		$job->id = 1;
-		$job->status = KalturaBatchJobStatus::PENDING;
+		$job->status = BorhanBatchJobStatus::PENDING;
 		$job->data = $data;
 		
 		return array($job);

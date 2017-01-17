@@ -15,7 +15,7 @@ class KAsyncCopyPartner extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::COPY_PARTNER;
+		return BorhanBatchJobType::COPY_PARTNER;
 	}
 	
 	/* (non-PHPdoc)
@@ -28,18 +28,18 @@ class KAsyncCopyPartner extends KJobHandlerWorker
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
-	 * @return KalturaBatchJob
+	 * @return BorhanBatchJob
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->doCopyPartner($job, $job->data);
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
-	 * @return KalturaBatchJob
+	 * @return BorhanBatchJob
 	 */
-	protected function doCopyPartner(KalturaBatchJob $job, KalturaCopyPartnerJobData $jobData)
+	protected function doCopyPartner(BorhanBatchJob $job, BorhanCopyPartnerJobData $jobData)
 	{
 		$this->log( "doCopyPartner job id [$job->id], From PID: $jobData->fromPartnerId, To PID: $jobData->toPartnerId" );
 
@@ -49,7 +49,7 @@ class KAsyncCopyPartner extends KJobHandlerWorker
 		// copy permssions before trying to copy additional objects such as distribution profiles which are not enabled yet for the partner
  		$this->copyAllEntries();
 		
- 		return $this->closeJob($job, null, null, "doCopyPartner finished", KalturaBatchJobStatus::FINISHED);
+ 		return $this->closeJob($job, null, null, "doCopyPartner finished", BorhanBatchJobStatus::FINISHED);
 	}
 	
 	/**
@@ -57,14 +57,14 @@ class KAsyncCopyPartner extends KJobHandlerWorker
 	 */
 	protected function copyAllEntries()
 	{
-		$entryFilter = new KalturaBaseEntryFilter();
- 		$entryFilter->order = KalturaBaseEntryOrderBy::CREATED_AT_ASC;
+		$entryFilter = new BorhanBaseEntryFilter();
+ 		$entryFilter->order = BorhanBaseEntryOrderBy::CREATED_AT_ASC;
 		
-		$pageFilter = new KalturaFilterPager();
+		$pageFilter = new BorhanFilterPager();
 		$pageFilter->pageSize = 50;
 		$pageFilter->pageIndex = 1;
 		
-		/* @var $this->getClient() KalturaClient */
+		/* @var $this->getClient() BorhanClient */
 		do
 		{
 			// Get the source partner's entries list

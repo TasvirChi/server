@@ -3,17 +3,17 @@
  * @package plugins.attachment
  * @subpackage api.objects
  */
-class KalturaAttachmentAssetArray extends KalturaTypedArray
+class BorhanAttachmentAssetArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaAttachmentAssetArray();
+		$newArr = new BorhanAttachmentAssetArray();
 		if ($arr == null)
 			return $newArr;
 	
 		foreach ($arr as $obj)
 		{
-			$nObj = KalturaAsset::getInstance($obj);
+			$nObj = BorhanAsset::getInstance($obj);
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaAttachmentAssetArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaAttachmentAsset");	
+		parent::__construct("BorhanAttachmentAsset");	
 	}
 }

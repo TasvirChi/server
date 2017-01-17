@@ -63,7 +63,7 @@ class kFile
 		curl_setopt($ch, CURLOPT_HEADER, true);
 		$headers = curl_exec($ch);
 		if(!$headers)
-			KalturaLog::err('Curl error: ' . curl_error($ch));
+			BorhanLog::err('Curl error: ' . curl_error($ch));
 		curl_close($ch);
 		
 		if(!$headers)
@@ -84,7 +84,7 @@ class kFile
 		// create a handler for the directory
 		$handler = @opendir($directory);
 		if(! $handler)
-			KalturaLog::info("dirList $directory does not exist");
+			BorhanLog::info("dirList $directory does not exist");
 		
 		// keep going until all files in directory have been read
 		while($file = readdir($handler))
@@ -348,12 +348,12 @@ class kFile
 			// Generate target directory
 			if (file_exists ($dest)) {
 				if (! is_dir($dest)) {
-					KalturaLog::err("Can't override a file with a directory [$dest]");
+					BorhanLog::err("Can't override a file with a directory [$dest]");
 					return false;
 				}
 			} else {
 				if (! mkdir($dest)) {
-					KalturaLog::err("Failed to create directory [$dest]");
+					BorhanLog::err("Failed to create directory [$dest]");
 					return false;
 				}
 			}
@@ -367,7 +367,7 @@ class kFile
 				
 				$newSrc = $src . DIRECTORY_SEPARATOR . $entry;
 				if(is_dir($newSrc)) {
-					KalturaLog::err("Copying of non-flat directroeis is illegal");
+					BorhanLog::err("Copying of non-flat directroeis is illegal");
 					return false;
 				}
 				
@@ -378,7 +378,7 @@ class kFile
 			
 			// Delete source
 			if ($deleteSrc && (! rmdir($src))) {
-				KalturaLog::err("Failed to delete source directory : [$src]");
+				BorhanLog::err("Failed to delete source directory : [$src]");
 				return false;
 			}
 		} else {
@@ -395,11 +395,11 @@ class kFile
 		}
 		
 		if (!copy($src,$dest)) {
-			KalturaLog::err("Failed to copy file : [$src] to [$dest]");
+			BorhanLog::err("Failed to copy file : [$src] to [$dest]");
 			return false;
 		}
 		if ($deleteSrc && (!unlink($src))) {
-			KalturaLog::err("Failed to delete source file : [$src]");
+			BorhanLog::err("Failed to delete source file : [$src]");
 			return false;
 		}
 		return true;
@@ -413,13 +413,13 @@ class kFile
 		// Validation
 		if(!file_exists($from))
 		{
-			KalturaLog::err("Source doesn't exist [$from]");
+			BorhanLog::err("Source doesn't exist [$from]");
 			return false;
 		}
 		
 		if(strpos($to,'\"') !== false)
 		{
-			KalturaLog::err("Illegal destination file [$to]");
+			BorhanLog::err("Illegal destination file [$to]");
 			return false;
 		}
 		
@@ -455,13 +455,13 @@ class kFile
 		
 		if(!file_exists($from))
 		{
-			KalturaLog::err("Source file doesn't exist [$from]");
+			BorhanLog::err("Source file doesn't exist [$from]");
 			return false;
 		}
 		
 		if(strpos($to,'\"') !== false)
 		{
-			KalturaLog::err("Illegal destination file [$to]");
+			BorhanLog::err("Illegal destination file [$to]");
 			return false;
 		}
 			

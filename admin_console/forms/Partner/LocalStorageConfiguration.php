@@ -22,7 +22,7 @@ class Form_Partner_LocalStorageConfiguration extends Form_Partner_BaseStorageCon
 		$this->addElement('select', 'pathManagerClass', array(
 			'label'			=> 'Path Manager:',
 			'filters'		=> array('StringTrim'),
-			'multiOptions'  => array('kPathManager' => 'Kaltura Path',
+			'multiOptions'  => array('kPathManager' => 'Borhan Path',
 									'kExternalPathManager' => 'External Path',
 		    						'kXslPathManager' => 'XSL Path',
 									),

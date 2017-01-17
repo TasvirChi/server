@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaEntryType extends KalturaDynamicEnum implements entryType
+class BorhanEntryType extends BorhanDynamicEnum implements entryType
 {
 	public static function getEnumClass()
 	{

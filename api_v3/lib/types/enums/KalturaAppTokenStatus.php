@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaAppTokenStatus extends KalturaEnum implements AppTokenStatus
+class BorhanAppTokenStatus extends BorhanEnum implements AppTokenStatus
 {
 
 }

@@ -2,7 +2,7 @@
 /**
  * @package plugins.scheduleBulkUpload
  */
-class BulkUploadSchedulePlugin extends KalturaPlugin implements IKalturaBulkUpload, IKalturaPending, IKalturaServices
+class BulkUploadSchedulePlugin extends BorhanPlugin implements IBorhanBulkUpload, IBorhanPending, IBorhanServices
 {
 	const PLUGIN_NAME = 'scheduleBulkUpload';
 	
@@ -16,12 +16,12 @@ class BulkUploadSchedulePlugin extends KalturaPlugin implements IKalturaBulkUplo
 	
 	/*
 	 * (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$bulkUploadDependency = new KalturaDependency(BulkUploadPlugin::PLUGIN_NAME);
-		$scheduleDependency = new KalturaDependency(SchedulePlugin::PLUGIN_NAME);
+		$bulkUploadDependency = new BorhanDependency(BulkUploadPlugin::PLUGIN_NAME);
+		$scheduleDependency = new BorhanDependency(SchedulePlugin::PLUGIN_NAME);
 		
 		return array($bulkUploadDependency, $scheduleDependency);
 	}
@@ -59,18 +59,18 @@ class BulkUploadSchedulePlugin extends KalturaPlugin implements IKalturaBulkUplo
 		if($baseClass == 'kBulkUploadJobData' && $enumValue == self::getBulkUploadTypeCoreValue(BulkUploadScheduleType::ICAL))
 			return new kBulkUploadICalJobData();
 		
-		if($baseClass == 'KalturaBulkUploadJobData' && $enumValue == self::getBulkUploadTypeCoreValue(BulkUploadScheduleType::ICAL))
-			return new KalturaBulkUploadICalJobData();
+		if($baseClass == 'BorhanBulkUploadJobData' && $enumValue == self::getBulkUploadTypeCoreValue(BulkUploadScheduleType::ICAL))
+			return new BorhanBulkUploadICalJobData();
 			
 			// Gets the engine (only for clients)
-		if($baseClass == 'KBulkUploadEngine' && class_exists('KalturaClient'))
+		if($baseClass == 'KBulkUploadEngine' && class_exists('BorhanClient'))
 		{	
 			list($job) = $constructorArgs;
-			if($enumValue == KalturaBulkUploadType::ICAL)
+			if($enumValue == BorhanBulkUploadType::ICAL)
 			{
 				return new BulkUploadEngineICal($job);
 			}
-			elseif((!$enumValue || $enumValue == KalturaBulkUploadType::CSV) && $job->data->bulkUploadObjectType == KalturaBulkUploadObjectType::SCHEDULE_RESOURCE)
+			elseif((!$enumValue || $enumValue == BorhanBulkUploadType::CSV) && $job->data->bulkUploadObjectType == BorhanBulkUploadObjectType::SCHEDULE_RESOURCE)
 			{
 				return new BulkUploadScheduleResourceEngineCsv($job);
 			}
@@ -170,15 +170,15 @@ class BulkUploadSchedulePlugin extends KalturaPlugin implements IKalturaBulkUplo
 					
 				if($scheduleEvent)
 				{
-					$scheduleEventObject = KalturaScheduleEvent::getInstance($scheduleEvent);
-					/* @var $scheduleEventObject KalturaScheduleEvent */
+					$scheduleEventObject = BorhanScheduleEvent::getInstance($scheduleEvent);
+					/* @var $scheduleEventObject BorhanScheduleEvent */
 					$event = kSchedulingICalEvent::fromObject($scheduleEventObject);
 				}
 				else
 				{
 					$event = new kSchedulingICalEvent($bulkUploadResult->getRowData());
 				}
-				$event->addFields($extraAttributes, 'x-kaltura');
+				$event->addFields($extraAttributes, 'x-borhan');
 				$event->write();
 			}
 			
@@ -213,7 +213,7 @@ class BulkUploadSchedulePlugin extends KalturaPlugin implements IKalturaBulkUplo
 	 */
 	public static function getBulkUploadTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('BulkUploadType', $value);
 	}
 	
@@ -223,7 +223,7 @@ class BulkUploadSchedulePlugin extends KalturaPlugin implements IKalturaBulkUplo
 	 */
 	public static function getBulkUploadActionCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('BulkUploadAction', $value);
 	}
 	
@@ -233,7 +233,7 @@ class BulkUploadSchedulePlugin extends KalturaPlugin implements IKalturaBulkUplo
 	 */
 	public static function getBulkUploadObjectTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('BulkUploadObjectType', $value);
 	}
 	
@@ -243,6 +243,6 @@ class BulkUploadSchedulePlugin extends KalturaPlugin implements IKalturaBulkUplo
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 }

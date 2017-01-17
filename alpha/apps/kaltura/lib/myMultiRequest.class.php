@@ -82,7 +82,7 @@ class myMultiRequest extends defPartnerservices2Action
 		// several default params
 		$global_format = @$this->original_request_params["format"];
 		if (!$global_format)
-			$global_format = kalturaWebserviceRenderer::RESPONSE_TYPE_XML;
+			$global_format = borhanWebserviceRenderer::RESPONSE_TYPE_XML;
 		$this->response_type = $global_format; //
 		$multi_response = array();
 
@@ -113,7 +113,7 @@ class myMultiRequest extends defPartnerservices2Action
 
 				// request the response as
 				// becuase the format is global - it cannot be used per service anyway.
-				$params["format"] = kalturaWebserviceRenderer::RESPONSE_TYPE_PHP_ARRAY;
+				$params["format"] = borhanWebserviceRenderer::RESPONSE_TYPE_PHP_ARRAY;
 				$myaction->setInputParams ( $params );
 				//$myaction->setResponseContext ( "response{$this->current_action_index}");
 				$response = $myaction->execute( false ); // foreach single action - pass false so no extra debug data will be outputed

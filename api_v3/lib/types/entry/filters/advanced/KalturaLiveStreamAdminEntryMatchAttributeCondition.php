@@ -3,12 +3,12 @@
 /**
  * Auto-generated class.
  * 
- * Used to search KalturaLiveStreamAdminEntry attributes. Use KalturaLiveStreamAdminEntryMatchAttribute enum to provide attribute name.
+ * Used to search BorhanLiveStreamAdminEntry attributes. Use BorhanLiveStreamAdminEntryMatchAttribute enum to provide attribute name.
 */
-class KalturaLiveStreamAdminEntryMatchAttributeCondition extends KalturaSearchMatchAttributeCondition
+class BorhanLiveStreamAdminEntryMatchAttributeCondition extends BorhanSearchMatchAttributeCondition
 {
 	/**
-	 * @var KalturaLiveStreamAdminEntryMatchAttribute
+	 * @var BorhanLiveStreamAdminEntryMatchAttribute
 	 */
 	public $attribute;
 

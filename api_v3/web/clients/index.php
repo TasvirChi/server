@@ -1,11 +1,11 @@
 <?php
 require_once(__DIR__ . "/../../bootstrap.php");
-KalturaLog::setContext("CLIENTS");
-KalturaLog::debug(__FILE__ . " start");
+BorhanLog::setContext("CLIENTS");
+BorhanLog::debug(__FILE__ . " start");
 
-$generatorPath 			= KAutoloader::buildPath(KALTURA_ROOT_PATH, "generator");
-$generatorOutputPath 	= KAutoloader::buildPath(KALTURA_ROOT_PATH, "generator", "output");
-$generatorConfigPath 	= KAutoloader::buildPath(KALTURA_ROOT_PATH, "generator", "config.ini");
+$generatorPath 			= KAutoloader::buildPath(BORHAN_ROOT_PATH, "generator");
+$generatorOutputPath 	= KAutoloader::buildPath(BORHAN_ROOT_PATH, "generator", "output");
+$generatorConfigPath 	= KAutoloader::buildPath(BORHAN_ROOT_PATH, "generator", "config.ini");
 $config = new Zend_Config_Ini($generatorConfigPath);
 ?>
 <ul>
@@ -27,4 +27,4 @@ foreach($config as $name => $item)
 ?>
 </ul>
 <?php 
-KalturaLog::debug(__FILE__ . " end");
+BorhanLog::debug(__FILE__ . " end");

@@ -12,62 +12,62 @@
 	</session>
 	<multirequest>
 		<request service="eventNotificationTemplate" action="add" plugin="eventNotification" partnerId="0">
-			<template objectType="KalturaEmailNotificationTemplate">
+			<template objectType="BorhanEmailNotificationTemplate">
 				<name>Entry Manual Dispatch</name>
 				<systemName>EMAIL_ENTRY_MANUAL_DISPATCH</systemName>
 				<description>Email notification template to be sent when on entry, manually dispatched.</description>
 				<manualDispatchEnabled>1</manualDispatchEnabled>
 				<format>1</format>
-				<subject>[Kaltura] - Entry Manual Dispathc</subject>
+				<subject>[Borhan] - Entry Manual Dispathc</subject>
 				<body>Entry with ID {entry_id} manually dispatched.</body>
 				<fromEmail>{from_email}</fromEmail>
 				<fromName>{from_name}</fromName>
-				<bcc objectType="KalturaEmailNotificationStaticRecipientProvider">
+				<bcc objectType="BorhanEmailNotificationStaticRecipientProvider">
 					<emailRecipients objectType="array">
-						<item objectType = "KalturaEmailNotificationRecipient">
-							<email objectType="KalturaStringValue"></email>
-							<name objectType="KalturaStringValue"></name>
+						<item objectType = "BorhanEmailNotificationRecipient">
+							<email objectType="BorhanStringValue"></email>
+							<name objectType="BorhanStringValue"></name>
 						</item>
 					</emailRecipients>
 				</bcc>
 				<contentParameters objectType="array">
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>from_email</key>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>kConf::get("partner_notification_email")</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>from_name</key>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>kConf::get("partner_notification_name")</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>entry_id</key>
 						<description>Entry ID</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>$scope->getObject()->getId()</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>entry_name</key>
 						<description>Entry name</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>$scope->getObject()->getName()</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>entry_status</key>
 						<description>Entry status</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>$scope->getObject()->getStatus()</code>
 						</value>
 					</item>
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>entry_reference_id</key>
 						<description>Entry reference ID</description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>$scope->getObject()->getReferenceID()</code>
 						</value>
 					</item>

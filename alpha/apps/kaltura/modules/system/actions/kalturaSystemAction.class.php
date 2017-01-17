@@ -4,7 +4,7 @@
  * @subpackage system
  * @deprecated
  */
-abstract class kalturaSystemAction extends kalturaAction
+abstract class borhanSystemAction extends borhanAction
 {
 	const COOKIE_NAME = "kalsysauth";
 	

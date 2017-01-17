@@ -52,13 +52,13 @@ class thumbAsset extends exportableAsset
 		return false;
 	}
 	
-	public function getThumbnailUrl(KSecureEntryHelper $securyEntryHelper, $storageId = null, KalturaThumbParams $thumbParams = null)
+	public function getThumbnailUrl(KSecureEntryHelper $securyEntryHelper, $storageId = null, BorhanThumbParams $thumbParams = null)
 	{
 		if ($thumbParams)
 		{
 			$assetUrl = $this->getDownloadUrlWithExpiry(84600);
-			$assetParameters = KalturaRequestParameterSerializer::serialize($thumbParams, "thumbParams");
-			$thumbnailUrl = $assetUrl . "?thumbParams:objectType=KalturaThumbParams&".implode("&", $assetParameters);
+			$assetParameters = BorhanRequestParameterSerializer::serialize($thumbParams, "thumbParams");
+			$thumbnailUrl = $assetUrl . "?thumbParams:objectType=BorhanThumbParams&".implode("&", $assetParameters);
 		}
 			
 		if($storageId)

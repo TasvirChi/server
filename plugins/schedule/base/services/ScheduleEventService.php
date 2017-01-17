@@ -6,10 +6,10 @@
  * @package plugins.schedule
  * @subpackage api.services
  */
-class ScheduleEventService extends KalturaBaseService
+class ScheduleEventService extends BorhanBaseService
 {
 	/* (non-PHPdoc)
-	 * @see KalturaBaseService::initService()
+	 * @see BorhanBaseService::initService()
 	 */
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -21,13 +21,13 @@ class ScheduleEventService extends KalturaBaseService
 	}
 
 	/**
-	 * Allows you to add a new KalturaScheduleEvent object
+	 * Allows you to add a new BorhanScheduleEvent object
 	 *
 	 * @action add
-	 * @param KalturaScheduleEvent $scheduleEvent
-	 * @return KalturaScheduleEvent
+	 * @param BorhanScheduleEvent $scheduleEvent
+	 * @return BorhanScheduleEvent
 	 */
-	public function addAction(KalturaScheduleEvent $scheduleEvent)
+	public function addAction(BorhanScheduleEvent $scheduleEvent)
 	{
 		// save in database
 		$dbScheduleEvent = $scheduleEvent->toInsertableObject();
@@ -41,51 +41,51 @@ class ScheduleEventService extends KalturaBaseService
 			$dbScheduleEvent->save();
 
 		// return the saved object
-		$scheduleEvent = KalturaScheduleEvent::getInstance($dbScheduleEvent, $this->getResponseProfile());
+		$scheduleEvent = BorhanScheduleEvent::getInstance($dbScheduleEvent, $this->getResponseProfile());
 		$scheduleEvent->fromObject($dbScheduleEvent, $this->getResponseProfile());
 		return $scheduleEvent;
 
 	}
 
 	/**
-	 * Retrieve a KalturaScheduleEvent object by ID
+	 * Retrieve a BorhanScheduleEvent object by ID
 	 *
 	 * @action get
 	 * @param int $scheduleEventId
-	 * @return KalturaScheduleEvent
+	 * @return BorhanScheduleEvent
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */
 	public function getAction($scheduleEventId)
 	{
 		$dbScheduleEvent = ScheduleEventPeer::retrieveByPK($scheduleEventId);
 		if(!$dbScheduleEvent)
 		{
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $scheduleEventId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $scheduleEventId);
 		}
 
-		$scheduleEvent = KalturaScheduleEvent::getInstance($dbScheduleEvent, $this->getResponseProfile());
+		$scheduleEvent = BorhanScheduleEvent::getInstance($dbScheduleEvent, $this->getResponseProfile());
 		$scheduleEvent->fromObject($dbScheduleEvent, $this->getResponseProfile());
 
 		return $scheduleEvent;
 	}
 
 	/**
-	 * Update an existing KalturaScheduleEvent object
+	 * Update an existing BorhanScheduleEvent object
 	 *
 	 * @action update
 	 * @param int $scheduleEventId
-	 * @param KalturaScheduleEvent $scheduleEvent
-	 * @return KalturaScheduleEvent
+	 * @param BorhanScheduleEvent $scheduleEvent
+	 * @return BorhanScheduleEvent
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */
-	public function updateAction($scheduleEventId, KalturaScheduleEvent $scheduleEvent)
+	public function updateAction($scheduleEventId, BorhanScheduleEvent $scheduleEvent)
 	{
 		$dbScheduleEvent = ScheduleEventPeer::retrieveByPK($scheduleEventId);
 		if(!$dbScheduleEvent)
 		{
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $scheduleEventId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $scheduleEventId);
 		}
 
 		$currentScheduleEventRecurrenceType = $dbScheduleEvent->getRecurrenceType();
@@ -106,7 +106,7 @@ class ScheduleEventService extends KalturaBaseService
 		else
 			$dbScheduleEvent->save();
 
-		$scheduleEvent = KalturaScheduleEvent::getInstance($dbScheduleEvent, $this->getResponseProfile());
+		$scheduleEvent = BorhanScheduleEvent::getInstance($dbScheduleEvent, $this->getResponseProfile());
 		$scheduleEvent->fromObject($dbScheduleEvent, $this->getResponseProfile());
 
 		return $scheduleEvent;
@@ -140,7 +140,7 @@ class ScheduleEventService extends KalturaBaseService
 		self::setRecurringDates($newDates, $dbScheduleEvent);
 		if (is_null($newDates) || empty($newDates))
 		{
-			KalturaLog::debug("No dates have been received - deleting old recurrences");
+			BorhanLog::debug("No dates have been received - deleting old recurrences");
 			ScheduleEventPeer::deleteByParentId($dbScheduleEvent->getId());
 			return;
 		}
@@ -152,12 +152,12 @@ class ScheduleEventService extends KalturaBaseService
 		$existingScheduleEventIds = ScheduleEvent::getEventValues($existingScheduleEvents, 'getId');
 		$existingScheduleEventStartDates = ScheduleEvent::getEventValues($existingScheduleEvents, 'getStartDate');
 		// delete all old recurrences except the one's that hadn't changed
-		KalturaLog::debug("Deleting old recurrences except for ids: " . print_r($existingScheduleEventIds, true));
+		BorhanLog::debug("Deleting old recurrences except for ids: " . print_r($existingScheduleEventIds, true));
 		ScheduleEventPeer::deleteByParentId($dbScheduleEvent->getId(), $existingScheduleEventIds);
 
 		//create only the new/changed ones
 		$dates = array_diff($newDates, $existingScheduleEventStartDates);
-		KalturaLog::debug("Adding " .count($dates) . " new recurrences");
+		BorhanLog::debug("Adding " .count($dates) . " new recurrences");
 
 		$class = get_class($dbScheduleEvent);
 		foreach($dates as $date)
@@ -166,26 +166,26 @@ class ScheduleEventService extends KalturaBaseService
 
 
 	/**
-	 * Mark the KalturaScheduleEvent object as deleted
+	 * Mark the BorhanScheduleEvent object as deleted
 	 *
 	 * @action delete
 	 * @param int $scheduleEventId
-	 * @return KalturaScheduleEvent
+	 * @return BorhanScheduleEvent
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
-	 * @throws KalturaScheduleErrors::RECURRENCE_CANT_BE_DELETE
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
+	 * @throws BorhanScheduleErrors::RECURRENCE_CANT_BE_DELETE
 	 */
 	public function deleteAction($scheduleEventId)
 	{
 		$dbScheduleEvent = ScheduleEventPeer::retrieveByPK($scheduleEventId);
 		if(!$dbScheduleEvent)
 		{
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $scheduleEventId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $scheduleEventId);
 		}
 
 		if($dbScheduleEvent->getRecurrenceType() == ScheduleEventRecurrenceType::RECURRENCE)
 		{
-			throw new KalturaAPIException(KalturaScheduleErrors::RECURRENCE_CANT_BE_DELETE, $scheduleEventId, $dbScheduleEvent->getParentId());
+			throw new BorhanAPIException(BorhanScheduleErrors::RECURRENCE_CANT_BE_DELETE, $scheduleEventId, $dbScheduleEvent->getParentId());
 		}
 
 		$dbScheduleEvent->setStatus(ScheduleEventStatus::DELETED);
@@ -196,27 +196,27 @@ class ScheduleEventService extends KalturaBaseService
 			ScheduleEventPeer::deleteByParentId($scheduleEventId);
 		}
 
-		$scheduleEvent = KalturaScheduleEvent::getInstance($dbScheduleEvent, $this->getResponseProfile());
+		$scheduleEvent = BorhanScheduleEvent::getInstance($dbScheduleEvent, $this->getResponseProfile());
 		$scheduleEvent->fromObject($dbScheduleEvent, $this->getResponseProfile());
 
 		return $scheduleEvent;
 	}
 
 	/**
-	 * Mark the KalturaScheduleEvent object as cancelled
+	 * Mark the BorhanScheduleEvent object as cancelled
 	 *
 	 * @action cancel
 	 * @param int $scheduleEventId
-	 * @return KalturaScheduleEvent
+	 * @return BorhanScheduleEvent
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */
 	public function cancelAction($scheduleEventId)
 	{
 		$dbScheduleEvent = ScheduleEventPeer::retrieveByPK($scheduleEventId);
 		if(!$dbScheduleEvent)
 		{
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $scheduleEventId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $scheduleEventId);
 		}
 
 		$dbScheduleEvent->setStatus(ScheduleEventStatus::CANCELLED);
@@ -227,27 +227,27 @@ class ScheduleEventService extends KalturaBaseService
 			ScheduleEventPeer::deleteByParentId($scheduleEventId);
 		}
 
-		$scheduleEvent = KalturaScheduleEvent::getInstance($dbScheduleEvent, $this->getResponseProfile());
+		$scheduleEvent = BorhanScheduleEvent::getInstance($dbScheduleEvent, $this->getResponseProfile());
 		$scheduleEvent->fromObject($dbScheduleEvent, $this->getResponseProfile());
 
 		return $scheduleEvent;
 	}
 
 	/**
-	 * List KalturaScheduleEvent objects
+	 * List BorhanScheduleEvent objects
 	 *
 	 * @action list
-	 * @param KalturaScheduleEventFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaScheduleEventListResponse
+	 * @param BorhanScheduleEventFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanScheduleEventListResponse
 	 */
-	public function listAction(KalturaScheduleEventFilter $filter = null, KalturaFilterPager $pager = null)
+	public function listAction(BorhanScheduleEventFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaScheduleEventFilter();
+			$filter = new BorhanScheduleEventFilter();
 
 		if(!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 
 		return $filter->getListResponse($pager, $this->getResponseProfile());
 	}
@@ -261,14 +261,14 @@ class ScheduleEventService extends KalturaBaseService
 	private function getRecurrencesDates(ScheduleEvent $dbScheduleEvent)
 	{
 		$maxRecurrences = SchedulePlugin::getScheduleEventmaxRecurrences();
-		$datesGenerator = new DatesGenerator($maxRecurrences, $dbScheduleEvent->getRecurrence()->asArray(), array('KalturaLog', 'debug'));
+		$datesGenerator = new DatesGenerator($maxRecurrences, $dbScheduleEvent->getRecurrence()->asArray(), array('BorhanLog', 'debug'));
 		$dates = $datesGenerator->getDates($dbScheduleEvent->getStartDate(null));
 
-		KalturaLog::debug("Found [" . count($dates) . "] dates");
+		BorhanLog::debug("Found [" . count($dates) . "] dates");
 		return $dates;
 	}
 
-	private function shouldUpdateRecurrences(KalturaScheduleEvent $scheduleEvent)
+	private function shouldUpdateRecurrences(BorhanScheduleEvent $scheduleEvent)
 	{
 		$timeRelatedFields = array($scheduleEvent->startDate, $scheduleEvent->endDate, $scheduleEvent->recurrence,
 			$scheduleEvent->recurrenceType, $scheduleEvent->duration);
@@ -319,13 +319,13 @@ class ScheduleEventService extends KalturaBaseService
 	 *
 	 * @action getConflicts
 	 * @param string $resourceIds
-	 * @param KalturaScheduleEvent $scheduleEvent
-	 * @return KalturaScheduleEventArray
+	 * @param BorhanScheduleEvent $scheduleEvent
+	 * @return BorhanScheduleEventArray
 	 */
-	public function getConflictsAction($resourceIds, KalturaScheduleEvent $scheduleEvent)
+	public function getConflictsAction($resourceIds, BorhanScheduleEvent $scheduleEvent)
 	{
 		if (!$resourceIds)
-			throw new KalturaAPIException(KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, 'resourceIds');
+			throw new BorhanAPIException(BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, 'resourceIds');
 
 		$dbScheduleEvent = $scheduleEvent->toInsertableObject();
 		/* @var $dbScheduleEvent ScheduleEvent */
@@ -335,7 +335,7 @@ class ScheduleEventService extends KalturaBaseService
 		if($dbScheduleEvent->getRecurrenceType() === ScheduleEventRecurrenceType::RECURRING)
 		{
 			$maxRecurrences = SchedulePlugin::getScheduleEventmaxRecurrences();
-			$datesGenerator = new DatesGenerator($maxRecurrences, $dbScheduleEvent->getRecurrence()->asArray(), array('KalturaLog', 'debug'));
+			$datesGenerator = new DatesGenerator($maxRecurrences, $dbScheduleEvent->getRecurrence()->asArray(), array('BorhanLog', 'debug'));
 			$dates = $datesGenerator->getDates($dbScheduleEvent->getStartDate(null));
 
 			foreach($dates as $date)
@@ -345,6 +345,6 @@ class ScheduleEventService extends KalturaBaseService
 			$events = ScheduleEventPeer::retrieveEventsByResourceIdsAndDateWindow($resourceIds, $dbScheduleEvent->getStartDate(null), $dbScheduleEvent->getEndDate(null));
 		}
 
-		return KalturaScheduleEventArray::fromDbArray($events);
+		return BorhanScheduleEventArray::fromDbArray($events);
 	}
 }

@@ -68,13 +68,13 @@ class kHashCondition extends kCondition
 			$compareHash = md5($this->hashSecret. kCurrentContext::$ks);
 			if ($sentHash === $compareHash)
 			{
-				KalturaLog::info("Correct hash sent");
+				BorhanLog::info("Correct hash sent");
 				return false;
 			}
 			
 		}
 		
-		KalturaLog::info("Incorrect hash sent");
+		BorhanLog::info("Incorrect hash sent");
 		return true;
     }
 

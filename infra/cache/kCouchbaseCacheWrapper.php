@@ -445,13 +445,13 @@ class kCouchbaseCacheWrapper extends kBaseCacheWrapper
 			$this->name = $config['name'];
 			
 			if($this->debug)
-				KalturaLog::debug("Bucket name [$this->name]");
+				BorhanLog::debug("Bucket name [$this->name]");
 				
 			$this->bucket = $cluster->openBucket($this->name);
 		}
 		catch(CouchbaseException $e)
 		{
-			KalturaLog::err($e);
+			BorhanLog::err($e);
 			return false;
 		}
 
@@ -486,7 +486,7 @@ class kCouchbaseCacheWrapper extends kBaseCacheWrapper
 			$meta = $this->bucket->get($key);
 			
 			if($this->debug)
-				KalturaLog::debug("key [$key], meta [" . print_r($meta, true) . "]");
+				BorhanLog::debug("key [$key], meta [" . print_r($meta, true) . "]");
 				
 			return $meta->value;
 		}
@@ -509,7 +509,7 @@ class kCouchbaseCacheWrapper extends kBaseCacheWrapper
 			$metas = $this->bucket->get($keys);
 			
 			if($this->debug)
-				KalturaLog::debug("key [" . print_r($keys, true) . "], metas [" . print_r($metas, true) . "]");
+				BorhanLog::debug("key [" . print_r($keys, true) . "], metas [" . print_r($metas, true) . "]");
 				
 			$values = array();
 			foreach($metas as $meta)
@@ -540,7 +540,7 @@ class kCouchbaseCacheWrapper extends kBaseCacheWrapper
 		$meta = $this->bucket->counter($key, $delta);
 		
 		if($this->debug)
-			KalturaLog::debug("key [$key], meta [" . print_r($meta, true) . "]");
+			BorhanLog::debug("key [$key], meta [" . print_r($meta, true) . "]");
 			
 		return $meta->value;
 	}
@@ -551,7 +551,7 @@ class kCouchbaseCacheWrapper extends kBaseCacheWrapper
 	protected function doSet($key, $var, $expiry = 0)
 	{
 		if($this->debug)
-			KalturaLog::debug("Bucket name [$this->name] key [$key] var [" . print_r($var, true) . "]");
+			BorhanLog::debug("Bucket name [$this->name] key [$key] var [" . print_r($var, true) . "]");
 			
 		$meta = $this->bucket->upsert($key, $var, array(
 			'expiry' => $expiry
@@ -566,7 +566,7 @@ class kCouchbaseCacheWrapper extends kBaseCacheWrapper
 	protected function doAdd($key, $var, $expiry = 0)
 	{
 		if($this->debug)
-			KalturaLog::debug("key [$key], var [" . print_r($var, true) . "]");
+			BorhanLog::debug("key [$key], var [" . print_r($var, true) . "]");
 			
 		try
 		{
@@ -591,7 +591,7 @@ class kCouchbaseCacheWrapper extends kBaseCacheWrapper
 	protected function doDelete($key)
 	{
 		if($this->debug)
-			KalturaLog::debug("key [$key]");
+			BorhanLog::debug("key [$key]");
 			
 		try
 		{
@@ -619,7 +619,7 @@ class kCouchbaseCacheWrapper extends kBaseCacheWrapper
 		));
 		
 		if($this->debug)
-			KalturaLog::debug("key [$key] var [" . print_r($var, true) . "] meta [" . print_r($meta, true) . "]");
+			BorhanLog::debug("key [$key] var [" . print_r($var, true) . "] meta [" . print_r($meta, true) . "]");
 		
 		return is_null($meta->error);
 	}
@@ -633,7 +633,7 @@ class kCouchbaseCacheWrapper extends kBaseCacheWrapper
 		$meta = $this->bucket->append($key, $var);
 		
 		if($this->debug)
-			KalturaLog::debug("key [$key] var [" . print_r($var, true) . "] meta [" . print_r($meta, true) . "]");
+			BorhanLog::debug("key [$key] var [" . print_r($var, true) . "] meta [" . print_r($meta, true) . "]");
 			
 		return $meta->value;
 	}
@@ -647,7 +647,7 @@ class kCouchbaseCacheWrapper extends kBaseCacheWrapper
 		$meta = $this->bucket->prepend($key, $var);
 		
 		if($this->debug)
-			KalturaLog::debug("key [$key] var [" . print_r($var, true) . "] meta [" . print_r($meta, true) . "]");
+			BorhanLog::debug("key [$key] var [" . print_r($var, true) . "] meta [" . print_r($meta, true) . "]");
 			
 		return $meta->value;
 	}
@@ -663,7 +663,7 @@ class kCouchbaseCacheWrapper extends kBaseCacheWrapper
 			$meta = $this->bucket->get($key);
 			
 			if($this->debug)
-				KalturaLog::debug("key [$key]");
+				BorhanLog::debug("key [$key]");
 				
 			return $meta->value;
 		}
@@ -688,7 +688,7 @@ class kCouchbaseCacheWrapper extends kBaseCacheWrapper
 			$metas = $this->bucket->remove($keys);
 			
 			if($this->debug)
-				KalturaLog::debug("key [" . print_r($keys, true) . "]");
+				BorhanLog::debug("key [" . print_r($keys, true) . "]");
 				
 			return true;
 		}
@@ -712,7 +712,7 @@ class kCouchbaseCacheWrapper extends kBaseCacheWrapper
 			$metas = $this->bucket->get($keys);
 			
 			if($this->debug)
-				KalturaLog::debug("key [" . implode(', ', $keys) . "], metas [" . print_r($metas, true) . "]");
+				BorhanLog::debug("key [" . implode(', ', $keys) . "], metas [" . print_r($metas, true) . "]");
 				
 			$values = array();
 			foreach($keys as $key)
@@ -720,7 +720,7 @@ class kCouchbaseCacheWrapper extends kBaseCacheWrapper
 				$meta = $metas[$key];
 				if($meta->error)
 				{
-					KalturaLog::warning($meta->error->getMessage());
+					BorhanLog::warning($meta->error->getMessage());
 				}
 				
 				$values[$key] = $meta->value;
@@ -745,12 +745,12 @@ class kCouchbaseCacheWrapper extends kBaseCacheWrapper
 	{
 		if(!isset($this->views[$view]))
 		{
-			KalturaLog::err("Couchbase view [$view] not found");
+			BorhanLog::err("Couchbase view [$view] not found");
 			return null;
 		}
 			
 		if($this->debug)
-			KalturaLog::debug("Loads query [" . print_r($this->views[$view], true) . "]");
+			BorhanLog::debug("Loads query [" . print_r($this->views[$view], true) . "]");
 			
 		$designDocumentName = $this->views[$view]['designDocumentName'];
 		$viewName = $this->views[$view]['viewName'];

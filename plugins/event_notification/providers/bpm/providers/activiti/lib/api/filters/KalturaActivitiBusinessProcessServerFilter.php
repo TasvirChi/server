@@ -3,6 +3,6 @@
  * @package plugins.activitiBusinessProcessNotification
  * @subpackage api.filters
  */
-class KalturaActivitiBusinessProcessServerFilter extends KalturaActivitiBusinessProcessServerBaseFilter
+class BorhanActivitiBusinessProcessServerFilter extends BorhanActivitiBusinessProcessServerBaseFilter
 {
 }

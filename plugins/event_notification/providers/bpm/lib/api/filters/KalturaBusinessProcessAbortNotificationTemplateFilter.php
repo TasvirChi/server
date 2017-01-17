@@ -3,6 +3,6 @@
  * @package plugins.businessProcessNotification
  * @subpackage api.filters
  */
-class KalturaBusinessProcessAbortNotificationTemplateFilter extends KalturaBusinessProcessAbortNotificationTemplateBaseFilter
+class BorhanBusinessProcessAbortNotificationTemplateFilter extends BorhanBusinessProcessAbortNotificationTemplateBaseFilter
 {
 }

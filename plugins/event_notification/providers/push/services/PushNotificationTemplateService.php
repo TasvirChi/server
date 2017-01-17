@@ -6,7 +6,7 @@
  * @package plugins.pushNotification
  * @subpackage api.services
  */
-class PushNotificationTemplateService extends KalturaBaseService
+class PushNotificationTemplateService extends BorhanBaseService
 {
     private function encode($data)
     {
@@ -33,8 +33,8 @@ class PushNotificationTemplateService extends KalturaBaseService
 	 * @action register
 	 * @actionAlias eventNotification_eventNotificationTemplate.register
 	 * @param string $notificationTemplateSystemName Existing push notification template system name
-	 * @param KalturaEventNotificationParameterArray $userParamsArray User params
-	 * @return KalturaPushNotificationData
+	 * @param BorhanEventNotificationParameterArray $userParamsArray User params
+	 * @return BorhanPushNotificationData
 	 */
 	function registerAction($notificationTemplateSystemName, $userParamsArray)
 	{
@@ -46,11 +46,11 @@ class PushNotificationTemplateService extends KalturaBaseService
 	     );
 	    $dbEventNotificationTemplate = EventNotificationTemplatePeer::retrieveBySystemName($notificationTemplateSystemName, null, $partnersIds);
 	    if (!$dbEventNotificationTemplate)
-	        throw new KalturaAPIException(KalturaEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_SYSTEM_NAME_NOT_FOUND, $notificationTemplateSystemName);
+	        throw new BorhanAPIException(BorhanEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_SYSTEM_NAME_NOT_FOUND, $notificationTemplateSystemName);
 	    
 	    // verify template is push typed
 	    if (!$dbEventNotificationTemplate instanceof PushNotificationTemplate)
-	        throw new KalturaAPIException(KalturaEventNotificationErrors::EVENT_NOTIFICATION_WRONG_TYPE, $notificationTemplateSystemName, get_class($dbEventNotificationTemplate) );
+	        throw new BorhanAPIException(BorhanEventNotificationErrors::EVENT_NOTIFICATION_WRONG_TYPE, $notificationTemplateSystemName, get_class($dbEventNotificationTemplate) );
 	    
 	    // Check all template needed params were actually given 
 	    $missingParams = array();
@@ -69,13 +69,13 @@ class PushNotificationTemplateService extends KalturaBaseService
 	    }
 	    
 	    if ( $missingParams != null )
-	        throw new KalturaAPIException(KalturaErrors::MISSING_MANDATORY_PARAMETER,  implode(",", $missingParams ));
+	        throw new BorhanAPIException(BorhanErrors::MISSING_MANDATORY_PARAMETER,  implode(",", $missingParams ));
 
 	    //check that keys actually have values
 	    foreach ($userParamsArray as $userParam) {
 	        $userParamObj = $userParam->toObject();
 	        if (!$userParamObj->getValue()) {
-	            throw new KalturaAPIException(KalturaErrors::MISSING_MANDATORY_PARAMETER, "Value of ". $userParamObj->getKey() );
+	            throw new BorhanAPIException(BorhanErrors::MISSING_MANDATORY_PARAMETER, "Value of ". $userParamObj->getKey() );
 	        }
 	    }	    
 	    
@@ -86,7 +86,7 @@ class PushNotificationTemplateService extends KalturaBaseService
 	    if (!$dbEventNotificationTemplate->exists($queueKey))
 	       $dbEventNotificationTemplate->create($queueKey);
 	    
-	    $result = new KalturaPushNotificationData();
+	    $result = new BorhanPushNotificationData();
 	    $result->key = $this->encode($queueKey . ":" .$hash);
 
 	    // build the url to return

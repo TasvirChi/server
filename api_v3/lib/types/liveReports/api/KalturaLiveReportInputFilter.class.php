@@ -4,7 +4,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaLiveReportInputFilter extends KalturaObject
+class BorhanLiveReportInputFilter extends BorhanObject
 {	
 	/**
 	 * @var string
@@ -22,18 +22,18 @@ class KalturaLiveReportInputFilter extends KalturaObject
 	public $toTime;
 	
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 **/
 	public $live;
 	
 	/**
-	 * @var KalturaLiveReportOrderBy
+	 * @var BorhanLiveReportOrderBy
 	 */
 	public $orderBy;
 	
 	public function getWSObject() {
 		$obj = new WSLiveReportInputFilter();
-		$obj->fromKalturaObject($this);
+		$obj->fromBorhanObject($this);
 		return $obj;
 	}
 }

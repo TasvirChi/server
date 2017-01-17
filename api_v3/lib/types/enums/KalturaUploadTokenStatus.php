@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaUploadTokenStatus extends KalturaEnum
+class BorhanUploadTokenStatus extends BorhanEnum
 {
 	/**
 	 * Token created but no upload has been started yet

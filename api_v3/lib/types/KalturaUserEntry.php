@@ -4,7 +4,7 @@
  * @subpackage objects
  * @abstract
  */
-abstract class KalturaUserEntry extends KalturaObject implements IRelatedFilterable
+abstract class BorhanUserEntry extends BorhanObject implements IRelatedFilterable
 {
 
 	/**
@@ -36,7 +36,7 @@ abstract class KalturaUserEntry extends KalturaObject implements IRelatedFiltera
 	public $partnerId;
 
 	/**
-	 * @var KalturaUserEntryStatus
+	 * @var BorhanUserEntryStatus
 	 * @readonly
 	 * @filter eq
 	 */
@@ -57,7 +57,7 @@ abstract class KalturaUserEntry extends KalturaObject implements IRelatedFiltera
 	public $updatedAt;
 
 	/**
-	 * @var KalturaUserEntryType
+	 * @var BorhanUserEntryType
 	 * @readonly
 	 * @filter eq
 	 */
@@ -83,23 +83,23 @@ abstract class KalturaUserEntry extends KalturaObject implements IRelatedFiltera
 
 
 	/**
-	 * Function returns KalturaUserEntry sub-type according to protocol
+	 * Function returns BorhanUserEntry sub-type according to protocol
 	 * @var string $type
-	 * @return KalturaUserEntry
+	 * @return BorhanUserEntry
 	 *
 	 */
 	public static function getInstanceByType ($type)
 	{
-		$obj = KalturaPluginManager::loadObject("KalturaUserEntry",$type);
+		$obj = BorhanPluginManager::loadObject("BorhanUserEntry",$type);
 		if (is_null($obj))
 		{
-			KalturaLog::err("The type '$type' is unknown");
+			BorhanLog::err("The type '$type' is unknown");
 		}
 		return $obj;
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toInsertableObject()
+	 * @see BorhanObject::toInsertableObject()
 	 */
 	public function toInsertableObject ( $object_to_fill = null , $props_to_skip = array() )
 	{
@@ -114,7 +114,7 @@ abstract class KalturaUserEntry extends KalturaObject implements IRelatedFiltera
 			$kuser = kuserPeer::getKuserByPartnerAndUid(kCurrentContext::$ks_partner_id, $this->userId);
 			if (!$kuser)
 			{
-				throw new KalturaAPIException(KalturaErrors::INVALID_USER_ID, $this->userId);
+				throw new BorhanAPIException(BorhanErrors::INVALID_USER_ID, $this->userId);
 			}
 			$object_to_fill->setKuserId($kuser->getKuserId());
 		}
@@ -142,7 +142,7 @@ abstract class KalturaUserEntry extends KalturaObject implements IRelatedFiltera
 		return array();
 	}
 
-	protected function doFromObject($srcObj, KalturaDetachedResponseProfile $responseProfile = null)
+	protected function doFromObject($srcObj, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$kuser = $srcObj->getkuser();
 		if ($kuser)

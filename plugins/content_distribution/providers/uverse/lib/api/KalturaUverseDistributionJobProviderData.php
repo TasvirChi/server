@@ -3,7 +3,7 @@
  * @package plugins.uverseDistribution
  * @subpackage api.objects
  */
-class KalturaUverseDistributionJobProviderData extends KalturaConfigurableDistributionJobProviderData
+class BorhanUverseDistributionJobProviderData extends BorhanConfigurableDistributionJobProviderData
 {
 	/**
 	 * The local file path of the video asset that needs to be distributed
@@ -26,14 +26,14 @@ class KalturaUverseDistributionJobProviderData extends KalturaConfigurableDistri
 	 */
 	public $remoteAssetFileName;
 	
-	public function __construct(KalturaDistributionJobData $distributionJobData = null)
+	public function __construct(BorhanDistributionJobData $distributionJobData = null)
 	{
 		parent::__construct($distributionJobData);
 
 		if(!$distributionJobData)
 			return;
 			
-		if(!($distributionJobData->distributionProfile instanceof KalturaUverseDistributionProfile))
+		if(!($distributionJobData->distributionProfile instanceof BorhanUverseDistributionProfile))
 			return;
 			
 		$flavorAssets = assetPeer::retrieveByIds(explode(',', $distributionJobData->entryDistribution->flavorAssetIds));
@@ -56,7 +56,7 @@ class KalturaUverseDistributionJobProviderData extends KalturaConfigurableDistri
 			$this->remoteAssetFileName = $entryDistributionDb->getFromCustomData(UverseEntryDistributionCustomDataField::REMOTE_ASSET_FILE_NAME);
 		}
 		else
-			KalturaLog::err('Entry distribution ['.$distributionJobData->entryDistributionId.'] not found');
+			BorhanLog::err('Entry distribution ['.$distributionJobData->entryDistributionId.'] not found');
 	}
 		
 	private static $map_between_objects = array

@@ -3,6 +3,6 @@
  * @package api
  * @subpackage filters.enum
  */
-class KalturaITunesSyndicationFeedOrderBy extends KalturaBaseSyndicationFeedOrderBy
+class BorhanITunesSyndicationFeedOrderBy extends BorhanBaseSyndicationFeedOrderBy
 {
 }

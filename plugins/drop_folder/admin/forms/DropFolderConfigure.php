@@ -57,7 +57,7 @@ class Form_DropFolderConfigure extends Infra_Form
 			'filters'		=> array('StringTrim'),
 		));
 
-		$typeForView = new Kaltura_Form_Element_EnumSelect('typeForView', array('enum' => 'Kaltura_Client_DropFolder_Enum_DropFolderType'));
+		$typeForView = new Borhan_Form_Element_EnumSelect('typeForView', array('enum' => 'Borhan_Client_DropFolder_Enum_DropFolderType'));
 		$typeForView->setLabel('Type:');
 		$typeForView->setAttrib('readonly', true);
 		$typeForView->setAttrib('disabled', 'disabled');
@@ -94,13 +94,13 @@ class Form_DropFolderConfigure extends Infra_Form
 
 		$this->addConversionProfiles();
 
-		$fileHandlerType = new Kaltura_Form_Element_EnumSelect('fileHandlerType', array('enum' => 'Kaltura_Client_DropFolder_Enum_DropFolderFileHandlerType'));
+		$fileHandlerType = new Borhan_Form_Element_EnumSelect('fileHandlerType', array('enum' => 'Borhan_Client_DropFolder_Enum_DropFolderFileHandlerType'));
 		$fileHandlerType->setLabel('Ingestion Workflow:');
 		$fileHandlerType->setRequired(true);
 		$fileHandlerType->setAttrib('onchange', 'handlerTypeChanged()');
 		$this->addElement($fileHandlerType);
 
-		$fileHandlerTypeForView = new Kaltura_Form_Element_EnumSelect('fileHandlerTypeForView', array('enum' => 'Kaltura_Client_DropFolder_Enum_DropFolderFileHandlerType'));
+		$fileHandlerTypeForView = new Borhan_Form_Element_EnumSelect('fileHandlerTypeForView', array('enum' => 'Borhan_Client_DropFolder_Enum_DropFolderFileHandlerType'));
 		$fileHandlerTypeForView->setAttrib('disabled', 'disabled');
 		$fileHandlerTypeForView->setAttrib('style', 'display:none');
 		$this->addElement($fileHandlerTypeForView);
@@ -110,18 +110,18 @@ class Form_DropFolderConfigure extends Infra_Form
 		{
 			switch($type)
 			{
-				case Kaltura_Client_DropFolder_Enum_DropFolderFileHandlerType::CONTENT:
+				case Borhan_Client_DropFolder_Enum_DropFolderFileHandlerType::CONTENT:
 					$handlerConfigForm = new Form_ContentFileHandlerConfig();
 					$this->addSubForm($handlerConfigForm, 'fileHandlerConfig' . $type);
 					break;
 
-				case Kaltura_Client_DropFolder_Enum_DropFolderFileHandlerType::XML:
+				case Borhan_Client_DropFolder_Enum_DropFolderFileHandlerType::XML:
 					$handlerConfigForm = new Form_XmlFileHandlerConfig();
 					$this->addSubForm($handlerConfigForm, 'fileHandlerConfig' . $type);
 					break;
 					
 				default:
-					$handlerConfigForm = KalturaPluginManager::loadObject('Form_BaseFileHandlerConfig', $type);
+					$handlerConfigForm = BorhanPluginManager::loadObject('Form_BaseFileHandlerConfig', $type);
 					if($handlerConfigForm)
 						$this->addSubForm($handlerConfigForm, 'fileHandlerConfig' . $type);
 			}
@@ -181,10 +181,10 @@ class Form_DropFolderConfigure extends Infra_Form
 			'filters'		=> array('StringTrim'),
 		));
 
-		$fileDeletePolicies = new Kaltura_Form_Element_EnumSelect('fileDeletePolicy', array('enum' => 'Kaltura_Client_DropFolder_Enum_DropFolderFileDeletePolicy'));
+		$fileDeletePolicies = new Borhan_Form_Element_EnumSelect('fileDeletePolicy', array('enum' => 'Borhan_Client_DropFolder_Enum_DropFolderFileDeletePolicy'));
 		$fileDeletePolicies->setLabel('File Deletion Policy:');
 		$fileDeletePolicies->setRequired(true);
-		$fileDeletePolicies->setValue(Kaltura_Client_DropFolder_Enum_DropFolderFileDeletePolicy::AUTO_DELETE);
+		$fileDeletePolicies->setValue(Borhan_Client_DropFolder_Enum_DropFolderFileDeletePolicy::AUTO_DELETE);
 		$this->addElement($fileDeletePolicies);
 
 		$this->addElement('text', 'autoFileDeleteDays', array(
@@ -201,7 +201,7 @@ class Form_DropFolderConfigure extends Infra_Form
 		
 		// --------------------------------
 
-		$extendTypeSubForm = KalturaPluginManager::loadObject('Form_DropFolderConfigureExtend_SubForm', $this->dropFolderType);
+		$extendTypeSubForm = BorhanPluginManager::loadObject('Form_DropFolderConfigureExtend_SubForm', $this->dropFolderType);
 		if ($extendTypeSubForm) {
     		$this->addElement('hidden', 'crossLine4', array(
 				'decorators' => array('ViewHelper', array('Label', array('placement' => 'append')), array('HtmlTag',  array('tag' => 'hr', 'class' => 'crossLine')))
@@ -241,7 +241,7 @@ class Form_DropFolderConfigure extends Infra_Form
 		$allElements = $this->getElements();
 		foreach ($allElements as $element)
 		{
-			if ($element instanceof Kaltura_Form_Element_EnumSelect)
+			if ($element instanceof Borhan_Form_Element_EnumSelect)
 			{
 				$elementName = $element->getName();
 				if (isset($props[$elementName])) {
@@ -264,24 +264,24 @@ class Form_DropFolderConfigure extends Infra_Form
 		    $properties = array_merge($properties[self::EXTENSION_SUBFORM_NAME], $properties);
 		}
 
-	    $object = KalturaPluginManager::loadObject('Kaltura_Client_DropFolder_Type_DropFolder', $properties['type']);
+	    $object = BorhanPluginManager::loadObject('Borhan_Client_DropFolder_Type_DropFolder', $properties['type']);
 
 		$fileHandlerType = $properties['fileHandlerType'];
 		switch($fileHandlerType)
 		{
-			case Kaltura_Client_DropFolder_Enum_DropFolderFileHandlerType::CONTENT:
-				$object->fileHandlerConfig = new Kaltura_Client_DropFolder_Type_DropFolderContentFileHandlerConfig();
+			case Borhan_Client_DropFolder_Enum_DropFolderFileHandlerType::CONTENT:
+				$object->fileHandlerConfig = new Borhan_Client_DropFolder_Type_DropFolderContentFileHandlerConfig();
 				$handlerConfigForm = new Form_ContentFileHandlerConfig();
 				break;
 
-			case Kaltura_Client_DropFolder_Enum_DropFolderFileHandlerType::XML:
-				$object->fileHandlerConfig = new Kaltura_Client_DropFolderXmlBulkUpload_Type_DropFolderXmlBulkUploadFileHandlerConfig();
+			case Borhan_Client_DropFolder_Enum_DropFolderFileHandlerType::XML:
+				$object->fileHandlerConfig = new Borhan_Client_DropFolderXmlBulkUpload_Type_DropFolderXmlBulkUploadFileHandlerConfig();
 				$handlerConfigForm = new Form_XmlFileHandlerConfig();
 				break;
 				
 			default:
-				$object->fileHandlerConfig = KalturaPluginManager::loadObject('Kaltura_Client_DropFolder_Type_DropFolderFileHandlerConfig', $fileHandlerType);
-				$handlerConfigForm = KalturaPluginManager::loadObject('Form_BaseFileHandlerConfig', $fileHandlerType);
+				$object->fileHandlerConfig = BorhanPluginManager::loadObject('Borhan_Client_DropFolder_Type_DropFolderFileHandlerConfig', $fileHandlerType);
+				$handlerConfigForm = BorhanPluginManager::loadObject('Form_BaseFileHandlerConfig', $fileHandlerType);
 		}
 	    $object = parent::loadObject($object, $properties, $add_underscore, $include_empty_fields);
 
@@ -305,7 +305,7 @@ class Form_DropFolderConfigure extends Infra_Form
 		{
 			try
 			{
-				$conversionProfileFilter = new Kaltura_Client_Type_ConversionProfileFilter();
+				$conversionProfileFilter = new Borhan_Client_Type_ConversionProfileFilter();
 
 				$client = Infra_ClientHelper::getClient();
 				Infra_ClientHelper::impersonate($this->newPartnerId);
@@ -314,7 +314,7 @@ class Form_DropFolderConfigure extends Infra_Form
 
 				$conversionProfiles = $conversionProfileList->objects;
 			}
-			catch (Kaltura_Client_Exception $e)
+			catch (Borhan_Client_Exception $e)
 			{
 				$conversionProfiles = null;
 			}

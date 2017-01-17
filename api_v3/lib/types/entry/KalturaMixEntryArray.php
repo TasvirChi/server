@@ -3,16 +3,16 @@
  * @package api
  * @subpackage objects
  */
-class KalturaMixEntryArray extends KalturaTypedArray
+class BorhanMixEntryArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaMixEntryArray();
+		$newArr = new BorhanMixEntryArray();
 		if ($arr == null)
 			return $newArr;		
 		foreach ($arr as $obj)
 		{
-    		$nObj = KalturaEntryFactory::getInstanceByType($obj->getType());
+    		$nObj = BorhanEntryFactory::getInstanceByType($obj->getType());
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -22,6 +22,6 @@ class KalturaMixEntryArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaMixEntry");	
+		parent::__construct("BorhanMixEntry");	
 	}
 }

@@ -3,7 +3,7 @@
  * @package plugins.adCuePoint
  * @subpackage api.enum
  */
-class KalturaAdType extends KalturaDynamicEnum implements AdType
+class BorhanAdType extends BorhanDynamicEnum implements AdType
 {
 	public static function getEnumClass()
 	{

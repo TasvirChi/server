@@ -3,7 +3,7 @@
  * @package plugins.youTubeDistribution
  * @subpackage api.enum
  */
-class KalturaYouTubeDistributionField extends KalturaStringEnum implements YouTubeDistributionField
+class BorhanYouTubeDistributionField extends BorhanStringEnum implements YouTubeDistributionField
 {
 	// see YouTubeDistributionField interface
 }

@@ -6,7 +6,7 @@
 abstract class KIndexingEngine
 {
 	/**
-	 * @var KalturaFilterPager
+	 * @var BorhanFilterPager
 	 */
 	protected $pager;
 	
@@ -33,33 +33,33 @@ abstract class KIndexingEngine
 	private $batchPartnerId;
 	
 	/**
-	 * @param int $objectType of enum KalturaIndexObjectType
+	 * @param int $objectType of enum BorhanIndexObjectType
 	 * @return KIndexingEngine
 	 */
 	public static function getInstance($objectType)
 	{
 		switch($objectType)
 		{
-			case KalturaIndexObjectType::ENTRY:
+			case BorhanIndexObjectType::ENTRY:
 				return new KIndexingEntryEngine();
 				
-			case KalturaIndexObjectType::CATEGORY:
+			case BorhanIndexObjectType::CATEGORY:
 				return new KIndexingCategoryEngine();
 				
-			case KalturaIndexObjectType::LOCK_CATEGORY:
+			case BorhanIndexObjectType::LOCK_CATEGORY:
 				return new KIndexingCategoryEngine();
 				
-			case KalturaIndexObjectType::CATEGORY_ENTRY:
+			case BorhanIndexObjectType::CATEGORY_ENTRY:
 				return new KIndexingCategoryEntryEngine();
 				
-			case KalturaIndexObjectType::CATEGORY_USER:
+			case BorhanIndexObjectType::CATEGORY_USER:
 				return new KIndexingCategoryUserEngine();
 				
-			case KalturaIndexObjectType::USER:
+			case BorhanIndexObjectType::USER:
 				return new KIndexingKuserPermissionsEngine();
 				
 			default:
-				return KalturaPluginManager::loadObject('KIndexingEngine', $objectType);
+				return BorhanPluginManager::loadObject('KIndexingEngine', $objectType);
 		}
 	}
 	
@@ -71,7 +71,7 @@ abstract class KIndexingEngine
 		$this->partnerId = $partnerId;
 		$this->batchPartnerId = KBatchBase::$taskConfig->getPartnerId();
 
-		$this->pager = new KalturaFilterPager();
+		$this->pager = new BorhanFilterPager();
 		$this->pager->pageSize = 100;
 
 		if(KBatchBase::$taskConfig->params && KBatchBase::$taskConfig->params->pageSize)
@@ -79,11 +79,11 @@ abstract class KIndexingEngine
 	}
 	
 	/**
-	 * @param KalturaFilter $filter The filter should return the list of objects that need to be reindexed
+	 * @param BorhanFilter $filter The filter should return the list of objects that need to be reindexed
 	 * @param bool $shouldUpdate Indicates that the object columns and attributes values should be recalculated before reindexed
 	 * @return int the number of indexed objects
 	 */
-	public function run(KalturaFilter $filter, $shouldUpdate)
+	public function run(BorhanFilter $filter, $shouldUpdate)
 	{
 		KBatchBase::impersonate($this->partnerId);
 		$ret = $this->index($filter, $shouldUpdate);
@@ -93,11 +93,11 @@ abstract class KIndexingEngine
 	}
 	
 	/**
-	 * @param KalturaFilter $filter The filter should return the list of objects that need to be reindexed
+	 * @param BorhanFilter $filter The filter should return the list of objects that need to be reindexed
 	 * @param bool $shouldUpdate Indicates that the object columns and attributes values should be recalculated before reindexed
 	 * @return int the number of indexed objects
 	 */
-	abstract protected function index(KalturaFilter $filter, $shouldUpdate);
+	abstract protected function index(BorhanFilter $filter, $shouldUpdate);
 	
 	/**
 	 * @return int $lastIndexId

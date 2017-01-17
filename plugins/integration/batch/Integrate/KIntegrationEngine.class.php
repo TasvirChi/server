@@ -6,8 +6,8 @@
 interface KIntegrationEngine
 {	
 	/**
-	 * @param KalturaBatchJob $job
-	 * @param KalturaIntegrationJobData $data
+	 * @param BorhanBatchJob $job
+	 * @param BorhanIntegrationJobData $data
 	 */
-	public function dispatch(KalturaBatchJob $job, KalturaIntegrationJobData &$data);
+	public function dispatch(BorhanBatchJob $job, BorhanIntegrationJobData &$data);
 }

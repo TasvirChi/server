@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaExtendingItemMrssParameter extends KalturaObject
+class BorhanExtendingItemMrssParameter extends BorhanObject
 {
 	/**
 	 * XPath for the extending item
@@ -13,13 +13,13 @@ class KalturaExtendingItemMrssParameter extends KalturaObject
 	
 	/**
 	 * Object identifier
-	 * @var KalturaObjectIdentifier
+	 * @var BorhanObjectIdentifier
 	 */
 	public $identifier;
 	
 	/**
 	 * Mode of extension - append to MRSS or replace the xpath content.
-	 * @var KalturaMrssExtensionMode
+	 * @var BorhanMrssExtensionMode
 	 */
 	public $extensionMode;
 	
@@ -31,7 +31,7 @@ class KalturaExtendingItemMrssParameter extends KalturaObject
 		);
 		
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -39,7 +39,7 @@ class KalturaExtendingItemMrssParameter extends KalturaObject
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($dbObject = null, $propsToSkip = array())
 	{
@@ -51,9 +51,9 @@ class KalturaExtendingItemMrssParameter extends KalturaObject
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject($source_object)
+	 * @see BorhanObject::fromObject($source_object)
 	 */
-	public function doFromObject($dbObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($dbObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($dbObject, $responseProfile);
 		
@@ -61,14 +61,14 @@ class KalturaExtendingItemMrssParameter extends KalturaObject
 		if($this->shouldGet('identifier', $responseProfile))
 		{
 			$identifierType = get_class($dbObject->getIdentifier());
-			KalturaLog::info("Creating identifier for DB identifier type $identifierType");
+			BorhanLog::info("Creating identifier for DB identifier type $identifierType");
 			switch ($identifierType)
 			{
 				case 'kEntryIdentifier':
-					$this->identifier = new KalturaEntryIdentifier();
+					$this->identifier = new BorhanEntryIdentifier();
 					break;
 				case 'kCategoryIdentifier':
-					$this->identifier = new KalturaCategoryIdentifier();
+					$this->identifier = new BorhanCategoryIdentifier();
 			}
 			
 			if ($this->identifier)
@@ -79,14 +79,14 @@ class KalturaExtendingItemMrssParameter extends KalturaObject
 	protected function validate ()
 	{
 		//Should not allow any extending object but entries to be added in APPEND mode
-		if ($this->extensionMode == KalturaMrssExtensionMode::APPEND && get_class($this->identifier) !== 'KalturaEntryIdentifier')
+		if ($this->extensionMode == BorhanMrssExtensionMode::APPEND && get_class($this->identifier) !== 'BorhanEntryIdentifier')
 		{
-			throw new KalturaAPIException(KalturaErrors::EXTENDING_ITEM_INCOMPATIBLE_COMBINATION);
+			throw new BorhanAPIException(BorhanErrors::EXTENDING_ITEM_INCOMPATIBLE_COMBINATION);
 		}
 		
 		if (!$this->xpath)
 		{
-			throw new KalturaAPIException(KalturaErrors::EXTENDING_ITEM_MISSING_XPATH);
+			throw new BorhanAPIException(BorhanErrors::EXTENDING_ITEM_MISSING_XPATH);
 		}
 	}
 }

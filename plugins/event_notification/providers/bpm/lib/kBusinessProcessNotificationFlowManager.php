@@ -59,7 +59,7 @@ class kBusinessProcessNotificationFlowManager implements kBatchJobStatusEventCon
 			$notificationTemplate = EventNotificationTemplatePeer::retrieveByPK($templateId);
 			if (!$notificationTemplate)
 			{
-				KalturaLog::info ("Notification template with ID [$templateId] could not be found.");
+				BorhanLog::info ("Notification template with ID [$templateId] could not be found.");
 				continue;
 			}
 			

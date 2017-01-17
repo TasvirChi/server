@@ -4,7 +4,7 @@
  *
  * @package plugins.scheduledTaskMetadata
  */
-class ScheduledTaskMetadataPlugin extends KalturaPlugin implements IKalturaPending, IKalturaEnumerator, IKalturaObjectLoader
+class ScheduledTaskMetadataPlugin extends BorhanPlugin implements IBorhanPending, IBorhanEnumerator, IBorhanObjectLoader
 {
 	const PLUGIN_NAME = 'scheduledTaskMetadata';
 	
@@ -16,7 +16,7 @@ class ScheduledTaskMetadataPlugin extends KalturaPlugin implements IKalturaPendi
 	const METADATA_PLUGIN_VERSION_BUILD = 0;
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -24,20 +24,20 @@ class ScheduledTaskMetadataPlugin extends KalturaPlugin implements IKalturaPendi
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$metadataVersion = new KalturaVersion(self::METADATA_PLUGIN_VERSION_MAJOR, self::METADATA_PLUGIN_VERSION_MINOR, self::METADATA_PLUGIN_VERSION_BUILD);
+		$metadataVersion = new BorhanVersion(self::METADATA_PLUGIN_VERSION_MAJOR, self::METADATA_PLUGIN_VERSION_MINOR, self::METADATA_PLUGIN_VERSION_BUILD);
 		
-		$scheduledTaskDependency = new KalturaDependency(self::SCHEDULED_TASK_PLUGIN_NAME);
-		$metadataDependency = new KalturaDependency(self::METADATA_PLUGIN_NAME, $metadataVersion);
+		$scheduledTaskDependency = new BorhanDependency(self::SCHEDULED_TASK_PLUGIN_NAME);
+		$metadataDependency = new BorhanDependency(self::METADATA_PLUGIN_NAME, $metadataVersion);
 		
 		return array($scheduledTaskDependency, $metadataDependency);
 	}
 			
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -51,24 +51,24 @@ class ScheduledTaskMetadataPlugin extends KalturaPlugin implements IKalturaPendi
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if (class_exists('Kaltura_Client_Client'))
+		if (class_exists('Borhan_Client_Client'))
 			return null;
 
-		if (class_exists('KalturaClient'))
+		if (class_exists('BorhanClient'))
 		{
-			if ($baseClass == 'KObjectTaskEntryEngineBase' && $enumValue == KalturaObjectTaskType::EXECUTE_METADATA_XSLT)
+			if ($baseClass == 'KObjectTaskEntryEngineBase' && $enumValue == BorhanObjectTaskType::EXECUTE_METADATA_XSLT)
 				return new KObjectTaskExecuteMetadataXsltEngine();
 		}
 		else
 		{
 			$apiValue = self::getApiValue(ExecuteMetadataXsltObjectTaskType::EXECUTE_METADATA_XSLT);
 			$executeMetadataXsltObjectTaskCoreValue = kPluginableEnumsManager::apiToCore('ObjectTaskType', $apiValue);
-			if($baseClass == 'KalturaObjectTask' && $enumValue == $executeMetadataXsltObjectTaskCoreValue)
-				return new KalturaExecuteMetadataXsltObjectTask();
+			if($baseClass == 'BorhanObjectTask' && $enumValue == $executeMetadataXsltObjectTaskCoreValue)
+				return new BorhanExecuteMetadataXsltObjectTask();
 
 			if ($baseClass == 'KObjectTaskEntryEngineBase' && $enumValue == $apiValue)
 				return new KObjectTaskExecuteMetadataXsltEngine();
@@ -78,7 +78,7 @@ class ScheduledTaskMetadataPlugin extends KalturaPlugin implements IKalturaPendi
 	}
 		
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
@@ -90,11 +90,11 @@ class ScheduledTaskMetadataPlugin extends KalturaPlugin implements IKalturaPendi
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 
 	/* (non-PHPdoc)
- * @see IKalturaConfigurator::getConfig()
+ * @see IBorhanConfigurator::getConfig()
  */
 	public static function getConfig($configName)
 	{

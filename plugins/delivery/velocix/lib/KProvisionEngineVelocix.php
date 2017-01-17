@@ -24,7 +24,7 @@ class KProvisionEngineVelocix extends KProvisionEngine
 	public function __construct()
 	{
 		if (! KBatchBase::$taskConfig->params->restapi->velocixApiBaseServiceUrl)
-			return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, "Error: velocixApiBaseServiceUrl is missing from worker configuration. Cannot provision stream");
+			return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, "Error: velocixApiBaseServiceUrl is missing from worker configuration. Cannot provision stream");
 		
 		$this->baseServiceUrl = KBatchBase::$taskConfig->params->restapi->velocixApiBaseServiceUrl;
 	}
@@ -39,26 +39,26 @@ class KProvisionEngineVelocix extends KProvisionEngine
 	/* (non-PHPdoc)
 	 * @see KProvisionEngine::provide()
 	 */
-	public function provide(KalturaBatchJob $job, KalturaProvisionJobData $data) 
+	public function provide(BorhanBatchJob $job, BorhanProvisionJobData $data) 
 	{
 		if (! KBatchBase::$taskConfig->params->restapi->velocixPlaybackHost)
-			return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, "Error: velocixPlaybackHost is missing from worker configuration. Cannot provision stream"); 
+			return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, "Error: velocixPlaybackHost is missing from worker configuration. Cannot provision stream"); 
 		
 		if (! KBatchBase::$taskConfig->params->restapi->velocixPublishHost)
-			return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, "Error: velocixPublish is missing from worker configuration. Cannot provision stream");  
+			return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, "Error: velocixPublish is missing from worker configuration. Cannot provision stream");  
 		
 		$this->password = $data->password;
 		$this->userName = $data->userName;
 		$this->streamName = $data->streamName;
 		
 		if (!$this->createVelocixAsset())
-			return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, 'Failed to create Velocix asset', $data);
+			return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, 'Failed to create Velocix asset', $data);
 			
 		if (!$this->createAssetProfile($data->provisioningParams))
-			return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, 'Failed to create Velocix asset profile', $data);
+			return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, 'Failed to create Velocix asset profile', $data);
 		
 		$data->provisioningParams = $this->updateDataWithUrls($data->provisioningParams);
-		return new KProvisionEngineResult(KalturaBatchJobStatus::FINISHED, 'Succesfully provisioned entry', $data);
+		return new KProvisionEngineResult(BorhanBatchJobStatus::FINISHED, 'Succesfully provisioned entry', $data);
 		
 	}
 	
@@ -68,24 +68,24 @@ class KProvisionEngineVelocix extends KProvisionEngine
 		$hdsPlaybackPrefix = KBatchBase::$taskConfig->params->restapi->velocixHDSPlaybackPrefix;
 		foreach ($provisioningParams as $provisioningParam){
 			switch ($provisioningParam->key){
-				case KalturaPlaybackProtocol::HDS:
-					$keyValUrls = new KalturaKeyValue();
+				case BorhanPlaybackProtocol::HDS:
+					$keyValUrls = new BorhanKeyValue();
 					$keyValUrls->key = self::HDS_URLS;
 					$urls = array(self::PLAYBACK => 'http://'.$hdsPlaybackPrefix.'/'.$this->streamName.'/hds/'.$this->streamName.'.f4m',
 								self::PUBLISH =>'rtmp://'.$publishHost.'/livepkgr/'.$this->streamName.'/%i?adbe-live-event=liveevent');
 					$keyValUrls->value= serialize($urls);
 					$provisioningParams[] = $keyValUrls;
 					break;
-				case KalturaPlaybackProtocol::APPLE_HTTP:
-					$keyValUrls = new KalturaKeyValue();
+				case BorhanPlaybackProtocol::APPLE_HTTP:
+					$keyValUrls = new BorhanKeyValue();
 					$keyValUrls->key = self::APPLE_HTTP_URLS;
 					$urls = array(self::PLAYBACK => 'http://'.$playbackHost.'/'.$this->streamName.'/hls/'.$this->streamName.'.m3u8',
 								self::PUBLISH =>'http://'.$publishHost.'/'.$this->streamName.'/hls/'.$this->streamName);
 					$keyValUrls->value= serialize($urls);
 					$provisioningParams[] = $keyValUrls;
 					break;
-				case KalturaPlaybackProtocol::SILVER_LIGHT:
-					$keyValUrls = new KalturaKeyValue();
+				case BorhanPlaybackProtocol::SILVER_LIGHT:
+					$keyValUrls = new BorhanKeyValue();
 					$keyValUrls->key = self::SL_URLS;
 					$urls = array(self::PLAYBACK => 'http://'.$playbackHost.'/'.$this->streamName.'/smooth/'.$this->streamName.'.isml/Manifest',
 								 self::PUBLISH =>'http://'.$publishHost.'/'.$this->streamName.'/smooth/'.$this->streamName.'.isml');
@@ -106,7 +106,7 @@ class KProvisionEngineVelocix extends KProvisionEngine
 				);
 		$data = json_encode($data);
 		$res = $this->doCurl($url, $data);
-		KalturaLog::info('Velocix asset creation response:'.$res);
+		BorhanLog::info('Velocix asset creation response:'.$res);
 		return strstr($res, '201 Created') ? true :  false;
 	}
 	
@@ -114,10 +114,10 @@ class KProvisionEngineVelocix extends KProvisionEngine
 		$url = $this->baseServiceUrl . "/vxoa/assets/".$this->streamName.'/formats';
 		$data = array();
 		foreach ($provisioningParams as $provisioningParam){
-			/* @var $provisioningParam KalturaKeyValue */
-			if ($provisioningParam->key == KalturaPlaybackProtocol::SILVER_LIGHT)
+			/* @var $provisioningParam BorhanKeyValue */
+			if ($provisioningParam->key == BorhanPlaybackProtocol::SILVER_LIGHT)
 				$playbackProfile = 'smooth';
-			elseif ($provisioningParam->key == KalturaPlaybackProtocol::APPLE_HTTP)
+			elseif ($provisioningParam->key == BorhanPlaybackProtocol::APPLE_HTTP)
 				$playbackProfile = 'hls';
 			else
 				$playbackProfile = $provisioningParam->key;
@@ -128,9 +128,9 @@ class KProvisionEngineVelocix extends KProvisionEngine
 			$bitrates = explode(',',$provisioningParam->value);
 			$isFirst = true;
 			foreach ($bitrates as $bitrate){
-				if ($provisioningParam->key == KalturaPlaybackProtocol::SILVER_LIGHT)
+				if ($provisioningParam->key == BorhanPlaybackProtocol::SILVER_LIGHT)
 					$publishProfile = 'piff';
-				elseif ($provisioningParam->key == KalturaPlaybackProtocol::APPLE_HTTP)
+				elseif ($provisioningParam->key == BorhanPlaybackProtocol::APPLE_HTTP)
 					$publishProfile = 'hls';
 				else
 					$publishProfile = $provisioningParam->key;
@@ -139,14 +139,14 @@ class KProvisionEngineVelocix extends KProvisionEngine
 				$source['delete'] = 'null';
 				$source['profile'] = $publishProfile;
 				//for silver light the first resource url should be the stream name 
-				$source['url'] = ($isFirst && $provisioningParam->key == KalturaPlaybackProtocol::SILVER_LIGHT) ? $this->streamName : strval($urlNum++);
+				$source['url'] = ($isFirst && $provisioningParam->key == BorhanPlaybackProtocol::SILVER_LIGHT) ? $this->streamName : strval($urlNum++);
 				$configuratioArray['sources'][] = $source;
 				$isFirst = false;
 			}
 			$data = json_encode($configuratioArray);
 			$data = trim($data,'[]');
 			$res = $this->doCurl($url, $data);
-			KalturaLog::info('Velocix profile creation response:'.$res);
+			BorhanLog::info('Velocix profile creation response:'.$res);
 			if (strstr($res, '201 Created') == false) 
 				return false;
 		}
@@ -156,30 +156,30 @@ class KProvisionEngineVelocix extends KProvisionEngine
 	/* (non-PHPdoc)
 	 * @see KProvisionEngine::delete()
 	 */
-	public function delete(KalturaBatchJob $job, KalturaProvisionJobData $data) 
+	public function delete(BorhanBatchJob $job, BorhanProvisionJobData $data) 
 	{
 		$this->password = $data->password;
 		$this->userName = $data->userName;
 		$url = $this->baseServiceUrl . "/vxoa/assets/".$data->streamName;
 		$res = $this->doCurl($url, null, true);
-		KalturaLog::info('Velocix asset delete response:'.$res);
+		BorhanLog::info('Velocix asset delete response:'.$res);
 		if ( strstr($res, '200 OK') )
-			return new KProvisionEngineResult(KalturaBatchJobStatus::FINISHED, 'Succesfully deleted entry', $data);	
-		return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, 'Failed to delete Velocix asset', $data);
+			return new KProvisionEngineResult(BorhanBatchJobStatus::FINISHED, 'Succesfully deleted entry', $data);	
+		return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, 'Failed to delete Velocix asset', $data);
 	}
 	
 
 	/* (non-PHPdoc)
 	 * @see KProvisionEngine::checkProvisionedStream()
 	 */
-	public function checkProvisionedStream(KalturaBatchJob $job, KalturaProvisionJobData $data) 
+	public function checkProvisionedStream(BorhanBatchJob $job, BorhanProvisionJobData $data) 
 	{
-		return new KProvisionEngineResult(KalturaBatchJobStatus::FINISHED, "Stream is in status Provisioned");
+		return new KProvisionEngineResult(BorhanBatchJobStatus::FINISHED, "Stream is in status Provisioned");
 	}
 	
 	private function doCurl($url, $data = null, $isDelete = false){
-		KalturaLog::info("curl url:[$url] user:[$this->userName] password:[$this->password]");
-		KalturaLog::info("Sent data:".$data);
+		BorhanLog::info("curl url:[$url] user:[$this->userName] password:[$this->password]");
+		BorhanLog::info("Sent data:".$data);
 		$ch = curl_init($url);
 		if ($isDelete)
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');

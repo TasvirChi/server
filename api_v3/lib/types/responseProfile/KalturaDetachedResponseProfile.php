@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaDetachedResponseProfile extends KalturaBaseResponseProfile
+class BorhanDetachedResponseProfile extends BorhanBaseResponseProfile
 {
 	/**
 	 * Friendly name
@@ -13,7 +13,7 @@ class KalturaDetachedResponseProfile extends KalturaBaseResponseProfile
 	public $name;
 	
 	/**
-	 * @var KalturaResponseProfileType
+	 * @var BorhanResponseProfileType
 	 */
 	public $type;
 	
@@ -25,22 +25,22 @@ class KalturaDetachedResponseProfile extends KalturaBaseResponseProfile
 	public $fields;
 	
 	/**
-	 * @var KalturaRelatedFilter
+	 * @var BorhanRelatedFilter
 	 */
 	public $filter;
 	
 	/**
-	 * @var KalturaFilterPager
+	 * @var BorhanFilterPager
 	 */
 	public $pager;
 	
 	/**
-	 * @var KalturaDetachedResponseProfileArray
+	 * @var BorhanDetachedResponseProfileArray
 	 */
 	public $relatedProfiles;
 	
 	/**
-	 * @var KalturaResponseProfileMappingArray
+	 * @var BorhanResponseProfileMappingArray
 	 */
 	public $mappings;
 	
@@ -54,7 +54,7 @@ class KalturaDetachedResponseProfile extends KalturaBaseResponseProfile
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -62,7 +62,7 @@ class KalturaDetachedResponseProfile extends KalturaBaseResponseProfile
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUsage($sourceObject, $propertiesToSkip)
+	 * @see BorhanObject::validateForUsage($sourceObject, $propertiesToSkip)
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -106,7 +106,7 @@ class KalturaDetachedResponseProfile extends KalturaBaseResponseProfile
 		{
 			foreach($relatedProfiles as $relatedProfile)
 			{
-				/* @var $relatedProfile KalturaDetachedResponseProfile */
+				/* @var $relatedProfile BorhanDetachedResponseProfile */
 				$relatedProfile->validateNestedObjects($maxPageSize, $maxNestingLevel - 1);
 				
 				$pager = $relatedProfile->pager;
@@ -118,14 +118,14 @@ class KalturaDetachedResponseProfile extends KalturaBaseResponseProfile
 		}
 		elseif(count($relatedProfiles))
 		{
-			throw new KalturaAPIException(KalturaErrors::RESPONSE_PROFILE_MAX_NESTING_LEVEL);
+			throw new BorhanAPIException(BorhanErrors::RESPONSE_PROFILE_MAX_NESTING_LEVEL);
 		}
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject($srcObj, $responseProfile)
+	 * @see BorhanObject::fromObject($srcObj, $responseProfile)
 	 */
-	public function doFromObject($srcObj, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($srcObj, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		/* @var $srcObj kResponseProfile */
 		parent::doFromObject($srcObj, $responseProfile);
@@ -139,7 +139,7 @@ class KalturaDetachedResponseProfile extends KalturaBaseResponseProfile
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($object = null, $propertiesToSkip = array())
 	{

@@ -8,9 +8,9 @@ class AdvancedSearchFilterItem
 	/**
 	 * @var string
 	 */
-	protected $kalturaClass;
+	protected $borhanClass;
 
-	final public function apply(baseObjectFilter $filter, IKalturaDbQuery $query)
+	final public function apply(baseObjectFilter $filter, IBorhanDbQuery $query)
 	{
 		$this->applyCondition($query);
 	}
@@ -22,35 +22,35 @@ class AdvancedSearchFilterItem
 	
 	/**
 	 * Adds conditions, matches and where clauses to the query
-	 * @param IKalturaIndexQuery $query
+	 * @param IBorhanIndexQuery $query
 	 */
-	public function applyCondition(IKalturaDbQuery $query)
+	public function applyCondition(IBorhanDbQuery $query)
 	{
 	}
 	
 	public function addToXml(SimpleXMLElement &$xmlElement)
 	{
-		$xmlElement->addAttribute('kalturaClass', $this->kalturaClass);
+		$xmlElement->addAttribute('borhanClass', $this->borhanClass);
 	}
 	
 	public function fillObjectFromXml(SimpleXMLElement $xmlElement)
 	{
 		$attr = $xmlElement->attributes();
-		if(isset($attr['kalturaClass']))
-			$this->kalturaClass = (string) $attr['kalturaClass'];
+		if(isset($attr['borhanClass']))
+			$this->borhanClass = (string) $attr['borhanClass'];
 	}
 	
 	/**
-	 * @return the $kalturaClass
+	 * @return the $borhanClass
 	 */
-	public function getKalturaClass() {
-		return $this->kalturaClass;
+	public function getBorhanClass() {
+		return $this->borhanClass;
 	}
 
 	/**
-	 * @param $kalturaClass the $kalturaClass to set
+	 * @param $borhanClass the $borhanClass to set
 	 */
-	public function setKalturaClass($kalturaClass) {
-		$this->kalturaClass = $kalturaClass;
+	public function setBorhanClass($borhanClass) {
+		$this->borhanClass = $borhanClass;
 	}
 }

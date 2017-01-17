@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaBatchHistoryData extends KalturaObject 
+class BorhanBatchHistoryData extends BorhanObject 
 {
 	/**
 	 * @var int

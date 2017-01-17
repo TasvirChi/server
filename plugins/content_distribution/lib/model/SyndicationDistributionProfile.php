@@ -39,12 +39,12 @@ class SyndicationDistributionProfile extends DistributionProfile
 		$syndicationFeed->setStatus(syndicationFeed::SYNDICATION_ACTIVE);
 		$syndicationFeed->setDisplayInSearch(mySearchUtils::DISPLAY_IN_SEARCH_SYSTEM);
 		$syndicationFeed->setAllowEmbed(false);
-		$syndicationFeed->setType(syndicationFeedType::KALTURA);
+		$syndicationFeed->setType(syndicationFeedType::BORHAN);
 		$syndicationFeed->setFlavorParamId($this->required_flavor_params_ids);
 		$syndicationFeed->save();
 		
 		$this->setFeedId($syndicationFeed->getId());
-		KalturaLog::log("Syndication feed created id [" . $this->getFeedId() . "]");
+		BorhanLog::log("Syndication feed created id [" . $this->getFeedId() . "]");
 		
 		return parent::preSave($con);	
 	}
@@ -95,7 +95,7 @@ class SyndicationDistributionProfile extends DistributionProfile
 		$playlist->setDataContent($playlistContent);
 		$playlist->save();
 		
-		KalturaLog::log("Playlist [" . $playlist->getId() . "] created");
+		BorhanLog::log("Playlist [" . $playlist->getId() . "] created");
 		
 		// creates feed based on the playlist
 		$syndicationFeed->setPlaylistId($playlist->getId());
@@ -114,7 +114,7 @@ class SyndicationDistributionProfile extends DistributionProfile
 			$syndicationFeed = syndicationFeedPeer::retrieveByPK($this->getFeedId());
 			if($syndicationFeed && $syndicationFeed instanceof genericSyndicationFeed)
 			{
-				$syndicationFeed->setType(syndicationFeedType::KALTURA_XSLT);
+				$syndicationFeed->setType(syndicationFeedType::BORHAN_XSLT);
 				$syndicationFeed->incrementVersion();
 				$syndicationFeed->save();
 				$syncKey = $syndicationFeed->getSyncKey(genericSyndicationFeed::FILE_SYNC_SYNDICATION_FEED_XSLT);

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaUrlTokenizerCloudFront extends KalturaUrlTokenizer {
+class BorhanUrlTokenizerCloudFront extends BorhanUrlTokenizer {
 
 	/**
 	 * @var string

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaNotificationJobData extends KalturaJobData
+class BorhanNotificationJobData extends BorhanJobData
 {
 	/**
 	 * @var string
@@ -11,7 +11,7 @@ class KalturaNotificationJobData extends KalturaJobData
 	public $userId;
 	
 	/**
-	 * @var KalturaNotificationType
+	 * @var BorhanNotificationType
 	 */
 	public $type;
 	
@@ -26,7 +26,7 @@ class KalturaNotificationJobData extends KalturaJobData
 	public $objectId;
 	
 	/**
-	 * @var KalturaNotificationStatus
+	 * @var BorhanNotificationStatus
 	 */
 	public $status;
 	
@@ -46,7 +46,7 @@ class KalturaNotificationJobData extends KalturaJobData
 	public $notificationResult;
 	
 	/**
-	 * @var KalturaNotificationObjectType
+	 * @var BorhanNotificationObjectType
 	 */
 	public $objType;
 	

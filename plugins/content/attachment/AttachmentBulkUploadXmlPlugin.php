@@ -3,7 +3,7 @@
  * Enable entry attachment asset ingestion from XML bulk upload
  * @package plugins.attachment
  */
-class AttachmentBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPending, IKalturaSchemaContributor, IKalturaBulkUploadXmlHandler, IKalturaConfigurator
+class AttachmentBulkUploadXmlPlugin extends BorhanPlugin implements IBorhanPending, IBorhanSchemaContributor, IBorhanBulkUploadXmlHandler, IBorhanConfigurator
 {
 	const PLUGIN_NAME = 'attachmentBulkUploadXml';
 	const BULK_UPLOAD_XML_PLUGIN_NAME = 'bulkUploadXml';
@@ -19,7 +19,7 @@ class AttachmentBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPen
 	private $xmlBulkUploadEngine = null;
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -27,18 +27,18 @@ class AttachmentBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPen
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$bulkUploadXmlDependency = new KalturaDependency(self::BULK_UPLOAD_XML_PLUGIN_NAME);
-		$attachmentDependency = new KalturaDependency(AttachmentPlugin::getPluginName());
+		$bulkUploadXmlDependency = new BorhanDependency(self::BULK_UPLOAD_XML_PLUGIN_NAME);
+		$attachmentDependency = new BorhanDependency(AttachmentPlugin::getPluginName());
 		
 		return array($bulkUploadXmlDependency, $attachmentDependency);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSchemaContributor::contributeToSchema()
+	 * @see IBorhanSchemaContributor::contributeToSchema()
 	 */
 	public static function contributeToSchema($type)
 	{		
@@ -87,7 +87,7 @@ class AttachmentBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPen
 			<xs:choice minOccurs="1" maxOccurs="1">
 				<xs:element ref="serverFileContentResource" minOccurs="1" maxOccurs="1">
 					<xs:annotation>
-						<xs:documentation>Specifies that content ingestion location is on a Kaltura hosted server</xs:documentation>
+						<xs:documentation>Specifies that content ingestion location is on a Borhan hosted server</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element ref="urlContentResource" minOccurs="1" maxOccurs="1">
@@ -97,22 +97,22 @@ class AttachmentBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPen
 				</xs:element>
 				<xs:element ref="remoteStorageContentResource" minOccurs="1" maxOccurs="1">
 					<xs:annotation>
-						<xs:documentation>Specifies that content file location is a path within a Kaltura defined remote storage</xs:documentation>
+						<xs:documentation>Specifies that content file location is a path within a Borhan defined remote storage</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element ref="remoteStorageContentResources" minOccurs="1" maxOccurs="1">
 					<xs:annotation>
-						<xs:documentation>Set of content files within several Kaltura defined remote storages</xs:documentation>
+						<xs:documentation>Set of content files within several Borhan defined remote storages</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element ref="entryContentResource" minOccurs="1" maxOccurs="1">
 					<xs:annotation>
-						<xs:documentation>Specifies that content is a Kaltura entry</xs:documentation>
+						<xs:documentation>Specifies that content is a Borhan entry</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element ref="assetContentResource" minOccurs="1" maxOccurs="1">
 					<xs:annotation>
-						<xs:documentation>Specifies that content is a Kaltura asset</xs:documentation>
+						<xs:documentation>Specifies that content is a Borhan asset</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element ref="contentResource-extension" minOccurs="1" maxOccurs="1" />
@@ -140,7 +140,7 @@ class AttachmentBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPen
 				<xs:documentation>The asset id to be updated with this resource used only for update</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="format" type="KalturaAttachmentType" use="optional">
+		<xs:attribute name="format" type="BorhanAttachmentType" use="optional">
 			<xs:annotation>
 				<xs:documentation>Attachment asset file format</xs:documentation>
 			</xs:annotation>
@@ -189,7 +189,7 @@ class AttachmentBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPen
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::configureBulkUploadXmlHandler()
+	 * @see IBorhanBulkUploadXmlHandler::configureBulkUploadXmlHandler()
 	 */
 	public function configureBulkUploadXmlHandler(BulkUploadEngineXml $xmlBulkUploadEngine)
 	{
@@ -197,11 +197,11 @@ class AttachmentBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPen
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::handleItemAdded()
+	 * @see IBorhanBulkUploadXmlHandler::handleItemAdded()
 	*/
-	public function handleItemAdded(KalturaObjectBase $object, SimpleXMLElement $item)
+	public function handleItemAdded(BorhanObjectBase $object, SimpleXMLElement $item)
 	{
-		if(!($object instanceof KalturaBaseEntry))
+		if(!($object instanceof BorhanBaseEntry))
 			return;
 		
 		if(!isset($item->attachments))
@@ -220,7 +220,7 @@ class AttachmentBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPen
 			}
 			catch (Exception $e)
 			{
-				KalturaLog::err($this->getContainerName() . ' failed: ' . $e->getMessage());
+				BorhanLog::err($this->getContainerName() . ' failed: ' . $e->getMessage());
 				$pluginsErrorResults[] = $e->getMessage();
 			}
 		}
@@ -233,9 +233,9 @@ class AttachmentBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPen
 
 	private function handleAttachmentAsset($entryId, SimpleXMLElement $attachment)
 	{
-		$attachmentPlugin = KalturaAttachmentClientPlugin::get(KBatchBase::$kClient);
+		$attachmentPlugin = BorhanAttachmentClientPlugin::get(KBatchBase::$kClient);
 		
-		$attachmentAsset = new KalturaAttachmentAsset();
+		$attachmentAsset = new BorhanAttachmentAsset();
 		$attachmentAsset->tags = $this->xmlBulkUploadEngine->implodeChildElements($attachment->tags);
 		
 		if(isset($attachment->fileExt))
@@ -272,9 +272,9 @@ class AttachmentBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPen
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::handleItemUpdated()
+	 * @see IBorhanBulkUploadXmlHandler::handleItemUpdated()
 	*/
-	public function handleItemUpdated(KalturaObjectBase $object, SimpleXMLElement $item)
+	public function handleItemUpdated(BorhanObjectBase $object, SimpleXMLElement $item)
 	{
 		if(!$item->attachments)
 			return;
@@ -282,30 +282,30 @@ class AttachmentBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPen
 		if(empty($item->attachments->attachment))
 			return;
 		
-		$action = KBulkUploadEngine::$actionsMap[KalturaBulkUploadAction::UPDATE];
+		$action = KBulkUploadEngine::$actionsMap[BorhanBulkUploadAction::UPDATE];
 		if(isset($item->attachments->action))
 			$action = strtolower($item->attachments->action);
 			
 		switch ($action)
 		{
-			case KBulkUploadEngine::$actionsMap[KalturaBulkUploadAction::UPDATE]:
+			case KBulkUploadEngine::$actionsMap[BorhanBulkUploadAction::UPDATE]:
 				$this->handleItemAdded($object, $item);
 				break;
 			default:
-				throw new KalturaBatchException("attachments->action: $action is not supported", KalturaBatchJobAppErrors::BULK_ACTION_NOT_SUPPORTED);
+				throw new BorhanBatchException("attachments->action: $action is not supported", BorhanBatchJobAppErrors::BULK_ACTION_NOT_SUPPORTED);
 		}
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::handleItemDeleted()
+	 * @see IBorhanBulkUploadXmlHandler::handleItemDeleted()
 	*/
-	public function handleItemDeleted(KalturaObjectBase $object, SimpleXMLElement $item)
+	public function handleItemDeleted(BorhanObjectBase $object, SimpleXMLElement $item)
 	{
 		// No handling required
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaConfigurator::getContainerName()
+	 * @see IBorhanConfigurator::getContainerName()
 	*/
 	public function getContainerName()
 	{
@@ -313,7 +313,7 @@ class AttachmentBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPen
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaConfigurator::getConfig()
+	 * @see IBorhanConfigurator::getConfig()
 	*/
 	public static function getConfig($configName)
 	{

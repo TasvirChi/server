@@ -3,7 +3,7 @@
  * @package plugins.metadata
  * @subpackage model.enum
  */
-class MetadataPermissionName implements IKalturaPluginEnum, PermissionName
+class MetadataPermissionName implements IBorhanPluginEnum, PermissionName
 {
 	const FEATURE_METADATA_NO_VALIDATION = 'FEATURE_METADATA_NO_VALIDATION';
 	const FEATURE_METADATA_NO_TRANSFORMATION = 'FEATURE_METADATA_NO_TRANSFORMATION';

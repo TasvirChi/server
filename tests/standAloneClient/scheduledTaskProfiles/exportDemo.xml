@@ -15,19 +15,19 @@
 	</config>
 	<session />
 	<request service="scheduledTaskProfile" action="add" plugin="scheduledTask" partnerId="{variable:partnerId}">
-		<scheduledTaskProfile objectType="KalturaScheduledTaskProfile">
+		<scheduledTaskProfile objectType="BorhanScheduledTaskProfile">
 			<name>Test Export</name>
 			<objectFilterEngineType>1</objectFilterEngineType>
 			<maxTotalCountAllowed>{variable:maxTotalCountAllowed}</maxTotalCountAllowed>
-			<objectFilter objectType="KalturaMediaEntryFilter">
-				<advancedSearch objectType="KalturaSearchOperator">
+			<objectFilter objectType="BorhanMediaEntryFilter">
+				<advancedSearch objectType="BorhanSearchOperator">
 					<type>1</type>
 					<items objectType="array">
-						<item objectType="KalturaMetadataSearchItem">
+						<item objectType="BorhanMetadataSearchItem">
 							<metadataProfileId>{variable:metadataProfileId}</metadataProfileId>
 							<type>1</type>
 							<items objectType="array">
-								<item objectType="KalturaSearchCondition">
+								<item objectType="BorhanSearchCondition">
 										<field>/*[local-name()='metadata']/*[local-name()='w']</field>
 									<value>Run Export</value>
 								</item>
@@ -37,11 +37,11 @@
 				</advancedSearch>
 			</objectFilter>
 			<objectTasks objectType="array">
-				<item objectType="KalturaStorageExportObjectTask">
+				<item objectType="BorhanStorageExportObjectTask">
 					<stopProcessingOnError>1</stopProcessingOnError>
 					<storageId>{variable:storageProfileId}</storageId>
 				</item>
-				<item objectType="KalturaExecuteMetadataXsltObjectTask">
+				<item objectType="BorhanExecuteMetadataXsltObjectTask">
 					<stopProcessingOnError>0</stopProcessingOnError>
 					<metadataProfileId>{variable:metadataProfileId}</metadataProfileId>
 					<metadataObjectType>1</metadataObjectType><!-- ENTRY -->

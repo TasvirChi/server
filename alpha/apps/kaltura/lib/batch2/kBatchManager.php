@@ -65,13 +65,13 @@ class kBatchManager
 		// decided by the business logic layer
 		if($flavor->_create_anyway)
 		{
-			KalturaLog::log("Flavor [" . $flavor->getFlavorParamsId() . "] selected to be created anyway");
+			BorhanLog::log("Flavor [" . $flavor->getFlavorParamsId() . "] selected to be created anyway");
 		}
 		else
 		{
 			if(!$flavor->IsValid())
 			{
-				KalturaLog::err("Flavor [" . $flavor->getFlavorParamsId() . "] is invalid");
+				BorhanLog::err("Flavor [" . $flavor->getFlavorParamsId() . "] is invalid");
 				$flavorAsset->setStatus(flavorAsset::FLAVOR_ASSET_STATUS_ERROR);
 				$flavorAsset->save();	
 				return null;
@@ -79,13 +79,13 @@ class kBatchManager
 			
 			if($flavor->_force)
 			{
-				KalturaLog::log("Flavor [" . $flavor->getFlavorParamsId() . "] is forced");
+				BorhanLog::log("Flavor [" . $flavor->getFlavorParamsId() . "] is forced");
 			}
 			else
 			{
 				if($flavor->_isNonComply)
 				{
-					KalturaLog::err("Flavor [" . $flavor->getFlavorParamsId() . "] is none-comply");
+					BorhanLog::err("Flavor [" . $flavor->getFlavorParamsId() . "] is none-comply");
 					$flavorAsset->setStatus(flavorAsset::FLAVOR_ASSET_STATUS_NOT_APPLICABLE);
 					$flavorAsset->save();	
 					return null;
@@ -105,13 +105,13 @@ class kBatchManager
 				if(($flavor->_isRedundant) && !isset($vidCodec) && isset($audCodec) 
 				&& !(isset($sourceAssetParamsIds) && strlen($sourceAssetParamsIds)>0))
 				{
-					KalturaLog::err("Flavor [" . $flavor->getFlavorParamsId() . "] is redandant audio-only");
+					BorhanLog::err("Flavor [" . $flavor->getFlavorParamsId() . "] is redandant audio-only");
 					$flavorAsset->setStatus(flavorAsset::FLAVOR_ASSET_STATUS_NOT_APPLICABLE);
 					$flavorAsset->save();
 					return null;
 				}
 				
-				KalturaLog::log("Flavor [" . $flavor->getFlavorParamsId() . "] is valid");
+				BorhanLog::log("Flavor [" . $flavor->getFlavorParamsId() . "] is valid");
 			}
 		}
 		$flavorAsset->save();
@@ -180,7 +180,7 @@ class kBatchManager
 	public static function addMediaInfo(mediaInfo $mediaInfoDb)
 	{
 		$mediaInfoDb->save();
-		KalturaLog::log("Added media info [" . $mediaInfoDb->getId() . "] for flavor asset [" . $mediaInfoDb->getFlavorAssetId() . "]");
+		BorhanLog::log("Added media info [" . $mediaInfoDb->getId() . "] for flavor asset [" . $mediaInfoDb->getFlavorAssetId() . "]");
 		
 		if(!$mediaInfoDb->getFlavorAssetId())
 			return $mediaInfoDb;
@@ -191,13 +191,13 @@ class kBatchManager
 
 		if($flavorAsset->getIsOriginal())
 		{
-			KalturaLog::log("Media info is for the original flavor asset");
+			BorhanLog::log("Media info is for the original flavor asset");
 			$tags = null;
 			
 			$profile = myPartnerUtils::getConversionProfile2ForEntry($flavorAsset->getEntryId());
 			if($profile)
 				$tags = $profile->getInputTagsMap();
-			KalturaLog::log("Flavor asset tags from profile [$tags]");
+			BorhanLog::log("Flavor asset tags from profile [$tags]");
 			
 			if(!is_null($tags))
 			{
@@ -216,20 +216,20 @@ class kBatchManager
 				
 				$finalTagsArray = KDLWrap::CDLMediaInfo2Tags($mediaInfoDb, $tagsArray);
 				$finalTags = join(',', array_unique($finalTagsArray));
-				KalturaLog::log("Flavor asset tags from KDL [$finalTags]");
-//KalturaLog::log("Flavor asset tags [".print_r($flavorAsset->setTags(),1)."]");
+				BorhanLog::log("Flavor asset tags from KDL [$finalTags]");
+//BorhanLog::log("Flavor asset tags [".print_r($flavorAsset->setTags(),1)."]");
 				$flavorAsset->addTags($finalTagsArray);
 			}
 		}
 		else 
 		{
-			KalturaLog::log("Media info is for the destination flavor asset");
+			BorhanLog::log("Media info is for the destination flavor asset");
 			$tags = null;
 			
 			$flavorParams = assetParamsPeer::retrieveByPK($flavorAsset->getFlavorParamsId());
 			if($flavorParams)
 				$tags = $flavorParams->getTags();
-			KalturaLog::log("Flavor asset tags from flavor params [$tags]");
+			BorhanLog::log("Flavor asset tags from flavor params [$tags]");
 			
 			if(!is_null($tags))
 			{
@@ -241,12 +241,12 @@ class kBatchManager
 				$finalTagsArray = $tagsArray;
 
 				$finalTags = join(',', array_unique($finalTagsArray));
-				KalturaLog::log("Flavor asset tags from KDL [$finalTags]");
+				BorhanLog::log("Flavor asset tags from KDL [$finalTags]");
 				$flavorAsset->setTags($finalTags);
 			}
 		}
 				
-		KalturaLog::log("KDLWrap::ConvertMediainfoCdl2FlavorAsset(" . $mediaInfoDb->getId() . ", " . $flavorAsset->getId() . ");");
+		BorhanLog::log("KDLWrap::ConvertMediainfoCdl2FlavorAsset(" . $mediaInfoDb->getId() . ", " . $flavorAsset->getId() . ");");
 		KDLWrap::ConvertMediainfoCdl2FlavorAsset($mediaInfoDb, $flavorAsset);
 		/*
 		 * If the flavorParams has explicit language settings, 
@@ -260,7 +260,7 @@ class kBatchManager
 				$lang = $multiStreamObj->audio->streams[0]->lang;
 			}
 			if(isset($lang)){
-				KalturaLog::log("Flavor asset(".$flavorAsset->getId().") language overloaded with flavor Params(".$flavorParams->getId().") language($lang)");
+				BorhanLog::log("Flavor asset(".$flavorAsset->getId().") language overloaded with flavor Params(".$flavorParams->getId().") language($lang)");
 				$flavorAsset->setLanguage($lang);
 			}
 		}
@@ -313,14 +313,14 @@ class kBatchManager
 		$jobs = kBatchExclusiveLock::getExpiredJobs();
 		foreach($jobs as $job)
 		{
-			KalturaLog::log("Cleaning job id[" . $job->getId() . "]");
+			BorhanLog::log("Cleaning job id[" . $job->getId() . "]");
 			$job->setMessage("Job was cleaned up.");
 			kJobsManager::updateBatchJob($job, BatchJob::BATCHJOB_STATUS_FATAL);
 		}
 		
 		$jobs = kBatchExclusiveLock::getStatusInconsistentJob();
 		foreach($jobs as $job) {
-			KalturaLog::log("Fixing batch job Inconsistency [" . $job->getId() . "]");
+			BorhanLog::log("Fixing batch job Inconsistency [" . $job->getId() . "]");
 			$job->delete();
 			// The job shouldhave been deleted. The reason it got here is since the update
 			// process has failed fataly. Therefore there is no point in retrying to save it.
@@ -363,7 +363,7 @@ public static function updateEntry($entryId, $status)
 	{
 		$entry = entryPeer::retrieveByPK($entryId);
 		if(!$entry) {
-			KalturaLog::err("Entry was not found for id [$entryId]");
+			BorhanLog::err("Entry was not found for id [$entryId]");
 			return null;
 		}
 		
@@ -385,7 +385,7 @@ public static function updateEntry($entryId, $status)
 		
 		if(in_array($entry->getStatus(), $unAcceptedStatuses))
 		{
-			KalturaLog::info("Entry status [" . $entry->getStatus() . "] will not be changed");
+			BorhanLog::info("Entry status [" . $entry->getStatus() . "] will not be changed");
 			return $entry;
 		}
 		

@@ -42,13 +42,13 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 		$recordedVODDurationInMS = $amfArray[0];
 		array_shift($amfArray);
 		if (!unlink($files[0]))
-			KalturaLog::warning("failed to delete file " . $files[0]);
+			BorhanLog::warning("failed to delete file " . $files[0]);
 
 		$amfArray = self::parseAmfArrayAndShift($amfArray, 0);
 		$entry = $dbBatchJob->getEntry();
 		if (!isset($entry))
 		{
-			KalturaLog::warning("failed to get entry, not calling copyCuePointsFromLiveToVodEntry");
+			BorhanLog::warning("failed to get entry, not calling copyCuePointsFromLiveToVodEntry");
 			return $dbBatchJob;
 		}
 		self::copyCuePointsFromLiveToVodEntry($entry->getRecordedEntryId(), $recordedVODDurationInMS, $recordedVODDurationInMS, $amfArray);
@@ -58,7 +58,7 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 	{
 		if (!$dbBatchJob->getParentJob() || !$dbBatchJob->getParentJob()->getData())
 		{
-			KalturaLog::warning("failed to get parent job data, not calling copyCuePointsFromLiveToVodEntry");
+			BorhanLog::warning("failed to get parent job data, not calling copyCuePointsFromLiveToVodEntry");
 			return $dbBatchJob;
 		}
 		$convertJobData = ($dbBatchJob->getParentJob()->getData());
@@ -69,7 +69,7 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 		$amfArray = array();
 
 		foreach($files as $file){
-			KalturaLog::debug('file is: ' . $file);
+			BorhanLog::debug('file is: ' . $file);
 
 			if (self::getSegmentIndexFromFileName($file) <= $lastFileIndex)
 			{
@@ -80,14 +80,14 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 				$amfArray = array_merge($amfArray, self::parseAmfArrayAndShift($arr, $segmentDuration));
 				$segmentDuration += $currentSegmentDuration;
 				if (!unlink($file))
-					KalturaLog::warning("failed to delete file " . $file);
+					BorhanLog::warning("failed to delete file " . $file);
 			}
 		}
 
 		$entry = $dbBatchJob->getParentJob()->getEntry();
 		if (!isset($entry))
 		{
-			KalturaLog::warning("failed to get entry, not calling copyCuePointsFromLiveToVodEntry");
+			BorhanLog::warning("failed to get entry, not calling copyCuePointsFromLiveToVodEntry");
 			return $dbBatchJob;
 		}
 
@@ -99,11 +99,11 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 		$entry = entryPeer::retrieveByPKNoFilter($dbBatchJob->getEntryId());
 		if(!$entry)
 		{
-			KalturaLog::warning("Failed to get entry [{$dbBatchJob->getEntryId()}], not calling copyCuePointsFromLiveToVodEntry");
+			BorhanLog::warning("Failed to get entry [{$dbBatchJob->getEntryId()}], not calling copyCuePointsFromLiveToVodEntry");
 			return $dbBatchJob;
 		}
 		
-		if($entry->getSourceType() == EntrySourceType::KALTURA_RECORDED_LIVE && $data->getDestDataFilePath())
+		if($entry->getSourceType() == EntrySourceType::BORHAN_RECORDED_LIVE && $data->getDestDataFilePath())
 		{
 			$replacedEntry = $entry->getReplacedEntryId() ? entryPeer::retrieveByPK($entry->getReplacedEntryId()) : null;
 			$liveEntryId = $replacedEntry ? $replacedEntry->getRootEntryId() : $entry->getRootEntryId();
@@ -114,14 +114,14 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 			$rawSyncPointDataPath = $data->getDestDataFilePath();
 			if(!$rawSyncPointDataPath)
 			{
-				KalturaLog::debug("SyncPoint data file pat not found, copy live to vod will not execute");
+				BorhanLog::debug("SyncPoint data file pat not found, copy live to vod will not execute");
 				return $dbBatchJob;
 			}
 			
 			$rawSyncPointInfo = file_get_contents($rawSyncPointDataPath);
 			if($rawSyncPointInfo == '')
 			{
-				KalturaLog::debug("Failed to read sync point info from file [$rawSyncPointDataPath], copy live to vod will not execute");
+				BorhanLog::debug("Failed to read sync point info from file [$rawSyncPointDataPath], copy live to vod will not execute");
 				return $dbBatchJob;
 			}
 			
@@ -172,7 +172,7 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 		$closest = self::getClosestSyncPointPts($totalVodDuration - $lastSegmentDuration, $syncPointIntoToAmfArr);
 		if(!$closest)
 		{
-			KalturaLog::debug("Closest pts not found for current segment");
+			BorhanLog::debug("Closest pts not found for current segment");
 			return $syncPointIntoToAmfArr;
 		}
 		
@@ -213,7 +213,7 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 			$amf->pts = $amfParts[0] + $shift;
 			$amf->ts = $amfParts[1];
 
-			KalturaLog::debug('adding AMF to AMFs: ' . print_r($amf, true) . ' extracted from ' . $amfArray[$i]);
+			BorhanLog::debug('adding AMF to AMFs: ' . print_r($amf, true) . ' extracted from ' . $amfArray[$i]);
 			array_push($retArr, $amf);
 		}
 		return $retArr;
@@ -224,7 +224,7 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 		$liveEntry = entryPeer::retrieveByPK($liveEntryId);
 		if(!$liveEntry)
 		{
-			KalturaLog::debug("Live entry with id [$liveEntryId] not found, this should not happen, sync time is 0");
+			BorhanLog::debug("Live entry with id [$liveEntryId] not found, this should not happen, sync time is 0");
 			return 0;
 		}
 		
@@ -234,7 +234,7 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 			$currentCuePointSyncTime = (($syncPoint->ts - $syncPoint->pts) + $lastSegmentDuration + $segmentDrift) / 1000;
 			$liveEntry->setLastCuePointSyncTime($currentCuePointSyncTime);
 			$liveEntry->save();
-			KalturaLog::debug("LastCuePointSyncTime found with value [$lastCuePointSyncTime], new one is set to [$currentCuePointSyncTime]");
+			BorhanLog::debug("LastCuePointSyncTime found with value [$lastCuePointSyncTime], new one is set to [$currentCuePointSyncTime]");
 			return $lastCuePointSyncTime;	
 		}
 		else
@@ -243,7 +243,7 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 			$currentCuePointSyncTime =  (($syncPoint->ts - $syncPoint->pts) + $lastSegmentDuration + $segmentDrift) / 1000;
 			$liveEntry->setLastCuePointSyncTime($currentCuePointSyncTime);
 			$liveEntry->save();
-			KalturaLog::debug("First live to vod iteration, returning live entries creation time [$lastCuePointSyncTime], new one is set to [$currentCuePointSyncTime] ");
+			BorhanLog::debug("First live to vod iteration, returning live entries creation time [$lastCuePointSyncTime], new one is set to [$currentCuePointSyncTime] ");
 			return $lastCuePointSyncTime;
 		}
 	}
@@ -402,7 +402,7 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 		$c = new Criteria();
 		$c->add(CuePointPeer::ENTRY_ID, $object->getId());
 		if ( CuePointPeer::doCount($c) > self::MAX_CUE_POINTS_TO_COPY ) {
-			KalturaLog::alert("Can't handle cuePoints after replacement for entry [{$object->getId()}] because cuePoints count exceeded max limit of [" . self::MAX_CUE_POINTS_TO_COPY . "]");
+			BorhanLog::alert("Can't handle cuePoints after replacement for entry [{$object->getId()}] because cuePoints count exceeded max limit of [" . self::MAX_CUE_POINTS_TO_COPY . "]");
 			return true;
 		}
 		$clipAttributes = self::getClipAttributesFromEntry( $replacingObject );
@@ -447,7 +447,7 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 	public function objectCopied(BaseObject $fromObject, BaseObject $toObject)
 	{
 		if($fromObject instanceof entry) {
-			$c = new KalturaCriteria();
+			$c = new BorhanCriteria();
 			$c->add(CuePointPeer::ENTRY_ID, $fromObject->getId());
 			$c->addAscendingOrderByColumn(CuePointPeer::CREATED_AT);
 			$c->setLimit(self::MAX_CUE_POINTS_TO_COPY);
@@ -654,7 +654,7 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 			throw new kCuePointException("XML [$xmlPath] is invalid:\n{$errorMessage}", kCuePointException::XML_INVALID);
 		}
 
-		$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaCuePointXmlParser');
+		$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanCuePointXmlParser');
 		$scenes = new SimpleXMLElement(file_get_contents($xmlPath));
 		$cuePoints = array();
 
@@ -683,7 +683,7 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 	 */
 	public static function syndicate(array $cuePoints, SimpleXMLElement $scenes)
 	{
-		$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaCuePointXmlParser');
+		$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanCuePointXmlParser');
 		foreach($cuePoints as $cuePoint)
 		{
 			$scene = null;
@@ -703,7 +703,7 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 
 		$scenes = new SimpleXMLElement('<scenes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="' . $xsdUrl . '" />');
 
-		$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaCuePointXmlParser');
+		$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanCuePointXmlParser');
 
 		foreach($cuePoints as $cuePoint)
 		{
@@ -832,7 +832,7 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 		
 		if(!is_array($cuePointsIds) || !count($cuePointsIds))
 		{
-			KalturaLog::debug("No cue point to post process for entry [" . $liveEntry->getId() . "]");
+			BorhanLog::debug("No cue point to post process for entry [" . $liveEntry->getId() . "]");
 			return;
 		}
 		
@@ -865,13 +865,13 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 	 */
 	public static function copyCuePointsFromLiveToVodEntry( $vodEntryId, $totalVODDuration, $lastSegmentDuration, $amfArray )
 	{
-		KalturaLog::debug("VOD entry ID: " . $vodEntryId .
+		BorhanLog::debug("VOD entry ID: " . $vodEntryId .
 			" totalVODDuration: " . $totalVODDuration .
 			" lastSegmentDuration " . $lastSegmentDuration .
 			" AMFs: " . print_r($amfArray, true));
 
 		if (is_null($vodEntryId) || is_null($totalVODDuration) || is_null($lastSegmentDuration) || is_null($amfArray) || count($amfArray) == 0){
-			KalturaLog::warning('bad arguments passed to function. quiting');
+			BorhanLog::warning('bad arguments passed to function. quiting');
 			return;
 		}
 
@@ -882,11 +882,11 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 		}
 		$liveEntryId = $vodEntry->getRootEntryId();
 
-		/** @var $liveEntry KalturaLiveEntry */
+		/** @var $liveEntry BorhanLiveEntry */
 		$liveEntry = entryPeer::retrieveByPK( $liveEntryId );
 		if ( ! $liveEntry || ! $liveEntry instanceof LiveEntry )
 		{
-			KalturaLog::err("Can't find live entry with id [$liveEntryId]");
+			BorhanLog::err("Can't find live entry with id [$liveEntryId]");
 			return;
  		}
 
@@ -929,7 +929,7 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 		if ( !is_null($clipAtts) ) {
 			$sourceEntry = entryPeer::retrieveByPK( $clipEntry->getSourceEntryId() );
 			if ( is_null($sourceEntry) ) {
-				KalturaLog::info("Didn't copy cuePoints for entry [{$clipEntry->getId()}] because source entry [" . $clipEntry->getSourceEntryId() . "] wasn't found");
+				BorhanLog::info("Didn't copy cuePoints for entry [{$clipEntry->getId()}] because source entry [" . $clipEntry->getSourceEntryId() . "] wasn't found");
 				return;
 			}
 			$sourceEntryDuration = $sourceEntry->getLengthInMsecs();
@@ -939,14 +939,14 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 			$clipDuration = $clipAtts->getDuration();
 			if ( is_null($clipDuration) )
 				$clipDuration = $sourceEntryDuration;
-			$c = new KalturaCriteria();
+			$c = new BorhanCriteria();
 			$c->add( CuePointPeer::ENTRY_ID, $clipEntry->getSourceEntryId() );
 			if ( $clipDuration < $sourceEntryDuration ) {
-				$c->addAnd( CuePointPeer::START_TIME, $clipStartTime + $clipDuration, KalturaCriteria::LESS_EQUAL );
+				$c->addAnd( CuePointPeer::START_TIME, $clipStartTime + $clipDuration, BorhanCriteria::LESS_EQUAL );
 			}
 			if ( $clipStartTime > 0 ) {
-				$c->addAnd( CuePointPeer::START_TIME, $clipStartTime, KalturaCriteria::GREATER_EQUAL );
-				$c->addOr( CuePointPeer::START_TIME, 0, KalturaCriteria::EQUAL );
+				$c->addAnd( CuePointPeer::START_TIME, $clipStartTime, BorhanCriteria::GREATER_EQUAL );
+				$c->addOr( CuePointPeer::START_TIME, 0, BorhanCriteria::EQUAL );
 			}
 			$c->addAscendingOrderByColumn(CuePointPeer::CREATED_AT);
 			$rootEntryCuePointsToCopy = CuePointPeer::doSelect($c);
@@ -956,7 +956,7 @@ class kCuePointManager implements kBatchJobStatusEventConsumer, kObjectDeletedEv
 					$cuePoint->copyToClipEntry( $clipEntry, $clipStartTime, $clipDuration );
 				}
 			} else {
-				KalturaLog::alert("Can't copy cuePoints for entry [{$clipEntry->getId()}] because cuePoints count exceeded max limit of [" . self::MAX_CUE_POINTS_TO_COPY . "]");
+				BorhanLog::alert("Can't copy cuePoints for entry [{$clipEntry->getId()}] because cuePoints count exceeded max limit of [" . self::MAX_CUE_POINTS_TO_COPY . "]");
 			}
 		}
 	}

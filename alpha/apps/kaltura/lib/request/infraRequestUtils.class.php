@@ -1,6 +1,6 @@
 <?php
 /**
- * IMPORTANT !!! This class should not depend on anything other than kConf (e.g. NOT KalturaLog)
+ * IMPORTANT !!! This class should not depend on anything other than kConf (e.g. NOT BorhanLog)
  *
  * Will hold helper functions and conventions for working with the HttpRequest object
  *
@@ -213,7 +213,7 @@ class infraRequestUtils
 		$baseHeader = array(trim($ip), time(), microtime(true));
 		$baseHeader = implode(',', $baseHeader);
 		$ipHeader = $baseHeader . ',' . md5($baseHeader . ',' . $salt);
-		return array('X_KALTURA_REMOTE_ADDR', $ipHeader);
+		return array('X_BORHAN_REMOTE_ADDR', $ipHeader);
 	}
 	
 	public static function isIpPrivate($ip)
@@ -295,7 +295,7 @@ class infraRequestUtils
 		if(self::$remoteAddress)
 			return self::$remoteAddress;
 			
-		// Prevent call cycles in case KalturaLog will be used in internalGetRemoteAddress
+		// Prevent call cycles in case BorhanLog will be used in internalGetRemoteAddress
 		if (self::$isInGetRemoteAddress)
 			return null;
 		
@@ -319,9 +319,9 @@ class infraRequestUtils
 			
 		$remote_addr = null;
 
-		if (!$remote_addr && isset ( $_SERVER['HTTP_X_KALTURA_REMOTE_ADDR'] ) )
+		if (!$remote_addr && isset ( $_SERVER['HTTP_X_BORHAN_REMOTE_ADDR'] ) )
 		{
-			list($remote_addr, $time, $uniqueId, $hash) = @explode(",", $_SERVER['HTTP_X_KALTURA_REMOTE_ADDR']);
+			list($remote_addr, $time, $uniqueId, $hash) = @explode(",", $_SERVER['HTTP_X_BORHAN_REMOTE_ADDR']);
 			
 			if (kConf::hasParam('remote_addr_header_salt') && kConf::hasParam("remote_addr_header_timeout"))
 			{
@@ -398,7 +398,7 @@ class infraRequestUtils
 		{
 			// parse_url could not extract domain, but returned path
 			// we validate that this path could be considered a domain
-			$result = rtrim($urlDetails['path'], '/'); // trim trailing slashes. example: www.kaltura.com/test.php
+			$result = rtrim($urlDetails['path'], '/'); // trim trailing slashes. example: www.borhan.com/test.php
 			
 			// stop string at first slash. example: httpssss/google.com - malformed url...
 			if (strpos($result, "/") !== false)

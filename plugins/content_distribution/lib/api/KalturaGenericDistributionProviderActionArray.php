@@ -3,17 +3,17 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaGenericDistributionProviderActionArray extends KalturaTypedArray
+class BorhanGenericDistributionProviderActionArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaGenericDistributionProviderActionArray();
+		$newArr = new BorhanGenericDistributionProviderActionArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-    		$nObj = new KalturaGenericDistributionProviderAction();
+    		$nObj = new BorhanGenericDistributionProviderAction();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaGenericDistributionProviderActionArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaGenericDistributionProviderAction");	
+		parent::__construct("BorhanGenericDistributionProviderAction");	
 	}
 }

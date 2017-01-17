@@ -5,16 +5,16 @@
  * @package api
  * @subpackage objects
  */
-class KalturaConcatAttributes extends KalturaOperationAttributes
+class BorhanConcatAttributes extends BorhanOperationAttributes
 {
 	/**
 	 * The resource to be concatenated
-	 * @var KalturaDataCenterContentResource
+	 * @var BorhanDataCenterContentResource
 	 */
 	public $resource;
 
 	public function toObject ( $object_to_fill = null , $props_to_skip = array() )
 	{
-		throw new KalturaAPIException(KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($this));
+		throw new BorhanAPIException(BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($this));
 	}
 }

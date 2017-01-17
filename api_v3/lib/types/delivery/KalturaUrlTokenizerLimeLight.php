@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaUrlTokenizerLimeLight extends KalturaUrlTokenizer {
+class BorhanUrlTokenizerLimeLight extends BorhanUrlTokenizer {
 
 	public function toObject($dbObject = null, $skip = array())
 	{

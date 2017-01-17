@@ -68,7 +68,7 @@ class kJobsCacher
 			$allocated[] = $job;
 			$cache->delete($workerLockKey);
 		}
-		KalturaLog::debug("Return allocated job with ids: " .print_r(array_map(function($job){return $job->getId();},$allocated), true));
+		BorhanLog::debug("Return allocated job with ids: " .print_r(array_map(function($job){return $job->getId();},$allocated), true));
 		return $allocated;
 	}
 
@@ -87,14 +87,14 @@ class kJobsCacher
 		$jobs = $cache->get($workerKey);
 		if (!$jobs || empty($jobs))
 		{
-			KalturaLog::debug("No job in cache for workerId [$workerId]");
+			BorhanLog::debug("No job in cache for workerId [$workerId]");
 			return null;
 		}
 		$index = $cache->increment($indexKey);
 		if ($index < count($jobs))
 			return $jobs[$index];
 
-		KalturaLog::debug("Cannot get job from cache for workerId [$workerId] when index [$index] and number of job is " .count($jobs));
+		BorhanLog::debug("Cannot get job from cache for workerId [$workerId] when index [$index] and number of job is " .count($jobs));
 		return null;
 
 	}
@@ -119,7 +119,7 @@ class kJobsCacher
 		$cache->set($workerKey, $objects, self::TIME_IN_CACHE);
 
 		$numOfObj = count($objects);
-		KalturaLog::info("Got $numOfObj jobs to insert to cache for workerId [$workerId]");
+		BorhanLog::info("Got $numOfObj jobs to insert to cache for workerId [$workerId]");
 		if ($numOfObj == 0)
 			return null; 
 

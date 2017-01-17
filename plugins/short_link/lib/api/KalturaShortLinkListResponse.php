@@ -3,10 +3,10 @@
  * @package plugins.shortLink
  * @subpackage api.objects
  */
-class KalturaShortLinkListResponse extends KalturaListResponse
+class BorhanShortLinkListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaShortLinkArray
+	 * @var BorhanShortLinkArray
 	 * @readonly
 	 */
 	public $objects;

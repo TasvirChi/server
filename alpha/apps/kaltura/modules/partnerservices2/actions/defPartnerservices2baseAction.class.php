@@ -3,7 +3,7 @@
  * @package api
  * @subpackage ps2
  */
-class defPartnerservices2baseAction extends kalturaAction
+class defPartnerservices2baseAction extends borhanAction
 {
 	protected static $_useCache = true;	
 	
@@ -49,7 +49,7 @@ class defPartnerservices2baseAction extends kalturaAction
 		}
 
 		$format = $this->getP ( "format" );
-		if ( $format == kalturaWebserviceRenderer::RESPONSE_TYPE_PHP_ARRAY || $format == kalturaWebserviceRenderer::RESPONSE_TYPE_PHP_OBJECT )
+		if ( $format == borhanWebserviceRenderer::RESPONSE_TYPE_PHP_ARRAY || $format == borhanWebserviceRenderer::RESPONSE_TYPE_PHP_OBJECT )
 		{
 			//$this->setHttpHeader ( "Content-Type" , "text/html; charset=utf-8" );
 			$response = "<pre>" . print_r ( $response , true ) . "</pre>" ;

@@ -19,9 +19,9 @@
       <Label label="Brand your player with your own logo displayed as a watermark on the video. Upload an image to a location on the web and provide the link below."/>
       <Spacer/>
       <Label label="Watermark URL"/>
-      <Input id="watermarkPath" k_param="watermarkPath" k_value="http://www.kaltura.com/content/uiconf/kaltura/kmc/appstudio/kdp3/exampleWatermark.png"/>
+      <Input id="watermarkPath" k_param="watermarkPath" k_value="http://www.borhan.com/content/uiconf/borhan/bmc/appstudio/bdp3/exampleWatermark.png"/>
       <Label label="Watermark landing page url"/>
-      <Input id="watermarkClickPath" k_param="watermarkClickPath" k_value="http://www.kaltura.com/"/>
+      <Input id="watermarkClickPath" k_param="watermarkClickPath" k_value="http://www.borhan.com/"/>
       <Spacer/>
       <Label label="Watermark location on the video:"/>
       <ComboBox id="watermarkPosition" k_param="watermarkPosition" k_value="bottomLeft">
@@ -233,7 +233,7 @@
     <feature featureLabel="Viral &amp; Distribution" showCheckbox="false"/>
     <!--===============================================================-->
     <!--===============================================================-->
-    <feature showCheckbox="true" featureLabel="Share Button" id="kalturaShareBtn" selected="true" k_param="selected" pluginId="kalturaShare" k_value="true">
+    <feature showCheckbox="true" featureLabel="Share Button" id="borhanShareBtn" selected="true" k_param="selected" pluginId="borhanShare" k_value="true">
       <Spacer/>
       <Label label="Share Button" bold="true"/>
       <Label label="Share this movie. Enables posting to social networks, sending email and grabbing of the embed code."/>
@@ -260,16 +260,16 @@
       <Spacer/>
       <Spacer/>
       <Label label="Target player id"/>
-      <Input id="uiconfId" k_param="uiconfId" k_value="8700151" applyTo="kalturaShare"/>
+      <Input id="uiconfId" k_param="uiconfId" k_value="8700151" applyTo="borhanShare"/>
       <Label label="Twitter via"/>
-      <Input id="via" k_param="via" k_value="" applyTo="kalturaShare"/>
+      <Input id="via" k_param="via" k_value="" applyTo="borhanShare"/>
       <Label label="AddThis partner id"/>
-      <Input id="pubid" k_param="pubid" k_value="" applyTo="kalturaShare"/>
+      <Input id="pubid" k_param="pubid" k_value="" applyTo="borhanShare"/>
     </feature>
     <feature showCheckbox="true" featureLabel="Download Button" id="downloadBtn" selected="false" k_param="selected" pluginId="download" k_value="false">
       <Spacer/>
       <Label label="Download Button" bold="true"/>
-      <Label label="Enables download of video to your computer. Note that the download button only supports downloads of single video files and does not support mix downloads - contact Kaltura Professional Services to enable download of mix content."/>
+      <Label label="Enables download of video to your computer. Note that the download button only supports downloads of single video files and does not support mix downloads - contact Borhan Professional Services to enable download of mix content."/>
       <Spacer/>
       <Label label="Location &amp; Playing States:"/>
       <CheckBox id="showOnVideoControllers" label="Video Area" selected="true" k_param="selected" k_value="true">
@@ -304,8 +304,8 @@
       <Spacer/>
       <Label label="Upload Button" bold="true"/>
       <Label label="Launches the Uploader (Contribution Wizard). Allows users to add videos, images and audio files to the video. Enable this button only if you wish to allow uploading. Clicking on the button will invoke the javascript function 'gotoContributorWindow' with the current entry as an argument. In order to connect this javascript function with editor launching follow the community guide:"/>
-      <Label label="http://www.kaltura.org/integrate-kdp-web-pages-javascript" link="http://www.kaltura.org/integrate-kdp-web-pages-javascript"/>
-      <Label label="or contact Kaltura Professional Services for assistance."/>
+      <Label label="http://www.borhan.org/integrate-bdp-web-pages-javascript" link="http://www.borhan.org/integrate-bdp-web-pages-javascript"/>
+      <Label label="or contact Borhan Professional Services for assistance."/>
       <Spacer/>
       <Label label="Location &amp; Playing States:"/>
       <CheckBox id="showOnVideoControllers" label="Video Area" selected="true" k_param="selected" k_value="true">
@@ -332,9 +332,9 @@
 			<Label label="Remix Button" bold="true"/>
 			<Label 
 				   label="Launches the Video Editor. Enable this button only if you wish to allow remixing. Clicking on the button will invoke the javascript function 'gotoEditorWindow' with the current entry as an argument. In order to connect this javascript function with editor launching follow the community guide:"/>
-			<Label label="http://www.kaltura.org/integrate-kdp-web-pages-javascript"
-				   link="http://www.kaltura.org/integrate-kdp-web-pages-javascript"/>
-			<Label label="or contact Kaltura Professional Services for assistance."/>
+			<Label label="http://www.borhan.org/integrate-bdp-web-pages-javascript"
+				   link="http://www.borhan.org/integrate-bdp-web-pages-javascript"/>
+			<Label label="or contact Borhan Professional Services for assistance."/>
 			<Spacer/>
 			<Label label="Location &amp; Playing States:"/>
 			<CheckBox id="showOnVideoControllers" label="Video Area" selected="true" k_param="selected" k_value="true">
@@ -386,7 +386,7 @@
     <feature showCheckbox="true" featureLabel="Flag Button" id="flagBtn" selected="false" k_param="selected" k_value="false" pluginId="moderation">
       <Spacer/>
       <Label label="Flag Button" bold="true"/>
-      <Label label="Allows users to report inappropriate content. You may then review and moderate the content in the Moderation tab of the Kaltura Management Console."/>
+      <Label label="Allows users to report inappropriate content. You may then review and moderate the content in the Moderation tab of the Borhan Management Console."/>
       <Spacer/>
       <Label label="Location &amp; Playing States:"/>
       <CheckBox id="showOnVideoControllers" label="Video Area" selected="true" k_param="selected" k_value="true">
@@ -455,7 +455,7 @@
       <Label label="Subtitle Component" bold="true"/>
       <Label label="Shows subtitles and captions for this video using the PLYmedia SubPly solution. If there are no subtitles related to the video, the component will be hidden."/>
       <Label label="If you are interested in adding this value-added service to your account, please contact:"/>
-      <Label label="Kaltura Professional Services" link="http://corp.kaltura.com/about/contact"/>
+      <Label label="Borhan Professional Services" link="http://corp.borhan.com/about/contact"/>
       <Spacer/>
     </feature>
     <feature showCheckbox="true" featureLabel="Captions on video" id="ccOverComboBoxWrapper" pluginId="closedCaptionsOverPlayer" selected="false" k_param="selected" k_value="false">
@@ -631,7 +631,7 @@
 			 <Label label="Advertising Component" bold="true"/>
 			 <Spacer/>
 			 <Label
-			 label="Allows you to include various types of video ads in your videso. Please enter your credentials below and you will be transferred to the advertising management system to set up your ads. If you do not have credentials and would like to add video ads to your account, please contact Kaltura Professional Services."/>
+			 label="Allows you to include various types of video ads in your videso. Please enter your credentials below and you will be transferred to the advertising management system to set up your ads. If you do not have credentials and would like to add video ads to your account, please contact Borhan Professional Services."/>
 			 <Label label="Adap.tv Partner Key"/>
 			 <Input id="key" k_param="key" k_value=""/>
 			 <Spacer/>
@@ -649,7 +649,7 @@
 			 <Label label="Advertising Component" bold="true"/>
 			 <Spacer/>
 			 <Label
-			 label="Allows you to include various types of video ads in your videso. Please enter your credentials below and you will be transferred to the advertising management system to set up your ads. If you do not have credentials and would like to add video ads to your account, please contact Kaltura Professional Services."/>
+			 label="Allows you to include various types of video ads in your videso. Please enter your credentials below and you will be transferred to the advertising management system to set up your ads. If you do not have credentials and would like to add video ads to your account, please contact Borhan Professional Services."/>
 			 <Label label="Acudeo program id"/>
 			 <Input id="progId" k_param="progId" k_value=""/>
 			 <Spacer/>
@@ -666,7 +666,7 @@
     <feature showCheckbox="true" featureLabel="Related Videos Gallery" id="relatedView" selected="true" k_param="selected" k_value="true" pluginId="relatedEntries">
       <Spacer/>
       <Label label="Related Videos" bold="true"/>
-      <Label label="Show a gallery of related videos to the user when the KDP is in certain states or when the user clicks on the player's on-screen 'Related Videos' button."/>
+      <Label label="Show a gallery of related videos to the user when the BDP is in certain states or when the user clicks on the player's on-screen 'Related Videos' button."/>
       <Seperator/>
       <Label label="Related Videos Style" bold="true"/>
       <Label label="Choosing 'Tiles' will show three rows of results tiled across the entire video area."/>
@@ -679,8 +679,8 @@
       </ComboBox>
       <Seperator/>
       <Label label="Related Videos Source" bold="true"/>
-      <Label label="Automatic = Automatically generated by Kaltura (configurable below). This is the default option KDP will fall back to if you specify another Source and it doesn't return enough related items."/>
-      <Label label="Reference Ids = The related videos are a list of Reference Ids either pre defined in a custom metadata field or passed to the Player at the application page level as a Flashvar or via the KDPs Javascript API."/>
+      <Label label="Automatic = Automatically generated by Borhan (configurable below). This is the default option BDP will fall back to if you specify another Source and it doesn't return enough related items."/>
+      <Label label="Reference Ids = The related videos are a list of Reference Ids either pre defined in a custom metadata field or passed to the Player at the application page level as a Flashvar or via the BDPs Javascript API."/>
       <Label label="Global Playlist = For all videos played with this player, use the same playlist as the source of the related videos."/>
       <Label label="Entry Id List = For each video, a list of entry ids is manually entered in a custom metadata field of type 'Entry-id List'."/>
       <ComboBox id="relatedViewSource" k_param="sourceType" k_value="automatic" applyTo="relatedEntries">
@@ -702,9 +702,9 @@
         </item>
       </ComboBox>
       <Seperator/>
-      <Label label="If your source for related videos is 'Automatic', you can view this information regarding how Kaltura will generate the Related Videos for all videos watched using this player. Please note: in order to define which Entries will be used when Kaltura is searching for related videos, you can change the configuration in the bellow specified Playlist" bold="true"/>
+      <Label label="If your source for related videos is 'Automatic', you can view this information regarding how Borhan will generate the Related Videos for all videos watched using this player. Please note: in order to define which Entries will be used when Borhan is searching for related videos, you can change the configuration in the bellow specified Playlist" bold="true"/>
       <Label label="Playlist Id:"/>
-      <Input id="autoPlaylistId" k_param="automaticPlaylistId" k_value="_KDP_RE_PL" applyTo="relatedEntries"/>
+      <Input id="autoPlaylistId" k_param="automaticPlaylistId" k_value="_BDP_RE_PL" applyTo="relatedEntries"/>
       <Seperator/>
       <Label label="If your source for related videos is 'Reference Ids', fill out these fields:" bold="true"/>
       <Label label="Reference Id's field:"/>
@@ -732,7 +732,7 @@
       </ComboBox>
       <Seperator/>
       <Label label="Automatically begin playing the related videos:" bold="true"/>
-      <Label label="Auto-play of related videos only happens after the current video has finished playing, and can happen even if you choose not to display the Related Videos gallery in the end screen. Auto-play only happens if the user did not interact with the KDP for the set number of seconds. "/>
+      <Label label="Auto-play of related videos only happens after the current video has finished playing, and can happen even if you choose not to display the Related Videos gallery in the end screen. Auto-play only happens if the user did not interact with the BDP for the set number of seconds. "/>
       <Label label="Enable feature:"/>
       <ComboBox id="relatedViewAuto" k_param="autoPlay" k_value="false" applyTo="relatedEntries">
         <item>
@@ -791,9 +791,9 @@
       <Label label="Allows custom action via Javascript, clicking on the button will invoke the javascript function customFunc1"/>
       <Label label="Add the following code to your HTML page to integrate with this feature:"/>
       <Label label="&lt;script> function customFunc1 (entryId){ // add your custom code here... } &lt;/script>"/>
-      <Label label="If needed, contact Kaltura Professional Services for assistance"/>
+      <Label label="If needed, contact Borhan Professional Services for assistance"/>
       <Label label="Read more here:"/>
-      <Label label="http://www.kaltura.org/integrate-kdp-web-pages-javascript" link="http://www.kaltura.org/integrate-kdp-web-pages-javascript"/>
+      <Label label="http://www.borhan.org/integrate-bdp-web-pages-javascript" link="http://www.borhan.org/integrate-bdp-web-pages-javascript"/>
       <Spacer/>
       <Label label="Location &amp; Playing States:"/>
       <CheckBox id="showOnVideoControllers" label="Video Area" selected="true" k_param="selected" k_value="true">
@@ -825,9 +825,9 @@
       <Label label="Allows custom action via Javascript, clicking on the button will invoke the javascript function customFunc2"/>
       <Label label="Add the following code to your HTML page to integrate with this feature:"/>
       <Label label="&lt;script> function customFunc2 (entryId){ // add your custom code here... } &lt;/script>"/>
-      <Label label="If needed, contact Kaltura Professional Services for assistance"/>
+      <Label label="If needed, contact Borhan Professional Services for assistance"/>
       <Label label="Read more here:"/>
-      <Label label="http://www.kaltura.org/integrate-kdp-web-pages-javascript" link="http://www.kaltura.org/integrate-kdp-web-pages-javascript"/>
+      <Label label="http://www.borhan.org/integrate-bdp-web-pages-javascript" link="http://www.borhan.org/integrate-bdp-web-pages-javascript"/>
       <Spacer/>
       <Label label="Location &amp; Playing States:"/>
       <CheckBox id="showOnVideoControllers" label="Video Area" selected="true" k_param="selected" k_value="true">
@@ -859,9 +859,9 @@
       <Label label="Allows custom action via Javascript, clicking on the button will invoke the javascript function customFunc3"/>
       <Label label="Add the following code to your HTML page to integrate with this feature:"/>
       <Label label="&lt;script> function customFunc3 (entryId){ // add your custom code here... } &lt;/script>"/>
-      <Label label="If needed, contact Kaltura Professional Services for assistance"/>
+      <Label label="If needed, contact Borhan Professional Services for assistance"/>
       <Label label="Read more here:"/>
-      <Label label="http://www.kaltura.org/integrate-kdp-web-pages-javascript" link="http://www.kaltura.org/integrate-kdp-web-pages-javascript"/>
+      <Label label="http://www.borhan.org/integrate-bdp-web-pages-javascript" link="http://www.borhan.org/integrate-bdp-web-pages-javascript"/>
       <Spacer/>
       <Label label="Location &amp; Playing States:"/>
       <CheckBox id="showOnVideoControllers" label="Video Area" selected="true" k_param="selected" k_value="true">
@@ -893,9 +893,9 @@
       <Label label="Allows custom action via Javascript, clicking on the button will invoke the javascript function customFunc4"/>
       <Label label="Add the following code to your HTML page to integrate with this feature:"/>
       <Label label="&lt;script> function customFunc4 (entryId){ // add your custom code here... } &lt;/script>"/>
-      <Label label="If needed, contact Kaltura Professional Services for assistance"/>
+      <Label label="If needed, contact Borhan Professional Services for assistance"/>
       <Label label="Read more here:"/>
-      <Label label="http://www.kaltura.org/integrate-kdp-web-pages-javascript" link="http://www.kaltura.org/integrate-kdp-web-pages-javascript"/>
+      <Label label="http://www.borhan.org/integrate-bdp-web-pages-javascript" link="http://www.borhan.org/integrate-bdp-web-pages-javascript"/>
       <Spacer/>
       <Label label="Location &amp; Playing States:"/>
       <CheckBox id="showOnVideoControllers" label="Video Area" selected="true" k_param="selected" k_value="true">
@@ -927,9 +927,9 @@
       <Label label="Allows custom action via Javascript, clicking on the button will invoke the javascript function customFunc5"/>
       <Label label="Add the following code to your HTML page to integrate with this feature:"/>
       <Label label="&lt;script> function customFunc5 (entryId){ // add your custom code here... } &lt;/script>"/>
-      <Label label="If needed, contact Kaltura Professional Services for assistance"/>
+      <Label label="If needed, contact Borhan Professional Services for assistance"/>
       <Label label="Read more here:"/>
-      <Label label="http://www.kaltura.org/integrate-kdp-web-pages-javascript" link="http://www.kaltura.org/integrate-kdp-web-pages-javascript"/>
+      <Label label="http://www.borhan.org/integrate-bdp-web-pages-javascript" link="http://www.borhan.org/integrate-bdp-web-pages-javascript"/>
       <Spacer/>
       <Label label="Location &amp; Playing States:"/>
       <CheckBox id="showOnVideoControllers" label="Video Area" selected="true" k_param="selected" k_value="true">
@@ -1140,7 +1140,7 @@
   <!--===============================================================-->
   <visual>
     <theme id="dark" name="Dark">
-      <themeSkinPath>/content/uiconf/kaltura/kmc/appstudio/kdp3/falcon/skin/v3.6.5/KDP_Blue.swf</themeSkinPath>
+      <themeSkinPath>/content/uiconf/borhan/bmc/appstudio/bdp3/falcon/skin/v3.6.5/BDP_Blue.swf</themeSkinPath>
       <!--			<color1>0xDDDDDD</color1>-->
       <!--			<color2>0xFFFFFF</color2>-->
       <!--			<color3>0x333333</color3>-->

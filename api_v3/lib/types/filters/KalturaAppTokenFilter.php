@@ -3,10 +3,10 @@
  * @package api
  * @subpackage filters
  */
-class KalturaAppTokenFilter extends KalturaAppTokenBaseFilter
+class BorhanAppTokenFilter extends BorhanAppTokenBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{

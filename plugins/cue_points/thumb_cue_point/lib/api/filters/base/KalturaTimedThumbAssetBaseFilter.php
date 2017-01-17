@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaTimedThumbAssetBaseFilter extends KalturaThumbAssetFilter
+abstract class BorhanTimedThumbAssetBaseFilter extends BorhanThumbAssetFilter
 {
 	static private $map_between_objects = array
 	(

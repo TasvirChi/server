@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaConditionType extends KalturaDynamicEnum implements ConditionType
+class BorhanConditionType extends BorhanDynamicEnum implements ConditionType
 {
 	public static function getEnumClass()
 	{

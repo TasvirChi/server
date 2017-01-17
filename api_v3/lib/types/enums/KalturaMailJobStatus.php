@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaMailJobStatus extends KalturaEnum
+class BorhanMailJobStatus extends BorhanEnum
 {
 	const PENDING = 1;
 	const SENT = 2;

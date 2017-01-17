@@ -20,7 +20,7 @@ class kGeoDistanceCondition extends kMatchCondition
 	 * @var int of enum geoCoderType
 	 * TODO take the default from kConf for on-prem
 	 */
-	protected $geoCoderType = geoCoderType::KALTURA;
+	protected $geoCoderType = geoCoderType::BORHAN;
 	
 	/**
 	 * @param int $geoCoderType of enum geoCoderType

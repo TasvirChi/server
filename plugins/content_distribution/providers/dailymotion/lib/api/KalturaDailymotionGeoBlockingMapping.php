@@ -3,7 +3,7 @@
  * @package plugins.dailymotionDistribution
  * @subpackage api.enum
  */
-class KalturaDailymotionGeoBlockingMapping extends KalturaEnum
+class BorhanDailymotionGeoBlockingMapping extends BorhanEnum
 {
 	CONST DISABLED = 0;
 	CONST ACCESS_CONTROL = 1;

@@ -84,7 +84,7 @@ abstract class BatchEventNotificationTemplate extends EventNotificationTemplate
 			$batchJob->setPartnerId($partnerId);
 		}
 		
-		KalturaLog::log("Creating event notification dispatch job on template id [" . $jobData->getTemplateId() . "] engine[$eventNotificationType]");
+		BorhanLog::log("Creating event notification dispatch job on template id [" . $jobData->getTemplateId() . "] engine[$eventNotificationType]");
 		
 		$batchJob->setObjectId($entryId);
 		$batchJob->setObjectType(BatchJobObjectType::ENTRY);

@@ -14,7 +14,7 @@ class KConversionEngineFfmpegVp8  extends KConversionEngineFfmpeg
 	
 	public function getType()
 	{
-		return KalturaConversionEngineType::FFMPEG_VP8;
+		return BorhanConversionEngineType::FFMPEG_VP8;
 	}
 	
 	public function getCmd ()

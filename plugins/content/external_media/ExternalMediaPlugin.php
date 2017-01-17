@@ -2,7 +2,7 @@
 /**
  * @package plugins.externalMedia
  */
-class ExternalMediaPlugin extends KalturaPlugin implements IKalturaServices, IKalturaObjectLoader, IKalturaEnumerator, IKalturaTypeExtender, IKalturaSearchDataContributor, IKalturaEventConsumers
+class ExternalMediaPlugin extends BorhanPlugin implements IBorhanServices, IBorhanObjectLoader, IBorhanEnumerator, IBorhanTypeExtender, IBorhanSearchDataContributor, IBorhanEventConsumers
 {
 	const PLUGIN_NAME = 'externalMedia';
 	const EXTERNAL_MEDIA_CREATED_HANDLER = 'ExternalMediaCreatedHandler';
@@ -14,7 +14,7 @@ class ExternalMediaPlugin extends KalturaPlugin implements IKalturaServices, IKa
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	 */
 	public static function getEventConsumers()
 	{
@@ -24,7 +24,7 @@ class ExternalMediaPlugin extends KalturaPlugin implements IKalturaServices, IKa
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaTypeExtender::getExtendedTypes()
+	 * @see IBorhanTypeExtender::getExtendedTypes()
 	 */
 	public static function getExtendedTypes($baseClass, $enumValue)
 	{
@@ -39,7 +39,7 @@ class ExternalMediaPlugin extends KalturaPlugin implements IKalturaServices, IKa
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
@@ -51,7 +51,7 @@ class ExternalMediaPlugin extends KalturaPlugin implements IKalturaServices, IKa
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
@@ -60,9 +60,9 @@ class ExternalMediaPlugin extends KalturaPlugin implements IKalturaServices, IKa
 			return 'ExternalMediaEntry';
 		}
 		
-		if($baseClass == 'KalturaBaseEntry' && $enumValue == ExternalMediaPlugin::getEntryTypeCoreValue(ExternalMediaEntryType::EXTERNAL_MEDIA))
+		if($baseClass == 'BorhanBaseEntry' && $enumValue == ExternalMediaPlugin::getEntryTypeCoreValue(ExternalMediaEntryType::EXTERNAL_MEDIA))
 		{
-			return 'KalturaExternalMediaEntry';
+			return 'BorhanExternalMediaEntry';
 		}
 		
 		return null;
@@ -84,7 +84,7 @@ class ExternalMediaPlugin extends KalturaPlugin implements IKalturaServices, IKa
 	 */
 	public static function getEntryTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('entryType', $value);
 	}
 	
@@ -93,7 +93,7 @@ class ExternalMediaPlugin extends KalturaPlugin implements IKalturaServices, IKa
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	/**
@@ -116,7 +116,7 @@ class ExternalMediaPlugin extends KalturaPlugin implements IKalturaServices, IKa
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaSearchDataContributor::getSearchData()
+	 * @see IBorhanSearchDataContributor::getSearchData()
 	 */
 	public static function getSearchData(BaseObject $object)
 	{

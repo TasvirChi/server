@@ -4,7 +4,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaCoordinate extends KalturaObject
+class BorhanCoordinate extends BorhanObject
 {	
 	/**
 	 * @var float
@@ -23,7 +23,7 @@ class KalturaCoordinate extends KalturaObject
 	
 	public function getWSObject() {
 		$obj = new WSCoordinate();
-		$obj->fromKalturaObject($this);
+		$obj->fromBorhanObject($this);
 		return $obj;
 	}
 }

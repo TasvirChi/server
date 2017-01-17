@@ -12,7 +12,7 @@ class kCountryContextField extends kStringField
 	 * 
 	 * @var int of enum geoCoderType
 	 */
-	protected $geoCoderType = geoCoderType::KALTURA;
+	protected $geoCoderType = geoCoderType::BORHAN;
 	
 	/* (non-PHPdoc)
 	 * @see kIntegerField::getFieldValue()

@@ -1,13 +1,13 @@
-package lib.Kaltura.notification;
+package lib.Borhan.notification;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import lib.Kaltura.output.Console;
+import lib.Borhan.output.Console;
 
-import com.kaltura.client.types.KalturaHttpNotification;
+import com.borhan.client.types.BorhanHttpNotification;
 
 
 /**
@@ -44,7 +44,7 @@ public class Processor {
 	 * Handle single notification
 	 * @param httpNotification The handle we wish to handle
 	 */
-	public void handleNotification(KalturaHttpNotification httpNotification) {
+	public void handleNotification(BorhanHttpNotification httpNotification) {
 		fireHandlers(httpNotification, handlers.get(HandlerProcessType.PRE_PROCESS));
 		fireHandlers(httpNotification, handlers.get(HandlerProcessType.PROCESS));
 		fireHandlers(httpNotification, handlers.get(HandlerProcessType.POST_PROCESS));
@@ -55,7 +55,7 @@ public class Processor {
 	 * @param httpNotification The notification
 	 * @param curHandlers The list of handlers
 	 */
-	private void fireHandlers(KalturaHttpNotification httpNotification,
+	private void fireHandlers(BorhanHttpNotification httpNotification,
 			List<BaseNotificationHandler> curHandlers) {
 		if(curHandlers != null)
 			for (BaseNotificationHandler handler : curHandlers) {

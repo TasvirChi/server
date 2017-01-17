@@ -3,6 +3,6 @@
  * @package plugins.attUverseDistribution
  * @subpackage api.filters.enum
  */
-class KalturaAttUverseDistributionProfileOrderBy extends KalturaConfigurableDistributionProfileOrderBy
+class BorhanAttUverseDistributionProfileOrderBy extends BorhanConfigurableDistributionProfileOrderBy
 {
 }

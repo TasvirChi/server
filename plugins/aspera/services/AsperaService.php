@@ -6,7 +6,7 @@
  * @package plugins.aspera
  * @subpackage api.services
  */
-class AsperaService extends KalturaBaseService
+class AsperaService extends BorhanBaseService
 {
 
 	public function initService($serviceId, $serviceName, $actionName)
@@ -14,26 +14,26 @@ class AsperaService extends KalturaBaseService
 		parent::initService($serviceId, $serviceName, $actionName);
 		$this->applyPartnerFilterForClass('asset');
 		if(!AsperaPlugin::isAllowedPartner($this->getPartnerId()))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, AsperaPlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, AsperaPlugin::PLUGIN_NAME);
 	}
 
 	/**
 	 *
 	 * @action getFaspUrl
 	 * @param string $flavorAssetId
-	 * @throws KalturaAPIException
+	 * @throws BorhanAPIException
 	 * @return string
 	 */
 	function getFaspUrlAction($flavorAssetId)
 	{
-		KalturaResponseCacher::disableCache();
+		BorhanResponseCacher::disableCache();
 		
 		$assetDb = assetPeer::retrieveById($flavorAssetId);
 		if (!$assetDb || !($assetDb instanceof flavorAsset))
-			throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND, $flavorAssetId);
+			throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND, $flavorAssetId);
 
 		if (!$assetDb->isLocalReadyStatus())
-			throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_IS_NOT_READY);
+			throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_IS_NOT_READY);
 
 		$syncKey = $assetDb->getSyncKey(flavorAsset::FILE_SYNC_ASSET_SUB_TYPE_ASSET);
 		/* @var $fileSync FileSync */

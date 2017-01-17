@@ -3,10 +3,10 @@
  * @package plugins.bpmEventNotificationIntegration
  * @subpackage api.objects
  */
-class KalturaBpmEventNotificationIntegrationJobTriggerData extends KalturaIntegrationJobTriggerData
+class BorhanBpmEventNotificationIntegrationJobTriggerData extends BorhanIntegrationJobTriggerData
 {
 	/**
-	 * KalturaBusinessProcessNotificationTemplate id
+	 * BorhanBusinessProcessNotificationTemplate id
 	 * @var int
 	 */
 	public $templateId;
@@ -30,7 +30,7 @@ class KalturaBpmEventNotificationIntegrationJobTriggerData extends KalturaIntegr
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{

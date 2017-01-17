@@ -95,19 +95,19 @@ class category extends Basecategory implements IIndexable, IRelatedObject
 		{
 			$partnerId = kCurrentContext::$partner_id ? kCurrentContext::$partner_id : kCurrentContext::$ks_partner_id;
 				
-			if (!PermissionPeer::isValidForPartner(PermissionName::DYNAMIC_FLAG_KMC_CHUNKED_CATEGORY_LOAD, $partnerId))
+			if (!PermissionPeer::isValidForPartner(PermissionName::DYNAMIC_FLAG_BMC_CHUNKED_CATEGORY_LOAD, $partnerId))
 			{
-				$c = KalturaCriteria::create(categoryPeer::OM_CLASS);
+				$c = BorhanCriteria::create(categoryPeer::OM_CLASS);
 				$c->add (categoryPeer::STATUS, CategoryStatus::DELETED, Criteria::NOT_EQUAL);
 				$c->add (categoryPeer::PARTNER_ID, $partnerId, Criteria::EQUAL);
 				
-				KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+				BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 				$numOfCatsForPartner = categoryPeer::doCount($c);
-				KalturaCriterion::restoreTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+				BorhanCriterion::restoreTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 	
-				$chunkedCategoryLoadThreshold = kConf::get('kmc_chunked_category_load_threshold');
+				$chunkedCategoryLoadThreshold = kConf::get('bmc_chunked_category_load_threshold');
 				if ($numOfCatsForPartner >= $chunkedCategoryLoadThreshold)
-					PermissionPeer::enableForPartner(PermissionName::DYNAMIC_FLAG_KMC_CHUNKED_CATEGORY_LOAD, PermissionType::SPECIAL_FEATURE);
+					PermissionPeer::enableForPartner(PermissionName::DYNAMIC_FLAG_BMC_CHUNKED_CATEGORY_LOAD, PermissionType::SPECIAL_FEATURE);
 			}
 
 			if ($this->getParentId() && ($this->getPrivacyContext() == '' || $this->getPrivacyContext() == null))
@@ -454,7 +454,7 @@ class category extends Basecategory implements IIndexable, IRelatedObject
 	 */
 	public function incrementDirectEntriesCount($entryId)
 	{
-		KalturaLog::debug("incrementing $entryId to direct entries count " . $this->getFullName());
+		BorhanLog::debug("incrementing $entryId to direct entries count " . $this->getFullName());
 		$this->preIncrement($entryId);
 		
 		$count = $this->countEntriesByCriteria(self::$incrementedEntryIds[$this->getId()], true);
@@ -481,7 +481,7 @@ class category extends Basecategory implements IIndexable, IRelatedObject
 	 */
 	public function decrementDirectEntriesCount($entryId)
 	{
-		KalturaLog::debug("decrementing $entryId from direct entries count " . $this->getFullName());
+		BorhanLog::debug("decrementing $entryId from direct entries count " . $this->getFullName());
 		$this->preDecrement($entryId);
 		
 		$count = $this->countEntriesByCriteria(self::$decrementedEntryIds[$this->getId()], true);
@@ -508,9 +508,9 @@ class category extends Basecategory implements IIndexable, IRelatedObject
 		if($this->getPartnerId() != kCurrentContext::$ks_partner_id)
 			$partnerId = $this->getPartnerId();
 		
-		KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		$category = categoryPeer::getByFullNameExactMatch($fullName, $this->getId(), $partnerId);
-		KalturaCriterion::restoreTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::restoreTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		
 		if ($category)
 			throw new kCoreException("Duplicate category: $fullName", kCoreException::DUPLICATE_CATEGORY);
@@ -537,11 +537,11 @@ class category extends Basecategory implements IIndexable, IRelatedObject
 		$now = time();
 		if (isset($categoriesIds) && !empty($categoriesIds))
 		{
-			$update = KalturaCriteria::create(categoryPeer::OM_CLASS);
+			$update = BorhanCriteria::create(categoryPeer::OM_CLASS);
 			$update->add(categoryPeer::DELETED_AT, $now);
 			$update->add(categoryPeer::UPDATED_AT, $now);
 			$update->add(categoryPeer::STATUS, CategoryStatus::DELETED);
-			$update->add(categoryPeer::ID, $categoriesIds, KalturaCriteria::IN);
+			$update->add(categoryPeer::ID, $categoriesIds, BorhanCriteria::IN);
 			categoryPeer::doUpdate($update);
 		}
 
@@ -742,12 +742,12 @@ class category extends Basecategory implements IIndexable, IRelatedObject
 		$filter->setFullIdsStartsWith($fullIdsStartsWithCategoryId);
 		$filter->setIdIn($categoriesIdsIn);
 		
-		$c = KalturaCriteria::create(categoryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(categoryPeer::OM_CLASS);
 		$filter->attachToCriteria($c);
 			
-		KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		categoryPeer::doSelect($c);
-		KalturaCriterion::restoreTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::restoreTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		
 		if($c->getRecordsCount() > 0)
 			kJobsManager::addIndexJob($this->getPartnerId(), $jobSubType, $filter, true, $featureStatusesToRemove);
@@ -842,9 +842,9 @@ class category extends Basecategory implements IIndexable, IRelatedObject
 			
 		$c = new Criteria();
 		$c->add(categoryPeer::PARENT_ID, $this->getId());
-		KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		$categories = categoryPeer::doSelect($c);
-		KalturaCriterion::restoreTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::restoreTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		
 		return $categories;
 	}
@@ -857,9 +857,9 @@ class category extends Basecategory implements IIndexable, IRelatedObject
 		$c = new Criteria();
 		$c->add(categoryPeer::FULL_NAME, $this->getFullName() . '%', Criteria::LIKE);
 		$c->addAnd(categoryPeer::PARTNER_ID,$this->getPartnerId(),Criteria::EQUAL);
-		KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		$categories = categoryPeer::doSelect($c);
-		KalturaCriterion::restoreTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::restoreTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		
 		return $categories;
 	}
@@ -1093,19 +1093,19 @@ class category extends Basecategory implements IIndexable, IRelatedObject
 			
 		if($this->getMembersCount())
 		{
-			KalturaLog::debug("Category still associated with [" . $this->getMembersCount() . "] users");
+			BorhanLog::debug("Category still associated with [" . $this->getMembersCount() . "] users");
 			return false;
 		}
 			
 		if($this->getEntriesCount() > 0)
 		{
-			KalturaLog::debug("Category still associated with [" . $this->getEntriesCount() . "] entries");
+			BorhanLog::debug("Category still associated with [" . $this->getEntriesCount() . "] entries");
 			return false;
 		}
 			
 		if($this->getDirectSubCategoriesCount() > 0)
 		{
-			KalturaLog::debug("Category still associated with [" . $this->getDirectSubCategoriesCount() . "] sub categories");
+			BorhanLog::debug("Category still associated with [" . $this->getDirectSubCategoriesCount() . "] sub categories");
 			return false;
 		}
 		
@@ -1129,9 +1129,9 @@ class category extends Basecategory implements IIndexable, IRelatedObject
 	
 	public function getInheritFromParentCategory()
 	{
-		KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		$parentCategory = $this->getParentCategory();
-		KalturaCriterion::restoreTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::restoreTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		
 		if(!$parentCategory)
 			return null;
@@ -1147,9 +1147,9 @@ class category extends Basecategory implements IIndexable, IRelatedObject
 		if ($this->getInheritanceType() != InheritanceType::INHERIT || is_null($this->getInheritedParentId()))
 			return $this;
 			
-		KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		$inheritCategory = categoryPeer::retrieveByPK($this->getInheritedParentId());
-		KalturaCriterion::restoreTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::restoreTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		
 		if(!$inheritCategory)
 			return $this;
@@ -1475,9 +1475,9 @@ class category extends Basecategory implements IIndexable, IRelatedObject
 		}
 		
 		// Query for entry count
-		$baseCriteria = KalturaCriteria::create(entryPeer::OM_CLASS);
+		$baseCriteria = BorhanCriteria::create(entryPeer::OM_CLASS);
 		$filter = new entryFilter();
-		$filter->setPartnerSearchScope(baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE);
+		$filter->setPartnerSearchScope(baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE);
 		
 		if($directOnly)
 			$filter->setCategoriesIdsMatchAnd($this->getId());
@@ -1530,7 +1530,7 @@ class category extends Basecategory implements IIndexable, IRelatedObject
 	 */
 	public function decrementEntriesCount($entryId)
 	{
-		KalturaLog::debug("decrementing $entryId from " . $this->getFullName());
+		BorhanLog::debug("decrementing $entryId from " . $this->getFullName());
 		$this->preDecrement($entryId);
 		
 		$count = $this->countEntriesByCriteria(self::$decrementedEntryIds[$this->getId()]);
@@ -1553,7 +1553,7 @@ class category extends Basecategory implements IIndexable, IRelatedObject
 	 */
 	public function incrementEntriesCount($entryId)
 	{
-		KalturaLog::debug("incrementing $entryId to " . $this->getFullName());
+		BorhanLog::debug("incrementing $entryId to " . $this->getFullName());
 		$this->preIncrement($entryId);
 		
 		$count = $this->countEntriesByCriteria(self::$incrementedEntryIds[$this->getId()]);
@@ -1578,9 +1578,9 @@ class category extends Basecategory implements IIndexable, IRelatedObject
 	 */
 	public function reSetDirectEntriesCount()
 	{
-		$baseCriteria = KalturaCriteria::create(entryPeer::OM_CLASS);
+		$baseCriteria = BorhanCriteria::create(entryPeer::OM_CLASS);
 		$filter = new entryFilter();
-		$filter->setPartnerSearchScope(baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE);
+		$filter->setPartnerSearchScope(baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE);
 		$filter->setCategoriesIdsMatchAnd($this->getId());
 		$filter->setLimit(1);
 		$filter->attachToCriteria($baseCriteria);
@@ -1603,7 +1603,7 @@ class category extends Basecategory implements IIndexable, IRelatedObject
 		}
 		else
 		{
-			$criteria = KalturaCriteria::create(categoryKuserPeer::OM_CLASS);
+			$criteria = BorhanCriteria::create(categoryKuserPeer::OM_CLASS);
 			$criteria->addAnd(categoryKuserPeer::CATEGORY_ID, $this->getId(), Criteria::EQUAL);
 			$criteria->addAnd(categoryKuserPeer::STATUS, CategoryKuserStatus::ACTIVE, Criteria::EQUAL);
 			$this->setMembersCount(categoryKuserPeer::doCount($criteria));
@@ -1635,7 +1635,7 @@ class category extends Basecategory implements IIndexable, IRelatedObject
 		}
 		else
 		{
-			$criteria = KalturaCriteria::create(categoryKuserPeer::OM_CLASS);
+			$criteria = BorhanCriteria::create(categoryKuserPeer::OM_CLASS);
 			$criteria->addAnd(categoryKuserPeer::CATEGORY_ID, $this->getId(), Criteria::EQUAL);
 			$criteria->addAnd(categoryKuserPeer::STATUS, CategoryKuserStatus::PENDING, Criteria::EQUAL);
 			$this->setPendingMembersCount(categoryKuserPeer::doCount($criteria));
@@ -1684,13 +1684,13 @@ class category extends Basecategory implements IIndexable, IRelatedObject
 	{
 		$partnerId = kCurrentContext::$partner_id ? kCurrentContext::$partner_id : kCurrentContext::$ks_partner_id;
 		
-		$c = KalturaCriteria::create(categoryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(categoryPeer::OM_CLASS);
 		$c->add (categoryPeer::STATUS, array(CategoryStatus::DELETED, CategoryStatus::PURGED), Criteria::NOT_IN);
 		$c->add (categoryPeer::PARENT_ID, $this->getId(), Criteria::EQUAL);
 			
-		KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		$c->applyFilters();
-		KalturaCriterion::restoreTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::restoreTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		$this->setDirectSubCategoriesCount($c->getRecordsCount());
 	}
 	
@@ -1817,11 +1817,11 @@ class category extends Basecategory implements IIndexable, IRelatedObject
 		$filter->setFullIdsStartsWith($this->getFullIds());
 		$filter->setInheritanceTypeEqual(InheritanceType::INHERIT);
 
-		$c = KalturaCriteria::create(categoryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(categoryPeer::OM_CLASS);
 		$filter->attachToCriteria($c);
-		KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		$categories = categoryPeer::doSelect($c);
-		KalturaCriterion::restoreTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::restoreTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 
 		if(count($categories))
 		{
@@ -1846,7 +1846,7 @@ class category extends Basecategory implements IIndexable, IRelatedObject
 
 		$filter = new categoryFilter();
 		$filter->setFullIdsStartsWith($fullIds);
-		$c = KalturaCriteria::create(categoryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(categoryPeer::OM_CLASS);
 		$filter->attachToCriteria($c);
 		$c->applyFilters();
 		$categoryIds = $c->getFetchedIds();

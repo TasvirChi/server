@@ -21,7 +21,7 @@ class KAsyncMoveCategoryEntries extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::MOVE_CATEGORY_ENTRIES;
+		return BorhanBatchJobType::MOVE_CATEGORY_ENTRIES;
 	}
 
 	/* (non-PHPdoc)
@@ -35,7 +35,7 @@ class KAsyncMoveCategoryEntries extends KJobHandlerWorker
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->move($job, $job->data);
 	}
@@ -43,18 +43,18 @@ class KAsyncMoveCategoryEntries extends KJobHandlerWorker
 	/**
 	 * Moves category entries from source category to destination category
 	 * 
-	 * @param KalturaBatchJob $job
-	 * @param KalturaMoveCategoryEntriesJobData $data
+	 * @param BorhanBatchJob $job
+	 * @param BorhanMoveCategoryEntriesJobData $data
 	 * 
-	 * @return KalturaBatchJob
+	 * @return BorhanBatchJob
 	 */
-	protected function move(KalturaBatchJob $job, KalturaMoveCategoryEntriesJobData $data)
+	protected function move(BorhanBatchJob $job, BorhanMoveCategoryEntriesJobData $data)
 	{
 	    KBatchBase::impersonate($job->partnerId);
 		
 		$job = $this->moveCategory($job, $data);
 		KBatchBase::unimpersonate();
-		$job = $this->closeJob($job, null, null, null, KalturaBatchJobStatus::FINISHED);
+		$job = $this->closeJob($job, null, null, null, BorhanBatchJobStatus::FINISHED);
 		
 		return $job;
 	}
@@ -62,13 +62,13 @@ class KAsyncMoveCategoryEntries extends KJobHandlerWorker
 	/**
 	 * Go through all categories tree and call moveEntries
 	 * 
-	 * @param KalturaBatchJob $job
-	 * @param KalturaMoveCategoryEntriesJobData $data
+	 * @param BorhanBatchJob $job
+	 * @param BorhanMoveCategoryEntriesJobData $data
 	 * @param int $srcCategoryId Current source category id
 	 * 
-	 * @return KalturaBatchJob
+	 * @return BorhanBatchJob
 	 */
-	private function moveCategory(KalturaBatchJob $job, KalturaMoveCategoryEntriesJobData $data, $srcCategoryId = null)
+	private function moveCategory(BorhanBatchJob $job, BorhanMoveCategoryEntriesJobData $data, $srcCategoryId = null)
 	{
 	    
 		if(is_null($srcCategoryId))
@@ -77,7 +77,7 @@ class KAsyncMoveCategoryEntries extends KJobHandlerWorker
 		$movedEntries = $this->moveEntries($job, $data, $srcCategoryId);
 
 		KBatchBase::unimpersonate();
-		$this->updateJob($job, "Moved [$movedEntries] entries", KalturaBatchJobStatus::PROCESSING, $data);
+		$this->updateJob($job, "Moved [$movedEntries] entries", BorhanBatchJobStatus::PROCESSING, $data);
 		KBatchBase::impersonate($job->partnerId);
 		
 		return $job;
@@ -88,8 +88,8 @@ class KAsyncMoveCategoryEntries extends KJobHandlerWorker
 		KBatchBase::$kClient->startMultiRequest();
 		foreach($categoryEntriesList->objects as $oldCategoryEntry)
 		{
-			/* @var $categoryEntry KalturaCategoryEntry */
-			$newCategoryEntry = new KalturaCategoryEntry();
+			/* @var $categoryEntry BorhanCategoryEntry */
+			$newCategoryEntry = new BorhanCategoryEntry();
 			$newCategoryEntry->entryId = $oldCategoryEntry->entryId;
 			$newCategoryEntry->categoryId = $destCategoryId;
 			KBatchBase::$kClient->categoryEntry->add($newCategoryEntry);
@@ -102,16 +102,16 @@ class KAsyncMoveCategoryEntries extends KJobHandlerWorker
 	/**
 	 * Moves category entries from source category to destination category
 	 */
-	private function moveEntries(KalturaBatchJob $job, KalturaMoveCategoryEntriesJobData $data, $srcCategoryId)
+	private function moveEntries(BorhanBatchJob $job, BorhanMoveCategoryEntriesJobData $data, $srcCategoryId)
 	{
-		$categoryEntryFilter = new KalturaCategoryEntryFilter();
-		$categoryEntryFilter->orderBy = KalturaCategoryEntryOrderBy::CREATED_AT_ASC;
+		$categoryEntryFilter = new BorhanCategoryEntryFilter();
+		$categoryEntryFilter->orderBy = BorhanCategoryEntryOrderBy::CREATED_AT_ASC;
 		if($data->moveFromChildren)
 			$categoryEntryFilter->categoryFullIdsStartsWith = $data->destCategoryFullIds;
 		else
 			$categoryEntryFilter->categoryIdEqual = $srcCategoryId;
 
-		$categoryEntryPager = new KalturaFilterPager();
+		$categoryEntryPager = new BorhanFilterPager();
 		$categoryEntryPager->pageSize = 100;
 		$categoryEntryPager->pageIndex = 1;
 
@@ -135,7 +135,7 @@ class KAsyncMoveCategoryEntries extends KJobHandlerWorker
 					$code = $addedCategoryEntryResult['code'];
 					if (!in_array($code, array(self::CATEGORY_ENTRY_ALREADY_EXISTS, self::INVALID_ENTRY_ID)))
 					{
-						throw new KalturaException($addedCategoryEntryResult['message'], $addedCategoryEntryResult['code'], $addedCategoryEntryResult['args']);
+						throw new BorhanException($addedCategoryEntryResult['message'], $addedCategoryEntryResult['code'], $addedCategoryEntryResult['args']);
 					}
 				}
 				KBatchBase::$kClient->categoryEntry->delete($entryIds[$index], $categoryIds[$index]);
@@ -149,7 +149,7 @@ class KAsyncMoveCategoryEntries extends KJobHandlerWorker
 			{
 				if(is_array($deletedCategoryEntryResult) && isset($deletedCategoryEntryResult['code']))
 				{
-					KalturaLog::err('error: ' . $deletedCategoryEntryResult['code']);
+					BorhanLog::err('error: ' . $deletedCategoryEntryResult['code']);
 					unset($deletedCategoryEntriesResults[$index]);
 				}
 			}

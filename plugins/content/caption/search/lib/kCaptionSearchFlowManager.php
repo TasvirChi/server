@@ -55,7 +55,7 @@ class kCaptionSearchFlowManager implements kObjectDataChangedEventConsumer, kObj
 		}
 		catch (kCoreException $kce)
 		{
-			KalturaLog::err("Cannot create parse caption job, error [" . $kce->getMessage() . "]");
+			BorhanLog::err("Cannot create parse caption job, error [" . $kce->getMessage() . "]");
 		}
 		
 		// updated in the entry in the indexing server

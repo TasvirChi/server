@@ -4,13 +4,13 @@
  * @subpackage objects
  * @abstract
  */
-abstract class KalturaCondition extends KalturaObject
+abstract class BorhanCondition extends BorhanObject
 {
 	/**
 	 * The type of the access control condition
 	 * 
 	 * @readonly
-	 * @var KalturaConditionType
+	 * @var BorhanConditionType
 	 */
 	public $type;
 	

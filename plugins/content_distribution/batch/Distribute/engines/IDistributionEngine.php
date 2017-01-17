@@ -11,7 +11,7 @@ interface IDistributionEngine
 	public function configure();
 	
 	/**
-	 * @param KalturaClient $kalturaClient
+	 * @param BorhanClient $borhanClient
 	 */
 	public function setClient();
 }

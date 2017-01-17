@@ -201,7 +201,7 @@ class kPlaybackContextDataHelper
 
 			switch ($servePriority)
 			{
-				case StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_ONLY:
+				case StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_ONLY:
 					$c->addAnd(FileSyncPeer::FILE_TYPE, FileSync::FILE_SYNC_FILE_TYPE_URL, Criteria::NOT_EQUAL);
 					break;
 
@@ -413,7 +413,7 @@ class kPlaybackContextDataHelper
 		$playbackContextDataParams->setFlavors(array_values($flavorAssets));
 
 		$result = new kPlaybackContextDataResult();
-		$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaPlaybackContextDataContributor');
+		$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanPlaybackContextDataContributor');
 		foreach ($pluginInstances as $pluginInstance)
 			$pluginInstance->contributeToPlaybackContextDataResult($dbEntry, $playbackContextDataParams, $result, $contextDataHelper);
 
@@ -427,10 +427,10 @@ class kPlaybackContextDataHelper
 	{
 		switch ($servePriority)
 		{
-			case StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_ONLY:
+			case StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_ONLY:
 				$this->playbackContext->setSources($this->localPlaybackSources);
 				break;
-			case StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_FIRST:
+			case StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_FIRST:
 				$this->playbackContext->setSources(array_merge($this->localPlaybackSources,$this->remotePlaybackSources));
 				break;
 			case StorageProfile::STORAGE_SERVE_PRIORITY_EXTERNAL_ONLY:

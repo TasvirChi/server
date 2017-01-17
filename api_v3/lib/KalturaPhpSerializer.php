@@ -3,7 +3,7 @@
  * @package api
  * @subpackage v3
  */
-class KalturaPhpSerializer extends KalturaSerializer
+class BorhanPhpSerializer extends BorhanSerializer
 {
 	function serialize($object)
 	{

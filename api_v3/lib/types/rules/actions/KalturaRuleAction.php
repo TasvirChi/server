@@ -4,13 +4,13 @@
  * @subpackage objects
  * @abstract
  */
-abstract class KalturaRuleAction extends KalturaObject
+abstract class BorhanRuleAction extends BorhanObject
 {
 	/**
 	 * The type of the action
 	 * 
 	 * @readonly
-	 * @var KalturaRuleActionType
+	 * @var BorhanRuleActionType
 	 */
 	public $type;
 }

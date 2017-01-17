@@ -17,7 +17,7 @@ class kMemoryManager
 		}
 		self::$peerNames = array();
 
-		$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaMemoryCleaner');
+		$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanMemoryCleaner');
 		foreach($pluginInstances as $pluginInstance)
 			$pluginInstance->cleanMemory();
 					

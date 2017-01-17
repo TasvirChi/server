@@ -4,7 +4,7 @@
  * @package infra
  * @subpackage Plugins
  */
-interface IKalturaObjectLoader extends IKalturaBase
+interface IBorhanObjectLoader extends IBorhanBase
 {
 	/**
 	 * Returns an object that is known only to the plugin, and extends the baseClass.

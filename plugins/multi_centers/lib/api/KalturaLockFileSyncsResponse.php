@@ -3,10 +3,10 @@
  * @package plugins.multiCenters
  * @subpackage api.objects
  */
-class KalturaLockFileSyncsResponse extends KalturaObject
+class BorhanLockFileSyncsResponse extends BorhanObject
 {
 	/**
-	 * @var KalturaFileSyncArray
+	 * @var BorhanFileSyncArray
 	 */
 	public $fileSyncs;
 		

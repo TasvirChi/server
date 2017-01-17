@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaEntryCapability extends KalturaDynamicEnum implements EntryCapability
+class BorhanEntryCapability extends BorhanDynamicEnum implements EntryCapability
 {
 	/**
 	 * @return string

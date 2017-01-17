@@ -1,18 +1,18 @@
 <script type="text/javascript">
-var kmc = {
-	vars : <?php echo json_encode($kmcVars);?>
+var bmc = {
+	vars : <?php echo json_encode($bmcVars);?>
 };
 </script>
-	<div id="kmcHeader"<?php if($templatePartnerId) echo ' class="whiteLabel"'; ?>>
+	<div id="bmcHeader"<?php if($templatePartnerId) echo ' class="whiteLabel"'; ?>>
 	 <?php 
-	 if(isset($kmcVars['logoUrl'])) {
-	 	echo '<div id="logo" style="background: transparent; overflow:hidden;"><img src="' . $kmcVars['logoUrl'] . '" /></div>';
+	 if(isset($bmcVars['logoUrl'])) {
+	 	echo '<div id="logo" style="background: transparent; overflow:hidden;"><img src="' . $bmcVars['logoUrl'] . '" /></div>';
 	 } else {
 	 	echo '<div id="logo"></div>';
 	 }
 	 ?>
 	 <ul id="hTabs">
-	    <li id="loading"><img src="/lib/images/kmc/loader.gif" alt="Loading" /> <span>Loading...</span></li>
+	    <li id="loading"><img src="/lib/images/bmc/loader.gif" alt="Loading" /> <span>Loading...</span></li>
 	 </ul>
 	 <div id="langIcon" style="display: none"></div>
 	 <div id="user"><span class="left-arrow"></span><?php echo $full_name; ?></div>
@@ -28,21 +28,21 @@ var kmc = {
 	  	<?php } ?>
 	  </span>
 	    <?php if (!$templatePartnerId) { ?>
-	    <span> <span class="sep">|</span> &nbsp; <a id="Quickstart Guide" href="<?php echo $service_url ?>/content/docs/pdf/KMC_User_Manual.pdf" target="_blank">User Manual</a> &nbsp; <span class="sep">|</span> &nbsp;
+	    <span> <span class="sep">|</span> &nbsp; <a id="Quickstart Guide" href="<?php echo $service_url ?>/content/docs/pdf/BMC_User_Manual.pdf" target="_blank">User Manual</a> &nbsp; <span class="sep">|</span> &nbsp;
 	      <?php 
-	      if( isset($kmcVars['supportUrl']) ){
-	      	$supportUrl = $kmcVars['supportUrl'];
+	      if( isset($bmcVars['supportUrl']) ){
+	      	$supportUrl = $bmcVars['supportUrl'];
 	      	$supportId = "";
 	      }
 	      else {
-	      	$supportUrl = "/index.php/kmc/support?type=" . md5($payingPartner) . "&pid=" . $partner_id;
+	      	$supportUrl = "/index.php/bmc/support?type=" . md5($payingPartner) . "&pid=" . $partner_id;
 	      	$supportId = 'id="Support"';
 	      }
 	      ?>
 	      <a <?php echo $supportId; ?> href="<?php echo $supportUrl; ?>" target="_blank">Support</a></span>
 	    <?php } ?>
 	 </div>
-	</div><!-- kmcHeader -->
+	</div><!-- bmcHeader -->
 	<div id="langMenu"></div>
 
 	<div id="main">
@@ -63,7 +63,7 @@ var kmc = {
 	<div class="title clearfix">
 		<h2></h2>
 		<span class="close icon"></span>
-		<a class="help icon" href="javascript:kmc.utils.openHelp('section_pne');"></a>
+		<a class="help icon" href="javascript:bmc.utils.openHelp('section_pne');"></a>
 	</div>
 	<div class="content row-fluid">
 		<div class="span4 options form-horizontal">
@@ -95,14 +95,14 @@ var kmc = {
 				<div class="control-group" ng-hide="true">
 					<label class="control-label">{{ 'DELIVERY_TYPE' | translate }}</label>
 					<div class="controls"><select ng-model="deliveryType" ng-options="d.id as d.label for d in deliveryTypes"></select></div>
-					<small class="help-block">{{ 'DELIVERY_TYPE_HELP' | translate }} <a href="javascript:kmc.utils.openHelp('section_pne_stream');">{{ 'READ_MORE' | translate }}</a></small>
+					<small class="help-block">{{ 'DELIVERY_TYPE_HELP' | translate }} <a href="javascript:bmc.utils.openHelp('section_pne_stream');">{{ 'READ_MORE' | translate }}</a></small>
 					<div class="hr"></div>
 				</div>
 				<div class="control-group">
 					<label class="control-label">{{ 'EMBED_TYPE' | translate }}</label>
 					<div class="controls"><select ng-model="embedType" ng-options="e.id as e.label for e in embedTypes"></select></div>
-					<small class="help-block">{{ 'EMBED_TYPE_HELP' | translate }} <a href="javascript:kmc.utils.openHelp('section_pne_embed');">{{ 'READ_MORE' | translate }}</a> {{ 'EMBED_TYPE_HELP2' | translate }}</small>
-                    <small class="help-block">{{ 'DELIVERY_TYPE_HELP' | translate }} <a href="http://knowledge.kaltura.com/how-enforce-delivery-type-each-player-using-ui-variables" target="_blank">{{ 'DELIVERY_TYPE_HELP2' | translate }}</a></small>
+					<small class="help-block">{{ 'EMBED_TYPE_HELP' | translate }} <a href="javascript:bmc.utils.openHelp('section_pne_embed');">{{ 'READ_MORE' | translate }}</a> {{ 'EMBED_TYPE_HELP2' | translate }}</small>
+                    <small class="help-block">{{ 'DELIVERY_TYPE_HELP' | translate }} <a href="http://knowledge.borhan.com/how-enforce-delivery-type-each-player-using-ui-variables" target="_blank">{{ 'DELIVERY_TYPE_HELP2' | translate }}</a></small>
 				</div>
 				<div class="hr"></div>
 				<div class="control-group">
@@ -142,8 +142,8 @@ var kmc = {
 	</div>
 </div>
 <script src="/lib/js/angular-1.0.4.min.js"></script>
-<script src="/lib/js/kmc/6.0.11/langMenu.min.js"></script>
-<script src="/lib/js/kmc/6.0.11/kmc.min.js?v=<?php echo $kmc_swf_version; ?>"></script>
+<script src="/lib/js/bmc/6.0.11/langMenu.min.js"></script>
+<script src="/lib/js/bmc/6.0.11/bmc.min.js?v=<?php echo $bmc_swf_version; ?>"></script>
 <?php } else { ?>
-<script type="text/javascript" src="/lib/js/kmc5.js?v=<?php echo $kmc_swf_version; ?>"></script>
+<script type="text/javascript" src="/lib/js/bmc5.js?v=<?php echo $bmc_swf_version; ?>"></script>
 <?php } ?>

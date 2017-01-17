@@ -68,7 +68,7 @@ class DoubleClickService extends ContentDistributionServiceBase
 		
 		
 		// Dummy query to get the total count
-		$baseCriteria = KalturaCriteria::create(entryPeer::OM_CLASS);
+		$baseCriteria = BorhanCriteria::create(entryPeer::OM_CLASS);
 		$baseCriteria->add(entryPeer::DISPLAY_IN_SEARCH, mySearchUtils::DISPLAY_IN_SEARCH_SYSTEM, Criteria::NOT_EQUAL);
 		$baseCriteria->setLimit(1);
 		$entryFilter->attachToCriteria($baseCriteria);
@@ -137,7 +137,7 @@ class DoubleClickService extends ContentDistributionServiceBase
 		// Creates entry filter with advanced filter
 		$entry = entryPeer::retrieveByPK($entryId);
 		if (!$entry || ($entry->getPartnerId() != $this->getPartnerId()))
-			throw new KalturaAPIException (KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException (BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 
 		// Construct the feed
 		$feed = new DoubleClickFeed ('doubleclick_template.xml', $this->profile);
@@ -157,7 +157,7 @@ class DoubleClickService extends ContentDistributionServiceBase
 	 */
 	protected function getCuePoints($partnerId, $entryId)
 	{
-		$c = KalturaCriteria::create(CuePointPeer::OM_CLASS);
+		$c = BorhanCriteria::create(CuePointPeer::OM_CLASS);
 		$c->add(CuePointPeer::PARTNER_ID, $partnerId);
 		$c->add(CuePointPeer::ENTRY_ID, $entryId);
 		$c->add(CuePointPeer::TYPE, AdCuePointPlugin::getCuePointTypeCoreValue(AdCuePointType::AD));

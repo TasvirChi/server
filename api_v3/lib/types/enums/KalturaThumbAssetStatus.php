@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaThumbAssetStatus extends KalturaAssetStatus
+class BorhanThumbAssetStatus extends BorhanAssetStatus
 {
 	const CAPTURING = 1;
 }

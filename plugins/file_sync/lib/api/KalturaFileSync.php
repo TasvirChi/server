@@ -3,7 +3,7 @@
  * @package plugins.fileSync
  * @subpackage api.objects
  */
-class KalturaFileSync extends KalturaObject implements IFilterable 
+class BorhanFileSync extends BorhanObject implements IFilterable 
 {
 	/**
 	 * 
@@ -25,7 +25,7 @@ class KalturaFileSync extends KalturaObject implements IFilterable
 	
 	/**
 	 * 
-	 * @var KalturaFileSyncObjectType
+	 * @var BorhanFileSyncObjectType
 	 * @filter eq,in
 	 * @readonly
 	 */
@@ -125,7 +125,7 @@ class KalturaFileSync extends KalturaObject implements IFilterable
 	
 	/**
 	 * 
-	 * @var KalturaFileSyncStatus
+	 * @var BorhanFileSyncStatus
 	 * @filter eq,in
 	 */
 	public $status;
@@ -134,7 +134,7 @@ class KalturaFileSync extends KalturaObject implements IFilterable
 	
 	/**
 	 * 
-	 * @var KalturaFileSyncType
+	 * @var BorhanFileSyncType
 	 * @filter eq,in
 	 * @readonly
 	 */
@@ -306,7 +306,7 @@ class KalturaFileSync extends KalturaObject implements IFilterable
 		return parent::toObject($dbFileSync, $propsToSkip);
 	}
 	
-	public function doFromObject($source_object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($source_object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($source_object, $responseProfile);
 		

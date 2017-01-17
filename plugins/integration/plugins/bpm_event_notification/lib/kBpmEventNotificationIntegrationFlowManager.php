@@ -21,7 +21,7 @@ class kBpmEventNotificationIntegrationFlowManager implements kBatchJobStatusEven
 		
 		if(!$template)
 		{
-			KalturaLog::err("Template id [" . $triggerData->getTemplateId() . "] not found");
+			BorhanLog::err("Template id [" . $triggerData->getTemplateId() . "] not found");
 			return true;
 		}
 		

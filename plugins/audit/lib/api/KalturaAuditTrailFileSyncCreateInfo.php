@@ -3,7 +3,7 @@
  * @package plugins.audit
  * @subpackage api.objects
  */
-class KalturaAuditTrailFileSyncCreateInfo extends KalturaAuditTrailInfo
+class BorhanAuditTrailFileSyncCreateInfo extends BorhanAuditTrailInfo
 {
 	/**
 	 * @var string
@@ -26,7 +26,7 @@ class KalturaAuditTrailFileSyncCreateInfo extends KalturaAuditTrailInfo
 	public $original;
 
 	/**
-	 * @var KalturaAuditTrailFileSyncType
+	 * @var BorhanAuditTrailFileSyncType
 	 */
 	public $fileType;
 

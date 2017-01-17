@@ -2,14 +2,14 @@
 /**
  * @package api
  * @subpackage objects
- * @deprecated use KalturaRule instead
+ * @deprecated use BorhanRule instead
  */
-class KalturaLimitFlavorsRestriction extends KalturaBaseRestriction 
+class BorhanLimitFlavorsRestriction extends BorhanBaseRestriction 
 {
 	/**
 	 * Limit flavors restriction type (Allow or deny)
 	 * 
-	 * @var KalturaLimitFlavorsRestrictionType
+	 * @var BorhanLimitFlavorsRestrictionType
 	 */
 	public $limitFlavorsRestrictionType; 
 	
@@ -32,9 +32,9 @@ class KalturaLimitFlavorsRestriction extends KalturaBaseRestriction
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseRestriction::toRule()
+	 * @see BorhanBaseRestriction::toRule()
 	 */
-	public function toRule(KalturaRestrictionArray $restrictions)
+	public function toRule(BorhanRestrictionArray $restrictions)
 	{
 		return $this->toObject(new kAccessControlLimitFlavorsRestriction());
 	}

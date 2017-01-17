@@ -5,10 +5,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaUserAgentContextField extends KalturaStringField
+class BorhanUserAgentContextField extends BorhanStringField
 {
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

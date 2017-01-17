@@ -59,25 +59,25 @@ class kAssetPropertiesCompareCondition extends kCondition
 
 	protected function assetFulfilled(asset $asset)
 	{
-		KalturaLog::info('Checking asset id '.$asset->getId());
+		BorhanLog::info('Checking asset id '.$asset->getId());
 		foreach($this->getProperties() as $propName => $propValue)
 		{
-			KalturaLog::info('Comparing property ' . $propName .' with value '. $propValue);
+			BorhanLog::info('Comparing property ' . $propName .' with value '. $propValue);
 
 			$getterCallback = array($asset, "get".$propName);
 			if (!is_callable($getterCallback))
 			{
-				KalturaLog::info('Property not found on asset');
+				BorhanLog::info('Property not found on asset');
 				return false;
 			}
 
 			if ($propValue != call_user_func($getterCallback))
 			{
-				KalturaLog::info('Property value does not match');
+				BorhanLog::info('Property value does not match');
 				return false;
 			}
 
-			KalturaLog::info('Property value was matched');
+			BorhanLog::info('Property value was matched');
 		}
 
 		return true;

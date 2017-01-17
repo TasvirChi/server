@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaWidget extends KalturaObject implements IFilterable 
+class BorhanWidget extends BorhanObject implements IFilterable 
 {
 	/**
 	 * @var string
@@ -45,7 +45,7 @@ class KalturaWidget extends KalturaObject implements IFilterable
 	public $uiConfId;
 		
 	/**
-	 * @var KalturaWidgetSecurityType
+	 * @var BorhanWidgetSecurityType
 	 */
 	public $securityType;
 	

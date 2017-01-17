@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaProvisionJobData extends KalturaJobData
+class BorhanProvisionJobData extends BorhanJobData
 {
 	/**
 	 * @var string
@@ -119,8 +119,8 @@ class KalturaProvisionJobData extends KalturaJobData
 	{
 		switch ($subType)
 		{
-			case KalturaSourceType::AKAMAI_LIVE:
-			case KalturaSourceType::AKAMAI_UNIVERSAL_LIVE:
+			case BorhanSourceType::AKAMAI_LIVE:
+			case BorhanSourceType::AKAMAI_UNIVERSAL_LIVE:
 				return $subType;
 				break;
 			default:
@@ -131,23 +131,23 @@ class KalturaProvisionJobData extends KalturaJobData
 	
 
 	/**
-	 * Return instance of KalturaProvisionJobData according to job sub-type
+	 * Return instance of BorhanProvisionJobData according to job sub-type
 	 * @param int $jobSubType
-	 * @return KalturaProvisionJobData
+	 * @return BorhanProvisionJobData
 	 */
 	public static function getJobDataInstance ($jobSubType)
 	{
-		KalturaLog::info ("Determining correct job data based on jobSubType $jobSubType");
+		BorhanLog::info ("Determining correct job data based on jobSubType $jobSubType");
 		switch ($jobSubType)
 		{
-			case KalturaSourceType::AKAMAI_LIVE:
-				return new KalturaAkamaiProvisionJobData();
+			case BorhanSourceType::AKAMAI_LIVE:
+				return new BorhanAkamaiProvisionJobData();
 				break;
-			case KalturaSourceType::AKAMAI_UNIVERSAL_LIVE:
-				return new KalturaAkamaiUniversalProvisionJobData();
+			case BorhanSourceType::AKAMAI_UNIVERSAL_LIVE:
+				return new BorhanAkamaiUniversalProvisionJobData();
 				break;
 			default:
-				return KalturaPluginManager::loadObject('KalturaProvisionJobData', $jobSubType);
+				return BorhanPluginManager::loadObject('BorhanProvisionJobData', $jobSubType);
 				break;
 		
 		}

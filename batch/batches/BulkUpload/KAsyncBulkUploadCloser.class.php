@@ -21,43 +21,43 @@ class KAsyncBulkUploadCloser extends KJobCloserWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::BULKUPLOAD;
+		return BorhanBatchJobType::BULKUPLOAD;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->fetchStatus($job);
 	}
 	
-	private function fetchStatus(KalturaBatchJob $job)
+	private function fetchStatus(BorhanBatchJob $job)
 	{
 		if(($job->queueTime + self::$taskConfig->params->maxTimeBeforeFail) < time())
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::CLOSER_TIMEOUT, 'Timed out', KalturaBatchJobStatus::FAILED);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::CLOSER_TIMEOUT, 'Timed out', BorhanBatchJobStatus::FAILED);
 			
 		$openedEntries = self::$kClient->batch->updateBulkUploadResults($job->id);
-		$job = $this->updateJob($job, "Unclosed entries remaining: $openedEntries" , KalturaBatchJobStatus::ALMOST_DONE);
+		$job = $this->updateJob($job, "Unclosed entries remaining: $openedEntries" , BorhanBatchJobStatus::ALMOST_DONE);
 		if(!$openedEntries)
 		{
 		    $numOfObjects = $job->data->numOfObjects;
 		    $numOfErrorObjects = $job->data->numOfErrorObjects;
-		    KalturaLog::info("numOfSuccessObjects: $numOfObjects, numOfErrorObjects: $numOfErrorObjects");
+		    BorhanLog::info("numOfSuccessObjects: $numOfObjects, numOfErrorObjects: $numOfErrorObjects");
 		    
 		    if ($numOfErrorObjects == 0)
 		    {
-			    return $this->closeJob($job, null, null, 'Finished successfully', KalturaBatchJobStatus::FINISHED);
+			    return $this->closeJob($job, null, null, 'Finished successfully', BorhanBatchJobStatus::FINISHED);
 		    }
 		    else if($numOfObjects > 0) //some objects created successfully
 		    {
-		    	return $this->closeJob($job, null, null, 'Finished, but with some errors', KalturaBatchJobStatus::FINISHED_PARTIALLY);
+		    	return $this->closeJob($job, null, null, 'Finished, but with some errors', BorhanBatchJobStatus::FINISHED_PARTIALLY);
 		    }
 		    else
 		    {
-		        return $this->closeJob($job, null, null, 'Failed to create objects', KalturaBatchJobStatus::FAILED);
+		        return $this->closeJob($job, null, null, 'Failed to create objects', BorhanBatchJobStatus::FAILED);
 		    }
 		}	
-		return $this->closeJob($job, null, null, null, KalturaBatchJobStatus::ALMOST_DONE);
+		return $this->closeJob($job, null, null, null, BorhanBatchJobStatus::ALMOST_DONE);
 	}
 }

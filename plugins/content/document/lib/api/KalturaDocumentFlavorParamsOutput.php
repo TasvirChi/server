@@ -3,7 +3,7 @@
  * @package plugins.document
  * @subpackage api.objects
  */
-class KalturaDocumentFlavorParamsOutput extends KalturaFlavorParamsOutput 
+class BorhanDocumentFlavorParamsOutput extends BorhanFlavorParamsOutput 
 {
 	public function toObject($object = null, $skip = array())
 	{

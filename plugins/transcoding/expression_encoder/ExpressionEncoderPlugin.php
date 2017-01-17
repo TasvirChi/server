@@ -2,7 +2,7 @@
 /**
  * @package plugins.expressionEncoder
  */
-class ExpressionEncoderPlugin extends KalturaPlugin implements IKalturaObjectLoader, IKalturaEnumerator
+class ExpressionEncoderPlugin extends BorhanPlugin implements IBorhanObjectLoader, IBorhanEnumerator
 {
 	const PLUGIN_NAME = 'expressionEncoder';
 	
@@ -19,7 +19,7 @@ class ExpressionEncoderPlugin extends KalturaPlugin implements IKalturaObjectLoa
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if($baseClass == 'KOperationEngine' && $enumValue == KalturaConversionEngineType::EXPRESSION_ENCODER)
+		if($baseClass == 'KOperationEngine' && $enumValue == BorhanConversionEngineType::EXPRESSION_ENCODER)
 		{
 			if(!isset($constructorArgs['params']) || !isset($constructorArgs['outFilePath']))
 				return null;
@@ -71,7 +71,7 @@ class ExpressionEncoderPlugin extends KalturaPlugin implements IKalturaObjectLoa
 	 */
 	public static function getConversionEngineCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('conversionEngineType', $value);
 	}
 	
@@ -80,6 +80,6 @@ class ExpressionEncoderPlugin extends KalturaPlugin implements IKalturaObjectLoa
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 }

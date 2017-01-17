@@ -2,7 +2,7 @@
 /**
  * @package plugins.velocix
  */
-class VelocixPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaEnumerator, IKalturaEventConsumers, IKalturaObjectLoader, IKalturaTypeExtender
+class VelocixPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanEnumerator, IBorhanEventConsumers, IBorhanObjectLoader, IBorhanTypeExtender
 {
 	const PLUGIN_NAME = 'velocix';
 	const VELOCIX_LIVE_EVENT_CONSUMER = 'kVelocixLiveFlowManager';
@@ -45,7 +45,7 @@ class VelocixPlugin extends KalturaPlugin implements IKalturaPermissions, IKaltu
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	//get real source_type_value from DB. 
@@ -63,23 +63,23 @@ class VelocixPlugin extends KalturaPlugin implements IKalturaPermissions, IKaltu
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null) {
 		// for batch
-		if ($baseClass == 'KalturaJobData' && $constructorArgs['coreJobSubType'] == self::getEntrySourceTypeCoreValue(VelocixLiveEntrySourceType::VELOCIX_LIVE))
-			return new KalturaVelocixProvisionJobData();
+		if ($baseClass == 'BorhanJobData' && $constructorArgs['coreJobSubType'] == self::getEntrySourceTypeCoreValue(VelocixLiveEntrySourceType::VELOCIX_LIVE))
+			return new BorhanVelocixProvisionJobData();
 		
 		if ($baseClass == 'kProvisionJobData' && $enumValue == self::getEntrySourceTypeCoreValue(VelocixLiveEntrySourceType::VELOCIX_LIVE))
 			return new kVelocixProvisionJobData();  
 		
-		if ($baseClass == 'KProvisionEngine' && $enumValue == KalturaSourceType::VELOCIX_LIVE)
+		if ($baseClass == 'KProvisionEngine' && $enumValue == BorhanSourceType::VELOCIX_LIVE)
 			return new KProvisionEngineVelocix();
 		
-		if(($baseClass == 'KalturaTokenizer') && ($enumValue == 'kVelocixUrlTokenizer'))
-			return new KalturaUrlTokenizerVelocix();
+		if(($baseClass == 'BorhanTokenizer') && ($enumValue == 'kVelocixUrlTokenizer'))
+			return new BorhanUrlTokenizerVelocix();
 		
-		if(($baseClass == 'Form_Delivery_DeliveryProfileTokenizer') && ($enumValue == 'Kaltura_Client_Type_UrlTokenizerVelocix'))
+		if(($baseClass == 'Form_Delivery_DeliveryProfileTokenizer') && ($enumValue == 'Borhan_Client_Type_UrlTokenizerVelocix'))
 			return new Form_Delivery_UrlTokenizerVelocix();
 		
 		return null;
@@ -95,7 +95,7 @@ class VelocixPlugin extends KalturaPlugin implements IKalturaPermissions, IKaltu
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue) {
 		if ($baseClass == 'DeliveryProfile') {

@@ -2,7 +2,7 @@
 /**
  * @package plugins.dropFolder
  */
-class DropFolderPlugin extends KalturaPlugin implements IKalturaPending, IKalturaServices, IKalturaPermissions, IKalturaObjectLoader, IKalturaEnumerator, IKalturaAdminConsolePages, IKalturaEventConsumers
+class DropFolderPlugin extends BorhanPlugin implements IBorhanPending, IBorhanServices, IBorhanPermissions, IBorhanObjectLoader, IBorhanEnumerator, IBorhanAdminConsolePages, IBorhanEventConsumers
 {
 	const PLUGIN_NAME = 'dropFolder';
 	const DROP_FOLDER_EVENTS_CONSUMER = 'kDropFolderEventsConsumer';
@@ -12,20 +12,20 @@ class DropFolderPlugin extends KalturaPlugin implements IKalturaPending, IKaltur
 	const ERROR_CONNECT_MESSAGE = 'Failed to connect to the drop folder. Please verify host and port information and/or actual access to the drop folder';
 	const ERROR_AUTENTICATE_MESSAGE = 'Failed to authenticate drop folder credentials or keys. Please verify credential settings';
 	const ERROR_GET_PHISICAL_FILE_LIST_MESSAGE = 'Failed to list files located in the  drop folder. Please verify drop folder path and/or listing permissions in physical drop folder path';
-	const ERROR_GET_DB_FILE_LIST_MESSAGE = 'Failed to list drop folder records in Kaltura DB.  Please verify that Kaltura\'s services and batch system is running properly';
-	const DROP_FOLDER_APP_ERROR_MESSAGE = 'Drop folder applicative error. Please verify that Kaltura\'s services and batch system is running properly. Log Description: ';
+	const ERROR_GET_DB_FILE_LIST_MESSAGE = 'Failed to list drop folder records in Borhan DB.  Please verify that Borhan\'s services and batch system is running properly';
+	const DROP_FOLDER_APP_ERROR_MESSAGE = 'Drop folder applicative error. Please verify that Borhan\'s services and batch system is running properly. Log Description: ';
 	const ERROR_READING_FILE_MESSAGE = 'Failed to read file or file details at: ';
 	const ERROR_DELETING_FILE_MESSAGE = 'Failed to delete the file at: ';
-	const ERROR_UPDATE_FILE_MESSAGE = 'Failed to update the drop folder file record in Kaltura.';
+	const ERROR_UPDATE_FILE_MESSAGE = 'Failed to update the drop folder file record in Borhan.';
 	const SLUG_REGEX_NO_MATCH_MESSAGE = 'Failed to parse filename according to drop folder naming convention definition';
 	const ERROR_ADDING_CONTENT_PROCESSOR_MESSAGE = 'Failed to activate the drop folder engine processing for this file';
 	const ERROR_IN_CONTENT_PROCESSOR_MESSAGE = 'Drop folder engine processing failure';
-	const ERROR_DOWNLOADING_FILE_MESSAGE = 'Failed in file transferring from the drop folder to Kaltura';
+	const ERROR_DOWNLOADING_FILE_MESSAGE = 'Failed in file transferring from the drop folder to Borhan';
 	const FLAVOR_NOT_FOUND_MESSAGE = 'Failed to handle file. Could not find a matched transcoding flavor setting with system name: ';
 	
 	public static function dependsOn()
 	{
-		$metadataDependency = new KalturaDependency(self::METADATA_PLUGIN_NAME);
+		$metadataDependency = new BorhanDependency(self::METADATA_PLUGIN_NAME);
 		
 		return array($metadataDependency);
 	}
@@ -68,19 +68,19 @@ class DropFolderPlugin extends KalturaPlugin implements IKalturaPending, IKaltur
 		
 		if (is_null($objectClass))
 		 {
-			if ($baseClass == 'KalturaJobData')
+			if ($baseClass == 'BorhanJobData')
 			{
 				$jobSubType = $constructorArgs["coreJobSubType"];
 			    if ($enumValue == DropFolderPlugin::getApiValue(DropFolderBatchType::DROP_FOLDER_CONTENT_PROCESSOR) &&
 					in_array($jobSubType, array(DropFolderType::FTP, DropFolderType::LOCAL, DropFolderType::S3, DropFolderType::SCP, DropFolderType::SFTP)))
 				{
-					return new KalturaDropFolderContentProcessorJobData();
+					return new BorhanDropFolderContentProcessorJobData();
 				}
 			}
 			return null;
 		}
 		
-		if (!is_null($constructorArgs) && $objectClass != 'KalturaDropFolderContentProcessorJobData')
+		if (!is_null($constructorArgs) && $objectClass != 'BorhanDropFolderContentProcessorJobData')
 		{
 			$reflect = new ReflectionClass($objectClass);
 			return $reflect->newInstanceArgs($constructorArgs);
@@ -118,78 +118,78 @@ class DropFolderPlugin extends KalturaPlugin implements IKalturaPending, IKaltur
 			}
 		}
 		
-		if (class_exists('Kaltura_Client_Client'))
+		if (class_exists('Borhan_Client_Client'))
 		{
-			if ($baseClass == 'Kaltura_Client_DropFolder_Type_DropFolder')
+			if ($baseClass == 'Borhan_Client_DropFolder_Type_DropFolder')
     		{
-    		    if ($enumValue == Kaltura_Client_DropFolder_Enum_DropFolderType::LOCAL)
+    		    if ($enumValue == Borhan_Client_DropFolder_Enum_DropFolderType::LOCAL)
     			{
-    				return 'Kaltura_Client_DropFolder_Type_DropFolder';
+    				return 'Borhan_Client_DropFolder_Type_DropFolder';
     			}    		    
-    		    if ($enumValue == Kaltura_Client_DropFolder_Enum_DropFolderType::FTP)
+    		    if ($enumValue == Borhan_Client_DropFolder_Enum_DropFolderType::FTP)
     			{
-    				return 'Kaltura_Client_DropFolder_Type_FtpDropFolder';
+    				return 'Borhan_Client_DropFolder_Type_FtpDropFolder';
     			}
-    			if ($enumValue == Kaltura_Client_DropFolder_Enum_DropFolderType::SCP)
+    			if ($enumValue == Borhan_Client_DropFolder_Enum_DropFolderType::SCP)
     			{
-    				return 'Kaltura_Client_DropFolder_Type_ScpDropFolder';
+    				return 'Borhan_Client_DropFolder_Type_ScpDropFolder';
     			}
-    			if ($enumValue == Kaltura_Client_DropFolder_Enum_DropFolderType::SFTP)
+    			if ($enumValue == Borhan_Client_DropFolder_Enum_DropFolderType::SFTP)
     			{
-    				return 'Kaltura_Client_DropFolder_Type_SftpDropFolder';
+    				return 'Borhan_Client_DropFolder_Type_SftpDropFolder';
     			}
     		}
     		
     		if ($baseClass == 'Form_DropFolderConfigureExtend_SubForm')
     		{
-    		    if ($enumValue == Kaltura_Client_DropFolder_Enum_DropFolderType::FTP)
+    		    if ($enumValue == Borhan_Client_DropFolder_Enum_DropFolderType::FTP)
     			{
     				return 'Form_FtpDropFolderConfigureExtend_SubForm';
     			}
-    			if ($enumValue == Kaltura_Client_DropFolder_Enum_DropFolderType::SCP)
+    			if ($enumValue == Borhan_Client_DropFolder_Enum_DropFolderType::SCP)
     			{
     				return 'Form_ScpDropFolderConfigureExtend_SubForm';
     			}
-    			if ($enumValue == Kaltura_Client_DropFolder_Enum_DropFolderType::SFTP)
+    			if ($enumValue == Borhan_Client_DropFolder_Enum_DropFolderType::SFTP)
     			{
     				return 'Form_SftpDropFolderConfigureExtend_SubForm';
     			}
     		}	
 		}
 		
-		if ($baseClass == 'KalturaDropFolderFileHandlerConfig')
+		if ($baseClass == 'BorhanDropFolderFileHandlerConfig')
 		{
-			if ($enumValue == KalturaDropFolderFileHandlerType::CONTENT)
+			if ($enumValue == BorhanDropFolderFileHandlerType::CONTENT)
 			{
-				return 'KalturaDropFolderContentFileHandlerConfig';
+				return 'BorhanDropFolderContentFileHandlerConfig';
 			}
 		}
 
-		if ($baseClass == 'KalturaDropFolder')
+		if ($baseClass == 'BorhanDropFolder')
 		{
-		    if ($enumValue == KalturaDropFolderType::LOCAL)
+		    if ($enumValue == BorhanDropFolderType::LOCAL)
 			{
-				return 'KalturaDropFolder';
+				return 'BorhanDropFolder';
 			}
-		    if ($enumValue == KalturaDropFolderType::FTP)
+		    if ($enumValue == BorhanDropFolderType::FTP)
 			{
-				return 'KalturaFtpDropFolder';
+				return 'BorhanFtpDropFolder';
 			}
-			if ($enumValue == KalturaDropFolderType::SCP)
+			if ($enumValue == BorhanDropFolderType::SCP)
 			{
-				return 'KalturaScpDropFolder';
+				return 'BorhanScpDropFolder';
 			}
-			if ($enumValue == KalturaDropFolderType::SFTP)
+			if ($enumValue == BorhanDropFolderType::SFTP)
 			{
-				return 'KalturaSftpDropFolder';
+				return 'BorhanSftpDropFolder';
 			}
 		}
 		
-		if ($baseClass == 'KalturaImportJobData')
+		if ($baseClass == 'BorhanImportJobData')
 		{
 		    if ($enumValue == 'kDropFolderImportJobData')
 			{
-				return 'KalturaDropFolderImportJobData';
+				return 'BorhanDropFolderImportJobData';
 			}
 		}
 		
@@ -219,7 +219,7 @@ class DropFolderPlugin extends KalturaPlugin implements IKalturaPending, IKaltur
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaAdminConsolePages::getApplicationPages()
+	 * @see IBorhanAdminConsolePages::getApplicationPages()
 	 */
 	public static function getApplicationPages()
 	{
@@ -250,7 +250,7 @@ class DropFolderPlugin extends KalturaPlugin implements IKalturaPending, IKaltur
 	 */
 	public static function getCoreValue($type, $valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore($type, $value);
 	}
 	
@@ -259,7 +259,7 @@ class DropFolderPlugin extends KalturaPlugin implements IKalturaPending, IKaltur
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 }

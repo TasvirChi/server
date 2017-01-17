@@ -16,12 +16,12 @@ class kVirusScanJobData extends kJobData
 	private $flavorAssetId;
 	
 	/**
-	 * @var KalturaVirusScanJobResult
+	 * @var BorhanVirusScanJobResult
 	 */
 	private $scanResult;
 	
 	/**
-	 * @var KalturaVirusFoundAction
+	 * @var BorhanVirusFoundAction
 	 */
 	private $virusFoundAction;
 	

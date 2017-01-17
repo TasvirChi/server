@@ -31,8 +31,8 @@ $entries = entryPeer::doSelect($c);
 
 foreach($entries as $entry)
 {
-	KalturaLog::debug("Deletes entry [" . $entry->getId() . "]");
+	BorhanLog::debug("Deletes entry [" . $entry->getId() . "]");
 	myEntryUtils::deleteEntry($entry, $partnerId);
 }
-KalturaLog::debug("Done");
+BorhanLog::debug("Done");
 

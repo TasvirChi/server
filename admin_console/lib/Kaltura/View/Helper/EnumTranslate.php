@@ -3,7 +3,7 @@
  * @package Admin
  * @subpackage views
  */
-class Kaltura_View_Helper_EnumTranslate extends Zend_View_Helper_Abstract
+class Borhan_View_Helper_EnumTranslate extends Zend_View_Helper_Abstract
 {
 	public function enumTranslate($enumName, $value)
 	{

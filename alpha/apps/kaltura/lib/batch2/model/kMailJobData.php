@@ -17,7 +17,7 @@ class kMailJobData extends kJobData
 	
 	
 	/**
-	 * @var KalturaMailType
+	 * @var BorhanMailType
 	 */
 	private $mailType;
 
@@ -27,7 +27,7 @@ class kMailJobData extends kJobData
     private $mailPriority;
 
     /**
-	 * @var KalturaMailJobStatus
+	 * @var BorhanMailJobStatus
 	 */
     private $status ;
     

@@ -13,7 +13,7 @@ class DeliveryProfileLivePackagerDash extends DeliveryProfileLiveDash
 		$httpUrl = $this->getLivePackagerUrl($serverNode);
 		$httpUrl .= "manifest.mpd";
 		
-		KalturaLog::debug("Live Stream url [$httpUrl]");
+		BorhanLog::debug("Live Stream url [$httpUrl]");
 		return $httpUrl;
 	}
 }

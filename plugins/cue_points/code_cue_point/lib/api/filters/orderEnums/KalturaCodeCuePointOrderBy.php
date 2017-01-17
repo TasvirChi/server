@@ -3,7 +3,7 @@
  * @package plugins.codeCuePoint
  * @subpackage api.filters.enum
  */
-class KalturaCodeCuePointOrderBy extends KalturaCuePointOrderBy
+class BorhanCodeCuePointOrderBy extends BorhanCuePointOrderBy
 {
 	const END_TIME_ASC = "+endTime";
 	const END_TIME_DESC = "-endTime";

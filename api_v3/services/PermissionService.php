@@ -6,7 +6,7 @@
  * @package api
  * @subpackage services
  */
-class PermissionService extends KalturaBaseService
+class PermissionService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -40,18 +40,18 @@ class PermissionService extends KalturaBaseService
 	 * Adds a new permission object to the account.
 	 * 
 	 * @action add
-	 * @param KalturaPermission $permission The new permission
-	 * @return KalturaPermission The added permission object
+	 * @param BorhanPermission $permission The new permission
+	 * @return BorhanPermission The added permission object
 	 * 
-	 * @throws KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
-	 * @throws KalturaErrors::PROPERTY_VALIDATION_NOT_UPDATABLE
+	 * @throws BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
+	 * @throws BorhanErrors::PROPERTY_VALIDATION_NOT_UPDATABLE
 	 */
-	public function addAction(KalturaPermission $permission)
+	public function addAction(BorhanPermission $permission)
 	{
 		$permission->validatePropertyNotNull('name');
 		
 		if (strpos($permission->name, ',') !== false) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_FIELD_VALUE, 'name');
+			throw new BorhanAPIException(BorhanErrors::INVALID_FIELD_VALUE, 'name');
 		}
 
 		if (!$permission->friendlyName) {
@@ -59,7 +59,7 @@ class PermissionService extends KalturaBaseService
 		}
 		
 		if (!$permission->status) {
-			$permission->status = KalturaPermissionStatus::ACTIVE;
+			$permission->status = BorhanPermissionStatus::ACTIVE;
 		}
 											
 		$dbPermission = $permission->toInsertableObject();
@@ -71,15 +71,15 @@ class PermissionService extends KalturaBaseService
 		catch (kPermissionException $e) {
 			$code = $e->getCode();
 			if ($code === kPermissionException::PERMISSION_ALREADY_EXISTS) {
-				throw new KalturaAPIException(KalturaErrors::PERMISSION_ALREADY_EXISTS, $dbPermission->getName(), $this->getPartnerId());
+				throw new BorhanAPIException(BorhanErrors::PERMISSION_ALREADY_EXISTS, $dbPermission->getName(), $this->getPartnerId());
 			}
 			if ($code === kPermissionException::PERMISSION_ITEM_NOT_FOUND) {
-				throw new KalturaAPIException(KalturaErrors::PERMISSION_ITEM_NOT_FOUND);
+				throw new BorhanAPIException(BorhanErrors::PERMISSION_ITEM_NOT_FOUND);
 			}			
 			throw $e;
 		}
 		
-		$permission = new KalturaPermission();
+		$permission = new BorhanPermission();
 		$permission->fromObject($dbPermission, $this->getResponseProfile());
 		
 		return $permission;
@@ -90,19 +90,19 @@ class PermissionService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param string $permissionName The name assigned to the permission
-	 * @return KalturaPermission The retrieved permission object
+	 * @return BorhanPermission The retrieved permission object
 	 * 
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */		
 	public function getAction($permissionName)
 	{
 		$dbPermission = PermissionPeer::getByNameAndPartner($permissionName, explode(',', $this->partnerGroup()));
 		
 		if (!$dbPermission) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $permissionName);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $permissionName);
 		}
 			
-		$permission = new KalturaPermission();
+		$permission = new BorhanPermission();
 		$permission->fromObject($dbPermission, $this->getResponseProfile());
 		
 		return $permission;
@@ -114,35 +114,35 @@ class PermissionService extends KalturaBaseService
 	 * 
 	 * @action update
 	 * @param string $permissionName The name assigned to the permission
-	 * @param KalturaPermission $permission The updated permission parameters
-	 * @return KalturaPermission The updated permission object
+	 * @param BorhanPermission $permission The updated permission parameters
+	 * @return BorhanPermission The updated permission object
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */	
-	public function updateAction($permissionName, KalturaPermission $permission)
+	public function updateAction($permissionName, BorhanPermission $permission)
 	{
 		$dbPermission = PermissionPeer::getByNameAndPartner($permissionName, explode(',', $this->partnerGroup()));
 		
 		if (!$dbPermission) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $permissionName);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $permissionName);
 		}
 		
 		// only normal permission types are allowed for updating through this service
 		if ($dbPermission->getType() !== PermissionType::NORMAL)
 		{
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $permissionName);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $permissionName);
 		}
 		
 		if ($permission->name && $permission->name != $permissionName)
 		{
 			if (strpos($permission->name, ',') !== false) {
-				throw new KalturaAPIException(KalturaErrors::INVALID_FIELD_VALUE, 'name');
+				throw new BorhanAPIException(BorhanErrors::INVALID_FIELD_VALUE, 'name');
 			}
 			
 			$existingPermission = PermissionPeer::getByNameAndPartner($permission->name, array($dbPermission->getPartnerId(), PartnerPeer::GLOBAL_PARTNER));
 			if ($existingPermission)
 			{
-				throw new KalturaAPIException(KalturaErrors::PERMISSION_ALREADY_EXISTS, $permission->name, $this->getPartnerId());
+				throw new BorhanAPIException(BorhanErrors::PERMISSION_ALREADY_EXISTS, $permission->name, $this->getPartnerId());
 			}
 		}
 		
@@ -155,11 +155,11 @@ class PermissionService extends KalturaBaseService
 		{
 			$code = $e->getCode();
 			if ($code === kPermissionException::PERMISSION_ITEM_NOT_FOUND) {
-				throw new KalturaAPIException(KalturaErrors::PERMISSION_ITEM_NOT_FOUND);
+				throw new BorhanAPIException(BorhanErrors::PERMISSION_ITEM_NOT_FOUND);
 			}
 		}			
 		
-		$permission = new KalturaPermission();
+		$permission = new BorhanPermission();
 		$permission->fromObject($dbPermission, $this->getResponseProfile());
 		
 		return $permission;
@@ -170,22 +170,22 @@ class PermissionService extends KalturaBaseService
 	 * 
 	 * @action delete
 	 * @param string $permissionName The name assigned to the permission
-	 * @return KalturaPermission The deleted permission object
+	 * @return BorhanPermission The deleted permission object
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */		
 	public function deleteAction($permissionName)
 	{
 		$dbPermission = PermissionPeer::getByNameAndPartner($permissionName, array($this->partnerGroup()));
 		
 		if (!$dbPermission) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $permissionName);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $permissionName);
 		}
 		
-		$dbPermission->setStatus(KalturaPermissionStatus::DELETED);
+		$dbPermission->setStatus(BorhanPermissionStatus::DELETED);
 		$dbPermission->save();
 			
-		$permission = new KalturaPermission();
+		$permission = new BorhanPermission();
 		$permission->fromObject($dbPermission, $this->getResponseProfile());
 		
 		return $permission;
@@ -197,17 +197,17 @@ class PermissionService extends KalturaBaseService
 	 * Blocked permissions are listed unless you use a filter to exclude them.
 	 * 
 	 * @action list
-	 * @param KalturaPermissionFilter $filter A filter used to exclude specific types of permissions
-	 * @param KalturaFilterPager $pager A limit for the number of records to display on a page
-	 * @return KalturaPermissionListResponse The list of permission objects
+	 * @param BorhanPermissionFilter $filter A filter used to exclude specific types of permissions
+	 * @param BorhanFilterPager $pager A limit for the number of records to display on a page
+	 * @return BorhanPermissionListResponse The list of permission objects
 	 */
-	public function listAction(KalturaPermissionFilter  $filter = null, KalturaFilterPager $pager = null)
+	public function listAction(BorhanPermissionFilter  $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaPermissionFilter();
+			$filter = new BorhanPermissionFilter();
 			
 		if(!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 			
 		return $filter->getListResponse($pager, $this->getResponseProfile());
 	}

@@ -165,12 +165,12 @@ class kNotificationJobData extends kJobData
 	private $userId;
 
 	/**
-	 * @var KalturaNotificationType
+	 * @var BorhanNotificationType
 	 */
     private $type;
 
 	/**
-	 * @var KalturaNotificationSendType
+	 * @var BorhanNotificationSendType
 	 */
     private $sendType;
     
@@ -196,7 +196,7 @@ class kNotificationJobData extends kJobData
     private $notificationResult;
 
 	/**
-	 * @var KalturaNotificationObjectType
+	 * @var BorhanNotificationObjectType
 	 */    
     private $objType;
     

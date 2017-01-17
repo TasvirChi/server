@@ -5,7 +5,7 @@
  *
  * @service accessControlProfile
  */
-class AccessControlProfileService extends KalturaBaseService
+class AccessControlProfileService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -17,16 +17,16 @@ class AccessControlProfileService extends KalturaBaseService
 	 * Add new access control profile
 	 * 
 	 * @action add
-	 * @param KalturaAccessControlProfile $accessControlProfile
-	 * @return KalturaAccessControlProfile
+	 * @param BorhanAccessControlProfile $accessControlProfile
+	 * @return BorhanAccessControlProfile
 	 */
-	function addAction(KalturaAccessControlProfile $accessControlProfile)
+	function addAction(BorhanAccessControlProfile $accessControlProfile)
 	{
 		$dbAccessControl = $accessControlProfile->toInsertableObject();
 		$dbAccessControl->setPartnerId($this->getPartnerId());
 		$dbAccessControl->save();
 		
-		$accessControlProfile = new KalturaAccessControlProfile();
+		$accessControlProfile = new BorhanAccessControlProfile();
 		$accessControlProfile->fromObject($dbAccessControl, $this->getResponseProfile());
 		return $accessControlProfile;
 	}
@@ -36,17 +36,17 @@ class AccessControlProfileService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param int $id
-	 * @return KalturaAccessControlProfile
+	 * @return BorhanAccessControlProfile
 	 * 
-	 * @throws KalturaErrors::ACCESS_CONTROL_ID_NOT_FOUND
+	 * @throws BorhanErrors::ACCESS_CONTROL_ID_NOT_FOUND
 	 */
 	function getAction($id)
 	{
 		$dbAccessControl = accessControlPeer::retrieveByPK($id);
 		if (!$dbAccessControl)
-			throw new KalturaAPIException(KalturaErrors::ACCESS_CONTROL_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::ACCESS_CONTROL_ID_NOT_FOUND, $id);
 			
-		$accessControlProfile = new KalturaAccessControlProfile();
+		$accessControlProfile = new BorhanAccessControlProfile();
 		$accessControlProfile->fromObject($dbAccessControl, $this->getResponseProfile());
 		return $accessControlProfile;
 	}
@@ -56,21 +56,21 @@ class AccessControlProfileService extends KalturaBaseService
 	 * 
 	 * @action update
 	 * @param int $id
-	 * @param KalturaAccessControlProfile $accessControlProfile
-	 * @return KalturaAccessControlProfile
+	 * @param BorhanAccessControlProfile $accessControlProfile
+	 * @return BorhanAccessControlProfile
 	 * 
-	 * @throws KalturaErrors::ACCESS_CONTROL_ID_NOT_FOUND
+	 * @throws BorhanErrors::ACCESS_CONTROL_ID_NOT_FOUND
 	 */
-	function updateAction($id, KalturaAccessControlProfile $accessControlProfile)
+	function updateAction($id, BorhanAccessControlProfile $accessControlProfile)
 	{
 		$dbAccessControl = accessControlPeer::retrieveByPK($id);
 		if (!$dbAccessControl)
-			throw new KalturaAPIException(KalturaErrors::ACCESS_CONTROL_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::ACCESS_CONTROL_ID_NOT_FOUND, $id);
 		
 		$accessControlProfile->toUpdatableObject($dbAccessControl);
 		$dbAccessControl->save();
 		
-		$accessControlProfile = new KalturaAccessControlProfile();
+		$accessControlProfile = new BorhanAccessControlProfile();
 		$accessControlProfile->fromObject($dbAccessControl, $this->getResponseProfile());
 		return $accessControlProfile;
 	}
@@ -81,17 +81,17 @@ class AccessControlProfileService extends KalturaBaseService
 	 * @action delete
 	 * @param int $id
 	 * 
-	 * @throws KalturaErrors::ACCESS_CONTROL_ID_NOT_FOUND
-	 * @throws KalturaErrors::CANNOT_DELETE_DEFAULT_ACCESS_CONTROL
+	 * @throws BorhanErrors::ACCESS_CONTROL_ID_NOT_FOUND
+	 * @throws BorhanErrors::CANNOT_DELETE_DEFAULT_ACCESS_CONTROL
 	 */
 	function deleteAction($id)
 	{
 		$dbAccessControl = accessControlPeer::retrieveByPK($id);
 		if (!$dbAccessControl)
-			throw new KalturaAPIException(KalturaErrors::ACCESS_CONTROL_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::ACCESS_CONTROL_ID_NOT_FOUND, $id);
 
 		if ($dbAccessControl->getIsDefault())
-			throw new KalturaAPIException(KalturaErrors::CANNOT_DELETE_DEFAULT_ACCESS_CONTROL);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_DELETE_DEFAULT_ACCESS_CONTROL);
 			
 		$dbAccessControl->setDeletedAt(time());
 		try
@@ -104,9 +104,9 @@ class AccessControlProfileService extends KalturaBaseService
 			switch($code)
 			{
 				case kCoreException::EXCEEDED_MAX_ENTRIES_PER_ACCESS_CONTROL_UPDATE_LIMIT :
-					throw new KalturaAPIException(KalturaErrors::EXCEEDED_ENTRIES_PER_ACCESS_CONTROL_FOR_UPDATE, $id);
+					throw new BorhanAPIException(BorhanErrors::EXCEEDED_ENTRIES_PER_ACCESS_CONTROL_FOR_UPDATE, $id);
 				case kCoreException::NO_DEFAULT_ACCESS_CONTROL :
-					throw new KalturaAPIException(KalturaErrors::CANNOT_TRANSFER_ENTRIES_TO_ANOTHER_ACCESS_CONTROL_OBJECT);
+					throw new BorhanAPIException(BorhanErrors::CANNOT_TRANSFER_ENTRIES_TO_ANOTHER_ACCESS_CONTROL_OBJECT);
 				default:
 					throw $e;
 			}
@@ -117,17 +117,17 @@ class AccessControlProfileService extends KalturaBaseService
 	 * List access control profiles by filter and pager
 	 * 
 	 * @action list
-	 * @param KalturaFilterPager $filter
-	 * @param KalturaAccessControlProfileFilter $pager
-	 * @return KalturaAccessControlProfileListResponse
+	 * @param BorhanFilterPager $filter
+	 * @param BorhanAccessControlProfileFilter $pager
+	 * @return BorhanAccessControlProfileListResponse
 	 */
-	function listAction(KalturaAccessControlProfileFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanAccessControlProfileFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaAccessControlProfileFilter();
+			$filter = new BorhanAccessControlProfileFilter();
 			
 		if(!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 			
 		return $filter->getListResponse($pager, $this->getResponseProfile());
 	}

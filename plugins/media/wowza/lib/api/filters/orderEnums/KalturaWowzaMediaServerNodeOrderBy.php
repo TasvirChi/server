@@ -3,6 +3,6 @@
  * @package plugins.wowza
  * @subpackage api.filters.enum
  */
-class KalturaWowzaMediaServerNodeOrderBy extends KalturaMediaServerNodeOrderBy
+class BorhanWowzaMediaServerNodeOrderBy extends BorhanMediaServerNodeOrderBy
 {
 }

@@ -3,17 +3,17 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaDistributionRemoteMediaFileArray extends KalturaTypedArray
+class BorhanDistributionRemoteMediaFileArray extends BorhanTypedArray
 {
-	public static function fromDbArray(array $arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaDistributionRemoteMediaFileArray();
+		$newArr = new BorhanDistributionRemoteMediaFileArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-			$nObj = new KalturaDistributionRemoteMediaFile();
+			$nObj = new BorhanDistributionRemoteMediaFile();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaDistributionRemoteMediaFileArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaDistributionRemoteMediaFile");	
+		parent::__construct("BorhanDistributionRemoteMediaFile");	
 	}
 }

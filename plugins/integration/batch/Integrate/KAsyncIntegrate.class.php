@@ -10,23 +10,23 @@ class KAsyncIntegrate extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::INTEGRATION;
+		return BorhanBatchJobType::INTEGRATION;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->integrate($job, $job->data);
 	}
 	
-	protected function integrate(KalturaBatchJob $job, KalturaIntegrationJobData $data)
+	protected function integrate(BorhanBatchJob $job, BorhanIntegrationJobData $data)
 	{
 		$engine = $this->getEngine($job->jobSubType);
 		if(!$engine)
 		{
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::ENGINE_NOT_FOUND, "Engine not found", KalturaBatchJobStatus::FAILED);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::ENGINE_NOT_FOUND, "Engine not found", BorhanBatchJobStatus::FAILED);
 		}
 		
 		$this->impersonate($job->partnerId);
@@ -35,18 +35,18 @@ class KAsyncIntegrate extends KJobHandlerWorker
 		
 		if(!$finished)
 		{
-			return $this->closeJob($job, null, null, null, KalturaBatchJobStatus::ALMOST_DONE, $data);
+			return $this->closeJob($job, null, null, null, BorhanBatchJobStatus::ALMOST_DONE, $data);
 		}
 		
-		return $this->closeJob($job, null, null, "Integrated", KalturaBatchJobStatus::FINISHED, $data);
+		return $this->closeJob($job, null, null, "Integrated", BorhanBatchJobStatus::FINISHED, $data);
 	}
 
 	/**
-	 * @param KalturaIntegrationProviderType $type
+	 * @param BorhanIntegrationProviderType $type
 	 * @return KIntegrationEngine
 	 */
 	protected function getEngine($type)
 	{
-		return KalturaPluginManager::loadObject('KIntegrationEngine', $type);
+		return BorhanPluginManager::loadObject('KIntegrationEngine', $type);
 	}
 }

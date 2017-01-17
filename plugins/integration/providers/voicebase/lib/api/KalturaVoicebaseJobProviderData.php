@@ -3,7 +3,7 @@
  * @package plugins.voicebase
  * @subpackage api.objects
  */
-class KalturaVoicebaseJobProviderData extends KalturaIntegrationJobProviderData
+class BorhanVoicebaseJobProviderData extends BorhanIntegrationJobProviderData
 {
 	/**
 	 * Entry ID
@@ -45,7 +45,7 @@ class KalturaVoicebaseJobProviderData extends KalturaIntegrationJobProviderData
 	
 	/**
 	 * Transcript content language
-	 * @var KalturaLanguage
+	 * @var BorhanLanguage
 	 */
 	public $spokenLanguage;
 	
@@ -76,7 +76,7 @@ class KalturaVoicebaseJobProviderData extends KalturaIntegrationJobProviderData
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -88,14 +88,14 @@ class KalturaVoicebaseJobProviderData extends KalturaIntegrationJobProviderData
 		$entryId = $this->entryId;
 		$entry = entryPeer::retrieveByPK($entryId);
 		if(!$entry || $entry->getType() != entryType::MEDIA_CLIP || !in_array($entry->getMediaType(), array(entry::ENTRY_MEDIA_TYPE_VIDEO,entry::ENTRY_MEDIA_TYPE_AUDIO)))
-			throw new KalturaAPIException(KalturaErrors::INVALID_ENTRY_ID, $entryId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_ENTRY_ID, $entryId);
 		
 		$flavorAssetId = $this->flavorAssetId;
 		if($flavorAssetId)
 		{
 			$flavorAsset = assetPeer::retrieveById($flavorAssetId);
 			if(!$flavorAsset || $flavorAsset->getEntryId() != $entryId)
-				throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND, $flavorAssetId);
+				throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND, $flavorAssetId);
 		}
 	
 		$transcriptId = $this->transcriptId;
@@ -103,7 +103,7 @@ class KalturaVoicebaseJobProviderData extends KalturaIntegrationJobProviderData
 		{
 			$transcript = assetPeer::retrieveById($transcriptId);
 			if (!$transcript || $transcript->getEntryId() != $entryId || $transcript->getType() != TranscriptPlugin::getAssetTypeCoreValue(TranscriptAssetType::TRANSCRIPT))
-				throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $transcriptId);
+				throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $transcriptId);
 		}
 	
 		$voicebaseParamsMap = kConf::get('voicebase','integration');	
@@ -111,7 +111,7 @@ class KalturaVoicebaseJobProviderData extends KalturaIntegrationJobProviderData
 		if($this->spokenLanguage)
 		{
 			if (!isset($supportedLanguages[$this->spokenLanguage]))
-				throw new KalturaAPIException(KalturaVoicebaseErrors::LANGUAGE_NOT_SUPPORTED, $this->spokenLanguage);
+				throw new BorhanAPIException(BorhanVoicebaseErrors::LANGUAGE_NOT_SUPPORTED, $this->spokenLanguage);
 		}
 		else
 			$this->spokenLanguage = $voicebaseParamsMap['default_language'];
@@ -136,7 +136,7 @@ class KalturaVoicebaseJobProviderData extends KalturaIntegrationJobProviderData
 		{
 			$sourceAsset = assetPeer::retrieveOriginalReadyByEntryId($entryId);
 			if(!$sourceAsset)
-				throw new KalturaAPIException(KalturaVoicebaseErrors::NO_FLAVOR_ASSET_FOUND, $entryId);
+				throw new BorhanAPIException(BorhanVoicebaseErrors::NO_FLAVOR_ASSET_FOUND, $entryId);
 			$object->setFlavorAssetId($sourceAsset->getId());
 		}
 
@@ -156,8 +156,8 @@ class KalturaVoicebaseJobProviderData extends KalturaIntegrationJobProviderData
 			foreach($formatsArray as $format)
 			{
 				$format = preg_replace("/[^A-Z_]/", "", $format);
-				if(!constant("KalturaCaptionType::" . $format) || in_array($format, $excludedFormats))
-					throw new KalturaAPIException(KalturaVoicebaseErrors::INVALID_TYPES,$formatsString);
+				if(!constant("BorhanCaptionType::" . $format) || in_array($format, $excludedFormats))
+					throw new BorhanAPIException(BorhanVoicebaseErrors::INVALID_TYPES,$formatsString);
 				$sanitizedFormatsArray[] = $format;
 			}
 			$sanitizedFormats = implode(",", $sanitizedFormatsArray);

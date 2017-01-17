@@ -3,7 +3,7 @@
  * @package plugins.partnerAggregation
  * @subpackage api.filters.enum
  */
-class KalturaDwhHourlyPartnerOrderBy extends KalturaStringEnum
+class BorhanDwhHourlyPartnerOrderBy extends BorhanStringEnum
 {
 	const AGGREGATED_TIME_ASC = "+aggregatedTime";
 	const AGGREGATED_TIME_DESC = "-aggregatedTime";

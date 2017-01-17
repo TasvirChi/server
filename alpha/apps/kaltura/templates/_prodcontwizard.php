@@ -1,7 +1,7 @@
 <?php
 	$host = requestUtils::getHost() ;
 	$recorderUrl = "";
-	if ( ! kString::beginsWith( $host , "http://www.kaltura.com" ) )
+	if ( ! kString::beginsWith( $host , "http://www.borhan.com" ) )
 	{ 
 		$rtmp_host = str_replace ( "http:" , "rtmp:" , $host );
 		$recorderUrl = "Red5ServerURL=$rtmp_host/oflaDemo&"; 
@@ -23,7 +23,7 @@ else
 <div class="cont2 step1" id="_prodWizPageType" autoFocus="true">
 	<div class="top2_hint">
 		<div class="top2 step1">
-			<h1>Choose the type of Kaltura to create</h1>
+			<h1>Choose the type of Borhan to create</h1>
 		</div>
 	</div>
 	<div class="container">
@@ -39,13 +39,13 @@ else
 <div class="cont2 step1_1" id="_prodWizPageTitle" autoFocus="true">
 	<div class="top2_hint">
 		<div class="top2 step1_1">
-			<h1>Describe your Kaltura</h1>
+			<h1>Describe your Borhan</h1>
 		</div>
 	</div>
 	<div class="container">
 		<fieldset>
 			<input type="text" id="prod_ShowTitle" defValue="Enter Title here" class="has_jtip width60"/><div class="jTip"><div></div><h3>A title is required</h3><p>(you can change it later)</p></div>
-			<textarea cols="33" rows="7" id="prod_ShowDescription" defValue="Add short description here" class="has_jtip width60"></textarea><div class="jTip"><div></div><h3>Tell us more</h3><p>How would you describe what this Kaltura is about?</p></div>
+			<textarea cols="33" rows="7" id="prod_ShowDescription" defValue="Add short description here" class="has_jtip width60"></textarea><div class="jTip"><div></div><h3>Tell us more</h3><p>How would you describe what this Borhan is about?</p></div>
 			<textarea cols="33" rows="7" id="prod_ShowTags" defValue="Enter Tags (separated by commas)" class="has_jtip width60"></textarea><div class="jTip"><div></div><h3>Tags</h3><p>Help users find your show by adding tags (separated by commas)</p></div>
 		</fieldset>
 	</div>
@@ -57,7 +57,7 @@ else
 		</div>
 	</div>
 	<div class="container">
-		<p>Would you like to customize your Kaltura now?<br />(Background, Colors, Fonts)</p>
+		<p>Would you like to customize your Borhan now?<br />(Background, Colors, Fonts)</p>
 		<button class="btn3" style="margin-right:20px;">Yes!</button>
 		<button class="btn3">No (later)</button>
 	</div>
@@ -94,7 +94,7 @@ else
 </div>
 
 <div class="cont2 intro" id="_prodWizPageIntro">
-	<div class="top2_hint">Create an invite (pitch your Kaltura to the world)</div>
+	<div class="top2_hint">Create an invite (pitch your Borhan to the world)</div>
 	<div class="container">
 		<fieldset>
 			<div class="buttons">
@@ -107,7 +107,7 @@ else
 </div>
 
 <div class="cont2 thumb" id="_prodWizPageThumb">
-	<div class="top2_hint">Create a thumbnail for your Kaltura</div>
+	<div class="top2_hint">Create a thumbnail for your Borhan</div>
 	<div class="container">
 		<fieldset>
 			<div class="buttons">
@@ -121,7 +121,7 @@ else
 <div class="cont2 customize1" id="_prodWizPageStyle" noNextButton="true">
 	<div class="top2_hint">
 		<div class="top2 customize1">
-			<h1>Select a style for your Kaltura title</h1>
+			<h1>Select a style for your Borhan title</h1>
 		</div>
 	</div>
 	<div class="container">
@@ -474,12 +474,12 @@ else
 <div class="cont2 prod_edit" id="_prodWizPageEdit">
 	<div class="top2_hint">
 		<div class="top2 prod_edit">
-			<h1>Customize your Kaltura</h1>
+			<h1>Customize your Borhan</h1>
 		</div><!-- end top-->
 	</div>
 	<div class="container clearfix">
 		<div class="buttons">
-			<button class="btn5" id="prod_EditTitle">Kaltura Info<b></b></button>
+			<button class="btn5" id="prod_EditTitle">Borhan Info<b></b></button>
 			<button class="btn5" id="prod_EditStyle">Title style<b></b></button>
 			<button class="btn5" id="prod_EditPermissions">Permissions<b></b></button>
 			<button class="btn5" id="prod_EditBG">Background<b></b></button>

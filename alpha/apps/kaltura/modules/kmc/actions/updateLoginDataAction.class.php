@@ -1,9 +1,9 @@
 <?php
 /**
  * @package    Core
- * @subpackage KMC
+ * @subpackage BMC
  */
-class updateLoginDataAction extends kalturaAction
+class updateLoginDataAction extends borhanAction
 {
 
 	public function execute() 
@@ -20,7 +20,7 @@ class updateLoginDataAction extends kalturaAction
 		if(! in_array($this->type, $validTypes))
 			KExternalErrors::dieError( KExternalErrors::INVALID_SETTING_TYPE );
 
-		$ks = $this->getP ( "kmcks" );
+		$ks = $this->getP ( "bmcks" );
 		if(!$ks)
 			KExternalErrors::dieError(KExternalErrors::MISSING_PARAMETER, 'ks');
 
@@ -36,12 +36,12 @@ class updateLoginDataAction extends kalturaAction
 		if (!$partner->validateApiAccessControl())
 			KExternalErrors::dieError(KExternalErrors::SERVICE_ACCESS_CONTROL_RESTRICTED);
 
-		$this->forceKMCHttps = PermissionPeer::isValidForPartner(PermissionName::FEATURE_KMC_ENFORCE_HTTPS, $partnerId);
-		if( $this->forceKMCHttps ) {
+		$this->forceBMCHttps = PermissionPeer::isValidForPartner(PermissionName::FEATURE_BMC_ENFORCE_HTTPS, $partnerId);
+		if( $this->forceBMCHttps ) {
 			// Prevent the page fron being embeded in an iframe
 			header( 'X-Frame-Options: SAMEORIGIN' );
 		}
-		if( $this->forceKMCHttps && (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') ) {
+		if( $this->forceBMCHttps && (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') ) {
 			die();
 		}
 
@@ -110,7 +110,7 @@ class updateLoginDataAction extends kalturaAction
 			$this->updateLoginData($this->email, $_POST['cur_password'], null, $_POST['new_password'], null, null);
 			$this->setSuccess();
 						
-		} catch( KalturaLoginDataException $e ){
+		} catch( BorhanLoginDataException $e ){
 			$this->setError($e->getMessage());
 		}
 	}
@@ -126,7 +126,7 @@ class updateLoginDataAction extends kalturaAction
 			$this->updateLoginData($this->email, $_POST['password'], $_POST['email'], null, null, null);
 			$this->setSuccess();
 						
-		} catch( KalturaLoginDataException $e ){
+		} catch( BorhanLoginDataException $e ){
 			$this->setError($e->getMessage());
 		}	
 	}
@@ -151,7 +151,7 @@ class updateLoginDataAction extends kalturaAction
 			$this->updateLoginData($this->email, $_POST['password'], null, null, $firstName, $lastName);
 			$this->setSuccess();
 
-		} catch( KalturaLoginDataException $e ){
+		} catch( BorhanLoginDataException $e ){
 			$this->setError($e->getMessage());
 		}
 	}
@@ -200,7 +200,7 @@ class updateLoginDataAction extends kalturaAction
 		if ($newEmail != "")
 		{
 			if(!kString::isEmailString($newEmail))
-				throw new KalturaLoginDataException ( APIErrors::INVALID_FIELD_VALUE, "newEmail" );
+				throw new BorhanLoginDataException ( APIErrors::INVALID_FIELD_VALUE, "newEmail" );
 		}
 
 		try {
@@ -209,13 +209,13 @@ class updateLoginDataAction extends kalturaAction
 		catch (kUserException $e) {
 			$code = $e->getCode();
 			if ($code == kUserException::LOGIN_DATA_NOT_FOUND) {
-				throw new KalturaLoginDataException(APIErrors::LOGIN_DATA_NOT_FOUND);
+				throw new BorhanLoginDataException(APIErrors::LOGIN_DATA_NOT_FOUND);
 			}
 			else if ($code == kUserException::WRONG_PASSWORD) {
 				if($password == $newPassword)
-					throw new KalturaLoginDataException(APIErrors::USER_WRONG_PASSWORD);
+					throw new BorhanLoginDataException(APIErrors::USER_WRONG_PASSWORD);
 				else
-					throw new KalturaLoginDataException(APIErrors::WRONG_OLD_PASSWORD);
+					throw new BorhanLoginDataException(APIErrors::WRONG_OLD_PASSWORD);
 			}
 			else if ($code == kUserException::PASSWORD_STRUCTURE_INVALID) {
 				$c = new Criteria(); 
@@ -223,23 +223,23 @@ class updateLoginDataAction extends kalturaAction
 				$loginData = UserLoginDataPeer::doSelectOne($c);
 				$invalidPasswordStructureMessage = $loginData->getInvalidPasswordStructureMessage();
 				$invalidPasswordStructureMessage = str_replace('\n', "\n", $invalidPasswordStructureMessage);
-				throw new KalturaLoginDataException(APIErrors::PASSWORD_STRUCTURE_INVALID,$invalidPasswordStructureMessage);
+				throw new BorhanLoginDataException(APIErrors::PASSWORD_STRUCTURE_INVALID,$invalidPasswordStructureMessage);
 			}
 			else if ($code == kUserException::PASSWORD_ALREADY_USED) {
-				throw new KalturaLoginDataException(APIErrors::PASSWORD_ALREADY_USED);
+				throw new BorhanLoginDataException(APIErrors::PASSWORD_ALREADY_USED);
 			}
 			else if ($code == kUserException::INVALID_EMAIL) {
-				throw new KalturaLoginDataException(APIErrors::INVALID_FIELD_VALUE, 'email');
+				throw new BorhanLoginDataException(APIErrors::INVALID_FIELD_VALUE, 'email');
 			}
 			else if ($code == kUserException::LOGIN_ID_ALREADY_USED) {
-				throw new KalturaLoginDataException(APIErrors::LOGIN_ID_ALREADY_USED);
+				throw new BorhanLoginDataException(APIErrors::LOGIN_ID_ALREADY_USED);
 			}
 			throw $e;			
 		}		
 	}
 }
 
-class KalturaLoginDataException extends Exception 
+class BorhanLoginDataException extends Exception 
 {
 	protected $code;
 	

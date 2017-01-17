@@ -7,7 +7,7 @@
  * @package api
  * @subpackage services
  */
-class StatsService extends KalturaBaseService 
+class StatsService extends BorhanBaseService 
 {
 	const SEPARATOR = ",";
 	
@@ -17,7 +17,7 @@ class StatsService extends KalturaBaseService
 		if ($actionName === 'collect') {
 			return false;
 		}
-		if ($actionName === 'kmcCollect') {
+		if ($actionName === 'bmcCollect') {
 			return false;
 		}
 		if ($actionName === 'reportKceRrror') {
@@ -52,14 +52,14 @@ new point
 referrer
 	
 	
-	 * KalturaStatsEvent $event
+	 * BorhanStatsEvent $event
 	 * 
 	 * @action collect
 	 * @return bool
 	 */
 	
 	// TODO - should move to a lighter php script that is not part of the API - it is unnecessarily  heavy	
-	function collectAction( KalturaStatsEvent $event )
+	function collectAction( BorhanStatsEvent $event )
 	{
 		$evenLogFullPath = kConf::get ( "event_log_file_path" );
 		
@@ -97,25 +97,25 @@ referrer
 		{
 			$res = $this->writeToFile ( $evenLogFullPath , $eventLine);
 			if ( ! $res )
-				KalturaLog::err( "Error while trying to write event to log. Event:\n". $eventLine );
+				BorhanLog::err( "Error while trying to write event to log. Event:\n". $eventLine );
         }
         catch ( Exception $ex )
         {
-        	KalturaLog::err( "Error while trying to write event to log. Event:\n". $eventLine );	
+        	BorhanLog::err( "Error while trying to write event to log. Event:\n". $eventLine );	
         }
 		return true;
 	}
 
 	/**
 	 * 
-	 * Will collect the kmcEvent sent form the KMC client
+	 * Will collect the bmcEvent sent form the BMC client
 	 * // this will actually be an empty function because all events will be sent using GET and will anyway be logged in the apache log
 	 * 
-	 * @action kmcCollect
+	 * @action bmcCollect
 	 * 
-	 * @param KalturaStatsKmcEvent $kmcEvent
+	 * @param BorhanStatsBmcEvent $bmcEvent
 	 */
-	public function kmcCollectAction( KalturaStatsKmcEvent $kmcEvent )
+	public function bmcCollectAction( BorhanStatsBmcEvent $bmcEvent )
 	{
 		
 	}
@@ -141,27 +141,27 @@ referrer
 	
 	/**
 	 * @action reportKceError
-	 * @param KalturaCEError $kalturaCEError 
-	 * @return KalturaCEError
+	 * @param BorhanCEError $borhanCEError 
+	 * @return BorhanCEError
 	 */
-	function reportKceErrorAction( KalturaCEError $kalturaCEError )
+	function reportKceErrorAction( BorhanCEError $borhanCEError )
 	{
-		$_kalturaCEError = $kalturaCEError->toKceInstallationError();
-		if (($this->getPartnerId() && !$_kalturaCEError->partnerId) ||
-		    ($this->getPartnerId && $this->getPartnerId != $_kalturaCEError->partnerId))
+		$_borhanCEError = $borhanCEError->toKceInstallationError();
+		if (($this->getPartnerId() && !$_borhanCEError->partnerId) ||
+		    ($this->getPartnerId && $this->getPartnerId != $_borhanCEError->partnerId))
 		{
-			$_kalturaCEError->setPartnerId ( $this->getPartnerId() );
+			$_borhanCEError->setPartnerId ( $this->getPartnerId() );
 		}
-		$_kalturaCEError->save();
+		$_borhanCEError->save();
 		
-		$kalturaCEError = new KalturaCEError(); // start from blank
-		$kalturaCEError->fromObject($_kalturaCEError, $this->getResponseProfile());
+		$borhanCEError = new BorhanCEError(); // start from blank
+		$borhanCEError->fromObject($_borhanCEError, $this->getResponseProfile());
 		
-		return $kalturaCEError;
+		return $borhanCEError;
 	}
 	
 	/**
-	 * Use this action to report errors to the kaltura server.
+	 * Use this action to report errors to the borhan server.
 	 * 
 	 * @action reportError
 	 * @param string $errorCode 

@@ -30,7 +30,7 @@ class UserController extends Zend_Controller_Action
 		// init filter
 		$userFilter = $this->getUserFilterFromRequest($request);
 		$userFilter->partnerIdEqual = $config->settings->partnerId;
-		$userFilter->orderBy = Kaltura_Client_Enum_UserOrderBy::CREATED_AT_DESC;
+		$userFilter->orderBy = Borhan_Client_Enum_UserOrderBy::CREATED_AT_DESC;
 		
 		$paginatorAdapter = new Infra_FilterPaginator($client->user, "listAction", null, $userFilter);
 		$paginator = new Infra_Paginator($paginatorAdapter);
@@ -58,7 +58,7 @@ class UserController extends Zend_Controller_Action
 		{
 			$loginForm->isValid($request->getPost());
 			
-			$adapter = new Kaltura_VarAuthAdapter();
+			$adapter = new Borhan_VarAuthAdapter();
 			$adapter->setCredentials($request->getPost('email'), $request->getPost('password'));
 			$adapter->setTimezoneOffset($request->getPost('timezone_offset'));
 			//$adapter = new Zend_Auth_Adapter_DbTable($zendDb);
@@ -159,7 +159,7 @@ class UserController extends Zend_Controller_Action
 	    $form = new Form_AdminLogin();
 	    $this->view->form = $form;
 	    
-	    $adapter = new Kaltura_VarAuthAdapter();
+	    $adapter = new Borhan_VarAuthAdapter();
 	    $adapter->setTimezoneOffset($this->_getParam('timezone_offset'));
 	    $adapter->setKS($this->_getParam('ks'));
 		//$adapter = new Zend_Auth_Adapter_DbTable($zendDb);

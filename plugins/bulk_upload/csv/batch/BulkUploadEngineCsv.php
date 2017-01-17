@@ -19,9 +19,9 @@ abstract class BulkUploadEngineCsv extends KBulkUploadEngine
 	protected $lineNumber = 0;
 	
 	/**
-	 * @var KalturaBulkUploadCsvVersion
+	 * @var BorhanBulkUploadCsvVersion
 	 */
-	protected $csvVersion = KalturaBulkUploadCsvVersion::V1;
+	protected $csvVersion = BorhanBulkUploadCsvVersion::V1;
 
 
 	/**
@@ -47,9 +47,9 @@ abstract class BulkUploadEngineCsv extends KBulkUploadEngine
 		$filePath = $this->data->filePath;
 		$fileHandle = fopen($filePath, "r");
 		if(!$fileHandle)
-			throw new KalturaBatchException("Unable to open file: {$filePath}", KalturaBatchJobAppErrors::BULK_FILE_NOT_FOUND); //The job was aborted
+			throw new BorhanBatchException("Unable to open file: {$filePath}", BorhanBatchJobAppErrors::BULK_FILE_NOT_FOUND); //The job was aborted
 					
-		KalturaLog::info("Opened file: $filePath");
+		BorhanLog::info("Opened file: $filePath");
 		
 		$columns = $this->getV1Columns();
 		$values = fgetcsv($fileHandle);
@@ -68,8 +68,8 @@ abstract class BulkUploadEngineCsv extends KBulkUploadEngine
 			if(substr(trim($values[0]), 0, 1) == '*') // is a remark
 			{
 				$columns = $this->parseColumns($values);
-				KalturaLog::info("Columns V3:\n" . print_r($columns, true));
-				$this->csvVersion = KalturaBulkUploadCsvVersion::V3;
+				BorhanLog::info("Columns V3:\n" . print_r($columns, true));
+				$this->csvVersion = BorhanBulkUploadCsvVersion::V3;
 			}
 			
 			// ignore and continue - identified by # or *
@@ -106,7 +106,7 @@ abstract class BulkUploadEngineCsv extends KBulkUploadEngine
 		{
 			foreach ($columns as $columnName)
 			{
-			    $columnNameObj = new KalturaString();
+			    $columnNameObj = new BorhanString();
 			    $columnNameObj->value = $columnName;
 			    $this->data->columns [] = $columnNameObj;
 			}
@@ -117,7 +117,7 @@ abstract class BulkUploadEngineCsv extends KBulkUploadEngine
 		// send all invalid results
 		KBatchBase::$kClient->doMultiRequest();
 		
-		KalturaLog::info("CSV file parsed, $this->lineNumber lines with " . ($this->lineNumber - count($this->bulkUploadResults)) . ' invalid records');
+		BorhanLog::info("CSV file parsed, $this->lineNumber lines with " . ($this->lineNumber - count($this->bulkUploadResults)) . ' invalid records');
 		
 		// update csv verision on the job
 		$this->data->csvVersion = $this->csvVersion;
@@ -132,7 +132,7 @@ abstract class BulkUploadEngineCsv extends KBulkUploadEngine
 	/* (non-PHPdoc)
 	 * @see KBulkUploadEngine::addBulkUploadResult()
 	 */
-	protected function addBulkUploadResult(KalturaBulkUploadResult $bulkUploadResult)
+	protected function addBulkUploadResult(BorhanBulkUploadResult $bulkUploadResult)
 	{
 		parent::addBulkUploadResult($bulkUploadResult);
 			
@@ -149,7 +149,7 @@ abstract class BulkUploadEngineCsv extends KBulkUploadEngine
 	 * Creates a new upload result object from the given parameters
 	 * @param array $values
 	 * @param array $columns
-	 * @return KalturaBulkUploadResult
+	 * @return BorhanBulkUploadResult
 	 */
 	protected function createUploadResult($values, $columns)
 	{

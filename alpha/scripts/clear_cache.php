@@ -42,8 +42,8 @@ function fixPath($path)
 
 function askToDelete($path, $interactive)
 {	
-	$baseKalturaPath = realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'../..');
-	if (strpos($path, $baseKalturaPath) === 0)
+	$baseBorhanPath = realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'../..');
+	if (strpos($path, $baseBorhanPath) === 0)
 	{
 		if ($interactive)
 		{
@@ -80,6 +80,6 @@ function askToDelete($path, $interactive)
 	}
 	else
 	{
-		echo 'Path ['.$path.'] does not belong to the kaltura server. Skipping.'.PHP_EOL;
+		echo 'Path ['.$path.'] does not belong to the borhan server. Skipping.'.PHP_EOL;
 	}	
 }

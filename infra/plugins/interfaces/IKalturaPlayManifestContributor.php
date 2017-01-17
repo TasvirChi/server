@@ -4,7 +4,7 @@
  * @package infra
  * @subpackage Plugins
  */
-interface IKalturaPlayManifestContributor extends IKalturaBase
+interface IBorhanPlayManifestContributor extends IBorhanBase
 {
 	/**
 	 * Function receives the manifest renderer and edits its output as it requires.

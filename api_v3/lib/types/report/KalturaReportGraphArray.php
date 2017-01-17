@@ -3,14 +3,14 @@
  * @package api
  * @subpackage objects
  */
-class KalturaReportGraphArray extends KalturaTypedArray
+class BorhanReportGraphArray extends BorhanTypedArray
 {
 	public static function fromReportDataArray ( $arr )
 	{
-		$newArr = new KalturaReportGraphArray();
+		$newArr = new BorhanReportGraphArray();
 		foreach ( $arr as $id => $data )
 		{
-			$nObj = new KalturaReportGraph();
+			$nObj = new BorhanReportGraph();
 			$nObj->fromReportData ( $id, $data );
 			$newArr[] = $nObj;
 		}
@@ -20,7 +20,7 @@ class KalturaReportGraphArray extends KalturaTypedArray
 	
 	public function __construct( )
 	{
-		return parent::__construct ( "KalturaReportGraph" );
+		return parent::__construct ( "BorhanReportGraph" );
 	}
 }
 ?>

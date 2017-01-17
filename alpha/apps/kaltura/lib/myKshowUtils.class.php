@@ -66,20 +66,20 @@ class myKshowUtils
 		// this is a shorthand version of the kdata
 	    $links_arr = array (
 	    		"base" => "$external_url/" ,
-	    		"add" =>  "Special:KalturaContributionWizard?kshow_id=$kshow_id" ,
-	    		"edit" => "Special:KalturaVideoEditor?kshow_id=$kshow_id" ,
+	    		"add" =>  "Special:BorhanContributionWizard?kshow_id=$kshow_id" ,
+	    		"edit" => "Special:BorhanVideoEditor?kshow_id=$kshow_id" ,
 	    		"share" => $share ,
 	    	);
 
 	    $links_str = str_replace ( array ( "|" , "/") , array ( "|01" , "|02" ) , base64_encode ( serialize ( $links_arr ) ) ) ;
 
-		$kaltura_link = "<a href='http://www.kaltura.com' style='color:#bcff63; text-decoration:none; '>Kaltura</a>";
-		$kaltura_link_str = "A $partner_name collaborative video powered by  "  . $kaltura_link;
+		$borhan_link = "<a href='http://www.borhan.com' style='color:#bcff63; text-decoration:none; '>Borhan</a>";
+		$borhan_link_str = "A $partner_name collaborative video powered by  "  . $borhan_link;
 
 		$flash_vars = array (  "CW" => "gotoCW" ,
 	    						"Edit" => "gotoEdit" ,
 	    						"Editor" => "gotoEditor" ,
-								"Kaltura" => "",//gotoKalturaArticle" ,
+								"Borhan" => "",//gotoBorhanArticle" ,
 								"Generate" => "" , //gotoGenerate" ,
 								"share" => "" , //$share ,
 								"WidgetSize" => $size );
@@ -92,17 +92,17 @@ class myKshowUtils
 	   	$flash_vars_str = http_build_query( $flash_vars , "" , "&" )		;
 
 	    $widget = /*$extra_links .*/
-			 '<object id="kaltura_player_' . (int)microtime(true) . '" type="application/x-shockwave-flash" allowScriptAccess="always" allowNetworking="all" height="' . $height . '" width="' . $width . '" data="'.$domain. $swf_url . '">'.
+			 '<object id="borhan_player_' . (int)microtime(true) . '" type="application/x-shockwave-flash" allowScriptAccess="always" allowNetworking="all" height="' . $height . '" width="' . $width . '" data="'.$domain. $swf_url . '">'.
 				'<param name="allowScriptAccess" value="always" />'.
 				'<param name="allowNetworking" value="all" />'.
 				'<param name="bgcolor" value=#000000 />'.
 				'<param name="movie" value="'.$domain. $swf_url . '"/>'.
 				'<param name="flashVars" value="' . $flash_vars_str . '"/>'.
 				'<param name="wmode" value="opaque"/>'.
-				$kaltura_link .
+				$borhan_link .
 				'</object>' ;
 
-			"</td></tr><tr><td style='background-color:black; color:white; font-size: 11px; padding:5px 10px; '>$kaltura_link</td></tr></table>";
+			"</td></tr><tr><td style='background-color:black; color:white; font-size: 11px; padding:5px 10px; '>$borhan_link</td></tr></table>";
 
 		if ( $align == 'r' )
 		{
@@ -216,8 +216,8 @@ class myKshowUtils
 		</td>
 	</tr>
 	<tr style="background-color:black;">
-		<td style="height:33px;"><a href="$widgetCallUrl" style="display:block; width:199px; height:33px; background:black url(http://www.kaltura.com/images/widget/wgt_btns2.gif) center 0 no-repeat; border-right:1px solid #000; overflow:hidden;"></a></td>
-		<td style="height:33px;"><a href="$editCallUrl" style="display:block; width:199px; height:33px; background:black url(http://www.kaltura.com/images/widget/wgt_btns2.gif) center -33px no-repeat; border-left:1px solid #555; overflow:hidden;"></a></td>
+		<td style="height:33px;"><a href="$widgetCallUrl" style="display:block; width:199px; height:33px; background:black url(http://www.borhan.com/images/widget/wgt_btns2.gif) center 0 no-repeat; border-right:1px solid #000; overflow:hidden;"></a></td>
+		<td style="height:33px;"><a href="$editCallUrl" style="display:block; width:199px; height:33px; background:black url(http://www.borhan.com/images/widget/wgt_btns2.gif) center -33px no-repeat; border-left:1px solid #555; overflow:hidden;"></a></td>
 	</tr>
 	<tr>
 		<td colspan="2" style="background-color:black; border-top:1px solid #222; background: url($footerImage) 0 0 no-repeat;">
@@ -525,7 +525,7 @@ return array($genericWidget, $myspaceWidget);
 			// add the clapper image on top
 
 
-			$clapper_path = kFile::fixPath( SF_ROOT_DIR.DIRECTORY_SEPARATOR.'web'.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'mykaltura'.DIRECTORY_SEPARATOR.'productionicon.png' );
+			$clapper_path = kFile::fixPath( SF_ROOT_DIR.DIRECTORY_SEPARATOR.'web'.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'myborhan'.DIRECTORY_SEPARATOR.'productionicon.png' );
 			$clapperIm = imagecreatefrompng( $clapper_path );
 			imagecopyresampled($im, $clapperIm, ( 1.2 * self::DIM_X ) , (1.2 * self::DIM_Y), 0, 0, self::DIM_X ,self::DIM_Y , imagesx($clapperIm) , imagesy($clapperIm) );
 			imagedestroy($clapperIm);
@@ -556,7 +556,7 @@ return array($genericWidget, $myspaceWidget);
 
 			$contentPath = myContentStorage::getFSContentRootPath() ;
 
-			// TODO - maybe start from some kaltura background - so if image is not full - still interesting
+			// TODO - maybe start from some borhan background - so if image is not full - still interesting
 			$im = imagecreatetruecolor(24 * 7 - 1, 24  * 2 - 1);
 
 			$logo_path = kFile::fixPath( SF_ROOT_DIR.'/web/images/browse/contributorsBG.gif');
@@ -663,14 +663,14 @@ return array($genericWidget, $myspaceWidget);
 		$kshowKuser = self::isSubscribed($kshow_id, $kuser_id);
 		if ( $kshowKuser != NULL )
 		{
-			$message = "You are already subscribed to this Kaltura";
+			$message = "You are already subscribed to this Borhan";
 			return false;
 		}
 
 		$kshow = kshowPeer::retrieveByPK($kshow_id);
 		if (!$kshow)
 		{
-			$message = "Kaltura $kshow_id doesn't exist";
+			$message = "Borhan $kshow_id doesn't exist";
 			return false;
 		}
 
@@ -689,7 +689,7 @@ return array($genericWidget, $myspaceWidget);
 		$kshowKuser->setKshowId($kshow_id);
 		$kshowKuser->setKuserId($kuser_id);
 		$kshowKuser->setSubscriptionType(KshowKuser::KSHOW_SUBSCRIPTION_NORMAL);
-		// alert:: KALTURAS_PRODUCED_ALERT_TYPE_SUBSCRIBER_ADDED
+		// alert:: BORHANS_PRODUCED_ALERT_TYPE_SUBSCRIBER_ADDED
 		$kshowKuser->setAlertType(21);
 		$kshowKuser->save();
 
@@ -707,7 +707,7 @@ return array($genericWidget, $myspaceWidget);
 			$kshow = kshowPeer::retrieveByPK($kshow_id);
 			if (!$kshow)
 			{
-				$message = "Kaltura $kshow_id doesn't exist.";
+				$message = "Borhan $kshow_id doesn't exist.";
 			}
 			else
 			{
@@ -717,7 +717,7 @@ return array($genericWidget, $myspaceWidget);
 					$message = "User $kuser_id doesn't exist.";
 				}
 				else
-				$message = "Error - You are not subscribed to this Kaltura.";
+				$message = "Error - You are not subscribed to this Borhan.";
 			}
 
 			return false;
@@ -725,7 +725,7 @@ return array($genericWidget, $myspaceWidget);
 
 		// ok, we found he entry, so delete it.
 		$kshowKuser->delete();
-		$message = "You have unsubscribed from this Kaltura.";
+		$message = "You have unsubscribed from this Borhan.";
 		return true;
 	}
 

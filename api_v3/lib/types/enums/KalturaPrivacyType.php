@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaPrivacyType extends KalturaEnum implements PrivacyType
+class BorhanPrivacyType extends BorhanEnum implements PrivacyType
 {
 
 }

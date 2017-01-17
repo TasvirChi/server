@@ -3,7 +3,7 @@
  * @package plugins.audit
  * @subpackage api.enums
  */
-class KalturaAuditTrailStatus extends KalturaEnum
+class BorhanAuditTrailStatus extends BorhanEnum
 {
 	const PENDING = 1;
 	const READY = 2;

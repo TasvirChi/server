@@ -3,17 +3,17 @@
  * @package api
  * @subpackage objects
  */
-class KalturaBatchHistoryDataArray extends KalturaTypedArray
+class BorhanBatchHistoryDataArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaBatchHistoryDataArray();
+		$newArr = new BorhanBatchHistoryDataArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-    		$nObj = new KalturaBatchHistoryData();
+    		$nObj = new BorhanBatchHistoryData();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaBatchHistoryDataArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaBatchHistoryData");	
+		parent::__construct("BorhanBatchHistoryData");	
 	}
 }

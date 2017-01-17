@@ -17,14 +17,14 @@ class FreewheelGenericDistributionEngine extends DistributionEngine implements
 	 * 
 	 * Demonstrate asynchronous external API usage
 	 */
-	public function submit(KalturaDistributionSubmitJobData $data)
+	public function submit(BorhanDistributionSubmitJobData $data)
 	{
 		// validates received object types
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaFreewheelGenericDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaFreewheelGenericDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanFreewheelGenericDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanFreewheelGenericDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaFreewheelGenericDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaFreewheelGenericDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanFreewheelGenericDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanFreewheelGenericDistributionJobProviderData");
 		
 		// call the actual submit action
 		$this->handleSubmit($data, $data->distributionProfile, $data->providerData);
@@ -36,7 +36,7 @@ class FreewheelGenericDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseSubmit::closeSubmit()
 	 */
-	public function closeSubmit(KalturaDistributionSubmitJobData $data)
+	public function closeSubmit(BorhanDistributionSubmitJobData $data)
 	{
 		return $this->handleClose($data);
 	}
@@ -44,13 +44,13 @@ class FreewheelGenericDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineUpdate::update()
 	 */
-	public function update(KalturaDistributionUpdateJobData $data)
+	public function update(BorhanDistributionUpdateJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaFreewheelGenericDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaFreewheelGenericDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanFreewheelGenericDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanFreewheelGenericDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaFreewheelGenericDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaFreewheelGenericDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanFreewheelGenericDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanFreewheelGenericDistributionJobProviderData");
 		
 		$this->handleSubmit($data, $data->distributionProfile, $data->providerData);
 		
@@ -60,19 +60,19 @@ class FreewheelGenericDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseUpdate::closeUpdate()
 	 */
-	public function closeUpdate(KalturaDistributionUpdateJobData $data)
+	public function closeUpdate(BorhanDistributionUpdateJobData $data)
 	{
 		return $this->handleClose($data);
 	}
 
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaFreewheelGenericDistributionProfile $distributionProfile
-	 * @param KalturaFreewheelGenericDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanFreewheelGenericDistributionProfile $distributionProfile
+	 * @param BorhanFreewheelGenericDistributionJobProviderData $providerData
 	 */
-	protected function handleSubmit(KalturaDistributionJobData $data, KalturaFreewheelGenericDistributionProfile $distributionProfile, KalturaFreewheelGenericDistributionJobProviderData $providerData)
+	protected function handleSubmit(BorhanDistributionJobData $data, BorhanFreewheelGenericDistributionProfile $distributionProfile, BorhanFreewheelGenericDistributionJobProviderData $providerData)
 	{
-		KalturaLog::err(print_r($providerData, true));
+		BorhanLog::err(print_r($providerData, true));
 		$entryId = $data->entryDistribution->entryId;
 		$partnerId = $distributionProfile->partnerId;
 		
@@ -84,10 +84,10 @@ class FreewheelGenericDistributionEngine extends DistributionEngine implements
 	}
 	
 	/**
-	 * @param KalturaDistributionJobData $data
+	 * @param BorhanDistributionJobData $data
 	 * @throws Exception
 	 */
-	protected function handleClose(KalturaDistributionJobData $data)
+	protected function handleClose(BorhanDistributionJobData $data)
 	{
 		$entryId = $data->entryDistribution->entryId;
 		$loginName = $data->distributionProfile->sftpLogin;
@@ -139,8 +139,8 @@ class FreewheelGenericDistributionEngine extends DistributionEngine implements
 	 */
 	public function upload($filename, $data, $token) 
 	{
-		KalturaLog::info('Sending the following XML:');
-		KalturaLog::info($data);
+		BorhanLog::info('Sending the following XML:');
+		BorhanLog::info($data);
 		
 		$curl = curl_init();
 	
@@ -163,7 +163,7 @@ class FreewheelGenericDistributionEngine extends DistributionEngine implements
 		curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		$result = curl_exec($curl);
-		KalturaLog::info('BVI result: [' . $result . ']');
+		BorhanLog::info('BVI result: [' . $result . ']');
 		if ($result===false) 
 		{
 			$error = curl_error($curl);
@@ -173,7 +173,7 @@ class FreewheelGenericDistributionEngine extends DistributionEngine implements
 		else 
 		{
 			$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-			KalturaLog::info('BVI returned HTTP status code ' . $code);
+			BorhanLog::info('BVI returned HTTP status code ' . $code);
 			if ($code == 200) 
 				return $result;
 				

@@ -3,7 +3,7 @@
  * @package plugins.schedule
  * @subpackage api.objects
  */
-class KalturaLiveEntryScheduleResource extends KalturaScheduleResource
+class BorhanLiveEntryScheduleResource extends BorhanScheduleResource
 {
 	/**
 	 * @var string
@@ -21,7 +21,7 @@ class KalturaLiveEntryScheduleResource extends KalturaScheduleResource
 	);
 		 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -30,7 +30,7 @@ class KalturaLiveEntryScheduleResource extends KalturaScheduleResource
 	
 	/**
 	 * {@inheritDoc}
-	 * @see KalturaScheduleResource::getScheduleResourceType()
+	 * @see BorhanScheduleResource::getScheduleResourceType()
 	 */
 	protected function getScheduleResourceType()
 	{
@@ -38,7 +38,7 @@ class KalturaLiveEntryScheduleResource extends KalturaScheduleResource
 	}
 		 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert($propertiesToSkip)
+	 * @see BorhanObject::validateForInsert($propertiesToSkip)
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{
@@ -47,19 +47,19 @@ class KalturaLiveEntryScheduleResource extends KalturaScheduleResource
 	}
 		 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUpdate($sourceObject, $propertiesToSkip)
+	 * @see BorhanObject::validateForUpdate($sourceObject, $propertiesToSkip)
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = array())
 	{
-		if($this->entryId instanceof KalturaNullField)
+		if($this->entryId instanceof BorhanNullField)
 		{
-			throw new KalturaAPIException(KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, $this->getFormattedPropertyNameWithClassName('entryId'));
+			throw new BorhanAPIException(BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, $this->getFormattedPropertyNameWithClassName('entryId'));
 		}
 		return parent::validateForUpdate($sourceObject, $propertiesToSkip);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($sourceObject = null, $propertiesToSkip = array())
 	{

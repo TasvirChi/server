@@ -3,7 +3,7 @@
  * @package plugins.smoothProtect
  * @subpackage lib
  */
-class SmoothProtectConversionEngineType implements IKalturaPluginEnum, conversionEngineType
+class SmoothProtectConversionEngineType implements IBorhanPluginEnum, conversionEngineType
 {
 	const SMOOTHPROTECT = 'SmoothProtect';
 	

@@ -3,7 +3,7 @@
  * @package plugins.systemPartner
  * @subpackage api.filters
  */
-class KalturaSystemPartnerFilter extends KalturaPartnerFilter
+class BorhanSystemPartnerFilter extends BorhanPartnerFilter
 {
 	static private $map_between_objects = array
 	(

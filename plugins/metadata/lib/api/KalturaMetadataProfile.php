@@ -3,7 +3,7 @@
  * @package plugins.metadata
  * @subpackage api.objects
  */
-class KalturaMetadataProfile extends KalturaObject implements IFilterable 
+class BorhanMetadataProfile extends BorhanObject implements IFilterable 
 {
 	/**
 	 * @var int
@@ -20,7 +20,7 @@ class KalturaMetadataProfile extends KalturaObject implements IFilterable
 	public $partnerId;
 	
 	/**
-	 * @var KalturaMetadataObjectType
+	 * @var BorhanMetadataObjectType
 	 * @filter eq,in
 	 */
 	public $metadataObjectType;
@@ -64,7 +64,7 @@ class KalturaMetadataProfile extends KalturaObject implements IFilterable
 	public $updatedAt;
 	
 	/**
-	 * @var KalturaMetadataProfileStatus
+	 * @var BorhanMetadataProfileStatus
 	 * @filter eq,in
 	 * @readonly
 	 */
@@ -89,7 +89,7 @@ class KalturaMetadataProfile extends KalturaObject implements IFilterable
 	public $xslt;
 
 	/**
-	 * @var KalturaMetadataProfileCreateMode
+	 * @var BorhanMetadataProfileCreateMode
 	 * @filter eq,not,in,notin
 	 */
 	public $createMode;
@@ -131,7 +131,7 @@ class KalturaMetadataProfile extends KalturaObject implements IFilterable
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbMetadataProfile = null, $propsToSkip = array())
 	{
@@ -143,9 +143,9 @@ class KalturaMetadataProfile extends KalturaObject implements IFilterable
 	
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject()
+	 * @see BorhanObject::fromObject()
 	 */
-	public function doFromObject($source_object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($source_object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($source_object, $responseProfile);
 
@@ -169,7 +169,7 @@ class KalturaMetadataProfile extends KalturaObject implements IFilterable
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert()
+	 * @see BorhanObject::validateForInsert()
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{
@@ -177,17 +177,17 @@ class KalturaMetadataProfile extends KalturaObject implements IFilterable
 		
 		if($this->systemName)
 		{
-			$c = KalturaCriteria::create(MetadataProfilePeer::OM_CLASS);
+			$c = BorhanCriteria::create(MetadataProfilePeer::OM_CLASS);
 			$c->add(MetadataProfilePeer::SYSTEM_NAME, $this->systemName);
 			if(MetadataProfilePeer::doCount($c))
-				throw new KalturaAPIException(KalturaErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
+				throw new BorhanAPIException(BorhanErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
 		}
 		
 		return parent::validateForInsert($propertiesToSkip);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUpdate()
+	 * @see BorhanObject::validateForUpdate()
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = array())
 	{
@@ -196,11 +196,11 @@ class KalturaMetadataProfile extends KalturaObject implements IFilterable
 				    
 	    if ($this->systemName)
 	    {
-	        $c = KalturaCriteria::create(MetadataProfilePeer::OM_CLASS);
+	        $c = BorhanCriteria::create(MetadataProfilePeer::OM_CLASS);
 	        $c->add(MetadataProfilePeer::ID, $sourceObject->getId(), Criteria::NOT_EQUAL);
 			$c->add(MetadataProfilePeer::SYSTEM_NAME, $this->systemName);
 			if(MetadataProfilePeer::doCount($c))
-				throw new KalturaAPIException(KalturaErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
+				throw new BorhanAPIException(BorhanErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
 	    }
 	    
 	    return parent::validateForUpdate($sourceObject);

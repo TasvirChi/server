@@ -2,8 +2,8 @@
 /**
  * @package api
  * @subpackage enum
- * @deprecated use KalturaRuleActionType
+ * @deprecated use BorhanRuleActionType
  */
-class KalturaAccessControlActionType extends KalturaRuleActionType
+class BorhanAccessControlActionType extends BorhanRuleActionType
 {
 }

@@ -1,11 +1,11 @@
 <?php
 $config = array();
 $client = null;
-/* @var $client KalturaMonitorClientPs2 */
+/* @var $client BorhanMonitorClientPs2 */
 require_once __DIR__  . '/common.php';
 
 $start = microtime(true);
-$monitorResult = new KalturaMonitorResult();
+$monitorResult = new BorhanMonitorResult();
 try
 {
 	$params = array(
@@ -25,10 +25,10 @@ catch(Exception $e)
 {
 	$monitorResult->executionTime = microtime(true) - $start;
 	
-	$error = new KalturaMonitorError();
+	$error = new BorhanMonitorError();
 	$error->code = $e->getCode();
 	$error->description = $e->getMessage();
-	$error->level = KalturaMonitorError::CRIT;
+	$error->level = BorhanMonitorError::CRIT;
 	
 	$monitorResult->errors[] = $error;
 	$monitorResult->description = "Exception: " . get_class($e) . ", Code: " . $e->getCode() . ", Message: " . $e->getMessage();

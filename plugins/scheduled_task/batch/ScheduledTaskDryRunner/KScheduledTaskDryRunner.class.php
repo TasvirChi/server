@@ -10,7 +10,7 @@ class KScheduledTaskDryRunner extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::SCHEDULED_TASK;
+		return BorhanBatchJobType::SCHEDULED_TASK;
 	}
 
 	/* (non-PHPdoc)
@@ -24,7 +24,7 @@ class KScheduledTaskDryRunner extends KJobHandlerWorker
 	/* (non-PHPdoc)
 	 * @see KBatchBase::run()
 	*/
-	public function exec(KalturaBatchJob $job)
+	public function exec(BorhanBatchJob $job)
 	{
 		$sharedPath = $this->getAdditionalParams('sharedTempPath');
 		if (!is_dir($sharedPath))
@@ -34,20 +34,20 @@ class KScheduledTaskDryRunner extends KJobHandlerWorker
 				throw new Exception('Shared path ['.$sharedPath.'] doesn\'t exist and could not be created');
 		}
 
-		KalturaLog::info('Temp shared path: '.$sharedPath);
+		BorhanLog::info('Temp shared path: '.$sharedPath);
 
-		/** @var KalturaScheduledTaskJobData $jobData */
+		/** @var BorhanScheduledTaskJobData $jobData */
 		$jobData = $job->data;
 		$profileId = $job->jobObjectId;
 		$maxResults = ($jobData->maxResults) ? $jobData->maxResults : 500;
 		$scheduledTaskClient = $this->getScheduledTaskClient();
 		$scheduledTaskProfile = $scheduledTaskClient->scheduledTaskProfile->get($profileId);
 
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageSize = 500;
 		$pager->pageIndex = 1;
 
-		$response = new KalturaObjectListResponse();
+		$response = new BorhanObjectListResponse();
 		$response->objects = array();
 		$response->totalCount = 0;
 		$resultsCount = 0;
@@ -80,25 +80,25 @@ class KScheduledTaskDryRunner extends KJobHandlerWorker
 		}
 
 		$sharedFilePath = $sharedPath.'/'.uniqid('sheduledtask_');
-		KalturaLog::info('Temp shared file: '.$sharedFilePath);
+		BorhanLog::info('Temp shared file: '.$sharedFilePath);
 		file_put_contents($sharedFilePath, serialize($response));
 		$jobData->resultsFilePath = $sharedFilePath;
-		return $this->closeJob($job, null, null, 'Dry run finished', KalturaBatchJobStatus::FINISHED, $jobData);
+		return $this->closeJob($job, null, null, 'Dry run finished', BorhanBatchJobStatus::FINISHED, $jobData);
 	}
 
 	/**
-	 * @return KalturaScheduledTaskClientPlugin
+	 * @return BorhanScheduledTaskClientPlugin
 	 */
 	protected function getScheduledTaskClient()
 	{
 		$client = $this->getClient();
-		return KalturaScheduledTaskClientPlugin::get($client);
+		return BorhanScheduledTaskClientPlugin::get($client);
 	}
 
-	private function createKs(KalturaClient $client, KalturaScheduledTaskJobData $jobData)
+	private function createKs(BorhanClient $client, BorhanScheduledTaskJobData $jobData)
 	{
 		$partnerId = self::$taskConfig->getPartnerId();
-		$sessionType = KalturaSessionType::ADMIN;
+		$sessionType = BorhanSessionType::ADMIN;
 		$puserId = 'batchUser';
 		$adminSecret = self::$taskConfig->getSecret();
 		$privileges = array('disableentitlement');

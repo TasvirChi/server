@@ -3,11 +3,11 @@
  * @package plugins.emailNotification
  * @subpackage api.objects
  */
-class KalturaEmailNotificationTemplate extends KalturaEventNotificationTemplate
+class BorhanEmailNotificationTemplate extends BorhanEventNotificationTemplate
 {	
 	/**
 	 * Define the email body format
-	 * @var KalturaEmailNotificationFormat
+	 * @var BorhanEmailNotificationFormat
 	 * @requiresPermission update
 	 */
 	public $format;
@@ -38,32 +38,32 @@ class KalturaEmailNotificationTemplate extends KalturaEventNotificationTemplate
 	
 	/**
 	 * Email recipient emails and names
-	 * @var KalturaEmailNotificationRecipientProvider
+	 * @var BorhanEmailNotificationRecipientProvider
 	 */
 	public $to;
 	
 	/**
 	 * Email recipient emails and names
-	 * @var KalturaEmailNotificationRecipientProvider
+	 * @var BorhanEmailNotificationRecipientProvider
 	 */
 	public $cc;
 	
 	/**
 	 * Email recipient emails and names
-	 * @var KalturaEmailNotificationRecipientProvider
+	 * @var BorhanEmailNotificationRecipientProvider
 	 */
 	public $bcc;
 	
 	/**
 	 * Default email addresses to whom the reply should be sent. 
 	 * 
-	 * @var KalturaEmailNotificationRecipientProvider
+	 * @var BorhanEmailNotificationRecipientProvider
 	 */
 	public $replyTo;
 	
 	/**
 	 * Define the email priority
-	 * @var KalturaEmailNotificationTemplatePriority
+	 * @var BorhanEmailNotificationTemplatePriority
 	 * @requiresPermission update
 	 */
 	public $priority;
@@ -96,7 +96,7 @@ class KalturaEmailNotificationTemplate extends KalturaEventNotificationTemplate
 	/**
 	 * Adds a e-mail custom header
 	 * 
-	 * @var KalturaKeyValueArray
+	 * @var BorhanKeyValueArray
 	 * @requiresPermission update
 	 */
 	public $customHeaders;
@@ -127,7 +127,7 @@ class KalturaEmailNotificationTemplate extends KalturaEventNotificationTemplate
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -135,7 +135,7 @@ class KalturaEmailNotificationTemplate extends KalturaEventNotificationTemplate
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert()
+	 * @see BorhanObject::validateForInsert()
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{
@@ -144,7 +144,7 @@ class KalturaEmailNotificationTemplate extends KalturaEventNotificationTemplate
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUpdate()
+	 * @see BorhanObject::validateForUpdate()
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = array())
 	{
@@ -153,7 +153,7 @@ class KalturaEmailNotificationTemplate extends KalturaEventNotificationTemplate
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $propertiesToSkip = array())
 	{
@@ -164,20 +164,20 @@ class KalturaEmailNotificationTemplate extends KalturaEventNotificationTemplate
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject($source_object)
+	 * @see BorhanObject::fromObject($source_object)
 	 */
-	public function doFromObject($dbObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($dbObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		/* @var $dbObject EmailNotificationTemplate */
 		parent::doFromObject($dbObject, $responseProfile);
 		
 		if($this->shouldGet('to', $responseProfile) && $dbObject->getTo())
-			$this->to = KalturaEmailNotificationRecipientProvider::getProviderInstance($dbObject->getTo());
+			$this->to = BorhanEmailNotificationRecipientProvider::getProviderInstance($dbObject->getTo());
 		if($this->shouldGet('cc', $responseProfile) && $dbObject->getCc())
-			$this->cc = KalturaEmailNotificationRecipientProvider::getProviderInstance($dbObject->getCc());
+			$this->cc = BorhanEmailNotificationRecipientProvider::getProviderInstance($dbObject->getCc());
 		if($this->shouldGet('bcc', $responseProfile) && $dbObject->getBcc())
-			$this->bcc = KalturaEmailNotificationRecipientProvider::getProviderInstance($dbObject->getBcc());
+			$this->bcc = BorhanEmailNotificationRecipientProvider::getProviderInstance($dbObject->getBcc());
 		if($this->shouldGet('replyTo', $responseProfile) && $dbObject->getReplyTo())
-			$this->replyTo = KalturaEmailNotificationRecipientProvider::getProviderInstance($dbObject->getReplyTo());
+			$this->replyTo = BorhanEmailNotificationRecipientProvider::getProviderInstance($dbObject->getReplyTo());
 	}
 }

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaUrlTokenizerCht extends KalturaUrlTokenizer {
+class BorhanUrlTokenizerCht extends BorhanUrlTokenizer {
 
 	public function toObject($dbObject = null, $skip = array())
 	{

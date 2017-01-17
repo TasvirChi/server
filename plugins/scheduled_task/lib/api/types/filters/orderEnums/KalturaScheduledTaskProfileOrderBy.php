@@ -3,7 +3,7 @@
  * @package plugins.scheduledTask
  * @subpackage api.filters.enum
  */
-class KalturaScheduledTaskProfileOrderBy extends KalturaStringEnum
+class BorhanScheduledTaskProfileOrderBy extends BorhanStringEnum
 {
 	const ID_ASC = "+id";
 	const ID_DESC = "-id";

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaSyncCategoryPrivacyContextJobData extends KalturaJobData
+class BorhanSyncCategoryPrivacyContextJobData extends BorhanJobData
 {
 	/**
 	 * category id

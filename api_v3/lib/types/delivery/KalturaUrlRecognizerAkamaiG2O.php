@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaUrlRecognizerAkamaiG2O extends KalturaUrlRecognizer {
+class BorhanUrlRecognizerAkamaiG2O extends BorhanUrlRecognizer {
 	
 	/**
 	 * headerData

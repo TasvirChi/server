@@ -6,7 +6,7 @@
 class kEventScope extends kScope
 {
 	/**
-	 * @var KalturaEvent
+	 * @var BorhanEvent
 	 */
 	protected $event;
 	
@@ -21,16 +21,16 @@ class kEventScope extends kScope
 	protected $parentRaisedJob;
 	
 	/**
-	 * @param KalturaEvent $v
+	 * @param BorhanEvent $v
 	 */
-	public function __construct(KalturaEvent $v = null)
+	public function __construct(BorhanEvent $v = null)
 	{
 		parent::__construct();
 		$this->event = $v;
 	}
 	
 	/**
-	 * @return KalturaEvent
+	 * @return BorhanEvent
 	 */
 	public function getEvent()
 	{
@@ -42,7 +42,7 @@ class kEventScope extends kScope
 	 */
 	public function getObject()
 	{
-		if ($this->event instanceof IKalturaObjectRelatedEvent)
+		if ($this->event instanceof IBorhanObjectRelatedEvent)
 			return $this->event->getObject();
 		else
 			return null;

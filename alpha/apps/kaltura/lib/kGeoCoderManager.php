@@ -11,9 +11,9 @@ class kGeoCoderManager
 	 */
 	public static function getGeoCoder($type = null)
 	{
-		if(!$type || $type == geoCoderType::KALTURA)
+		if(!$type || $type == geoCoderType::BORHAN)
 			return new myIPGeocoder();
 			
-		return KalturaPluginManager::loadObject('kGeoCoder', $type);
+		return BorhanPluginManager::loadObject('kGeoCoder', $type);
 	}
 }

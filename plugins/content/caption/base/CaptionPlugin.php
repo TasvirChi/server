@@ -3,7 +3,7 @@
  * Enable caption assets management for entry objects
  * @package plugins.caption
  */
-class CaptionPlugin extends KalturaPlugin implements IKalturaServices, IKalturaPermissions, IKalturaEnumerator, IKalturaObjectLoader, IKalturaApplicationPartialView, IKalturaSchemaContributor, IKalturaMrssContributor, IKalturaPlayManifestContributor, IKalturaEventConsumers
+class CaptionPlugin extends BorhanPlugin implements IBorhanServices, IBorhanPermissions, IBorhanEnumerator, IBorhanObjectLoader, IBorhanApplicationPartialView, IBorhanSchemaContributor, IBorhanMrssContributor, IBorhanPlayManifestContributor, IBorhanEventConsumers
 {
 	const PLUGIN_NAME = 'caption';
 	const KS_PRIVILEGE_CAPTION = 'caption';
@@ -13,7 +13,7 @@ class CaptionPlugin extends KalturaPlugin implements IKalturaServices, IKalturaP
        const SERVE_WEBVTT_URL_PREFIX = '/api_v3/index.php/service/caption_captionasset/action/serveWebVTT';
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -166,7 +166,7 @@ class CaptionPlugin extends KalturaPlugin implements IKalturaServices, IKalturaP
 		);
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissions::isAllowedPartner()
+	 * @see IBorhanPermissions::isAllowedPartner()
 	 */
 	public static function isAllowedPartner($partnerId)
 	{
@@ -175,7 +175,7 @@ class CaptionPlugin extends KalturaPlugin implements IKalturaServices, IKalturaP
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaServices::getServicesMap()
+	 * @see IBorhanServices::getServicesMap()
 	 */
 	public static function getServicesMap()
 	{
@@ -187,7 +187,7 @@ class CaptionPlugin extends KalturaPlugin implements IKalturaServices, IKalturaP
 	}
 
     /* (non-PHPdoc)
-     * @see IKalturaEventConsumers::getEventConsumers()
+     * @see IBorhanEventConsumers::getEventConsumers()
       */
       public static function getEventConsumers()
       {
@@ -197,7 +197,7 @@ class CaptionPlugin extends KalturaPlugin implements IKalturaServices, IKalturaP
       }
 
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -217,27 +217,27 @@ class CaptionPlugin extends KalturaPlugin implements IKalturaServices, IKalturaP
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if($baseClass == 'KalturaAsset' && $enumValue == self::getAssetTypeCoreValue(CaptionAssetType::CAPTION))
-			return new KalturaCaptionAsset();
+		if($baseClass == 'BorhanAsset' && $enumValue == self::getAssetTypeCoreValue(CaptionAssetType::CAPTION))
+			return new BorhanCaptionAsset();
 	
-		if($baseClass == 'KalturaAssetParams' && $enumValue == self::getAssetTypeCoreValue(CaptionAssetType::CAPTION))
-			return new KalturaCaptionParams();
+		if($baseClass == 'BorhanAssetParams' && $enumValue == self::getAssetTypeCoreValue(CaptionAssetType::CAPTION))
+			return new BorhanCaptionParams();
 
 		if($baseClass == 'kJobData' && $enumValue == self::getBatchJobTypeCoreValue(ParseMultiLanguageCaptionAssetBatchType::PARSE_MULTI_LANGUAGE_CAPTION_ASSET))
 			return new kParseMultiLanguageCaptionAssetJobData();
 
-		if($baseClass == 'KalturaJobData' && $enumValue == self::getApiValue(ParseMultiLanguageCaptionAssetBatchType::PARSE_MULTI_LANGUAGE_CAPTION_ASSET))
-			return new KalturaParseMultiLanguageCaptionAssetJobData();
+		if($baseClass == 'BorhanJobData' && $enumValue == self::getApiValue(ParseMultiLanguageCaptionAssetBatchType::PARSE_MULTI_LANGUAGE_CAPTION_ASSET))
+			return new BorhanParseMultiLanguageCaptionAssetJobData();
 	
 		return null;
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
@@ -251,14 +251,14 @@ class CaptionPlugin extends KalturaPlugin implements IKalturaServices, IKalturaP
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaApplicationPartialView::getApplicationPartialViews()
+	 * @see IBorhanApplicationPartialView::getApplicationPartialViews()
 	 */
 	public static function getApplicationPartialViews($controller, $action)
 	{
 		if($controller == 'batch' && $action == 'entryInvestigation')
 		{
 			return array(
-				new Kaltura_View_Helper_EntryInvestigateCaptionAssets(),
+				new Borhan_View_Helper_EntryInvestigateCaptionAssets(),
 			);
 		}
 		
@@ -266,7 +266,7 @@ class CaptionPlugin extends KalturaPlugin implements IKalturaServices, IKalturaP
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSchemaContributor::contributeToSchema()
+	 * @see IBorhanSchemaContributor::contributeToSchema()
 	 */
 	public static function contributeToSchema($type)
 	{
@@ -308,12 +308,12 @@ class CaptionPlugin extends KalturaPlugin implements IKalturaServices, IKalturaP
 				<xs:documentation>Indicates if the caption asset is the entry default caption asset</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="format" type="KalturaCaptionType" use="optional">
+		<xs:attribute name="format" type="BorhanCaptionType" use="optional">
 			<xs:annotation>
 				<xs:documentation>Caption asset file format</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="lang" type="KalturaLanguage" use="optional">
+		<xs:attribute name="lang" type="BorhanLanguage" use="optional">
 			<xs:annotation>
 				<xs:documentation>Caption asset file language</xs:documentation>
 			</xs:annotation>
@@ -332,7 +332,7 @@ class CaptionPlugin extends KalturaPlugin implements IKalturaServices, IKalturaP
 			<xs:documentation>Caption asset element</xs:documentation>
 			<xs:appinfo>
 				<example>
-					<subTitle href="http://kaltura.domain/path/caption_file.srt" captionAssetId="{caption_asset_id}" isDefault="true" format="2" lang="Hebrew">
+					<subTitle href="http://borhan.domain/path/caption_file.srt" captionAssetId="{caption_asset_id}" isDefault="true" format="2" lang="Hebrew">
 						<tags>
 							<tag>example</tag>
 							<tag>my_tag</tag>
@@ -348,14 +348,14 @@ class CaptionPlugin extends KalturaPlugin implements IKalturaServices, IKalturaP
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaMrssContributor::contribute()
+	 * @see IBorhanMrssContributor::contribute()
 	 */
 	public function contribute(BaseObject $object, SimpleXMLElement $mrss, kMrssParameters $mrssParams = null)
 	{
 		if(!($object instanceof entry))
 			return;
 			
-		$types = KalturaPluginManager::getExtendedTypes(assetPeer::OM_CLASS, CaptionPlugin::getAssetTypeCoreValue(CaptionAssetType::CAPTION));
+		$types = BorhanPluginManager::getExtendedTypes(assetPeer::OM_CLASS, CaptionPlugin::getAssetTypeCoreValue(CaptionAssetType::CAPTION));
 		$captionAssets = assetPeer::retrieveByEntryId($object->getId(), $types);
 		
 		foreach($captionAssets as $captionAsset)
@@ -388,7 +388,7 @@ class CaptionPlugin extends KalturaPlugin implements IKalturaServices, IKalturaP
 	 */
 	public static function getAssetTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('assetType', $value);
 	}
 	
@@ -397,7 +397,7 @@ class CaptionPlugin extends KalturaPlugin implements IKalturaServices, IKalturaP
 	 */
 	public static function getObjectFeatureTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('ObjectFeatureType', $value);
 	}
 	
@@ -406,7 +406,7 @@ class CaptionPlugin extends KalturaPlugin implements IKalturaServices, IKalturaP
 	*/
 	public static function getBatchJobTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('BatchJobType', $value);
 	}
 	
@@ -415,11 +415,11 @@ class CaptionPlugin extends KalturaPlugin implements IKalturaServices, IKalturaP
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaMrssContributor::getObjectFeatureType()
+	 * @see IBorhanMrssContributor::getObjectFeatureType()
 	 */
 	public function getObjectFeatureType()
 	{
@@ -471,7 +471,7 @@ class CaptionPlugin extends KalturaPlugin implements IKalturaServices, IKalturaP
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlayManifestContributor::getManifestEditors()
+	 * @see IBorhanPlayManifestContributor::getManifestEditors()
 	 */
 	public static function getManifestEditors ($config)
 	{
@@ -550,7 +550,7 @@ class CaptionPlugin extends KalturaPlugin implements IKalturaServices, IKalturaP
 					if (isset(self::$captionsFormatMap[$captionAsset->getLanguage()]))
 						$captionAssetObj['language'] = self::$captionsFormatMap[$captionAsset->getLanguage()];
 
-					KalturaLog::info("Object passed into editor: " . print_r($captionAssetObj, true));
+					BorhanLog::info("Object passed into editor: " . print_r($captionAssetObj, true));
 					$contributor->captions[] = $captionAssetObj;
 				}
 

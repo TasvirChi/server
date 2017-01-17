@@ -3,12 +3,12 @@
 /**
  * Auto-generated class.
  * 
- * Used to search KalturaMediaEntry attributes. Use KalturaMediaEntryMatchAttribute enum to provide attribute name.
+ * Used to search BorhanMediaEntry attributes. Use BorhanMediaEntryMatchAttribute enum to provide attribute name.
 */
-class KalturaMediaEntryMatchAttributeCondition extends KalturaSearchMatchAttributeCondition
+class BorhanMediaEntryMatchAttributeCondition extends BorhanSearchMatchAttributeCondition
 {
 	/**
-	 * @var KalturaMediaEntryMatchAttribute
+	 * @var BorhanMediaEntryMatchAttribute
 	 */
 	public $attribute;
 

@@ -5,7 +5,7 @@
 class kActivitiBusinessProcessProvider extends kBusinessProcessProvider
 {
 	/**
-	 * @var KalturaActivitiBusinessProcessServer
+	 * @var BorhanActivitiBusinessProcessServer
 	 */
 	protected $server;
 	
@@ -119,7 +119,7 @@ class kActivitiBusinessProcessProvider extends kBusinessProcessProvider
 			}
 			catch (Exception $e)
 			{
-				KalturaLog::err($e);
+				BorhanLog::err($e);
 			}
 		}
 		

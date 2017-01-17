@@ -3,7 +3,7 @@
  * @package plugins.externalMedia
  * @subpackage api.enum
  */
-class KalturaExternalMediaSourceType extends KalturaDynamicEnum implements ExternalMediaSourceType
+class BorhanExternalMediaSourceType extends BorhanDynamicEnum implements ExternalMediaSourceType
 {
 	public static function getEnumClass()
 	{

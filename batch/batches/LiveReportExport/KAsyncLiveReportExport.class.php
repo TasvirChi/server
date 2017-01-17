@@ -8,17 +8,17 @@ class KAsyncLiveReportExport  extends KJobHandlerWorker
 
 	public static function getType()
 	{
-		return KalturaBatchJobType::LIVE_REPORT_EXPORT;
+		return BorhanBatchJobType::LIVE_REPORT_EXPORT;
 	}
 
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
-		$this->updateJob($job, 'Creating CSV Export', KalturaBatchJobStatus::QUEUED);
+		$this->updateJob($job, 'Creating CSV Export', BorhanBatchJobStatus::QUEUED);
 		$job = $this->createCsv($job, $job->data);
 		return $job;
 	}
 
-	protected function createCsv(KalturaBatchJob $job, KalturaLiveReportExportJobData $data) {
+	protected function createCsv(BorhanBatchJob $job, BorhanLiveReportExportJobData $data) {
 		$partnerId =  $job->partnerId;
 		$type = $job->jobSubType;
 		
@@ -39,7 +39,7 @@ class KAsyncLiveReportExport  extends KJobHandlerWorker
 		return $job;
 	}
 	
-	protected function moveFile(KalturaBatchJob $job, KalturaLiveReportExportJobData $data, $partnerId) {
+	protected function moveFile(BorhanBatchJob $job, BorhanLiveReportExportJobData $data, $partnerId) {
 		$fileName =  basename($data->outputPath);
 		$sharedLocation = self::$taskConfig->params->sharedPath . DIRECTORY_SEPARATOR . $partnerId . "_" . $fileName;
 		
@@ -50,10 +50,10 @@ class KAsyncLiveReportExport  extends KJobHandlerWorker
 		$this->setFilePermissions($sharedLocation);
 		if(!$this->checkFileExists($sharedLocation, $fileSize))
 		{
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, 'Failed to move report file', KalturaBatchJobStatus::RETRY);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, 'Failed to move report file', BorhanBatchJobStatus::RETRY);
 		}
 	
-		return $this->closeJob($job, null, null, 'CSV created successfully', KalturaBatchJobStatus::FINISHED, $data);
+		return $this->closeJob($job, null, null, 'CSV created successfully', BorhanBatchJobStatus::FINISHED, $data);
 	}
 	
 }

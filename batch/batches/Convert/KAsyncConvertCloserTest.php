@@ -26,9 +26,9 @@ class KAsyncConvertCloserTest extends PHPUnit_Framework_TestCase
 	
 	public function testEncodingCom()
 	{
-		$engineType = KalturaConversionEngineType::ENCODING_COM;
+		$engineType = BorhanConversionEngineType::ENCODING_COM;
 		$remoteMediaId = '845877';
-		$this->doTest($engineType, $remoteMediaId, '', KalturaBatchJobStatus::FINISHED);
+		$this->doTest($engineType, $remoteMediaId, '', BorhanBatchJobStatus::FINISHED);
 	}
 	
 	private function doTest($engineType, $remoteMediaId, $remoteUrl, $expectedStatus)
@@ -59,14 +59,14 @@ class KAsyncConvertCloserTest extends PHPUnit_Framework_TestCase
 	
 	private function prepareJobs($engineType, $remoteMediaId, $remoteUrl)
 	{
-		$data = new KalturaConvertJobData();
+		$data = new BorhanConvertJobData();
 		$data->remoteMediaId = $remoteMediaId;
 		$data->destFileSyncRemoteUrl = $remoteUrl;
 		
-		$job = new KalturaBatchJob();
+		$job = new BorhanBatchJob();
 		$job->id = 1;
 		$job->jobSubType = $engineType;
-		$job->status = KalturaBatchJobStatus::ALMOST_DONE;
+		$job->status = BorhanBatchJobStatus::ALMOST_DONE;
 		$job->data = $data;
 		$job->queueTime = time();
 		

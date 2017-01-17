@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaPlaylist extends KalturaBaseEntry
+class BorhanPlaylist extends BorhanBaseEntry
 {
 	/**
 	 * Content of the playlist - 
@@ -16,7 +16,7 @@ class KalturaPlaylist extends KalturaBaseEntry
 	
 	/**
 	 * 
-	 * @var KalturaMediaEntryFilterForPlaylistArray
+	 * @var BorhanMediaEntryFilterForPlaylistArray
 	 */
 	public $filters;
 	
@@ -30,7 +30,7 @@ class KalturaPlaylist extends KalturaBaseEntry
 	/**
 	 * Type of playlist
 	 * 
-	 * @var KalturaPlaylistType
+	 * @var BorhanPlaylistType
 	 */	
 	public $playlistType;
 
@@ -92,7 +92,7 @@ class KalturaPlaylist extends KalturaBaseEntry
 		parent::validateForInsert($propertiesToSkip);
 		
 		$this->validatePropertyNotNull("playlistType");
-		if ($this->playlistType == KalturaPlaylistType::DYNAMIC)
+		if ($this->playlistType == BorhanPlaylistType::DYNAMIC)
 			$this->validatePropertyNotNull("totalResults");
 	}
 	
@@ -102,7 +102,7 @@ class KalturaPlaylist extends KalturaBaseEntry
 			$dbObject = new entry();
 		
 		// support filters array only if atleast one filters was specified
-		if ($this->playlistType == KalturaPlaylistType::DYNAMIC && $this->filters !== null)
+		if ($this->playlistType == BorhanPlaylistType::DYNAMIC && $this->filters !== null)
 			$this->filtersToPlaylistContentXml();
 		
 		$dbObject->setType ( entryType::PLAYLIST );
@@ -113,7 +113,7 @@ class KalturaPlaylist extends KalturaBaseEntry
 		return $dbObject;
 	}
 	
-	public function doFromObject($sourceObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($sourceObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		if(!$sourceObject)
 			return;
@@ -123,7 +123,7 @@ class KalturaPlaylist extends KalturaBaseEntry
 		if($this->shouldGet('executeUrl', $responseProfile))
 			$this->executeUrl = myPlaylistUtils::toPlaylistUrl( $sourceObject , requestUtils::getHost() );
 		
-		if ($this->shouldGet('filters', $responseProfile) && $this->playlistType == KalturaPlaylistType::DYNAMIC)
+		if ($this->shouldGet('filters', $responseProfile) && $this->playlistType == BorhanPlaylistType::DYNAMIC)
 			$this->playlistContentXmlToFilters();
 	}
 	
@@ -132,7 +132,7 @@ class KalturaPlaylist extends KalturaBaseEntry
 		$playlistXml = new SimpleXMLElement("<playlist/>");
 		$playlistXml->addChild("total_results", $this->totalResults);
 		$filtersXml = $playlistXml->addChild("filters");
-		if ($this->filters instanceof KalturaMediaEntryFilterForPlaylistArray)
+		if ($this->filters instanceof BorhanMediaEntryFilterForPlaylistArray)
 		{
 			foreach($this->filters as $filter)
 			{
@@ -157,12 +157,12 @@ class KalturaPlaylist extends KalturaBaseEntry
 	{
 		list($totalResults, $listOfFilters) = myPlaylistUtils::getPlaylistFilterListStruct($this->playlistContent);
 		// $totalResults is SimpleXMLElement
-		$this->filters = new KalturaMediaEntryFilterForPlaylistArray();
+		$this->filters = new BorhanMediaEntryFilterForPlaylistArray();
 		foreach($listOfFilters as $entryFilterXml)
 		{
 			$entryFilter = new entryFilter();
 			$entryFilter->fillObjectFromXml($entryFilterXml, "_"); 
-			$filter = new KalturaMediaEntryFilterForPlaylist();
+			$filter = new BorhanMediaEntryFilterForPlaylist();
 			$filter->fromObject($entryFilter);
 			$this->filters[] = $filter;
 		}

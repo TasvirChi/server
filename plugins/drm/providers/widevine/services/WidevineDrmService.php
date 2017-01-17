@@ -6,7 +6,7 @@
  * @package plugins.widevine
  * @subpackage api.services
  */
-class WidevineDrmService extends KalturaBaseService
+class WidevineDrmService extends BorhanBaseService
 {	
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -15,7 +15,7 @@ class WidevineDrmService extends KalturaBaseService
 		$this->applyPartnerFilterForClass('DrmProfile');
 		
 		if (!WidevinePlugin::isAllowedPartner($this->getPartnerId()))
-			throw new KalturaAPIException(KalturaErrors::SERVICE_FORBIDDEN, $this->serviceName.'->'.$this->actionName);
+			throw new BorhanAPIException(BorhanErrors::SERVICE_FORBIDDEN, $this->serviceName.'->'.$this->actionName);
 	}
 		
 	/**
@@ -29,16 +29,16 @@ class WidevineDrmService extends KalturaBaseService
 	 */
 	public function getLicenseAction($flavorAssetId, $referrer = null)
 	{
-		KalturaResponseCacher::disableCache();
+		BorhanResponseCacher::disableCache();
 		
-		KalturaLog::debug('get license for flavor asset: '.$flavorAssetId);
+		BorhanLog::debug('get license for flavor asset: '.$flavorAssetId);
 		try 
 		{
 			$requestParams = requestUtils::getRequestParams();
 			if(!array_key_exists(WidevineLicenseProxyUtils::ASSETID, $requestParams))
 			{
-				KalturaLog::err('assetid is missing on the request');
-				return WidevineLicenseProxyUtils::createErrorResponse(KalturaWidevineErrorCodes::WIDEVINE_ASSET_ID_CANNOT_BE_NULL, 0);
+				BorhanLog::err('assetid is missing on the request');
+				return WidevineLicenseProxyUtils::createErrorResponse(BorhanWidevineErrorCodes::WIDEVINE_ASSET_ID_CANNOT_BE_NULL, 0);
 			}
 			$wvAssetId = $requestParams[WidevineLicenseProxyUtils::ASSETID];
 				
@@ -52,15 +52,15 @@ class WidevineDrmService extends KalturaBaseService
 			}
 			$response = WidevineLicenseProxyUtils::sendLicenseRequest($requestParams, $privileges, $isAdmin);
 		}
-		catch(KalturaWidevineLicenseProxyException $e)
+		catch(BorhanWidevineLicenseProxyException $e)
 		{
-			KalturaLog::err($e);
+			BorhanLog::err($e);
 			$response = WidevineLicenseProxyUtils::createErrorResponse($e->getWvErrorCode(), $wvAssetId);
 		}
 		catch (Exception $e)
 		{
-			KalturaLog::err($e);
-			$response = WidevineLicenseProxyUtils::createErrorResponse(KalturaWidevineErrorCodes::GENERAL_ERROR, $wvAssetId);
+			BorhanLog::err($e);
+			$response = WidevineLicenseProxyUtils::createErrorResponse(BorhanWidevineErrorCodes::GENERAL_ERROR, $wvAssetId);
 		}	
 		
 		WidevineLicenseProxyUtils::printLicenseResponseStatus($response);
@@ -70,19 +70,19 @@ class WidevineDrmService extends KalturaBaseService
 	private function validateLicenseRequest($flavorAssetId, $wvAssetId, $referrer64base)
 	{
 		if(!$flavorAssetId)
-			throw new KalturaWidevineLicenseProxyException(KalturaWidevineErrorCodes::FLAVOR_ASSET_ID_CANNOT_BE_NULL);
+			throw new BorhanWidevineLicenseProxyException(BorhanWidevineErrorCodes::FLAVOR_ASSET_ID_CANNOT_BE_NULL);
 				
 		$flavorAsset = $this->getFlavorAssetObject($flavorAssetId);
 
 		if($flavorAsset->getType() != WidevinePlugin::getAssetTypeCoreValue(WidevineAssetType::WIDEVINE_FLAVOR))
-			throw new KalturaWidevineLicenseProxyException(KalturaWidevineErrorCodes::WRONG_ASSET_TYPE);
+			throw new BorhanWidevineLicenseProxyException(BorhanWidevineErrorCodes::WRONG_ASSET_TYPE);
 			
 		if($wvAssetId != $flavorAsset->getWidevineAssetId())
-			throw new KalturaWidevineLicenseProxyException(KalturaWidevineErrorCodes::FLAVOR_ASSET_ID_DONT_MATCH_WIDEVINE_ASSET_ID);
+			throw new BorhanWidevineLicenseProxyException(BorhanWidevineErrorCodes::FLAVOR_ASSET_ID_DONT_MATCH_WIDEVINE_ASSET_ID);
 					
 		$entry = entryPeer::retrieveByPK($flavorAsset->getEntryId());
 		if(!$entry)
-			throw new KalturaWidevineLicenseProxyException(KalturaWidevineErrorCodes::FLAVOR_ASSET_ID_NOT_FOUND);
+			throw new BorhanWidevineLicenseProxyException(BorhanWidevineErrorCodes::FLAVOR_ASSET_ID_NOT_FOUND);
 			
 		$this->validateAccessControl($entry, $flavorAsset, $referrer64base);		
 	}
@@ -96,16 +96,16 @@ class WidevineDrmService extends KalturaBaseService
 		if(!$secureEntryHelper->isKsAdmin())
 		{
 			if(!$entry->isScheduledNow())
-				throw new KalturaWidevineLicenseProxyException(KalturaWidevineErrorCodes::ENTRY_NOT_SCHEDULED_NOW);
+				throw new BorhanWidevineLicenseProxyException(BorhanWidevineErrorCodes::ENTRY_NOT_SCHEDULED_NOW);
 			if($secureEntryHelper->isEntryInModeration())
-				throw new KalturaWidevineLicenseProxyException(KalturaWidevineErrorCodes::ENTRY_MODERATION_ERROR);
+				throw new BorhanWidevineLicenseProxyException(BorhanWidevineErrorCodes::ENTRY_MODERATION_ERROR);
 		}
 			
 		if($secureEntryHelper->shouldBlock())
-			throw new KalturaWidevineLicenseProxyException(KalturaWidevineErrorCodes::ACCESS_CONTROL_RESTRICTED);
+			throw new BorhanWidevineLicenseProxyException(BorhanWidevineErrorCodes::ACCESS_CONTROL_RESTRICTED);
 			
 		if(!$secureEntryHelper->isAssetAllowed($flavorAsset))
-			throw new KalturaWidevineLicenseProxyException(KalturaWidevineErrorCodes::FLAVOR_ASSET_ID_NOT_FOUND);
+			throw new BorhanWidevineLicenseProxyException(BorhanWidevineErrorCodes::FLAVOR_ASSET_ID_NOT_FOUND);
 	}
 	
 	private function getFlavorAssetObject($flavorAssetId)
@@ -125,13 +125,13 @@ class WidevineDrmService extends KalturaBaseService
 			}
 			
 			if (!$flavorAsset || $flavorAsset->getStatus() == asset::ASSET_STATUS_DELETED)
-				throw new KalturaWidevineLicenseProxyException(KalturaWidevineErrorCodes::FLAVOR_ASSET_ID_NOT_FOUND);		
+				throw new BorhanWidevineLicenseProxyException(BorhanWidevineErrorCodes::FLAVOR_ASSET_ID_NOT_FOUND);		
 
 			return $flavorAsset;
 		}
 		catch (PropelException $e)
 		{
-			throw new KalturaWidevineLicenseProxyException(KalturaWidevineErrorCodes::FLAVOR_ASSET_ID_NOT_FOUND);
+			throw new BorhanWidevineLicenseProxyException(BorhanWidevineErrorCodes::FLAVOR_ASSET_ID_NOT_FOUND);
 		}
 	}
 }

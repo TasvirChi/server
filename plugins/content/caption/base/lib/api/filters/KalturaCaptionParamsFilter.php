@@ -3,17 +3,17 @@
  * @package plugins.caption
  * @subpackage api.filters
  */
-class KalturaCaptionParamsFilter extends KalturaCaptionParamsBaseFilter
+class BorhanCaptionParamsFilter extends BorhanCaptionParamsBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaAssetParamsFilter::getTypeListResponse()
+	 * @see BorhanAssetParamsFilter::getTypeListResponse()
 	 */
-	public function getTypeListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null, array $types = null)
+	public function getTypeListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null, array $types = null)
 	{
 		list($list, $totalCount) = $this->doGetListResponse($pager, $types);
 		
-		$response = new KalturaCaptionParamsListResponse();
-		$response->objects = KalturaCaptionParamsArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanCaptionParamsListResponse();
+		$response->objects = BorhanCaptionParamsArray::fromDbArray($list, $responseProfile);
 		$response->totalCount = $totalCount;
 		return $response;  
 	}

@@ -3,7 +3,7 @@
  * @package infra
  * @subpackage Plugins
  */
-abstract class KalturaPlugin implements IKalturaPlugin
+abstract class BorhanPlugin implements IBorhanPlugin
 {
 	public function getInstance($interface)
 	{

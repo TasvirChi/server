@@ -7,8 +7,8 @@ if(!isset($argv[1]))
 $uiConfId = $argv[1];
 
 $dryRun = (!isset($argv[2]) || $argv[2] != 'realrun');
-KalturaStatement::setDryRun($dryRun);
-KalturaLog::debug($dryRun ? "Dry Run" : "REAL RUN");
+BorhanStatement::setDryRun($dryRun);
+BorhanLog::debug($dryRun ? "Dry Run" : "REAL RUN");
 
 uiConfPeer::setUseCriteriaFilter(false);
 FileSyncPeer::setUseCriteriaFilter(false);
@@ -55,4 +55,4 @@ foreach($fileSyncs as $fileSync)
 $uiConf->setStatus(uiConf::UI_CONF_STATUS_READY);
 $uiConf->save();
 
-KalturaLog::debug('Done');
+BorhanLog::debug('Done');

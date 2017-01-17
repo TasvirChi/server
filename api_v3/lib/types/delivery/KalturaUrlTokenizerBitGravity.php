@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaUrlTokenizerBitGravity extends KalturaUrlTokenizer {
+class BorhanUrlTokenizerBitGravity extends BorhanUrlTokenizer {
 
 	/**
 	 * hashPatternRegex

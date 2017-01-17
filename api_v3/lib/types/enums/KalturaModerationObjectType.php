@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaModerationObjectType extends KalturaDynamicEnum implements moderationObjectType
+class BorhanModerationObjectType extends BorhanDynamicEnum implements moderationObjectType
 {
 	public static function getEnumClass()
 	{

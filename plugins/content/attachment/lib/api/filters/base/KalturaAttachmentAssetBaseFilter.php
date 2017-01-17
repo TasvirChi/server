@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaAttachmentAssetBaseFilter extends KalturaAssetFilter
+abstract class BorhanAttachmentAssetBaseFilter extends BorhanAssetFilter
 {
 	static private $map_between_objects = array
 	(
@@ -30,18 +30,18 @@ abstract class KalturaAttachmentAssetBaseFilter extends KalturaAssetFilter
 	}
 
 	/**
-	 * @var KalturaAttachmentType
+	 * @var BorhanAttachmentType
 	 */
 	public $formatEqual;
 
 	/**
-	 * @dynamicType KalturaAttachmentType
+	 * @dynamicType BorhanAttachmentType
 	 * @var string
 	 */
 	public $formatIn;
 
 	/**
-	 * @var KalturaAttachmentAssetStatus
+	 * @var BorhanAttachmentAssetStatus
 	 */
 	public $statusEqual;
 

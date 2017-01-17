@@ -22,7 +22,7 @@ catch (kCoreException $e)
 
 $dryRun = (!isset($argv[4]) || $argv[4] != 'realrun');
 
-KalturaStatement::setDryRun($dryRun);
+BorhanStatement::setDryRun($dryRun);
 
 if(file_exists($partnerIds))
 	$partnerIds = file($partnerIds);
@@ -69,6 +69,6 @@ foreach($partnerIds as $partnerId)
 		$criteria->setOffset($partnerCuePoints);
 		$cuePoints = CuePointPeer::doSelect($criteria);
 	}
-	KalturaLog::debug("Added tag [$tag] to $partnerCuePoints cue-points for partner $partnerId");
+	BorhanLog::debug("Added tag [$tag] to $partnerCuePoints cue-points for partner $partnerId");
 }
-KalturaLog::debug("Done!!!");
+BorhanLog::debug("Done!!!");

@@ -3,10 +3,10 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaDistributionProviderListResponse extends KalturaListResponse
+class BorhanDistributionProviderListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaDistributionProviderArray
+	 * @var BorhanDistributionProviderArray
 	 * @readonly
 	 */
 	public $objects;

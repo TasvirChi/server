@@ -3,14 +3,14 @@
  * @package plugins.varConsole
  * @subpackage api.types
  */
-class KalturaPartnerUsageListResponse extends KalturaListResponse
+class BorhanPartnerUsageListResponse extends BorhanListResponse
 {
     /**
-     * @var KalturaVarPartnerUsageItem
+     * @var BorhanVarPartnerUsageItem
      */
     public $total;
     /**
-     * @var KalturaVarPartnerUsageArray
+     * @var BorhanVarPartnerUsageArray
      */
     public $objects;
 }

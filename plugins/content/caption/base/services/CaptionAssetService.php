@@ -7,11 +7,11 @@
  * @package plugins.caption
  * @subpackage api.services
  */
-class CaptionAssetService extends KalturaAssetService
+class CaptionAssetService extends BorhanAssetService
 {
 	const MAX_SERVE_WEBVTT_FILE_SIZE = 1048576;
 	
-	protected function kalturaNetworkAllowed($actionName)
+	protected function borhanNetworkAllowed($actionName)
 	{
 		if(
 			$actionName == 'get' ||
@@ -23,11 +23,11 @@ class CaptionAssetService extends KalturaAssetService
 			return true;
 		}
 			
-		return parent::kalturaNetworkAllowed($actionName);
+		return parent::borhanNetworkAllowed($actionName);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseService::partnerRequired()
+	 * @see BorhanBaseService::partnerRequired()
 	 */
 	protected function partnerRequired($actionName)
 	{
@@ -45,29 +45,29 @@ class CaptionAssetService extends KalturaAssetService
      *
      * @action add
      * @param string $entryId
-     * @param KalturaCaptionAsset $captionAsset
-     * @return KalturaCaptionAsset
-     * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-     * @throws KalturaCaptionErrors::CAPTION_ASSET_ALREADY_EXISTS
-	 * @throws KalturaErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
-	 * @throws KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
-	 * @throws KalturaErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
-	 * @throws KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND
-	 * @throws KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED
+     * @param BorhanCaptionAsset $captionAsset
+     * @return BorhanCaptionAsset
+     * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+     * @throws BorhanCaptionErrors::CAPTION_ASSET_ALREADY_EXISTS
+	 * @throws BorhanErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
+	 * @throws BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
+	 * @throws BorhanErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
+	 * @throws BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED
 	 * @validateUser entry entryId edit
      */
-    function addAction($entryId, KalturaCaptionAsset $captionAsset)
+    function addAction($entryId, BorhanCaptionAsset $captionAsset)
     {
     	$dbEntry = entryPeer::retrieveByPK($entryId);
-    	if(!$dbEntry || !in_array($dbEntry->getType(), $this->getEnabledMediaTypes()) || !in_array($dbEntry->getMediaType(), array(KalturaMediaType::VIDEO, KalturaMediaType::AUDIO)))
-    		throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+    	if(!$dbEntry || !in_array($dbEntry->getType(), $this->getEnabledMediaTypes()) || !in_array($dbEntry->getMediaType(), array(BorhanMediaType::VIDEO, BorhanMediaType::AUDIO)))
+    		throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
     	
     	if($captionAsset->captionParamsId)
     	{
     		$dbCaptionAsset = assetPeer::retrieveByEntryIdAndParams($entryId, $captionAsset->captionParamsId);
     		if($dbCaptionAsset)
-    			throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_ALREADY_EXISTS, $dbCaptionAsset->getId(), $captionAsset->captionParamsId);
+    			throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_ALREADY_EXISTS, $dbCaptionAsset->getId(), $captionAsset->captionParamsId);
     	}
     	
     	$dbCaptionAsset = new CaptionAsset();
@@ -78,7 +78,7 @@ class CaptionAssetService extends KalturaAssetService
 		$dbCaptionAsset->setStatus(CaptionAsset::ASSET_STATUS_QUEUED);
 		$dbCaptionAsset->save();
 
-		$captionAsset = new KalturaCaptionAsset();
+		$captionAsset = new BorhanCaptionAsset();
 		$captionAsset->fromObject($dbCaptionAsset, $this->getResponseProfile());
 		return $captionAsset;
     }
@@ -88,26 +88,26 @@ class CaptionAssetService extends KalturaAssetService
      *
      * @action setContent
      * @param string $id
-     * @param KalturaContentResource $contentResource
-     * @return KalturaCaptionAsset
-     * @throws KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
-	 * @throws KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
-	 * @throws KalturaErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
-	 * @throws KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND
-	 * @throws KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED
+     * @param BorhanContentResource $contentResource
+     * @return BorhanCaptionAsset
+     * @throws BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
+	 * @throws BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
+	 * @throws BorhanErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
+	 * @throws BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED
 	 * @validateUser asset::entry id edit 
      */
-    function setContentAction($id, KalturaContentResource $contentResource)
+    function setContentAction($id, BorhanContentResource $contentResource)
     {
    		$dbCaptionAsset = assetPeer::retrieveById($id);
    		if (!$dbCaptionAsset || !($dbCaptionAsset instanceof CaptionAsset))
-   			throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $id);
+   			throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $id);
     	
 		$dbEntry = $dbCaptionAsset->getentry();
-    	if(!$dbEntry || !in_array($dbEntry->getType(), $this->getEnabledMediaTypes()) || !in_array($dbEntry->getMediaType(), array(KalturaMediaType::VIDEO, KalturaMediaType::AUDIO)))
-    		throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $dbCaptionAsset->getEntryId());
+    	if(!$dbEntry || !in_array($dbEntry->getType(), $this->getEnabledMediaTypes()) || !in_array($dbEntry->getMediaType(), array(BorhanMediaType::VIDEO, BorhanMediaType::AUDIO)))
+    		throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $dbCaptionAsset->getEntryId());
 		
 		
    		$previousStatus = $dbCaptionAsset->getStatus();
@@ -128,7 +128,7 @@ class CaptionAssetService extends KalturaAssetService
    		else
    			kEventsManager::raiseEvent(new kObjectDataChangedEvent($dbCaptionAsset));
    		
-		$captionAsset = new KalturaCaptionAsset();
+		$captionAsset = new BorhanCaptionAsset();
 		$captionAsset->fromObject($dbCaptionAsset, $this->getResponseProfile());
 		return $captionAsset;
     }
@@ -138,20 +138,20 @@ class CaptionAssetService extends KalturaAssetService
      *
      * @action update
      * @param string $id
-     * @param KalturaCaptionAsset $captionAsset
-     * @return KalturaCaptionAsset
-     * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+     * @param BorhanCaptionAsset $captionAsset
+     * @return BorhanCaptionAsset
+     * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
      * @validateUser asset::entry id edit
      */
-    function updateAction($id, KalturaCaptionAsset $captionAsset)
+    function updateAction($id, BorhanCaptionAsset $captionAsset)
     {
 		$dbCaptionAsset = assetPeer::retrieveById($id);
 		if (!$dbCaptionAsset || !($dbCaptionAsset instanceof CaptionAsset))
-			throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $id);
     	
 		$dbEntry = $dbCaptionAsset->getentry();
-    	if(!$dbEntry || !in_array($dbEntry->getType(), $this->getEnabledMediaTypes()) || !in_array($dbEntry->getMediaType(), array(KalturaMediaType::VIDEO, KalturaMediaType::AUDIO)))
-    		throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $dbCaptionAsset->getEntryId());
+    	if(!$dbEntry || !in_array($dbEntry->getType(), $this->getEnabledMediaTypes()) || !in_array($dbEntry->getMediaType(), array(BorhanMediaType::VIDEO, BorhanMediaType::AUDIO)))
+    		throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $dbCaptionAsset->getEntryId());
 		
 		
     	$dbCaptionAsset = $captionAsset->toUpdatableObject($dbCaptionAsset);
@@ -160,7 +160,7 @@ class CaptionAssetService extends KalturaAssetService
 		if($dbCaptionAsset->getDefault())
 			$this->setAsDefaultAction($dbCaptionAsset->getId());
 			
-		$captionAsset = new KalturaCaptionAsset();
+		$captionAsset = new BorhanCaptionAsset();
 		$captionAsset->fromObject($dbCaptionAsset, $this->getResponseProfile());
 		return $captionAsset;
     }
@@ -200,7 +200,7 @@ class CaptionAssetService extends KalturaAssetService
 		$finalPath = kFileSyncUtils::getLocalFilePathForKey($syncKey);
 		list($width, $height, $type, $attr) = getimagesize($finalPath);
 
-		if ($captionAsset->getLanguage() == KalturaLanguage::MU)
+		if ($captionAsset->getLanguage() == BorhanLanguage::MU)
 		{
 			kCaptionsContentManager::addParseMultiLanguageCaptionAssetJob($captionAsset, $finalPath);
 		}
@@ -231,7 +231,7 @@ class CaptionAssetService extends KalturaAssetService
 			$captionAsset->save();
 		}
 		
-		throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_DOWNLOAD_FAILED, $url);
+		throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_DOWNLOAD_FAILED, $url);
     }
     
 	/**
@@ -296,7 +296,7 @@ class CaptionAssetService extends KalturaAssetService
 	/**
 	 * @param CaptionAsset $captionAsset
 	 * @param IRemoteStorageResource $contentResource
-	 * @throws KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND
 	 */
 	protected function attachRemoteStorageResource(CaptionAsset $captionAsset, IRemoteStorageResource $contentResource)
 	{
@@ -319,12 +319,12 @@ class CaptionAssetService extends KalturaAssetService
 	/**
 	 * @param CaptionAsset $captionAsset
 	 * @param kContentResource $contentResource
-	 * @throws KalturaErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
-	 * @throws KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
-	 * @throws KalturaErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
-	 * @throws KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND
-	 * @throws KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED
+	 * @throws BorhanErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
+	 * @throws BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
+	 * @throws BorhanErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
+	 * @throws BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED
 	 */
 	protected function attachContentResource(CaptionAsset $captionAsset, kContentResource $contentResource)
 	{
@@ -345,7 +345,7 @@ class CaptionAssetService extends KalturaAssetService
 				
 			default:
 				$msg = "Resource of type [" . get_class($contentResource) . "] is not supported";
-				KalturaLog::err($msg);
+				BorhanLog::err($msg);
 				
 				if($captionAsset->getStatus() == CaptionAsset::ASSET_STATUS_QUEUED || $captionAsset->getStatus() == CaptionAsset::ASSET_STATUS_NOT_APPLICABLE)
 				{
@@ -354,7 +354,7 @@ class CaptionAssetService extends KalturaAssetService
 					$captionAsset->save();
 				}
 				
-				throw new KalturaAPIException(KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($contentResource));
+				throw new BorhanAPIException(BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($contentResource));
     	}
     }
     
@@ -367,8 +367,8 @@ class CaptionAssetService extends KalturaAssetService
 	 * @param int $captionParamId if not set, default caption will be used.
 	 * @return file
 	 * 
-	 * @throws KalturaCaptionErrors::CAPTION_ASSET_PARAMS_ID_NOT_FOUND
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanCaptionErrors::CAPTION_ASSET_PARAMS_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
 	public function serveByEntryIdAction($entryId, $captionParamId = null)
 	{
@@ -378,14 +378,14 @@ class CaptionAssetService extends KalturaAssetService
 			$entry = kCurrentContext::initPartnerByEntryId($entryId);
 			
 			if (!$entry || $entry->getStatus() == entryStatus::DELETED)
-				throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+				throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 				
 			// enforce entitlement
 			$this->setPartnerFilters(kCurrentContext::getCurrentPartnerId());
 			kEntitlementUtils::initEntitlementEnforcement();
 			
 			if(!kEntitlementUtils::isEntryEntitled($entry))
-				throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);				
+				throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);				
 		}
 		else 
 		{	
@@ -393,7 +393,7 @@ class CaptionAssetService extends KalturaAssetService
 		}
 		
 		if (!$entry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 
 		$securyEntryHelper = new KSecureEntryHelper($entry, kCurrentContext::$ks, null, ContextType::DOWNLOAD);
 		$securyEntryHelper->validateForDownload();
@@ -417,7 +417,7 @@ class CaptionAssetService extends KalturaAssetService
 		}
 		
 		if(!$captionAsset || !($captionAsset instanceof CaptionAsset))
-			throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_PARAMS_ID_NOT_FOUND, $captionParamId);
+			throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_PARAMS_ID_NOT_FOUND, $captionParamId);
 		
 		$fileName = $captionAsset->getId() . '.' . $captionAsset->getFileExt();
 		
@@ -431,23 +431,23 @@ class CaptionAssetService extends KalturaAssetService
 	 * @param string $id
 	 * @param int $storageId
 	 * @return string
-	 * @throws KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
-	 * @throws KalturaCaptionErrors::CAPTION_ASSET_IS_NOT_READY
+	 * @throws BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
+	 * @throws BorhanCaptionErrors::CAPTION_ASSET_IS_NOT_READY
 	 */
 	public function getUrlAction($id, $storageId = null)
 	{
 		$assetDb = assetPeer::retrieveById($id);
 		if (!$assetDb || !($assetDb instanceof CaptionAsset))
-			throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $id);
 
 		$this->validateEntryEntitlement($assetDb->getEntryId(), $id);
 		
 		if ($assetDb->getStatus() != asset::ASSET_STATUS_READY)
-			throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_IS_NOT_READY);
+			throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_IS_NOT_READY);
 
 		$entryDb = $assetDb->getentry();
 		if(is_null($entryDb))
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $assetDb->getEntryId());
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $assetDb->getEntryId());
 		
 		if($storageId)
 			return $assetDb->getExternalUrl($storageId);
@@ -460,18 +460,18 @@ class CaptionAssetService extends KalturaAssetService
 	 * 
 	 * @action getRemotePaths
 	 * @param string $id
-	 * @return KalturaRemotePathListResponse
-	 * @throws KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
-	 * @throws KalturaCaptionErrors::CAPTION_ASSET_IS_NOT_READY
+	 * @return BorhanRemotePathListResponse
+	 * @throws BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
+	 * @throws BorhanCaptionErrors::CAPTION_ASSET_IS_NOT_READY
 	 */
 	public function getRemotePathsAction($id)
 	{
 		$assetDb = assetPeer::retrieveById($id);
 		if (!$assetDb || !($assetDb instanceof CaptionAsset))
-			throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $id);
 
 		if ($assetDb->getStatus() != asset::ASSET_STATUS_READY)
-			throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_IS_NOT_READY);
+			throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_IS_NOT_READY);
 
 		$c = new Criteria();
 		$c->add(FileSyncPeer::OBJECT_TYPE, FileSyncObjectType::ASSET);
@@ -483,15 +483,15 @@ class CaptionAssetService extends KalturaAssetService
 		$c->add(FileSyncPeer::FILE_TYPE, FileSync::FILE_SYNC_FILE_TYPE_URL);
 		$fileSyncs = FileSyncPeer::doSelect($c);
 			
-		$listResponse = new KalturaRemotePathListResponse();
-		$listResponse->objects = KalturaRemotePathArray::fromDbArray($fileSyncs, $this->getResponseProfile());
+		$listResponse = new BorhanRemotePathListResponse();
+		$listResponse->objects = BorhanRemotePathArray::fromDbArray($fileSyncs, $this->getResponseProfile());
 		$listResponse->totalCount = count($listResponse->objects);
 		return $listResponse;
 	}
 	
 	/**
 	 * @param string $captionAssetId
-	 * @throws KalturaAPIException
+	 * @throws BorhanAPIException
 	 * @return CaptionAsset
 	 */
 	protected function validateForDownload($captionAssetId)
@@ -502,7 +502,7 @@ class CaptionAssetService extends KalturaAssetService
 			$captionAsset = kCurrentContext::initPartnerByAssetId($captionAssetId);
 				
 			if (!$captionAsset || $captionAsset->getStatus() == asset::ASSET_STATUS_DELETED)
-				throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $captionAssetId);
+				throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $captionAssetId);
 		
 			// enforce entitlement
 			$this->setPartnerFilters(kCurrentContext::getCurrentPartnerId());
@@ -514,7 +514,7 @@ class CaptionAssetService extends KalturaAssetService
 		}
 		
 		if (!$captionAsset || !($captionAsset instanceof CaptionAsset))
-			throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $captionAssetId);
+			throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $captionAssetId);
 
 		if (kCurrentContext::$ks_object && 
 			kCurrentContext::$ks_object->verifyPrivileges(CaptionPlugin::KS_PRIVILEGE_CAPTION, $captionAsset->getEntryId()))
@@ -524,7 +524,7 @@ class CaptionAssetService extends KalturaAssetService
 		if(!$entry)
 		{
 			//we will throw caption asset not found, as the user is not entitled, and should not know that the entry exists.
-			throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $captionAssetId);
+			throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $captionAssetId);
 		}
 		
 		$securyEntryHelper = new KSecureEntryHelper($entry, kCurrentContext::$ks, null, ContextType::DOWNLOAD);
@@ -540,7 +540,7 @@ class CaptionAssetService extends KalturaAssetService
 	 * @param string $captionAssetId
 	 * @return file
 	 *  
-	 * @throws KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
+	 * @throws BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
 	 */
 	public function serveAction($captionAssetId)
 	{
@@ -565,7 +565,7 @@ class CaptionAssetService extends KalturaAssetService
 	 * @param int $localTimestamp
 	 * @return file
 	 *
-	 * @throws KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
+	 * @throws BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
 	 */
 	public function serveWebVTTAction($captionAssetId, $segmentDuration = 30, $segmentIndex = null, $localTimestamp = 10000)
 	{
@@ -576,7 +576,7 @@ class CaptionAssetService extends KalturaAssetService
 			entryPeer::setUseCriteriaFilter(false);
 			$entry = entryPeer::retrieveByPK($captionAsset->getEntryId());
 			if (!$entry)
-				throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_ENTRY_ID_NOT_FOUND, $captionAsset->getEntryId());
+				throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_ENTRY_ID_NOT_FOUND, $captionAsset->getEntryId());
 			entryPeer::setUseCriteriaFilter(true);
 
 			return new kRendererString(kWebVTTGenerator::buildWebVTTM3U8File($segmentDuration, (int)$entry->getDuration()), 'application/x-mpegurl');
@@ -584,11 +584,11 @@ class CaptionAssetService extends KalturaAssetService
 		$syncKey = $captionAsset->getSyncKey(asset::FILE_SYNC_FLAVOR_ASSET_SUB_TYPE_ASSET);
 		$content = kFileSyncUtils::file_get_contents($syncKey, true, false, self::MAX_SERVE_WEBVTT_FILE_SIZE);
 		if (!$content)
-			throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_FILE_NOT_FOUND, $captionAssetId);
+			throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_FILE_NOT_FOUND, $captionAssetId);
 
 		$captionsContentManager = kCaptionsContentManager::getCoreContentManager($captionAsset->getContainerFormat());
 		if (!$captionsContentManager)
-			throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_INVALID_FORMAT, $captionAssetId);
+			throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_INVALID_FORMAT, $captionAssetId);
 
 		if ($captionAsset->getContainerFormat() == CaptionType::WEBVTT)
 			return new kRendererString(kWebVTTGenerator::getSegmentFromWebVTT($captionsContentManager, $content, $segmentIndex, $segmentDuration, $localTimestamp), 'text/vtt');
@@ -596,7 +596,7 @@ class CaptionAssetService extends KalturaAssetService
 		{
 			$parsedCaption = $captionsContentManager->parse($content);
 			if (!$parsedCaption)
-				throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_PARSING_FAILED, $captionAssetId);
+				throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_PARSING_FAILED, $captionAssetId);
 			return new kRendererString(kWebVTTGenerator::buildWebVTTSegment($parsedCaption, $segmentIndex, $segmentDuration, $localTimestamp), 'text/vtt');
 		}
 	}
@@ -606,18 +606,18 @@ class CaptionAssetService extends KalturaAssetService
 	 *  
 	 * @action setAsDefault
 	 * @param string $captionAssetId
-	 * @throws KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
+	 * @throws BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
 	 * @validateUser asset::entry captionAssetId edit
 	 */
 	public function setAsDefaultAction($captionAssetId)
 	{
 		$captionAsset = assetPeer::retrieveById($captionAssetId);
 		if (!$captionAsset || !($captionAsset instanceof CaptionAsset))
-			throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $captionAssetId);
+			throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $captionAssetId);
 		
 		$entry = $captionAsset->getentry();
-    	if(!$entry || !in_array($entry->getType(), $this->getEnabledMediaTypes()) || !in_array($entry->getMediaType(), array(KalturaMediaType::VIDEO, KalturaMediaType::AUDIO)))
-    		throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $captionAsset->getEntryId());
+    	if(!$entry || !in_array($entry->getType(), $this->getEnabledMediaTypes()) || !in_array($entry->getMediaType(), array(BorhanMediaType::VIDEO, BorhanMediaType::AUDIO)))
+    		throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $captionAsset->getEntryId());
 		
 		
 		$entryKuserId = $entry->getKuserId();
@@ -625,7 +625,7 @@ class CaptionAssetService extends KalturaAssetService
 		$isNotAdmin = !kCurrentContext::$ks_object->isAdmin();
 		
 		if(!$entry || ($isNotAdmin && !is_null($entryKuserId) && $entryKuserId != $thisKuserId))  
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $captionAsset->getEntryId());
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $captionAsset->getEntryId());
 			
 		$entryCaptionAssets = assetPeer::retrieveByEntryId($captionAsset->getEntryId(), array(CaptionPlugin::getAssetTypeCoreValue(CaptionAssetType::CAPTION)));
 		foreach($entryCaptionAssets as $entryCaptionAsset)
@@ -642,17 +642,17 @@ class CaptionAssetService extends KalturaAssetService
 	/**
 	 * @action get
 	 * @param string $captionAssetId
-	 * @return KalturaCaptionAsset
+	 * @return BorhanCaptionAsset
 	 * 
-	 * @throws KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
+	 * @throws BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
 	 */
 	public function getAction($captionAssetId)
 	{
 		$captionAssetsDb = assetPeer::retrieveById($captionAssetId);
 		if (!$captionAssetsDb || !($captionAssetsDb instanceof CaptionAsset))
-			throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $captionAssetId);
+			throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $captionAssetId);
 		
-		$captionAssets = new KalturaCaptionAsset();
+		$captionAssets = new BorhanCaptionAsset();
 		$captionAssets->fromObject($captionAssetsDb, $this->getResponseProfile());
 		return $captionAssets;
 	}
@@ -661,27 +661,27 @@ class CaptionAssetService extends KalturaAssetService
 	 * List caption Assets by filter and pager
 	 * 
 	 * @action list
-	 * @param KalturaAssetFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaCaptionAssetListResponse
+	 * @param BorhanAssetFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanCaptionAssetListResponse
 	 */
-	function listAction(KalturaAssetFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanAssetFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if(!$filter)
 		{
-			$filter = new KalturaCaptionAssetFilter();
+			$filter = new BorhanCaptionAssetFilter();
 		}
-		elseif(! $filter instanceof KalturaCaptionAssetFilter)
+		elseif(! $filter instanceof BorhanCaptionAssetFilter)
 		{
-			$filter = $filter->cast('KalturaCaptionAssetFilter');
+			$filter = $filter->cast('BorhanCaptionAssetFilter');
 		}
 			
 		if(!$pager)
 		{
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 		}
 
-		$types = KalturaPluginManager::getExtendedTypes(assetPeer::OM_CLASS, CaptionPlugin::getAssetTypeCoreValue(CaptionAssetType::CAPTION));
+		$types = BorhanPluginManager::getExtendedTypes(assetPeer::OM_CLASS, CaptionPlugin::getAssetTypeCoreValue(CaptionAssetType::CAPTION));
 		return $filter->getTypeListResponse($pager, $this->getResponseProfile(), $types);
 	}
 	
@@ -689,21 +689,21 @@ class CaptionAssetService extends KalturaAssetService
 	 * @action delete
 	 * @param string $captionAssetId
 	 * 
-	 * @throws KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
+	 * @throws BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
 	 * @validateUser asset::entry captionAssetId edit
 	 */
 	public function deleteAction($captionAssetId)
 	{
 		$captionAssetDb = assetPeer::retrieveById($captionAssetId);
 		if (!$captionAssetDb || !($captionAssetDb instanceof CaptionAsset))
-			throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $captionAssetId);
+			throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $captionAssetId);
 	
 // 		if($captionAssetDb->getDefault())
-// 			throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_IS_DEFAULT, $captionAssetId);
+// 			throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_IS_DEFAULT, $captionAssetId);
 		
 		$dbEntry = $captionAssetDb->getentry();
-    	if(!$dbEntry || !in_array($dbEntry->getType(), $this->getEnabledMediaTypes()) || !in_array($dbEntry->getMediaType(), array(KalturaMediaType::VIDEO, KalturaMediaType::AUDIO)))
-    		throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $captionAssetDb->getEntryId());
+    	if(!$dbEntry || !in_array($dbEntry->getType(), $this->getEnabledMediaTypes()) || !in_array($dbEntry->getMediaType(), array(BorhanMediaType::VIDEO, BorhanMediaType::AUDIO)))
+    		throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $captionAssetDb->getEntryId());
 		
 		
 		$captionAssetDb->setStatus(CaptionAsset::ASSET_STATUS_DELETED);

@@ -14,7 +14,7 @@ class DeliveryProfileGenericHdsManifest extends DeliveryProfileGenericHds {
 			$this->initDeliveryDynamicAttributes($this->params->getManifestFileSync());
 			if ($manifestFileSync->getFileType() == FileSync::FILE_SYNC_FILE_TYPE_FILE)
 			{
-				// return kaltura urls with serveSmil / serveManifest
+				// return borhan urls with serveSmil / serveManifest
 				$partnerPath = myPartnerUtils::getUrlForPartner($manifestFileSync->getPartnerId(), $manifestFileSync->getPartnerId() * 100);
 				$manifestObjectId = $manifestFileSync->getObjectId() . '_' . $manifestFileSync->getObjectSubType() . '_' . $manifestFileSync->getVersion();
 				$extension = pathinfo($manifestFileSync->getFilePath(), PATHINFO_EXTENSION);
@@ -29,7 +29,7 @@ class DeliveryProfileGenericHdsManifest extends DeliveryProfileGenericHds {
 			
 			return array($manifestInfo);
 		} else {
-			KalturaLog::log("No manifest file was found");
+			BorhanLog::log("No manifest file was found");
 			return null;
 		}
 	}

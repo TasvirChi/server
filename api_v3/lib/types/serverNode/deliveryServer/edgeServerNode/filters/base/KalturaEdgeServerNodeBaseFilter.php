@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaEdgeServerNodeBaseFilter extends KalturaDeliveryServerNodeFilter
+abstract class BorhanEdgeServerNodeBaseFilter extends BorhanDeliveryServerNodeFilter
 {
 	static private $map_between_objects = array
 	(

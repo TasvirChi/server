@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaThumbAsset extends KalturaAsset  
+class BorhanThumbAsset extends BorhanAsset  
 {
 	/**
 	 * The Flavor Params used to create this Flavor Asset
@@ -33,7 +33,7 @@ class KalturaThumbAsset extends KalturaAsset
 	/**
 	 * The status of the asset
 	 * 
-	 * @var KalturaThumbAssetStatus
+	 * @var BorhanThumbAssetStatus
 	 * @readonly 
 	 * @filter eq,in,notin
 	 */

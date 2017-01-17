@@ -3,6 +3,6 @@
  * @package plugins.exampleDistribution
  * @subpackage api.filters
  */
-class KalturaExampleDistributionProviderFilter extends KalturaExampleDistributionProviderBaseFilter
+class BorhanExampleDistributionProviderFilter extends BorhanExampleDistributionProviderBaseFilter
 {
 }

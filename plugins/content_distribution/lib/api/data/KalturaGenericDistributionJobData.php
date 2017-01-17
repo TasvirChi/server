@@ -3,13 +3,13 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaGenericDistributionJobProviderData extends KalturaDistributionJobProviderData
+class BorhanGenericDistributionJobProviderData extends BorhanDistributionJobProviderData
 {
 	private static $actionAttributes = array(
-		KalturaDistributionAction::SUBMIT => 'submitAction',
-		KalturaDistributionAction::UPDATE => 'updateAction',
-		KalturaDistributionAction::DELETE => 'deleteAction',
-		KalturaDistributionAction::FETCH_REPORT => 'fetchReportAction',
+		BorhanDistributionAction::SUBMIT => 'submitAction',
+		BorhanDistributionAction::UPDATE => 'updateAction',
+		BorhanDistributionAction::DELETE => 'deleteAction',
+		BorhanDistributionAction::FETCH_REPORT => 'fetchReportAction',
 	);
 	
 	/**
@@ -23,46 +23,46 @@ class KalturaGenericDistributionJobProviderData extends KalturaDistributionJobPr
 	public $resultParseData;
 	
 	/**
-	 * @var KalturaGenericDistributionProviderParser
+	 * @var BorhanGenericDistributionProviderParser
 	 */
 	public $resultParserType;
 	
-	public function __construct(KalturaDistributionJobData $distributionJobData = null)
+	public function __construct(BorhanDistributionJobData $distributionJobData = null)
 	{
 		if(!$distributionJobData)
 			return;
 			
-		$action = KalturaDistributionAction::SUBMIT;
-		if($distributionJobData instanceof KalturaDistributionDeleteJobData)
-			$action = KalturaDistributionAction::DELETE;
-		if($distributionJobData instanceof KalturaDistributionUpdateJobData)
-			$action = KalturaDistributionAction::UPDATE;
-		if($distributionJobData instanceof KalturaDistributionFetchReportJobData)
-			$action = KalturaDistributionAction::FETCH_REPORT;
+		$action = BorhanDistributionAction::SUBMIT;
+		if($distributionJobData instanceof BorhanDistributionDeleteJobData)
+			$action = BorhanDistributionAction::DELETE;
+		if($distributionJobData instanceof BorhanDistributionUpdateJobData)
+			$action = BorhanDistributionAction::UPDATE;
+		if($distributionJobData instanceof BorhanDistributionFetchReportJobData)
+			$action = BorhanDistributionAction::FETCH_REPORT;
 			
-		if(!($distributionJobData->distributionProfile instanceof KalturaGenericDistributionProfile))
+		if(!($distributionJobData->distributionProfile instanceof BorhanGenericDistributionProfile))
 		{
-			KalturaLog::err("Distribution profile is not generic");
+			BorhanLog::err("Distribution profile is not generic");
 			return;
 		}
 		
 		$this->loadProperties($distributionJobData, $distributionJobData->distributionProfile, $action);
 	}
 	
-	public function loadProperties(KalturaDistributionJobData $distributionJobData, KalturaGenericDistributionProfile $distributionProfile, $action)
+	public function loadProperties(BorhanDistributionJobData $distributionJobData, BorhanGenericDistributionProfile $distributionProfile, $action)
 	{
 		$actionName = self::$actionAttributes[$action];
 		
 		$genericProviderAction = GenericDistributionProviderActionPeer::retrieveByProviderAndAction($distributionProfile->genericProviderId, $action);
 		if(!$genericProviderAction)
 		{
-			KalturaLog::err("Generic provider [{$distributionProfile->genericProviderId}] action [$actionName] not found");
+			BorhanLog::err("Generic provider [{$distributionProfile->genericProviderId}] action [$actionName] not found");
 			return;
 		}
 		
 		if(!$distributionJobData->entryDistribution)
 		{
-			KalturaLog::err("Entry Distribution object not provided");
+			BorhanLog::err("Entry Distribution object not provided");
 			return;
 		}
 		
@@ -86,21 +86,21 @@ class KalturaGenericDistributionJobProviderData extends KalturaDistributionJobPr
 		$entry = entryPeer::retrieveByPKNoFilter($distributionJobData->entryDistribution->entryId);
 		if(!$entry)
 		{
-			KalturaLog::err("Entry [" . $distributionJobData->entryDistribution->entryId . "] not found");
+			BorhanLog::err("Entry [" . $distributionJobData->entryDistribution->entryId . "] not found");
 			return;
 		}
 			
 		$mrss = kMrssManager::getEntryMrss($entry);
 		if(!$mrss)
 		{
-			KalturaLog::err("MRSS not returned for entry [" . $entry->getId() . "]");
+			BorhanLog::err("MRSS not returned for entry [" . $entry->getId() . "]");
 			return;
 		}
 			
 		$xml = new KDOMDocument();
 		if(!$xml->loadXML($mrss))
 		{
-			KalturaLog::err("MRSS not is not valid XML:\n$mrss\n");
+			BorhanLog::err("MRSS not is not valid XML:\n$mrss\n");
 			return;
 		}
 		
@@ -136,7 +136,7 @@ class KalturaGenericDistributionJobProviderData extends KalturaDistributionJobPr
 				$xml = $proc->transformToDoc($xml);
 				if(!$xml)
 				{
-					KalturaLog::err("Transform returned false");
+					BorhanLog::err("Transform returned false");
 					return;
 				}
 			}
@@ -148,8 +148,8 @@ class KalturaGenericDistributionJobProviderData extends KalturaDistributionJobPr
 			$xsdPath = kFileSyncUtils::getLocalFilePathForKey($key);
 			if($xsdPath && !$xml->schemaValidate($xsdPath))	
 			{
-				KalturaLog::err("Inavlid XML:\n" . $xml->saveXML());
-				KalturaLog::err("Schema [$xsdPath]:\n" . file_get_contents($xsdPath));	
+				BorhanLog::err("Inavlid XML:\n" . $xml->saveXML());
+				BorhanLog::err("Schema [$xsdPath]:\n" . file_get_contents($xsdPath));	
 				return;
 			}
 		}

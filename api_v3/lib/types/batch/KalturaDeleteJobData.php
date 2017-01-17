@@ -3,16 +3,16 @@
  * @package api
  * @subpackage objects
  */
-class KalturaDeleteJobData extends KalturaJobData
+class BorhanDeleteJobData extends BorhanJobData
 {
 	/**
 	 * The filter should return the list of objects that need to be deleted.
-	 * @var KalturaFilter
+	 * @var BorhanFilter
 	 */
 	public $filter;
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbData = null, $props_to_skip = array()) 
 	{
@@ -22,7 +22,7 @@ class KalturaDeleteJobData extends KalturaJobData
 		return parent::toObject($dbData, $props_to_skip);
 	}
 	
-	public function doFromObject($dbData, KalturaDetachedResponseProfile $responseProfile = null) 
+	public function doFromObject($dbData, BorhanDetachedResponseProfile $responseProfile = null) 
 	{
 		/* @var $dbData kDeleteJobData */
 		$filter = $dbData->getFilter();
@@ -30,23 +30,23 @@ class KalturaDeleteJobData extends KalturaJobData
 		switch($filterType)
 		{
 			case 'categoryEntryFilter':
-				$this->filter = new KalturaCategoryEntryFilter();
+				$this->filter = new BorhanCategoryEntryFilter();
 				break;
 				
 			case 'categoryKuserFilter':
-				$this->filter = new KalturaCategoryUserFilter();
+				$this->filter = new BorhanCategoryUserFilter();
 				break;
 
 			case 'KuserKgroupFilter':
-				$this->filter = new KalturaGroupUserFilter();
+				$this->filter = new BorhanGroupUserFilter();
 				break;
 				
 			case 'categoryFilter':
-				$this->filter = new KalturaCategoryFilter();
+				$this->filter = new BorhanCategoryFilter();
  				break;
 			
 			default:
-				$this->filter = KalturaPluginManager::loadObject('KalturaFilter', $filterType);
+				$this->filter = BorhanPluginManager::loadObject('BorhanFilter', $filterType);
 		}
 		if($this->filter)
 			$this->filter->fromObject($filter);

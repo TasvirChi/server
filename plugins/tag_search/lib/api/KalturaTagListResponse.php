@@ -3,10 +3,10 @@
  * @package plugins.tagSearch
  * @subpackage api.objects
  */
-class KalturaTagListResponse extends KalturaListResponse
+class BorhanTagListResponse extends BorhanListResponse
 {
     /**
-	 * @var KalturaTagArray
+	 * @var BorhanTagArray
 	 * @readonly
 	 */
 	public $objects;

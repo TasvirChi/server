@@ -4,7 +4,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaEntryContextDataParams extends KalturaAccessControlScope
+class BorhanEntryContextDataParams extends BorhanAccessControlScope
 {
 	/**
 	 * Id of the current flavor.

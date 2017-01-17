@@ -21,15 +21,15 @@ class myContentStorage
 	 * This function returns the file system path for a requested content entity.
 	 * The given file name is of the form last_ugc_version.ext&kaltua_template
 	 * last_ugc_version - the last version of ugc the user uploaded
-	 * kaltura_template - a kaltura made content available for the user
+	 * borhan_template - a borhan made content available for the user
 	 * each one of these two may be omitted.
-	 * A user never uploaded his own content : "&kaltura_template"
+	 * A user never uploaded his own content : "&borhan_template"
 	 * A user uploaded his own content : "ugc_version"
-	 * A user replaced his old content with a template : "last_ugc_version&kaltura_template"
+	 * A user replaced his old content with a template : "last_ugc_version&borhan_template"
 	 * This way we keep the last version the user used. This allows us to force caching of the UGC
 	 * on the browser side without even checking for modification on the server side. A new ugc will
 	 * simply get another name through the version process.
-	 * When we want to set a kaltura template will set the $fileName parameter to '&'.kaltura_template_name.
+	 * When we want to set a borhan template will set the $fileName parameter to '&'.borhan_template_name.
 	 * The path is composed from the entity name (kshow, entry, kuser),
 	 * the entity id and it's random obfuscator (which is used also for versioning)
 	 * @param string $entityName = the entity object name
@@ -137,7 +137,7 @@ class myContentStorage
 	/**
 	 * This function generates a random file name consisting of a random number and
 	 * a given file extension. If the new filename begins with a '&' or '^' character, the new
-	 * file is a kaltura template and it's appended to the previous filename UGC part.
+	 * file is a borhan template and it's appended to the previous filename UGC part.
 	 * This way the old UGC version is mantained. look above at getGeneralEntityPath documentation.
 	 * The random number is in the interval [100000,900000].
 	 * The 900000 upper limit provides space for storing 100000 versions
@@ -160,7 +160,7 @@ class myContentStorage
 		else
 			$parts = array('');
 		
-		if (strlen($fileName) && ( $fileName[0] == '&' || $fileName[0] == '^' ) ) // setting to a kaltura template
+		if (strlen($fileName) && ( $fileName[0] == '&' || $fileName[0] == '^' ) ) // setting to a borhan template
 		{
 			return $parts[0].$fileName;
 		}
@@ -240,15 +240,15 @@ class myContentStorage
 			kFile::fullMkdir($to);
 		}
 
-		KalturaLog::log("myContentStorage::moveFile ($copy): $from to $to");
+		BorhanLog::log("myContentStorage::moveFile ($copy): $from to $to");
 		
 		if ( file_exists( $from ))
 		{
-			KalturaLog::log(__METHOD__." - $from file exists");
+			BorhanLog::log(__METHOD__." - $from file exists");
 		}
 		else
 		{
-			KalturaLog::log(__METHOD__." - $from file doesnt exist");
+			BorhanLog::log(__METHOD__." - $from file doesnt exist");
 		}
 		
 		if ($copy)

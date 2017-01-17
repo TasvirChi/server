@@ -3,7 +3,7 @@
  * @package plugins.dropFolder
  * @subpackage Admin
  */
-class DropFolderConfigureAction extends KalturaApplicationPlugin
+class DropFolderConfigureAction extends BorhanApplicationPlugin
 {	
 	/**
 	 * @return string - absolute file path of the phtml template
@@ -15,7 +15,7 @@ class DropFolderConfigureAction extends KalturaApplicationPlugin
 	
 	public function getRequiredPermissions()
 	{
-		return array(Kaltura_Client_Enum_PermissionName::SYSTEM_ADMIN_DROP_FOLDER_MODIFY);
+		return array(Borhan_Client_Enum_PermissionName::SYSTEM_ADMIN_DROP_FOLDER_MODIFY);
 	}
 	
 	public function doAction(Zend_Controller_Action $action)
@@ -38,7 +38,7 @@ class DropFolderConfigureAction extends KalturaApplicationPlugin
 				$action->view->formValid = $this->processForm($dropFolderForm, $request->getPost(), $dropFolderId);
 				if(!is_null($dropFolderId))
 				{
-					$dropFolder = $dropFolderForm->getObject("Kaltura_Client_DropFolder_Type_DropFolder", $request->getPost(), false, true);
+					$dropFolder = $dropFolderForm->getObject("Borhan_Client_DropFolder_Type_DropFolder", $request->getPost(), false, true);
 					$this->disableFileHandlerType($dropFolderForm, $dropFolder->fileHandlerType);									
 				}
 			}
@@ -47,7 +47,7 @@ class DropFolderConfigureAction extends KalturaApplicationPlugin
 				if (!is_null($dropFolderId))
 				{
 					$client = Infra_ClientHelper::getClient();
-					$dropFolderPluginClient = Kaltura_Client_DropFolder_Plugin::get($client);
+					$dropFolderPluginClient = Borhan_Client_DropFolder_Plugin::get($client);
 					$dropFolder = $dropFolderPluginClient->dropFolder->get($dropFolderId);
 					$partnerId = $dropFolder->partnerId;
 					$dropFolderType = $dropFolder->type;
@@ -61,7 +61,7 @@ class DropFolderConfigureAction extends KalturaApplicationPlugin
 					$dropFolderForm->getElement('partnerId')->setValue($partnerId);
 					
 					$settings = Zend_Registry::get('config')->dropFolder;
-					if($dropFolderType ===Kaltura_Client_DropFolder_Enum_DropFolderType::LOCAL)
+					if($dropFolderType ===Borhan_Client_DropFolder_Enum_DropFolderType::LOCAL)
 					{
 						$dropFolderForm->getElement('fileSizeCheckInterval')->setValue($settings->fileSizeCheckIntervalLocal);
 					}
@@ -76,7 +76,7 @@ class DropFolderConfigureAction extends KalturaApplicationPlugin
 		catch(Exception $e)
 		{
 		    $action->view->formValid = false;
-			KalturaLog::err($e->getMessage() . "\n" . $e->getTraceAsString());
+			BorhanLog::err($e->getMessage() . "\n" . $e->getTraceAsString());
 			$action->view->errMessage = $e->getMessage();
 		}
 		
@@ -88,15 +88,15 @@ class DropFolderConfigureAction extends KalturaApplicationPlugin
 		if ($form->isValid($formData))
 		{
 			$client = Infra_ClientHelper::getClient();
-			$dropFolderPluginClient = Kaltura_Client_DropFolder_Plugin::get($client);
+			$dropFolderPluginClient = Borhan_Client_DropFolder_Plugin::get($client);
 			
-			$dropFolder = $form->getObject("Kaltura_Client_DropFolder_Type_DropFolder", $formData, false, true);
+			$dropFolder = $form->getObject("Borhan_Client_DropFolder_Type_DropFolder", $formData, false, true);
 			unset($dropFolder->id);
 			
-			if($dropFolder->fileHandlerType === Kaltura_Client_DropFolder_Enum_DropFolderFileHandlerType::CONTENT)
+			if($dropFolder->fileHandlerType === Borhan_Client_DropFolder_Enum_DropFolderFileHandlerType::CONTENT)
 				$dropFolder->fileNamePatterns = '*';
 			if (is_null($dropFolderId)) {
-				$dropFolder->status = Kaltura_Client_DropFolder_Enum_DropFolderStatus::ENABLED;
+				$dropFolder->status = Borhan_Client_DropFolder_Enum_DropFolderStatus::ENABLED;
 				$responseDropFolder = $dropFolderPluginClient->dropFolder->add($dropFolder);
 			}
 			else {

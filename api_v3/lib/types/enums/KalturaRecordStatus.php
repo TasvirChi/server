@@ -1,5 +1,5 @@
 <?php
-class KalturaRecordStatus extends KalturaEnum implements RecordStatus
+class BorhanRecordStatus extends BorhanEnum implements RecordStatus
 {
     
 }

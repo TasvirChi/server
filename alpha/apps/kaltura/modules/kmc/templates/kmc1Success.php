@@ -1,5 +1,5 @@
 <?php
-// TEST PAGE FOR ADDING JW TO KMC
+// TEST PAGE FOR ADDING JW TO BMC
 
 $jw_license = ($jw_license)? "licensed": "non-commercial";
 $service_url = myPartnerUtils::getHost($partner_id);
@@ -16,25 +16,25 @@ if ( !$allow_reports )
 {
   $first_login = true;
 }
-if ( kConf::get('kmc_display_server_tab') )
+if ( kConf::get('bmc_display_server_tab') )
 {
   $support_url = '#';
   $_SESSION['api_v3_login'] = true;
 }
 else
 {
-	$support_url = '/index.php/kmc/support?type=' . md5($payingPartner) . '&pid=' . $partner_id . '&email=' . $email;
+	$support_url = '/index.php/bmc/support?type=' . md5($payingPartner) . '&pid=' . $partner_id . '&email=' . $email;
 //  if($visibleCT === 'true') // paying partner, not CE
 //  {
-//    $support_url = 'http://corp.kaltura.com/support/form/project/30/partnerId/'.(($host != 1)? '': $partner_id);
-//    $support_url = 'http://tickets.kaltura.com/';
+//    $support_url = 'http://corp.borhan.com/support/form/project/30/partnerId/'.(($host != 1)? '': $partner_id);
+//    $support_url = 'http://tickets.borhan.com/';
 //  }
 //  else // free partner - open modal
 //  {
 //    $support_url = '#';
 //  }
 }
-if ( $host == "www.kaltura.com" ) $host = "1";
+if ( $host == "www.borhan.com" ) $host = "1";
 
 ?>
 
@@ -113,25 +113,25 @@ function copyCode() {
 	#mbContent { margin-bottom:20px;}
 	#jw_embed_code { background:#F8F8F8;}
 </style>
-	<div id="kmcHeader">
+	<div id="bmcHeader">
 	<?php if (!$templatePartnerId) { ?>
-     <img src="<?php echo $service_url; ?>/lib/images/kmc/logo_kmc.jpg" alt="Kaltura Management Console" />
+     <img src="<?php echo $service_url; ?>/lib/images/bmc/logo_bmc.jpg" alt="Borhan Management Console" />
 	<?php } ?>
      <ul>
       <li><a id="dashboard" href="javascript:void(0)"><span>Dashboard</span></a></li>
       <li><a id="content" href="javascript:void(0)"><span>Content</span></a></li>
-     <?php if ( kConf::get ( "kmc_display_customize_tab" ) && !$templatePartnerId) { ?>
+     <?php if ( kConf::get ( "bmc_display_customize_tab" ) && !$templatePartnerId) { ?>
 	  <li><a id="appstudio" href="javascript:void(0)"><span>Application&nbsp;Studio</span></a></li>
 	 <?php } ?>
 	  <!-- <li><a href="#Ad Networks">Ad Networks</a></li> -->
 	  <!-- <li><a href="#Reports">Reports</a></li> -->
-	 <?php if ( kConf::get ( "kmc_display_account_tab" ) ) { ?>
+	 <?php if ( kConf::get ( "bmc_display_account_tab" ) ) { ?>
       <li><a id="account" href="javascript:void(0)"><span>Account</span></a></li>
 	 <?php } ?>
-	 <?php if ( kConf::get ( "kmc_display_server_tab" ) ) { ?>
+	 <?php if ( kConf::get ( "bmc_display_server_tab" ) ) { ?>
       <li><a id="server" href="<?php echo $service_url; ?>/api_v3/system/batchwatch.php" target="_server"><span>Server</span></a></li>
 	 <?php } ?>
-	 <?php if ( kConf::get ( "kmc_display_developer_tab" ) ) { ?>
+	 <?php if ( kConf::get ( "bmc_display_developer_tab" ) ) { ?>
       <li><a id="developer" href="<?php echo $service_url; ?>/api_v3/testme/index.php"><span>Developer</span></a></li>
 	 <?php } ?>
 	 <?php if ($allow_reports) { ?>
@@ -144,13 +144,13 @@ function copyCode() {
       <?php if ($templatePartnerId) { ?>
       <a href="javascript:logout()">Logout</a>
       <?php } else { ?>
-      <a href="<?php echo $service_url ?>/content/docs/pdf/KMC_Quick_Start_Guide.pdf" target="_blank">Quickstart Guide</a> &nbsp; | &nbsp;
+      <a href="<?php echo $service_url ?>/content/docs/pdf/BMC_Quick_Start_Guide.pdf" target="_blank">Quickstart Guide</a> &nbsp; | &nbsp;
 	  <a href="javascript:logout()">Logout</a> &nbsp; | &nbsp;
 	  <a target="_blank" onclick="return openSupport(this);" href="<?php echo $support_url; ?>">Support</a>
       <?php } ?>
 	 </div>
 
-	</div><!-- kmcHeader -->
+	</div><!-- bmcHeader -->
 
 	<div id="main">
 		<div id="flash_wrap" class="flash_wrap" style="">
@@ -214,7 +214,7 @@ function playerAdded()
 {
 	refreshPlayerList = 1;
 	jQuery.ajax({
-		url: "<? echo url_for('kmc/getuiconfs'); ?>",
+		url: "<? echo url_for('bmc/getuiconfs'); ?>",
 		type: "POST",
 		data: { "type": "player", "partner_id": partner_id, "ks": ks },
 		dataType: "json",
@@ -230,7 +230,7 @@ function playlistAdded()
 {
 	refreshPlaylistList = 1;
 	jQuery.ajax({
-		url: "<? echo url_for('kmc/getuiconfs'); ?>",
+		url: "<? echo url_for('bmc/getuiconfs'); ?>",
 		type: "POST",
 		data: { "type": "playlist", "partner_id": partner_id, "ks": ks },
 		dataType: "json",
@@ -244,7 +244,7 @@ function playlistAdded()
 
 function expiredF ( )
 {
-	window.location = "<? echo $service_url; ?>/index.php/kmc/kmc";
+	window.location = "<? echo $service_url; ?>/index.php/bmc/bmc";
 }
 
 function refreshSWF()
@@ -262,7 +262,7 @@ function selectPlaylistContent(playerId,isPlaylist)
 
 	selected_uiconfId = playerId;
 	next_module = "content";
-	$("#kmcHeader ul li a").removeClass('active');
+	$("#bmcHeader ul li a").removeClass('active');
 	$("a#content").addClass('active');
 	loadModule(next_module, partner_id, subpid, user_id, ks, screen_name, email);
 }
@@ -270,12 +270,12 @@ function selectPlaylistContent(playerId,isPlaylist)
 // load module upon dashboard clicks
 function loadModuleFromDashboard(next_module_name, sub_module)
 {
-	$("#kmcHeader ul li a").removeClass('active');
+	$("#bmcHeader ul li a").removeClass('active');
 	$("a#" + next_module_name).addClass('active');
 
 	if ( next_module_name == "content" )
 	{
-		if(sub_module == "uploadKMC")
+		if(sub_module == "uploadBMC")
 		{
 			sub_nav_tab = "Upload";
 			loadModule(next_module_name, partner_id, subpid, user_id, ks, screen_name, email);
@@ -345,7 +345,7 @@ function loadModule ( module_name , partner_id , subp_id ,  uid  ,  ks , screen_
 				'openPlayer' : 'openPlayer' ,
 				'expiredF' : 'expiredF',
 				'subNavTab' : sub_nav_tab,
-				'innerKdpVersion':'v2.7.0',
+				'innerBdpVersion':'v2.7.0',
 				'firstLogin' : '<? echo ($first_login) ? "true" : "false"; ?>',
 				'visibleCT' : '<? echo $visibleCT; ?>',
 				'disableurlhashing' : '<? echo $disableurlhashing; ?>'
@@ -358,9 +358,9 @@ function loadModule ( module_name , partner_id , subp_id ,  uid  ,  ks , screen_
 				bgcolor: "#1B1E1F",
 				quality: "high",
 //				wmode: "opaque" ,
-				movie: "<?php echo $flash_dir ?>/kmc/dashboard/<? echo $kmc_dashboard_version ?>/dashboard.swf"
+				movie: "<?php echo $flash_dir ?>/bmc/dashboard/<? echo $bmc_dashboard_version ?>/dashboard.swf"
 			};
-			swfobject.embedSWF("<?php echo $flash_dir ?>/kmc/dashboard/<? echo $kmc_dashboard_version ?>/dashboard.swf",
+			swfobject.embedSWF("<?php echo $flash_dir ?>/bmc/dashboard/<? echo $bmc_dashboard_version ?>/dashboard.swf",
 				"kcms", "100%", "100%", "9.0.0", false, flashVars , params);
 
 		// setTimeout ( "content_resize()" , 1000 );
@@ -388,7 +388,7 @@ function loadModule ( module_name , partner_id , subp_id ,  uid  ,  ks , screen_
 				'openPlayer' : 'openPlayer' ,
 				'expiredF' : 'expiredF',
 				'subNavTab' : sub_nav_tab,
-				'innerKdpVersion':'<? echo $content_kdp_version; ?>',
+				'innerBdpVersion':'<? echo $content_bdp_version; ?>',
 				'visibleCT' : '<? echo $visibleCT; ?>',
 				'disableurlhashing' : '<? echo $disableurlhashing; ?>',
 				email : '<? echo $email; ?>'
@@ -401,9 +401,9 @@ function loadModule ( module_name , partner_id , subp_id ,  uid  ,  ks , screen_
 				bgcolor: "#1B1E1F",
 				quality: "high",
 //				wmode: "opaque" ,
-				movie: "<?php echo $flash_dir ?>/kmc/content/<? echo $kmc_content_version ?>/content.swf?r113"
+				movie: "<?php echo $flash_dir ?>/bmc/content/<? echo $bmc_content_version ?>/content.swf?r113"
 			};
-			swfobject.embedSWF("<?php echo $flash_dir ?>/kmc/content/<? echo $kmc_content_version ?>/content.swf?r113",
+			swfobject.embedSWF("<?php echo $flash_dir ?>/bmc/content/<? echo $bmc_content_version ?>/content.swf?r113",
 				"kcms", "100%", "100%", "9.0.0", false, flashVars , params);
 
 		// setTimeout ( "content_resize()" , 1000 );
@@ -428,7 +428,7 @@ function loadModule ( module_name , partner_id , subp_id ,  uid  ,  ks , screen_
 				'subNavTab' : sub_nav_tab,
 				'openPlaylist' : 'openPlaylist',
 				'openPlayer' : 'openPlayer',
-				'showUsage' : '<?php echo (kConf::get('kmc_account_show_usage'))? 'true': 'false'; ?>'
+				'showUsage' : '<?php echo (kConf::get('bmc_account_show_usage'))? 'true': 'false'; ?>'
 				};
 
 			var params = {
@@ -438,9 +438,9 @@ function loadModule ( module_name , partner_id , subp_id ,  uid  ,  ks , screen_
 				bgcolor: "#1B1E1F",
 				quality: "high",
 //				wmode: "opaque" ,
-				movie: "<?php echo $flash_dir ?>/kmc/account/<? echo $kmc_account_version ?>/account.swf"
+				movie: "<?php echo $flash_dir ?>/bmc/account/<? echo $bmc_account_version ?>/account.swf"
 			};
-			swfobject.embedSWF("<?php echo $flash_dir ?>/kmc/account/<? echo $kmc_account_version ?>/account.swf",
+			swfobject.embedSWF("<?php echo $flash_dir ?>/bmc/account/<? echo $bmc_account_version ?>/account.swf",
 				"kcms", "100%", "100%", "9.0.0", false, flashVars , params);
 
 		setTimeout ( "content_resize()" , 1000 );
@@ -461,7 +461,7 @@ function loadModule ( module_name , partner_id , subp_id ,  uid  ,  ks , screen_
 				'ks' : ks ,
 				'inapplicationstudio' : 'true' ,
 				'devFlag' : 'true' ,
-				'entryId' : "_KMCLOGO" ,
+				'entryId' : "_BMCLOGO" ,
 				'kshowId' : '-1',
 				'widget_id' : '_' + partner_id ,
 				'openPlaylist' : 'openPlaylist',
@@ -470,7 +470,7 @@ function loadModule ( module_name , partner_id , subp_id ,  uid  ,  ks , screen_
 				'uiconfid' : '48308',
 				'servicesPath' : 'index.php/partnerservices2/',
 				'serverPath' : "<? echo $service_url; ?>",
-				'kdpUrl' : "<?php echo $flash_dir ?>/kdp/v2.7.0/kdp.swf",
+				'bdpUrl' : "<?php echo $flash_dir ?>/bdp/v2.7.0/bdp.swf",
 				'disableurlhashing' : '<? echo $disableurlhashing; ?>'
 				};
 
@@ -481,9 +481,9 @@ function loadModule ( module_name , partner_id , subp_id ,  uid  ,  ks , screen_
 				bgcolor: "#1B1E1F",
 				quality: "high",
 //				wmode: "opaque" ,
-				movie: "<?php echo $flash_dir ?>/kmc/appstudio/<? echo $kmc_appstudio_version ?>/applicationstudio.swf"
+				movie: "<?php echo $flash_dir ?>/bmc/appstudio/<? echo $bmc_appstudio_version ?>/applicationstudio.swf"
 			};
-			swfobject.embedSWF("<?php echo $flash_dir ?>/kmc/appstudio/<? echo $kmc_appstudio_version ?>/applicationstudio.swf",
+			swfobject.embedSWF("<?php echo $flash_dir ?>/bmc/appstudio/<? echo $bmc_appstudio_version ?>/applicationstudio.swf",
 				"kcms", "100%", "100%", "9.0.0", false, flashVars , params);
 
 		setTimeout ( "content_resize()" , 1000 );
@@ -499,8 +499,8 @@ function loadModule ( module_name , partner_id , subp_id ,  uid  ,  ks , screen_
 				'uid' : uid ,
 				'partner_id' : partner_id,
 				'srvurl' : 'api_v3/index.php',
-				'innerKdpVersion' : 'v2.7.0',
-				'kdpUrl' : "<?php echo $flash_dir ?>/kdp/v2.7.0/kdp.swf",
+				'innerBdpVersion' : 'v2.7.0',
+				'bdpUrl' : "<?php echo $flash_dir ?>/bdp/v2.7.0/bdp.swf",
 				'uiconfId' : '48500' ,
 				'subp_id' : subp_id ,
 				'ks' : ks ,
@@ -516,9 +516,9 @@ function loadModule ( module_name , partner_id , subp_id ,  uid  ,  ks , screen_
 				bgcolor: "#1B1E1F",
 				quality: "high",
 //				wmode: "opaque" ,
-				movie: "<?php echo $flash_dir ?>/kmc/analytics//ReportsAndAnalytics.swf"
+				movie: "<?php echo $flash_dir ?>/bmc/analytics//ReportsAndAnalytics.swf"
 			};
-			swfobject.embedSWF("<?php echo $flash_dir ?>/kmc/analytics/<? echo $kmc_rna_version ?>/ReportsAndAnalytics.swf",
+			swfobject.embedSWF("<?php echo $flash_dir ?>/bmc/analytics/<? echo $bmc_rna_version ?>/ReportsAndAnalytics.swf",
 				"kcms", "100%", "100%", "9.0.0", false, flashVars , params);
 
 		setTimeout ( "content_resize()" , 1000 );
@@ -527,32 +527,32 @@ function loadModule ( module_name , partner_id , subp_id ,  uid  ,  ks , screen_
 
 var modal = null;
 function openSupport(a_obj) {
-	kalturaCloseModalBox();
+	borhanCloseModalBox();
 	var modal_width = $.browser.msie ? 543 : 519;
 	var iframe_height = $.browser.msie ? 751 : ($.browser.safari ? 697 : 732);
 	var href = a_obj.href;
 	$("#flash_wrap").css("visibility","hidden");
-	modal = kalturaInitModalBox ( null , { width : modal_width , height: 450 } );
+	modal = borhanInitModalBox ( null , { width : modal_width , height: 450 } );
 	modal.innerHTML =	'<div><a id="close" href="#close" style="display:block; height:19px; width:19px; ' +
-						'background: url(/lib/images/kmc/action_btns.gif) -19px 0 no-repeat; float:right; margin: -6px -6px 0 0;"></a></div>' +
+						'background: url(/lib/images/bmc/action_btns.gif) -19px 0 no-repeat; float:right; margin: -6px -6px 0 0;"></a></div>' +
 						'<iframe id="support" src="' + href + '&style=v" scrolling="no" frameborder="0"' +
 						'marginheight="0" marginwidth="0" height="' + iframe_height + '" width="519"></iframe>';
 	$("#close").click(function() {
-		kmcCloseModal();
+		bmcCloseModal();
 		return false;
 	});
 	return false;
 
 //	if (a_obj.href != "<?php echo $service_url; ?>/#") return true;
 //
-//	modal = kalturaInitModalBox ( null , { width: 700, height: 360 } );
+//	modal = borhanInitModalBox ( null , { width: 700, height: 360 } );
 //	modal.innerHTML = '<a onclick="onCloseCw();" style="font-size:11px; font-weight:bold;">X Close</a>'+
-//	'<iframe width="670" height="350" src="<?php echo $service_url ?>/index.php/kmc/support"></iframe>';
+//	'<iframe width="670" height="350" src="<?php echo $service_url ?>/index.php/bmc/support"></iframe>';
 //	return false;
 }
 
-function kmcCloseModal() {
-	kalturaCloseModalBox();
+function bmcCloseModal() {
+	borhanCloseModalBox();
 	$("#flash_wrap").css("visibility","visible");
 	return false;
 }
@@ -560,8 +560,8 @@ function kmcCloseModal() {
 function openCw ( ks ,conversion_quality )
 {
 	// use wrap = 0 to indicate se should be open withou the html & form wrapper
-	modal = kalturaInitModalBox ( null , { width: 700, height: 360 } );
-	modal.innerHTML = "<div id='kaltura_cw'></div>" ;
+	modal = borhanInitModalBox ( null , { width: 700, height: 360 } );
+	modal.innerHTML = "<div id='borhan_cw'></div>" ;
 
 
 	var flashVars = {
@@ -576,7 +576,7 @@ function openCw ( ks ,conversion_quality )
 		'kshow_id' : '-1',
 		'terms_of_use' : "<?php echo kConf::get('terms_of_use_uri'); ?>",
 		'close' : 'onCloseCw' ,
-		'quick_edit' : 0 , 		// when opening from the KMC - don't add to the roughcut
+		'quick_edit' : 0 , 		// when opening from the BMC - don't add to the roughcut
 		'kvar_conversionQuality' : conversion_quality ,
 		'partnerData' : "conversionQuality:" + conversion_quality + ";"	// this is a hack until the CW supports kvar
 		};
@@ -588,13 +588,13 @@ function openCw ( ks ,conversion_quality )
 			bgcolor: "#DBE3E9",
 			quality: "high",
 			wmode: "opaque" ,
-			movie: "<? echo $service_url; ?>/kcw/ui_conf_id/36203"
+			movie: "<? echo $service_url; ?>/bcw/ui_conf_id/36203"
 		};
 
-		swfobject.embedSWF("<? echo $service_url; ?>/kcw/ui_conf_id/36203",  // 36201 - new CW with ability to pass params not ready for this version
-			"kaltura_cw", "680", "400" , "9.0.0", false, flashVars , params);
+		swfobject.embedSWF("<? echo $service_url; ?>/bcw/ui_conf_id/36203",  // 36201 - new CW with ability to pass params not ready for this version
+			"borhan_cw", "680", "400" , "9.0.0", false, flashVars , params);
 
-		setObjectToRemove ( "kaltura_cw" );
+		setObjectToRemove ( "borhan_cw" );
 }
 
 var global_embed_code;
@@ -612,7 +612,7 @@ function openPlaylist ( embed_code , playlist_id , pl_width_str , pl_height_str 
 	if ( ! ui_conf_id || ui_conf_id == 190 || ui_conf_id == 199 )
 	{
 <?php
-if (false && kConf::get('www_host') == 'www.kaltura.com'){
+if (false && kConf::get('www_host') == 'www.borhan.com'){
 ?>
 		ui_conf_id = 48206;
 		pl_width_str = 660;
@@ -666,14 +666,14 @@ if (false && kConf::get('www_host') == 'www.kaltura.com'){
 
 	pl_width = parseInt ( pl_width_str );
 	pl_height = parseInt ( pl_height_str );
-	modal = kalturaInitModalBox ( null , { width:pl_width+20 , height: (pl_height + 200)  } );
+	modal = borhanInitModalBox ( null , { width:pl_width+20 , height: (pl_height + 200)  } );
 	playlist_html =
-		"<div class='title'><a href='#close' onclick='kalturaCloseModalBox(); return false;' class='closeBtn'></a><a href='<? echo $service_url; ?>/index.php/kmc/help#contentSection147' target='_blank' class='help'></a>Playlist ID: " + playlist_id + ui_conf_select + "</div>" + // third tr will have the playlist_id
+		"<div class='title'><a href='#close' onclick='borhanCloseModalBox(); return false;' class='closeBtn'></a><a href='<? echo $service_url; ?>/index.php/bmc/help#contentSection147' target='_blank' class='help'></a>Playlist ID: " + playlist_id + ui_conf_select + "</div>" + // third tr will have the playlist_id
 		"<div class='kplayer' style='height:" + pl_height + "px'>" + embed_code + "</div>" + // create div to hold the playlist
 		"<div class='embed_code' style='text-align:center'><textarea  id='embed_code' cols='30' rows='5' readonly='true' onclick='copyToClipboard(\"embed_code\");'>" + embed_code + "</textarea></div>" + // raw embed code
 		"<div class='buttons'><button onclick='copyToClipboard(\"embed_code\");'>Select code</div>";
 
-	setObjectToRemove ( "kaltura_playlist" );
+	setObjectToRemove ( "borhan_playlist" );
 	modal.innerHTML = playlist_html;
 }
 
@@ -693,7 +693,7 @@ function createSelectUiConfForPlaylist ( playlist_id , ui_conf_id )
 	else
 	{
 <?php
-if (false && kConf::get('www_host') != 'www.kaltura.com'){
+if (false && kConf::get('www_host') != 'www.borhan.com'){
 	foreach ( $playlist_uiconf_list as $ui_conf )
 	{
 		$name = $ui_conf->getName();
@@ -738,7 +738,7 @@ function reopenPlaylist ( playlist_id , select_elem )
 	var embed_code = global_embed_code.replace ( /ui_conf_id\/[0-9a-zA-Z]*/g , "ui_conf_id/" + ui_conf_data[0] );
 	embed_code = embed_code.replace ( /width="[0-9a-zA-Z]*"/g , 'width="' + ui_conf_data[1] + '"' );
 	embed_code = embed_code.replace ( /height="[0-9a-zA-Z]*"/g , 'height="' + ui_conf_data[2] + '"' );
-	kalturaCloseModalBox();
+	borhanCloseModalBox();
 	openPlaylist ( embed_code , playlist_id , ui_conf_data[1] , ui_conf_data[2], ui_conf_data[0], ui_conf_data[3] ,ui_conf_data[4] , ui_conf_data[5], ui_conf_data[6] );
 }
 
@@ -752,7 +752,7 @@ function doJwPreviewEmbed(entry_id, jw_skin, jw_width, jw_height, jw_share, jw_f
 
 	if(!is_playlist || is_playlist == "undefined") {
 		jw_flashvars += 'file=http://<?php echo $cdn_host ?>/p/' + partner_id + '/sp/' + partner_id + '00/flvclipper/entry_id/' + entry_id + '/version/100000/.flv';
-		jw_plugins.push("kalturastats");
+		jw_plugins.push("borhanstats");
 	}
 	else {
 		jw_flashvars += 'file=http://<?php echo $cdn_host ?>/index.php/partnerservices2/executeplaylist%3Fuid%3D%26format%3D8%26playlist_id%3D' + entry_id +
@@ -776,7 +776,7 @@ function doJwPreviewEmbed(entry_id, jw_skin, jw_width, jw_height, jw_share, jw_f
 		jw_plugins.push("ltas");
 		jQuery.ajax({
 			async:		false,
-			url:		"<? echo url_for('kmc/getentryinfo'); ?>",
+			url:		"<? echo url_for('bmc/getentryinfo'); ?>",
 			type:		"POST",
 			data:		{ "partner_id": partner_id, "ks": ks, "entryId": entry_id },
 			dataType:	"json",
@@ -804,7 +804,7 @@ function doJwPreviewEmbed(entry_id, jw_skin, jw_width, jw_height, jw_share, jw_f
 					' <param name="flashvars" value="' + jw_flashvars + '" />' +
 					' <embed id="jw_player__' + jw_uid + '" name="jw_player__' + jw_uid + '" src="http://<?php echo $cdn_host ?>/flash/jw/player/' + jw_swf +
 					'" width="' + jw_width + '" height="' + jw_height + '" allowfullscreen="true" wmode="transparent" allowscriptaccess="always"' +
-					'flashvars="' + jw_flashvars + '" /> <noembed><a href="http://www.kaltura.org/">Open Source Video</a></noembed> </object> </div>';
+					'flashvars="' + jw_flashvars + '" /> <noembed><a href="http://www.borhan.org/">Open Source Video</a></noembed> </object> </div>';
 
 /*	if (jw_ads.script)
 		jw_embed_code += jw_ads.script;
@@ -818,7 +818,7 @@ function build_modal(entry_id, jw_skin, jw_width, jw_height, jw_share, jw_flashv
 	if(is_playlist == "undefined")
 	  is_playlist = false;
 
-	modal = kalturaInitModalBox ( null , { width:parseInt(jw_width)+20 , height: ""  } ); //(parseInt(jw_height) + 200)
+	modal = borhanInitModalBox ( null , { width:parseInt(jw_width)+20 , height: ""  } ); //(parseInt(jw_height) + 200)
 	var jw_swf = "<?php echo $jw_license; ?>.swf";
 
 	if(jw_swf == "licensed.swf") {
@@ -830,11 +830,11 @@ function build_modal(entry_id, jw_skin, jw_width, jw_height, jw_share, jw_flashv
 							'title="With this license your player will show a JW Player watermark.  You may NOT use the non-commercial JW Player on commercial sites' +
 							' such as: sites owned or operated by corporations, sites with advertisements, sites designed to promote a product, service or brand, ' +
 							'etc.  If you are not sure whether you need to purchase a license, contact us.  You also may not use the AdSolution monetization plugin ' +
-							'(which lets you make money off your player).">NON-COMMERCIAL <img src="http://corp.kaltura.com/images/graphics/info.png" alt="show tooltip" />' +
-							'</a>&nbsp;&bull;&nbsp;<a href="http://corp.kaltura.com/about/contact?subject=Upgrade%20JW%20Player%20to%20commercial%20license&amp;' +
+							'(which lets you make money off your player).">NON-COMMERCIAL <img src="http://corp.borhan.com/images/graphics/info.png" alt="show tooltip" />' +
+							'</a>&nbsp;&bull;&nbsp;<a href="http://corp.borhan.com/about/contact?subject=Upgrade%20JW%20Player%20to%20commercial%20license&amp;' +
 							'&amp;pid=' + partner_id + '&amp;name=' + screen_name + '&amp;email=' + email  + '" target="_blank" class="license tooltip" ' +
 							'title="Go to the Contact Us page and call us or fill in our Contact form and we\'ll call you (opens in new window/ tab).">Upgrade ' +
-							'<img src="http://corp.kaltura.com/images/graphics/info.png" alt="show tooltip" /></a>';
+							'<img src="http://corp.borhan.com/images/graphics/info.png" alt="show tooltip" /></a>';
 		jw_license_ads_html = '<li>Requires Commercial License</li>';
 	}
 
@@ -850,8 +850,8 @@ function build_modal(entry_id, jw_skin, jw_width, jw_height, jw_share, jw_flashv
 	}
 
 	modal_html = 	'<div class="title">\n' +
-					' <a href="#close" onclick="kalturaCloseModalBox(); return false;" class="closeBtn"></a>' +
-					'<a href="<? echo $service_url; ?>/index.php/kmc/help#contentSection118" target="_blank"></a>\n' +
+					' <a href="#close" onclick="borhanCloseModalBox(); return false;" class="closeBtn"></a>' +
+					'<a href="<? echo $service_url; ?>/index.php/bmc/help#contentSection118" target="_blank"></a>\n' +
 					'Entry ID: ' + entry_id + '<br style="margin-bottom:10px;"/>' + ui_conf_select + '\n</div>' +
 					showNoMix(false,"check") +
 					'<div id="player_wrap"></div>' +
@@ -861,17 +861,17 @@ function build_modal(entry_id, jw_skin, jw_width, jw_height, jw_share, jw_flashv
 					'<div class="label">AdSolution:</div>' +
 					'<div class="description">' +
 					' <input type="checkbox" id="AdSolution" onclick="adSolution()" onmousedown="window.chkbox_flag=true" />' +
-					'Enable ads in your videos.&nbsp; <a href="http://www.longtailvideo.com/referral.aspx?page=kaltura&ref=azbkefsfkqchorl" target="_blank" class="tooltip" ' +
+					'Enable ads in your videos.&nbsp; <a href="http://www.longtailvideo.com/referral.aspx?page=borhan&ref=azbkefsfkqchorl" target="_blank" class="tooltip" ' +
 					'title="Go to the JW website to sign up for FREE or to learn more about running in-stream ads in your player from Google AdSense for ' +
-					'Video, ScanScout, YuMe and others. (opens in new window/ tab)"> Free sign up... <img src="http://corp.kaltura.com/images/graphics/info.png" alt="show tooltip" />' +
+					'Video, ScanScout, YuMe and others. (opens in new window/ tab)"> Free sign up... <img src="http://corp.borhan.com/images/graphics/info.png" alt="show tooltip" />' +
 					'</a><br />\n <ul id="ads_notes">\n  <li>Channel Code: <input onblur="adsChannel(this,\'' + entry_id + '\',\'' + jw_skin +
 					'\',\'' + jw_width + '\',\'' + jw_height + '\',' + jw_share + ',\'' + jw_flashvars + '\',\'' + ui_conf_id + '\',\'' + uiconf + '\')" type="text"' +
 					' id="adSolution_channel" value="" /> <button>Apply</button></li>\n' +
 					<?php if($jw_license=="non-commercial") { ?>
-						'<li>Requires <a href="http:/corp.kaltura.com/about/contact?00N70000002GA5H=upgrade%20to%20JW%20commercial%20license" class="tooltip" title="' +
+						'<li>Requires <a href="http:/corp.borhan.com/about/contact?00N70000002GA5H=upgrade%20to%20JW%20commercial%20license" class="tooltip" title="' +
 						'With a Commercial license your player will not show the JW Player watermark and you will be allowed to use the player on any site you ' +
 						'want as well as use AdSolution (which lets you make money off your player)." target="_blank">Commercial license <img ' +
-						'src="http://corp.kaltura.com/images/graphics/info.png" alt="show tooltip" /></a></li>' +
+						'src="http://corp.borhan.com/images/graphics/info.png" alt="show tooltip" /></a></li>' +
 					<?php } ?>
 					'</ul>\n </div>\n' +
 					' <div class="label">Embed Code:</div>' +
@@ -881,7 +881,7 @@ function build_modal(entry_id, jw_skin, jw_width, jw_height, jw_share, jw_flashv
 					'<div id="jw_copy">Press Ctrl+C to copy embed code (Command+C on Mac)</div>' +
 					'<button id="copy_code" onclick="copyCode()">Select Code</button></div>';
 
-	setObjectToRemove("kaltura_player");
+	setObjectToRemove("borhan_player");
 	modal.innerHTML = modal_html;
 	$("#player_wrap").html(doJwPreviewEmbed(entry_id, jw_skin, jw_width, jw_height, jw_share, jw_flashvars, ui_conf_id, uiconf, is_playlist, jw_playlistType));
 }
@@ -898,7 +898,7 @@ function openPlayer ( entry_id , pl_width_str , pl_height_str , ui_conf_id  , jw
 		width_str = '400';
 		height_str = '332';
 
-<? 	if (false && kConf::get('www_host') == 'www.kaltura.com') {		?>
+<? 	if (false && kConf::get('www_host') == 'www.borhan.com') {		?>
 		width_str = '400';
 		height_str = '332';
 		ui_conf_id = '48110';
@@ -966,9 +966,9 @@ function openPlayer ( entry_id , pl_width_str , pl_height_str , ui_conf_id  , jw
 
 	pl_width = parseInt ( width_str );
 	pl_height = parseInt ( height_str );
-	modal = kalturaInitModalBox ( null , { width:pl_width+20 , height: (pl_height + 200)  } );
+	modal = borhanInitModalBox ( null , { width:pl_width+20 , height: (pl_height + 200)  } );
 	playlist_html =
-		"<div class='title'><a href='#close' onclick='kalturaCloseModalBox(); return false;' class='closeBtn'></a><a href='<? echo $service_url; ?>/index.php/kmc/help#contentSection118' target='_blank'></a>";
+		"<div class='title'><a href='#close' onclick='borhanCloseModalBox(); return false;' class='closeBtn'></a><a href='<? echo $service_url; ?>/index.php/bmc/help#contentSection118' target='_blank'></a>";
 	if ( entry_id )
 		playlist_html += "Entry ID: " + entry_id + ui_conf_select ;
 	else
@@ -978,7 +978,7 @@ function openPlayer ( entry_id , pl_width_str , pl_height_str , ui_conf_id  , jw
 		"<div class='embed_code'style='text-align:center'><textarea id='embed_code' cols='30' rows='5' readonly='true' onclick='copyToClipboard(\"embed_code\");'>" + embed_code + "</textarea></div>" + // raw embed code
 		"<div class='buttons'><button onclick='copyToClipboard(\"embed_code\");'>Select code</div>";
 
-	setObjectToRemove ( "kaltura_player" );
+	setObjectToRemove ( "borhan_player" );
 	modal.innerHTML = playlist_html;
 }
 
@@ -999,7 +999,7 @@ function createSelectUiConfForPlayer ( entry_id , ui_conf_id )
 	else
 	{
 <?php
-if (false && kConf::get('www_host') != 'www.kaltura.com'){
+if (false && kConf::get('www_host') != 'www.borhan.com'){
 	foreach ( $player_uiconf_list as $ui_conf )
 	{
 		$name = $ui_conf->getName();
@@ -1027,7 +1027,7 @@ else {
 function reopenPlayer ( entry_id , select_elem ) {
 	ui_conf_data = select_elem.value.split(",");
 
-	kalturaCloseModalBox();
+	borhanCloseModalBox();
 
 	openPlayer ( entry_id , ui_conf_data[1] , ui_conf_data[2], ui_conf_data[0] , ui_conf_data[3] ,ui_conf_data[4] , ui_conf_data[5], null);
 
@@ -1035,7 +1035,7 @@ function reopenPlayer ( entry_id , select_elem ) {
 
 function onCloseCw ()
 {
-	kalturaCloseModalBox();
+	borhanCloseModalBox();
 	modal = null;
 }
 
@@ -1052,16 +1052,16 @@ function logout()
 	document.cookie = "pid=; expires=" + expiry + "; path=/";
 	document.cookie = "subpid=; expires=" + expiry + "; path=/";
 	document.cookie = "uid=; expires=" + expiry + "; path=/";
-	document.cookie = "kmcks=; expires=" + expiry + "; path=/";
+	document.cookie = "bmcks=; expires=" + expiry + "; path=/";
 	document.cookie = "screen_name=; expires=" + expiry + "; path=/";
 	document.cookie = "email=; expires=" + expiry + "; path=/";
 	$.ajax({
-		url: location.protocol + "//" + location.hostname + "/index.php/kmc/logout",
+		url: location.protocol + "//" + location.hostname + "/index.php/bmc/logout",
 		type: "POST",
 		data: { "ks": ks },
 		dataType: "json",
 		complete: function() {
-			window.location = "<?php echo $service_url; ?>/index.php/kmc/kmc?logout=";
+			window.location = "<?php echo $service_url; ?>/index.php/bmc/bmc?logout=";
 		}
 	});
 }
@@ -1077,16 +1077,16 @@ function showNoMix(checkbox,action) {
 	}
 	switch(action) {
 		case "set" :
-			document.cookie = "kmc_preview_show_nomix_box=true; ; path=/";
+			document.cookie = "bmc_preview_show_nomix_box=true; ; path=/";
 			$("#nomix_box").hide(250);
 			break;
 		case "delete" :
-			document.cookie = "kmc_preview_show_nomix_box=true; expires=Sun, 01 Jan 2000 00:00:01 GMT; path=/";
+			document.cookie = "bmc_preview_show_nomix_box=true; expires=Sun, 01 Jan 2000 00:00:01 GMT; path=/";
 			break;
 		case "check" :
-			if (document.cookie.indexOf("kmc_preview_show_nomix_box") == -1)
+			if (document.cookie.indexOf("bmc_preview_show_nomix_box") == -1)
 				var html =	'<div id="nomix_box"><p><strong>NOTE</strong>: ' +
-							'The JW Player does not work with Kaltura <dfn title="A Video Mix is a video made up of two or more Entries, normally created through the Kaltura Editor.">Video Mixes</dfn>.</p>\n' +
+							'The JW Player does not work with Borhan <dfn title="A Video Mix is a video made up of two or more Entries, normally created through the Borhan Editor.">Video Mixes</dfn>.</p>\n' +
 							'<div><input type="checkbox" onclick="showNoMix(this)"> Don\'t show this message again.</div></div>\n';
 			else
 				var html =	'';

@@ -3,7 +3,7 @@
  * @package UI-infra
  * @subpackage batch
  */
-class Infra_BatchJobFilter extends Kaltura_Client_Type_BatchJobFilterExt
+class Infra_BatchJobFilter extends Borhan_Client_Type_BatchJobFilterExt
 {
 	const JOB_TYPE_AND_SUB_TYPE_MAIN_DELIMITER = ';';
 	const JOB_TYPE_AND_SUB_TYPE_TYPE_DELIMITER = ':';

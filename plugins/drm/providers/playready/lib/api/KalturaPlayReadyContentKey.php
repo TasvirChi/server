@@ -3,7 +3,7 @@
  * @package plugins.playReady
  * @subpackage api.objects
  */
-class KalturaPlayReadyContentKey extends KalturaObject 
+class BorhanPlayReadyContentKey extends BorhanObject 
 {
 	/**
 	 * Guid - key id of the specific content 

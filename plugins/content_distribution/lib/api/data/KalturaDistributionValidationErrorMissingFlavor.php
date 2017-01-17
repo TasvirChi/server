@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaDistributionValidationErrorMissingFlavor extends KalturaDistributionValidationError
+class BorhanDistributionValidationErrorMissingFlavor extends BorhanDistributionValidationError
 {
 	/**
 	 * @var string

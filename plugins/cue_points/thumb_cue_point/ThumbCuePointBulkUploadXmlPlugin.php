@@ -3,7 +3,7 @@
  * Enable thumb cue point ingestion from XML bulk upload
  * @package plugins.thumbCuePoint
  */
-class ThumbCuePointBulkUploadXmlPlugin extends KalturaPlugin implements IKalturaPending, IKalturaSchemaContributor
+class ThumbCuePointBulkUploadXmlPlugin extends BorhanPlugin implements IBorhanPending, IBorhanSchemaContributor
 {
 	const PLUGIN_NAME = 'ThumbCuePointBulkUploadXml';
 	const BULK_UPLOAD_XML_PLUGIN_NAME = 'bulkUploadXml';
@@ -13,21 +13,21 @@ class ThumbCuePointBulkUploadXmlPlugin extends KalturaPlugin implements IKaltura
 	const BULK_UPLOAD_XML_VERSION_BUILD = 0;
 
 	/* (non-PHPdoc)
-	 * @see KalturaPlugin::getInstance()
+	 * @see BorhanPlugin::getInstance()
 	 */
 	public function getInstance($interface)
 	{
 		if($this instanceof $interface)
 			return $this;
 			
-		if($interface == 'IKalturaBulkUploadXmlHandler')
+		if($interface == 'IBorhanBulkUploadXmlHandler')
 			return ThumbCuePointBulkUploadXmlHandler::get();
 			
 		return null;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -35,23 +35,23 @@ class ThumbCuePointBulkUploadXmlPlugin extends KalturaPlugin implements IKaltura
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$bulkUploadXmlVersion = new KalturaVersion(
+		$bulkUploadXmlVersion = new BorhanVersion(
 			self::BULK_UPLOAD_XML_VERSION_MAJOR,
 			self::BULK_UPLOAD_XML_VERSION_MINOR,
 			self::BULK_UPLOAD_XML_VERSION_BUILD);
 			
-		$bulkUploadXmlDependency = new KalturaDependency(self::BULK_UPLOAD_XML_PLUGIN_NAME, $bulkUploadXmlVersion);
-		$thumbCuePointDependency = new KalturaDependency(ThumbCuePointPlugin::getPluginName());
+		$bulkUploadXmlDependency = new BorhanDependency(self::BULK_UPLOAD_XML_PLUGIN_NAME, $bulkUploadXmlVersion);
+		$thumbCuePointDependency = new BorhanDependency(ThumbCuePointPlugin::getPluginName());
 		
 		return array($bulkUploadXmlDependency, $thumbCuePointDependency);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSchemaContributor::contributeToSchema()
+	 * @see IBorhanSchemaContributor::contributeToSchema()
 	 */
 	public static function contributeToSchema($type)
 	{
@@ -76,7 +76,7 @@ class ThumbCuePointBulkUploadXmlPlugin extends KalturaPlugin implements IKaltura
 				<xs:sequence>
 					<xs:element name="title" minOccurs="1" maxOccurs="1" type="xs:string"> </xs:element>
 					<xs:element name="description" minOccurs="1" maxOccurs="1" type="xs:string"> </xs:element>
-					<xs:element name="subType" minOccurs="0" maxOccurs="1" type="KalturaThumbCuePointSubType">
+					<xs:element name="subType" minOccurs="0" maxOccurs="1" type="BorhanThumbCuePointSubType">
 						<xs:annotation>
 							<xs:documentation>Indicates the thumb cue point sub type 1 = Slide 2 = Chapter, defaults to Slide</xs:documentation>
 						</xs:annotation>

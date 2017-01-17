@@ -16,8 +16,8 @@ class syndicationFeedPeer extends BasesyndicationFeedPeer
 		syndicationFeedType::ITUNES => parent::OM_CLASS,
 		syndicationFeedType::TUBE_MOGUL => parent::OM_CLASS,
 		syndicationFeedType::YAHOO => parent::OM_CLASS,
-		syndicationFeedType::KALTURA => 'genericSyndicationFeed',
-		syndicationFeedType::KALTURA_XSLT => 'genericSyndicationFeed',		
+		syndicationFeedType::BORHAN => 'genericSyndicationFeed',
+		syndicationFeedType::BORHAN_XSLT => 'genericSyndicationFeed',		
 	);
 	
 	public static function setDefaultCriteriaFilter ()

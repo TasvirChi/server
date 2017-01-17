@@ -1,10 +1,10 @@
 <?php
 /**
- * @package plugins.crossKalturaDistribution
+ * @package plugins.crossBorhanDistribution
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaCrossKalturaDistributionProviderBaseFilter extends KalturaDistributionProviderFilter
+abstract class BorhanCrossBorhanDistributionProviderBaseFilter extends BorhanDistributionProviderFilter
 {
 	static private $map_between_objects = array
 	(

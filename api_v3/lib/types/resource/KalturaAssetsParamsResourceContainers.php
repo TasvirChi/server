@@ -3,11 +3,11 @@
  * @package api
  * @subpackage objects
  */
-class KalturaAssetsParamsResourceContainers extends KalturaResource 
+class BorhanAssetsParamsResourceContainers extends BorhanResource 
 {
 	/**
 	 * Array of resources associated with asset params ids
-	 * @var KalturaAssetParamsResourceContainerArray
+	 * @var BorhanAssetParamsResourceContainerArray
 	 */
 	public $resources;
 
@@ -21,7 +21,7 @@ class KalturaAssetsParamsResourceContainers extends KalturaResource
     	{
     		$resource->validateEntry($dbEntry);
     	
-    		if(!($resource instanceof KalturaDataCenterContentResource))
+    		if(!($resource instanceof BorhanDataCenterContentResource))
     			continue;
     			
     		$theDc = $resource->getDc();
@@ -34,7 +34,7 @@ class KalturaAssetsParamsResourceContainers extends KalturaResource
     		}
     		elseif($dc != $theDc)
     		{
-				throw new KalturaAPIException(KalturaErrors::RESOURCES_MULTIPLE_DATA_CENTERS);
+				throw new BorhanAPIException(BorhanErrors::RESOURCES_MULTIPLE_DATA_CENTERS);
     		}
     	}
     	

@@ -3,7 +3,7 @@
  * @package plugins.bulkUploadXml
  * @subpackage Scheduler.BulkUpload
  */
-class KalturaBulkUploadXmlException extends KalturaException
+class BorhanBulkUploadXmlException extends BorhanException
 {
 
 }

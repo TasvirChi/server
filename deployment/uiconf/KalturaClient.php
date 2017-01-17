@@ -1,13 +1,13 @@
 <?php
-require_once(__DIR__ . "/KalturaClientBase.php");
+require_once(__DIR__ . "/BorhanClientBase.php");
 
-class KalturaAccessControlOrderBy
+class BorhanAccessControlOrderBy
 {
 	const CREATED_AT_ASC = "+createdAt";
 	const CREATED_AT_DESC = "-createdAt";
 }
 
-class KalturaBaseEntryOrderBy
+class BorhanBaseEntryOrderBy
 {
 	const NAME_ASC = "+name";
 	const NAME_DESC = "-name";
@@ -19,7 +19,7 @@ class KalturaBaseEntryOrderBy
 	const RANK_DESC = "-rank";
 }
 
-class KalturaBaseJobOrderBy
+class BorhanBaseJobOrderBy
 {
 	const CREATED_AT_ASC = "+createdAt";
 	const CREATED_AT_DESC = "-createdAt";
@@ -27,7 +27,7 @@ class KalturaBaseJobOrderBy
 	const EXECUTION_ATTEMPTS_DESC = "-executionAttempts";
 }
 
-class KalturaBaseSyndicationFeedOrderBy
+class BorhanBaseSyndicationFeedOrderBy
 {
 	const PLAYLIST_ID_ASC = "+playlistId";
 	const PLAYLIST_ID_DESC = "-playlistId";
@@ -39,7 +39,7 @@ class KalturaBaseSyndicationFeedOrderBy
 	const CREATED_AT_DESC = "-createdAt";
 }
 
-class KalturaBatchJobOrderBy
+class BorhanBatchJobOrderBy
 {
 	const STATUS_ASC = "+status";
 	const STATUS_DESC = "-status";
@@ -53,7 +53,7 @@ class KalturaBatchJobOrderBy
 	const EXECUTION_ATTEMPTS_DESC = "-executionAttempts";
 }
 
-class KalturaBatchJobStatus
+class BorhanBatchJobStatus
 {
 	const PENDING = 0;
 	const QUEUED = 1;
@@ -69,7 +69,7 @@ class KalturaBatchJobStatus
 	const DONT_PROCESS = 11;
 }
 
-class KalturaBatchJobType
+class BorhanBatchJobType
 {
 	const CONVERT = 0;
 	const IMPORT = 1;
@@ -99,7 +99,7 @@ class KalturaBatchJobType
 	const PROJECT = 1000;
 }
 
-class KalturaCategoryOrderBy
+class BorhanCategoryOrderBy
 {
 	const DEPTH_ASC = "+depth";
 	const DEPTH_DESC = "-depth";
@@ -109,7 +109,7 @@ class KalturaCategoryOrderBy
 	const CREATED_AT_DESC = "-createdAt";
 }
 
-class KalturaControlPanelCommandOrderBy
+class BorhanControlPanelCommandOrderBy
 {
 	const CREATED_AT_ASC = "+createdAt";
 	const CREATED_AT_DESC = "-createdAt";
@@ -117,7 +117,7 @@ class KalturaControlPanelCommandOrderBy
 	const UPDATED_AT_DESC = "-updatedAt";
 }
 
-class KalturaControlPanelCommandStatus
+class BorhanControlPanelCommandStatus
 {
 	const PENDING = 1;
 	const HANDLED = 2;
@@ -125,7 +125,7 @@ class KalturaControlPanelCommandStatus
 	const FAILED = 4;
 }
 
-class KalturaControlPanelCommandTargetType
+class BorhanControlPanelCommandTargetType
 {
 	const DATA_CENTER = 1;
 	const SCHEDULER = 2;
@@ -134,7 +134,7 @@ class KalturaControlPanelCommandTargetType
 	const BATCH = 5;
 }
 
-class KalturaControlPanelCommandType
+class BorhanControlPanelCommandType
 {
 	const STOP = 1;
 	const START = 2;
@@ -142,25 +142,13 @@ class KalturaControlPanelCommandType
 	const KILL = 4;
 }
 
-class KalturaConversionProfileOrderBy
+class BorhanConversionProfileOrderBy
 {
 	const CREATED_AT_ASC = "+createdAt";
 	const CREATED_AT_DESC = "-createdAt";
 }
 
-class KalturaDataEntryOrderBy
-{
-	const NAME_ASC = "+name";
-	const NAME_DESC = "-name";
-	const MODERATION_COUNT_ASC = "+moderationCount";
-	const MODERATION_COUNT_DESC = "-moderationCount";
-	const CREATED_AT_ASC = "+createdAt";
-	const CREATED_AT_DESC = "-createdAt";
-	const RANK_ASC = "+rank";
-	const RANK_DESC = "-rank";
-}
-
-class KalturaDocumentEntryOrderBy
+class BorhanDataEntryOrderBy
 {
 	const NAME_ASC = "+name";
 	const NAME_DESC = "-name";
@@ -172,13 +160,25 @@ class KalturaDocumentEntryOrderBy
 	const RANK_DESC = "-rank";
 }
 
-class KalturaDocumentType
+class BorhanDocumentEntryOrderBy
+{
+	const NAME_ASC = "+name";
+	const NAME_DESC = "-name";
+	const MODERATION_COUNT_ASC = "+moderationCount";
+	const MODERATION_COUNT_DESC = "-moderationCount";
+	const CREATED_AT_ASC = "+createdAt";
+	const CREATED_AT_DESC = "-createdAt";
+	const RANK_ASC = "+rank";
+	const RANK_DESC = "-rank";
+}
+
+class BorhanDocumentType
 {
 	const DOCUMENT = 11;
 	const SWF = 12;
 }
 
-class KalturaEntryModerationStatus
+class BorhanEntryModerationStatus
 {
 	const PENDING_MODERATION = 1;
 	const APPROVED = 2;
@@ -187,7 +187,7 @@ class KalturaEntryModerationStatus
 	const AUTO_APPROVED = 6;
 }
 
-class KalturaEntryStatus
+class BorhanEntryStatus
 {
 	const ERROR_IMPORTING = -2;
 	const ERROR_CONVERTING = -1;
@@ -200,7 +200,7 @@ class KalturaEntryStatus
 	const BLOCKED = 6;
 }
 
-class KalturaEntryType
+class BorhanEntryType
 {
 	const AUTOMATIC = -1;
 	const MEDIA_CLIP = 1;
@@ -211,27 +211,15 @@ class KalturaEntryType
 	const DOCUMENT = 10;
 }
 
-class KalturaFlavorParamsOrderBy
+class BorhanFlavorParamsOrderBy
 {
 }
 
-class KalturaFlavorParamsOutputOrderBy
+class BorhanFlavorParamsOutputOrderBy
 {
 }
 
-class KalturaGoogleVideoSyndicationFeedOrderBy
-{
-	const PLAYLIST_ID_ASC = "+playlistId";
-	const PLAYLIST_ID_DESC = "-playlistId";
-	const NAME_ASC = "+name";
-	const NAME_DESC = "-name";
-	const TYPE_ASC = "+type";
-	const TYPE_DESC = "-type";
-	const CREATED_AT_ASC = "+createdAt";
-	const CREATED_AT_DESC = "-createdAt";
-}
-
-class KalturaITunesSyndicationFeedOrderBy
+class BorhanGoogleVideoSyndicationFeedOrderBy
 {
 	const PLAYLIST_ID_ASC = "+playlistId";
 	const PLAYLIST_ID_DESC = "-playlistId";
@@ -243,7 +231,19 @@ class KalturaITunesSyndicationFeedOrderBy
 	const CREATED_AT_DESC = "-createdAt";
 }
 
-class KalturaPlayableEntryOrderBy
+class BorhanITunesSyndicationFeedOrderBy
+{
+	const PLAYLIST_ID_ASC = "+playlistId";
+	const PLAYLIST_ID_DESC = "-playlistId";
+	const NAME_ASC = "+name";
+	const NAME_DESC = "-name";
+	const TYPE_ASC = "+type";
+	const TYPE_DESC = "-type";
+	const CREATED_AT_ASC = "+createdAt";
+	const CREATED_AT_DESC = "-createdAt";
+}
+
+class BorhanPlayableEntryOrderBy
 {
 	const PLAYS_ASC = "+plays";
 	const PLAYS_DESC = "-plays";
@@ -263,29 +263,7 @@ class KalturaPlayableEntryOrderBy
 	const RANK_DESC = "-rank";
 }
 
-class KalturaMediaEntryOrderBy
-{
-	const MEDIA_TYPE_ASC = "+mediaType";
-	const MEDIA_TYPE_DESC = "-mediaType";
-	const PLAYS_ASC = "+plays";
-	const PLAYS_DESC = "-plays";
-	const VIEWS_ASC = "+views";
-	const VIEWS_DESC = "-views";
-	const DURATION_ASC = "+duration";
-	const DURATION_DESC = "-duration";
-	const MS_DURATION_ASC = "+msDuration";
-	const MS_DURATION_DESC = "-msDuration";
-	const NAME_ASC = "+name";
-	const NAME_DESC = "-name";
-	const MODERATION_COUNT_ASC = "+moderationCount";
-	const MODERATION_COUNT_DESC = "-moderationCount";
-	const CREATED_AT_ASC = "+createdAt";
-	const CREATED_AT_DESC = "-createdAt";
-	const RANK_ASC = "+rank";
-	const RANK_DESC = "-rank";
-}
-
-class KalturaLiveStreamEntryOrderBy
+class BorhanMediaEntryOrderBy
 {
 	const MEDIA_TYPE_ASC = "+mediaType";
 	const MEDIA_TYPE_DESC = "-mediaType";
@@ -307,7 +285,7 @@ class KalturaLiveStreamEntryOrderBy
 	const RANK_DESC = "-rank";
 }
 
-class KalturaLiveStreamAdminEntryOrderBy
+class BorhanLiveStreamEntryOrderBy
 {
 	const MEDIA_TYPE_ASC = "+mediaType";
 	const MEDIA_TYPE_DESC = "-mediaType";
@@ -329,7 +307,29 @@ class KalturaLiveStreamAdminEntryOrderBy
 	const RANK_DESC = "-rank";
 }
 
-class KalturaMailJobOrderBy
+class BorhanLiveStreamAdminEntryOrderBy
+{
+	const MEDIA_TYPE_ASC = "+mediaType";
+	const MEDIA_TYPE_DESC = "-mediaType";
+	const PLAYS_ASC = "+plays";
+	const PLAYS_DESC = "-plays";
+	const VIEWS_ASC = "+views";
+	const VIEWS_DESC = "-views";
+	const DURATION_ASC = "+duration";
+	const DURATION_DESC = "-duration";
+	const MS_DURATION_ASC = "+msDuration";
+	const MS_DURATION_DESC = "-msDuration";
+	const NAME_ASC = "+name";
+	const NAME_DESC = "-name";
+	const MODERATION_COUNT_ASC = "+moderationCount";
+	const MODERATION_COUNT_DESC = "-moderationCount";
+	const CREATED_AT_ASC = "+createdAt";
+	const CREATED_AT_DESC = "-createdAt";
+	const RANK_ASC = "+rank";
+	const RANK_DESC = "-rank";
+}
+
+class BorhanMailJobOrderBy
 {
 	const CREATED_AT_ASC = "+createdAt";
 	const CREATED_AT_DESC = "-createdAt";
@@ -337,11 +337,11 @@ class KalturaMailJobOrderBy
 	const EXECUTION_ATTEMPTS_DESC = "-executionAttempts";
 }
 
-class KalturaMediaInfoOrderBy
+class BorhanMediaInfoOrderBy
 {
 }
 
-class KalturaMediaType
+class BorhanMediaType
 {
 	const VIDEO = 1;
 	const IMAGE = 2;
@@ -352,7 +352,7 @@ class KalturaMediaType
 	const LIVE_STREAM_QUICKTIME = 204;
 }
 
-class KalturaMixEntryOrderBy
+class BorhanMixEntryOrderBy
 {
 	const PLAYS_ASC = "+plays";
 	const PLAYS_DESC = "-plays";
@@ -372,7 +372,7 @@ class KalturaMixEntryOrderBy
 	const RANK_DESC = "-rank";
 }
 
-class KalturaNotificationOrderBy
+class BorhanNotificationOrderBy
 {
 	const CREATED_AT_ASC = "+createdAt";
 	const CREATED_AT_DESC = "-createdAt";
@@ -380,14 +380,14 @@ class KalturaNotificationOrderBy
 	const EXECUTION_ATTEMPTS_DESC = "-executionAttempts";
 }
 
-class KalturaNullableBoolean
+class BorhanNullableBoolean
 {
 	const NULL_VALUE = -1;
 	const FALSE_VALUE = 0;
 	const TRUE_VALUE = 1;
 }
 
-class KalturaPartnerOrderBy
+class BorhanPartnerOrderBy
 {
 	const ID_ASC = "+id";
 	const ID_DESC = "-id";
@@ -405,7 +405,7 @@ class KalturaPartnerOrderBy
 	const STATUS_DESC = "-status";
 }
 
-class KalturaPlaylistOrderBy
+class BorhanPlaylistOrderBy
 {
 	const NAME_ASC = "+name";
 	const NAME_DESC = "-name";
@@ -417,13 +417,13 @@ class KalturaPlaylistOrderBy
 	const RANK_DESC = "-rank";
 }
 
-class KalturaSessionType
+class BorhanSessionType
 {
 	const USER = 0;
 	const ADMIN = 2;
 }
 
-class KalturaTubeMogulSyndicationFeedOrderBy
+class BorhanTubeMogulSyndicationFeedOrderBy
 {
 	const PLAYLIST_ID_ASC = "+playlistId";
 	const PLAYLIST_ID_DESC = "-playlistId";
@@ -435,13 +435,13 @@ class KalturaTubeMogulSyndicationFeedOrderBy
 	const CREATED_AT_DESC = "-createdAt";
 }
 
-class KalturaUiConfCreationMode
+class BorhanUiConfCreationMode
 {
 	const WIZARD = 2;
 	const ADVANCED = 3;
 }
 
-class KalturaUiConfObjType
+class BorhanUiConfObjType
 {
 	const PLAYER = 1;
 	const CONTRIBUTION_WIZARD = 2;
@@ -454,7 +454,7 @@ class KalturaUiConfObjType
 	const PLAYER_SL = 14;
 }
 
-class KalturaUiConfOrderBy
+class BorhanUiConfOrderBy
 {
 	const CREATED_AT_ASC = "+createdAt";
 	const CREATED_AT_DESC = "-createdAt";
@@ -462,19 +462,19 @@ class KalturaUiConfOrderBy
 	const UPDATED_AT_DESC = "-updatedAt";
 }
 
-class KalturaUserOrderBy
+class BorhanUserOrderBy
 {
 	const CREATED_AT_ASC = "+createdAt";
 	const CREATED_AT_DESC = "-createdAt";
 }
 
-class KalturaWidgetOrderBy
+class BorhanWidgetOrderBy
 {
 	const CREATED_AT_ASC = "+createdAt";
 	const CREATED_AT_DESC = "-createdAt";
 }
 
-class KalturaYahooSyndicationFeedOrderBy
+class BorhanYahooSyndicationFeedOrderBy
 {
 	const PLAYLIST_ID_ASC = "+playlistId";
 	const PLAYLIST_ID_DESC = "-playlistId";
@@ -486,7 +486,7 @@ class KalturaYahooSyndicationFeedOrderBy
 	const CREATED_AT_DESC = "-createdAt";
 }
 
-class KalturaFilter extends KalturaObjectBase
+class BorhanFilter extends BorhanObjectBase
 {
 	/**
 	 * 
@@ -498,7 +498,7 @@ class KalturaFilter extends KalturaObjectBase
 
 }
 
-class KalturaAccessControlFilter extends KalturaFilter
+class BorhanAccessControlFilter extends BorhanFilter
 {
 	/**
 	 * 
@@ -531,7 +531,7 @@ class KalturaAccessControlFilter extends KalturaFilter
 
 }
 
-class KalturaBaseEntryFilter extends KalturaFilter
+class BorhanBaseEntryFilter extends BorhanFilter
 {
 	/**
 	 * This filter should be in use for retrieving only a specific entry (identified by its entryId).
@@ -582,7 +582,7 @@ class KalturaBaseEntryFilter extends KalturaFilter
 	public $nameEqual = null;
 
 	/**
-	 * This filter should be in use for retrieving only entries which were uploaded by/assigned to users of a specific Kaltura Partner (identified by Partner ID).
+	 * This filter should be in use for retrieving only entries which were uploaded by/assigned to users of a specific Borhan Partner (identified by Partner ID).
 	 * @var int
 	 *
 	 * @var int
@@ -590,7 +590,7 @@ class KalturaBaseEntryFilter extends KalturaFilter
 	public $partnerIdEqual = null;
 
 	/**
-	 * This filter should be in use for retrieving only entries within Kaltura network which were uploaded by/assigned to users of few Kaltura Partners  (string should include comma separated list of PartnerIDs)
+	 * This filter should be in use for retrieving only entries within Borhan network which were uploaded by/assigned to users of few Borhan Partners  (string should include comma separated list of PartnerIDs)
 	 * @var string
 	 *
 	 * @var string
@@ -668,23 +668,23 @@ class KalturaBaseEntryFilter extends KalturaFilter
 	public $categoriesMatchOr = null;
 
 	/**
-	 * This filter should be in use for retrieving only entries, at a specific {@link ?object=KalturaEntryStatus KalturaEntryStatus}.
-	 * @var KalturaEntryStatus
+	 * This filter should be in use for retrieving only entries, at a specific {@link ?object=BorhanEntryStatus BorhanEntryStatus}.
+	 * @var BorhanEntryStatus
 	 *
-	 * @var KalturaEntryStatus
+	 * @var BorhanEntryStatus
 	 */
 	public $statusEqual = null;
 
 	/**
-	 * This filter should be in use for retrieving only entries, not at a specific {@link ?object=KalturaEntryStatus KalturaEntryStatus}.
-	 * @var KalturaEntryStatus
+	 * This filter should be in use for retrieving only entries, not at a specific {@link ?object=BorhanEntryStatus BorhanEntryStatus}.
+	 * @var BorhanEntryStatus
 	 *
-	 * @var KalturaEntryStatus
+	 * @var BorhanEntryStatus
 	 */
 	public $statusNotEqual = null;
 
 	/**
-	 * This filter should be in use for retrieving only entries, at few specific {@link ?object=KalturaEntryStatus KalturaEntryStatus} (comma separated).
+	 * This filter should be in use for retrieving only entries, at few specific {@link ?object=BorhanEntryStatus BorhanEntryStatus} (comma separated).
 	 * @var string
 	 *
 	 * @var string
@@ -692,24 +692,24 @@ class KalturaBaseEntryFilter extends KalturaFilter
 	public $statusIn = null;
 
 	/**
-	 * This filter should be in use for retrieving only entries, not at few specific {@link ?object=KalturaEntryStatus KalturaEntryStatus} (comma separated).
-	 * @var KalturaEntryStatus
+	 * This filter should be in use for retrieving only entries, not at few specific {@link ?object=BorhanEntryStatus BorhanEntryStatus} (comma separated).
+	 * @var BorhanEntryStatus
 	 *
-	 * @var KalturaEntryStatus
+	 * @var BorhanEntryStatus
 	 */
 	public $statusNotIn = null;
 
 	/**
 	 * 
 	 *
-	 * @var KalturaEntryModerationStatus
+	 * @var BorhanEntryModerationStatus
 	 */
 	public $moderationStatusEqual = null;
 
 	/**
 	 * 
 	 *
-	 * @var KalturaEntryModerationStatus
+	 * @var BorhanEntryModerationStatus
 	 */
 	public $moderationStatusNotEqual = null;
 
@@ -723,19 +723,19 @@ class KalturaBaseEntryFilter extends KalturaFilter
 	/**
 	 * 
 	 *
-	 * @var KalturaEntryModerationStatus
+	 * @var BorhanEntryModerationStatus
 	 */
 	public $moderationStatusNotIn = null;
 
 	/**
 	 * 
 	 *
-	 * @var KalturaEntryType
+	 * @var BorhanEntryType
 	 */
 	public $typeEqual = null;
 
 	/**
-	 * This filter should be in use for retrieving entries of few {@link ?object=KalturaEntryType KalturaEntryType} (string should include a comma separated list of {@link ?object=KalturaEntryType KalturaEntryType} enumerated parameters).
+	 * This filter should be in use for retrieving entries of few {@link ?object=BorhanEntryType BorhanEntryType} (string should include a comma separated list of {@link ?object=BorhanEntryType BorhanEntryType} enumerated parameters).
 	 * @var string
 	 *
 	 * @var string
@@ -743,7 +743,7 @@ class KalturaBaseEntryFilter extends KalturaFilter
 	public $typeIn = null;
 
 	/**
-	 * This filter parameter should be in use for retrieving only entries which were created at Kaltura system after a specific time/date (standard timestamp format).
+	 * This filter parameter should be in use for retrieving only entries which were created at Borhan system after a specific time/date (standard timestamp format).
 	 * @var int
 	 *
 	 * @var int
@@ -751,7 +751,7 @@ class KalturaBaseEntryFilter extends KalturaFilter
 	public $createdAtGreaterThanOrEqual = null;
 
 	/**
-	 * This filter parameter should be in use for retrieving only entries which were created at Kaltura system before a specific time/date (standard timestamp format).
+	 * This filter parameter should be in use for retrieving only entries which were created at Borhan system before a specific time/date (standard timestamp format).
 	 * @var int
 	 *
 	 * @var int
@@ -896,7 +896,7 @@ class KalturaBaseEntryFilter extends KalturaFilter
 
 }
 
-class KalturaBaseJobFilter extends KalturaFilter
+class BorhanBaseJobFilter extends BorhanFilter
 {
 	/**
 	 * 
@@ -943,12 +943,12 @@ class KalturaBaseJobFilter extends KalturaFilter
 
 }
 
-class KalturaBaseSyndicationFeedFilter extends KalturaFilter
+class BorhanBaseSyndicationFeedFilter extends BorhanFilter
 {
 
 }
 
-class KalturaBatchJobFilter extends KalturaBaseJobFilter
+class BorhanBatchJobFilter extends BorhanBaseJobFilter
 {
 	/**
 	 * 
@@ -960,7 +960,7 @@ class KalturaBatchJobFilter extends KalturaBaseJobFilter
 	/**
 	 * 
 	 *
-	 * @var KalturaBatchJobType
+	 * @var BorhanBatchJobType
 	 */
 	public $jobTypeEqual = null;
 
@@ -974,7 +974,7 @@ class KalturaBatchJobFilter extends KalturaBaseJobFilter
 	/**
 	 * 
 	 *
-	 * @var KalturaBatchJobType
+	 * @var BorhanBatchJobType
 	 */
 	public $jobTypeNotIn = null;
 
@@ -995,7 +995,7 @@ class KalturaBatchJobFilter extends KalturaBaseJobFilter
 	/**
 	 * 
 	 *
-	 * @var KalturaBatchJobStatus
+	 * @var BorhanBatchJobStatus
 	 */
 	public $statusEqual = null;
 
@@ -1079,7 +1079,7 @@ class KalturaBatchJobFilter extends KalturaBaseJobFilter
 
 }
 
-class KalturaBatchJobFilterExt extends KalturaBatchJobFilter
+class BorhanBatchJobFilterExt extends BorhanBatchJobFilter
 {
 	/**
 	 * 
@@ -1091,7 +1091,7 @@ class KalturaBatchJobFilterExt extends KalturaBatchJobFilter
 
 }
 
-class KalturaCategoryFilter extends KalturaFilter
+class BorhanCategoryFilter extends BorhanFilter
 {
 	/**
 	 * 
@@ -1145,7 +1145,7 @@ class KalturaCategoryFilter extends KalturaFilter
 
 }
 
-class KalturaControlPanelCommandFilter extends KalturaFilter
+class BorhanControlPanelCommandFilter extends BorhanFilter
 {
 	/**
 	 * 
@@ -1185,7 +1185,7 @@ class KalturaControlPanelCommandFilter extends KalturaFilter
 	/**
 	 * 
 	 *
-	 * @var KalturaControlPanelCommandType
+	 * @var BorhanControlPanelCommandType
 	 */
 	public $typeEqual = null;
 
@@ -1199,7 +1199,7 @@ class KalturaControlPanelCommandFilter extends KalturaFilter
 	/**
 	 * 
 	 *
-	 * @var KalturaControlPanelCommandTargetType
+	 * @var BorhanControlPanelCommandTargetType
 	 */
 	public $targetTypeEqual = null;
 
@@ -1213,7 +1213,7 @@ class KalturaControlPanelCommandFilter extends KalturaFilter
 	/**
 	 * 
 	 *
-	 * @var KalturaControlPanelCommandStatus
+	 * @var BorhanControlPanelCommandStatus
 	 */
 	public $statusEqual = null;
 
@@ -1227,7 +1227,7 @@ class KalturaControlPanelCommandFilter extends KalturaFilter
 
 }
 
-class KalturaConversionProfileFilter extends KalturaFilter
+class BorhanConversionProfileFilter extends BorhanFilter
 {
 	/**
 	 * 
@@ -1246,17 +1246,17 @@ class KalturaConversionProfileFilter extends KalturaFilter
 
 }
 
-class KalturaDataEntryFilter extends KalturaBaseEntryFilter
+class BorhanDataEntryFilter extends BorhanBaseEntryFilter
 {
 
 }
 
-class KalturaDocumentEntryFilter extends KalturaBaseEntryFilter
+class BorhanDocumentEntryFilter extends BorhanBaseEntryFilter
 {
 	/**
 	 * 
 	 *
-	 * @var KalturaDocumentType
+	 * @var BorhanDocumentType
 	 */
 	public $documentTypeEqual = null;
 
@@ -1270,7 +1270,7 @@ class KalturaDocumentEntryFilter extends KalturaBaseEntryFilter
 
 }
 
-class KalturaFilterPager extends KalturaObjectBase
+class BorhanFilterPager extends BorhanObjectBase
 {
 	/**
 	 * The number of objects to retrieve. (Default is 30, maximum page size is 500).
@@ -1291,19 +1291,19 @@ class KalturaFilterPager extends KalturaObjectBase
 
 }
 
-class KalturaFlavorParamsFilter extends KalturaFilter
+class BorhanFlavorParamsFilter extends BorhanFilter
 {
 	/**
 	 * 
 	 *
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $isSystemDefaultEqual = null;
 
 
 }
 
-class KalturaFlavorParamsOutputFilter extends KalturaFlavorParamsFilter
+class BorhanFlavorParamsOutputFilter extends BorhanFlavorParamsFilter
 {
 	/**
 	 * 
@@ -1336,17 +1336,17 @@ class KalturaFlavorParamsOutputFilter extends KalturaFlavorParamsFilter
 
 }
 
-class KalturaGoogleVideoSyndicationFeedFilter extends KalturaBaseSyndicationFeedFilter
+class BorhanGoogleVideoSyndicationFeedFilter extends BorhanBaseSyndicationFeedFilter
 {
 
 }
 
-class KalturaITunesSyndicationFeedFilter extends KalturaBaseSyndicationFeedFilter
+class BorhanITunesSyndicationFeedFilter extends BorhanBaseSyndicationFeedFilter
 {
 
 }
 
-class KalturaPlayableEntryFilter extends KalturaBaseEntryFilter
+class BorhanPlayableEntryFilter extends BorhanBaseEntryFilter
 {
 	/**
 	 * 
@@ -1414,12 +1414,12 @@ class KalturaPlayableEntryFilter extends KalturaBaseEntryFilter
 
 }
 
-class KalturaMediaEntryFilter extends KalturaPlayableEntryFilter
+class BorhanMediaEntryFilter extends BorhanPlayableEntryFilter
 {
 	/**
 	 * 
 	 *
-	 * @var KalturaMediaType
+	 * @var BorhanMediaType
 	 */
 	public $mediaTypeEqual = null;
 
@@ -1461,22 +1461,22 @@ class KalturaMediaEntryFilter extends KalturaPlayableEntryFilter
 
 }
 
-class KalturaLiveStreamEntryFilter extends KalturaMediaEntryFilter
+class BorhanLiveStreamEntryFilter extends BorhanMediaEntryFilter
 {
 
 }
 
-class KalturaLiveStreamAdminEntryFilter extends KalturaLiveStreamEntryFilter
+class BorhanLiveStreamAdminEntryFilter extends BorhanLiveStreamEntryFilter
 {
 
 }
 
-class KalturaMailJobFilter extends KalturaBaseJobFilter
+class BorhanMailJobFilter extends BorhanBaseJobFilter
 {
 
 }
 
-class KalturaMediaEntryFilterForPlaylist extends KalturaMediaEntryFilter
+class BorhanMediaEntryFilterForPlaylist extends BorhanMediaEntryFilter
 {
 	/**
 	 * 
@@ -1488,7 +1488,7 @@ class KalturaMediaEntryFilterForPlaylist extends KalturaMediaEntryFilter
 
 }
 
-class KalturaMediaInfoFilter extends KalturaFilter
+class BorhanMediaInfoFilter extends BorhanFilter
 {
 	/**
 	 * 
@@ -1500,12 +1500,12 @@ class KalturaMediaInfoFilter extends KalturaFilter
 
 }
 
-class KalturaMixEntryFilter extends KalturaPlayableEntryFilter
+class BorhanMixEntryFilter extends BorhanPlayableEntryFilter
 {
 
 }
 
-class KalturaPartnerFilter extends KalturaFilter
+class BorhanPartnerFilter extends BorhanFilter
 {
 	/**
 	 * 
@@ -1573,17 +1573,17 @@ class KalturaPartnerFilter extends KalturaFilter
 
 }
 
-class KalturaPlaylistFilter extends KalturaBaseEntryFilter
+class BorhanPlaylistFilter extends BorhanBaseEntryFilter
 {
 
 }
 
-class KalturaTubeMogulSyndicationFeedFilter extends KalturaBaseSyndicationFeedFilter
+class BorhanTubeMogulSyndicationFeedFilter extends BorhanBaseSyndicationFeedFilter
 {
 
 }
 
-class KalturaUiConf extends KalturaObjectBase
+class BorhanUiConf extends BorhanObjectBase
 {
 	/**
 	 * 
@@ -1618,7 +1618,7 @@ class KalturaUiConf extends KalturaObjectBase
 	/**
 	 * 
 	 *
-	 * @var KalturaUiConfObjType
+	 * @var BorhanUiConfObjType
 	 */
 	public $objType = null;
 
@@ -1727,14 +1727,14 @@ class KalturaUiConf extends KalturaObjectBase
 	/**
 	 * 
 	 *
-	 * @var KalturaUiConfCreationMode
+	 * @var BorhanUiConfCreationMode
 	 */
 	public $creationMode = null;
 
 
 }
 
-class KalturaUiConfFilter extends KalturaFilter
+class BorhanUiConfFilter extends BorhanFilter
 {
 	/**
 	 * 
@@ -1760,7 +1760,7 @@ class KalturaUiConfFilter extends KalturaFilter
 	/**
 	 * 
 	 *
-	 * @var KalturaUiConfObjType
+	 * @var BorhanUiConfObjType
 	 */
 	public $objTypeEqual = null;
 
@@ -1809,7 +1809,7 @@ class KalturaUiConfFilter extends KalturaFilter
 	/**
 	 * 
 	 *
-	 * @var KalturaUiConfCreationMode
+	 * @var BorhanUiConfCreationMode
 	 */
 	public $creationModeEqual = null;
 
@@ -1823,12 +1823,12 @@ class KalturaUiConfFilter extends KalturaFilter
 
 }
 
-class KalturaUiConfListResponse extends KalturaObjectBase
+class BorhanUiConfListResponse extends BorhanObjectBase
 {
 	/**
 	 * 
 	 *
-	 * @var KalturaUiConfArray
+	 * @var BorhanUiConfArray
 	 * @readonly
 	 */
 	public $objects;
@@ -1844,7 +1844,7 @@ class KalturaUiConfListResponse extends KalturaObjectBase
 
 }
 
-class KalturaUserFilter extends KalturaFilter
+class BorhanUserFilter extends BorhanFilter
 {
 	/**
 	 * 
@@ -1926,7 +1926,7 @@ class KalturaUserFilter extends KalturaFilter
 
 }
 
-class KalturaWidgetFilter extends KalturaFilter
+class BorhanWidgetFilter extends BorhanFilter
 {
 	/**
 	 * 
@@ -2015,22 +2015,22 @@ class KalturaWidgetFilter extends KalturaFilter
 
 }
 
-class KalturaYahooSyndicationFeedFilter extends KalturaBaseSyndicationFeedFilter
+class BorhanYahooSyndicationFeedFilter extends BorhanBaseSyndicationFeedFilter
 {
 
 }
 
 
-class KalturaSessionService extends KalturaServiceBase
+class BorhanSessionService extends BorhanServiceBase
 {
-	function __construct(KalturaClient $client)
+	function __construct(BorhanClient $client)
 	{
 		parent::__construct($client);
 	}
 
 	function startLocal($secret, $userId = "", $type = 0, $partnerId = -1, $expiry = 86400, $privileges = null)
 	{
-		return $this->client->KalturaCreateKS($type, $userId, $privileges, $secret, $expiry);
+		return $this->client->BorhanCreateKS($type, $userId, $privileges, $secret, $expiry);
 	}
 	
 	function start($secret, $userId = "", $type = 0, $partnerId = -1, $expiry = 86400, $privileges = null)
@@ -2052,14 +2052,14 @@ class KalturaSessionService extends KalturaServiceBase
 	}
 }
 
-class KalturaUiConfService extends KalturaServiceBase
+class BorhanUiConfService extends BorhanServiceBase
 {
-	function __construct(KalturaClient $client)
+	function __construct(BorhanClient $client)
 	{
 		parent::__construct($client);
 	}
 
-	function add(KalturaUiConf $uiConf)
+	function add(BorhanUiConf $uiConf)
 	{
 		$kparams = array();
 		$this->client->addParam($kparams, "uiConf", $uiConf->toParams());
@@ -2068,11 +2068,11 @@ class KalturaUiConfService extends KalturaServiceBase
 			return null;
 		$resultObject = $this->client->doQueue();
 		$this->client->throwExceptionIfError($resultObject);
-		$this->client->validateObjectType($resultObject, "KalturaUiConf");
+		$this->client->validateObjectType($resultObject, "BorhanUiConf");
 		return $resultObject;
 	}
 
-	function update($id, KalturaUiConf $uiConf)
+	function update($id, BorhanUiConf $uiConf)
 	{
 		$kparams = array();
 		$this->client->addParam($kparams, "id", $id);
@@ -2082,7 +2082,7 @@ class KalturaUiConfService extends KalturaServiceBase
 			return null;
 		$resultObject = $this->client->doQueue();
 		$this->client->throwExceptionIfError($resultObject);
-		$this->client->validateObjectType($resultObject, "KalturaUiConf");
+		$this->client->validateObjectType($resultObject, "BorhanUiConf");
 		return $resultObject;
 	}
 
@@ -2095,7 +2095,7 @@ class KalturaUiConfService extends KalturaServiceBase
 			return null;
 		$resultObject = $this->client->doQueue();
 		$this->client->throwExceptionIfError($resultObject);
-		$this->client->validateObjectType($resultObject, "KalturaUiConf");
+		$this->client->validateObjectType($resultObject, "BorhanUiConf");
 		return $resultObject;
 	}
 
@@ -2121,11 +2121,11 @@ class KalturaUiConfService extends KalturaServiceBase
 			return null;
 		$resultObject = $this->client->doQueue();
 		$this->client->throwExceptionIfError($resultObject);
-		$this->client->validateObjectType($resultObject, "KalturaUiConf");
+		$this->client->validateObjectType($resultObject, "BorhanUiConf");
 		return $resultObject;
 	}
 
-	function listTemplates(KalturaUiConfFilter $filter = null, KalturaFilterPager $pager = null)
+	function listTemplates(BorhanUiConfFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		$kparams = array();
 		if ($filter !== null)
@@ -2137,11 +2137,11 @@ class KalturaUiConfService extends KalturaServiceBase
 			return null;
 		$resultObject = $this->client->doQueue();
 		$this->client->throwExceptionIfError($resultObject);
-		$this->client->validateObjectType($resultObject, "KalturaUiConfListResponse");
+		$this->client->validateObjectType($resultObject, "BorhanUiConfListResponse");
 		return $resultObject;
 	}
 
-	function listAction(KalturaUiConfFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanUiConfFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		$kparams = array();
 		if ($filter !== null)
@@ -2153,33 +2153,33 @@ class KalturaUiConfService extends KalturaServiceBase
 			return null;
 		$resultObject = $this->client->doQueue();
 		$this->client->throwExceptionIfError($resultObject);
-		$this->client->validateObjectType($resultObject, "KalturaUiConfListResponse");
+		$this->client->validateObjectType($resultObject, "BorhanUiConfListResponse");
 		return $resultObject;
 	}
 }
 
-class KalturaClient extends KalturaClientBase
+class BorhanClient extends BorhanClientBase
 {
 	/**
 	 * Session service
 	 *
-	 * @var KalturaSessionService
+	 * @var BorhanSessionService
 	 */
 	public $session = null;
 
 	/**
 	 * UiConf service lets you create and manage your UIConfs for the various flash components
-	 * This service is used by the KMC-ApplicationStudio
+	 * This service is used by the BMC-ApplicationStudio
 	 *
-	 * @var KalturaUiConfService
+	 * @var BorhanUiConfService
 	 */
 	public $uiConf = null;
 
 
-	public function __construct(KalturaConfiguration $config)
+	public function __construct(BorhanConfiguration $config)
 	{
 		parent::__construct($config);
-		$this->session = new KalturaSessionService($this);
-		$this->uiConf = new KalturaUiConfService($this);
+		$this->session = new BorhanSessionService($this);
+		$this->uiConf = new BorhanUiConfService($this);
 	}
 }

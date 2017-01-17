@@ -5,18 +5,18 @@
  * @package api
  * @subpackage objects
  */
-class KalturaRemoteStorageResourceArray extends KalturaTypedArray
+class BorhanRemoteStorageResourceArray extends BorhanTypedArray
 {
 	/**
 	 * @param array<kRemoteStorageResource> $arr
-	 * @return KalturaRemoteStorageResourceArray
+	 * @return BorhanRemoteStorageResourceArray
 	 */
-	public static function fromDbArray(array $arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaRemoteStorageResourceArray();
+		$newArr = new BorhanRemoteStorageResourceArray();
 		foreach($arr as $obj)
 		{
-			$nObj = new KalturaRemoteStorageResource();
+			$nObj = new BorhanRemoteStorageResource();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -26,6 +26,6 @@ class KalturaRemoteStorageResourceArray extends KalturaTypedArray
 	
 	public function __construct()
 	{
-		parent::__construct("KalturaRemoteStorageResource");
+		parent::__construct("BorhanRemoteStorageResource");
 	}
 }

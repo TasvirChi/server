@@ -3,11 +3,11 @@
  * @package plugins.scheduleDropFolder
  * @subpackage api.objects
  */
-class KalturaDropFolderICalBulkUploadFileHandlerConfig extends KalturaDropFolderFileHandlerConfig
+class BorhanDropFolderICalBulkUploadFileHandlerConfig extends BorhanDropFolderFileHandlerConfig
 {
 	/**
 	 * The type of the events that ill be created by this upload
-	 * @var KalturaScheduleEventType
+	 * @var BorhanScheduleEventType
 	 */
 	public $eventsType = null;
 	

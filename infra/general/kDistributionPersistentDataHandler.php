@@ -1,7 +1,7 @@
 <?php
 
-require_once(KALTURA_ROOT_PATH . '/alpha/apps/kaltura/lib/cache/kCacheManager.php');
-require_once(KALTURA_ROOT_PATH . '/vendor/facebook-sdk-php-v5-customized/autoload.php');
+require_once(BORHAN_ROOT_PATH . '/alpha/apps/borhan/lib/cache/kCacheManager.php');
+require_once(BORHAN_ROOT_PATH . '/vendor/facebook-sdk-php-v5-customized/autoload.php');
 
 /**
  * Saves key/value in the custom data of the provider given
@@ -13,7 +13,7 @@ class kDistributionPersistentDataHandler implements \Facebook\PersistentData\Per
 	private $accessURL;
 
 	/**
-	 * expecting http://hostname/api_v3/index.php?service=contentdistribution_distributionprofile&&id=@id&distributionProfile%3AobjectType=KalturaFacebookDistributionProfile&ks=bxgsxvsxs
+	 * expecting http://hostname/api_v3/index.php?service=contentdistribution_distributionprofile&&id=@id&distributionProfile%3AobjectType=BorhanFacebookDistributionProfile&ks=bxgsxvsxs
 	 * @param string $accessURL
 	 * @throws Exception
 	 */

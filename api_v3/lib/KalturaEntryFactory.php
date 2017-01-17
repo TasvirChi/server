@@ -3,53 +3,53 @@
  * @package api
  * @subpackage objects.factory
  */
-class KalturaEntryFactory
+class BorhanEntryFactory
 {
 	/**
 	 * @param int $type
 	 * @param bool $isAdmin
-	 * @return KalturaBaseEntry
+	 * @return BorhanBaseEntry
 	 */
 	static function getInstanceByType ($type, $isAdmin = false)
 	{
 		switch ($type) 
 		{
-			case KalturaEntryType::MEDIA_CLIP:
-				$obj = new KalturaMediaEntry();
+			case BorhanEntryType::MEDIA_CLIP:
+				$obj = new BorhanMediaEntry();
 				break;
 				
-			case KalturaEntryType::MIX:
-				$obj = new KalturaMixEntry();
+			case BorhanEntryType::MIX:
+				$obj = new BorhanMixEntry();
 				break;
 				
-			case KalturaEntryType::PLAYLIST:
-				$obj = new KalturaPlaylist();
+			case BorhanEntryType::PLAYLIST:
+				$obj = new BorhanPlaylist();
 				break;
 				
-			case KalturaEntryType::DATA:
-				$obj = new KalturaDataEntry();
+			case BorhanEntryType::DATA:
+				$obj = new BorhanDataEntry();
 				break;
 				
-			case KalturaEntryType::LIVE_STREAM:
+			case BorhanEntryType::LIVE_STREAM:
 				if($isAdmin)
 				{
-					$obj = new KalturaLiveStreamAdminEntry();
+					$obj = new BorhanLiveStreamAdminEntry();
 				}
 				else
 				{
-					$obj = new KalturaLiveStreamEntry();
+					$obj = new BorhanLiveStreamEntry();
 				}
 				break;
 				
-			case KalturaEntryType::LIVE_CHANNEL:
-				$obj = new KalturaLiveChannel();
+			case BorhanEntryType::LIVE_CHANNEL:
+				$obj = new BorhanLiveChannel();
 				break;
 				
 			default:
-				$obj = KalturaPluginManager::loadObject('KalturaBaseEntry', $type);
+				$obj = BorhanPluginManager::loadObject('BorhanBaseEntry', $type);
 				
 				if(!$obj)
-					$obj = new KalturaBaseEntry();
+					$obj = new BorhanBaseEntry();
 					
 				break;
 		}

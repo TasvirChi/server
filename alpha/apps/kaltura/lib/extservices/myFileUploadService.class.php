@@ -42,7 +42,7 @@ class myFileUploadService extends myBaseMediaSource implements IMediaSource
 		if($headerContentType && isset($contentTypes[$headerContentType]))
 		{
 			$ext = $contentTypes[$headerContentType];
-			KalturaLog::debug("extension - $ext");
+			BorhanLog::debug("extension - $ext");
 			return $ext;
 		}
 

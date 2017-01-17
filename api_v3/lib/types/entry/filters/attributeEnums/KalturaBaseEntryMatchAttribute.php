@@ -3,7 +3,7 @@
 /**
  * Auto-generated enum class
 */
-class KalturaBaseEntryMatchAttribute extends KalturaStringEnum
+class BorhanBaseEntryMatchAttribute extends BorhanStringEnum
 {
 	const ID = "id";
 	const NAME = "name";

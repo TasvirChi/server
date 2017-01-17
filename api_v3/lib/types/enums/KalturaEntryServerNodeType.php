@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaEntryServerNodeType extends KalturaDynamicEnum implements EntryServerNodeType
+class BorhanEntryServerNodeType extends BorhanDynamicEnum implements EntryServerNodeType
 {
 	public static function getEnumClass()
 	{

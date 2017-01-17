@@ -2,7 +2,7 @@
 /**
  * Applicative event that raised by the developer when object is ready for update
  */
-interface kObjectReadyForIndexInheritedTreeEventConsumer extends KalturaEventConsumer
+interface kObjectReadyForIndexInheritedTreeEventConsumer extends BorhanEventConsumer
 {
 	/**
 	 * @param BaseObject $object

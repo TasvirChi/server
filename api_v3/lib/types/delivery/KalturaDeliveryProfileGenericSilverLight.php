@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaDeliveryProfileGenericSilverLight extends KalturaDeliveryProfile {
+class BorhanDeliveryProfileGenericSilverLight extends BorhanDeliveryProfile {
 	
 	/**
 	 * @var string

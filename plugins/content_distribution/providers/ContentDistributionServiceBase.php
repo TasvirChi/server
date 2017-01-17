@@ -1,6 +1,6 @@
 <?php
 
-abstract class ContentDistributionServiceBase extends KalturaBaseService {
+abstract class ContentDistributionServiceBase extends BorhanBaseService {
 	
 	const CACHE_CREATION_TIME_SUFFIX = ".time";
 	const CACHE_CREATION_MARGIN = 30;
@@ -45,23 +45,23 @@ abstract class ContentDistributionServiceBase extends KalturaBaseService {
 	
 	/**
 	 * Validates whether a we can fullfill the get feed request.
-	 * @throws KalturaAPIException In case we can't fullfill the request
+	 * @throws BorhanAPIException In case we can't fullfill the request
 	 */
 	protected function validateRequest($distributionProfileId, $hash) 
 	{
 		if (!$this->getPartnerId() || !$this->getPartner())
-			throw new KalturaAPIException(KalturaErrors::INVALID_PARTNER_ID, $this->getPartnerId());
+			throw new BorhanAPIException(BorhanErrors::INVALID_PARTNER_ID, $this->getPartnerId());
 			
 		$this->profile = DistributionProfilePeer::retrieveByPK($distributionProfileId);
 		$profileClass = $this->getProfileClass();
 		if (!$this->profile || !$this->profile instanceof $profileClass)
-			throw new KalturaAPIException(ContentDistributionErrors::DISTRIBUTION_PROFILE_NOT_FOUND, $distributionProfileId);
+			throw new BorhanAPIException(ContentDistributionErrors::DISTRIBUTION_PROFILE_NOT_FOUND, $distributionProfileId);
 	
-		if ($this->profile->getStatus() != KalturaDistributionProfileStatus::ENABLED)
-			throw new KalturaAPIException(ContentDistributionErrors::DISTRIBUTION_PROFILE_DISABLED, $distributionProfileId);
+		if ($this->profile->getStatus() != BorhanDistributionProfileStatus::ENABLED)
+			throw new BorhanAPIException(ContentDistributionErrors::DISTRIBUTION_PROFILE_DISABLED, $distributionProfileId);
 	
 		if ($this->profile->getUniqueHashForFeedUrl() != $hash)
-			throw new KalturaAPIException(ContentDistributionErrors::INVALID_FEED_URL);
+			throw new BorhanAPIException(ContentDistributionErrors::INVALID_FEED_URL);
 	}
 	
 	/**
@@ -98,7 +98,7 @@ abstract class ContentDistributionServiceBase extends KalturaBaseService {
 	 */
 	protected function getEntries($context, $orderBy = null, $limit = null) 
 	{
-		$baseCriteria = KalturaCriteria::create(entryPeer::OM_CLASS);
+		$baseCriteria = BorhanCriteria::create(entryPeer::OM_CLASS);
 		$baseCriteria->add(entryPeer::DISPLAY_IN_SEARCH, mySearchUtils::DISPLAY_IN_SEARCH_SYSTEM, Criteria::NOT_EQUAL);
 		if(!is_null($limit))
 			$baseCriteria->setLimit($limit);
@@ -147,7 +147,7 @@ abstract class ContentDistributionServiceBase extends KalturaBaseService {
 				$entryDistribution = EntryDistributionPeer::retrieveByEntryAndProfileId($entry->getId(), $this->profile->getId());
 				if (!$entryDistribution)
 				{
-					KalturaLog::err('Entry distribution was not found for entry ['.$entry->getId().'] and profile [' . $this->profile->getId() . ']');
+					BorhanLog::err('Entry distribution was not found for entry ['.$entry->getId().'] and profile [' . $this->profile->getId() . ']');
 					continue;
 				}
 		

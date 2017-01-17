@@ -2,7 +2,7 @@
 /**
  * @package plugins.quickPlayDistribution
  */
-class QuickPlayDistributionPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaEnumerator, IKalturaPending, IKalturaObjectLoader, IKalturaContentDistributionProvider
+class QuickPlayDistributionPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanEnumerator, IBorhanPending, IBorhanObjectLoader, IBorhanContentDistributionProvider
 {
 	const PLUGIN_NAME = 'quickPlayDistribution';
 	const CONTENT_DSTRIBUTION_VERSION_MAJOR = 2;
@@ -16,12 +16,12 @@ class QuickPlayDistributionPlugin extends KalturaPlugin implements IKalturaPermi
 	
 	public static function dependsOn()
 	{
-		$contentDistributionVersion = new KalturaVersion(
+		$contentDistributionVersion = new BorhanVersion(
 			self::CONTENT_DSTRIBUTION_VERSION_MAJOR,
 			self::CONTENT_DSTRIBUTION_VERSION_MINOR,
 			self::CONTENT_DSTRIBUTION_VERSION_BUILD);
 			
-		$dependency = new KalturaDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
+		$dependency = new BorhanDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
 		return array($dependency);
 	}
 	
@@ -57,7 +57,7 @@ class QuickPlayDistributionPlugin extends KalturaPlugin implements IKalturaPermi
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::QUICKPLAY)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::QUICKPLAY)
 		{
 			if($baseClass == 'IDistributionEngineSubmit')
 				return new QuickPlayDistributionEngine();
@@ -65,14 +65,14 @@ class QuickPlayDistributionPlugin extends KalturaPlugin implements IKalturaPermi
 			if($baseClass == 'IDistributionEngineUpdate')
 				return new QuickPlayDistributionEngine();
 		
-			if($baseClass == 'KalturaDistributionProfile')
-				return new KalturaQuickPlayDistributionProfile();
+			if($baseClass == 'BorhanDistributionProfile')
+				return new BorhanQuickPlayDistributionProfile();
 		
-			if($baseClass == 'KalturaDistributionJobProviderData')
-				return new KalturaQuickPlayDistributionJobProviderData();
+			if($baseClass == 'BorhanDistributionJobProviderData')
+				return new BorhanQuickPlayDistributionJobProviderData();
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::QUICKPLAY)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::QUICKPLAY)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 			{
@@ -85,9 +85,9 @@ class QuickPlayDistributionPlugin extends KalturaPlugin implements IKalturaPermi
 		if (!class_exists('kCurrentContext') || kCurrentContext::$ps_vesion != 'ps3')
 			return null;
 
-		if($baseClass == 'KalturaDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(QuickPlayDistributionProviderType::QUICKPLAY))
+		if($baseClass == 'BorhanDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(QuickPlayDistributionProviderType::QUICKPLAY))
 		{
-			$reflect = new ReflectionClass('KalturaQuickPlayDistributionJobProviderData');
+			$reflect = new ReflectionClass('BorhanQuickPlayDistributionJobProviderData');
 			return $reflect->newInstanceArgs($constructorArgs);
 		}
 	
@@ -97,8 +97,8 @@ class QuickPlayDistributionPlugin extends KalturaPlugin implements IKalturaPermi
 			return $reflect->newInstanceArgs($constructorArgs);
 		}
 	
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(QuickPlayDistributionProviderType::QUICKPLAY))
-			return new KalturaQuickPlayDistributionProfile();
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(QuickPlayDistributionProviderType::QUICKPLAY))
+			return new BorhanQuickPlayDistributionProfile();
 			
 		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(QuickPlayDistributionProviderType::QUICKPLAY))
 			return new QuickPlayDistributionProfile();
@@ -114,7 +114,7 @@ class QuickPlayDistributionPlugin extends KalturaPlugin implements IKalturaPermi
 	public static function getObjectClass($baseClass, $enumValue)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::QUICKPLAY)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::QUICKPLAY)
 		{
 			if($baseClass == 'IDistributionEngineSubmit')
 				return 'QuickPlayDistributionEngine';
@@ -122,34 +122,34 @@ class QuickPlayDistributionPlugin extends KalturaPlugin implements IKalturaPermi
 			if($baseClass == 'IDistributionEngineUpdate')
 				return 'QuickPlayDistributionEngine';
 		
-			if($baseClass == 'KalturaDistributionProfile')
-				return 'KalturaQuickPlayDistributionProfile';
+			if($baseClass == 'BorhanDistributionProfile')
+				return 'BorhanQuickPlayDistributionProfile';
 		
-			if($baseClass == 'KalturaDistributionJobProviderData')
-				return 'KalturaQuickPlayDistributionJobProviderData';
+			if($baseClass == 'BorhanDistributionJobProviderData')
+				return 'BorhanQuickPlayDistributionJobProviderData';
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::QUICKPLAY)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::QUICKPLAY)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 				return 'Form_QuickPlayProfileConfiguration';
 				
-			if($baseClass == 'Kaltura_Client_ContentDistribution_Type_DistributionProfile')
-				return 'Kaltura_Client_QuickPlayDistribution_Type_QuickPlayDistributionProfile';
+			if($baseClass == 'Borhan_Client_ContentDistribution_Type_DistributionProfile')
+				return 'Borhan_Client_QuickPlayDistribution_Type_QuickPlayDistributionProfile';
 		}
 		
 		// content distribution does not work in partner services 2 context because it uses dynamic enums
 		if (!class_exists('kCurrentContext') || kCurrentContext::$ps_vesion != 'ps3')
 			return null;
 
-		if($baseClass == 'KalturaDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(QuickPlayDistributionProviderType::QUICKPLAY))
-			return 'KalturaQuickPlayDistributionJobProviderData';
+		if($baseClass == 'BorhanDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(QuickPlayDistributionProviderType::QUICKPLAY))
+			return 'BorhanQuickPlayDistributionJobProviderData';
 	
 		if($baseClass == 'kDistributionJobProviderData' && $enumValue == self::getApiValue(QuickPlayDistributionProviderType::QUICKPLAY))
 			return 'kQuickPlayDistributionJobProviderData';
 	
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(QuickPlayDistributionProviderType::QUICKPLAY))
-			return 'KalturaQuickPlayDistributionProfile';
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(QuickPlayDistributionProviderType::QUICKPLAY))
+			return 'BorhanQuickPlayDistributionProfile';
 			
 		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(QuickPlayDistributionProviderType::QUICKPLAY))
 			return 'QuickPlayDistributionProfile';
@@ -170,11 +170,11 @@ class QuickPlayDistributionPlugin extends KalturaPlugin implements IKalturaPermi
 	/**
 	 * Return an API distribution provider instance
 	 * 
-	 * @return KalturaDistributionProvider
+	 * @return BorhanDistributionProvider
 	 */
-	public static function getKalturaProvider()
+	public static function getBorhanProvider()
 	{
-		$distributionProvider = new KalturaQuickPlayDistributionProvider();
+		$distributionProvider = new BorhanQuickPlayDistributionProvider();
 		$distributionProvider->fromObject(self::getProvider());
 		return $distributionProvider;
 	}
@@ -194,7 +194,7 @@ class QuickPlayDistributionPlugin extends KalturaPlugin implements IKalturaPermi
 	 */
 	public static function getDistributionProviderTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('DistributionProviderType', $value);
 	}
 	
@@ -203,6 +203,6 @@ class QuickPlayDistributionPlugin extends KalturaPlugin implements IKalturaPermi
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 }

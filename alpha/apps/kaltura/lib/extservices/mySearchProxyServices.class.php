@@ -9,7 +9,7 @@ class mySearchProxyServices extends myBaseMediaSource implements IMediaSource
 	protected $source_name = "ProxySearch";
 	protected $auth_method = array ( self::AUTH_METHOD_PUBLIC );
 	protected $search_in_user = false; 
-	protected $logo = "http://www.kaltura.com/images/wizard/logo_metacafe.png";
+	protected $logo = "http://www.borhan.com/images/wizard/logo_metacafe.png";
 	protected $id = entry::ENTRY_MEDIA_SOURCE_SEARCH_PROXY;
 	
 	public function getMediaInfo( $media_type ,$objectId) 
@@ -32,7 +32,7 @@ class mySearchProxyServices extends myBaseMediaSource implements IMediaSource
 		 * <tokens>
 		 *   <token>
 		 *     <name>extra_data</name>
-		 *     <value>http://www.partnerdomain.com/kaltura_search_callback.php</value>
+		 *     <value>http://www.partnerdomain.com/borhan_search_callback.php</value>
 		 *   </token>
 		 * </tokens> 
 		 */
@@ -43,7 +43,7 @@ class mySearchProxyServices extends myBaseMediaSource implements IMediaSource
 		curl_setopt($ch, CURLOPT_URL, $searchUrl);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_USERAGENT, "Kaltura search proxy");
+		curl_setopt($ch, CURLOPT_USERAGENT, "Borhan search proxy");
 
 		$result = curl_exec($ch);
 

@@ -8,7 +8,7 @@ class KAsyncParseMultiLanguageCaptionAsset extends KJobHandlerWorker
 	const NUMBER_OF_LANGUAGES_LIMIT = 500;
 
 	/*
-	 * @var KalturaCaptionSearchClientPlugin
+	 * @var BorhanCaptionSearchClientPlugin
 	 */
 	private $captionClientPlugin = null;
 
@@ -17,22 +17,22 @@ class KAsyncParseMultiLanguageCaptionAsset extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::PARSE_MULTI_LANGUAGE_CAPTION_ASSET;
+		return BorhanBatchJobType::PARSE_MULTI_LANGUAGE_CAPTION_ASSET;
 	}
 
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->parseMultiLanguage($job, $job->data);
 	}
 	
-	protected function parseMultiLanguage(KalturaBatchJob $job, KalturaParseMultiLanguageCaptionAssetJobData $data)
+	protected function parseMultiLanguage(BorhanBatchJob $job, BorhanParseMultiLanguageCaptionAssetJobData $data)
 	{
-		$this->updateJob($job, "Start parsing multi-language caption asset [$data->multiLanaguageCaptionAssetId]", KalturaBatchJobStatus::QUEUED);
+		$this->updateJob($job, "Start parsing multi-language caption asset [$data->multiLanaguageCaptionAssetId]", BorhanBatchJobStatus::QUEUED);
 
-		$this->captionClientPlugin = KalturaCaptionClientPlugin::get(self::$kClient);
+		$this->captionClientPlugin = BorhanCaptionClientPlugin::get(self::$kClient);
 
 		$parentId = $data->multiLanaguageCaptionAssetId;
 		$entryId = $data->entryId;
@@ -41,25 +41,25 @@ class KAsyncParseMultiLanguageCaptionAsset extends KJobHandlerWorker
 		$xmlString = file_get_contents($fileLoc);
 		if (!$xmlString)
 		{
-			$this->closeJob($job, KalturaBatchJobErrorTypes::RUNTIME, 'UNABLE_TO_GET_FILE' , "Error: " . 'UNABLE_TO_GET_FILE', KalturaBatchJobStatus::FAILED, $data);
+			$this->closeJob($job, BorhanBatchJobErrorTypes::RUNTIME, 'UNABLE_TO_GET_FILE' , "Error: " . 'UNABLE_TO_GET_FILE', BorhanBatchJobStatus::FAILED, $data);
 			return $job;
 		}
 
 		$xml = simplexml_load_string($xmlString);
 		if (!$xml)
 		{
-			$this->closeJob($job, KalturaBatchJobErrorTypes::RUNTIME, 'INVALID_XML' , "Error: " . 'INVALID_XML', KalturaBatchJobStatus::FAILED, $data);
+			$this->closeJob($job, BorhanBatchJobErrorTypes::RUNTIME, 'INVALID_XML' , "Error: " . 'INVALID_XML', BorhanBatchJobStatus::FAILED, $data);
 			return $job;
 		}
 
-		$filter = new KalturaAssetFilter();
+		$filter = new BorhanAssetFilter();
 		$filter->entryIdEqual = $entryId;
 		$pager = null;
 
 		$bodyNode = $xml->body;
 		if (count($bodyNode->div) > self::NUMBER_OF_LANGUAGES_LIMIT)
 		{
-			$this->closeJob($job, KalturaBatchJobErrorTypes::RUNTIME, 'EXCEEDED_NUMBER_OF_LANGUAGES' , "Error: " . "exceeded number of languages - ".self::NUMBER_OF_LANGUAGES_LIMIT, KalturaBatchJobStatus::FAILED, $data);
+			$this->closeJob($job, BorhanBatchJobErrorTypes::RUNTIME, 'EXCEEDED_NUMBER_OF_LANGUAGES' , "Error: " . "exceeded number of languages - ".self::NUMBER_OF_LANGUAGES_LIMIT, BorhanBatchJobStatus::FAILED, $data);
 			return $job;
 		}
 
@@ -85,7 +85,7 @@ class KAsyncParseMultiLanguageCaptionAsset extends KJobHandlerWorker
 		{
 			$headerLanguageShort = $xml[0]->attributes('xml',true);
 			if($headerLanguageShort)
-				$headerLanguageLong = constant('KalturaLanguage::' . strtoupper($headerLanguageShort));
+				$headerLanguageLong = constant('BorhanLanguage::' . strtoupper($headerLanguageShort));
 		}	
 
 		$captionsCreated = false;
@@ -98,13 +98,13 @@ class KAsyncParseMultiLanguageCaptionAsset extends KJobHandlerWorker
 			$languageShort = $divNode[0]->attributes('xml',true)->lang;
 			$languageLong = null;
 			if($languageShort)
-				$languageLong = constant('KalturaLanguage::' . strtoupper($languageShort));
+				$languageLong = constant('BorhanLanguage::' . strtoupper($languageShort));
 
 			if(is_null($languageLong))
 			{
 				if(is_null($headerLanguageLong))
 				{
-					KalturaLog::info("failed to find language in div number $divCounter");
+					BorhanLog::info("failed to find language in div number $divCounter");
 					continue;
 				}
 				$languageShort = $headerLanguageShort;
@@ -114,20 +114,20 @@ class KAsyncParseMultiLanguageCaptionAsset extends KJobHandlerWorker
 			if(isset($captionChildernIds[$languageShort]))
 			{
 				$id = $captionChildernIds[$languageShort];
-				KalturaLog::info("language $languageShort exists as a child of asset $parentId");
+				BorhanLog::info("language $languageShort exists as a child of asset $parentId");
 				$onlyUpdate = true;
 				unset($captionChildernIds[$languageShort]);
 			}
 
 			$completeXML = $subXMLStart . $xmlDivNode . $subXMLEnd;
 
-			$captionAsset = new KalturaCaptionAsset();
+			$captionAsset = new BorhanCaptionAsset();
 			$captionAsset->fileExt = 'xml';
 			$captionAsset->language = $languageLong;
-			$captionAsset->format = KalturaCaptionType::DFXP;
+			$captionAsset->format = BorhanCaptionType::DFXP;
 			$captionAsset->parentId = $parentId;
 
-			$contentResource = new KalturaStringResource();
+			$contentResource = new BorhanStringResource();
 			$contentResource->content = $completeXML;
 
 			if (!$onlyUpdate)
@@ -145,11 +145,11 @@ class KAsyncParseMultiLanguageCaptionAsset extends KJobHandlerWorker
 
 		if ($captionsCreated)
 		{
-			$this->closeJob($job, null, null, "Finished parsing", KalturaBatchJobStatus::FINISHED);
+			$this->closeJob($job, null, null, "Finished parsing", BorhanBatchJobStatus::FINISHED);
 			return $job;
 		}
 		else
-			throw new kApplicativeException(KalturaBatchJobAppErrors::MISSING_ASSETS ,"no captions created");
+			throw new kApplicativeException(BorhanBatchJobAppErrors::MISSING_ASSETS ,"no captions created");
 	}
 
 	private function addCaption($entryId, $captionAsset, $contentResource)
@@ -161,7 +161,7 @@ class KAsyncParseMultiLanguageCaptionAsset extends KJobHandlerWorker
 		catch(Exception $e)
 		{
 			$languageCode = $captionAsset->languageCode;
-			KalturaLog::info("problem with caption creation - language $languageCode - " . $e->getMessage());
+			BorhanLog::info("problem with caption creation - language $languageCode - " . $e->getMessage());
 			return false;
 		}
 		return $this->setCaptionContent($captionCreated->id, $contentResource);
@@ -176,7 +176,7 @@ class KAsyncParseMultiLanguageCaptionAsset extends KJobHandlerWorker
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::info("problem with caption content-setting id - $id - " . $e->getMessage());
+			BorhanLog::info("problem with caption content-setting id - $id - " . $e->getMessage());
 			return false;
 		}
 	}
@@ -193,7 +193,7 @@ class KAsyncParseMultiLanguageCaptionAsset extends KJobHandlerWorker
 				}
 				catch(Exception $e)
 				{
-					KalturaLog::info("problem with deleting caption id - $captionId - language $language - " . $e->getMessage());
+					BorhanLog::info("problem with deleting caption id - $captionId - language $language - " . $e->getMessage());
 				}
 			}
 		}

@@ -3,11 +3,11 @@
  * 
  * Internal Tools Service
  * 
- * @service KalturaInternalTools
- * @package plugins.KalturaInternalTools
+ * @service BorhanInternalTools
+ * @package plugins.BorhanInternalTools
  * @subpackage api.services
  */
-class KalturaInternalToolsService extends KalturaBaseService
+class BorhanInternalToolsService extends BorhanBaseService
 {
 
 

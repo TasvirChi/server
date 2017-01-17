@@ -55,7 +55,7 @@ class kMetadataObjectCreatedHandler implements kObjectCreatedEventConsumer
 					$destMetadataObj->setMetadataProfileVersion($metadataProfileVersion);
 					$destMetadataObj->setObjectType(MetadataObjectType::ENTRY);
 					$destMetadataObj->setObjectId($recordedEntryId);
-					$destMetadataObj->setStatus(KalturaMetadataStatus::VALID);
+					$destMetadataObj->setStatus(BorhanMetadataStatus::VALID);
 	
 					$originMetadataKey = $originMetadataObj->getSyncKey(Metadata::FILE_SYNC_METADATA_DATA);
 					$originXml = kFileSyncUtils::file_get_contents($originMetadataKey, true, false);
@@ -66,7 +66,7 @@ class kMetadataObjectCreatedHandler implements kObjectCreatedEventConsumer
 							$destMetadataObj->save();
 					else
 					{
-							KalturaLog::err('invalid object type');
+							BorhanLog::err('invalid object type');
 							continue;
 					}
 	

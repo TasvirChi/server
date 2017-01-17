@@ -3,10 +3,10 @@
  * @package plugins.quiz
  * @subpackage api.filters
  */
-class KalturaQuizAdvancedFilter extends KalturaSearchItem
+class BorhanQuizAdvancedFilter extends BorhanSearchItem
 {
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $isQuiz;
 

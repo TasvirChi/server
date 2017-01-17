@@ -3,11 +3,11 @@
  * @package api
  * @subpackage objects
  */
-class KalturaContextTypeHolderArray extends KalturaTypedArray
+class BorhanContextTypeHolderArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaContextTypeHolderArray();
+		$newArr = new BorhanContextTypeHolderArray();
 		if ($arr == null)
 			return $newArr;
 
@@ -29,14 +29,14 @@ class KalturaContextTypeHolderArray extends KalturaTypedArray
 			case ContextType::PLAY:
 			case ContextType::THUMBNAIL:
 			case ContextType::METADATA:
-				return new KalturaAccessControlContextTypeHolder();
+				return new BorhanAccessControlContextTypeHolder();
 			default:
-				return new KalturaContextTypeHolder();
+				return new BorhanContextTypeHolder();
 		}		
 	}
 	
 	public function __construct()
 	{
-		parent::__construct("KalturaContextTypeHolder");	
+		parent::__construct("BorhanContextTypeHolder");	
 	}
 }

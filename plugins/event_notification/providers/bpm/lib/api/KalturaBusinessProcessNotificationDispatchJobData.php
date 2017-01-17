@@ -3,10 +3,10 @@
  * @package plugins.businessProcessNotification
  * @subpackage api.objects
  */
-class KalturaBusinessProcessNotificationDispatchJobData extends KalturaEventNotificationDispatchJobData
+class BorhanBusinessProcessNotificationDispatchJobData extends BorhanEventNotificationDispatchJobData
 {
 	/**
-	 * @var KalturaBusinessProcessServer
+	 * @var BorhanBusinessProcessServer
 	 */
 	public $server;
 	
@@ -21,7 +21,7 @@ class KalturaBusinessProcessNotificationDispatchJobData extends KalturaEventNoti
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -29,15 +29,15 @@ class KalturaBusinessProcessNotificationDispatchJobData extends KalturaEventNoti
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject()
+	 * @see BorhanObject::fromObject()
 	 */
-	protected function doFromObject($dbObject, KalturaDetachedResponseProfile $responseProfile = null)
+	protected function doFromObject($dbObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		/* @var $dbObject kBusinessProcessNotificationDispatchJobData */
 		parent::doFromObject($dbObject, $responseProfile);
 		
 		$server = $dbObject->getServer();
-		$this->server = KalturaBusinessProcessServer::getInstanceByType($server->getType());
+		$this->server = BorhanBusinessProcessServer::getInstanceByType($server->getType());
 		$this->server->fromObject($server);
 	}
 }

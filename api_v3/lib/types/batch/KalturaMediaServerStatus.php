@@ -3,14 +3,14 @@
  * @package api
  * @subpackage objects
  */
-class KalturaMediaServerStatus extends KalturaObject
+class BorhanMediaServerStatus extends BorhanObject
 {
 	private static $mapBetweenObjects = array
 	(
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{

@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaAuditTrailBaseFilter extends KalturaRelatedFilter
+abstract class BorhanAuditTrailBaseFilter extends BorhanRelatedFilter
 {
 	static private $map_between_objects = array
 	(
@@ -91,7 +91,7 @@ abstract class KalturaAuditTrailBaseFilter extends KalturaRelatedFilter
 	public $parsedAtLessThanOrEqual;
 
 	/**
-	 * @var KalturaAuditTrailStatus
+	 * @var BorhanAuditTrailStatus
 	 */
 	public $statusEqual;
 
@@ -101,7 +101,7 @@ abstract class KalturaAuditTrailBaseFilter extends KalturaRelatedFilter
 	public $statusIn;
 
 	/**
-	 * @var KalturaAuditTrailObjectType
+	 * @var BorhanAuditTrailObjectType
 	 */
 	public $auditObjectTypeEqual;
 
@@ -131,7 +131,7 @@ abstract class KalturaAuditTrailBaseFilter extends KalturaRelatedFilter
 	public $relatedObjectIdIn;
 
 	/**
-	 * @var KalturaAuditTrailObjectType
+	 * @var BorhanAuditTrailObjectType
 	 */
 	public $relatedObjectTypeEqual;
 
@@ -191,7 +191,7 @@ abstract class KalturaAuditTrailBaseFilter extends KalturaRelatedFilter
 	public $userIdIn;
 
 	/**
-	 * @var KalturaAuditTrailAction
+	 * @var BorhanAuditTrailAction
 	 */
 	public $actionEqual;
 
@@ -206,7 +206,7 @@ abstract class KalturaAuditTrailBaseFilter extends KalturaRelatedFilter
 	public $ksEqual;
 
 	/**
-	 * @var KalturaAuditTrailContext
+	 * @var BorhanAuditTrailContext
 	 */
 	public $contextEqual;
 

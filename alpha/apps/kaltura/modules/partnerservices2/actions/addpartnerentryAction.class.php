@@ -41,7 +41,7 @@ class addpartnerentryAction extends addentryAction
                         )
                     ),
                 "out" => array (
-                    "ks" => array("type" => "string", "desc" => "Kaltura Session - a token used as an input for the rest of the services") ,
+                    "ks" => array("type" => "string", "desc" => "Borhan Session - a token used as an input for the rest of the services") ,
                     ),
                 "errors" => array (
                     APIErrors::INVALID_KSHOW_ID,

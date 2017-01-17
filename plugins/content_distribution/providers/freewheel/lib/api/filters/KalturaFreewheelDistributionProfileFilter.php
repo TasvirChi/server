@@ -3,6 +3,6 @@
  * @package plugins.freewheelDistribution
  * @subpackage api.filters
  */
-class KalturaFreewheelDistributionProfileFilter extends KalturaFreewheelDistributionProfileBaseFilter
+class BorhanFreewheelDistributionProfileFilter extends BorhanFreewheelDistributionProfileBaseFilter
 {
 }

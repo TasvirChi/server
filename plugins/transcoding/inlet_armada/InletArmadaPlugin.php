@@ -3,7 +3,7 @@
 /**
 *@package plugins.inletArmada
 */
-class InletArmadaPlugin extends KalturaPlugin implements IKalturaObjectLoader, IKalturaEnumerator
+class InletArmadaPlugin extends BorhanPlugin implements IBorhanObjectLoader, IBorhanEnumerator
 {
 	const PLUGIN_NAME = 'inletArmada';
 	
@@ -20,7 +20,7 @@ class InletArmadaPlugin extends KalturaPlugin implements IKalturaObjectLoader, I
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if($baseClass == 'KOperationEngine' && $enumValue == KalturaConversionEngineType::INLET_ARMADA)
+		if($baseClass == 'KOperationEngine' && $enumValue == BorhanConversionEngineType::INLET_ARMADA)
 		{
 			if(!isset($constructorArgs['params']) || !isset($constructorArgs['outFilePath']))
 				return null;
@@ -71,7 +71,7 @@ class InletArmadaPlugin extends KalturaPlugin implements IKalturaObjectLoader, I
 	 */
 	public static function getConversionEngineCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('conversionEngineType', $value);
 	}
 	
@@ -80,6 +80,6 @@ class InletArmadaPlugin extends KalturaPlugin implements IKalturaObjectLoader, I
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 }

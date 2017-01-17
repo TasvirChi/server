@@ -3,10 +3,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaAssetParamsResourceContainerArray extends KalturaTypedArray
+class BorhanAssetParamsResourceContainerArray extends BorhanTypedArray
 {
 	public function __construct()
 	{
-		parent::__construct("KalturaAssetParamsResourceContainer");	
+		parent::__construct("BorhanAssetParamsResourceContainer");	
 	}
 }

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaWorkerQueueFilter extends KalturaObject
+class BorhanWorkerQueueFilter extends BorhanObject
 {
 	/**
 	 * @var int
@@ -18,13 +18,13 @@ class KalturaWorkerQueueFilter extends KalturaObject
 	
     
 	/**
-	 * @var KalturaBatchJobType
+	 * @var BorhanBatchJobType
 	 */
 	public $jobType;
 	
     
 	/**
-	 * @var KalturaBatchJobFilter
+	 * @var BorhanBatchJobFilter
 	 */
 	public $filter;
 	

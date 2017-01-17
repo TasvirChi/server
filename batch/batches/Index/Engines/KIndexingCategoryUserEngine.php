@@ -8,19 +8,19 @@ class KIndexingCategoryUserEngine extends KIndexingEngine
 	/* (non-PHPdoc)
 	 * @see KIndexingEngine::index()
 	 */
-	protected function index(KalturaFilter $filter, $shouldUpdate)
+	protected function index(BorhanFilter $filter, $shouldUpdate)
 	{
 		return $this->indexCategories($filter, $shouldUpdate);
 	}
 	
 	/**
-	 * @param KalturaCategoryUserFilter $filter The filter should return the list of categories that need to be reindexed
+	 * @param BorhanCategoryUserFilter $filter The filter should return the list of categories that need to be reindexed
 	 * @param bool $shouldUpdate Indicates that the category user object columns and attributes values should be recalculated before reindexed
 	 * @return int the number of indexed categories
 	 */
-	protected function indexCategories(KalturaCategoryUserFilter $filter, $shouldUpdate)
+	protected function indexCategories(BorhanCategoryUserFilter $filter, $shouldUpdate)
 	{
-		$filter->orderBy = KalturaCategoryUserOrderBy::CREATED_AT_ASC;
+		$filter->orderBy = BorhanCategoryUserOrderBy::CREATED_AT_ASC;
 		
 		$categoryUsersList = KBatchBase::$kClient->categoryUser->listAction($filter, $this->pager);
 		if(!count($categoryUsersList->objects))

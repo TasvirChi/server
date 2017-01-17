@@ -58,7 +58,7 @@ abstract class Form_Delivery_DeliveryProfileTokenizer extends Zend_Form_SubForm
 	public function getObject($properties) {
 		$objectClass = $properties["objectType"];
 		if($objectClass == "Null")
-			return new Kaltura_Client_Type_UrlTokenizer();
+			return new Borhan_Client_Type_UrlTokenizer();
 		
 		$object = new $objectClass();
 		

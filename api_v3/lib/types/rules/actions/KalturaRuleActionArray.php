@@ -3,11 +3,11 @@
  * @package api
  * @subpackage objects
  */
-class KalturaRuleActionArray extends KalturaTypedArray
+class BorhanRuleActionArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaRuleActionArray();
+		$newArr = new BorhanRuleActionArray();
 		if ($arr == null)
 			return $newArr;
 
@@ -29,28 +29,28 @@ class KalturaRuleActionArray extends KalturaTypedArray
 		switch($dbObject->getType())
 		{
 			case RuleActionType::BLOCK:
-				return new KalturaAccessControlBlockAction();
+				return new BorhanAccessControlBlockAction();
 			case RuleActionType::PREVIEW:
-				return new KalturaAccessControlPreviewAction();
+				return new BorhanAccessControlPreviewAction();
 			case RuleActionType::LIMIT_FLAVORS:
-				return new KalturaAccessControlLimitFlavorsAction();
+				return new BorhanAccessControlLimitFlavorsAction();
 			case RuleActionType::ADD_TO_STORAGE:
-				return new KalturaStorageAddAction();	
+				return new BorhanStorageAddAction();	
 			case RuleActionType::LIMIT_DELIVERY_PROFILES:
-				return new KalturaAccessControlLimitDeliveryProfilesAction();
+				return new BorhanAccessControlLimitDeliveryProfilesAction();
 			case RuleActionType::SERVE_FROM_REMOTE_SERVER:
-				return new KalturaAccessControlServeRemoteEdgeServerAction();
+				return new BorhanAccessControlServeRemoteEdgeServerAction();
 			case RuleActionType::REQUEST_HOST_REGEX:
-				return new KalturaAccessControlModifyRequestHostRegexAction();
+				return new BorhanAccessControlModifyRequestHostRegexAction();
 			case RuleActionType::LIMIT_THUMBNAIL_CAPTURE:
-				return new KalturaAccessControlLimitThumbnailCaptureAction();
+				return new BorhanAccessControlLimitThumbnailCaptureAction();
 			default:
-				return KalturaPluginManager::loadObject('KalturaRuleAction', $dbObject->getType());
+				return BorhanPluginManager::loadObject('BorhanRuleAction', $dbObject->getType());
 		}		
 	}
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaRuleAction");	
+		parent::__construct("BorhanRuleAction");	
 	}
 }

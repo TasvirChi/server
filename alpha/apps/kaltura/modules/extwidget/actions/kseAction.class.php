@@ -42,7 +42,7 @@ class kseAction extends sfAction
 
 		// handle buggy case for backward compatiblity
 		$partner_host = $host;
-		if ($partner_host == "http://www.kaltura.com")
+		if ($partner_host == "http://www.borhan.com")
 			$partner_host = 1; // otherwise the kse will build a flawed url with [[IMPORT]]
 				
 		$params = "contentUrl=".urlencode($swf_url).

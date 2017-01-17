@@ -18,10 +18,10 @@ class LiveReportEntryEngine extends LiveReportEngine {
 	public function run($fp, array $args = array()) {
 		$this->checkParams($args, array(LiveReportConstants::ENTRY_IDS));
 	
-		$filter = new KalturaLiveStreamEntryFilter();
+		$filter = new BorhanLiveStreamEntryFilter();
 		$filter->idIn = $args[LiveReportConstants::ENTRY_IDS];
 		
-		/** @var KalturaLiveStreamListResponse */
+		/** @var BorhanLiveStreamListResponse */
 		$response = KBatchBase::$kClient->liveStream->listAction($filter, null);
 		
 		$valueField = $this->fieldName;

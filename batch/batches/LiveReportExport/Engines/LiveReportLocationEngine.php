@@ -75,13 +75,13 @@ class LiveReportLocation1MinEngine extends LiveReportEngine {
 	// and the results are ordered from the oldest to the newest
 	protected function getRecords($fromTime, $toTime, $entryId, $pageIdx) {
 		
-		$reportType = KalturaLiveReportType::ENTRY_GEO_TIME_LINE;
-		$filter = new KalturaLiveReportInputFilter();
+		$reportType = BorhanLiveReportType::ENTRY_GEO_TIME_LINE;
+		$filter = new BorhanLiveReportInputFilter();
 		$filter->toTime = $toTime;
 		$filter->fromTime = $fromTime;
 		$filter->entryIds = $entryId;
 		
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageIndex = $pageIdx;
 		$pager->pageSize = self::MAX_RECORDS_PER_REQUEST;
 		

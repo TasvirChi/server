@@ -3,10 +3,10 @@
  * @package plugins.drm
  * @subpackage api.filters
  */
-class KalturaDrmPolicyFilter extends KalturaDrmPolicyBaseFilter
+class BorhanDrmPolicyFilter extends BorhanDrmPolicyBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{

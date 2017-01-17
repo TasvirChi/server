@@ -3,12 +3,12 @@
  * @package plugins.annotation
  * @subpackage api.filters
  */
-class KalturaAnnotationFilter extends KalturaAnnotationBaseFilter
+class BorhanAnnotationFilter extends BorhanAnnotationBaseFilter
 {
 	const CHAPTERS_PUBLIC_TAG = 'chaptering';
 	
 	/* (non-PHPdoc)
- 	 * @see KalturaFilter::getCoreFilter()
+ 	 * @see BorhanFilter::getCoreFilter()
  	 */
 	protected function getCoreFilter()
 	{
@@ -16,7 +16,7 @@ class KalturaAnnotationFilter extends KalturaAnnotationBaseFilter
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::validateForResponseProfile()
+	 * @see BorhanRelatedFilter::validateForResponseProfile()
 	 */
 	public function validateForResponseProfile()
 	{
@@ -27,7 +27,7 @@ class KalturaAnnotationFilter extends KalturaAnnotationBaseFilter
 		}
 	}
 
-	public function getTypeListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null, $type = null)
+	public function getTypeListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null, $type = null)
 	{
 		return parent::getTypeListResponse($pager, $responseProfile, AnnotationPlugin::getCuePointTypeCoreValue(AnnotationCuePointType::ANNOTATION));
 	}

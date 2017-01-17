@@ -11,7 +11,7 @@
 		<!-- script will ask for username / password interactively -->
 	</session>
 	<request service="eventNotificationTemplate" action="add" plugin="eventNotification" partnerId="0">	
-		<template objectType="KalturaPushNotificationTemplate">
+		<template objectType="BorhanPushNotificationTemplate">
 			<name>Push Live-Stream-Entry is live Changed</name>
 			<systemName>Push_isLive_Changed</systemName>
 			<description>Push notification template to be sent when the is-live value changes.</description>
@@ -19,35 +19,35 @@
 			<eventType>3</eventType> <!-- EventNotificationEventType::OBJECT_CHANGED -->
 			<eventObjectType>1</eventObjectType> <!-- EventNotificationEventObjectType::ENTRY -->
 			<eventConditions objectType="array">
-				<item objectType="KalturaFieldMatchCondition">
+				<item objectType="BorhanFieldMatchCondition">
 					<description>Object type is LiveEntry</description>
-					<field objectType="KalturaEvalStringField">
+					<field objectType="BorhanEvalStringField">
 						<code>$scope->getObject()->getType()</code>
 					</field>
 					<values>
-						<value objectType="KalturaIntegerValue">
+						<value objectType="BorhanIntegerValue">
 							<value>7</value> <!-- LIVE_STREAM -->
 						</value>
 					</values>
 				</item>
-				<item objectType="KalturaEventFieldCondition">
+				<item objectType="BorhanEventFieldCondition">
 					<description>is-live status changed</description>
-					<field objectType="KalturaEvalBooleanField">
+					<field objectType="BorhanEvalBooleanField">
 						<code>$scope->getEvent()->isCustomDataModified('live_status')</code>
 					</field>
 				</item>
 			</eventConditions>
 			<contentParameters objectType="array">
-				<item objectType="KalturaEventNotificationParameter">
+				<item objectType="BorhanEventNotificationParameter">
 					<key>entryId</key>
 					<description></description>
-					<value objectType="KalturaEvalStringField">
+					<value objectType="BorhanEvalStringField">
 						<code>$scope->getObject()->getEntryId()</code>
 					</value>
 				</item>
 			</contentParameters>
-			<apiObjectType>KalturaLiveStreamEntry</apiObjectType>
-			<objectFormat>1</objectFormat> <!-- KalturaResponseType::RESPONSE_TYPE_JSON -->
+			<apiObjectType>BorhanLiveStreamEntry</apiObjectType>
+			<objectFormat>1</objectFormat> <!-- BorhanResponseType::RESPONSE_TYPE_JSON -->
 		</template>
 	</request>
 </xml>

@@ -3,10 +3,10 @@
  * @package plugins.schedule
  * @subpackage api.filters
  */
-class KalturaLiveStreamScheduleEventFilter extends KalturaLiveStreamScheduleEventBaseFilter
+class BorhanLiveStreamScheduleEventFilter extends BorhanLiveStreamScheduleEventBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaScheduleEventFilter::getListResponseType()
+	 * @see BorhanScheduleEventFilter::getListResponseType()
 	 */
 	protected function getListResponseType()
 	{

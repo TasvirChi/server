@@ -3,17 +3,17 @@
  * @package plugins.exampleDistribution
  * @subpackage api.objects
  */
-class KalturaExampleDistributionAssetPathArray extends KalturaTypedArray
+class BorhanExampleDistributionAssetPathArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaExampleDistributionAssetPathArray();
+		$newArr = new BorhanExampleDistributionAssetPathArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-    		$nObj = new KalturaExampleDistributionAssetPath();
+    		$nObj = new BorhanExampleDistributionAssetPath();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaExampleDistributionAssetPathArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaExampleDistributionAssetPath");	
+		parent::__construct("BorhanExampleDistributionAssetPath");	
 	}
 }

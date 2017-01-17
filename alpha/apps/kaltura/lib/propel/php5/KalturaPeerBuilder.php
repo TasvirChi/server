@@ -14,10 +14,10 @@ require_once 'propel/engine/builder/om/php5/PHP5PeerBuilder.php';
  * @package server-infra
  * @subpackage propel
  */
-class KalturaPeerBuilder extends PHP5PeerBuilder 
+class BorhanPeerBuilder extends PHP5PeerBuilder 
 {	
-	const KALTURA_COLUMN_PARTNER_ID = 'partner_id';
-	const KALTURA_COLUMN_DISPLAY_IN_SEARCH = 'display_in_search';
+	const BORHAN_COLUMN_PARTNER_ID = 'partner_id';
+	const BORHAN_COLUMN_DISPLAY_IN_SEARCH = 'display_in_search';
 	
 	/* (non-PHPdoc)
 	 * @see PHP5PeerBuilder::addClassOpen()
@@ -293,7 +293,7 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 		
 		\$queryResult = ".$this->getPeerClassname()."::populateObjects(".$this->basePeerClassname."::doSelect(\$criteriaForSelect, \$con));
 		
-		if(\$criteriaForSelect instanceof KalturaCriteria)
+		if(\$criteriaForSelect instanceof BorhanCriteria)
 			\$criteriaForSelect->applyResultsSort(\$queryResult);
 		
 		if (\$cacheKey !== null)
@@ -457,12 +457,12 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 		".$this->getPeerClassname()."::getCriteriaFilter()->applyFilter(\$criteria);
 	}
 	
-	public static function addPartnerToCriteria(\$partnerId, \$privatePartnerData = false, \$partnerGroup = null, \$kalturaNetwork = null)
+	public static function addPartnerToCriteria(\$partnerId, \$privatePartnerData = false, \$partnerGroup = null, \$borhanNetwork = null)
 	{";
 	
 		$table = $this->getTable();
-		$partnerIdColumn = $table->getColumn(self::KALTURA_COLUMN_PARTNER_ID);
-		$displayInSearchColumn = $table->getColumn(self::KALTURA_COLUMN_DISPLAY_IN_SEARCH);
+		$partnerIdColumn = $table->getColumn(self::BORHAN_COLUMN_PARTNER_ID);
+		$displayInSearchColumn = $table->getColumn(self::BORHAN_COLUMN_DISPLAY_IN_SEARCH);
 		
 		if($partnerIdColumn)
 		{
@@ -473,14 +473,14 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 		if(!\$privatePartnerData)
 		{
 			// the private partner data is not allowed - 
-			if(\$kalturaNetwork)
+			if(\$borhanNetwork)
 			{
-				// allow only the kaltura netword stuff";
+				// allow only the borhan netword stuff";
 			
 			if($displayInSearchColumn)
 			{
 				$script .= "
-				\$criteria->addAnd(self::DISPLAY_IN_SEARCH , mySearchUtils::DISPLAY_IN_SEARCH_KALTURA_NETWORK);
+				\$criteria->addAnd(self::DISPLAY_IN_SEARCH , mySearchUtils::DISPLAY_IN_SEARCH_BORHAN_NETWORK);
 				";
 			}
 			
@@ -488,13 +488,13 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 				if(\$partnerId)
 				{
 					\$orderBy = \"(\" . self::PARTNER_ID . \"<>{\$partnerId})\";  // first take the pattner_id and then the rest
-					myCriteria::addComment(\$criteria , \"Only Kaltura Network\");
+					myCriteria::addComment(\$criteria , \"Only Borhan Network\");
 					\$criteria->addAscendingOrderByColumn(\$orderBy);//, Criteria::CUSTOM );
 				}
 			}
 			else
 			{
-				// no private data and no kaltura_network - 
+				// no private data and no borhan_network - 
 				// add a criteria that will return nothing
 				\$criteria->addAnd(self::PARTNER_ID, Partner::PARTNER_THAT_DOWS_NOT_EXIST);
 			}
@@ -513,7 +513,7 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 			}
 			else 
 			{
-				// \$partnerGroup hold a list of partners separated by ',' or \$kalturaNetwork is not empty (should be mySearchUtils::KALTURA_NETWORK = 'kn')
+				// \$partnerGroup hold a list of partners separated by ',' or \$borhanNetwork is not empty (should be mySearchUtils::BORHAN_NETWORK = 'kn')
 				\$partners = explode(',', trim(\$partnerGroup));
 				foreach(\$partners as &\$p)
 					trim(\$p); // make sure there are not leading or trailing spaces
@@ -533,9 +533,9 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 				if($displayInSearchColumn)
 				{
 					$script .= "
-					if(\$kalturaNetwork)
+					if(\$borhanNetwork)
 					{
-						\$criterionNetwork = \$criteria->getNewCriterion(self::DISPLAY_IN_SEARCH, mySearchUtils::DISPLAY_IN_SEARCH_KALTURA_NETWORK);
+						\$criterionNetwork = \$criteria->getNewCriterion(self::DISPLAY_IN_SEARCH, mySearchUtils::DISPLAY_IN_SEARCH_BORHAN_NETWORK);
 						\$criterion->addOr(\$criterionNetwork);
 					}";
 				}
@@ -788,7 +788,7 @@ abstract class ".$this->getClassname(). $extendingPeerClass . " {
 		}
 		\$stmt->closeCursor();
 		
-		if(\$criteria instanceof KalturaCriteria)
+		if(\$criteria instanceof BorhanCriteria)
 			\$criteria->applyResultsSort(\$results);
 		
 		return \$results;

@@ -1,6 +1,6 @@
 <?php 
 /**
- * @package plugins.KalturaInternalTools
+ * @package plugins.BorhanInternalTools
  * @subpackage admin
  */
 class Form_SystemHelperResult extends Infra_Form

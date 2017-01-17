@@ -26,13 +26,13 @@ abstract class KBaseThumbnailMaker
 	
 	public function createThumnail($position = null, $width = null, $height = null, $frameCount = 1, $targetType = "image2", $dar = null)
 	{
-		KalturaLog::debug("position[$position], width[$width], height[$height], frameCount[$frameCount], frameCount[$frameCount], dar[$dar]");
+		BorhanLog::debug("position[$position], width[$width], height[$height], frameCount[$frameCount], frameCount[$frameCount], dar[$dar]");
 		$cmd = $this->getCommand($position, $width, $height, $frameCount, $targetType);
-		KalturaLog::info("Executing: $cmd");
+		BorhanLog::info("Executing: $cmd");
 		
 		$returnValue = null;
 		$output = system( $cmd , $returnValue );
-		KalturaLog::debug("Returned value: '$returnValue'");
+		BorhanLog::debug("Returned value: '$returnValue'");
 		
 		if($returnValue)
 			return false;

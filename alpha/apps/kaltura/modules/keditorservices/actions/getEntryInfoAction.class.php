@@ -43,7 +43,7 @@ class getEntryInfoAction extends defKeditorservicesAction
 		list($genericWidget, $myspaceWidget) = myKshowUtils::getEmbedPlayerUrl($kshow_id, $entry_id, false, $kdata); 
 		
 		if ($entry_id == 1002)
-			$this->share_url = requestUtils::getHost() .  "/index.php/corp/kalturaPromo";
+			$this->share_url = requestUtils::getHost() .  "/index.php/corp/borhanPromo";
 		else if ($kdata)
 			$this->share_url = myKshowUtils::getWidgetCmdUrl($kdata, "share");
 		else

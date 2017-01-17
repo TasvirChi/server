@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaBatchJobType extends KalturaDynamicEnum implements BatchJobType
+class BorhanBatchJobType extends BorhanDynamicEnum implements BatchJobType
 {
 	/**
 	 * @return string

@@ -3,17 +3,17 @@
  * @package plugins.playReady
  * @subpackage api.objects
  */
-class KalturaPlayReadyAnalogVideoOPIdHolder extends KalturaObject
+class BorhanPlayReadyAnalogVideoOPIdHolder extends BorhanObject
 {
 	/**
 	 * The type of the play enabler
 	 * 
-	 * @var KalturaPlayReadyAnalogVideoOPId
+	 * @var BorhanPlayReadyAnalogVideoOPId
 	 */
 	public $type;
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

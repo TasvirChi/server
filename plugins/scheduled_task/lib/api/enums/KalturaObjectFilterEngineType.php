@@ -5,7 +5,7 @@
  * @subpackage api.enum
  * @see ObjectFilterEngineType
  */
-class KalturaObjectFilterEngineType extends KalturaDynamicEnum implements ObjectFilterEngineType
+class BorhanObjectFilterEngineType extends BorhanDynamicEnum implements ObjectFilterEngineType
 {
 	public static function getEnumClass()
 	{

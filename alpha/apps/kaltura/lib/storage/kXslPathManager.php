@@ -31,16 +31,16 @@ class kXslPathManager extends kPathManager
 		    $path = $this->getPathValue($entry, $xslStr);
 		}
 		catch (Exception $e) {
-		    KalturaLog::err('Error executing XSL - '.$e->getMessage());
+		    BorhanLog::err('Error executing XSL - '.$e->getMessage());
 		    $path = null;
 		}
 		if (empty($path)) {
-		    KalturaLog::log('Empty path recieved - using parent\'s path instead');
+		    BorhanLog::log('Empty path recieved - using parent\'s path instead');
 		    return parent::generateFilePathArr($object, $subType, $version, $storageProfileId);
 		}
 		$path = trim($path);
 		
-		KalturaLog::debug('Path value ['.$path.']');
+		BorhanLog::debug('Path value ['.$path.']');
 		
 		$root = '/';
 		return array($root, $path);
@@ -115,7 +115,7 @@ class kXslPathManager extends kPathManager
         </xsl:stylesheet>
         ';
       
-        KalturaLog::debug('Result XSL: '. $xsl);
+        BorhanLog::debug('Result XSL: '. $xsl);
         return $xsl;
     }
     
@@ -144,14 +144,14 @@ class kXslPathManager extends kPathManager
 		
 		if(!$mrssStr)
 		{
-			KalturaLog::err('No MRSS returned for entry ['.$entry->getId().']');
+			BorhanLog::err('No MRSS returned for entry ['.$entry->getId().']');
 			return null;
 		}
 		
 		$mrssObj = new DOMDocument();
 		if(!$mrssObj->loadXML($mrssStr))
 		{
-		    KalturaLog::err('Error loading MRSS XML object for entry ['.$entry->getId().']');
+		    BorhanLog::err('Error loading MRSS XML object for entry ['.$entry->getId().']');
 			return null;
 		}
 		
@@ -160,7 +160,7 @@ class kXslPathManager extends kPathManager
 		
 		if(!$xslObj->loadXML($xslStr))
 		{
-		    KalturaLog::err('Error loading XSL');
+		    BorhanLog::err('Error loading XSL');
 			return null;
 		}
 		
@@ -170,22 +170,22 @@ class kXslPathManager extends kPathManager
 		
 		$resultXmlObj = $proc->transformToDoc($mrssObj);
 		if (!$resultXmlObj) {
-		    KalturaLog::err('Error transforming XML for entry id ['.$entry->getId().']');
+		    BorhanLog::err('Error transforming XML for entry id ['.$entry->getId().']');
 		    return null;
 		}
 		
         /* DEBUG logs
-		KalturaLog::log('entry mrss = '.$mrssStr);
-		KalturaLog::log('profile xslt = '.$xslStr);
+		BorhanLog::log('entry mrss = '.$mrssStr);
+		BorhanLog::log('profile xslt = '.$xslStr);
 		*/
 		
-		KalturaLog::debug('Result XML: '.$resultXmlObj->saveXML());
+		BorhanLog::debug('Result XML: '.$resultXmlObj->saveXML());
 
 		$xpath = new DOMXPath($resultXmlObj);
         $fieldElement = $xpath->query("//path_value")->item(0);
 	    
 	    if (!$fieldElement) {
-	        KalturaLog::err('Cannot find element <path_value> in XML');
+	        BorhanLog::err('Cannot find element <path_value> in XML');
 	        return null;
 	    }
 	    $fieldValue = $fieldElement->nodeValue;

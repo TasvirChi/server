@@ -8,19 +8,19 @@ class KCopyingCategoryUserEngine extends KCopyingEngine
 	/* (non-PHPdoc)
 	 * @see KCopyingEngine::copy()
 	 */
-	protected function copy(KalturaFilter $filter, KalturaObjectBase $templateObject)
+	protected function copy(BorhanFilter $filter, BorhanObjectBase $templateObject)
 	{
 		return $this->copyCategoryUsers($filter, $templateObject);
 	}
 	
 	/**
-	 * @param KalturaCategoryUserFilter $filter The filter should return the list of category users that need to be copied
-	 * @param KalturaCategoryUser $templateObject Template object to overwrite attributes on the copied object
+	 * @param BorhanCategoryUserFilter $filter The filter should return the list of category users that need to be copied
+	 * @param BorhanCategoryUser $templateObject Template object to overwrite attributes on the copied object
 	 * @return int the number of copied category users
 	 */
-	protected function copyCategoryUsers(KalturaCategoryUserFilter $filter, KalturaCategoryUser $templateObject)
+	protected function copyCategoryUsers(BorhanCategoryUserFilter $filter, BorhanCategoryUser $templateObject)
 	{
-		$filter->orderBy = KalturaCategoryUserOrderBy::CREATED_AT_ASC;
+		$filter->orderBy = BorhanCategoryUserOrderBy::CREATED_AT_ASC;
 		
 		$categoryUsersList = KBatchBase::$kClient->categoryUser->listAction($filter, $this->pager);
 		if(!count($categoryUsersList->objects))
@@ -50,18 +50,18 @@ class KCopyingCategoryUserEngine extends KCopyingEngine
 	/**
 	 * @see KCopyingEngine::getNewObject()
 	 * 
-	 * @param KalturaCategoryUser $sourceObject
-	 * @param KalturaCategoryUser $templateObject
-	 * @return KalturaCategoryUser
+	 * @param BorhanCategoryUser $sourceObject
+	 * @param BorhanCategoryUser $templateObject
+	 * @return BorhanCategoryUser
 	 */
-	protected function getNewObject(KalturaObjectBase $sourceObject, KalturaObjectBase $templateObject)
+	protected function getNewObject(BorhanObjectBase $sourceObject, BorhanObjectBase $templateObject)
 	{
 		$class = get_class($sourceObject);
 		$newObject = new $class();
 		
-		/* @var $newObject KalturaCategoryUser */
-		/* @var $sourceObject KalturaCategoryUser */
-		/* @var $templateObject KalturaCategoryUser */
+		/* @var $newObject BorhanCategoryUser */
+		/* @var $sourceObject BorhanCategoryUser */
+		/* @var $templateObject BorhanCategoryUser */
 		
 		$newObject->categoryId = $sourceObject->categoryId;
 		$newObject->userId = $sourceObject->userId;

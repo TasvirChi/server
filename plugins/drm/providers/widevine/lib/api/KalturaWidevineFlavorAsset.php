@@ -3,7 +3,7 @@
  * @package plugins.widevine
  * @subpackage api.objects
  */
-class KalturaWidevineFlavorAsset extends KalturaFlavorAsset 
+class BorhanWidevineFlavorAsset extends BorhanFlavorAsset 
 {
 	/**
 	 * License distribution window start date 

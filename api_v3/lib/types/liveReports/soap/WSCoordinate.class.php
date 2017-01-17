@@ -2,8 +2,8 @@
 
 class WSCoordinate extends WSBaseObject
 {	
-	function getKalturaObject() {
-		return new KalturaCoordinate();
+	function getBorhanObject() {
+		return new BorhanCoordinate();
 	}
 				
 	/**

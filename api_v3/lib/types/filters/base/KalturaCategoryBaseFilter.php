@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaCategoryBaseFilter extends KalturaRelatedFilter
+abstract class BorhanCategoryBaseFilter extends BorhanRelatedFilter
 {
 	static private $map_between_objects = array
 	(
@@ -180,12 +180,12 @@ abstract class KalturaCategoryBaseFilter extends KalturaRelatedFilter
 	public $tagsMultiLikeAnd;
 
 	/**
-	 * @var KalturaAppearInListType
+	 * @var BorhanAppearInListType
 	 */
 	public $appearInListEqual;
 
 	/**
-	 * @var KalturaPrivacyType
+	 * @var BorhanPrivacyType
 	 */
 	public $privacyEqual;
 
@@ -195,7 +195,7 @@ abstract class KalturaCategoryBaseFilter extends KalturaRelatedFilter
 	public $privacyIn;
 
 	/**
-	 * @var KalturaInheritanceType
+	 * @var BorhanInheritanceType
 	 */
 	public $inheritanceTypeEqual;
 
@@ -210,12 +210,12 @@ abstract class KalturaCategoryBaseFilter extends KalturaRelatedFilter
 	public $referenceIdEqual;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $referenceIdEmpty;
 
 	/**
-	 * @var KalturaContributionPolicyType
+	 * @var BorhanContributionPolicyType
 	 */
 	public $contributionPolicyEqual;
 
@@ -245,7 +245,7 @@ abstract class KalturaCategoryBaseFilter extends KalturaRelatedFilter
 	public $privacyContextEqual;
 
 	/**
-	 * @var KalturaCategoryStatus
+	 * @var BorhanCategoryStatus
 	 */
 	public $statusEqual;
 

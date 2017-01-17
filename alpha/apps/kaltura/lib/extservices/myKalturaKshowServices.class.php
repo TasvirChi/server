@@ -3,24 +3,24 @@
  * @package Core
  * @subpackage ExternalServices
  */
-class myKalturaKshowServices extends myBaseMediaSource implements IMediaSource
+class myBorhanKshowServices extends myBaseMediaSource implements IMediaSource
 {
-	const KALTURA_SERVICE_CRITERIA_FROM_KSHOW = 1;
-	const KALTURA_SERVICE_CRITERIA_FROM_ROUGHCUT = 2;
+	const BORHAN_SERVICE_CRITERIA_FROM_KSHOW = 1;
+	const BORHAN_SERVICE_CRITERIA_FROM_ROUGHCUT = 2;
 	
 	static $s_default_count_limit = 100;
 	
-	const AUTH_SALT = "myKalturaServices:gogog123";
+	const AUTH_SALT = "myBorhanServices:gogog123";
 	const AUTH_INTERVAL = 3600;
 	
 	const MAX_PAGE_SIZE = 30;
 	
 	protected $supported_media_types = 7; // support all media//self::SUPPORT_MEDIA_TYPE_VIDEO + (int)self::SUPPORT_MEDIA_TYPE_IMAGE;  
-	protected $source_name = "Kaltura";
+	protected $source_name = "Borhan";
 	protected $auth_method = array ( self::AUTH_METHOD_PUBLIC );//, self::AUTH_METHOD_USER_PASS);
 	protected $search_in_user = true; 
-	protected $logo = "http://www.kaltura.com/images/wizard/logo_kaltura.gif";
-	protected $id = entry::ENTRY_MEDIA_SOURCE_KALTURA_KSHOW;
+	protected $logo = "http://www.borhan.com/images/wizard/logo_borhan.gif";
+	protected $id = entry::ENTRY_MEDIA_SOURCE_BORHAN_KSHOW;
 	
 	private static $NEED_MEDIA_INFO = "0";
 	
@@ -75,8 +75,8 @@ class myKalturaKshowServices extends myBaseMediaSource implements IMediaSource
 //		$keywords_array = mySearchUtils::getKeywordsFromStr ( $searchText );
 
 		// TODO_ change mechanism !
-		//$search_mechanism = self::KALTURA_SERVICE_CRITERIA_FROM_KSHOW;
-		$search_mechanism = self::KALTURA_SERVICE_CRITERIA_FROM_ROUGHCUT;
+		//$search_mechanism = self::BORHAN_SERVICE_CRITERIA_FROM_KSHOW;
+		$search_mechanism = self::BORHAN_SERVICE_CRITERIA_FROM_ROUGHCUT;
 		
 		// TODO - optimize the first part of the entry_id search
 		// cache once we know the kshow_ids / roughcuts - this will make paginating much faster
@@ -87,7 +87,7 @@ class myKalturaKshowServices extends myBaseMediaSource implements IMediaSource
 		$kshow_crit->setLimit( self::$s_default_count_limit );
 		$kshow_filter->addSearchMatchToCriteria( $kshow_crit , $searchText , kshow::getSearchableColumnName() );
 		
-		if( $search_mechanism == self::KALTURA_SERVICE_CRITERIA_FROM_KSHOW )
+		if( $search_mechanism == self::BORHAN_SERVICE_CRITERIA_FROM_KSHOW )
 		{
 			$kshow_crit->add ( kshowPeer::ENTRIES , 1 , Criteria::GREATER_EQUAL ) ;
 		}						
@@ -118,12 +118,12 @@ class myKalturaKshowServices extends myBaseMediaSource implements IMediaSource
 		$crit->setLimit( $limit );
 		$crit->add ( entryPeer::TYPE ,  entryType::MEDIA_CLIP );
 		$crit->add ( entryPeer::MEDIA_TYPE , $media_type );
-		if( $search_mechanism == self::KALTURA_SERVICE_CRITERIA_FROM_KSHOW )
+		if( $search_mechanism == self::BORHAN_SERVICE_CRITERIA_FROM_KSHOW )
 		{
 			$crit->add ( entryPeer::KSHOW_ID , $kshow_arr , Criteria::IN );
 			$entry_results = entryPeer::doSelect ( $crit );
 		}
-		elseif (  $search_mechanism == self::KALTURA_SERVICE_CRITERIA_FROM_ROUGHCUT )
+		elseif (  $search_mechanism == self::BORHAN_SERVICE_CRITERIA_FROM_ROUGHCUT )
 		{
 //			$entry_results  = roughcutEntryPeer::retrievByRoughcutIds ( $crit , $roughcut_arr , true );
 			$entry_results  = roughcutEntryPeer::retrievEntriesByRoughcutIds ( $crit , $roughcut_arr  );
@@ -142,7 +142,7 @@ class myKalturaKshowServices extends myBaseMediaSource implements IMediaSource
 		$should_add_thumbs = $media_type != entry::ENTRY_MEDIA_TYPE_AUDIO;
 		foreach ( $entry_results as $obj )
 		{
-			if ( $search_mechanism == self::KALTURA_SERVICE_CRITERIA_FROM_KSHOW )
+			if ( $search_mechanism == self::BORHAN_SERVICE_CRITERIA_FROM_KSHOW )
 			{
 				$entry = $obj;
 			}

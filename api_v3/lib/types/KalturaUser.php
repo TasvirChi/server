@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaUser extends KalturaObject implements IRelatedFilterable 
+class BorhanUser extends BorhanObject implements IRelatedFilterable 
 {
 	/**
 	 * @var string
@@ -19,7 +19,7 @@ class KalturaUser extends KalturaObject implements IRelatedFilterable
 	public $partnerId;
 
 	/**
-	 * @var KalturaUserType
+	 * @var BorhanUserType
 	 * @filter eq,in
 	 */
 	public $type;
@@ -91,12 +91,12 @@ class KalturaUser extends KalturaObject implements IRelatedFilterable
 	public $adminTags;
 	
 	/**
-	 * @var KalturaGender
+	 * @var BorhanGender
 	 */
 	public $gender;
 
 	/**
-	 * @var KalturaUserStatus
+	 * @var BorhanUserStatus
 	 * @filter eq,in
 	 */
 	public $status;
@@ -164,7 +164,7 @@ class KalturaUser extends KalturaObject implements IRelatedFilterable
 	public $isAdmin;
 		
 	/**
-	 * @var KalturaLanguageCode
+	 * @var BorhanLanguageCode
 	 */
 	public $language;
 	
@@ -284,7 +284,7 @@ class KalturaUser extends KalturaObject implements IRelatedFilterable
 	}
 	
 	
-	public function doFromObject($sourceObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($sourceObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		if(!$sourceObject)
 			return;

@@ -41,7 +41,7 @@ class DocumentEntry extends entry
 		$entryId = $this->getId();
 
 		return "$host/api_v3/index.php?service=$service&action=$action&entryId=$entryId";
-		//	http://www.kaltura.com/api_v3/index.php?service=document_documents&action=serveByFlavorParamsId&entryId=...
+		//	http://www.borhan.com/api_v3/index.php?service=document_documents&action=serveByFlavorParamsId&entryId=...
 	}
 	*/
 	
@@ -76,7 +76,7 @@ class DocumentEntry extends entry
 	
 	public function getLocalThumbFilePath($version , $width , $height , $type , $bgcolor ="ffffff" , $crop_provider=null, $quality = 0,
 		$src_x = 0, $src_y = 0, $src_w = 0, $src_h = 0, $vid_sec = -1, $vid_slice = 0, $vid_slices = -1, $density = 0, $stripProfiles = false, $flavorId = null, $fileName = null) {
-		KalturaLog::log ( "flavor_id [$flavorId] file_name [$fileName]" );
+		BorhanLog::log ( "flavor_id [$flavorId] file_name [$fileName]" );
 		if (is_null ( $flavorId ))
 			KExternalErrors::dieError ( KExternalErrors::MISSING_PARAMETER, 'flavor_id' );
 		$flavor = assetPeer::retrieveById ( $flavorId );
@@ -102,19 +102,19 @@ class DocumentEntry extends entry
 				if (! $remoteFileSync) 
 				{
 					// file does not exist on any DC - die
-					KalturaLog::err ( "No FileSync for flavor [$flavorId]" );
+					BorhanLog::err ( "No FileSync for flavor [$flavorId]" );
 					KExternalErrors::dieError ( KExternalErrors::FILE_NOT_FOUND );
 				}
 				
 				if ($remoteFileSync->getDc () == kDataCenterMgr::getCurrentDcId ()) 
 				{
-					KalturaLog::err ( "Trying to redirect to myself - stop here." );
+					BorhanLog::err ( "Trying to redirect to myself - stop here." );
 					KExternalErrors::dieError ( KExternalErrors::FILE_NOT_FOUND );
 				}
 				
 				if (! in_array ( $remoteFileSync->getDc (), kDataCenterMgr::getDcIds () )) 
 				{
-					KalturaLog::err ( "Origin file sync is on remote storage." );
+					BorhanLog::err ( "Origin file sync is on remote storage." );
 					KExternalErrors::dieError ( KExternalErrors::FILE_NOT_FOUND );
 				}
 				$remoteUrl = kDataCenterMgr::getRedirectExternalUrl ( $remoteFileSync );

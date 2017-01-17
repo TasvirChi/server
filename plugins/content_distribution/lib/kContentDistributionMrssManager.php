@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution
  * @subpackage lib
  */
-class kContentDistributionMrssManager implements IKalturaMrssContributor
+class kContentDistributionMrssManager implements IBorhanMrssContributor
 {
 	/**
 	 * @var kContentDistributionMrssManager
@@ -26,7 +26,7 @@ class kContentDistributionMrssManager implements IKalturaMrssContributor
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaMrssContributor::contribute()
+	 * @see IBorhanMrssContributor::contribute()
 	 */
 	public function contribute(BaseObject $object, SimpleXMLElement $mrss, kMrssParameters $mrssParams = null)
 	{
@@ -70,7 +70,7 @@ class kContentDistributionMrssManager implements IKalturaMrssContributor
 			}
 			else
 			{
-				$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaContentDistributionProvider');
+				$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanContentDistributionProvider');
 				foreach($pluginInstances as $pluginInstance)
 					if($pluginInstance->getProvider() === $distributionsProvider)
 						$pluginInstance->contributeMRSS($entryDistribution, $distribution);
@@ -125,14 +125,14 @@ class kContentDistributionMrssManager implements IKalturaMrssContributor
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaBase::getInstance()
+	 * @see IBorhanBase::getInstance()
 	 */
 	public function getInstance($interface)
 	{
 		if($this instanceof $interface)
 			return $this;
 			
-		$plugin = KalturaPluginManager::getPluginInstance(ContentDistributionPlugin::getPluginName());
+		$plugin = BorhanPluginManager::getPluginInstance(ContentDistributionPlugin::getPluginName());
 		if($plugin)
 			return $plugin->getInstance($interface);
 		
@@ -140,7 +140,7 @@ class kContentDistributionMrssManager implements IKalturaMrssContributor
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaMrssContributor::getObjectFeatureType()
+	 * @see IBorhanMrssContributor::getObjectFeatureType()
 	 */
 	public function getObjectFeatureType()
 	{

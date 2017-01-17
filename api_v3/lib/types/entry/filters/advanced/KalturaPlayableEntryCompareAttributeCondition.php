@@ -3,12 +3,12 @@
 /**
  * Auto-generated class.
  * 
- * Used to search KalturaPlayableEntry attributes. Use KalturaPlayableEntryCompareAttribute enum to provide attribute name.
+ * Used to search BorhanPlayableEntry attributes. Use BorhanPlayableEntryCompareAttribute enum to provide attribute name.
 */
-class KalturaPlayableEntryCompareAttributeCondition extends KalturaSearchComparableAttributeCondition
+class BorhanPlayableEntryCompareAttributeCondition extends BorhanSearchComparableAttributeCondition
 {
 	/**
-	 * @var KalturaPlayableEntryCompareAttribute
+	 * @var BorhanPlayableEntryCompareAttribute
 	 */
 	public $attribute;
 

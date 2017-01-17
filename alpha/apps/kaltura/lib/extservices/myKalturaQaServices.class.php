@@ -3,7 +3,7 @@
  * @package Core
  * @subpackage ExternalServices
  */
-class myKalturaQaServices  extends myBaseMediaSource  implements IMediaSource
+class myBorhanQaServices  extends myBaseMediaSource  implements IMediaSource
 {
 	public function getMediaInfo( $media_type ,$objectId) 
 	{

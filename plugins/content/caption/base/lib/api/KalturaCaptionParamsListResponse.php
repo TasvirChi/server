@@ -3,10 +3,10 @@
  * @package plugins.caption
  * @subpackage api.objects
  */
-class KalturaCaptionParamsListResponse extends KalturaListResponse
+class BorhanCaptionParamsListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaCaptionParamsArray
+	 * @var BorhanCaptionParamsArray
 	 * @readonly
 	 */
 	public $objects;

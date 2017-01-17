@@ -7,12 +7,12 @@ class Infra_UserIdentity
 {
 	/**
 	 * Current user object
-	 * @var Kaltura_Client_Type_User
+	 * @var Borhan_Client_Type_User
 	 */
 	protected $user;
 	
 	/**
-	 * Current kaltura session string
+	 * Current borhan session string
 	 * @var string
 	 */
 	protected $ks;
@@ -36,11 +36,11 @@ class Infra_UserIdentity
 	
 	/**
 	 * Init a new UserIdentity instance with the given parameters
-	 * @param Kaltura_Client_Type_User $user
+	 * @param Borhan_Client_Type_User $user
 	 * @param string $ks
 	 * @param int $partnerId
 	 */
-	public function __construct(Kaltura_Client_Type_User $user = null, $ks = null, $timezoneOffset = null, $partnerId = null)
+	public function __construct(Borhan_Client_Type_User $user = null, $ks = null, $timezoneOffset = null, $partnerId = null)
 	{
 		$this->user = $user;
 		$this->ks = $ks;
@@ -49,7 +49,7 @@ class Infra_UserIdentity
 	}
 	
 	/**
-	 * @return Kaltura_Client_Type_User saved user object
+	 * @return Borhan_Client_Type_User saved user object
 	 */
 	public function getUser()
 	{
@@ -82,8 +82,8 @@ class Infra_UserIdentity
 		}
 		catch (Exception $e)
 		{
-			KalturaLog::err($e->getMessage());
-			$this->permissions = array(Kaltura_Client_Enum_PermissionName::ALWAYS_ALLOWED_ACTIONS);
+			BorhanLog::err($e->getMessage());
+			$this->permissions = array(Borhan_Client_Enum_PermissionName::ALWAYS_ALLOWED_ACTIONS);
 		}
 	}
 	

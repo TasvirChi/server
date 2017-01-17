@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters
  */
-class KalturaEntryServerNodeFilter extends KalturaEntryServerNodeBaseFilter
+class BorhanEntryServerNodeFilter extends BorhanEntryServerNodeBaseFilter
 {
 	/**
 	 * @return baseObjectFilter
@@ -14,18 +14,18 @@ class KalturaEntryServerNodeFilter extends KalturaEntryServerNodeBaseFilter
 	}
 
 	/**
-	 * @param KalturaFilterPager $pager
-	 * @param KalturaDetachedResponseProfile $responseProfile
-	 * @return KalturaListResponse
-	 * @throws KalturaAPIException
+	 * @param BorhanFilterPager $pager
+	 * @param BorhanDetachedResponseProfile $responseProfile
+	 * @return BorhanListResponse
+	 * @throws BorhanAPIException
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		if($this->entryIdEqual)
 		{
 			$entry = entryPeer::retrieveByPK($this->entryIdEqual);
 			if(!$entry)
-				throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $this->entryIdEqual);
+				throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $this->entryIdEqual);
 		} 
 		else if ($this->entryIdIn)
 		{
@@ -52,8 +52,8 @@ class KalturaEntryServerNodeFilter extends KalturaEntryServerNodeBaseFilter
 
 		$dbEntryServerNodes = EntryServerNodePeer::doSelect($c);
 
-		$entryServerNodeList = KalturaEntryServerNodeArray::fromDbArray($dbEntryServerNodes, $responseProfile);
-		$response = new KalturaEntryServerNodeListResponse();
+		$entryServerNodeList = BorhanEntryServerNodeArray::fromDbArray($dbEntryServerNodes, $responseProfile);
+		$response = new BorhanEntryServerNodeListResponse();
 		$response->objects = $entryServerNodeList;
 		$response->totalCount = count($dbEntryServerNodes);
 		return $response;

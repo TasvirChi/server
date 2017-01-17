@@ -3,14 +3,14 @@
  * @package plugins.dropFolder
  * @subpackage api.objects
  */
-class KalturaDropFolderFileArray extends KalturaTypedArray
+class BorhanDropFolderFileArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaDropFolderFileArray();
+		$newArr = new BorhanDropFolderFileArray();
 		foreach ( $arr as $obj )
 		{
-			$nObj = KalturaDropFolderFile::getInstanceByType($obj->getType());
+			$nObj = BorhanDropFolderFile::getInstanceByType($obj->getType());
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -21,6 +21,6 @@ class KalturaDropFolderFileArray extends KalturaTypedArray
 	
 	public function __construct( )
 	{
-		return parent::__construct ( 'KalturaDropFolderFile' );
+		return parent::__construct ( 'BorhanDropFolderFile' );
 	}
 }

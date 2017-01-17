@@ -2,32 +2,32 @@
 
 class LiveReportFactory {
 	
-	public function getExporter($type, KalturaLiveReportExportJobData $jobData) {
+	public function getExporter($type, BorhanLiveReportExportJobData $jobData) {
 		
 		$exporter = null;
 		switch ($type) {
-			case KalturaLiveReportExportType::PARTNER_TOTAL_ALL :
+			case BorhanLiveReportExportType::PARTNER_TOTAL_ALL :
 				$exporter = new PartnerTotalAllExporter($jobData);
 				break;
-			case KalturaLiveReportExportType::PARTNER_TOTAL_LIVE :
+			case BorhanLiveReportExportType::PARTNER_TOTAL_LIVE :
 				$exporter = new PartnerTotalLiveExporter($jobData);
 				break;
-			case KalturaLiveReportExportType::ENTRY_TIME_LINE_ALL :
+			case BorhanLiveReportExportType::ENTRY_TIME_LINE_ALL :
 				$exporter = new EntryTimeLineAllExporter($jobData);
 				break;
-			case KalturaLiveReportExportType::ENTRY_TIME_LINE_LIVE :
+			case BorhanLiveReportExportType::ENTRY_TIME_LINE_LIVE :
 				$exporter = new EntryTimeLineLiveExporter ($jobData);
 				break;
-			case KalturaLiveReportExportType::LOCATION_ALL :
+			case BorhanLiveReportExportType::LOCATION_ALL :
 				$exporter = new LocationAllExporter($jobData);
 				break;
-			case KalturaLiveReportExportType::LOCATION_LIVE :
+			case BorhanLiveReportExportType::LOCATION_LIVE :
 				$exporter = new LocationLiveExporter($jobData);
 				break;
-			case KalturaLiveReportExportType::SYNDICATION_ALL :
+			case BorhanLiveReportExportType::SYNDICATION_ALL :
 				$exporter = new SyndicationAllExporter($jobData);
 				break;
-			case KalturaLiveReportExportType::SYNDICATION_LIVE :
+			case BorhanLiveReportExportType::SYNDICATION_LIVE :
 				$exporter = new SyndicationLiveExporter($jobData);
 				break;
 			default:

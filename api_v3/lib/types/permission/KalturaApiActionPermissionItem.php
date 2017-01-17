@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaApiActionPermissionItem extends KalturaPermissionItem
+class BorhanApiActionPermissionItem extends BorhanPermissionItem
 {
 	/**
 	 * @var string

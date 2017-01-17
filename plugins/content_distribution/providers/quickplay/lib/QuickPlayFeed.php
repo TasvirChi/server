@@ -18,17 +18,17 @@ class QuickPlayFeed
 	protected $_xpath;
 	
 	/**
-	 * @var KalturaDistributionJobData
+	 * @var BorhanDistributionJobData
 	 */
 	protected $_distributionJobData;
 	
 	/**
-	 * @var KalturaQuickPlayDistributionProfile
+	 * @var BorhanQuickPlayDistributionProfile
 	 */
 	protected $_distributionProfile;
 	
 	/**
-	 * @var KalturaQuickPlayDistributionJobProviderData
+	 * @var BorhanQuickPlayDistributionJobProviderData
 	 */
 	protected $_providerData;
 	
@@ -49,10 +49,10 @@ class QuickPlayFeed
 	
 	/**
 	 * @param string $templateName
-	 * @param KalturaQuickPlayDistributionProfile $distributionProfile
-	 * @param KalturaQuickPlayDistributionJobProviderData $providerData
+	 * @param BorhanQuickPlayDistributionProfile $distributionProfile
+	 * @param BorhanQuickPlayDistributionJobProviderData $providerData
 	 */
-	public function __construct(KalturaDistributionJobData $distributionJobData, KalturaQuickPlayDistributionJobProviderData $providerData, array $flavorAssets, array $thumbnailAssets, entry $entry)
+	public function __construct(BorhanDistributionJobData $distributionJobData, BorhanQuickPlayDistributionJobProviderData $providerData, array $flavorAssets, array $thumbnailAssets, entry $entry)
 	{
 		$this->_distributionJobData = $distributionJobData;
 		$this->_distributionProfile = $distributionJobData->distributionProfile;
@@ -84,35 +84,35 @@ class QuickPlayFeed
 		kXml::setNodeValue($this->_xpath,'/rss/channel/image/url', $this->_distributionProfile->channelImageUrl);
 		
 		kXml::setNodeValue($this->_xpath,'/rss/channel/copyright', $this->_distributionProfile->channelCopyright);
-		$this->setNodeValueDateFieldConfigId('/rss/channel/pubDate', KalturaQuickPlayDistributionField::PUB_DATE);
+		$this->setNodeValueDateFieldConfigId('/rss/channel/pubDate', BorhanQuickPlayDistributionField::PUB_DATE);
 		$this->setNodeValueDate('/rss/channel/lastBuildDate', time());
 		kXml::setNodeValue($this->_xpath,'/rss/channel/generator', $this->_distributionProfile->channelGenerator);
 		kXml::setNodeValue($this->_xpath,'/rss/channel/rating', $this->_distributionProfile->channelRating);
 		kXml::setNodeValue($this->_xpath,'/rss/channel/language', $this->_distributionProfile->channelLanguage);
 		
 
-		$this->setNodeValueFieldConfigId('/rss/channel/item/title', KalturaQuickPlayDistributionField::TITLE);
-		$this->setNodeValueFieldConfigId('/rss/channel/item/description', KalturaQuickPlayDistributionField::DESCRIPTION);
-		$this->setNodeValueFieldConfigId('/rss/channel/item/guid', KalturaQuickPlayDistributionField::GUID);
-		$this->setNodeValueFieldConfigId('/rss/channel/item/category', KalturaQuickPlayDistributionField::CATEGORY);
-		$this->setNodeValueDateFieldConfigId('/rss/channel/item/pubDate', KalturaQuickPlayDistributionField::PUB_DATE);
-		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:keywords', KalturaQuickPlayDistributionField::QPM_KEYWORDS);
-		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:priceID', KalturaQuickPlayDistributionField::QPM_PRICE_ID);
-		$this->setNodeValueDateFieldConfigId('/rss/channel/item/qpm:updateDate', KalturaQuickPlayDistributionField::QPM_UPDATE_DATE);
-		$this->setNodeValueDateFieldConfigId('/rss/channel/item/qpm:expiryDate', KalturaQuickPlayDistributionField::QPM_EXPIRY_DATE);
-		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:sortOrder', KalturaQuickPlayDistributionField::QPM_SORT_ORDER);
-		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:genre', KalturaQuickPlayDistributionField::QPM_GENRE);
-		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:copyright', KalturaQuickPlayDistributionField::QPM_COPYRIGHT);
-		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:artist', KalturaQuickPlayDistributionField::QPM_ARTIST);
-		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:director', KalturaQuickPlayDistributionField::QPM_DIRECTOR);
-		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:producer', KalturaQuickPlayDistributionField::QPM_PRODUCER);
-		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:expDatePadding', KalturaQuickPlayDistributionField::QPM_EXP_DATE_PADDING);
-		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:onDeviceExpirationPadding', KalturaQuickPlayDistributionField::QPM_ON_DEVICE_EXPIRATION_PADDING);
-		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:onDeviceExpiration', KalturaQuickPlayDistributionField::QPM_ON_DEVICE_EXPIRATION);
-		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:groupCategory', KalturaQuickPlayDistributionField::QPM_GROUP_CATEGORY);
-		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:notes', KalturaQuickPlayDistributionField::QPM_NOTES);
-		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:rating/@scheme', KalturaQuickPlayDistributionField::QPM_RATING_SCHEMA);
-		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:rating/@value', KalturaQuickPlayDistributionField::QPM_RATING);
+		$this->setNodeValueFieldConfigId('/rss/channel/item/title', BorhanQuickPlayDistributionField::TITLE);
+		$this->setNodeValueFieldConfigId('/rss/channel/item/description', BorhanQuickPlayDistributionField::DESCRIPTION);
+		$this->setNodeValueFieldConfigId('/rss/channel/item/guid', BorhanQuickPlayDistributionField::GUID);
+		$this->setNodeValueFieldConfigId('/rss/channel/item/category', BorhanQuickPlayDistributionField::CATEGORY);
+		$this->setNodeValueDateFieldConfigId('/rss/channel/item/pubDate', BorhanQuickPlayDistributionField::PUB_DATE);
+		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:keywords', BorhanQuickPlayDistributionField::QPM_KEYWORDS);
+		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:priceID', BorhanQuickPlayDistributionField::QPM_PRICE_ID);
+		$this->setNodeValueDateFieldConfigId('/rss/channel/item/qpm:updateDate', BorhanQuickPlayDistributionField::QPM_UPDATE_DATE);
+		$this->setNodeValueDateFieldConfigId('/rss/channel/item/qpm:expiryDate', BorhanQuickPlayDistributionField::QPM_EXPIRY_DATE);
+		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:sortOrder', BorhanQuickPlayDistributionField::QPM_SORT_ORDER);
+		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:genre', BorhanQuickPlayDistributionField::QPM_GENRE);
+		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:copyright', BorhanQuickPlayDistributionField::QPM_COPYRIGHT);
+		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:artist', BorhanQuickPlayDistributionField::QPM_ARTIST);
+		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:director', BorhanQuickPlayDistributionField::QPM_DIRECTOR);
+		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:producer', BorhanQuickPlayDistributionField::QPM_PRODUCER);
+		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:expDatePadding', BorhanQuickPlayDistributionField::QPM_EXP_DATE_PADDING);
+		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:onDeviceExpirationPadding', BorhanQuickPlayDistributionField::QPM_ON_DEVICE_EXPIRATION_PADDING);
+		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:onDeviceExpiration', BorhanQuickPlayDistributionField::QPM_ON_DEVICE_EXPIRATION);
+		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:groupCategory', BorhanQuickPlayDistributionField::QPM_GROUP_CATEGORY);
+		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:notes', BorhanQuickPlayDistributionField::QPM_NOTES);
+		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:rating/@scheme', BorhanQuickPlayDistributionField::QPM_RATING_SCHEMA);
+		$this->setNodeValueFieldConfigId('/rss/channel/item/qpm:rating/@value', BorhanQuickPlayDistributionField::QPM_RATING);
 
 		$this->removeNodeIfEmpty('/rss/channel/generator');
 		$this->removeNodeIfEmpty('/rss/channel/rating');
@@ -261,7 +261,7 @@ class QuickPlayFeed
 		}
 		else
 		{
-			KalturaLog::alert('"Content-Type" header was not found for the following URL: '. $url);
+			BorhanLog::alert('"Content-Type" header was not found for the following URL: '. $url);
 			return null;
 		}
 	}

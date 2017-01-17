@@ -4,17 +4,17 @@
  *  @package server-infra
  *  @subpackage DB
  */
-class KalturaPDO extends PropelPDO
+class BorhanPDO extends PropelPDO
 {
 	/**
-	 * Use to set logged info for Kaltura logger
+	 * Use to set logged info for Borhan logger
 	 */
-	const KALTURA_ATTR_NAME = -1001;
+	const BORHAN_ATTR_NAME = -1001;
 		
 	/**
 	 * Use to disable transaction
 	 */
-	const KALTURA_ATTR_NO_TRANSACTION = 'noTransaction';
+	const BORHAN_ATTR_NO_TRANSACTION = 'noTransaction';
 	
 	/**
 	 * Sets the number of retries of doSave()
@@ -22,7 +22,7 @@ class KalturaPDO extends PropelPDO
 	const SAVE_MAX_RETRIES = 4; 
 	
 	protected static $comment = null;
-	protected $kalturaOptions = array();
+	protected $borhanOptions = array();
 	protected $connectionName = null;
 	protected $hostName = null;
 	protected $enableComments = true;
@@ -33,10 +33,10 @@ class KalturaPDO extends PropelPDO
 	 */
 	public function __construct($dsn, $username = null, $password = null, $driver_options = array(), $config_key = null)
 	{
-		if(isset($driver_options[KalturaPDO::KALTURA_ATTR_NAME]))
+		if(isset($driver_options[BorhanPDO::BORHAN_ATTR_NAME]))
 		{
-			$this->connectionName = $driver_options[KalturaPDO::KALTURA_ATTR_NAME];
-			$this->kalturaOptions = DbManager::getKalturaConfig($this->connectionName);
+			$this->connectionName = $driver_options[BorhanPDO::BORHAN_ATTR_NAME];
+			$this->borhanOptions = DbManager::getBorhanConfig($this->connectionName);
 		}
 		
 		list($mysql, $connection) = explode(':', $dsn);
@@ -58,11 +58,11 @@ class KalturaPDO extends PropelPDO
 
 		$connTook = microtime(true) - $connStart;
 		
-		KalturaLog::debug("conn took - $connTook seconds to $dsn");
+		BorhanLog::debug("conn took - $connTook seconds to $dsn");
 		
-		KalturaMonitorClient::monitorConnTook($dsn, $connTook);		
+		BorhanMonitorClient::monitorConnTook($dsn, $connTook);		
 
-		$this->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('KalturaStatement'));
+		$this->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('BorhanStatement'));
 	}
 
 	public function setCommentsEnabled($enabled) 
@@ -120,7 +120,7 @@ class KalturaPDO extends PropelPDO
 		$comment = $this->getCommentWrapped();
 		$sql = $comment . $sql;
 		
-		KalturaLog::debug($sql);
+		BorhanLog::debug($sql);
 		
 		$sqlStart = microtime(true);
 		try
@@ -129,28 +129,28 @@ class KalturaPDO extends PropelPDO
 		}
 		catch(PropelException $pex)
 		{
-			KalturaLog::alert($pex->getMessage());
+			BorhanLog::alert($pex->getMessage());
 			throw new PropelException("Database error");
 		}
 		$sqlTook = microtime(true) - $sqlStart;
-		KalturaLog::debug("Sql took - " . $sqlTook . " seconds");
-		KalturaMonitorClient::monitorDatabaseAccess($sql, $sqlTook, $this->hostName);
+		BorhanLog::debug("Sql took - " . $sqlTook . " seconds");
+		BorhanMonitorClient::monitorDatabaseAccess($sql, $sqlTook, $this->hostName);
 		
 		return $result;
 	}
 
 	public function queryAndFetchAll($sql, $fetchStyle, &$sqlConditions, $columnIndex = 0, $filter = null)
 	{
-		$finalSql = str_replace(kApiCache::KALTURA_COMMENT_MARKER, $this->getComment(), $sql);
+		$finalSql = str_replace(kApiCache::BORHAN_COMMENT_MARKER, $this->getComment(), $sql);
 		
-		KalturaLog::debug($finalSql);
+		BorhanLog::debug($finalSql);
 		
 		$sqlStart = microtime(true);
 		$stmt = parent::query($finalSql);
 		
 		$sqlTook = microtime(true) - $sqlStart;
-		KalturaLog::debug("Sql took - " . $sqlTook . " seconds");
-		KalturaMonitorClient::monitorDatabaseAccess($sql, $sqlTook, $this->hostName);
+		BorhanLog::debug("Sql took - " . $sqlTook . " seconds");
+		BorhanMonitorClient::monitorDatabaseAccess($sql, $sqlTook, $this->hostName);
 		
 		if (!$stmt)
 			return false;
@@ -183,7 +183,7 @@ class KalturaPDO extends PropelPDO
 		$args = func_get_args();
 		
 		$sql = $args[0];
-		KalturaLog::debug($sql);
+		BorhanLog::debug($sql);
 		
 		$comment = $this->getCommentWrapped();
 		$sql = $comment . $sql;
@@ -198,27 +198,27 @@ class KalturaPDO extends PropelPDO
 		}
 		catch(PropelException $pex)
 		{
-			KalturaLog::alert($pex->getMessage());
+			BorhanLog::alert($pex->getMessage());
 			throw new PropelException("Database error");
 		}
 		$sqlTook = microtime(true) - $sqlStart;
-		KalturaLog::debug("Sql took - " . $sqlTook . " seconds");
-		KalturaMonitorClient::monitorDatabaseAccess($sql, $sqlTook, $this->hostName);
+		BorhanLog::debug("Sql took - " . $sqlTook . " seconds");
+		BorhanMonitorClient::monitorDatabaseAccess($sql, $sqlTook, $this->hostName);
 		
 		return $result;
 	}
 	
-	public function getKalturaOption($option)
+	public function getBorhanOption($option)
 	{
-		if(isset($this->kalturaOptions[$option]))
-			return $this->kalturaOptions[$option];
+		if(isset($this->borhanOptions[$option]))
+			return $this->borhanOptions[$option];
 			
 		return null;
 	}
 	
 	public function beginTransaction()
 	{
-		if($this->getKalturaOption(KalturaPDO::KALTURA_ATTR_NO_TRANSACTION))
+		if($this->getBorhanOption(BorhanPDO::BORHAN_ATTR_NO_TRANSACTION))
 			return true;
 		
 		return parent::beginTransaction();

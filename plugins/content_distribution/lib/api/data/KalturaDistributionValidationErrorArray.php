@@ -3,11 +3,11 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaDistributionValidationErrorArray extends KalturaTypedArray
+class BorhanDistributionValidationErrorArray extends BorhanTypedArray
 {
-	public static function fromDbArray(array $arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaDistributionValidationErrorArray();
+		$newArr = new BorhanDistributionValidationErrorArray();
 		if ($arr == null)
 			return $newArr;
 
@@ -17,30 +17,30 @@ class KalturaDistributionValidationErrorArray extends KalturaTypedArray
 			switch($obj->getErrorType())
 			{
 				case DistributionErrorType::MISSING_FLAVOR:
-    				$nObj = new KalturaDistributionValidationErrorMissingFlavor();
+    				$nObj = new BorhanDistributionValidationErrorMissingFlavor();
     				break;
     			
 				case DistributionErrorType::MISSING_THUMBNAIL:
-    				$nObj = new KalturaDistributionValidationErrorMissingThumbnail();
+    				$nObj = new BorhanDistributionValidationErrorMissingThumbnail();
     				break;
     			
 				case DistributionErrorType::MISSING_METADATA:
-    				$nObj = new KalturaDistributionValidationErrorMissingMetadata();
+    				$nObj = new BorhanDistributionValidationErrorMissingMetadata();
     				break;
 
 				case DistributionErrorType::MISSING_ASSET:
-					$nObj = new KalturaDistributionValidationErrorMissingAsset();
+					$nObj = new BorhanDistributionValidationErrorMissingAsset();
 					break;
     			
 				case DistributionErrorType::INVALID_DATA:
 					if($obj->getMetadataProfileId())
-    					$nObj = new KalturaDistributionValidationErrorInvalidMetadata();
+    					$nObj = new BorhanDistributionValidationErrorInvalidMetadata();
     				else
-    					$nObj = new KalturaDistributionValidationErrorInvalidData();
+    					$nObj = new BorhanDistributionValidationErrorInvalidData();
     				break;
 
     				case DistributionErrorType::CONDITION_NOT_MET:
-    					$nObj = new KalturaDistributionValidationErrorConditionNotMet();
+    					$nObj = new BorhanDistributionValidationErrorConditionNotMet();
     					break;
 
 				default:
@@ -59,6 +59,6 @@ class KalturaDistributionValidationErrorArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaDistributionValidationError");	
+		parent::__construct("BorhanDistributionValidationError");	
 	}
 }

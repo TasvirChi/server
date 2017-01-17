@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaDeliveryProfileLiveAppleHttp extends KalturaDeliveryProfile {
+class BorhanDeliveryProfileLiveAppleHttp extends BorhanDeliveryProfile {
 	
 	/**
 	 * @var bool

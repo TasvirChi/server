@@ -3,8 +3,8 @@
 
 class WSGeoTimeLiveStats extends WSEntryLiveStats
 {	
-	function getKalturaObject() {
-		return new KalturaGeoTimeLiveStats();
+	function getBorhanObject() {
+		return new BorhanGeoTimeLiveStats();
 	}
 				
 	protected function getAttributeType($attributeName)

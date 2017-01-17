@@ -3,7 +3,7 @@
  * @package    Core
  * @subpackage externalServices
  */
-class plymediaAction extends kalturaAction
+class plymediaAction extends borhanAction
 {
 	public function execute()
 	{

@@ -1,13 +1,13 @@
 <?php
 /**
  * @package    Core
- * @subpackage KMC
+ * @subpackage BMC
  */
-class signupAction extends kalturaAction
+class signupAction extends borhanAction
 {
 	public function execute ( ) 
 	{
-		$this->redirect("http://corp.kaltura.com/about/signup");
+		$this->redirect("http://corp.borhan.com/about/signup");
 		sfView::SUCCESS;
 	}
 }

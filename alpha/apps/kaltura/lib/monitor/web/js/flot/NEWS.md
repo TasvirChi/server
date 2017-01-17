@@ -350,7 +350,7 @@ also surfaced, if your graphs are slow in IE, you may want to give it a spin:
    +/-Number.MAX_VALUE. (reported by rabaea.mircea)
 
  - Support for restricting navigate plugin to not pan/zoom an axis. (based on
-   patch by kkaefer)
+   patch by kbaefer)
 
  - Support for providing the drag cursor for the navigate plugin as an option.
    (based on patch by Kelly T. Moore)

@@ -62,7 +62,7 @@ class rawAction extends sfAction
 				KExternalErrors::dieGracefully();
 		}
 
-		KalturaMonitorClient::initApiMonitor(false, 'extwidget.raw', $entry->getPartnerId());
+		BorhanMonitorClient::initApiMonitor(false, 'extwidget.raw', $entry->getPartnerId());
 		
 		myPartnerUtils::blockInactivePartner($entry->getPartnerId());
 		
@@ -125,7 +125,7 @@ class rawAction extends sfAction
 			}
 			else
 			{
-				header('KalturaRaw: no flavor asset for extension');
+				header('BorhanRaw: no flavor asset for extension');
 				header("HTTP/1.0 404 Not Found");
 				KExternalErrors::dieGracefully();
 			}
@@ -155,7 +155,7 @@ class rawAction extends sfAction
 			}
 			else
 			{
-				header('KalturaRaw: no flavor asset for extension');
+				header('BorhanRaw: no flavor asset for extension');
 				header("HTTP/1.0 404 Not Found");
 				KExternalErrors::dieGracefully();
 			}
@@ -192,7 +192,7 @@ class rawAction extends sfAction
 			}
 			if (!$path)
 			{
-				header('KalturaRaw: no data was found available for download');
+				header('BorhanRaw: no data was found available for download');
 				header("HTTP/1.0 404 Not Found");
 			}
 			else
@@ -221,7 +221,7 @@ class rawAction extends sfAction
 				}
 				else
 				{
-					header('KalturaRaw: no flavor asset for extension');
+					header('BorhanRaw: no flavor asset for extension');
 					KExternalErrors::dieGracefully();
 				}
 				
@@ -247,13 +247,13 @@ class rawAction extends sfAction
 					$flavor_asset = $this->getAllowedFlavorAssets( $securyEntryHelper, $entry_id , null, false, true );
 					if(!$flavor_asset)
 					{
-						header('KalturaRaw: no original flavor asset for entry, no best play asset for entry');
+						header('BorhanRaw: no original flavor asset for entry, no best play asset for entry');
 						KExternalErrors::dieGracefully();
 					}
 					$file_sync = $this->redirectIfRemote ( $flavor_asset ,  flavorAsset::FILE_SYNC_FLAVOR_ASSET_SUB_TYPE_ASSET , null , false ); // NOT strict - if there is no archive, get the data version
 					if(!$file_sync)
 					{
-						header('KalturaRaw: no file sync found for flavor ['.$flavor_asset->getId().']');
+						header('BorhanRaw: no file sync found for flavor ['.$flavor_asset->getId().']');
 						KExternalErrors::dieGracefully();
 					}
 					$archive_file = $file_sync->getFullPath();
@@ -267,7 +267,7 @@ class rawAction extends sfAction
 			$version = $this->getRequestParameter ( "version" );
 			
 			// hotfix - links sent after flattening is done look like:
-			// http://cdn.kaltura.com/p/387/sp/38700/raw/entry_id/0_ix99151g/version/100001
+			// http://cdn.borhan.com/p/387/sp/38700/raw/entry_id/0_ix99151g/version/100001
 			// while waiting for flavor-adaptation in flattening, we want to find at least one file to return.
 			$try_formats = array('mp4', 'mov', 'avi', 'flv');
 			if($format)
@@ -283,11 +283,11 @@ class rawAction extends sfAction
 			{
 				foreach($try_formats as $ext)
 				{
-					KalturaLog::log( "raw for mix - trying to find filesync for extension: [$ext] on entry [{$entry->getId()}]");
+					BorhanLog::log( "raw for mix - trying to find filesync for extension: [$ext] on entry [{$entry->getId()}]");
 					$file_sync = $this->redirectIfRemote( $entry , entry::FILE_SYNC_ENTRY_SUB_TYPE_DOWNLOAD, $ext, false);
 					if($file_sync && file_exists($file_sync->getFullPath()))
 					{
-						KalturaLog::log( "raw for mix - found flattened video of extension: [$ext] continuing with this file {$file_sync->getFullPath()}");
+						BorhanLog::log( "raw for mix - found flattened video of extension: [$ext] continuing with this file {$file_sync->getFullPath()}");
 						break;
 					}
 				}
@@ -386,7 +386,7 @@ class rawAction extends sfAction
 			{
 				// file does not exist on any DC - die
 
-				KalturaLog::log( "Error - no FileSync for object [{$obj->getId()}]");
+				BorhanLog::log( "Error - no FileSync for object [{$obj->getId()}]");
 				header("HTTP/1.0 404 Not Found");
 				KExternalErrors::dieGracefully();
 			}
@@ -410,7 +410,7 @@ class rawAction extends sfAction
 		{
 			$shouldProxy = $this->getRequestParameter("forceproxy", false);
 			$remote_url = kDataCenterMgr::getRedirectExternalUrl ( $file_sync , $_SERVER['REQUEST_URI'] );
-			KalturaLog::log ( __METHOD__ . ": redirecting to [$remote_url]" );
+			BorhanLog::log ( __METHOD__ . ": redirecting to [$remote_url]" );
 			if($shouldProxy)
 			{
 				kFileUtils::dumpUrl($remote_url);

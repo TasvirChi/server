@@ -8,15 +8,15 @@ class KCopyingCategoryEntryEngine extends KCopyingEngine
 	/* (non-PHPdoc)
 	 * @see KCopyingEngine::copy()
 	 */
-	protected function copy(KalturaFilter $filter, KalturaObjectBase $templateObject) {
+	protected function copy(BorhanFilter $filter, BorhanObjectBase $templateObject) {
 		return $this->copyCategoryEntries ($filter, $templateObject);
 		
 	}
 
-	protected function copyCategoryEntries (KalturaFilter $filter, KalturaObjectBase $templateObject)
+	protected function copyCategoryEntries (BorhanFilter $filter, BorhanObjectBase $templateObject)
 	{
-		/* @var $filter KalturaCategoryEntryFilter */
-		$filter->orderBy = KalturaCategoryEntryOrderBy::CREATED_AT_ASC;
+		/* @var $filter BorhanCategoryEntryFilter */
+		$filter->orderBy = BorhanCategoryEntryOrderBy::CREATED_AT_ASC;
 		
 		$categoryEntryList = KBatchBase::$kClient->categoryEntry->listAction($filter, $this->pager);
 		if(!count($categoryEntryList->objects))
@@ -45,13 +45,13 @@ class KCopyingCategoryEntryEngine extends KCopyingEngine
 	/* (non-PHPdoc)
 	 * @see KCopyingEngine::getNewObject()
 	 */
-	protected function getNewObject(KalturaObjectBase $sourceObject, KalturaObjectBase $templateObject) {
+	protected function getNewObject(BorhanObjectBase $sourceObject, BorhanObjectBase $templateObject) {
 		$class = get_class($sourceObject);
 		$newObject = new $class();
 		
-		/* @var $newObject KalturaCategoryEntry */
-		/* @var $sourceObject KalturaCategoryEntry */
-		/* @var $templateObject KalturaCategoryEntry */
+		/* @var $newObject BorhanCategoryEntry */
+		/* @var $sourceObject BorhanCategoryEntry */
+		/* @var $templateObject BorhanCategoryEntry */
 		
 		$newObject->categoryId = $sourceObject->categoryId;
 		$newObject->entryId = $sourceObject->entryId;

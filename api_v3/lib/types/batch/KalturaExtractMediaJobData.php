@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaExtractMediaJobData extends KalturaConvartableJobData
+class BorhanExtractMediaJobData extends BorhanConvartableJobData
 {
 	/**
 	 * @var string

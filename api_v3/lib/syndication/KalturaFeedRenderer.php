@@ -1,19 +1,19 @@
 <?php
 
-class KalturaFeedRenderer extends SyndicationFeedRenderer{
+class BorhanFeedRenderer extends SyndicationFeedRenderer{
 	
 	const ITEMS_PLACEHOLDER = 'ITEMS_PLACEHOLDER';
 	
-	protected $kalturaXslt = null;
-	protected $kalturaXsltItem = null;
+	protected $borhanXslt = null;
+	protected $borhanXsltItem = null;
 	
 	public function init($syndicationFeed, $syndicationFeedDB, $mimeType) {
 		parent::init($syndicationFeed, $syndicationFeedDB, $mimeType);
 		
 		$xslt = $syndicationFeedDB->getXslt();
-		if (($syndicationFeedDB->getType() == syndicationFeedType::KALTURA_XSLT) && (!is_null($xslt))) {
-			$this->kalturaXslt = $this->createKalturaMrssXslt($xslt);
-			$this->kalturaXsltItem = $this->createKalturaItemXslt($xslt);
+		if (($syndicationFeedDB->getType() == syndicationFeedType::BORHAN_XSLT) && (!is_null($xslt))) {
+			$this->borhanXslt = $this->createBorhanMrssXslt($xslt);
+			$this->borhanXsltItem = $this->createBorhanItemXslt($xslt);
 		}
 	}
 	
@@ -27,9 +27,9 @@ class KalturaFeedRenderer extends SyndicationFeedRenderer{
 
 	public function handleHeader() {
 		
-		$mrss = $this->getKalturaMrssXml($this->syndicationFeed->name, $this->syndicationFeed->feedLandingPage, $this->syndicationFeed->feedDescription);
-		if($this->kalturaXslt)
-			$mrss = kXml::transformXmlUsingXslt($mrss, $this->kalturaXslt);
+		$mrss = $this->getBorhanMrssXml($this->syndicationFeed->name, $this->syndicationFeed->feedLandingPage, $this->syndicationFeed->feedDescription);
+		if($this->borhanXslt)
+			$mrss = kXml::transformXmlUsingXslt($mrss, $this->borhanXslt);
 		
 		$divideHeaderFromFooter = strpos($mrss, self::ITEMS_PLACEHOLDER);
 		$mrss = substr($mrss,0,$divideHeaderFromFooter);
@@ -46,7 +46,7 @@ class KalturaFeedRenderer extends SyndicationFeedRenderer{
 		$entryMrss =  $this->getMrssEntryXml($entry, $this->syndicationFeedDB,  $this->syndicationFeed->landingPage);
 		
 		if(!$entryMrss) {
-			KalturaLog::err("No MRSS returned for entry [".$entry->getId()."]");
+			BorhanLog::err("No MRSS returned for entry [".$entry->getId()."]");
 			return null;
 		}
 		
@@ -54,14 +54,14 @@ class KalturaFeedRenderer extends SyndicationFeedRenderer{
 	}
 	
 	public function finalize($entryMrss, $moreItems) {
-		if ($this->kalturaXsltItem)
+		if ($this->borhanXsltItem)
 		{
 			//syndication parameters to pass to XSLT
 			$xslParams = array();
-			$xslParams[XsltParameterName::KALTURA_HAS_NEXT_ITEM] = $moreItems;
-			$xslParams[XsltParameterName::KALTURA_SYNDICATION_FEED_FLAVOR_PARAM_ID] = $this->syndicationFeedDB->getFlavorParamId();
+			$xslParams[XsltParameterName::BORHAN_HAS_NEXT_ITEM] = $moreItems;
+			$xslParams[XsltParameterName::BORHAN_SYNDICATION_FEED_FLAVOR_PARAM_ID] = $this->syndicationFeedDB->getFlavorParamId();
 				
-			$entryMrss = kXml::transformXmlUsingXslt($entryMrss, $this->kalturaXsltItem, $xslParams);
+			$entryMrss = kXml::transformXmlUsingXslt($entryMrss, $this->borhanXsltItem, $xslParams);
 			$entryMrss = $this->removeNamespaces($entryMrss);
 		}
 		$entryMrss = $this->removeXmlHeader($entryMrss);
@@ -69,10 +69,10 @@ class KalturaFeedRenderer extends SyndicationFeedRenderer{
 	}
 	
 	public function handleFooter() {
-		$mrss = $this->getKalturaMrssXml($this->syndicationFeed->name, $this->syndicationFeed->feedLandingPage, $this->syndicationFeed->feedDescription);
+		$mrss = $this->getBorhanMrssXml($this->syndicationFeed->name, $this->syndicationFeed->feedLandingPage, $this->syndicationFeed->feedDescription);
 	
-		if($this->kalturaXslt)
-			$mrss = kXml::transformXmlUsingXslt($mrss, $this->kalturaXslt);
+		if($this->borhanXslt)
+			$mrss = kXml::transformXmlUsingXslt($mrss, $this->borhanXslt);
 	
 		$divideHeaderFromFooter = strpos($mrss, self::ITEMS_PLACEHOLDER) + strlen(self::ITEMS_PLACEHOLDER);
 		$mrss = substr($mrss,$divideHeaderFromFooter);
@@ -80,7 +80,7 @@ class KalturaFeedRenderer extends SyndicationFeedRenderer{
 		return $mrss;
 	}
 
-	private function getKalturaMrssXml($title, $link = null, $description = null)
+	private function getBorhanMrssXml($title, $link = null, $description = null)
 	{
 		$mrss = kMrssManager::getMrssXml($title, $link, $description);
 	
@@ -93,16 +93,16 @@ class KalturaFeedRenderer extends SyndicationFeedRenderer{
 	}
 	
 	/**
-	 * return xlts with item place holder only when given xslt compatible with kaltura feed
+	 * return xlts with item place holder only when given xslt compatible with borhan feed
 	 * @param string $xslt
 	 * @return string $xslt
 	 */
-	private function createKalturaMrssXslt($xslt)
+	private function createBorhanMrssXslt($xslt)
 	{
 		$xsl = new DOMDocument();
 		if(!@$xsl->loadXML($xslt))
 		{
-			KalturaLog::err("Could not load xslt");
+			BorhanLog::err("Could not load xslt");
 			return null;
 		}
 	
@@ -122,16 +122,16 @@ class KalturaFeedRenderer extends SyndicationFeedRenderer{
 	}
 	
 	/**
-	 * return xlts with item template only when given xslt compatible with kaltura feed
+	 * return xlts with item template only when given xslt compatible with borhan feed
 	 * @param string $xslt
 	 * @return string $xslt
 	 */
-	private function createKalturaItemXslt($xslt)
+	private function createBorhanItemXslt($xslt)
 	{
 		$xsl = new DOMDocument();
 		if(!@$xsl->loadXML($xslt))
 		{
-			KalturaLog::err("Could not load xslt");
+			BorhanLog::err("Could not load xslt");
 			return null;
 		}
 	
@@ -165,7 +165,7 @@ class KalturaFeedRenderer extends SyndicationFeedRenderer{
 		$features = null;
 		if ($syndicationFeed->getUseCategoryEntries())
 		{
-			KalturaLog::info("Getting entry's associated categories from the category_entry table");
+			BorhanLog::info("Getting entry's associated categories from the category_entry table");
 			$features = array (ObjectFeatureType::CATEGORY_ENTRIES);
 		}
 		
@@ -173,7 +173,7 @@ class KalturaFeedRenderer extends SyndicationFeedRenderer{
 	
 		if(!$mrss)
 		{
-			KalturaLog::err("No MRSS returned for entry [".$entry->getId()."]");
+			BorhanLog::err("No MRSS returned for entry [".$entry->getId()."]");
 			return null;
 		}
 	

@@ -1,9 +1,9 @@
 <?php
 /**
  * @package    Core
- * @subpackage KMC
+ * @subpackage BMC
  */
-class loginAction extends kalturaAction
+class loginAction extends borhanAction
 {
 	public function execute ( ) 
 	{
@@ -14,7 +14,7 @@ class loginAction extends kalturaAction
 		$service_url = requestUtils::getHost();
 		$service_url = str_replace ( "http://" , "" , $service_url );
 
-		if (kConf::get('kmc_secured_login')) {
+		if (kConf::get('bmc_secured_login')) {
 			$service_url = 'https://'.$service_url;		
 			
 			if ( (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off') && $_SERVER['SERVER_PORT'] != 443)
@@ -31,7 +31,7 @@ class loginAction extends kalturaAction
 		}
 		
 		$this->service_url = $service_url;
-		$this->kmc_login_version 	= kConf::get('kmc_login_version');
+		$this->bmc_login_version 	= kConf::get('bmc_login_version');
 		$this->setPassHashKey = $this->getRequestParameter( "setpasshashkey" );
 		$this->hashKeyErrorCode = null;
 		$this->hashKeyLoginId = null;

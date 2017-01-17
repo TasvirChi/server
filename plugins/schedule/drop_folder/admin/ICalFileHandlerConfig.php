@@ -11,19 +11,19 @@ class Form_ICalFileHandlerConfig extends Form_BaseFileHandlerConfig
 	 */
 	protected function getFileHandlerType()
 	{
-		return Kaltura_Client_DropFolder_Enum_DropFolderFileHandlerType::ICAL;
+		return Borhan_Client_DropFolder_Enum_DropFolderFileHandlerType::ICAL;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * @see Form_BaseFileHandlerConfig::applyObjectAttributes()
 	 */
-	public function applyObjectAttributes(Kaltura_Client_DropFolder_Type_DropFolder &$object)
+	public function applyObjectAttributes(Borhan_Client_DropFolder_Type_DropFolder &$object)
 	{
-		KalturaLog::debug('object: ' . print_r($object, true));
+		BorhanLog::debug('object: ' . print_r($object, true));
 		if (isset ($object->fileHandlerConfigscheduleDropFolderICAL['eventsType']))
 			$object->fileHandlerConfig->eventsType = $object->fileHandlerConfigscheduleDropFolderICAL['eventsType'];
-		KalturaLog::debug('fileHandlerConfig: ' . print_r($object->fileHandlerConfig, true));
+		BorhanLog::debug('fileHandlerConfig: ' . print_r($object->fileHandlerConfig, true));
 	}
 	
 	/**
@@ -32,7 +32,7 @@ class Form_ICalFileHandlerConfig extends Form_BaseFileHandlerConfig
 	 */
 	public function init()
 	{
-		$eventsType = new Kaltura_Form_Element_EnumSelect('eventsType', array('enum' => 'Kaltura_Client_Schedule_Enum_ScheduleEventType'));
+		$eventsType = new Borhan_Form_Element_EnumSelect('eventsType', array('enum' => 'Borhan_Client_Schedule_Enum_ScheduleEventType'));
 		$eventsType->setLabel('Default event type:');
 		$eventsType->setRequired(true);
 		$this->addElement($eventsType);
@@ -41,7 +41,7 @@ class Form_ICalFileHandlerConfig extends Form_BaseFileHandlerConfig
 	}
 
 	/**
-	 * @param Kaltura_Client_ObjectBase $object
+	 * @param Borhan_Client_ObjectBase $object
 	 * @param boolean $add_underscore
 	 */
 	public function populateFromObject($object, $dropFolderObject, $add_underscore = true)
@@ -61,9 +61,9 @@ class Form_ICalFileHandlerConfig extends Form_BaseFileHandlerConfig
 			$this->setDefault($prop, $value);
 		}
 		
-		/* @var $dropFolderObject Kaltura_Client_DropFolder_Type_DropFolder */
+		/* @var $dropFolderObject Borhan_Client_DropFolder_Type_DropFolder */
 		$fileHandlerConfig = $dropFolderObject->fileHandlerConfig;
-		/* @var $fileHandlerConfig Kaltura_Client_ScheduleDropFolder_Type_DropFolderICalBulkUploadFileHandlerConfig */
+		/* @var $fileHandlerConfig Borhan_Client_ScheduleDropFolder_Type_DropFolderICalBulkUploadFileHandlerConfig */
 		$this->setDefault ('eventsType', $fileHandlerConfig->eventsType);
 	}
 }

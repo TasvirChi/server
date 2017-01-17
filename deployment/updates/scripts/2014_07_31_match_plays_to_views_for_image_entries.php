@@ -10,9 +10,9 @@ chdir(__DIR__);
 require_once (__DIR__ . '/../../bootstrap.php');
 
 $realRun = isset($argv[1]) && $argv[1] == 'realrun';
-KalturaStatement::setDryRun(!$realRun);
+BorhanStatement::setDryRun(!$realRun);
 
-$c = KalturaCriteria::create(entryPeer::OM_CLASS);
+$c = BorhanCriteria::create(entryPeer::OM_CLASS);
 $c->add( entryPeer::MEDIA_TYPE, entry::ENTRY_MEDIA_TYPE_IMAGE );
 $c->add( entryPeer::TYPE, entryType::MEDIA_CLIP);
 $c->addAscendingOrderByColumn(entryPeer::CREATED_AT);

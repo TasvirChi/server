@@ -3,7 +3,7 @@
  * @package plugins.metadata
  * @subpackage api.objects
  */
-class KalturaMetadataProfileField extends KalturaObject 
+class BorhanMetadataProfileField extends BorhanObject 
 {
 	/**
 	 * 

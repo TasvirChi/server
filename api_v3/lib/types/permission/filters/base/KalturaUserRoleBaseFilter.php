@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaUserRoleBaseFilter extends KalturaRelatedFilter
+abstract class BorhanUserRoleBaseFilter extends BorhanRelatedFilter
 {
 	static private $map_between_objects = array
 	(
@@ -85,7 +85,7 @@ abstract class KalturaUserRoleBaseFilter extends KalturaRelatedFilter
 	public $descriptionLike;
 
 	/**
-	 * @var KalturaUserRoleStatus
+	 * @var BorhanUserRoleStatus
 	 */
 	public $statusEqual;
 

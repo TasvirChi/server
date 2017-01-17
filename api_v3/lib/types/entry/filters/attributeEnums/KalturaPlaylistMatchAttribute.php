@@ -3,7 +3,7 @@
 /**
  * Auto-generated enum class
 */
-class KalturaPlaylistMatchAttribute extends KalturaBaseEntryMatchAttribute
+class BorhanPlaylistMatchAttribute extends BorhanBaseEntryMatchAttribute
 {
 }
 

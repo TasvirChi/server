@@ -3,14 +3,14 @@
  * @package api
  * @subpackage objects
  */
-class KalturaCategoryEntryArray extends KalturaTypedArray
+class BorhanCategoryEntryArray extends BorhanTypedArray
 {
-	public static function fromDbArray(array $arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaCategoryEntryArray();
+		$newArr = new BorhanCategoryEntryArray();
 		foreach($arr as $obj)
 		{
-			$nObj = new KalturaCategoryEntry();
+			$nObj = new BorhanCategoryEntry();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -20,6 +20,6 @@ class KalturaCategoryEntryArray extends KalturaTypedArray
 	
 	public function __construct()
 	{
-		return parent::__construct("KalturaCategoryEntry");
+		return parent::__construct("BorhanCategoryEntry");
 	}
 }

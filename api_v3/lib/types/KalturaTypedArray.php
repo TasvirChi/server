@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-abstract class KalturaTypedArray extends KalturaObject implements ArrayAccess, Iterator, Countable
+abstract class BorhanTypedArray extends BorhanObject implements ArrayAccess, Iterator, Countable
 {
 	protected $array = array();
 	private $class = "";
@@ -13,7 +13,7 @@ abstract class KalturaTypedArray extends KalturaObject implements ArrayAccess, I
 	 */	
 	public $count;
 	
-	public function __construct($class = 'KalturaObject')
+	public function __construct($class = 'BorhanObject')
 	{
 		$this->class = $class;
 	}
@@ -105,13 +105,13 @@ abstract class KalturaTypedArray extends KalturaObject implements ArrayAccess, I
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::loadRelatedObjects($responseProfile)
+	 * @see BorhanObject::loadRelatedObjects($responseProfile)
 	 */
-	public function loadRelatedObjects(KalturaDetachedResponseProfile $responseProfile)
+	public function loadRelatedObjects(BorhanDetachedResponseProfile $responseProfile)
 	{
 		foreach($this as &$item)
 		{
-			/* @var $item KalturaObject */
+			/* @var $item BorhanObject */
 			$item->loadRelatedObjects($responseProfile);
 		}
 	}

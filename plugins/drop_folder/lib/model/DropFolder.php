@@ -70,7 +70,7 @@ class DropFolder extends BaseDropFolder implements IRelatedObject
 			$config = @unserialize($serializedConfig);
 		}
 		catch (Exception $e) {
-			KalturaLog::err('Error unserializing file handler config for drop folder id ['.$this->getId().']');
+			BorhanLog::err('Error unserializing file handler config for drop folder id ['.$this->getId().']');
 			$config = null;
 		}
 		if ($config instanceof DropFolderFileHandlerConfig) {
@@ -91,7 +91,7 @@ class DropFolder extends BaseDropFolder implements IRelatedObject
 		}
 		else
 		{
-			KalturaLog::err('Given input $fileHandlerConfig is not an instance of DropFolderFileHandlerConfig - ignoring');
+			BorhanLog::err('Given input $fileHandlerConfig is not an instance of DropFolderFileHandlerConfig - ignoring');
 		}
 	}	
 	

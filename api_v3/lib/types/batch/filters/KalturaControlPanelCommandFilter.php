@@ -3,10 +3,10 @@
  * @package api
  * @subpackage filters
  */
-class KalturaControlPanelCommandFilter extends KalturaControlPanelCommandBaseFilter
+class BorhanControlPanelCommandFilter extends BorhanControlPanelCommandBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{

@@ -16,10 +16,10 @@ class ErrorController extends Zend_Controller_Action
 
 		$exception = $errors->exception;
 		$this->view->exception	= $exception;
-		KalturaLog::err($exception);
+		BorhanLog::err($exception);
 
-		// handle kaltura session expired
-		if ($exception instanceof Kaltura_Client_Exception && strpos($exception->getMessage(), 'EXPIRED'))
+		// handle borhan session expired
+		if ($exception instanceof Borhan_Client_Exception && strpos($exception->getMessage(), 'EXPIRED'))
 		{
 			Infra_AuthHelper::getAuthInstance()->clearIdentity();
 			$this->_helper->redirector('login', 'user');
@@ -46,22 +46,22 @@ class ErrorController extends Zend_Controller_Action
 		$this->view->request = $this->getRequest();
 		Infra_AuthHelper::getAuthInstance()->clearIdentity();
 		$this->_helper->viewRenderer('error');
-		$this->view->code	= Kaltura_AdminException::ERROR_CODE_ACCESS_DENIED;
+		$this->view->code	= Borhan_AdminException::ERROR_CODE_ACCESS_DENIED;
 		$this->getResponse()->setHttpResponseCode(403);
-		$this->getResponse()->setHeader(Kaltura_AdminException::KALTURA_HEADER_ERROR_CODE, $this->view->code, true);
+		$this->getResponse()->setHeader(Borhan_AdminException::BORHAN_HEADER_ERROR_CODE, $this->view->code, true);
 	}
 
 	protected function handleNotFoundException(Exception $ex)
 	{
-		$this->view->code	= Kaltura_AdminException::ERROR_CODE_PAGE_NOT_FOUND;
+		$this->view->code	= Borhan_AdminException::ERROR_CODE_PAGE_NOT_FOUND;
 		$this->getResponse()->setHttpResponseCode(404);
-		$this->getResponse()->setHeader(Kaltura_AdminException::KALTURA_HEADER_ERROR_CODE, $this->view->code, true);
+		$this->getResponse()->setHeader(Borhan_AdminException::BORHAN_HEADER_ERROR_CODE, $this->view->code, true);
 	}
 
 	protected function handleApplicationException(Exception $ex)
 	{
-		$this->view->code	= Kaltura_AdminException::getErrorCode($ex);
+		$this->view->code	= Borhan_AdminException::getErrorCode($ex);
 		$this->getResponse()->setHttpResponseCode(500);
-		$this->getResponse()->setHeader(Kaltura_AdminException::KALTURA_HEADER_ERROR_CODE, $this->view->code, true);
+		$this->getResponse()->setHeader(Borhan_AdminException::BORHAN_HEADER_ERROR_CODE, $this->view->code, true);
 	}
 }

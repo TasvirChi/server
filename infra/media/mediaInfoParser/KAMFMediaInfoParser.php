@@ -3,7 +3,7 @@
 class KAMFMediaInfoParser{
 
     const timestampHexVal = "74696d657374616d70"; // hax representation of the string "timestamp"
-    const KalturaSyncPointHexVal = '4b616c7475726153796e63506f696e74'; //hax representation of the string "KalturaSyncPoint"
+    const BorhanSyncPointHexVal = '4b616c7475726153796e63506f696e74'; //hax representation of the string "BorhanSyncPoint"
     const AMFNumberDataTypePrefix ="00";
     const IEEE754DoubleFloatInHexLength = 16;
     const MinAMFSizeToTryParse = 205;
@@ -41,7 +41,7 @@ class KAMFMediaInfoParser{
     public function getRawMediaInfo()
     {
         $cmd = $this->getCommand();
-        KalturaLog::debug("Executing '$cmd'");
+        BorhanLog::debug("Executing '$cmd'");
         $output = shell_exec($cmd);
         if (trim($output) === "")
             throw new kApplicativeException(KBaseMediaParser::ERROR_EXTRACT_MEDIA_FAILED, "Failed to parse media using " . get_class($this));
@@ -79,10 +79,10 @@ class KAMFMediaInfoParser{
                     }
                 }
             }
-            KalturaLog::debug('amf array: ' . print_r($amf, true));
+            BorhanLog::debug('amf array: ' . print_r($amf, true));
         }
         else{
-            KalturaLog::warning('failed to json_decode. returning an empty AMF array');
+            BorhanLog::warning('failed to json_decode. returning an empty AMF array');
         }
 
         return $amf;
@@ -91,7 +91,7 @@ class KAMFMediaInfoParser{
     private function shouldSaveAMF($amfArray, $amfTs, $amfPts){
 
         if (count($amfArray) == 0) {
-            KalturaLog::debug('adding AMF - first in the segment ts= ' . $amfTs . ' pts= ' . $amfPts);
+            BorhanLog::debug('adding AMF - first in the segment ts= ' . $amfTs . ' pts= ' . $amfPts);
             return true;
         }
 
@@ -103,26 +103,26 @@ class KAMFMediaInfoParser{
 
         if (abs($tsDelta - $ptsDelta) >=  self::MaxAMFDiscontinuanceMS){
             if ($tsDelta > self::MinDistanceBetweenAMFsInMS) {
-                KalturaLog::debug('got discontinuance - adding AMF. ' . 'tsDelta= ' . $tsDelta . ' ptsDelta= ' . $ptsDelta);
+                BorhanLog::debug('got discontinuance - adding AMF. ' . 'tsDelta= ' . $tsDelta . ' ptsDelta= ' . $ptsDelta);
                 return true;
             }
             else{
-                KalturaLog::debug('got discontinuance, but not adding AMF since time from last AMF is less than ' . self::MinDistanceBetweenAMFsInMS . 'ms. tsDelta= ' . $tsDelta . ' ptsDelta= ' . $ptsDelta);
+                BorhanLog::debug('got discontinuance, but not adding AMF since time from last AMF is less than ' . self::MinDistanceBetweenAMFsInMS . 'ms. tsDelta= ' . $tsDelta . ' ptsDelta= ' . $ptsDelta);
             }
         }
         else{
-            KalturaLog::debug('NOT adding AMF. ' . 'tsDelta= ' . $tsDelta . ' ptsDelta= ' . $ptsDelta);
+            BorhanLog::debug('NOT adding AMF. ' . 'tsDelta= ' . $tsDelta . ' ptsDelta= ' . $ptsDelta);
         }
         return false;
     }
 
-    // get the timestamp field of the KalturaSyncPoint.
-    // if failed, for example, not a KalturaSyncPoint, return -1
+    // get the timestamp field of the BorhanSyncPoint.
+    // if failed, for example, not a BorhanSyncPoint, return -1
     private function getTimestampFromAMF($AMFData){
         $AMFDataStream = $this->getByteStreamFromFFProbeAMFData($AMFData);
 
-        if (strpos($AMFDataStream, self::KalturaSyncPointHexVal) === false){
-            KalturaLog::debug('got AMF not containing KalturaSyncPointHexVal string');
+        if (strpos($AMFDataStream, self::BorhanSyncPointHexVal) === false){
+            BorhanLog::debug('got AMF not containing BorhanSyncPointHexVal string');
             return -1;
         }
 

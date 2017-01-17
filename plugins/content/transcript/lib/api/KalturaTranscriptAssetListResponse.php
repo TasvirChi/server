@@ -3,10 +3,10 @@
  * @package plugins.transcript
  * @subpackage api.objects
  */
-class KalturaTranscriptAssetListResponse extends KalturaListResponse
+class BorhanTranscriptAssetListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaTranscriptAssetArray
+	 * @var BorhanTranscriptAssetArray
 	 * @readonly
 	 */
 	public $objects;

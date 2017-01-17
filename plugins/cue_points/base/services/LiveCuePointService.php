@@ -5,9 +5,9 @@
  * @service liveCuePoint
  * @package plugins.cuePoint
  * @subpackage api.services
- * @throws KalturaErrors::SERVICE_FORBIDDEN
+ * @throws BorhanErrors::SERVICE_FORBIDDEN
  */
-class LiveCuePointService extends KalturaBaseService
+class LiveCuePointService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -16,15 +16,15 @@ class LiveCuePointService extends KalturaBaseService
 
 		// when session is not admin, allow access to user entries only
 		if (!$this->getKs() || !$this->getKs()->isAdmin()) {
-			KalturaCriterion::enableTag(KalturaCriterion::TAG_USER_SESSION);
+			BorhanCriterion::enableTag(BorhanCriterion::TAG_USER_SESSION);
 			CuePointPeer::setUserContentOnly(true);
 		}
 		
 		if(!CuePointPlugin::isAllowedPartner($this->getPartnerId()))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, CuePointPlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, CuePointPlugin::PLUGIN_NAME);
 		
-		if(!$this->getPartner()->getEnabledService(PermissionName::FEATURE_KALTURA_LIVE_STREAM))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, 'Kaltura Live Streams');
+		if(!$this->getPartner()->getEnabledService(PermissionName::FEATURE_BORHAN_LIVE_STREAM))
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, 'Borhan Live Streams');
 	}
 
 	/**
@@ -33,13 +33,13 @@ class LiveCuePointService extends KalturaBaseService
 	 * @action createPeriodicSyncPoints
 	 * @actionAlias liveStream.createPeriodicSyncPoints
 	 * @deprecated This actions is not required, sync points are sent automatically on the stream.
-	 * @param string $entryId Kaltura live-stream entry id
+	 * @param string $entryId Borhan live-stream entry id
 	 * @param int $interval Events interval in seconds 
 	 * @param int $duration Duration in seconds
 	 * 
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::NO_MEDIA_SERVER_FOUND
-	 * @throws KalturaErrors::MEDIA_SERVER_SERVICE_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::NO_MEDIA_SERVER_FOUND
+	 * @throws BorhanErrors::MEDIA_SERVER_SERVICE_NOT_FOUND
 	 */
 	function createPeriodicSyncPoints($entryId, $interval, $duration)
 	{

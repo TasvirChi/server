@@ -28,12 +28,12 @@ class KAsyncConvertLiveSegment extends KJobHandlerWorker
 	 */
 	protected function getJobType()
 	{
-		return KalturaBatchJobType::CONVERT_LIVE_SEGMENT;
+		return BorhanBatchJobType::CONVERT_LIVE_SEGMENT;
 	}
 	
 	public static function getType()
 	{
-		return KalturaBatchJobType::CONVERT_LIVE_SEGMENT;
+		return BorhanBatchJobType::CONVERT_LIVE_SEGMENT;
 	}
 	
 	/* (non-PHPdoc)
@@ -48,13 +48,13 @@ class KAsyncConvertLiveSegment extends KJobHandlerWorker
 		$res = self::createDir($this->localTempPath);
 		if(! $res)
 		{
-			KalturaLog::err("Cannot continue conversion without temp local directory");
+			BorhanLog::err("Cannot continue conversion without temp local directory");
 			return null;
 		}
 		$res = self::createDir($this->sharedTempPath);
 		if(! $res)
 		{
-			KalturaLog::err("Cannot continue conversion without temp shared directory");
+			BorhanLog::err("Cannot continue conversion without temp shared directory");
 			return null;
 		}
 		
@@ -65,14 +65,14 @@ class KAsyncConvertLiveSegment extends KJobHandlerWorker
 	 * (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->convert($job, $job->data);
 	}
 	
-	protected function convert(KalturaBatchJob $job, KalturaConvertLiveSegmentJobData $data)
+	protected function convert(BorhanBatchJob $job, BorhanConvertLiveSegmentJobData $data)
 	{
-		$this->updateJob($job, "File conversion started", KalturaBatchJobStatus::PROCESSING);
+		$this->updateJob($job, "File conversion started", BorhanBatchJobStatus::PROCESSING);
 		$jobData = $job->data;
 
 		$ffmpegBin = KBatchBase::$taskConfig->params->ffmpegCmd;
@@ -84,7 +84,7 @@ class KAsyncConvertLiveSegment extends KJobHandlerWorker
 
 		$result = $this->convertRecordedToMPEGTS($ffmpegBin, $ffprobeBin, $data->srcFilePath, $localTempFilePath);
 		if(! $result)
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::RUNTIME, null, "Failed to convert file", KalturaBatchJobStatus::FAILED);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::RUNTIME, null, "Failed to convert file", BorhanBatchJobStatus::FAILED);
 
 		// write AMF data to a file in shared storage
 		self::generateAmfData($job, $data, $localTempFilePath);
@@ -92,12 +92,12 @@ class KAsyncConvertLiveSegment extends KJobHandlerWorker
 		return $this->moveFile($job, $data, $localTempFilePath, $sharedTempFilePath);
 	}
 
-	protected function generateAmfData(KalturaBatchJob $job, KalturaConvertLiveSegmentJobData $data, $localTempFilePath)
+	protected function generateAmfData(BorhanBatchJob $job, BorhanConvertLiveSegmentJobData $data, $localTempFilePath)
 	{
 		$mediaInfoBin = isset(KBatchBase::$taskConfig->params->mediaInfoCmd)? KBatchBase::$taskConfig->params->mediaInfoCmd: "mediainfo";
 
 		// only extract the data if it's the primary server since we don't use this data in the secondary
-		if ($data->mediaServerIndex == KalturaEntryServerNodeType::LIVE_PRIMARY) {
+		if ($data->mediaServerIndex == BorhanEntryServerNodeType::LIVE_PRIMARY) {
 			try {
 
 				// get the asset to check if it has a assetParams::TAG_RECORDING_ANCHOR tag.
@@ -129,21 +129,21 @@ class KAsyncConvertLiveSegment extends KJobHandlerWorker
 			}
 			catch(Exception $ex) {
 				KBatchBase::unimpersonate();
-				KalturaLog::warning('failed to extract AMF data or duration data ' . print_r($ex));
+				BorhanLog::warning('failed to extract AMF data or duration data ' . print_r($ex));
 			}
 		}
 	}
 
 	/**
-	 * @param KalturaBatchJob $job
-	 * @param KalturaConcatJobData $data
+	 * @param BorhanBatchJob $job
+	 * @param BorhanConcatJobData $data
 	 * @param string $localTempFilePath
 	 * @param string $sharedTempFilePath
-	 * @return KalturaBatchJob
+	 * @return BorhanBatchJob
 	 */
-	protected function moveFile(KalturaBatchJob $job, KalturaConvertLiveSegmentJobData $data, $localTempFilePath, $sharedTempFilePath)
+	protected function moveFile(BorhanBatchJob $job, BorhanConvertLiveSegmentJobData $data, $localTempFilePath, $sharedTempFilePath)
 	{
-		$this->updateJob($job, "Moving file from [$localTempFilePath] to [$sharedTempFilePath]", KalturaBatchJobStatus::MOVEFILE);
+		$this->updateJob($job, "Moving file from [$localTempFilePath] to [$sharedTempFilePath]", BorhanBatchJobStatus::MOVEFILE);
 		
 		kFile::moveFile($localTempFilePath, $sharedTempFilePath, true);
 		clearstatcache();
@@ -152,21 +152,21 @@ class KAsyncConvertLiveSegment extends KJobHandlerWorker
 		$this->setFilePermissions($sharedTempFilePath);
 		
 		if(! $this->checkFileExists($sharedTempFilePath, $fileSize))
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, 'File not moved correctly', KalturaBatchJobStatus::RETRY);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, 'File not moved correctly', BorhanBatchJobStatus::RETRY);
 		
 		$data->destFilePath = $sharedTempFilePath;
-		return $this->closeJob($job, null, null, 'Succesfully moved file', KalturaBatchJobStatus::FINISHED, $data);
+		return $this->closeJob($job, null, null, 'Succesfully moved file', BorhanBatchJobStatus::FINISHED, $data);
 	}
 
-	protected function moveDataFile(KalturaConvertLiveSegmentJobData $data, $localTempAmfFilePath, $sharedTempAmfFilePath)
+	protected function moveDataFile(BorhanConvertLiveSegmentJobData $data, $localTempAmfFilePath, $sharedTempAmfFilePath)
 	{
-		KalturaLog::debug('moving file from ' . $localTempAmfFilePath . ' to ' . $sharedTempAmfFilePath);
+		BorhanLog::debug('moving file from ' . $localTempAmfFilePath . ' to ' . $sharedTempAmfFilePath);
 		kFile::moveFile($localTempAmfFilePath, $sharedTempAmfFilePath, true);
 		clearstatcache();
 		$fileSize = kFile::fileSize($sharedTempAmfFilePath);
 		$this->setFilePermissions($sharedTempAmfFilePath);
 		if(! $this->checkFileExists($sharedTempAmfFilePath, $fileSize))
-			KalturaLog::warning('failed to move file to ' . $sharedTempAmfFilePath);
+			BorhanLog::warning('failed to move file to ' . $sharedTempAmfFilePath);
 		else
 			$data->destDataFilePath = $sharedTempAmfFilePath;
 	}
@@ -175,7 +175,7 @@ class KAsyncConvertLiveSegment extends KJobHandlerWorker
 	{
 		$cmdStr = "$ffmpegBin -i $inFilename -c copy -bsf:v h264_mp4toannexb -f mpegts -y $outFilename 2>&1";
 		
-		KalturaLog::debug("Executing [$cmdStr]");
+		BorhanLog::debug("Executing [$cmdStr]");
 		$output = system($cmdStr, $rv);
 
 		/*
@@ -187,15 +187,15 @@ class KAsyncConvertLiveSegment extends KJobHandlerWorker
 		$detectInterval = 10;		// sec
 		$maxKeyFrameTime = 0.200;	// sec
 		$kfArr=KFFMpegMediaParser::retrieveKeyFrames($ffprobeBin, $inFilename,0,$detectInterval);
-		KalturaLog::log("KeyFrames:".print_r($kfArr,1));
+		BorhanLog::log("KeyFrames:".print_r($kfArr,1));
 		if(count($kfArr)==0){
-			KalturaLog::log("Anomaly detection: NO Keyframes in the detection interval ($detectInterval sec)");
+			BorhanLog::log("Anomaly detection: NO Keyframes in the detection interval ($detectInterval sec)");
 		}
 		else if($kfArr[0]>$maxKeyFrameTime){
-			KalturaLog::log("Anomaly detection: ERROR, first KF at ($kfArr[0] sec), max allowed ($maxKeyFrameTime sec)");
+			BorhanLog::log("Anomaly detection: ERROR, first KF at ($kfArr[0] sec), max allowed ($maxKeyFrameTime sec)");
 		}
 		else {
-			KalturaLog::log("Anomaly detection: OK, first KF at ($kfArr[0] sec), max allowed ($maxKeyFrameTime sec)");
+			BorhanLog::log("Anomaly detection: OK, first KF at ($kfArr[0] sec), max allowed ($maxKeyFrameTime sec)");
 		}
 		
 		return ($rv == 0) ? true : false;

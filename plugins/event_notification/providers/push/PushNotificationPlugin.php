@@ -3,7 +3,7 @@
  * @package plugins.pushNotification
  */
 
-class PushNotificationPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaPending, IKalturaObjectLoader, IKalturaEnumerator, IKalturaApplicationTranslations, IKalturaServices
+class PushNotificationPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanPending, IBorhanObjectLoader, IBorhanEnumerator, IBorhanApplicationTranslations, IBorhanServices
 {
     const PLUGIN_NAME = 'pushNotification';
 
@@ -13,7 +13,7 @@ class PushNotificationPlugin extends KalturaPlugin implements IKalturaPermission
     const EVENT_NOTIFICATION_PLUGIN_VERSION_BUILD = 0;
 
     /* (non-PHPdoc)
-     * @see IKalturaPlugin::getPluginName()
+     * @see IBorhanPlugin::getPluginName()
      */
     public static function getPluginName()
     {
@@ -21,7 +21,7 @@ class PushNotificationPlugin extends KalturaPlugin implements IKalturaPermission
     }
     
     /* (non-PHPdoc)
-     * @see IKalturaPermissions::isAllowedPartner()
+     * @see IBorhanPermissions::isAllowedPartner()
      */
     public static function isAllowedPartner($partnerId)
     {
@@ -35,7 +35,7 @@ class PushNotificationPlugin extends KalturaPlugin implements IKalturaPermission
     }
     
     /* (non-PHPdoc)
-     * @see IKalturaEnumerator::getEnums()
+     * @see IBorhanEnumerator::getEnums()
      */
     public static function getEnums($baseEnumName = null)
     {
@@ -49,7 +49,7 @@ class PushNotificationPlugin extends KalturaPlugin implements IKalturaPermission
     }   
     
     /* (non-PHPdoc)
-     * @see IKalturaObjectLoader::loadObject()
+     * @see IBorhanObjectLoader::loadObject()
      */
     public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
     {
@@ -70,20 +70,20 @@ class PushNotificationPlugin extends KalturaPlugin implements IKalturaPermission
     }
         
     /* (non-PHPdoc)
-     * @see IKalturaObjectLoader::getObjectClass()
+     * @see IBorhanObjectLoader::getObjectClass()
      */
     public static function getObjectClass($baseClass, $enumValue)
     {
         if ($baseClass == 'EventNotificationTemplate' && $enumValue == self::getPushNotificationTemplateTypeCoreValue(PushNotificationTemplateType::PUSH))
             return 'PushNotificationTemplate';
     
-        if ($baseClass == 'KalturaEventNotificationTemplate' && $enumValue == self::getPushNotificationTemplateTypeCoreValue(PushNotificationTemplateType::PUSH))
-            return 'KalturaPushNotificationTemplate';
+        if ($baseClass == 'BorhanEventNotificationTemplate' && $enumValue == self::getPushNotificationTemplateTypeCoreValue(PushNotificationTemplateType::PUSH))
+            return 'BorhanPushNotificationTemplate';
                           
-        if($baseClass == 'Kaltura_Client_EventNotification_Type_EventNotificationTemplate' && $enumValue == Kaltura_Client_EventNotification_Enum_EventNotificationTemplateType::PUSH)
-            return 'Kaltura_Client_PushNotification_Type_PushNotificationTemplate';
+        if($baseClass == 'Borhan_Client_EventNotification_Type_EventNotificationTemplate' && $enumValue == Borhan_Client_EventNotification_Enum_EventNotificationTemplateType::PUSH)
+            return 'Borhan_Client_PushNotification_Type_PushNotificationTemplate';
         
-        if($baseClass == 'Form_EventNotificationTemplateConfiguration' && $enumValue == Kaltura_Client_EventNotification_Enum_EventNotificationTemplateType::PUSH)
+        if($baseClass == 'Form_EventNotificationTemplateConfiguration' && $enumValue == Borhan_Client_EventNotification_Enum_EventNotificationTemplateType::PUSH)
             return 'Form_PushNotificationTemplateConfiguration';     
            
         return null;
@@ -91,16 +91,16 @@ class PushNotificationPlugin extends KalturaPlugin implements IKalturaPermission
     
 
     /* (non-PHPdoc)
-     * @see IKalturaPending::dependsOn()
+     * @see IBorhanPending::dependsOn()
      */
     public static function dependsOn()
     {
-        $minVersion = new KalturaVersion(
+        $minVersion = new BorhanVersion(
             self::EVENT_NOTIFICATION_PLUGIN_VERSION_MAJOR,
             self::EVENT_NOTIFICATION_PLUGIN_VERSION_MINOR,
             self::EVENT_NOTIFICATION_PLUGIN_VERSION_BUILD
         );
-        $dependency = new KalturaDependency(self::EVENT_NOTIFICATION_PLUGIN_NAME, $minVersion);
+        $dependency = new BorhanDependency(self::EVENT_NOTIFICATION_PLUGIN_NAME, $minVersion);
     
         return array($dependency);
     }
@@ -110,7 +110,7 @@ class PushNotificationPlugin extends KalturaPlugin implements IKalturaPermission
      */
     public static function getPushNotificationTemplateTypeCoreValue($valueName)
     {
-        $value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+        $value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
         return kPluginableEnumsManager::apiToCore('EventNotificationTemplateType', $value);
     }
     
@@ -119,11 +119,11 @@ class PushNotificationPlugin extends KalturaPlugin implements IKalturaPermission
      */
     public static function getApiValue($valueName)
     {
-        return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+        return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
     }    
     
     /* (non-PHPdoc)
-     * @see IKalturaApplicationTranslations::getTranslations()
+     * @see IBorhanApplicationTranslations::getTranslations()
      */
     public static function getTranslations($locale)
     {
@@ -142,7 +142,7 @@ class PushNotificationPlugin extends KalturaPlugin implements IKalturaPermission
     }
     
     /* (non-PHPdoc)
-     * @see IKalturaServices::getServicesMap()
+     * @see IBorhanServices::getServicesMap()
      */
     public static function getServicesMap()
     {

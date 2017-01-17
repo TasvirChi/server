@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaFlattenJobData extends KalturaJobData
+class BorhanFlattenJobData extends BorhanJobData
 {
 	private static $map_between_objects = array
 	(

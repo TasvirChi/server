@@ -3,6 +3,6 @@
  * @package plugins.ftpDistribution
  * @subpackage api.filters.enum
  */
-class KalturaFtpScheduledDistributionProviderOrderBy extends KalturaFtpDistributionProviderOrderBy
+class BorhanFtpScheduledDistributionProviderOrderBy extends BorhanFtpDistributionProviderOrderBy
 {
 }

@@ -167,7 +167,7 @@ class facebookUtils
 			$roughcut_entry->setThumbnail( "&kal_show.jpg");
 			$roughcut_entry->setType(entryType::MIX);
 			$roughcut_entry->setMediaType(entry::ENTRY_MEDIA_TYPE_SHOW);
-			$roughcut_entry->setName("Kaltura Video");
+			$roughcut_entry->setName("Borhan Video");
 			$roughcut_entry->setTags("");
 	
 			$roughcut_entry->save();

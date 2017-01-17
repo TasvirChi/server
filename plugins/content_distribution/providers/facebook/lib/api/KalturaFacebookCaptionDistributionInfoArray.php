@@ -3,17 +3,17 @@
  * @package plugins.facebookDistribution
  * @subpackage api.objects
  */
-class KalturaFacebookCaptionDistributionInfoArray extends KalturaTypedArray
+class BorhanFacebookCaptionDistributionInfoArray extends BorhanTypedArray
 {
-	public static function fromDbArray(array $arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaFacebookCaptionDistributionInfoArray();
+		$newArr = new BorhanFacebookCaptionDistributionInfoArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-			$nObj = new KalturaFacebookCaptionDistributionInfo();
+			$nObj = new BorhanFacebookCaptionDistributionInfo();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaFacebookCaptionDistributionInfoArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaFacebookCaptionDistributionInfo");
+		parent::__construct("BorhanFacebookCaptionDistributionInfo");
 	}
 }

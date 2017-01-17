@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaCaptionParamsBaseFilter extends KalturaAssetParamsFilter
+abstract class BorhanCaptionParamsBaseFilter extends BorhanAssetParamsFilter
 {
 	static private $map_between_objects = array
 	(
@@ -27,12 +27,12 @@ abstract class KalturaCaptionParamsBaseFilter extends KalturaAssetParamsFilter
 	}
 
 	/**
-	 * @var KalturaCaptionType
+	 * @var BorhanCaptionType
 	 */
 	public $formatEqual;
 
 	/**
-	 * @dynamicType KalturaCaptionType
+	 * @dynamicType BorhanCaptionType
 	 * @var string
 	 */
 	public $formatIn;

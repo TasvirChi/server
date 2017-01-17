@@ -24,11 +24,11 @@ class servefileAction extends sfAction
 		{
 			$current_dc_id = kDataCenterMgr::getCurrentDcId();
 			$error = "DC[$current_dc_id]: Cannot find FileSync with id [$file_sync_id]";
-			KalturaLog::err($error);
+			BorhanLog::err($error);
 			KExternalErrors::dieError(KExternalErrors::FILE_NOT_FOUND);
 		}
 		
-		KalturaMonitorClient::initApiMonitor(false, 'extwidget.serveFile', $file_sync->getPartnerId());
+		BorhanMonitorClient::initApiMonitor(false, 'extwidget.serveFile', $file_sync->getPartnerId());
 		
 		kDataCenterMgr::serveFileToRemoteDataCenter ( $file_sync , $hash, $file_name ); 
 		die();

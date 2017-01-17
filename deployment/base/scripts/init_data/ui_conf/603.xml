@@ -18,8 +18,8 @@
 	<UIConfigList>	
     	<UIConfig>
 			<target>simpleeditor.swf</target>
-		    <cssUrl>/content/uiconf/kaltura/drupal/styles_SimpleEditor_default.swf</cssUrl>
-		    <localeUrl>/content/uiconf/kaltura/en_US_SimpleEditor.swf</localeUrl>
+		    <cssUrl>/content/uiconf/borhan/drupal/styles_SimpleEditor_default.swf</cssUrl>
+		    <localeUrl>/content/uiconf/borhan/en_US_SimpleEditor.swf</localeUrl>
 		</UIConfig>
 	</UIConfigList>
 	

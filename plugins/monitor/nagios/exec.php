@@ -5,15 +5,15 @@ define('NAGIOS_CODE_CRITICAL', 2);
 define('NAGIOS_CODE_UNKNOWN', 3);
 
 
-$kalturaRootPath = realpath(__DIR__ . '/../../../');
+$borhanRootPath = realpath(__DIR__ . '/../../../');
 
-require_once "$kalturaRootPath/tests/monitoring/KalturaMonitorResult.php";
+require_once "$borhanRootPath/tests/monitoring/BorhanMonitorResult.php";
 if($argc == 1)
 {
 	echo "usage...";
 }
 
-$systemConfig = parse_ini_file("$kalturaRootPath/configurations/system.ini");
+$systemConfig = parse_ini_file("$borhanRootPath/configurations/system.ini");
 
 $errorThresholdMax = null;
 $errorThresholdMin = null;
@@ -72,7 +72,7 @@ if($returnedValue !== 0)
 }
 
 $xml = implode("\n", $outputLines);
-$monitorResult = KalturaMonitorResult::fromXml($xml);
+$monitorResult = BorhanMonitorResult::fromXml($xml);
 
 if($monitorResult->errors)
 {
@@ -85,22 +85,22 @@ if($monitorResult->errors)
 		
 		switch($error->level)
 		{
-		    case KalturaMonitorError::EMERG:
-		    case KalturaMonitorError::ALERT:
-		    case KalturaMonitorError::CRIT:
+		    case BorhanMonitorError::EMERG:
+		    case BorhanMonitorError::ALERT:
+		    case BorhanMonitorError::CRIT:
 		    	$exitCode = NAGIOS_CODE_CRITICAL;
 		    	break;
 		    	
-		    case KalturaMonitorError::WARN:
+		    case BorhanMonitorError::WARN:
 		    	$exitCode = max($exitCode, NAGIOS_CODE_WARNING);
 		    	break;
 		    	
-		    case KalturaMonitorError::NOTICE:
-		    case KalturaMonitorError::INFO:
-		    case KalturaMonitorError::DEBUG:
+		    case BorhanMonitorError::NOTICE:
+		    case BorhanMonitorError::INFO:
+		    case BorhanMonitorError::DEBUG:
 		    	break;
 		    	
-		    case KalturaMonitorError::ERR:
+		    case BorhanMonitorError::ERR:
 		    default:
 		    	$exitCode = max($exitCode, NAGIOS_CODE_UNKNOWN);
 		    	break;

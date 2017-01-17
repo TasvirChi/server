@@ -84,7 +84,7 @@ class kContentDistributionManager
 
 		if(!$fileSyncs)
   		{
-   			KalturaLog::info("No file syncs to distribute");
+   			BorhanLog::info("No file syncs to distribute");
    			return true;
   		}
   		
@@ -129,7 +129,7 @@ class kContentDistributionManager
 		
 		if(isset($dcs[$dc]) && count($dcs[$dc]) == count($assets))
 		{
-			KalturaLog::info("All files exist in the preferred dc [$dc]");
+			BorhanLog::info("All files exist in the preferred dc [$dc]");
 			return true;
 		}
 		
@@ -142,7 +142,7 @@ class kContentDistributionManager
 				continue;
 			
 			$dc = $remoteDcId;
-			KalturaLog::info("All files exist in none-preferred dc [$dc]");
+			BorhanLog::info("All files exist in none-preferred dc [$dc]");
 			return true;
 		}
 		
@@ -152,7 +152,7 @@ class kContentDistributionManager
 			$entryDistribution->getStatus() == EntryDistributionStatus::IMPORT_UPDATING
 		)
 		{
-			KalturaLog::info("Entry distribution already importing");
+			BorhanLog::info("Entry distribution already importing");
 			return false;
 		}
 		
@@ -163,7 +163,7 @@ class kContentDistributionManager
 		{
 			if(is_null($assetObject['downloadUrl']))
 			{
-				KalturaLog::info("Download URL not found for asset [$assetId]");
+				BorhanLog::info("Download URL not found for asset [$assetId]");
 				continue;
 			}
 			
@@ -191,7 +191,7 @@ class kContentDistributionManager
 	{
 		if($entryDistribution->getStatus() == EntryDistributionStatus::SUBMITTING)
 		{
-			KalturaLog::info("Entry distribution [" . $entryDistribution->getId() . "] already submitting");
+			BorhanLog::info("Entry distribution [" . $entryDistribution->getId() . "] already submitting");
 			return null;
 		}
 		
@@ -199,7 +199,7 @@ class kContentDistributionManager
 		
 		if(!$entryDistribution->save())
 		{
-			KalturaLog::err("Unable to save entry distribution [" . $entryDistribution->getId() . "] status");
+			BorhanLog::err("Unable to save entry distribution [" . $entryDistribution->getId() . "] status");
 			$entryDistribution->reload();	//Reload in case object was chnaged
 			return null;
 		}
@@ -252,7 +252,7 @@ class kContentDistributionManager
 		
 		if(!$entryDistribution->save())
 		{
-			KalturaLog::err("Unable to save entry distribution [" . $entryDistribution->getId() . "] status");
+			BorhanLog::err("Unable to save entry distribution [" . $entryDistribution->getId() . "] status");
 			$entryDistribution->reload();
 			return null;
 		}
@@ -290,7 +290,7 @@ class kContentDistributionManager
 		
 		if(!$entryDistribution->save())
 		{
-			KalturaLog::err("Unable to save entry distribution [" . $entryDistribution->getId() . "] status");
+			BorhanLog::err("Unable to save entry distribution [" . $entryDistribution->getId() . "] status");
 			$entryDistribution->reload();
 			return null;
 		}
@@ -331,7 +331,7 @@ class kContentDistributionManager
 		
 		if(!$entryDistribution->save())
 		{
-			KalturaLog::err("Unable to save entry distribution [" . $entryDistribution->getId() . "] status");
+			BorhanLog::err("Unable to save entry distribution [" . $entryDistribution->getId() . "] status");
 			$entryDistribution->reload();
 			return null;
 		}
@@ -411,7 +411,7 @@ class kContentDistributionManager
 		
 		if(!$entryDistribution->save())
 		{
-			KalturaLog::err("Unable to save entry distribution [" . $entryDistribution->getId() . "] status");
+			BorhanLog::err("Unable to save entry distribution [" . $entryDistribution->getId() . "] status");
 			$entryDistribution->reload();
 			return null;
 		}
@@ -457,7 +457,7 @@ class kContentDistributionManager
 		
 		if(!in_array($entryDistribution->getStatus(), $validStatus))
 		{
-			KalturaLog::notice("Wrong entry distribution status [" . $entryDistribution->getStatus() . "]");
+			BorhanLog::notice("Wrong entry distribution status [" . $entryDistribution->getStatus() . "]");
 			return null;
 		}
 		
@@ -470,7 +470,7 @@ class kContentDistributionManager
 		
 		if(!$distributionProvider->isScheduleUpdateEnabled() || !$distributionProvider->isUpdateEnabled())
 		{
-			KalturaLog::log("Entry distribution [" . $entryDistribution->getId() . "] provider [" . $distributionProfile->getProviderType() . "] doesn't support delete or update");
+			BorhanLog::log("Entry distribution [" . $entryDistribution->getId() . "] provider [" . $distributionProfile->getProviderType() . "] doesn't support delete or update");
 			return null;
 		}
 			
@@ -499,7 +499,7 @@ class kContentDistributionManager
 		
 		if(!in_array($entryDistribution->getStatus(), $validStatus))
 		{
-			KalturaLog::notice("wrong entry distribution status [" . $entryDistribution->getStatus() . "]");
+			BorhanLog::notice("wrong entry distribution status [" . $entryDistribution->getStatus() . "]");
 			return null;
 		}
 		
@@ -507,7 +507,7 @@ class kContentDistributionManager
 		$validationErrors = $entryDistribution->getValidationErrors();
 		if(count($validationErrors))
 		{
-			KalturaLog::log("Validation errors found");
+			BorhanLog::log("Validation errors found");
 			return null;
 		}
 		self::addAssetIdsToEntryDistribution($entryDistribution, $distributionProfile);
@@ -545,7 +545,7 @@ class kContentDistributionManager
 		
 		if(!in_array($entryDistribution->getStatus(), $validStatus))
 		{
-			KalturaLog::notice("wrong entry distribution status [" . $entryDistribution->getStatus() . "]");
+			BorhanLog::notice("wrong entry distribution status [" . $entryDistribution->getStatus() . "]");
 			return null;
 		}
 		
@@ -553,7 +553,7 @@ class kContentDistributionManager
 		$validationErrors = $entryDistribution->getValidationErrors();
 		if(count($validationErrors))
 		{
-			KalturaLog::log("Validation errors found");
+			BorhanLog::log("Validation errors found");
 			return null;
 		}
 		
@@ -585,7 +585,7 @@ class kContentDistributionManager
 		
 		if(!in_array($entryDistribution->getStatus(), $validStatus))
 		{
-			KalturaLog::notice("wrong entry distribution status [" . $entryDistribution->getStatus() . "]");
+			BorhanLog::notice("wrong entry distribution status [" . $entryDistribution->getStatus() . "]");
 			return null;
 		}
 		
@@ -593,7 +593,7 @@ class kContentDistributionManager
 		$validationErrors = $entryDistribution->getValidationErrors();
 		if(count($validationErrors))
 		{
-			KalturaLog::log("Validation errors found");
+			BorhanLog::log("Validation errors found");
 			return null;
 		}
 		
@@ -623,7 +623,7 @@ class kContentDistributionManager
 		
 		if(!in_array($entryDistribution->getStatus(), $validStatus))
 		{
-			KalturaLog::notice("wrong entry distribution status [" . $entryDistribution->getStatus() . "]");
+			BorhanLog::notice("wrong entry distribution status [" . $entryDistribution->getStatus() . "]");
 			return null;
 		}
 		
@@ -660,7 +660,7 @@ class kContentDistributionManager
 		
 		if(!in_array($entryDistribution->getStatus(), $validStatus))
 		{
-			KalturaLog::notice("Wrong entry distribution status [" . $entryDistribution->getStatus() . "]");
+			BorhanLog::notice("Wrong entry distribution status [" . $entryDistribution->getStatus() . "]");
 			return null;
 		}
 
@@ -676,11 +676,11 @@ class kContentDistributionManager
 		self::updateStatusToQueued($entryDistribution);
 
 
-		KalturaLog::log("Validation errors found");
+		BorhanLog::log("Validation errors found");
 		$entry = entryPeer::retrieveByPK($entryDistribution->getEntryId());
 		if(!$entry)
 		{
-			KalturaLog::err("Entry [" . $entryDistribution->getEntryId() . "] not found");
+			BorhanLog::err("Entry [" . $entryDistribution->getEntryId() . "] not found");
 			return null;
 		}
 
@@ -693,10 +693,10 @@ class kContentDistributionManager
 			if($validationError->getErrorType() == DistributionErrorType::MISSING_FLAVOR && in_array($validationError->getData(), $autoCreateFlavors))
 			{
 				$errDescription = null;
-				KalturaLog::log("Adding flavor [" . $validationError->getData() . "] to entry [" . $entryDistribution->getEntryId() . "]");
+				BorhanLog::log("Adding flavor [" . $validationError->getData() . "] to entry [" . $entryDistribution->getEntryId() . "]");
 				kBusinessPreConvertDL::decideAddEntryFlavor(null, $entryDistribution->getEntryId(), $validationError->getData(), $errDescription);
 				if($errDescription)
-					KalturaLog::log($errDescription);
+					BorhanLog::log($errDescription);
 			}
 		
 		    if($validationError->getErrorType() == DistributionErrorType::MISSING_THUMBNAIL && count($autoCreateThumbs))
@@ -710,7 +710,7 @@ class kContentDistributionManager
 			        if ($thumbParams->getWidth() == intval($requiredWidth) && $thumbParams->getHeight() == intval($requiredHeight))
 			        {
 			            $foundThumbParams = true;
-			            KalturaLog::log("Adding thumbnail [" . $thumbParams->getId() . "] to entry [" . $entryDistribution->getEntryId() . "]");
+			            BorhanLog::log("Adding thumbnail [" . $thumbParams->getId() . "] to entry [" . $entryDistribution->getEntryId() . "]");
 					    kBusinessPreConvertDL::decideThumbGenerate($entry, $thumbParams);
 					    break;
 			        }
@@ -718,7 +718,7 @@ class kContentDistributionManager
 			    
 			    if (!$foundThumbParams)
 			    {
-			        KalturaLog::err("Required thumbnail params not found [" . $validationError->getData() . "]");
+			        BorhanLog::err("Required thumbnail params not found [" . $validationError->getData() . "]");
 			    }
 			}
 		}
@@ -748,13 +748,13 @@ class kContentDistributionManager
 			$distributionProvider = $distributionProfile->getProvider();
 			if(!$distributionProvider)
 			{
-				KalturaLog::log("Entry distribution [" . $entryDistribution->getId() . "] provider not found");
+				BorhanLog::log("Entry distribution [" . $entryDistribution->getId() . "] provider not found");
 				return false;
 			}
 						
 			if(!$distributionProvider->isUpdateEnabled() || !$distributionProvider->isMediaUpdateEnabled())
 			{
-				KalturaLog::log("Entry distribution [" . $entryDistribution->getId() . "] provider [" . $distributionProvider->getName() . "] does not support update");
+				BorhanLog::log("Entry distribution [" . $entryDistribution->getId() . "] provider [" . $distributionProvider->getName() . "] does not support update");
 				return false;
 			}
 		}
@@ -808,13 +808,13 @@ class kContentDistributionManager
 			$distributionProvider = $distributionProfile->getProvider();
 			if(!$distributionProvider)
 			{
-				KalturaLog::log("Entry distribution [" . $entryDistribution->getId() . "] provider not found");
+				BorhanLog::log("Entry distribution [" . $entryDistribution->getId() . "] provider not found");
 				return false;
 			}
 						
 			if(!$distributionProvider->isUpdateEnabled() || !$distributionProvider->isMediaUpdateEnabled())
 			{
-				KalturaLog::log("Entry distribution [" . $entryDistribution->getId() . "] provider [" . $distributionProvider->getName() . "] does not support update");
+				BorhanLog::log("Entry distribution [" . $entryDistribution->getId() . "] provider [" . $distributionProvider->getName() . "] does not support update");
 				return false;
 			}
 		}
@@ -851,7 +851,7 @@ class kContentDistributionManager
 			if(in_array($thumbAsset->getFlavorParamsId(), $requiredThumbParamsIds))
 			{
 				$thumbAssetsIds[] = $thumbAsset->getId();
-				KalturaLog::log("Assign thumb asset [" . $thumbAsset->getId() . "] from required thumbnail params ids for entry Distribution [".$entryDistribution->getId()."]");
+				BorhanLog::log("Assign thumb asset [" . $thumbAsset->getId() . "] from required thumbnail params ids for entry Distribution [".$entryDistribution->getId()."]");
 				continue;
 			}
 			
@@ -859,7 +859,7 @@ class kContentDistributionManager
 			if(isset($thumbDimensionsWithKeys[$key]))
 			{
 				unset($thumbDimensionsWithKeys[$key]);
-				KalturaLog::log("Assign thumb asset [" . $thumbAsset->getId() . "] from dimension [$key] for entry Distribution [".$entryDistribution->getId()."]");
+				BorhanLog::log("Assign thumb asset [" . $thumbAsset->getId() . "] from dimension [$key] for entry Distribution [".$entryDistribution->getId()."]");
 				$thumbAssetsIds[] = $thumbAsset->getId();
 			}
 		}
@@ -890,13 +890,13 @@ class kContentDistributionManager
 			$distributionProvider = $distributionProfile->getProvider();
 			if(!$distributionProvider)
 			{
-				KalturaLog::log("Entry distribution [" . $entryDistribution->getId() . "] provider not found");
+				BorhanLog::log("Entry distribution [" . $entryDistribution->getId() . "] provider not found");
 				return false;
 			}
 	
 			if(!$distributionProvider->isUpdateEnabled() || !$distributionProvider->isMediaUpdateEnabled())
 			{
-				KalturaLog::log("Entry distribution [" . $entryDistribution->getId() . "] provider [" . $distributionProvider->getName() . "] does not support update");
+				BorhanLog::log("Entry distribution [" . $entryDistribution->getId() . "] provider [" . $distributionProvider->getName() . "] does not support update");
 				return false;
 			}
 		}
@@ -953,7 +953,7 @@ class kContentDistributionManager
 		{
 			$entryDistribution = new EntryDistribution();
 		} else if(in_array($entryDistribution->getStatus(), $illegalEntryDistributionStatus)) {
-			KalturaLog::err("Entry distribution already exist. entry [" . $entry->getId() . "] distribution profile [" 
+			BorhanLog::err("Entry distribution already exist. entry [" . $entry->getId() . "] distribution profile [" 
 					. $distributionProfile->getId() . "] status [" . $entryDistribution->getStatus() . "]");
 			return null;
 		} 
@@ -1087,7 +1087,7 @@ class kContentDistributionManager
 		$dbEntry = entryPeer::retrieveByPK($entryDistribution->getEntryId());
 		if (!$dbEntry)
 		{
-			KalturaLog::log("EntryId not found [".$entryDistribution->getEntryId()."]");
+			BorhanLog::log("EntryId not found [".$entryDistribution->getEntryId()."]");
 			return false;
 		}
 		$ret_val = self::assignAssets($entryDistribution,  $dbEntry, $distributionProfile);
@@ -1119,7 +1119,7 @@ class kContentDistributionManager
 			$entryDistribution->setStatus(EntryDistributionStatus::QUEUED);
 			$entryDistribution->save();
 		}
-		KalturaLog::info("EntryDistribution id [".$entryDistribution->getIntId()."] on Entry [".$entryDistribution->getEntryId() 
+		BorhanLog::info("EntryDistribution id [".$entryDistribution->getIntId()."] on Entry [".$entryDistribution->getEntryId() 
 			."] has status [".$entryDistribution->getStatus() ."] and will be submitted when ready");
 	}
 

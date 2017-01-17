@@ -21,7 +21,7 @@ class KOperationEngineExpressionEncoder  extends KSingleOutputOperationEngine
 	public function __construct($cmd, $outFilePath)
 	{
 		parent::__construct($cmd,$outFilePath);
-		KalturaLog::info(": cmd($cmd), outFilePath($outFilePath)");
+		BorhanLog::info(": cmd($cmd), outFilePath($outFilePath)");
 	}
 
 	protected function getCmdLine()
@@ -32,13 +32,13 @@ class KOperationEngineExpressionEncoder  extends KSingleOutputOperationEngine
 				// The EE3 preset xml allows 'clean' outfile names only (no full path)  
 		$this->outFilePath = basename($this->outFilePath);
 		$this->inFilePath = realpath(dirname($this->inFilePath))."\\".basename($this->inFilePath);
-		KalturaLog::info("outFilePath(dirname($this->outFilePath)),auxPath($outDir)");
+		BorhanLog::info("outFilePath(dirname($this->outFilePath)),auxPath($outDir)");
 			// Add slashes to solve JSON serialization issue
 		$xmlStr = str_replace ('\"' , '"' ,  $this->operator->config);
 		file_put_contents($this->configFilePath, $xmlStr);
 
 		$exeCmd =  parent::getCmdLine();
-		KalturaLog::info(print_r($this,true));
+		BorhanLog::info(print_r($this,true));
 		return $exeCmd;
 	}
 
@@ -75,7 +75,7 @@ class KOperationEngineExpressionEncoder  extends KSingleOutputOperationEngine
 				if(strstr($logStr,"Progress:100")==false)
 					break;
 				$secsToSleep=rand(10,30);
-				KalturaLog::info("EE got hang up. Waiting $secsToSleep sec for next attempt. Attempt:$iEx");
+				BorhanLog::info("EE got hang up. Waiting $secsToSleep sec for next attempt. Attempt:$iEx");
 				sleep($secsToSleep);
 			}
 		}

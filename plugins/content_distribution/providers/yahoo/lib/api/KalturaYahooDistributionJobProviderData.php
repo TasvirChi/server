@@ -3,7 +3,7 @@
  * @package plugins.yahooDistribution
  * @subpackage api.objects
  */
-class KalturaYahooDistributionJobProviderData extends KalturaConfigurableDistributionJobProviderData
+class BorhanYahooDistributionJobProviderData extends BorhanConfigurableDistributionJobProviderData
 {
 	/**
 	 * @var string
@@ -20,14 +20,14 @@ class KalturaYahooDistributionJobProviderData extends KalturaConfigurableDistrib
 	 */
 	public $videoAssetFilePath;
 	
-	public function __construct(KalturaDistributionJobData $distributionJobData = null)
+	public function __construct(BorhanDistributionJobData $distributionJobData = null)
 	{		
 	    parent::__construct($distributionJobData);
 	    
 		if(!$distributionJobData)
 			return;
 			
-		if(!($distributionJobData->distributionProfile instanceof KalturaYahooDistributionProfile))
+		if(!($distributionJobData->distributionProfile instanceof BorhanYahooDistributionProfile))
 			return;
 		//Flavor Assets
 		$flavorAssets = assetPeer::retrieveByIds(explode(',', $distributionJobData->entryDistribution->flavorAssetIds));

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaBaseEntryCloneOptions extends KalturaDynamicEnum implements BaseEntryCloneOptions
+class BorhanBaseEntryCloneOptions extends BorhanDynamicEnum implements BaseEntryCloneOptions
 {
     public static function getEnumClass()
     {

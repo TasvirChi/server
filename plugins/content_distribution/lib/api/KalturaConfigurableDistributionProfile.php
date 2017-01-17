@@ -4,16 +4,16 @@
  * @subpackage api.objects
  * @abstract
  */
-abstract class KalturaConfigurableDistributionProfile extends KalturaDistributionProfile
+abstract class BorhanConfigurableDistributionProfile extends BorhanDistributionProfile
 {
 
 	/**
-	 * @var KalturaDistributionFieldConfigArray
+	 * @var BorhanDistributionFieldConfigArray
 	 */
 	public $fieldConfigArray;
 	
 	/**
-	 * @var KalturaExtendingItemMrssParameterArray
+	 * @var BorhanExtendingItemMrssParameterArray
 	 */
 	public $itemXpathsToExtend;
 	
@@ -52,7 +52,7 @@ abstract class KalturaConfigurableDistributionProfile extends KalturaDistributio
 		return $dbObject;
 	}
 	
-	protected function doFromObject($srcObj, KalturaDetachedResponseProfile $responseProfile = null)
+	protected function doFromObject($srcObj, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($srcObj);
 		

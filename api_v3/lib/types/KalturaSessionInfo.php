@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaSessionInfo extends KalturaObject 
+class BorhanSessionInfo extends BorhanObject 
 {
 	/**
 	 * @var string
@@ -12,7 +12,7 @@ class KalturaSessionInfo extends KalturaObject
 	public $ks;
 
 	/**
-	 * @var KalturaSessionType
+	 * @var BorhanSessionType
 	 * @readonly
 	 */
 	public $sessionType;

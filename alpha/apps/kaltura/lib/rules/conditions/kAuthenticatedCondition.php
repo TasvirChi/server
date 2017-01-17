@@ -48,21 +48,21 @@ class kAuthenticatedCondition extends kCondition
 		if ($scope->getKs()->isAdmin())
 			return true;
 		
-		KalturaLog::debug(print_r($this->privileges, true));
+		BorhanLog::debug(print_r($this->privileges, true));
 		foreach($this->privileges as $privilege)
 		{
 			if(is_object($privilege))
 				$privilege = $privilege->getValue();
 				
-			KalturaLog::debug("Checking privilege [$privilege] with entry [".$scope->getEntryId()."]");
+			BorhanLog::debug("Checking privilege [$privilege] with entry [".$scope->getEntryId()."]");
 			if($scope->getKs()->verifyPrivileges($privilege, $scope->getEntryId()))
 			{
-				KalturaLog::debug("Privilege [$privilege] verified");
+				BorhanLog::debug("Privilege [$privilege] verified");
 				return true;
 			}
 		}
 
-		KalturaLog::debug("No privilege verified");
+		BorhanLog::debug("No privilege verified");
 		return false;
 	}
 

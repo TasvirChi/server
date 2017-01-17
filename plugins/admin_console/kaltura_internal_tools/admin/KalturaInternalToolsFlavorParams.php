@@ -1,15 +1,15 @@
 <?php
 
 /**
- * @package plugins.KalturaInternalTools
+ * @package plugins.BorhanInternalTools
  * @subpackage admin
  */
-class KalturaInternalToolsPluginFlavorParams extends KalturaApplicationPlugin
+class BorhanInternalToolsPluginFlavorParams extends BorhanApplicationPlugin
 {
 
     public function __construct()
     {
-        $this -> action = 'KalturaInternalToolsPluginFlavorParams';
+        $this -> action = 'BorhanInternalToolsPluginFlavorParams';
         $this -> label = 'Flavor Params';
         $this -> rootLabel = 'Developer';
 
@@ -42,13 +42,13 @@ class KalturaInternalToolsPluginFlavorParams extends KalturaApplicationPlugin
 
             $client = Infra_ClientHelper::getClient();
 
-            $fp = new Kaltura_Client_Type_FlavorParams();
+            $fp = new Borhan_Client_Type_FlavorParams();
 
             if ($form -> isValid($params))
             {
                 $fp -> name = $params['name'];
                 $fp -> systemName = $params['name'];
-                $fp -> isSystemDefault = Kaltura_Client_Enum_NullableBoolean::TRUE_VALUE;
+                $fp -> isSystemDefault = Borhan_Client_Enum_NullableBoolean::TRUE_VALUE;
                 $fp -> description = $params['description'];
                 $fp -> tags = $params['tags'];
                 $fp -> partnerId = $params['partner_id'];
@@ -67,13 +67,13 @@ class KalturaInternalToolsPluginFlavorParams extends KalturaApplicationPlugin
                 try
                 {
 
-                    $systemPartnerPlugin = Kaltura_Client_SystemPartner_Plugin::get($client);
-                    $filter = new Kaltura_Client_SystemPartner_Type_SystemPartnerFilter();
+                    $systemPartnerPlugin = Borhan_Client_SystemPartner_Plugin::get($client);
+                    $filter = new Borhan_Client_SystemPartner_Type_SystemPartnerFilter();
                     $partner = $systemPartnerPlugin -> systemPartner -> get($fp -> partnerId);
 
                     $oldKs = $client -> getKs();
 
-                    $newKs = $client -> generateSession($partner -> adminSecret, "", Kaltura_Client_Enum_SessionType::ADMIN, $fp -> partnerId, 86400, "");
+                    $newKs = $client -> generateSession($partner -> adminSecret, "", Borhan_Client_Enum_SessionType::ADMIN, $fp -> partnerId, 86400, "");
                     $client -> setKs($newKs);
 
                     $result = $client -> flavorParams -> add($fp);

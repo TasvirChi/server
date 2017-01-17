@@ -55,7 +55,7 @@ class downloadAction extends sfAction
 				KExternalErrors::dieError(KExternalErrors::ENTRY_NOT_FOUND);
 		}
 		
-		KalturaMonitorClient::initApiMonitor(false, 'extwidget.download', $entry->getPartnerId());
+		BorhanMonitorClient::initApiMonitor(false, 'extwidget.download', $entry->getPartnerId());
 		
 		myPartnerUtils::blockInactivePartner($entry->getPartnerId());
 		

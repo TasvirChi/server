@@ -3,12 +3,12 @@
  * @package api
  * @subpackage filters
  */
-class KalturaFlavorAssetFilter extends KalturaFlavorAssetBaseFilter
+class BorhanFlavorAssetFilter extends BorhanFlavorAssetBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaAssetFilter::getListResponse()
+	 * @see BorhanAssetFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$types = assetPeer::retrieveAllFlavorsTypes();
 		return $this->getTypeListResponse($pager, $responseProfile, $types);

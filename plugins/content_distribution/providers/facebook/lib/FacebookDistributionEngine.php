@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__."/KalturaFacebookLanguageMatch.php");
+require_once(__DIR__."/BorhanFacebookLanguageMatch.php");
 /**
  * @package plugins.facebookDistribution
  * @subpackage lib
@@ -29,7 +29,7 @@ class FacebookDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineSubmit::submit()
 	 */
-	public function submit(KalturaDistributionSubmitJobData $data)
+	public function submit(BorhanDistributionSubmitJobData $data)
 	{
 		$this->validate($data);
 		if ($data->entryDistribution->remoteId) {
@@ -40,13 +40,13 @@ class FacebookDistributionEngine extends DistributionEngine implements
 		return true;
 	}
 
-	protected function doSubmit(KalturaDistributionSubmitJobData $data)
+	protected function doSubmit(BorhanDistributionSubmitJobData $data)
 	{
 		$videoPath = $data->providerData->videoAssetFilePath;
 		if (!$videoPath)
 			throw new Exception('No video asset to distribute, the job will fail');
 		if (!file_exists($videoPath))
-			throw new KalturaDistributionException("The file [$videoPath] was not found (probably not synced yet), the job will retry");
+			throw new BorhanDistributionException("The file [$videoPath] was not found (probably not synced yet), the job will retry");
 
 		$facebookMetadata = $this->convertToFacebookData($data->providerData->fieldValues, true);
 
@@ -78,7 +78,7 @@ class FacebookDistributionEngine extends DistributionEngine implements
 
 		if ($data->providerData->captionsInfo)
 		{
-			/* @var $captionInfo KalturaFacebookCaptionDistributionInfo */
+			/* @var $captionInfo BorhanFacebookCaptionDistributionInfo */
 			foreach ($data->providerData->captionsInfo as $captionInfo)
 			{
 				$data->mediaFiles[] = $this->submitCaption($data->distributionProfile, $captionInfo, $data->remoteId);
@@ -90,13 +90,13 @@ class FacebookDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineUpdate::update()
 	 */
-	public function update(KalturaDistributionUpdateJobData $data)
+	public function update(BorhanDistributionUpdateJobData $data)
 	{
 		$this->validate($data);
 		return $this->doUpdate($data);
 	}
 
-	protected function doUpdate(KalturaDistributionUpdateJobData $data)
+	protected function doUpdate(BorhanDistributionUpdateJobData $data)
 	{
 		try {
 			$facebookMetadata = $this->convertToFacebookData($data->providerData->fieldValues);
@@ -118,18 +118,18 @@ class FacebookDistributionEngine extends DistributionEngine implements
 		// last add all the captions available
 		foreach ($data->providerData->captionsInfo as $captionInfo)
 		{
-			/* @var $captionInfo KalturaFacebookCaptionDistributionInfo */
+			/* @var $captionInfo BorhanFacebookCaptionDistributionInfo */
 			$data->mediaFiles[] = $this->submitCaption($data->distributionProfile, $captionInfo, $data->entryDistribution->remoteId);
 		}
 		return true;
 	}
 
-	private function submitCaption(KalturaFacebookDistributionProfile $distributionProfile, KalturaFacebookCaptionDistributionInfo $captionInfo, $remoteId)
+	private function submitCaption(BorhanFacebookDistributionProfile $distributionProfile, BorhanFacebookCaptionDistributionInfo $captionInfo, $remoteId)
 	{
 		if (!$captionInfo->label && !$captionInfo->language)
 			throw new Exception("No label/language were configured for this caption aborting");
 		if ($captionInfo->language)
-			$locale = KalturaFacebookLanguageMatch::getFacebookCodeForKalturaLanguage($captionInfo->language);
+			$locale = BorhanFacebookLanguageMatch::getFacebookCodeForBorhanLanguage($captionInfo->language);
 		if (!$locale && $captionInfo->label)
 			$locale = $captionInfo->label;
 		if (!$locale)
@@ -143,7 +143,7 @@ class FacebookDistributionEngine extends DistributionEngine implements
 			$locale,
 			$this->tempDirectory);
 
-		$mediaFile = new KalturaDistributionRemoteMediaFile();
+		$mediaFile = new BorhanDistributionRemoteMediaFile();
 		$mediaFile->assetId = $captionInfo->assetId;
 		$mediaFile->version = $captionInfo->version;
 		$mediaFile->remoteId = $locale;
@@ -152,7 +152,7 @@ class FacebookDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineDelete::delete()
 	*/
-	public function delete(KalturaDistributionDeleteJobData $data)
+	public function delete(BorhanDistributionDeleteJobData $data)
 	{
 		try {
 			if ($data->entryDistribution->remoteId) {
@@ -171,7 +171,7 @@ class FacebookDistributionEngine extends DistributionEngine implements
 		return true;
 	}
 
-	private function deleteCaption(KalturaFacebookDistributionProfile $distributionProfile, $locale, $remoteId)
+	private function deleteCaption(BorhanFacebookDistributionProfile $distributionProfile, $locale, $remoteId)
 	{
 		FacebookGraphSdkUtils::deleteCaptions(
 			$this->appId,
@@ -183,10 +183,10 @@ class FacebookDistributionEngine extends DistributionEngine implements
 		return true;
 	}
 
-	private function validate(KalturaDistributionJobData $data)
+	private function validate(BorhanDistributionJobData $data)
 	{
-		if (!$data->distributionProfile || !($data->distributionProfile instanceof KalturaFacebookDistributionProfile))
-			throw new Exception("Distribution profile must be of type KalturaFacebookDistributionProfile");
+		if (!$data->distributionProfile || !($data->distributionProfile instanceof BorhanFacebookDistributionProfile))
+			throw new Exception("Distribution profile must be of type BorhanFacebookDistributionProfile");
 
 		if (!$this->appId)
 			throw new Exception("Facebook appId is not configured");
@@ -261,7 +261,7 @@ class FacebookDistributionEngine extends DistributionEngine implements
 			$this->insertToFacebookMetadata($facebookMetadata, 'name', $fieldValues[FacebookDistributionField::TITLE], false);
 		}
 
-		KalturaLog::info("Facebook metadata constructed as : ".print_r($facebookMetadata, true));
+		BorhanLog::info("Facebook metadata constructed as : ".print_r($facebookMetadata, true));
 		return $facebookMetadata;
 	}
 

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaCopyObjectType extends KalturaEnum implements CopyObjectType
+class BorhanCopyObjectType extends BorhanEnum implements CopyObjectType
 {
 
 }

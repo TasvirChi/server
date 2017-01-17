@@ -19,12 +19,12 @@ class KRecalculateResponseProfileCacheEngine extends KRecalculateCacheEngine
 	/* (non-PHPdoc)
 	 * @see KRecalculateCacheEngine::recalculate()
 	 */
-	public function recalculate(KalturaRecalculateCacheJobData $data)
+	public function recalculate(BorhanRecalculateCacheJobData $data)
 	{
 		return $this->doRecalculate($data);
 	}
 	
-	public function doRecalculate(KalturaRecalculateResponseProfileCacheJobData $data)
+	public function doRecalculate(BorhanRecalculateResponseProfileCacheJobData $data)
 	{
 		$job = KJobHandlerWorker::getCurrentJob();
 		KBatchBase::impersonate($job->partnerId);
@@ -32,18 +32,18 @@ class KRecalculateResponseProfileCacheEngine extends KRecalculateCacheEngine
 		KBatchBase::unimpersonate();
 		
 		$role = reset($data->userRoles);
-		/* @var $role KalturaIntegerValue */
+		/* @var $role BorhanIntegerValue */
 		$privileges = array(
 			'setrole:' . $role->value,
 			'disableentitlement',
 		);
 		$privileges = implode(',', $privileges);
 		
-		$client = new KalturaClient(KBatchBase::$kClientConfig);
+		$client = new BorhanClient(KBatchBase::$kClientConfig);
 		$ks = $client->generateSession($partner->adminSecret, 'batchUser', $data->ksType, $job->partnerId, 86400, $privileges);
 		$client->setKs($ks);
 		
-		$options = new KalturaResponseProfileCacheRecalculateOptions();
+		$options = new BorhanResponseProfileCacheRecalculateOptions();
 		$options->limit = $this->maxCacheObjectsPerRequest;
 		$options->cachedObjectType = $data->cachedObjectType;
 		$options->objectId = $data->objectId;
@@ -63,12 +63,12 @@ class KRecalculateResponseProfileCacheEngine extends KRecalculateCacheEngine
 				$options->isFirstLoop = false;
 			} while($results->lastObjectKey);
 		}
-		catch(KalturaException $e)
+		catch(BorhanException $e)
 		{
 			if($e->getCode() != self::RESPONSE_PROFILE_CACHE_ALREADY_RECALCULATED && $e->getCode() != self::RESPONSE_PROFILE_CACHE_RECALCULATE_RESTARTED)
 				throw $e;
 			
-			KalturaLog::err($e);
+			BorhanLog::err($e);
 		}
 		
 		return $recalculated;

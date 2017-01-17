@@ -3,11 +3,11 @@
  * @package plugins.eventNotification
  * @subpackage api.objects
  */
-class KalturaEventFieldCondition extends KalturaCondition
+class BorhanEventFieldCondition extends BorhanCondition
 {	
 	/**
 	 * The field to be evaluated at runtime
-	 * @var KalturaBooleanField
+	 * @var BorhanBooleanField
 	 */
 	public $field;
 
@@ -22,7 +22,7 @@ class KalturaEventFieldCondition extends KalturaCondition
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{
@@ -33,23 +33,23 @@ class KalturaEventFieldCondition extends KalturaCondition
 	}
 	 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject()
+	 * @see BorhanObject::fromObject()
 	 */
-	public function doFromObject($dbObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($dbObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		/* @var $dbObject kEventFieldCondition */
 		parent::doFromObject($dbObject, $responseProfile);
 		
 		$fieldType = get_class($dbObject->getField());
-		KalturaLog::debug("Loading KalturaBooleanField from type [$fieldType]");
+		BorhanLog::debug("Loading BorhanBooleanField from type [$fieldType]");
 		switch ($fieldType)
 		{
 			case 'kEvalBooleanField':
-				$this->field = new KalturaEvalBooleanField();
+				$this->field = new BorhanEvalBooleanField();
 				break;
 				
 			default:
-				$this->field = KalturaPluginManager::loadObject('KalturaBooleanField', $fieldType);
+				$this->field = BorhanPluginManager::loadObject('BorhanBooleanField', $fieldType);
 				break;
 		}
 		

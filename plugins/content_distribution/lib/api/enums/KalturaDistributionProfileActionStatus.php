@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.enum
  */
-class KalturaDistributionProfileActionStatus extends KalturaEnum implements DistributionProfileActionStatus
+class BorhanDistributionProfileActionStatus extends BorhanEnum implements DistributionProfileActionStatus
 {
 	
 }

@@ -1,13 +1,13 @@
 <?php
 /**
  * This class is NOT a symfony action any more.
- * It is the base class for all the kaltura servies.
+ * It is the base class for all the borhan servies.
  * When used from an action, the action can pass itself to the ctor  so that at the end the response type will
  *
  * @package api
  * @subpackage ps2
  */
-abstract class defPartnerservices2Action //extends kalturaBaseWebserviceAction
+abstract class defPartnerservices2Action //extends borhanBaseWebserviceAction
 {
 	const SIG_TYPE_POST = 1;
 	const SIG_TYPE_GET = 2;
@@ -44,7 +44,7 @@ abstract class defPartnerservices2Action //extends kalturaBaseWebserviceAction
 	protected $benchmarks_names = array();
 	
 	protected $should_debug = true;
-	protected $response_type = kalturaWebserviceRenderer::RESPONSE_TYPE_XML;
+	protected $response_type = borhanWebserviceRenderer::RESPONSE_TYPE_XML;
 
 	protected static $escape_text = true;
 
@@ -189,8 +189,8 @@ public function INFO__allowEmptyPuser () { return $this->allowEmptyPuser (); }
 	protected function allowEmptyPuser()	{		return true;	}
 	protected function allowEmptyPuser2 ()	{		return $this->getServiceConfig()->getAllowEmptyPuser();	}
 
-	// altough there was never kalturaNetwork - keep the 2 as a suffix
-	protected function kalturaNetwork2() { return $this->getServiceConfig()->getKalturaNetwork();	}
+	// altough there was never borhanNetwork - keep the 2 as a suffix
+	protected function borhanNetwork2() { return $this->getServiceConfig()->getBorhanNetwork();	}
 	
 	// altough there was never partnerGroup - keep the 2 as a suffix	
 	protected function partnerGroup2() { return $this->getServiceConfig()->getPartnerGroup();	}
@@ -215,7 +215,7 @@ public function INFO__allowEmptyPuser () { return $this->allowEmptyPuser (); }
 		$this->response_type = $this->getP ( "format" , self::DEFAULT_FORMAT ); //
 
 		$this->force_ticket_check = false; // HERE AND ONLY HERE !!
-		if ($this->response_type == kalturaWebserviceRenderer::RESPONSE_TYPE_PHP_OBJECT )
+		if ($this->response_type == borhanWebserviceRenderer::RESPONSE_TYPE_PHP_OBJECT )
 		{
 			// 	return objects - NOT the wrapped objects
 			objectWrapperBase::shouldWrap( false );
@@ -289,7 +289,7 @@ $this->benchmarkStart( "beforeImpl" );
 		$execution_cache_key = null;
 
 		// moved the renderer here to see if has the $execution_cache_key and if so - skip the implementation
-		$renderer = new kalturaWebserviceRenderer( $this->response_context );
+		$renderer = new borhanWebserviceRenderer( $this->response_context );
 		
 		$private_partner_data = false;
 		
@@ -311,7 +311,7 @@ $this->benchmarkStart( "beforeImpl" );
 			{
 				if (!in_array(strtolower(get_class($this)), kConf::get('ps2_actions_not_blocked_by_permissions')))
 				{
-					KalturaLog::log('PS2 action '.get_class($this).' is being blocked for partner '.$currentPartner->getId().' defined with FEATURE_PS2_PERMISSIONS_VALIDATION enabled');
+					BorhanLog::log('PS2 action '.get_class($this).' is being blocked for partner '.$currentPartner->getId().' defined with FEATURE_PS2_PERMISSIONS_VALIDATION enabled');
 					$this->addException( APIErrors::SERVICE_FORBIDDEN, get_class($this) );
 				}
 			}
@@ -337,8 +337,8 @@ $this->benchmarkStart( "beforeImpl" );
 				kEntitlementUtils::initEntitlementEnforcement();
 				
 				// apply filters for Criteria so there will be no chance of exposure of date from other partners !
-				// TODO - add the parameter for allowing kaltura network
-				myPartnerUtils::applyPartnerFilters ( $partner_id , $private_partner_data , $this->partnerGroup2() , $this->kalturaNetwork2()  );
+				// TODO - add the parameter for allowing borhan network
+				myPartnerUtils::applyPartnerFilters ( $partner_id , $private_partner_data , $this->partnerGroup2() , $this->borhanNetwork2()  );
 				
 				$this->benchmarkEnd( "applyPartnerFilters" );
 				$this->benchmarkStart( "puserKuser" );						
@@ -375,13 +375,13 @@ $this->benchmarkStart( "beforeImpl" );
 		}
 		catch ( PropelException $pex )
 		{
-			KalturaLog::alert($pex->getMessage());
+			BorhanLog::alert($pex->getMessage());
 			$this->addError(APIErrors::INTERNAL_DATABASE_ERROR);
 		}
 		catch ( Exception $ex )
 		{
 			$this->addError(APIErrors::INTERNAL_SERVERL_ERROR, $ex->getMessage());
-			KalturaLog::err($ex->getMessage());
+			BorhanLog::err($ex->getMessage());
 		}
 
 		$execute_impl_end_time = microtime(true);
@@ -413,7 +413,7 @@ $this->benchmarkStart( "beforeImpl" );
 		}
 
 		// ignore all the errors and debug - the first msg is the only html used
-		if ( $this->response_type == kalturaWebserviceRenderer::RESPONSE_TYPE_HTML )
+		if ( $this->response_type == borhanWebserviceRenderer::RESPONSE_TYPE_HTML )
 		{
 			$res = "<html>";
 			foreach ( $this->msg as $html_bit )
@@ -422,7 +422,7 @@ $this->benchmarkStart( "beforeImpl" );
 			}
 			$res .= "</html>";
 		}
-		if ( $this->response_type == kalturaWebserviceRenderer::RESPONSE_TYPE_MRSS )
+		if ( $this->response_type == borhanWebserviceRenderer::RESPONSE_TYPE_MRSS )
 		{
 			// in case of mRss - render only the result not the errors ot the debug
 			list ( $response , $content_type ) = $renderer->renderDataInRequestedFormat( $res['result'] , $this->response_type , true , self::$escape_text );
@@ -447,7 +447,7 @@ $this->benchmarkStart( "beforeImpl" );
 		{
 			// fix the total time including the render time
 			$str_time = (string)($end_time - $start_time );
-			if ( $this->response_type == kalturaWebserviceRenderer::RESPONSE_TYPE_PHP )
+			if ( $this->response_type == borhanWebserviceRenderer::RESPONSE_TYPE_PHP )
 			{
 				// replcate the placehoder with the real execution time
 				// this is a nasty hack - we replace the serialized PHP value - the length of the placeholder is 14 characters
@@ -455,12 +455,12 @@ $this->benchmarkStart( "beforeImpl" );
 				$replace_string = 's:' . strlen ( $str_time ) .':"' . $str_time ;
 				$response = str_replace( 's:14:"' . self::__TOTAL_TIME__ , $replace_string , $response );
 			}
-			elseif ( $this->response_type == kalturaWebserviceRenderer::RESPONSE_TYPE_PHP_ARRAY || $this->response_type == kalturaWebserviceRenderer::RESPONSE_TYPE_PHP_OBJECT )
+			elseif ( $this->response_type == borhanWebserviceRenderer::RESPONSE_TYPE_PHP_ARRAY || $this->response_type == borhanWebserviceRenderer::RESPONSE_TYPE_PHP_OBJECT )
 			{
 				// the $response is not a string - we can't just replace it
 				$res["debug"]["total_time"] = $str_time;
 			}
-			elseif ( $this->response_type == kalturaWebserviceRenderer::RESPONSE_TYPE_MRSS )
+			elseif ( $this->response_type == borhanWebserviceRenderer::RESPONSE_TYPE_MRSS )
 			{
 				// do nothing to the result
 			}
@@ -634,7 +634,7 @@ $this->benchmarkStart( "beforeImpl" );
 				// NEW: 2008-12-28
 				// Instead of throwing an exception, see if the service allows KN.
 				// If so - a relativly week partner access 
-				if ( $this->kalturaNetwork2() )
+				if ( $this->borhanNetwork2() )
 				{
 					// if the service supports KN - continue without private data 
 					return array ( $partner_id , $subp_id , $puser_id , false ); // DONT allow private_partner_data
@@ -1048,7 +1048,7 @@ $this->benchmarkStart( "beforeImpl" );
 	
 	protected function applyPartnerFilterForClass ( $peer , $partner_id )
 	{
-		myPartnerUtils::addPartnerToCriteria ( $peer , $partner_id , $this->private_partner_data , $this->partnerGroup2() , $this->kalturaNetwork2()  );
+		myPartnerUtils::addPartnerToCriteria ( $peer , $partner_id , $this->private_partner_data , $this->partnerGroup2() , $this->borhanNetwork2()  );
 	}
 	
 	protected function getPrivatePartnerData()

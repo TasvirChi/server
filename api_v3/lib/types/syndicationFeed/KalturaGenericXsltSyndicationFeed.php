@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaGenericXsltSyndicationFeed extends KalturaGenericSyndicationFeed
+class BorhanGenericXsltSyndicationFeed extends BorhanGenericSyndicationFeed
 {
 	/**
 	*
@@ -12,7 +12,7 @@ class KalturaGenericXsltSyndicationFeed extends KalturaGenericSyndicationFeed
 	public $xslt;
 
 	/**
-	 * @var KalturaExtendingItemMrssParameterArray
+	 * @var BorhanExtendingItemMrssParameterArray
 	 */
 	public $itemXpathsToExtend;
 	
@@ -27,10 +27,10 @@ class KalturaGenericXsltSyndicationFeed extends KalturaGenericSyndicationFeed
         
     function __construct()
 	{
-		$this->type = KalturaSyndicationFeedType::KALTURA_XSLT;
+		$this->type = BorhanSyndicationFeedType::BORHAN_XSLT;
 	}
 	
-	public function doFromObject($source_object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($source_object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($source_object, $responseProfile);
 
@@ -43,10 +43,10 @@ class KalturaGenericXsltSyndicationFeed extends KalturaGenericSyndicationFeed
 		if($this->shouldGet('itemXpathsToExtend', $responseProfile))
 		{
 			$mrssParams = $source_object->getMrssParameters();
-			$this->itemXpathsToExtend = new KalturaExtendingItemMrssParameterArray();
+			$this->itemXpathsToExtend = new BorhanExtendingItemMrssParameterArray();
 			if ($mrssParams && $mrssParams->getItemXpathsToExtend())
 			{
-				$this->itemXpathsToExtend = KalturaExtendingItemMrssParameterArray::fromDbArray($mrssParams->getItemXpathsToExtend());
+				$this->itemXpathsToExtend = BorhanExtendingItemMrssParameterArray::fromDbArray($mrssParams->getItemXpathsToExtend());
 			}
 		}
 	}

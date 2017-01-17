@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaPlayerDeliveryType extends KalturaObject
+class BorhanPlayerDeliveryType extends BorhanObject
 {
 	/**
 	 * @var string
@@ -16,7 +16,7 @@ class KalturaPlayerDeliveryType extends KalturaObject
 	public $label;
 	
 	/**
-	 * @var KalturaKeyValueArray
+	 * @var BorhanKeyValueArray
 	 */
 	public $flashvars;
 	
@@ -38,7 +38,7 @@ class KalturaPlayerDeliveryType extends KalturaObject
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{

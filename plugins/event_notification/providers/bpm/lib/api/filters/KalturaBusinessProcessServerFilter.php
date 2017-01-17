@@ -3,20 +3,20 @@
  * @package plugins.businessProcessNotification
  * @subpackage api.filters
  */
-class KalturaBusinessProcessServerFilter extends KalturaBusinessProcessServerBaseFilter
+class BorhanBusinessProcessServerFilter extends BorhanBusinessProcessServerBaseFilter
 {
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $currentDcOrExternal;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $currentDc;
 
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -24,14 +24,14 @@ class KalturaBusinessProcessServerFilter extends KalturaBusinessProcessServerBas
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::toObject()
+	 * @see BorhanFilter::toObject()
 	 */
 	public function toObject ( $object_to_fill = null, $props_to_skip = array() )
 	{
-		if(!$this->isNull('currentDc') && KalturaNullableBoolean::toBoolean($this->currentDc))
+		if(!$this->isNull('currentDc') && BorhanNullableBoolean::toBoolean($this->currentDc))
 			$this->dcEqual = kDataCenterMgr::getCurrentDcId();
 
-		elseif(!$this->isNull('currentDcOrExternal') && KalturaNullableBoolean::toBoolean($this->currentDcOrExternal))
+		elseif(!$this->isNull('currentDcOrExternal') && BorhanNullableBoolean::toBoolean($this->currentDcOrExternal))
 		{
 			$this->dcEqOrNull = kDataCenterMgr::getCurrentDcId();
 		}

@@ -2,7 +2,7 @@
 /**
  * 
  */
-abstract class KDropFolderEngine implements IKalturaLogger
+abstract class KDropFolderEngine implements IBorhanLogger
 {
 	protected $dropFolder;
 	
@@ -12,43 +12,43 @@ abstract class KDropFolderEngine implements IKalturaLogger
 	
 	public function __construct ()
 	{
-		$this->dropFolderPlugin = KalturaDropFolderClientPlugin::get(KBatchBase::$kClient);
+		$this->dropFolderPlugin = BorhanDropFolderClientPlugin::get(KBatchBase::$kClient);
 		$this->dropFolderFileService = $this->dropFolderPlugin->dropFolderFile;
 	}
 	
 	public static function getInstance ($dropFolderType)
 	{
 		switch ($dropFolderType) {
-			case KalturaDropFolderType::FTP:
-			case KalturaDropFolderType::SFTP:
-			case KalturaDropFolderType::LOCAL:
+			case BorhanDropFolderType::FTP:
+			case BorhanDropFolderType::SFTP:
+			case BorhanDropFolderType::LOCAL:
 				return new KDropFolderFileTransferEngine ();
 				break;
 			
 			default:
-				return KalturaPluginManager::loadObject('KDropFolderEngine', $dropFolderType);
+				return BorhanPluginManager::loadObject('KDropFolderEngine', $dropFolderType);
 				break;
 		}
 	}
 	
-	abstract public function watchFolder (KalturaDropFolder $dropFolder);
+	abstract public function watchFolder (BorhanDropFolder $dropFolder);
 	
-	abstract public function processFolder (KalturaBatchJob $job, KalturaDropFolderContentProcessorJobData $data);
+	abstract public function processFolder (BorhanBatchJob $job, BorhanDropFolderContentProcessorJobData $data);
 	
 	/**
 	 * Load all the files from the database that their status is not PURGED, PARSED or DETECTED
-	 * @param KalturaDropFolder $folder
+	 * @param BorhanDropFolder $folder
 	 */
 	protected function loadDropFolderFiles()
 	{
 		$dropFolderFilesMap = array();
 		$dropFolderFiles =null;
 		
-		$dropFolderFileFilter = new KalturaDropFolderFileFilter();
+		$dropFolderFileFilter = new BorhanDropFolderFileFilter();
 		$dropFolderFileFilter->dropFolderIdEqual = $this->dropFolder->id;
-		$dropFolderFileFilter->statusNotIn = KalturaDropFolderFileStatus::PARSED.','.KalturaDropFolderFileStatus::DETECTED;
+		$dropFolderFileFilter->statusNotIn = BorhanDropFolderFileStatus::PARSED.','.BorhanDropFolderFileStatus::DETECTED;
 		
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageSize = 500;
 		if(KBatchBase::$taskConfig->params->pageSize)
 			$pager->pageSize = KBatchBase::$taskConfig->params->pageSize;	
@@ -80,19 +80,19 @@ abstract class KDropFolderEngine implements IKalturaLogger
 		try 
 		{
 			if($e)
-				KalturaLog::err('Error for drop folder file with id ['.$dropFolderFileId.'] - '.$e->getMessage());
+				BorhanLog::err('Error for drop folder file with id ['.$dropFolderFileId.'] - '.$e->getMessage());
 			else
-				KalturaLog::err('Error for drop folder file with id ['.$dropFolderFileId.'] - '.$errorMessage);
+				BorhanLog::err('Error for drop folder file with id ['.$dropFolderFileId.'] - '.$errorMessage);
 			
-			$updateDropFolderFile = new KalturaDropFolderFile();
+			$updateDropFolderFile = new BorhanDropFolderFile();
 			$updateDropFolderFile->errorCode = $errorCode;
 			$updateDropFolderFile->errorDescription = $errorMessage;
 			$this->dropFolderFileService->update($dropFolderFileId, $updateDropFolderFile);
 			return $this->dropFolderFileService->updateStatus($dropFolderFileId, $errorStatus);				
 		}
-		catch (KalturaException $e) 
+		catch (BorhanException $e) 
 		{
-			KalturaLog::err('Cannot set error details for drop folder file id ['.$dropFolderFileId.'] - '.$e->getMessage());
+			BorhanLog::err('Cannot set error details for drop folder file id ['.$dropFolderFileId.'] - '.$e->getMessage());
 			return null;
 		}
 	}
@@ -105,11 +105,11 @@ abstract class KDropFolderEngine implements IKalturaLogger
 	{
 		try 
 		{
-			return $this->dropFolderFileService->updateStatus($dropFolderFileId, KalturaDropFolderFileStatus::PURGED);
+			return $this->dropFolderFileService->updateStatus($dropFolderFileId, BorhanDropFolderFileStatus::PURGED);
 		}
 		catch(Exception $e)
 		{
-			$this->handleFileError($dropFolderFileId, KalturaDropFolderFileStatus::ERROR_HANDLING, KalturaDropFolderFileErrorCode::ERROR_UPDATE_FILE, 
+			$this->handleFileError($dropFolderFileId, BorhanDropFolderFileStatus::ERROR_HANDLING, BorhanDropFolderFileErrorCode::ERROR_UPDATE_FILE, 
 									DropFolderPlugin::ERROR_UPDATE_FILE_MESSAGE, $e);
 			
 			return null;
@@ -119,19 +119,19 @@ abstract class KDropFolderEngine implements IKalturaLogger
 	/**
 	 * Retrieve all the relevant drop folder files according to the list of id's passed on the job data.
 	 * Create resource object based on the conversion profile as an input to the ingestion API
-	 * @param KalturaBatchJob $job
-	 * @param KalturaDropFolderContentProcessorJobData $data
+	 * @param BorhanBatchJob $job
+	 * @param BorhanDropFolderContentProcessorJobData $data
 	 */
-	protected function getIngestionResource(KalturaBatchJob $job, KalturaDropFolderContentProcessorJobData $data)
+	protected function getIngestionResource(BorhanBatchJob $job, BorhanDropFolderContentProcessorJobData $data)
 	{
-		$filter = new KalturaDropFolderFileFilter();
+		$filter = new BorhanDropFolderFileFilter();
 		$filter->idIn = $data->dropFolderFileIds;
 		$dropFolderFiles = $this->dropFolderFileService->listAction($filter); 
 		
 		$resource = null;
 		if($dropFolderFiles->totalCount == 1 && is_null($dropFolderFiles->objects[0]->parsedFlavor)) //only source is ingested
 		{
-			$resource = new KalturaDropFolderFileResource();
+			$resource = new BorhanDropFolderFileResource();
 			$resource->dropFolderFileId = $dropFolderFiles->objects[0]->id;			
 		}
 		else //ingest all the required flavors
@@ -144,40 +144,40 @@ abstract class KDropFolderEngine implements IKalturaLogger
 			
 			$assetContainerArray = array();
 		
-			$assetParamsFilter = new KalturaConversionProfileAssetParamsFilter();
+			$assetParamsFilter = new BorhanConversionProfileAssetParamsFilter();
 			$assetParamsFilter->conversionProfileIdEqual = $data->conversionProfileId;
 			$assetParamsList = KBatchBase::$kClient->conversionProfileAssetParams->listAction($assetParamsFilter);
 			foreach ($assetParamsList->objects as $assetParams)
 			{
 				if(array_key_exists($assetParams->systemName, $fileToFlavorMap))
 				{
-					$assetContainer = new KalturaAssetParamsResourceContainer();
+					$assetContainer = new BorhanAssetParamsResourceContainer();
 					$assetContainer->assetParamsId = $assetParams->assetParamsId;
-					$assetContainer->resource = new KalturaDropFolderFileResource();
+					$assetContainer->resource = new BorhanDropFolderFileResource();
 					$assetContainer->resource->dropFolderFileId = $fileToFlavorMap[$assetParams->systemName];
 					$assetContainerArray[] = $assetContainer;				
 				}			
 			}		
-			$resource = new KalturaAssetsParamsResourceContainers();
+			$resource = new BorhanAssetsParamsResourceContainers();
 			$resource->resources = $assetContainerArray;
 		}
 		return $resource;		
 	}
 
-	protected function createCategoryAssociations (KalturaDropFolder $folder, $userId, $entryId)
+	protected function createCategoryAssociations (BorhanDropFolder $folder, $userId, $entryId)
 	{
 		if ($folder->metadataProfileId && $folder->categoriesMetadataFieldName)
 		{
-			$filter = new KalturaMetadataFilter();
+			$filter = new BorhanMetadataFilter();
 			$filter->metadataProfileIdEqual = $folder->metadataProfileId;
 			$filter->objectIdEqual = $userId;
-			$filter->metadataObjectTypeEqual = KalturaMetadataObjectType::USER;
+			$filter->metadataObjectTypeEqual = BorhanMetadataObjectType::USER;
 			
 			try
 			{
-				$metadataPlugin = KalturaMetadataClientPlugin::get(KBatchBase::$kClient);
+				$metadataPlugin = BorhanMetadataClientPlugin::get(KBatchBase::$kClient);
 				//Expect only one result
-				$res = $metadataPlugin->metadata->listAction($filter, new KalturaFilterPager());
+				$res = $metadataPlugin->metadata->listAction($filter, new BorhanFilterPager());
 				$metadataObj = $res->objects[0];
 				$xmlElem = new SimpleXMLElement($metadataObj->xml);
 				$categoriesXPathRes = $xmlElem->xpath($folder->categoriesMetadataFieldName);
@@ -187,9 +187,9 @@ abstract class KDropFolderEngine implements IKalturaLogger
 					$categories[] = strval($catXPath);
 				}
 				
-				$categoryFilter = new KalturaCategoryFilter();
+				$categoryFilter = new BorhanCategoryFilter();
 				$categoryFilter->idIn = implode(',', $categories);
-				$categoryListResponse = KBatchBase::$kClient->category->listAction ($categoryFilter, new KalturaFilterPager());
+				$categoryListResponse = KBatchBase::$kClient->category->listAction ($categoryFilter, new BorhanFilterPager());
 				if ($categoryListResponse->objects && count($categoryListResponse->objects))
 				{
 					if (!$folder->enforceEntitlement)
@@ -205,7 +205,7 @@ abstract class KDropFolderEngine implements IKalturaLogger
 			}
 			catch (Exception $e)
 			{
-				KalturaLog::err('Error encountered. Code: ['. $e->getCode() . '] Message: [' . $e->getMessage() . ']');
+				BorhanLog::err('Error encountered. Code: ['. $e->getCode() . '] Message: [' . $e->getMessage() . ']');
 			}
 		}
 	}
@@ -215,7 +215,7 @@ abstract class KDropFolderEngine implements IKalturaLogger
 		KBatchBase::$kClient->startMultiRequest();
 		foreach ($categoriesArr as $category)
 		{
-			$categoryEntry = new KalturaCategoryEntry();
+			$categoryEntry = new BorhanCategoryEntry();
 			$categoryEntry->entryId = $entryId;
 			$categoryEntry->categoryId = $category->id;
 			KBatchBase::$kClient->categoryEntry->add($categoryEntry);
@@ -227,16 +227,16 @@ abstract class KDropFolderEngine implements IKalturaLogger
 	{
 		$partnerInfo = KBatchBase::$kClient->partner->get(KBatchBase::$kClientConfig->partnerId);
 		
-		$clientConfig = new KalturaConfiguration($partnerInfo->id);
+		$clientConfig = new BorhanConfiguration($partnerInfo->id);
 		$clientConfig->serviceUrl = KBatchBase::$kClient->getConfig()->serviceUrl;
 		$clientConfig->setLogger($this);
-		$client = new KalturaClient($clientConfig);
+		$client = new BorhanClient($clientConfig);
 		foreach ($categoriesArr as $category)
 		{
-			/* @var $category KalturaCategory */
-			$ks = $client->generateSessionV2($partnerInfo->adminSecret, $userId, KalturaSessionType::ADMIN, $partnerInfo->id, 86400, 'enableentitlement,privacycontext:'.$category->privacyContexts);
+			/* @var $category BorhanCategory */
+			$ks = $client->generateSessionV2($partnerInfo->adminSecret, $userId, BorhanSessionType::ADMIN, $partnerInfo->id, 86400, 'enableentitlement,privacycontext:'.$category->privacyContexts);
 			$client->setKs($ks);
-			$categoryEntry = new KalturaCategoryEntry();
+			$categoryEntry = new BorhanCategoryEntry();
 			$categoryEntry->categoryId = $category->id;
 			$categoryEntry->entryId = $entryId;
 			try
@@ -245,13 +245,13 @@ abstract class KDropFolderEngine implements IKalturaLogger
 			}
 			catch (Exception $e)
 			{
-				KalturaLog::err("Could not add entry $entryId to category {$category->id}. Exception thrown.");
+				BorhanLog::err("Could not add entry $entryId to category {$category->id}. Exception thrown.");
 			}
 		}
 	}
 	
 	function log($message)
 	{
-		KalturaLog::log($message);
+		BorhanLog::log($message);
 	}
 }

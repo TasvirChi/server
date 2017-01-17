@@ -3,7 +3,7 @@
  * @package plugins.playReady
  * @subpackage api.enum
  */
-class KalturaPlayReadyAnalogVideoOPL extends KalturaEnum implements PlayReadyAnalogVideoOPL
+class BorhanPlayReadyAnalogVideoOPL extends BorhanEnum implements PlayReadyAnalogVideoOPL
 {
 	// see PlayReadyAnalogVideoOPL interface
 }

@@ -6,7 +6,7 @@
  * @subpackage objects
  *
  */
-class KalturaBulkUploadCategoryUserData extends KalturaBulkUploadObjectData
+class BorhanBulkUploadCategoryUserData extends BorhanBulkUploadObjectData
 {   
     private static $map_between_objects = array
 	(

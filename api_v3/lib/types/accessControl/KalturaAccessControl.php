@@ -2,9 +2,9 @@
 /**
  * @package api
  * @subpackage objects
- * @deprecated use KalturaAccessControlProfile instead
+ * @deprecated use BorhanAccessControlProfile instead
  */
-class KalturaAccessControl extends KalturaObject implements IRelatedFilterable 
+class BorhanAccessControl extends BorhanObject implements IRelatedFilterable 
 {
 	/**
 	 * The id of the Access Control Profile
@@ -55,19 +55,19 @@ class KalturaAccessControl extends KalturaObject implements IRelatedFilterable
 	/**
 	 * True if this Conversion Profile is the default
 	 *  
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $isDefault;
 	
 	/**
 	 * Array of Access Control Restrictions
 	 * 
-	 * @var KalturaRestrictionArray
+	 * @var BorhanRestrictionArray
 	 */
 	public $restrictions;
 	
 	/**
-	 * Indicates that the access control profile is new and should be handled using KalturaAccessControlProfile object and accessControlProfile service
+	 * Indicates that the access control profile is new and should be handled using BorhanAccessControlProfile object and accessControlProfile service
 	 * 
 	 * @var bool
 	 * @readonly
@@ -86,7 +86,7 @@ class KalturaAccessControl extends KalturaObject implements IRelatedFilterable
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -94,7 +94,7 @@ class KalturaAccessControl extends KalturaObject implements IRelatedFilterable
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{
@@ -104,12 +104,12 @@ class KalturaAccessControl extends KalturaObject implements IRelatedFilterable
 		/* @var $dbObject accessControl */
 		parent::toObject($dbObject);
 		
-		if ($this->restrictions instanceof KalturaRestrictionArray)
+		if ($this->restrictions instanceof BorhanRestrictionArray)
 		{
 			$rules = array();
 			foreach($this->restrictions as $restriction)
 			{
-				/* @var $restriction KalturaBaseRestriction */
+				/* @var $restriction BorhanBaseRestriction */
 				$restrictions = clone $this->restrictions;
 				$rule = $restriction->toRule($this->restrictions);
 				if($rule)
@@ -123,23 +123,23 @@ class KalturaAccessControl extends KalturaObject implements IRelatedFilterable
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert()
+	 * @see BorhanObject::validateForInsert()
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{
 		if($this->systemName)
 		{
-			$c = KalturaCriteria::create(accessControlPeer::OM_CLASS);
+			$c = BorhanCriteria::create(accessControlPeer::OM_CLASS);
 			$c->add(accessControlPeer::SYSTEM_NAME, $this->systemName);
 			if(accessControlPeer::doCount($c))
-				throw new KalturaAPIException(KalturaErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
+				throw new BorhanAPIException(BorhanErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
 		}
 		
 		return parent::validateForInsert($propertiesToSkip);
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUpdate()
+	 * @see BorhanObject::validateForUpdate()
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = array())
 	{
@@ -147,18 +147,18 @@ class KalturaAccessControl extends KalturaObject implements IRelatedFilterable
 		
 		if($this->systemName)
 		{
-			$c = KalturaCriteria::create(accessControlPeer::OM_CLASS);
+			$c = BorhanCriteria::create(accessControlPeer::OM_CLASS);
 			$c->add(accessControlPeer::ID, $sourceObject->getId(), Criteria::NOT_EQUAL);
 			$c->add(accessControlPeer::SYSTEM_NAME, $this->systemName);
 			if(accessControlPeer::doCount($c))
-				throw new KalturaAPIException(KalturaErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
+				throw new BorhanAPIException(BorhanErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
 		}
 		
 		return parent::validateForUpdate($sourceObject, $propertiesToSkip);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toUpdatableObject()
+	 * @see BorhanObject::toUpdatableObject()
 	 */
 	public function toUpdatableObject($dbObject, $skip = array())
 	{
@@ -166,15 +166,15 @@ class KalturaAccessControl extends KalturaObject implements IRelatedFilterable
 		$rules = $dbObject->getRulesArray();
 		foreach($rules as $rule)
 			if(!($rule instanceof kAccessControlRestriction))
-				throw new KalturaAPIException(KalturaErrors::ACCESS_CONTROL_NEW_VERSION_UPDATE, $dbObject->getId());
+				throw new BorhanAPIException(BorhanErrors::ACCESS_CONTROL_NEW_VERSION_UPDATE, $dbObject->getId());
 		
 		parent::toUpdatableObject($dbObject, $skip);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject()
+	 * @see BorhanObject::fromObject()
 	 */
-	public function doFromObject($dbObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($dbObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($dbObject, $responseProfile);
 		
@@ -188,12 +188,12 @@ class KalturaAccessControl extends KalturaObject implements IRelatedFilterable
 			{
 				if(!($rule instanceof kAccessControlRestriction))
 				{
-					KalturaLog::info("Access control [" . $dbObject->getId() . "] rules are new and cannot be loaded using old object");
+					BorhanLog::info("Access control [" . $dbObject->getId() . "] rules are new and cannot be loaded using old object");
 					$this->containsUnsuportedRestrictions = true;
 					return;
 				}
 			}
-			$this->restrictions = KalturaRestrictionArray::fromDbArray($rules);
+			$this->restrictions = BorhanRestrictionArray::fromDbArray($rules);
 		}
 	}
 	

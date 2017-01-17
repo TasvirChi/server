@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaITunesSyndicationFeed extends KalturaBaseSyndicationFeed
+class BorhanITunesSyndicationFeed extends BorhanBaseSyndicationFeed
 {
         /**
          * feed description
@@ -49,14 +49,14 @@ class KalturaITunesSyndicationFeed extends KalturaBaseSyndicationFeed
 
         /**
          *
-         * @var KalturaITunesSyndicationFeedCategories
+         * @var BorhanITunesSyndicationFeedCategories
          * @readonly
          */
         public $category;        
 
         /**
          *
-         * @var KalturaITunesSyndicationFeedAdultValues
+         * @var BorhanITunesSyndicationFeedAdultValues
          */
         public $adultContent;
         
@@ -68,14 +68,14 @@ class KalturaITunesSyndicationFeed extends KalturaBaseSyndicationFeed
         
         /**
 		 * true in case you want to enfore the palylist order on the 
-		 * @var KalturaNullableBoolean
+		 * @var BorhanNullableBoolean
 		 */
 		public $enforceOrder;
         
         
 	function __construct()
 	{
-		$this->type = KalturaSyndicationFeedType::ITUNES;
+		$this->type = BorhanSyndicationFeedType::ITUNES;
         }
 
 	private static $mapBetweenObjects = array

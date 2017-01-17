@@ -31,7 +31,7 @@ BEGIN
     DECLARE done INT DEFAULT 0;
     DECLARE new_kuser_id CHAR(50);
     DECLARE new_storage_size INT;
-    DECLARE updated_kusers CURSOR FOR SELECT kuser_id, storage_kb FROM kaltura.temp_updated_kusers_storage_usage;
+    DECLARE updated_kusers CURSOR FOR SELECT kuser_id, storage_kb FROM borhan.temp_updated_kusers_storage_usage;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
     OPEN updated_kusers;
     

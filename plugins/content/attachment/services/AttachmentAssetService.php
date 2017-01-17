@@ -7,7 +7,7 @@
  * @package plugins.attachment
  * @subpackage api.services
  */
-class AttachmentAssetService extends KalturaAssetService
+class AttachmentAssetService extends BorhanAssetService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -21,7 +21,7 @@ class AttachmentAssetService extends KalturaAssetService
 	
 	protected function getEnabledMediaTypes()
 	{
-		$liveStreamTypes = KalturaPluginManager::getExtendedTypes(entryPeer::OM_CLASS, KalturaEntryType::LIVE_STREAM);
+		$liveStreamTypes = BorhanPluginManager::getExtendedTypes(entryPeer::OM_CLASS, BorhanEntryType::LIVE_STREAM);
 		
 		$mediaTypes = array_merge($liveStreamTypes, parent::getEnabledMediaTypes());
 		$mediaTypes[] = entryType::AUTOMATIC;
@@ -30,7 +30,7 @@ class AttachmentAssetService extends KalturaAssetService
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseService::partnerRequired()
+	 * @see BorhanBaseService::partnerRequired()
 	 */
 	protected function partnerRequired($actionName)
 	{
@@ -41,9 +41,9 @@ class AttachmentAssetService extends KalturaAssetService
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaBaseService::kalturaNetworkAllowed()
+	 * @see BorhanBaseService::borhanNetworkAllowed()
 	 */
-	protected function kalturaNetworkAllowed($actionName)
+	protected function borhanNetworkAllowed($actionName)
 	{
 		if(
 			$actionName == 'get' ||
@@ -55,7 +55,7 @@ class AttachmentAssetService extends KalturaAssetService
 			return true;
 		}
 			
-		return parent::kalturaNetworkAllowed($actionName);
+		return parent::borhanNetworkAllowed($actionName);
 	}
 	
     /**
@@ -63,22 +63,22 @@ class AttachmentAssetService extends KalturaAssetService
      *
      * @action add
      * @param string $entryId
-     * @param KalturaAttachmentAsset $attachmentAsset
-     * @return KalturaAttachmentAsset
-     * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
-	 * @throws KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
-	 * @throws KalturaErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
-	 * @throws KalturaAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND
-	 * @throws KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED
+     * @param BorhanAttachmentAsset $attachmentAsset
+     * @return BorhanAttachmentAsset
+     * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
+	 * @throws BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
+	 * @throws BorhanErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
+	 * @throws BorhanAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED
 	 * @validateUser entry entryId edit
      */
-    function addAction($entryId, KalturaAttachmentAsset $attachmentAsset)
+    function addAction($entryId, BorhanAttachmentAsset $attachmentAsset)
     {
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 		if(!$dbEntry || !in_array($dbEntry->getType(), $this->getEnabledMediaTypes()))
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 
 		$dbAsset = $attachmentAsset->toInsertableObject();
 		$dbAsset->setEntryId($entryId);
@@ -86,7 +86,7 @@ class AttachmentAssetService extends KalturaAssetService
 		$dbAsset->setStatus(AttachmentAsset::ASSET_STATUS_QUEUED);
 		$dbAsset->save();
 
-		$asset = KalturaAsset::getInstance($dbAsset);
+		$asset = BorhanAsset::getInstance($dbAsset);
 		$asset->fromObject($dbAsset, $this->getResponseProfile());
 		return $asset;
     }
@@ -96,26 +96,26 @@ class AttachmentAssetService extends KalturaAssetService
      *
      * @action setContent
      * @param string $id
-     * @param KalturaContentResource $contentResource
-     * @return KalturaAttachmentAsset
-     * @throws KalturaAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
-	 * @throws KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
-	 * @throws KalturaErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
-	 * @throws KalturaAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND
-	 * @throws KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED 
+     * @param BorhanContentResource $contentResource
+     * @return BorhanAttachmentAsset
+     * @throws BorhanAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
+	 * @throws BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
+	 * @throws BorhanErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
+	 * @throws BorhanAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED 
 	 * @validateUser asset::entry id edit
      */
-    function setContentAction($id, KalturaContentResource $contentResource)
+    function setContentAction($id, BorhanContentResource $contentResource)
     {
    		$dbAttachmentAsset = assetPeer::retrieveById($id);
    		if (!$dbAttachmentAsset || !($dbAttachmentAsset instanceof AttachmentAsset))
-   			throw new KalturaAPIException(KalturaAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND, $id);
+   			throw new BorhanAPIException(BorhanAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND, $id);
     	
 		$dbEntry = $dbAttachmentAsset->getentry();
     	if(!$dbEntry || !in_array($dbEntry->getType(), $this->getEnabledMediaTypes()))
-    		throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $dbAttachmentAsset->getEntryId());
+    		throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $dbAttachmentAsset->getEntryId());
 		
 		
    		$previousStatus = $dbAttachmentAsset->getStatus();
@@ -135,7 +135,7 @@ class AttachmentAssetService extends KalturaAssetService
     	if($previousStatus == AttachmentAsset::ASSET_STATUS_QUEUED && in_array($dbAttachmentAsset->getStatus(), $newStatuses))
    			kEventsManager::raiseEvent(new kObjectAddedEvent($dbAttachmentAsset));
    		
-		$attachmentAsset = KalturaAsset::getInstance($dbAttachmentAsset);
+		$attachmentAsset = BorhanAsset::getInstance($dbAttachmentAsset);
 		$attachmentAsset->fromObject($dbAttachmentAsset, $this->getResponseProfile());
 		return $attachmentAsset;
     }
@@ -145,26 +145,26 @@ class AttachmentAssetService extends KalturaAssetService
      *
      * @action update
      * @param string $id
-     * @param KalturaAttachmentAsset $attachmentAsset
-     * @return KalturaAttachmentAsset
-     * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+     * @param BorhanAttachmentAsset $attachmentAsset
+     * @return BorhanAttachmentAsset
+     * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
      * @validateUser asset::entry id edit
      */
-    function updateAction($id, KalturaAttachmentAsset $attachmentAsset)
+    function updateAction($id, BorhanAttachmentAsset $attachmentAsset)
     {
 		$dbAttachmentAsset = assetPeer::retrieveById($id);
 		if (!$dbAttachmentAsset || !($dbAttachmentAsset instanceof AttachmentAsset))
-			throw new KalturaAPIException(KalturaAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND, $id);
     	
 		$dbEntry = $dbAttachmentAsset->getentry();
     	if(!$dbEntry || !in_array($dbEntry->getType(), $this->getEnabledMediaTypes()))
-    		throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $dbAttachmentAsset->getEntryId());
+    		throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $dbAttachmentAsset->getEntryId());
 		
 		
     	$dbAttachmentAsset = $attachmentAsset->toUpdatableObject($dbAttachmentAsset);
     	$dbAttachmentAsset->save();
 		
-		$attachmentAsset = KalturaAsset::getInstance($dbAttachmentAsset);
+		$attachmentAsset = BorhanAsset::getInstance($dbAttachmentAsset);
 		$attachmentAsset->fromObject($dbAttachmentAsset, $this->getResponseProfile());
 		return $attachmentAsset;
     }
@@ -227,7 +227,7 @@ class AttachmentAssetService extends KalturaAssetService
 			$attachmentAsset->save();
 		}
 		
-		throw new KalturaAPIException(KalturaAttachmentErrors::ATTACHMENT_ASSET_DOWNLOAD_FAILED, $url);
+		throw new BorhanAPIException(BorhanAttachmentErrors::ATTACHMENT_ASSET_DOWNLOAD_FAILED, $url);
     }
     
 	/**
@@ -292,7 +292,7 @@ class AttachmentAssetService extends KalturaAssetService
 	/**
 	 * @param AttachmentAsset $attachmentAsset
 	 * @param IRemoteStorageResource $contentResource
-	 * @throws KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND
 	 */
 	protected function attachRemoteStorageResource(AttachmentAsset $attachmentAsset, IRemoteStorageResource $contentResource)
 	{
@@ -315,12 +315,12 @@ class AttachmentAssetService extends KalturaAssetService
 	/**
 	 * @param AttachmentAsset $attachmentAsset
 	 * @param kContentResource $contentResource
-	 * @throws KalturaErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
-	 * @throws KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
-	 * @throws KalturaErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
-	 * @throws KalturaAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND
-	 * @throws KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED
+	 * @throws BorhanErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
+	 * @throws BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
+	 * @throws BorhanErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
+	 * @throws BorhanAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED
 	 */
 	protected function attachContentResource(AttachmentAsset $attachmentAsset, kContentResource $contentResource)
 	{
@@ -341,7 +341,7 @@ class AttachmentAssetService extends KalturaAssetService
 				
 			default:
 				$msg = "Resource of type [" . get_class($contentResource) . "] is not supported";
-				KalturaLog::err($msg);
+				BorhanLog::err($msg);
 				
 				if($attachmentAsset->getStatus() == AttachmentAsset::ASSET_STATUS_QUEUED || $attachmentAsset->getStatus() == AttachmentAsset::ASSET_STATUS_NOT_APPLICABLE)
 				{
@@ -350,7 +350,7 @@ class AttachmentAssetService extends KalturaAssetService
 					$attachmentAsset->save();
 				}
 				
-				throw new KalturaAPIException(KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($contentResource));
+				throw new BorhanAPIException(BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($contentResource));
     	}
     }
 	
@@ -361,23 +361,23 @@ class AttachmentAssetService extends KalturaAssetService
 	 * @param string $id
 	 * @param int $storageId
 	 * @return string
-	 * @throws KalturaAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND
-	 * @throws KalturaAttachmentErrors::ATTACHMENT_ASSET_IS_NOT_READY
+	 * @throws BorhanAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND
+	 * @throws BorhanAttachmentErrors::ATTACHMENT_ASSET_IS_NOT_READY
 	 */
 	public function getUrlAction($id, $storageId = null)
 	{
 		$assetDb = assetPeer::retrieveById($id);
 		if (!$assetDb || !($assetDb instanceof AttachmentAsset))
-			throw new KalturaAPIException(KalturaAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND, $id);
 
 		$this->validateEntryEntitlement($assetDb->getEntryId(), $id);
 		
 		if ($assetDb->getStatus() != asset::ASSET_STATUS_READY)
-			throw new KalturaAPIException(KalturaAttachmentErrors::ATTACHMENT_ASSET_IS_NOT_READY);
+			throw new BorhanAPIException(BorhanAttachmentErrors::ATTACHMENT_ASSET_IS_NOT_READY);
 		
 		$entryDb = $assetDb->getentry();
 		if(is_null($entryDb))
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $assetDb->getEntryId());
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $assetDb->getEntryId());
 		
 		if($storageId)
 			return $assetDb->getExternalUrl($storageId);
@@ -390,18 +390,18 @@ class AttachmentAssetService extends KalturaAssetService
 	 * 
 	 * @action getRemotePaths
 	 * @param string $id
-	 * @return KalturaRemotePathListResponse
-	 * @throws KalturaAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND
-	 * @throws KalturaAttachmentErrors::ATTACHMENT_ASSET_IS_NOT_READY
+	 * @return BorhanRemotePathListResponse
+	 * @throws BorhanAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND
+	 * @throws BorhanAttachmentErrors::ATTACHMENT_ASSET_IS_NOT_READY
 	 */
 	public function getRemotePathsAction($id)
 	{
 		$assetDb = assetPeer::retrieveById($id);
 		if (!$assetDb || !($assetDb instanceof AttachmentAsset))
-			throw new KalturaAPIException(KalturaAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND, $id);
 
 		if ($assetDb->getStatus() != asset::ASSET_STATUS_READY)
-			throw new KalturaAPIException(KalturaAttachmentErrors::ATTACHMENT_ASSET_IS_NOT_READY);
+			throw new BorhanAPIException(BorhanAttachmentErrors::ATTACHMENT_ASSET_IS_NOT_READY);
 
 		$c = new Criteria();
 		$c->add(FileSyncPeer::OBJECT_TYPE, FileSyncObjectType::ASSET);
@@ -413,8 +413,8 @@ class AttachmentAssetService extends KalturaAssetService
 		$c->add(FileSyncPeer::FILE_TYPE, FileSync::FILE_SYNC_FILE_TYPE_URL);
 		$fileSyncs = FileSyncPeer::doSelect($c);
 			
-		$listResponse = new KalturaRemotePathListResponse();
-		$listResponse->objects = KalturaRemotePathArray::fromDbArray($fileSyncs, $this->getResponseProfile());
+		$listResponse = new BorhanRemotePathListResponse();
+		$listResponse->objects = BorhanRemotePathArray::fromDbArray($fileSyncs, $this->getResponseProfile());
 		$listResponse->totalCount = count($listResponse->objects);
 		return $listResponse;
 	}
@@ -426,7 +426,7 @@ class AttachmentAssetService extends KalturaAssetService
 	 * @param string $attachmentAssetId
 	 * @return file
 	 *  
-	 * @throws KalturaAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND
+	 * @throws BorhanAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND
 	 */
 	public function serveAction($attachmentAssetId)
 	{
@@ -436,7 +436,7 @@ class AttachmentAssetService extends KalturaAssetService
 			$attachmentAsset = kCurrentContext::initPartnerByAssetId($attachmentAssetId);
 			
 			if (!$attachmentAsset || $attachmentAsset->getStatus() == asset::ASSET_STATUS_DELETED)
-				throw new KalturaAPIException(KalturaAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND, $attachmentAssetId);
+				throw new BorhanAPIException(BorhanAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND, $attachmentAssetId);
 				
 			// enforce entitlement
 			$this->setPartnerFilters(kCurrentContext::getCurrentPartnerId());
@@ -448,13 +448,13 @@ class AttachmentAssetService extends KalturaAssetService
 		}
 		
 		if (!$attachmentAsset || !($attachmentAsset instanceof AttachmentAsset))
-			throw new KalturaAPIException(KalturaAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND, $attachmentAssetId);
+			throw new BorhanAPIException(BorhanAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND, $attachmentAssetId);
 		
 		$entry = entryPeer::retrieveByPK($attachmentAsset->getEntryId());
 		if(!$entry)
 		{
 			//we will throw attachment asset not found, as the user is not entitled, and should not know that the entry exists.
-			throw new KalturaAPIException(KalturaAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND, $attachmentAssetId);
+			throw new BorhanAPIException(BorhanAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND, $attachmentAssetId);
 		}
 		
 		$securyEntryHelper = new KSecureEntryHelper($entry, kCurrentContext::$ks, null, ContextType::DOWNLOAD);
@@ -475,17 +475,17 @@ class AttachmentAssetService extends KalturaAssetService
 	/**
 	 * @action get
 	 * @param string $attachmentAssetId
-	 * @return KalturaAttachmentAsset
+	 * @return BorhanAttachmentAsset
 	 * 
-	 * @throws KalturaAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND
+	 * @throws BorhanAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND
 	 */
 	public function getAction($attachmentAssetId)
 	{
 		$attachmentAssetsDb = assetPeer::retrieveById($attachmentAssetId);
 		if (!$attachmentAssetsDb || !($attachmentAssetsDb instanceof AttachmentAsset))
-			throw new KalturaAPIException(KalturaAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND, $attachmentAssetId);
+			throw new BorhanAPIException(BorhanAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND, $attachmentAssetId);
 		
-		$attachmentAsset = KalturaAsset::getInstance($attachmentAssetsDb);
+		$attachmentAsset = BorhanAsset::getInstance($attachmentAssetsDb);
 		$attachmentAsset->fromObject($attachmentAssetsDb, $this->getResponseProfile());
 		return $attachmentAsset;
 	}
@@ -494,27 +494,27 @@ class AttachmentAssetService extends KalturaAssetService
 	 * List attachment Assets by filter and pager
 	 * 
 	 * @action list
-	 * @param KalturaAssetFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaAttachmentAssetListResponse
+	 * @param BorhanAssetFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanAttachmentAssetListResponse
 	 */
-	function listAction(KalturaAssetFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanAssetFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if(!$filter)
 		{
-			$filter = new KalturaAttachmentAssetFilter();
+			$filter = new BorhanAttachmentAssetFilter();
 		}
-		elseif(! $filter instanceof KalturaAttachmentAssetFilter)
+		elseif(! $filter instanceof BorhanAttachmentAssetFilter)
 		{
-			$filter = $filter->cast('KalturaAttachmentAssetFilter');
+			$filter = $filter->cast('BorhanAttachmentAssetFilter');
 		}
 			
 		if(!$pager)
 		{
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 		}
 
-		$types = KalturaPluginManager::getExtendedTypes(assetPeer::OM_CLASS, AttachmentPlugin::getAssetTypeCoreValue(AttachmentAssetType::ATTACHMENT));
+		$types = BorhanPluginManager::getExtendedTypes(assetPeer::OM_CLASS, AttachmentPlugin::getAssetTypeCoreValue(AttachmentAssetType::ATTACHMENT));
 		return $filter->getTypeListResponse($pager, $this->getResponseProfile(), $types);
 	}
 	
@@ -522,18 +522,18 @@ class AttachmentAssetService extends KalturaAssetService
 	 * @action delete
 	 * @param string $attachmentAssetId
 	 * 
-	 * @throws KalturaAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND
+	 * @throws BorhanAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND
 	 * @validateUser asset::entry attachmentAssetId edit
 	 */
 	public function deleteAction($attachmentAssetId)
 	{
 		$attachmentAssetDb = assetPeer::retrieveById($attachmentAssetId);
 		if (!$attachmentAssetDb || !($attachmentAssetDb instanceof AttachmentAsset))
-			throw new KalturaAPIException(KalturaAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND, $attachmentAssetId);
+			throw new BorhanAPIException(BorhanAttachmentErrors::ATTACHMENT_ASSET_ID_NOT_FOUND, $attachmentAssetId);
 	
 		$dbEntry = $attachmentAssetDb->getentry();
     	if(!$dbEntry || !in_array($dbEntry->getType(), $this->getEnabledMediaTypes()))
-    		throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $attachmentAssetDb->getEntryId());
+    		throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $attachmentAssetDb->getEntryId());
 		
 		
 		$attachmentAssetDb->setStatus(AttachmentAsset::ASSET_STATUS_DELETED);

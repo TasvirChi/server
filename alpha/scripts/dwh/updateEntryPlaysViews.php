@@ -16,7 +16,7 @@ while($s = trim(fgets($f))){
         myPartnerUtils::resetPartnerFilter('entry');
         $entry = entryPeer::retrieveByPK ( $entryId);
         if (is_null ( $entry )) {
-                KalturaLog::err ('Couldn\'t find entry [' . $entryId . ']' );
+                BorhanLog::err ('Couldn\'t find entry [' . $entryId . ']' );
                 continue;
         }
 
@@ -39,10 +39,10 @@ while($s = trim(fgets($f))){
 			$updateSql = "UPDATE entry set views='$views',plays='$plays',last_played_at='$mysqlNow' WHERE id='$entryId'";
 			$stmt = $connection->prepare($updateSql);
 			$stmt->execute();
-			KalturaLog::debug ( 'Successfully saved entry [' . $entryId . ']' );
+			BorhanLog::debug ( 'Successfully saved entry [' . $entryId . ']' );
 
 			$affectedRows = $stmt->rowCount();
-			KalturaLog::log("AffectedRows: ". $affectedRows);
+			BorhanLog::log("AffectedRows: ". $affectedRows);
 			// update sphinx log directly
 			$sql = $sphinxMgr->getSphinxSaveSql($entry, false);
 			$sphinxLog = new SphinxLog();
@@ -52,7 +52,7 @@ while($s = trim(fgets($f))){
 			$sphinxLog->save(myDbHelper::getConnection(myDbHelper::DB_HELPER_CONN_SPHINX_LOG));
 
 		} catch (Exception $e) {
-			KalturaLog::log($e->getMessage(), Propel::LOG_ERR);
+			BorhanLog::log($e->getMessage(), Propel::LOG_ERR);
 
 		}
         }

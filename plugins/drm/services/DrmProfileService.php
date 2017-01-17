@@ -5,7 +5,7 @@
  * @package plugins.drm
  * @subpackage api.services
  */
-class DrmProfileService extends KalturaBaseService
+class DrmProfileService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -13,22 +13,22 @@ class DrmProfileService extends KalturaBaseService
 		$this->applyPartnerFilterForClass('DrmProfile');
 		
 		if (!DrmPlugin::isAllowedPartner($this->getPartnerId()))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, DrmPlugin::PLUGIN_NAME);		
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, DrmPlugin::PLUGIN_NAME);		
 	}
 	
 	/**
 	 * Allows you to add a new DrmProfile object
 	 * 
 	 * @action add
-	 * @param KalturaDrmProfile $drmProfile
-	 * @return KalturaDrmProfile
+	 * @param BorhanDrmProfile $drmProfile
+	 * @return BorhanDrmProfile
 	 * 
-	 * @throws KalturaErrors::PLUGIN_NOT_AVAILABLE_FOR_PARTNER
-	 * @throws KalturaErrors::INVALID_PARTNER_ID
-	 * @throws KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
+	 * @throws BorhanErrors::PLUGIN_NOT_AVAILABLE_FOR_PARTNER
+	 * @throws BorhanErrors::INVALID_PARTNER_ID
+	 * @throws BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
 	 * @throws DrmErrors::ACTIVE_PROVIDER_PROFILE_ALREADY_EXIST
 	 */
-	public function addAction(KalturaDrmProfile $drmProfile)
+	public function addAction(BorhanDrmProfile $drmProfile)
 	{
 		// check for required parameters
 		$drmProfile->validatePropertyNotNull('name');
@@ -38,19 +38,19 @@ class DrmProfileService extends KalturaBaseService
 		
 		// validate values						
 		if (!PartnerPeer::retrieveByPK($drmProfile->partnerId)) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_PARTNER_ID, $drmProfile->partnerId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_PARTNER_ID, $drmProfile->partnerId);
 		}
 		
 		if (!DrmPlugin::isAllowedPartner($drmProfile->partnerId))
 		{
-			throw new KalturaAPIException(KalturaErrors::PLUGIN_NOT_AVAILABLE_FOR_PARTNER, DrmPlugin::getPluginName(), $drmProfile->partnerId);
+			throw new BorhanAPIException(BorhanErrors::PLUGIN_NOT_AVAILABLE_FOR_PARTNER, DrmPlugin::getPluginName(), $drmProfile->partnerId);
 		}
 		
 		$dbDrmProfile = $drmProfile->toInsertableObject();
 		
 		if(DrmProfilePeer::retrieveByProvider($dbDrmProfile->getProvider()))
 		{
-			throw new KalturaAPIException(DrmErrors::ACTIVE_PROVIDER_PROFILE_ALREADY_EXIST, $drmProfile->provider);
+			throw new BorhanAPIException(DrmErrors::ACTIVE_PROVIDER_PROFILE_ALREADY_EXIST, $drmProfile->provider);
 		}
 
 		// save in database
@@ -58,28 +58,28 @@ class DrmProfileService extends KalturaBaseService
 		$dbDrmProfile->save();
 		
 		// return the saved object
-		$drmProfile = KalturaDrmProfile::getInstanceByType($dbDrmProfile->getProvider());
+		$drmProfile = BorhanDrmProfile::getInstanceByType($dbDrmProfile->getProvider());
 		$drmProfile->fromObject($dbDrmProfile, $this->getResponseProfile());
 		return $drmProfile;		
 	}
 	
 	/**
-	 * Retrieve a KalturaDrmProfile object by ID
+	 * Retrieve a BorhanDrmProfile object by ID
 	 * 
 	 * @action get
 	 * @param int $drmProfileId 
-	 * @return KalturaDrmProfile
+	 * @return BorhanDrmProfile
 	 * 
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */		
 	public function getAction($drmProfileId)
 	{
 		$dbDrmProfile = DrmProfilePeer::retrieveByPK($drmProfileId);
 		
 		if (!$dbDrmProfile) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $drmProfileId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $drmProfileId);
 		}
-		$drmProfile = KalturaDrmProfile::getInstanceByType($dbDrmProfile->getProvider());
+		$drmProfile = BorhanDrmProfile::getInstanceByType($dbDrmProfile->getProvider());
 		$drmProfile->fromObject($dbDrmProfile, $this->getResponseProfile());
 		
 		return $drmProfile;
@@ -87,110 +87,110 @@ class DrmProfileService extends KalturaBaseService
 	
 
 	/**
-	 * Update an existing KalturaDrmProfile object
+	 * Update an existing BorhanDrmProfile object
 	 * 
 	 * @action update
 	 * @param int $drmProfileId
-	 * @param KalturaDrmProfile $drmProfile
-	 * @return KalturaDrmProfile
+	 * @param BorhanDrmProfile $drmProfile
+	 * @return BorhanDrmProfile
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */	
-	public function updateAction($drmProfileId, KalturaDrmProfile $drmProfile)
+	public function updateAction($drmProfileId, BorhanDrmProfile $drmProfile)
 	{
 		$dbDrmProfile = DrmProfilePeer::retrieveByPK($drmProfileId);
 		
 		if (!$dbDrmProfile) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $drmProfileId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $drmProfileId);
 		}
 								
 		$dbDrmProfile = $drmProfile->toUpdatableObject($dbDrmProfile);
 		$dbDrmProfile->save();
 			
-		$drmProfile = KalturaDrmProfile::getInstanceByType($dbDrmProfile->getProvider());
+		$drmProfile = BorhanDrmProfile::getInstanceByType($dbDrmProfile->getProvider());
 		$drmProfile->fromObject($dbDrmProfile, $this->getResponseProfile());
 		
 		return $drmProfile;
 	}
 
 	/**
-	 * Mark the KalturaDrmProfile object as deleted
+	 * Mark the BorhanDrmProfile object as deleted
 	 * 
 	 * @action delete
 	 * @param int $drmProfileId 
-	 * @return KalturaDrmProfile
+	 * @return BorhanDrmProfile
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */		
 	public function deleteAction($drmProfileId)
 	{
 		$dbDrmProfile = DrmProfilePeer::retrieveByPK($drmProfileId);
 		
 		if (!$dbDrmProfile) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $drmProfileId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $drmProfileId);
 		}
 
 		$dbDrmProfile->setStatus(DrmProfileStatus::DELETED);
 		$dbDrmProfile->save();
 			
-		$drmProfile = KalturaDrmProfile::getInstanceByType($dbDrmProfile->getProvider());
+		$drmProfile = BorhanDrmProfile::getInstanceByType($dbDrmProfile->getProvider());
 		$drmProfile->fromObject($dbDrmProfile, $this->getResponseProfile());
 		
 		return $drmProfile;
 	}
 	
 	/**
-	 * List KalturaDrmProfile objects
+	 * List BorhanDrmProfile objects
 	 * 
 	 * @action list
-	 * @param KalturaDrmProfileFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaDrmProfileListResponse
+	 * @param BorhanDrmProfileFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanDrmProfileListResponse
 	 */
-	public function listAction(KalturaDrmProfileFilter  $filter = null, KalturaFilterPager $pager = null)
+	public function listAction(BorhanDrmProfileFilter  $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaDrmProfileFilter();
+			$filter = new BorhanDrmProfileFilter();
 
 		$drmProfileFilter = $filter->toObject();
 		$c = new Criteria();
 		$drmProfileFilter->attachToCriteria($c);
 		$count = DrmProfilePeer::doCount($c);
 		if (! $pager)
-			$pager = new KalturaFilterPager ();
+			$pager = new BorhanFilterPager ();
 		$pager->attachToCriteria ( $c );
 		$list = DrmProfilePeer::doSelect($c);
 		
-		$response = new KalturaDrmProfileListResponse();
-		$response->objects = KalturaDrmProfileArray::fromDbArray($list, $this->getResponseProfile());
+		$response = new BorhanDrmProfileListResponse();
+		$response->objects = BorhanDrmProfileArray::fromDbArray($list, $this->getResponseProfile());
 		$response->totalCount = $count;
 		
 		return $response;
 	}
 	
 	/**
-	 * Retrieve a KalturaDrmProfile object by provider, if no specific profile defined return default profile
+	 * Retrieve a BorhanDrmProfile object by provider, if no specific profile defined return default profile
 	 * 
 	 * @action getByProvider
-	 * @param KalturaDrmProviderType $provider
-	 * @return KalturaDrmProfile
+	 * @param BorhanDrmProviderType $provider
+	 * @return BorhanDrmProfile
 	 */
 	public function getByProviderAction($provider)
 	{	
-		$drmProfile = KalturaDrmProfile::getInstanceByType($provider);
+		$drmProfile = BorhanDrmProfile::getInstanceByType($provider);
 		$drmProfile->provider = $provider;
 		$tmpDbProfile = $drmProfile->toObject();
 			
 		$dbDrmProfile = DrmProfilePeer::retrieveByProvider($tmpDbProfile->getProvider());
 		if(!$dbDrmProfile)
 		{
-            if ($provider == KalturaDrmProviderType::CENC)
+            if ($provider == BorhanDrmProviderType::CENC)
             {
                 $dbDrmProfile = new DrmProfile();
             }
             else
             {
-                $dbDrmProfile = KalturaPluginManager::loadObject('DrmProfile', $tmpDbProfile->getProvider());
+                $dbDrmProfile = BorhanPluginManager::loadObject('DrmProfile', $tmpDbProfile->getProvider());
             }
 			$dbDrmProfile->setName('default');
 			$dbDrmProfile->setProvider($tmpDbProfile->getProvider());

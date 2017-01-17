@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.filters.enum
  */
-class KalturaGenericDistributionProviderOrderBy extends KalturaDistributionProviderOrderBy
+class BorhanGenericDistributionProviderOrderBy extends BorhanDistributionProviderOrderBy
 {
 	const CREATED_AT_ASC = "+createdAt";
 	const CREATED_AT_DESC = "-createdAt";

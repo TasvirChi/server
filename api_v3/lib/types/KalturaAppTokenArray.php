@@ -3,17 +3,17 @@
  * @package api
  * @subpackage objects
  */
-class KalturaAppTokenArray extends KalturaTypedArray
+class BorhanAppTokenArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaAppTokenArray();
+		$newArr = new BorhanAppTokenArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-    		$nObj = new KalturaAppToken();
+    		$nObj = new BorhanAppToken();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaAppTokenArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaAppToken");	
+		parent::__construct("BorhanAppToken");	
 	}
 }

@@ -5,7 +5,7 @@
  * @package api
  * @subpackage services
  */
-class UserEntryService extends KalturaBaseService {
+class UserEntryService extends BorhanBaseService {
 
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -13,17 +13,17 @@ class UserEntryService extends KalturaBaseService {
 	}
 
 	/**
-	 * Adds a user_entry to the Kaltura DB.
+	 * Adds a user_entry to the Borhan DB.
 	 *
 	 * @action add
-	 * @param KalturaUserEntry $userEntry
-	 * @return KalturaUserEntry
+	 * @param BorhanUserEntry $userEntry
+	 * @return BorhanUserEntry
 	 */
-	public function addAction(KalturaUserEntry $userEntry)
+	public function addAction(BorhanUserEntry $userEntry)
 	{
 		$entry = entryPeer::retrieveByPK($userEntry->entryId);
 		if (!$entry)
-			throw new KalturaAPIException(KalturaErrors::INVALID_ENTRY_ID, $userEntry->entryId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_ENTRY_ID, $userEntry->entryId);
 
 		$dbUserEntry = $userEntry->toInsertableObject(null, array('type'));
 		$dbUserEntry->save();
@@ -37,14 +37,14 @@ class UserEntryService extends KalturaBaseService {
 	 *
 	 * @action update
 	 * @param int $id
-	 * @param KalturaUserEntry $userEntry
-	 * @throws KalturaAPIException
+	 * @param BorhanUserEntry $userEntry
+	 * @throws BorhanAPIException
 	 */
-	public function updateAction($id, KalturaUserEntry $userEntry)
+	public function updateAction($id, BorhanUserEntry $userEntry)
 	{
 		$dbUserEntry = UserEntryPeer::retrieveByPK($id);
 		if (!$dbUserEntry)
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $id);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $id);
 
 		$dbUserEntry = $userEntry->toUpdatableObject($dbUserEntry);
 		$dbUserEntry->save();
@@ -53,18 +53,18 @@ class UserEntryService extends KalturaBaseService {
 	/**
 	 * @action delete
 	 * @param int $id
-	 * @return KalturaUserEntry The deleted UserEntry object
- 	 * @throws KalturaAPIException
+	 * @return BorhanUserEntry The deleted UserEntry object
+ 	 * @throws BorhanAPIException
 	 */
 	public function deleteAction($id)
 	{
 		$dbUserEntry = UserEntryPeer::retrieveByPK($id);
 		if (!$dbUserEntry)
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $id);
-		$dbUserEntry->setStatus(KalturaUserEntryStatus::DELETED);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $id);
+		$dbUserEntry->setStatus(BorhanUserEntryStatus::DELETED);
 		$dbUserEntry->save();
 
-		$userEntry = KalturaUserEntry::getInstanceByType($dbUserEntry->getType());
+		$userEntry = BorhanUserEntry::getInstanceByType($dbUserEntry->getType());
 		$userEntry->fromObject($dbUserEntry, $this->getResponseProfile());
 
 		return $userEntry;
@@ -73,23 +73,23 @@ class UserEntryService extends KalturaBaseService {
 
 	/**
 	 * @action list
-	 * @param KalturaUserEntryFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaUserEntryListResponse
+	 * @param BorhanUserEntryFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanUserEntryListResponse
 	 */
-	public function listAction(KalturaUserEntryFilter $filter, KalturaFilterPager $pager = null)
+	public function listAction(BorhanUserEntryFilter $filter, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
 		{
-			$filter = new KalturaUserEntryFilter();
+			$filter = new BorhanUserEntryFilter();
 		}
 		if (!$pager)
 		{
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 		}
 		// return empty list when userId was not given
 		if ( $this->getKs() && !$this->getKs()->isAdmin() && !kCurrentContext::$ks_uid ) {
-		    return new KalturaUserEntryListResponse();
+		    return new BorhanUserEntryListResponse();
 		}
 		return $filter->getListResponse($pager, $this->getResponseProfile());
 	}
@@ -97,16 +97,16 @@ class UserEntryService extends KalturaBaseService {
 	/**
 	 * @action get
 	 * @param string $id
-	 * @return KalturaUserEntry
-	 * @throws KalturaAPIException
+	 * @return BorhanUserEntry
+	 * @throws BorhanAPIException
 	 */
 	public function getAction($id)
 	{
 		$dbUserEntry = UserEntryPeer::retrieveByPK( $id );
 		if(!$dbUserEntry)
-			throw new KalturaAPIException(KalturaErrors::USER_ENTRY_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::USER_ENTRY_NOT_FOUND, $id);
 
-		$userEntry = KalturaUserEntry::getInstanceByType($dbUserEntry->getType());
+		$userEntry = BorhanUserEntry::getInstanceByType($dbUserEntry->getType());
 		if (!$userEntry)
 			return null;
 		$userEntry->fromObject($dbUserEntry);

@@ -15,37 +15,37 @@ class kObjectIdField extends kStringField
 	{
 		if(!$scope)
 		{
-			KalturaLog::info('No scope specified');
+			BorhanLog::info('No scope specified');
 			return null;
 		}
 		
 		if (!($scope instanceof kEventScope))
 		{
-			KalturaLog::info('Scope must be of type kEventScope, [' . get_class($scope) . '] given');
+			BorhanLog::info('Scope must be of type kEventScope, [' . get_class($scope) . '] given');
 			return;
 		}
 		
 		if (!($scope->getEvent()))
 		{
-			KalturaLog::info('$scope->getEvent() must return a value');
+			BorhanLog::info('$scope->getEvent() must return a value');
 			return;
 		}
 		
-		if ($scope->getEvent() && !($scope->getEvent() instanceof  IKalturaObjectRelatedEvent))
+		if ($scope->getEvent() && !($scope->getEvent() instanceof  IBorhanObjectRelatedEvent))
 		{
-			KalturaLog::info('Scope event must realize interface IKalturaObjectRelatedEvent');
+			BorhanLog::info('Scope event must realize interface IBorhanObjectRelatedEvent');
 			return;
 		}
 		
 		if ($scope->getEvent() && !($scope->getEvent()->getObject()))
 		{
-			KalturaLog::info('Object not found on scope event');
+			BorhanLog::info('Object not found on scope event');
 			return;
 		}
 		
 		if (!method_exists($scope->getEvent()->getObject(), 'getId'))
 		{
-			KalturaLog::info('Getter method for object id not found');
+			BorhanLog::info('Getter method for object id not found');
 			return;
 		}
 		

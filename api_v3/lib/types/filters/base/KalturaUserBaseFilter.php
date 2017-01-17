@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaUserBaseFilter extends KalturaRelatedFilter
+abstract class BorhanUserBaseFilter extends BorhanRelatedFilter
 {
 	static private $map_between_objects = array
 	(
@@ -50,7 +50,7 @@ abstract class KalturaUserBaseFilter extends KalturaRelatedFilter
 	public $partnerIdEqual;
 
 	/**
-	 * @var KalturaUserType
+	 * @var BorhanUserType
 	 */
 	public $typeEqual;
 
@@ -90,7 +90,7 @@ abstract class KalturaUserBaseFilter extends KalturaRelatedFilter
 	public $tagsMultiLikeAnd;
 
 	/**
-	 * @var KalturaUserStatus
+	 * @var BorhanUserStatus
 	 */
 	public $statusEqual;
 
@@ -120,7 +120,7 @@ abstract class KalturaUserBaseFilter extends KalturaRelatedFilter
 	public $lastNameStartsWith;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $isAdminEqual;
 }

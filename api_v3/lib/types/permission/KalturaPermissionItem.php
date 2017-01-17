@@ -4,7 +4,7 @@
  * @subpackage objects
  * @abstract
  */
-abstract class KalturaPermissionItem extends KalturaObject implements IRelatedFilterable
+abstract class BorhanPermissionItem extends BorhanObject implements IRelatedFilterable
 {
 
 	/**
@@ -16,7 +16,7 @@ abstract class KalturaPermissionItem extends KalturaObject implements IRelatedFi
 		
 
 	/**
-	 * @var KalturaPermissionItemType
+	 * @var BorhanPermissionItemType
 	 * @filter eq,in
 	 * @readonly
 	 */

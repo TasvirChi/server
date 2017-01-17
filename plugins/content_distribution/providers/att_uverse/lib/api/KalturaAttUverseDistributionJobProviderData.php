@@ -3,11 +3,11 @@
  * @package plugins.attUverseDistribution
  * @subpackage api.objects
  */
-class KalturaAttUverseDistributionJobProviderData extends KalturaConfigurableDistributionJobProviderData
+class BorhanAttUverseDistributionJobProviderData extends BorhanConfigurableDistributionJobProviderData
 {
 		
 	/**
-	 * @var KalturaAttUverseDistributionFileArray
+	 * @var BorhanAttUverseDistributionFileArray
 	 */
 	public $filesForDistribution;
 	
@@ -33,14 +33,14 @@ class KalturaAttUverseDistributionJobProviderData extends KalturaConfigurableDis
 	public $remoteCaptionFileUrls;
 	
 	
-	public function __construct(KalturaDistributionJobData $distributionJobData = null)
+	public function __construct(BorhanDistributionJobData $distributionJobData = null)
 	{			   
 		parent::__construct($distributionJobData);
 	    
 		if(!$distributionJobData)
 			return;
 			
-		if(!($distributionJobData->distributionProfile instanceof KalturaAttUverseDistributionProfile))
+		if(!($distributionJobData->distributionProfile instanceof BorhanAttUverseDistributionProfile))
 			return;
 		
 		/* @var $distributionProfileDb AttUverseDistributionProfile */
@@ -48,7 +48,7 @@ class KalturaAttUverseDistributionJobProviderData extends KalturaConfigurableDis
 		$distributionProfileDb = DistributionProfilePeer::retrieveByPK($distributionJobData->distributionProfileId);
 		$distributedFlavorIds = null;
 		$distributedThumbIds = null;
-		$this->filesForDistribution = new KalturaAttUverseDistributionFileArray();
+		$this->filesForDistribution = new BorhanAttUverseDistributionFileArray();
 		$entryDistributionDb = EntryDistributionPeer::retrieveByPK($distributionJobData->entryDistributionId);
 		//Flavor Assets
 		$flavorAssets = assetPeer::retrieveByIds(explode(',', $distributionJobData->entryDistribution->flavorAssetIds));
@@ -56,8 +56,8 @@ class KalturaAttUverseDistributionJobProviderData extends KalturaConfigurableDis
 			$assetLocalIds = array();
 			foreach ($flavorAssets as $flavorAsset)
 			{
-				$file = new KalturaAttUverseDistributionFile();
-				$file->assetType = KalturaAssetType::FLAVOR;
+				$file = new BorhanAttUverseDistributionFile();
+				$file->assetType = BorhanAssetType::FLAVOR;
 				/* @var $flavorAsset flavorAsset */
 				$syncKey = $flavorAsset->getSyncKey(flavorAsset::FILE_SYNC_ASSET_SUB_TYPE_ASSET);
 				if(kFileSyncUtils::fileSync_exists($syncKey)){
@@ -80,8 +80,8 @@ class KalturaAttUverseDistributionJobProviderData extends KalturaConfigurableDis
 			$thumbLocalIds = array();
 			foreach ($thumbAssets as $thumbAsset)
 			{							
-				$file = new KalturaAttUverseDistributionFile();
-				$file->assetType = KalturaAssetType::THUMBNAIL;	
+				$file = new BorhanAttUverseDistributionFile();
+				$file->assetType = BorhanAssetType::THUMBNAIL;	
 				$syncKey = $thumbAsset->getSyncKey(thumbAsset::FILE_SYNC_ASSET_SUB_TYPE_ASSET);
 				if(kFileSyncUtils::fileSync_exists($syncKey)){
 					$thumbLocalIds[] = $thumbAsset->getId();
@@ -102,8 +102,8 @@ class KalturaAttUverseDistributionJobProviderData extends KalturaConfigurableDis
 			$captionLocalIds = array();
 			foreach ($additionalAssets as $additionalAsset)
 			{	
-				$file = new KalturaAttUverseDistributionFile();
-				$file->assetType = kPluginableEnumsManager::coreToApi(KalturaAssetType::getEnumClass(),$additionalAsset->getType());
+				$file = new BorhanAttUverseDistributionFile();
+				$file->assetType = kPluginableEnumsManager::coreToApi(BorhanAssetType::getEnumClass(),$additionalAsset->getType());
 				$syncKey = $additionalAsset->getSyncKey(CaptionAsset::FILE_SYNC_ASSET_SUB_TYPE_ASSET);
 				$id = $additionalAsset->getId();
 				if(kFileSyncUtils::fileSync_exists($syncKey)){
@@ -130,7 +130,7 @@ class KalturaAttUverseDistributionJobProviderData extends KalturaConfigurableDis
 			$entryDistributionDb->save();
 		}
 		else
-			KalturaLog::err('Entry distribution ['.$distributionJobData->entryDistributionId.'] not found');
+			BorhanLog::err('Entry distribution ['.$distributionJobData->entryDistributionId.'] not found');
 	}
 		
 	private static $map_between_objects = array

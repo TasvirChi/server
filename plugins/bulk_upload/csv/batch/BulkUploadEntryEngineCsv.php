@@ -25,22 +25,22 @@ class BulkUploadEntryEngineCsv extends BulkUploadEngineCsv
 	/* (non-PHPdoc)
 	 * @see KBulkUploadEngine::addBulkUploadResult()
 	 */
-	protected function addBulkUploadResult(KalturaBulkUploadResult $bulkUploadResult)
+	protected function addBulkUploadResult(BorhanBulkUploadResult $bulkUploadResult)
 	{
 		parent::addBulkUploadResult($bulkUploadResult);
 
-		if(($bulkUploadResult->entryId || $bulkUploadResult->objectId) && $bulkUploadResult->entryStatus == KalturaEntryStatus::IMPORT)
+		if(($bulkUploadResult->entryId || $bulkUploadResult->objectId) && $bulkUploadResult->entryStatus == BorhanEntryStatus::IMPORT)
 		{
 		    $url = $bulkUploadResult->url;
 		    $isSsh = (stripos($url, 'sftp:') === 0) || (stripos($url, 'scp:') === 0);
 		    if ($isSsh) {
-		        $resource = new KalturaSshUrlResource();
+		        $resource = new BorhanSshUrlResource();
 		        $resource->privateKey = $bulkUploadResult->sshPrivateKey;
 		        $resource->publicKey = $bulkUploadResult->sshPublicKey;
 		        $resource->keyPassphrase = $bulkUploadResult->sshKeyPassphrase;
 		    }
 		    else {
-		        $resource = new KalturaUrlResource();
+		        $resource = new BorhanUrlResource();
 		    }
 			$resource->url = $url;
 			$resource->forceAsyncDownload = true;
@@ -60,15 +60,15 @@ class BulkUploadEntryEngineCsv extends BulkUploadEngineCsv
 		// start a multi request for add entries
 		KBatchBase::$kClient->startMultiRequest();
 
-		KalturaLog::info("job[{$this->job->id}] start creating entries [" . count($this->bulkUploadResults) . "]");
+		BorhanLog::info("job[{$this->job->id}] start creating entries [" . count($this->bulkUploadResults) . "]");
 		$bulkUploadResultChunk = array(); // store the results of the created entries
 
 		foreach($this->bulkUploadResults as $bulkUploadResult)
 		{
-		    /* @var $bulkUploadResult KalturaBulkUploadResult */
+		    /* @var $bulkUploadResult BorhanBulkUploadResult */
 		    switch ($bulkUploadResult->action)
 		    {
-		        case KalturaBulkUploadAction::ADD:
+		        case BorhanBulkUploadAction::ADD:
     		        $mediaEntry = $this->createMediaEntryFromResultAndJobData($bulkUploadResult);
 
         			$bulkUploadResultChunk[] = $bulkUploadResult;
@@ -89,14 +89,14 @@ class BulkUploadEntryEngineCsv extends BulkUploadEngineCsv
         			}
 		            break;
 
-		        case KalturaBulkUploadAction::UPDATE:
+		        case BorhanBulkUploadAction::UPDATE:
 		            break;
 
-		        case KalturaBulkUploadAction::DELETE:
+		        case BorhanBulkUploadAction::DELETE:
 		            break;
 
 		        default:
-		            $bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
+		            $bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
 		            $bulkUploadResult->errorDescription = "unknown action passed: [".$bulkUploadResult->action ."]";
 		            break;
 		    }
@@ -109,18 +109,18 @@ class BulkUploadEntryEngineCsv extends BulkUploadEngineCsv
 		if(count($requestResults))
 			$this->updateObjectsResults($requestResults, $bulkUploadResultChunk);
 
-		KalturaLog::info("job[{$this->job->id}] finish creating entries");
+		BorhanLog::info("job[{$this->job->id}] finish creating entries");
 	}
 
 	/**
 	 *
 	 * Creates and returns a new media entry for the given job data and bulk upload result object
-	 * @param KalturaBulkUploadResultEntry $bulkUploadResult
+	 * @param BorhanBulkUploadResultEntry $bulkUploadResult
 	 */
 	protected function createMediaEntryFromResultAndJobData($bulkUploadResult)
 	{
 		//Create the new media entry and set basic values
-		$mediaEntry = new KalturaMediaEntry();
+		$mediaEntry = new BorhanMediaEntry();
 		$mediaEntry->name = $bulkUploadResult->title;
 		$mediaEntry->description = $bulkUploadResult->description;
 		$mediaEntry->tags = $bulkUploadResult->tags;
@@ -129,7 +129,7 @@ class BulkUploadEntryEngineCsv extends BulkUploadEngineCsv
 		$mediaEntry->conversionProfileId = $this->data->objectData->conversionProfileId;
 
 		//Set values for V1 csv
-		if($this->csvVersion > KalturaBulkUploadCsvVersion::V1)
+		if($this->csvVersion > BorhanBulkUploadCsvVersion::V1)
 		{
 			if($bulkUploadResult->conversionProfileId)
 		    	$mediaEntry->conversionProfileId = $bulkUploadResult->conversionProfileId;
@@ -169,15 +169,15 @@ class BulkUploadEntryEngineCsv extends BulkUploadEngineCsv
 		switch(strtolower($bulkUploadResult->contentType))
 		{
 			case 'image':
-				$mediaEntry->mediaType = KalturaMediaType::IMAGE;
+				$mediaEntry->mediaType = BorhanMediaType::IMAGE;
 				break;
 
 			case 'audio':
-				$mediaEntry->mediaType = KalturaMediaType::AUDIO;
+				$mediaEntry->mediaType = BorhanMediaType::AUDIO;
 				break;
 
 			default:
-				$mediaEntry->mediaType = KalturaMediaType::VIDEO;
+				$mediaEntry->mediaType = BorhanMediaType::VIDEO;
 				break;
 		}
 
@@ -196,31 +196,31 @@ class BulkUploadEntryEngineCsv extends BulkUploadEngineCsv
 	    if (!$bulkUploadResult)
 	    	return;
 
-		$bulkUploadResult->bulkUploadResultObjectType = KalturaBulkUploadObjectType::ENTRY;
+		$bulkUploadResult->bulkUploadResultObjectType = BorhanBulkUploadObjectType::ENTRY;
 
 		// Check variables count
-		if($this->csvVersion != KalturaBulkUploadCsvVersion::V3)
+		if($this->csvVersion != BorhanBulkUploadCsvVersion::V3)
 		{
 			if(count($values) == self::VALUES_COUNT_V1)
 			{
-				$this->csvVersion = KalturaBulkUploadCsvVersion::V1;
+				$this->csvVersion = BorhanBulkUploadCsvVersion::V1;
 				$columns = $this->getV1Columns();
 			}
 			elseif(count($values) == self::VALUES_COUNT_V2)
 			{
-				$this->csvVersion = KalturaBulkUploadCsvVersion::V2;
+				$this->csvVersion = BorhanBulkUploadCsvVersion::V2;
 				$columns = $this->getV2Columns();
 			}
 			else
 			{
 				// fail and continue with next line
-				$bulkUploadResult->entryStatus = KalturaEntryStatus::ERROR_IMPORTING;
-				$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
+				$bulkUploadResult->entryStatus = BorhanEntryStatus::ERROR_IMPORTING;
+				$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
 				$bulkUploadResult->errorDescription = "Wrong number of values on line $this->lineNumber";
 				$this->addBulkUploadResult($bulkUploadResult);
 				return;
 			}
-			KalturaLog::info("Columns:\n" . print_r($columns, true));
+			BorhanLog::info("Columns:\n" . print_r($columns, true));
 		}
 
 		// trim the values
@@ -238,7 +238,7 @@ class BulkUploadEntryEngineCsv extends BulkUploadEngineCsv
 			if($column == 'scheduleStartDate' || $column == 'scheduleEndDate')
 			{
 				$$column = strlen($values[$index]) ? $values[$index] : null;
-				KalturaLog::info("Set value \${$column} [{$$column}]");
+				BorhanLog::info("Set value \${$column} [{$$column}]");
 			}
 			else if ($column == 'entryId')
 			{
@@ -249,11 +249,11 @@ class BulkUploadEntryEngineCsv extends BulkUploadEngineCsv
 				if(iconv_strlen($values[$index], 'UTF-8'))
 				{
 					$bulkUploadResult->$column = $values[$index];
-					KalturaLog::info("Set value $column [{$bulkUploadResult->$column}]");
+					BorhanLog::info("Set value $column [{$bulkUploadResult->$column}]");
 				}
 				else
 				{
-					KalturaLog::info("Value $column is empty");
+					BorhanLog::info("Value $column is empty");
 				}
 			}
 		}
@@ -264,23 +264,23 @@ class BulkUploadEntryEngineCsv extends BulkUploadEngineCsv
 
 			foreach($columns['plugins'] as $index => $column)
 			{
-				$bulkUploadPlugin = new KalturaBulkUploadPluginData();
+				$bulkUploadPlugin = new BorhanBulkUploadPluginData();
 				$bulkUploadPlugin->field = $column;
 				$bulkUploadPlugin->value = iconv_strlen($values[$index], 'UTF-8') ? $values[$index] : null;
 				$bulkUploadPlugins[] = $bulkUploadPlugin;
 
-				KalturaLog::info("Set plugin value $column [{$bulkUploadPlugin->value}]");
+				BorhanLog::info("Set plugin value $column [{$bulkUploadPlugin->value}]");
 			}
 
 			$bulkUploadResult->pluginsData = $bulkUploadPlugins;
 		}
 
-		$bulkUploadResult->entryStatus = KalturaEntryStatus::IMPORT;
-		$bulkUploadResult->status = KalturaBulkUploadResultStatus::IN_PROGRESS;
+		$bulkUploadResult->entryStatus = BorhanEntryStatus::IMPORT;
+		$bulkUploadResult->status = BorhanBulkUploadResultStatus::IN_PROGRESS;
 
 		if (!$bulkUploadResult->action)
 		{
-		    $bulkUploadResult->action = KalturaBulkUploadAction::ADD;
+		    $bulkUploadResult->action = BorhanBulkUploadAction::ADD;
 		}
 
 		if(!is_numeric($bulkUploadResult->conversionProfileId))
@@ -291,29 +291,29 @@ class BulkUploadEntryEngineCsv extends BulkUploadEngineCsv
 
 		if($this->maxRecords && $this->lineNumber > $this->maxRecords) // check max records
 		{
-			$bulkUploadResult->entryStatus = KalturaEntryStatus::ERROR_IMPORTING;
-			$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
+			$bulkUploadResult->entryStatus = BorhanEntryStatus::ERROR_IMPORTING;
+			$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
 			$bulkUploadResult->errorDescription = "Exeeded max records count per bulk";
 		}
 
 		if(!$this->isUrl($bulkUploadResult->url)) // validates the url
 		{
-			$bulkUploadResult->entryStatus = KalturaEntryStatus::ERROR_IMPORTING;
-			$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
+			$bulkUploadResult->entryStatus = BorhanEntryStatus::ERROR_IMPORTING;
+			$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
 			$bulkUploadResult->errorDescription = "Invalid url '$bulkUploadResult->url' on line $this->lineNumber";
 		}
 
 		if($scheduleStartDate && !self::isFormatedDate($scheduleStartDate))
 		{
-			$bulkUploadResult->entryStatus = KalturaEntryStatus::ERROR_IMPORTING;
-			$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
+			$bulkUploadResult->entryStatus = BorhanEntryStatus::ERROR_IMPORTING;
+			$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
 			$bulkUploadResult->errorDescription = "Invalid schedule start date '$scheduleStartDate' on line $this->lineNumber";
 		}
 
 		if($scheduleEndDate && !self::isFormatedDate($scheduleEndDate))
 		{
-			$bulkUploadResult->entryStatus = KalturaEntryStatus::ERROR_IMPORTING;
-			$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
+			$bulkUploadResult->entryStatus = BorhanEntryStatus::ERROR_IMPORTING;
+			$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
 			$bulkUploadResult->errorDescription = "Invalid schedule end date '$scheduleEndDate' on line $this->lineNumber";
 		}
 
@@ -321,18 +321,18 @@ class BulkUploadEntryEngineCsv extends BulkUploadEngineCsv
 		$publicKey = isset($bulkUploadResult->sshPublicKey) ? $bulkUploadResult->sshPublicKey : false;
 
 		if (empty($privateKey) & !empty($publicKey)) {
-		    $bulkUploadResult->entryStatus = KalturaEntryStatus::ERROR_IMPORTING;
-		    $bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
+		    $bulkUploadResult->entryStatus = BorhanEntryStatus::ERROR_IMPORTING;
+		    $bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
 			$bulkUploadResult->errorDescription = "Missing SSH private key on line  $this->lineNumber";
 
 		}
 		else if (!empty($privateKey) & empty($publicKey)) {
-		    $bulkUploadResult->entryStatus = KalturaEntryStatus::ERROR_IMPORTING;
-		    $bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
+		    $bulkUploadResult->entryStatus = BorhanEntryStatus::ERROR_IMPORTING;
+		    $bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
 			$bulkUploadResult->errorDescription = "Missing SSH public key on line $this->lineNumber";
 		}
 
-		if($bulkUploadResult->status == KalturaBulkUploadResultStatus::ERROR)
+		if($bulkUploadResult->status == BorhanBulkUploadResultStatus::ERROR)
 		{
 			$this->addBulkUploadResult($bulkUploadResult);
 			return;
@@ -398,18 +398,18 @@ class BulkUploadEntryEngineCsv extends BulkUploadEngineCsv
 
 	protected function updateObjectsResults(array $requestResults, array $bulkUploadResults)
 	{
-		KalturaLog::info("Updating " . count($requestResults) . " results");
+		BorhanLog::info("Updating " . count($requestResults) . " results");
 
 		// checking the created entries
 		foreach($requestResults as $index => $requestResult)
 		{
-		    /* @var $bulkUploadResult KalturaBulkUploadResultEntry */
+		    /* @var $bulkUploadResult BorhanBulkUploadResultEntry */
 			$bulkUploadResult = $bulkUploadResults[$index];
 
 			if(is_array($requestResult) && isset($requestResult['code']))
 			{
-			    $bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-			    $bulkUploadResult->errorType = KalturaBatchJobErrorTypes::KALTURA_API;
+			    $bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+			    $bulkUploadResult->errorType = BorhanBatchJobErrorTypes::BORHAN_API;
 				$bulkUploadResult->entryStatus = $requestResult['code'];
 				$bulkUploadResult->errorDescription = $requestResult['message'];
 				$this->addBulkUploadResult($bulkUploadResult);
@@ -418,20 +418,20 @@ class BulkUploadEntryEngineCsv extends BulkUploadEngineCsv
 
 			if($requestResult instanceof Exception)
 			{
-				$bulkUploadResult->entryStatus = KalturaEntryStatus::ERROR_IMPORTING;
-				$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-				$bulkUploadResult->errorType = KalturaBatchJobErrorTypes::KALTURA_API;
+				$bulkUploadResult->entryStatus = BorhanEntryStatus::ERROR_IMPORTING;
+				$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+				$bulkUploadResult->errorType = BorhanBatchJobErrorTypes::BORHAN_API;
 				$bulkUploadResult->errorDescription = $requestResult->getMessage();
 				$this->addBulkUploadResult($bulkUploadResult);
 				continue;
 			}
 
-			if(! ($requestResult instanceof KalturaBaseEntry))
+			if(! ($requestResult instanceof BorhanBaseEntry))
 			{
-				$bulkUploadResult->entryStatus = KalturaEntryStatus::ERROR_IMPORTING;
-				$bulkUploadResult->status = KalturaBulkUploadResultStatus::ERROR;
-				$bulkUploadResult->errorType = KalturaBatchJobErrorTypes::KALTURA_API;
-				$bulkUploadResult->errorDescription = "Returned type is " . get_class($requestResult) . ', KalturaMediaEntry was expected';
+				$bulkUploadResult->entryStatus = BorhanEntryStatus::ERROR_IMPORTING;
+				$bulkUploadResult->status = BorhanBulkUploadResultStatus::ERROR;
+				$bulkUploadResult->errorType = BorhanBatchJobErrorTypes::BORHAN_API;
+				$bulkUploadResult->errorDescription = "Returned type is " . get_class($requestResult) . ', BorhanMediaEntry was expected';
 				$this->addBulkUploadResult($bulkUploadResult);
 				continue;
 			}
@@ -446,16 +446,16 @@ class BulkUploadEntryEngineCsv extends BulkUploadEngineCsv
 	}
 
 	/**
-	 * Function which creates KalturaCategoryEntry objects for the entry which was added
+	 * Function which creates BorhanCategoryEntry objects for the entry which was added
 	 * via the bulk upload CSV.
 	 * @param string $entryId
 	 * @param string $categories
-	 * @param KalturaBulkUploadResultEntry $bulkuploadResult
+	 * @param BorhanBulkUploadResultEntry $bulkuploadResult
 	 */
-	private function createCategoryAssociations ($entryId, $categories, KalturaBulkUploadResultEntry $bulkuploadResult)
+	private function createCategoryAssociations ($entryId, $categories, BorhanBulkUploadResultEntry $bulkuploadResult)
 	{
 		if(!$categories) {	// skip this prcoess if no categories are present
-			KalturaLog::notice("No categories found for entry ID [$entryId], skipping association creating");
+			BorhanLog::notice("No categories found for entry ID [$entryId], skipping association creating");
 			return;
 		}
 	    KBatchBase::impersonate($this->currentPartnerId);;
@@ -464,13 +464,13 @@ class BulkUploadEntryEngineCsv extends BulkUploadEngineCsv
 	    $ret = array();
 	    foreach ($categoriesArr as $categoryName)
 	    {
-	        $categoryFilter = new KalturaCategoryFilter();
+	        $categoryFilter = new BorhanCategoryFilter();
 	        $categoryFilter->fullNameEqual = $categoryName;
-	        $res = KBatchBase::$kClient->category->listAction($categoryFilter, new KalturaFilterPager());
+	        $res = KBatchBase::$kClient->category->listAction($categoryFilter, new BorhanFilterPager());
 	        if (!count($res->objects))
 	        {
 	           $res = $this->createCategoryByPath($categoryName);
-	           if (! $res instanceof  KalturaCategory)
+	           if (! $res instanceof  BorhanCategory)
 	           {
 	               $bulkuploadResult->errorDescription .= $res;
 	               continue;
@@ -482,7 +482,7 @@ class BulkUploadEntryEngineCsv extends BulkUploadEngineCsv
 	        {
 	            $category = $res->objects[0];
 	        }
-	        $categoryEntry = new KalturaCategoryEntry();
+	        $categoryEntry = new BorhanCategoryEntry();
 	        $categoryEntry->categoryId = $category->id;
 	        $categoryEntry->entryId = $entryId;
 	        try {
@@ -505,7 +505,7 @@ class BulkUploadEntryEngineCsv extends BulkUploadEngineCsv
         $fullNameEq = '';
         foreach ($catNames as $catName)
         {
-            $category = new KalturaCategory();
+            $category = new BorhanCategory();
             $category->name = $catName;
             $category->parentId = $parentId;
 
@@ -522,7 +522,7 @@ class BulkUploadEntryEngineCsv extends BulkUploadEngineCsv
             {
                 if ($e->getCode() == 'DUPLICATE_CATEGORY')
                 {
-                    $catFilter = new KalturaCategoryFilter();
+                    $catFilter = new BorhanCategoryFilter();
                     $catFilter->fullNameEqual = $fullNameEq;
                     $res = KBatchBase::$kClient->category->listAction($catFilter);
                     $category = $res->objects[0];
@@ -542,7 +542,7 @@ class BulkUploadEntryEngineCsv extends BulkUploadEngineCsv
 
 	protected function getUploadResultInstance ()
 	{
-	    return new KalturaBulkUploadResultEntry();
+	    return new BorhanBulkUploadResultEntry();
 	}
 
 	public function getObjectTypeTitle()

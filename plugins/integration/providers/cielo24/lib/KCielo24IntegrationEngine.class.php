@@ -8,12 +8,12 @@ class KCielo24IntegrationEngine implements KIntegrationCloserEngine
 	private $baseEndpointUrl = null;
 	private $clientHelper = null;
 	
-	const GET_URL_FILE_NAME = "kalturaFile";
+	const GET_URL_FILE_NAME = "borhanFile";
 	
 	/* (non-PHPdoc)
 	 * @see KIntegrationCloserEngine::dispatch()
 	 */
-	public function dispatch(KalturaBatchJob $job, KalturaIntegrationJobData &$data)
+	public function dispatch(BorhanBatchJob $job, BorhanIntegrationJobData &$data)
 	{
 		return $this->doDispatch($job, $data, $data->providerData);
 	}
@@ -21,12 +21,12 @@ class KCielo24IntegrationEngine implements KIntegrationCloserEngine
 	/* (non-PHPdoc)
 	 * @see KIntegrationCloserEngine::close()
 	 */
-	public function close(KalturaBatchJob $job, KalturaIntegrationJobData &$data)
+	public function close(BorhanBatchJob $job, BorhanIntegrationJobData &$data)
 	{
 		return $this->doClose($job, $data, $data->providerData);
 	}
 	
-	protected function doDispatch(KalturaBatchJob $job, KalturaIntegrationJobData &$data, KalturaCielo24JobProviderData $providerData)
+	protected function doDispatch(BorhanBatchJob $job, BorhanIntegrationJobData &$data, BorhanCielo24JobProviderData $providerData)
 	{
 		$entryId = $providerData->entryId;
 		$flavorAssetId = $providerData->flavorAssetId;
@@ -39,12 +39,12 @@ class KCielo24IntegrationEngine implements KIntegrationCloserEngine
 	
 		$shouldReplaceRemoteMedia = $providerData->replaceMediaContent;
 		$callBackUrl = $data->callbackNotificationUrl;
-		KalturaLog::debug('callback is - ' . $callBackUrl);	
+		BorhanLog::debug('callback is - ' . $callBackUrl);	
 	
 		$this->clientHelper = Cielo24Plugin::getClientHelper($providerData->username, $providerData->password, $providerData->baseUrl);
 		
 		//setting a pre-defined name to prevent the flavor-url to contain chars that will break the curl url syntax
-		$nameOptions = new KalturaFlavorAssetUrlOptions();
+		$nameOptions = new BorhanFlavorAssetUrlOptions();
 		$nameOptions->fileName = self::GET_URL_FILE_NAME;	
 		$flavorUrl = KBatchBase::$kClient->flavorAsset->getUrl($flavorAssetId, null, null, $nameOptions);
 
@@ -68,7 +68,7 @@ class KCielo24IntegrationEngine implements KIntegrationCloserEngine
 		return false;
 	}
 	
-	protected function doClose(KalturaBatchJob $job, KalturaIntegrationJobData &$data, KalturaCielo24JobProviderData $providerData)
+	protected function doClose(BorhanBatchJob $job, BorhanIntegrationJobData &$data, BorhanCielo24JobProviderData $providerData)
 	{
 		return false;
 	}

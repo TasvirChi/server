@@ -2,7 +2,7 @@
 /**
  * @package plugins.httpNotification
  */
-class HttpNotificationPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaPending, IKalturaObjectLoader, IKalturaEnumerator, IKalturaApplicationPartialView
+class HttpNotificationPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanPending, IBorhanObjectLoader, IBorhanEnumerator, IBorhanApplicationPartialView
 {
 	const PLUGIN_NAME = 'httpNotification';
 	
@@ -12,7 +12,7 @@ class HttpNotificationPlugin extends KalturaPlugin implements IKalturaPermission
 	const EVENT_NOTIFICATION_PLUGIN_VERSION_BUILD = 0;
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -20,7 +20,7 @@ class HttpNotificationPlugin extends KalturaPlugin implements IKalturaPermission
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissions::isAllowedPartner()
+	 * @see IBorhanPermissions::isAllowedPartner()
 	 */
 	public static function isAllowedPartner($partnerId)
 	{
@@ -32,7 +32,7 @@ class HttpNotificationPlugin extends KalturaPlugin implements IKalturaPermission
 	}
 			
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -49,14 +49,14 @@ class HttpNotificationPlugin extends KalturaPlugin implements IKalturaPermission
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaApplicationPartialView::getApplicationPartialViews()
+	 * @see IBorhanApplicationPartialView::getApplicationPartialViews()
 	 */
 	public static function getApplicationPartialViews($controller, $action)
 	{
 		if($controller == 'plugin' && $action == 'EventNotificationTemplateConfigureAction')
 		{
 			return array(
-				new Kaltura_View_Helper_HttpNotificationTemplateConfigure(),
+				new Borhan_View_Helper_HttpNotificationTemplateConfigure(),
 			);
 		}
 		
@@ -64,7 +64,7 @@ class HttpNotificationPlugin extends KalturaPlugin implements IKalturaPermission
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
@@ -87,42 +87,42 @@ class HttpNotificationPlugin extends KalturaPlugin implements IKalturaPermission
 	}
 		
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
-		if($baseClass == 'KalturaEventNotificationDispatchJobData' && $enumValue == self::getHttpNotificationTemplateTypeCoreValue(HttpNotificationTemplateType::HTTP))
-			return 'KalturaHttpNotificationDispatchJobData';
+		if($baseClass == 'BorhanEventNotificationDispatchJobData' && $enumValue == self::getHttpNotificationTemplateTypeCoreValue(HttpNotificationTemplateType::HTTP))
+			return 'BorhanHttpNotificationDispatchJobData';
 	
 		if($baseClass == 'EventNotificationTemplate' && $enumValue == self::getHttpNotificationTemplateTypeCoreValue(HttpNotificationTemplateType::HTTP))
 			return 'HttpNotificationTemplate';
 	
-		if($baseClass == 'KalturaEventNotificationTemplate' && $enumValue == self::getHttpNotificationTemplateTypeCoreValue(HttpNotificationTemplateType::HTTP))
-			return 'KalturaHttpNotificationTemplate';
+		if($baseClass == 'BorhanEventNotificationTemplate' && $enumValue == self::getHttpNotificationTemplateTypeCoreValue(HttpNotificationTemplateType::HTTP))
+			return 'BorhanHttpNotificationTemplate';
 	
-		if($baseClass == 'Form_EventNotificationTemplateConfiguration' && $enumValue == Kaltura_Client_EventNotification_Enum_EventNotificationTemplateType::HTTP)
+		if($baseClass == 'Form_EventNotificationTemplateConfiguration' && $enumValue == Borhan_Client_EventNotification_Enum_EventNotificationTemplateType::HTTP)
 			return 'Form_HttpNotificationTemplateConfiguration';
 	
-		if($baseClass == 'Kaltura_Client_EventNotification_Type_EventNotificationTemplate' && $enumValue == Kaltura_Client_EventNotification_Enum_EventNotificationTemplateType::HTTP)
-			return 'Kaltura_Client_HttpNotification_Type_HttpNotificationTemplate';
+		if($baseClass == 'Borhan_Client_EventNotification_Type_EventNotificationTemplate' && $enumValue == Borhan_Client_EventNotification_Enum_EventNotificationTemplateType::HTTP)
+			return 'Borhan_Client_HttpNotification_Type_HttpNotificationTemplate';
 	
-		if($baseClass == 'KDispatchEventNotificationEngine' && $enumValue == KalturaEventNotificationTemplateType::HTTP)
+		if($baseClass == 'KDispatchEventNotificationEngine' && $enumValue == BorhanEventNotificationTemplateType::HTTP)
 			return 'KDispatchHttpNotificationEngine';
 			
 		return null;
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn() 
 	{
-		$minVersion = new KalturaVersion(
+		$minVersion = new BorhanVersion(
 			self::EVENT_NOTIFICATION_PLUGIN_VERSION_MAJOR,
 			self::EVENT_NOTIFICATION_PLUGIN_VERSION_MINOR,
 			self::EVENT_NOTIFICATION_PLUGIN_VERSION_BUILD
 		);
-		$dependency = new KalturaDependency(self::EVENT_NOTIFICATION_PLUGIN_NAME, $minVersion);
+		$dependency = new BorhanDependency(self::EVENT_NOTIFICATION_PLUGIN_NAME, $minVersion);
 		
 		return array($dependency);
 	}
@@ -132,7 +132,7 @@ class HttpNotificationPlugin extends KalturaPlugin implements IKalturaPermission
 	 */
 	public static function getHttpNotificationFileSyncObjectTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('FileSyncObjectType', $value);
 	}
 	
@@ -141,7 +141,7 @@ class HttpNotificationPlugin extends KalturaPlugin implements IKalturaPermission
 	 */
 	public static function getHttpNotificationTemplateTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('EventNotificationTemplateType', $value);
 	}
 	
@@ -150,6 +150,6 @@ class HttpNotificationPlugin extends KalturaPlugin implements IKalturaPermission
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 }

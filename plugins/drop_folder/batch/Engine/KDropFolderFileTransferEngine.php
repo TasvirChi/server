@@ -12,11 +12,11 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 	protected $fileTransferMgr;
 
 	
-	public function watchFolder (KalturaDropFolder $folder)
+	public function watchFolder (BorhanDropFolder $folder)
 	{
 		$this->dropFolder = $folder;
 		$this->fileTransferMgr =  self::getFileTransferManager($this->dropFolder);
-		KalturaLog::info('Watching folder ['.$this->dropFolder->id.']');
+		BorhanLog::info('Watching folder ['.$this->dropFolder->id.']');
 						    										
 		$physicalFiles = $this->getDropFolderFilesFromPhysicalFolder();
 		if(count($physicalFiles) > 0)
@@ -33,19 +33,19 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 			
 			if($physicalFileName != $utfFileName)
 			{
-				KalturaLog::info("File name [$physicalFileName] is not utf-8 compatible, Skipping file...");
+				BorhanLog::info("File name [$physicalFileName] is not utf-8 compatible, Skipping file...");
 				continue;
 			}
 			
 			if(!kXml::isXMLValidContent($utfFileName))
 			{
-				KalturaLog::info("File name [$physicalFileName] contains invalid XML characters, Skipping file...");
+				BorhanLog::info("File name [$physicalFileName] contains invalid XML characters, Skipping file...");
 				continue;
 			}
 			
 			if ($this->dropFolder->incremental && $physicalFile->modificationTime < $this->dropFolder->lastFileTimestamp)
 			{
-				KalturaLog::info("File modification time [" . $physicalFile->modificationTime ."] predates drop folder last timestamp [". $this->dropFolder->lastFileTimestamp ."]. Skipping.");
+				BorhanLog::info("File modification time [" . $physicalFile->modificationTime ."] predates drop folder last timestamp [". $this->dropFolder->lastFileTimestamp ."]. Skipping.");
 				if (isset ($dropFolderFilesMap[$physicalFileName]))
 					unset($dropFolderFilesMap[$physicalFileName]);
 				continue;
@@ -54,7 +54,7 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 			if($this->validatePhysicalFile($physicalFileName))
 			{
 				$maxModificationTime = ($physicalFile->modificationTime > $maxModificationTime) ? $physicalFile->modificationTime : $maxModificationTime;
-				KalturaLog::info('Watch file ['.$physicalFileName.']');
+				BorhanLog::info('Watch file ['.$physicalFileName.']');
 				if(!array_key_exists($physicalFileName, $dropFolderFilesMap))
 				{
 					try 
@@ -66,7 +66,7 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 					}
 					catch (Exception $e)
 					{
-						KalturaLog::err("Error handling drop folder file [$physicalFileName] " . $e->getMessage());
+						BorhanLog::err("Error handling drop folder file [$physicalFileName] " . $e->getMessage());
 					}											
 				}
 				else //drop folder file entry found
@@ -86,7 +86,7 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 		
 		if ($this->dropFolder->incremental && $maxModificationTime > $this->dropFolder->lastFileTimestamp)
 		{
-			$updateDropFolder = new KalturaDropFolder();
+			$updateDropFolder = new BorhanDropFolder();
 			$updateDropFolder->lastFileTimestamp = $maxModificationTime;
 			$this->dropFolderPlugin->dropFolder->update($this->dropFolder->id, $updateDropFolder);
 		}
@@ -97,7 +97,7 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 		return $this->fileTransferMgr->fileExists($this->dropFolder->path);
 	}
 	
-	protected function handleExistingDropFolderFile (KalturaDropFolderFile $dropFolderFile)
+	protected function handleExistingDropFolderFile (BorhanDropFolderFile $dropFolderFile)
 	{
 		try 
 		{
@@ -108,9 +108,9 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 		catch (Exception $e)
 		{
 			$closedStatuses = array(
-				KalturaDropFolderFileStatus::HANDLED, 
-				KalturaDropFolderFileStatus::PURGED, 
-				KalturaDropFolderFileStatus::DELETED
+				BorhanDropFolderFileStatus::HANDLED, 
+				BorhanDropFolderFileStatus::PURGED, 
+				BorhanDropFolderFileStatus::DELETED
 			);
 			
 			//In cases drop folder is not configured with auto delete we want to verify that the status file is not in one of the closed statuses so 
@@ -118,20 +118,20 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 			if(!in_array($dropFolderFile->status, $closedStatuses))
 			{
 				//Currently "modificationTime" does not throw Exception since from php documentation not all servers support the ftp_mdtm feature
-				KalturaLog::err('Failed to get modification time or file size for file ['.$fullPath.']');
-				$this->handleFileError($dropFolderFile->id, KalturaDropFolderFileStatus::ERROR_HANDLING, KalturaDropFolderFileErrorCode::ERROR_READING_FILE, 
+				BorhanLog::err('Failed to get modification time or file size for file ['.$fullPath.']');
+				$this->handleFileError($dropFolderFile->id, BorhanDropFolderFileStatus::ERROR_HANDLING, BorhanDropFolderFileErrorCode::ERROR_READING_FILE, 
 															DropFolderPlugin::ERROR_READING_FILE_MESSAGE. '['.$fullPath.']', $e);
 			}
 			return false;		
 		}				 
 				
-		if($dropFolderFile->status == KalturaDropFolderFileStatus::UPLOADING)
+		if($dropFolderFile->status == BorhanDropFolderFileStatus::UPLOADING)
 		{
 			$this->handleUploadingDropFolderFile($dropFolderFile, $fileSize, $lastModificationTime);
 		}
 		else
 		{
-			KalturaLog::info('Last modification time ['.$lastModificationTime.'] known last modification time ['.$dropFolderFile->lastModificationTime.']');
+			BorhanLog::info('Last modification time ['.$lastModificationTime.'] known last modification time ['.$dropFolderFile->lastModificationTime.']');
 			$isLastModificationTimeUpdated = $dropFolderFile->lastModificationTime && $dropFolderFile->lastModificationTime != '' && ($lastModificationTime > $dropFolderFile->lastModificationTime);
 			
 			if($isLastModificationTimeUpdated) //file is replaced, add new entry
@@ -141,8 +141,8 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 		 	else
 		 	{
 		 		$deleteTime = $dropFolderFile->updatedAt + $this->dropFolder->autoFileDeleteDays*86400;
-		 		if(($dropFolderFile->status == KalturaDropFolderFileStatus::HANDLED && $this->dropFolder->fileDeletePolicy != KalturaDropFolderFileDeletePolicy::MANUAL_DELETE && time() > $deleteTime) ||
-		 			$dropFolderFile->status == KalturaDropFolderFileStatus::DELETED)
+		 		if(($dropFolderFile->status == BorhanDropFolderFileStatus::HANDLED && $this->dropFolder->fileDeletePolicy != BorhanDropFolderFileDeletePolicy::MANUAL_DELETE && time() > $deleteTime) ||
+		 			$dropFolderFile->status == BorhanDropFolderFileStatus::DELETED)
 		 		{
 		 			$this->purgeFile($dropFolderFile);
 		 		}
@@ -150,11 +150,11 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 		}
 	}
 	
-	protected function handleUploadingDropFolderFile (KalturaDropFolderFile $dropFolderFile, $currentFileSize, $lastModificationTime)
+	protected function handleUploadingDropFolderFile (BorhanDropFolderFile $dropFolderFile, $currentFileSize, $lastModificationTime)
 	{
 		if (!$currentFileSize) 
 		{
-			$this->handleFileError($dropFolderFile->id, KalturaDropFolderFileStatus::ERROR_HANDLING, KalturaDropFolderFileErrorCode::ERROR_READING_FILE, 
+			$this->handleFileError($dropFolderFile->id, BorhanDropFolderFileStatus::ERROR_HANDLING, BorhanDropFolderFileErrorCode::ERROR_READING_FILE, 
 															DropFolderPlugin::ERROR_READING_FILE_MESSAGE.'['.$this->dropFolder->path.'/'.$dropFolderFile->fileName);
 		}		
 		else if ($currentFileSize != $dropFolderFile->fileSize)
@@ -166,7 +166,7 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 			$time = time();
 			$fileSizeLastSetAt = $this->dropFolder->fileSizeCheckInterval + $dropFolderFile->fileSizeLastSetAt;
 			
-			KalturaLog::info("time [$time] fileSizeLastSetAt [$fileSizeLastSetAt]");
+			BorhanLog::info("time [$time] fileSizeLastSetAt [$fileSizeLastSetAt]");
 			
 			// check if fileSizeCheckInterval time has passed since the last file size update	
 			if ($time > $fileSizeLastSetAt)
@@ -180,7 +180,7 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 	{
 		try 
 		{
-			$newDropFolderFile = new KalturaDropFolderFile();
+			$newDropFolderFile = new BorhanDropFolderFile();
 	    	$newDropFolderFile->dropFolderId = $this->dropFolder->id;
 	    	$newDropFolderFile->fileName = $fileName;
 	    	$newDropFolderFile->fileSize = $fileSize;
@@ -191,14 +191,14 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err('Cannot add new drop folder file with name ['.$fileName.'] - '.$e->getMessage());
+			BorhanLog::err('Cannot add new drop folder file with name ['.$fileName.'] - '.$e->getMessage());
 			return null;
 		}
 	}
 	
 	protected function validatePhysicalFile ($physicalFile)
 	{
-		KalturaLog::log('Validating physical file ['.$physicalFile.']');
+		BorhanLog::log('Validating physical file ['.$physicalFile.']');
 		
 		$ignorePatterns = $this->dropFolder->ignoreFileNamePatterns;	
 		if($ignorePatterns)
@@ -213,17 +213,17 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 			$fullPath = $this->dropFolder->path.'/'.$physicalFile;
 			if ($physicalFile === '.' || $physicalFile === '..')
 			{
-				KalturaLog::info("Skipping linux current and parent folder indicators");
+				BorhanLog::info("Skipping linux current and parent folder indicators");
 				$isValid = false;
 			}
 			else if (empty($physicalFile)) 
 			{
-				KalturaLog::err("File name is not set");
+				BorhanLog::err("File name is not set");
 				$isValid = false;
 			}
 			else if(!$fullPath || !$this->fileTransferMgr->fileExists($fullPath))
 			{
-				KalturaLog::err("Cannot access physical file in path [$fullPath]");
+				BorhanLog::err("Cannot access physical file in path [$fullPath]");
 				$isValid = false;				
 			}
 			else
@@ -232,7 +232,7 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 				{
 					if (!is_null($ignorePattern) && ($ignorePattern != '') && fnmatch($ignorePattern, $physicalFile)) 
 					{
-						KalturaLog::err("Ignoring file [$physicalFile] matching ignore pattern [$ignorePattern]");
+						BorhanLog::err("Ignoring file [$physicalFile] matching ignore pattern [$ignorePattern]");
 						$isValid = false;
 					}
 				}
@@ -240,7 +240,7 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err("Failure validating physical file [$physicalFile] - ". $e->getMessage());
+			BorhanLog::err("Failure validating physical file [$physicalFile] - ". $e->getMessage());
 			$isValid = false;
 		}
 		return $isValid;
@@ -252,7 +252,7 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
      * 
      * @return kFileTransferMgr
      */
-	public static function getFileTransferManager(KalturaDropFolder $dropFolder)
+	public static function getFileTransferManager(BorhanDropFolder $dropFolder)
 	{
 		$engineOptions = isset(KBatchBase::$taskConfig->engineOptions) ? KBatchBase::$taskConfig->engineOptions->toArray() : array();
 	    $fileTransferMgr = kFileTransferMgr::getInstance(self::getFileTransferMgrType($dropFolder->type), $engineOptions);
@@ -260,14 +260,14 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 	    $host =null; $username=null; $password=null; $port=null;
 	    $privateKey = null; $publicKey = null;
 	    
-	    if($dropFolder instanceof KalturaRemoteDropFolder)
+	    if($dropFolder instanceof BorhanRemoteDropFolder)
 	    {
 	   		$host = $dropFolder->host;
 	    	$port = $dropFolder->port;
 	    	$username = $dropFolder->username;
 	    	$password = $dropFolder->password;
 	    }  
-	    if($dropFolder instanceof KalturaSshDropFolder)
+	    if($dropFolder instanceof BorhanSshDropFolder)
 	    {
 	    	$privateKey = $dropFolder->privateKey;
 	    	$publicKey = $dropFolder->publicKey;
@@ -297,15 +297,15 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 	{
 		switch ($dropFolderType)
 		{
-			case KalturaDropFolderType::LOCAL:
+			case BorhanDropFolderType::LOCAL:
 				return kFileTransferMgrType::LOCAL;
-			case KalturaDropFolderType::FTP:
+			case BorhanDropFolderType::FTP:
 				return kFileTransferMgrType::FTP;
-			case KalturaDropFolderType::SCP:
+			case BorhanDropFolderType::SCP:
 				return kFileTransferMgrType::SCP;
-			case KalturaDropFolderType::SFTP:
+			case BorhanDropFolderType::SFTP:
 				return kFileTransferMgrType::SFTP;
-			case KalturaDropFolderType::S3:
+			case BorhanDropFolderType::S3:
 				return kFileTransferMgrType::S3;
 			default:
 				return $dropFolderType;				
@@ -340,7 +340,7 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 	{
 		try 
 		{
-			$updateDropFolderFile = new KalturaDropFolderFile();
+			$updateDropFolderFile = new BorhanDropFolderFile();
 			$updateDropFolderFile->fileSize = $fileSize;
 			$updateDropFolderFile->lastModificationTime = $lastModificationTime;
 			if($uploadStartDetectedAt)
@@ -351,7 +351,7 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 		}
 		catch (Exception $e) 
 		{
-			$this->handleFileError($dropFolderFileId, KalturaDropFolderFileStatus::ERROR_HANDLING, KalturaDropFolderFileErrorCode::ERROR_UPDATE_FILE, 
+			$this->handleFileError($dropFolderFileId, BorhanDropFolderFileStatus::ERROR_HANDLING, BorhanDropFolderFileErrorCode::ERROR_UPDATE_FILE, 
 									DropFolderPlugin::ERROR_UPDATE_FILE_MESSAGE, $e);
 			return null;
 		}						
@@ -366,21 +366,21 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 	{
 		try 
 		{
-			$updateDropFolderFile = new KalturaDropFolderFile();
+			$updateDropFolderFile = new BorhanDropFolderFile();
 			$updateDropFolderFile->lastModificationTime = $lastModificationTime;
 			$updateDropFolderFile->uploadEndDetectedAt = time();
 			$this->dropFolderFileService->update($dropFolderFileId, $updateDropFolderFile);
-			return $this->dropFolderFileService->updateStatus($dropFolderFileId, KalturaDropFolderFileStatus::PENDING);			
+			return $this->dropFolderFileService->updateStatus($dropFolderFileId, BorhanDropFolderFileStatus::PENDING);			
 		}
-		catch(KalturaException $e)
+		catch(BorhanException $e)
 		{
-			$this->handleFileError($dropFolderFileId, KalturaDropFolderFileStatus::ERROR_HANDLING, KalturaDropFolderFileErrorCode::ERROR_UPDATE_FILE, 
+			$this->handleFileError($dropFolderFileId, BorhanDropFolderFileStatus::ERROR_HANDLING, BorhanDropFolderFileErrorCode::ERROR_UPDATE_FILE, 
 									DropFolderPlugin::ERROR_UPDATE_FILE_MESSAGE, $e);
 			return null;
 		}
 	}
 	
-	protected function purgeFile(KalturaDropFolderFile $dropFolderFile)
+	protected function purgeFile(BorhanDropFolderFile $dropFolderFile)
 	{
 		$fullPath = $this->dropFolder->path.'/'.$dropFolderFile->fileName;
 		// physicaly delete the file
@@ -391,11 +391,11 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 		}
 		catch (Exception $e) 
 		{
-			KalturaLog::err("Error when deleting drop folder file - ".$e->getMessage());
+			BorhanLog::err("Error when deleting drop folder file - ".$e->getMessage());
 		    $delResult = null;
 		}
 		if (!$delResult) 
-			$this->handleFileError($dropFolderFile->id, KalturaDropFolderFileStatus::ERROR_DELETING, KalturaDropFolderFileErrorCode::ERROR_DELETING_FILE, 
+			$this->handleFileError($dropFolderFile->id, BorhanDropFolderFileStatus::ERROR_DELETING, BorhanDropFolderFileErrorCode::ERROR_DELETING_FILE, 
 														 DropFolderPlugin::ERROR_DELETING_FILE_MESSAGE. '['.$fullPath.']');
 		else
 		 	$this->handleFilePurged($dropFolderFile->id);
@@ -408,11 +408,11 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 			$physicalFiles = $this->fileTransferMgr->listFileObjects($this->dropFolder->path);
 			if ($physicalFiles) 
 			{
-				KalturaLog::log('Found ['.count($physicalFiles).'] in the folder');			
+				BorhanLog::log('Found ['.count($physicalFiles).'] in the folder');			
 			}		
 			else
 			{
-				KalturaLog::info('No physical files found for drop folder id ['.$this->dropFolder->id.'] with path ['.$this->dropFolder->path.']');
+				BorhanLog::info('No physical files found for drop folder id ['.$this->dropFolder->id.'] with path ['.$this->dropFolder->path.']');
 				$physicalFiles = array();
 			}
 		}
@@ -421,33 +421,33 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 			throw new kFileTransferMgrException('Drop folder path not valid ['.$this->dropFolder->path.']', kFileTransferMgrException::remotePathNotValid);
 		}
 
-		KalturaLog::info("physical files: ");
+		BorhanLog::info("physical files: ");
 		foreach ($physicalFiles as &$currlFile)
 		{
-			KalturaLog::info(print_r($currlFile, true));
+			BorhanLog::info(print_r($currlFile, true));
 		}
 		
 		return $physicalFiles;
 	}
 	
-	public function processFolder (KalturaBatchJob $job, KalturaDropFolderContentProcessorJobData $data)
+	public function processFolder (BorhanBatchJob $job, BorhanDropFolderContentProcessorJobData $data)
 	{
 		KBatchBase::impersonate($job->partnerId);
 		
-		/* @var $data KalturaWebexDropFolderContentProcessorJobData */
+		/* @var $data BorhanWebexDropFolderContentProcessorJobData */
 		$dropFolder = $this->dropFolderPlugin->dropFolder->get ($data->dropFolderId);
 		
 		switch ($data->contentMatchPolicy)
 		{
-			case KalturaDropFolderContentFileHandlerMatchPolicy::ADD_AS_NEW:
+			case BorhanDropFolderContentFileHandlerMatchPolicy::ADD_AS_NEW:
 				$this->addAsNewContent($job, $data, $dropFolder);
 				break;
 			
-			case KalturaDropFolderContentFileHandlerMatchPolicy::MATCH_EXISTING_OR_KEEP_IN_FOLDER:
+			case BorhanDropFolderContentFileHandlerMatchPolicy::MATCH_EXISTING_OR_KEEP_IN_FOLDER:
 				$this->addAsExistingContent($job, $data, null, $dropFolder);
 				break;
 				
-			case KalturaDropFolderContentFileHandlerMatchPolicy::MATCH_EXISTING_OR_ADD_AS_NEW:
+			case BorhanDropFolderContentFileHandlerMatchPolicy::MATCH_EXISTING_OR_ADD_AS_NEW:
 				$matchedEntry = $this->isEntryMatch($data);
 				if($matchedEntry)
 					$this->addAsExistingContent($job, $data, $matchedEntry, $dropFolder);
@@ -455,17 +455,17 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 					 $this->addAsNewContent($job, $data, $dropFolder);	
 				break;			
 			default:
-				throw new kApplicativeException(KalturaDropFolderErrorCode::CONTENT_MATCH_POLICY_UNDEFINED, 'No content match policy is defined for drop folder'); 
+				throw new kApplicativeException(BorhanDropFolderErrorCode::CONTENT_MATCH_POLICY_UNDEFINED, 'No content match policy is defined for drop folder'); 
 				break;
 		}
 		
 		KBatchBase::unimpersonate();
 	}
 	
-	private function addAsNewContent(KalturaBatchJob $job, KalturaDropFolderContentProcessorJobData $data, KalturaDropFolder $dropFolder)
+	private function addAsNewContent(BorhanBatchJob $job, BorhanDropFolderContentProcessorJobData $data, BorhanDropFolder $dropFolder)
 	{ 		
 		$resource = $this->getIngestionResource($job, $data);
-		$newEntry = new KalturaBaseEntry();
+		$newEntry = new BorhanBaseEntry();
 		$newEntry->conversionProfileId = $data->conversionProfileId;
 		$newEntry->name = $data->parsedSlug;
 		$newEntry->referenceId = $data->parsedSlug;
@@ -475,22 +475,22 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 		KBatchBase::$kClient->baseEntry->addContent($addedEntry->id, $resource);
 		$result = KBatchBase::$kClient->doMultiRequest();
 		
-		if ($result [1] && $result[1] instanceof KalturaBaseEntry)
+		if ($result [1] && $result[1] instanceof BorhanBaseEntry)
 		{
 			$entry = $result [1];
 			$this->createCategoryAssociations ($dropFolder, $entry->userId, $entry->id);
 		}	
 	}
 
-	private function isEntryMatch(KalturaDropFolderContentProcessorJobData $data)
+	private function isEntryMatch(BorhanDropFolderContentProcessorJobData $data)
 	{
 		try 
 		{
-			$entryFilter = new KalturaBaseEntryFilter();
+			$entryFilter = new BorhanBaseEntryFilter();
 			$entryFilter->referenceIdEqual = $data->parsedSlug;
-			$entryFilter->statusIn = KalturaEntryStatus::IMPORT.','.KalturaEntryStatus::PRECONVERT.','.KalturaEntryStatus::READY.','.KalturaEntryStatus::PENDING.','.KalturaEntryStatus::NO_CONTENT;		
+			$entryFilter->statusIn = BorhanEntryStatus::IMPORT.','.BorhanEntryStatus::PRECONVERT.','.BorhanEntryStatus::READY.','.BorhanEntryStatus::PENDING.','.BorhanEntryStatus::NO_CONTENT;		
 			
-			$entryPager = new KalturaFilterPager();
+			$entryPager = new BorhanFilterPager();
 			$entryPager->pageSize = 1;
 			$entryPager->pageIndex = 1;
 			$entryList = KBatchBase::$kClient->baseEntry->listAction($entryFilter, $entryPager);
@@ -506,7 +506,7 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 		}
 		catch (Exception $e)
 		{
-			KalturaLog::err('Failed to get entry by reference id: [$data->parsedSlug] - '. $e->getMessage() );
+			BorhanLog::err('Failed to get entry by reference id: [$data->parsedSlug] - '. $e->getMessage() );
 			return false;
 		}
 	}
@@ -516,7 +516,7 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 	 * Update the matched entry with the new file and all other relevant files from the drop folder, according to the ingestion profile.
 	 *
 	 */
-	private function addAsExistingContent(KalturaBatchJob $job, KalturaDropFolderContentProcessorJobData $data, $matchedEntry = null, KalturaDropFolder $dropFolder)
+	private function addAsExistingContent(BorhanBatchJob $job, BorhanDropFolderContentProcessorJobData $data, $matchedEntry = null, BorhanDropFolder $dropFolder)
 	{	    
 		// check for matching entry and flavor
 		if(!$matchedEntry)
@@ -524,7 +524,7 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 			$matchedEntry = $this->isEntryMatch($data);
 			if(!$matchedEntry)
 			{
-				$e = new kTemporaryException('No matching entry found', KalturaDropFolderFileErrorCode::FILE_NO_MATCH);
+				$e = new kTemporaryException('No matching entry found', BorhanDropFolderFileErrorCode::FILE_NO_MATCH);
 				if(($job->queueTime + KBatchBase::$taskConfig->params->maxTimeBeforeFail) >= time())	
 				{
 					$e->setResetJobExecutionAttempts(true);
@@ -539,7 +539,7 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 		KBatchBase::$kClient->startMultiRequest();
 		if ($data->parsedUserId != $matchedEntry->userId)
 		{
-			$updateEntry = new KalturaMediaEntry();
+			$updateEntry = new BorhanMediaEntry();
 			$updateEntry->userId = $data->parsedUserId;
 			KBatchBase::$kClient->baseEntry->update ($matchedEntry->id, $updateEntry);
 		}
@@ -547,7 +547,7 @@ class KDropFolderFileTransferEngine extends KDropFolderEngine
 		$updatedEntry = KBatchBase::$kClient->baseEntry->updateContent($matchedEntry->id, $resource, $data->conversionProfileId);
 		$result = KBatchBase::$kClient->doMultiRequest();
 		
-		if ($updatedEntry && $updatedEntry instanceof KalturaBaseEntry)
+		if ($updatedEntry && $updatedEntry instanceof BorhanBaseEntry)
 		{
 			$this->createCategoryAssociations ($dropFolder, $updatedEntry->userId, $updatedEntry->id);
 		}

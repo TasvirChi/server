@@ -1,9 +1,9 @@
-package lib.Kaltura.output;
+package lib.Borhan.output;
 
 /**
  * OutpuInterface interface
  *
- * @package Kaltura
+ * @package Borhan
  * @subpackage Output
  */
 public interface OutputInterface

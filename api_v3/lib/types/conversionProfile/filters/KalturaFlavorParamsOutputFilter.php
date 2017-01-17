@@ -3,10 +3,10 @@
  * @package api
  * @subpackage filters
  */
-class KalturaFlavorParamsOutputFilter extends KalturaFlavorParamsOutputBaseFilter
+class BorhanFlavorParamsOutputFilter extends BorhanFlavorParamsOutputBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -14,14 +14,14 @@ class KalturaFlavorParamsOutputFilter extends KalturaFlavorParamsOutputBaseFilte
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaAssetParamsFilter::getTypeListResponse()
+	 * @see BorhanAssetParamsFilter::getTypeListResponse()
 	 */
-	public function getTypeListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null, array $types = null)
+	public function getTypeListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null, array $types = null)
 	{
 		list($list, $totalCount) = $this->doGetListResponse($pager, $types);
 		
-		$response = new KalturaFlavorParamsOutputListResponse();
-		$response->objects = KalturaFlavorParamsOutputArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanFlavorParamsOutputListResponse();
+		$response->objects = BorhanFlavorParamsOutputArray::fromDbArray($list, $responseProfile);
 		$response->totalCount = $totalCount;
 		return $response;  
 	}

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters
  */
-class KalturaMediaEntryFilter extends KalturaMediaEntryBaseFilter
+class BorhanMediaEntryFilter extends BorhanMediaEntryBaseFilter
 {
 	static private $map_between_objects = array
 	(
@@ -19,14 +19,14 @@ class KalturaMediaEntryFilter extends KalturaMediaEntryBaseFilter
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseEntryFilter::getListResponse()
+	 * @see BorhanBaseEntryFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		list($list, $totalCount) = $this->doGetListResponse($pager);
 		
-	    $newList = KalturaMediaEntryArray::fromDbArray($list, $responseProfile);
-		$response = new KalturaBaseEntryListResponse();
+	    $newList = BorhanMediaEntryArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanBaseEntryListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $totalCount;
 		

@@ -4,7 +4,7 @@
  * @subpackage api.objects
  *
  */
-class KalturaYouTubeApiCaptionDistributionInfo extends KalturaObject{
+class BorhanYouTubeApiCaptionDistributionInfo extends BorhanObject{
 
 	/**
 	 * @var string
@@ -27,7 +27,7 @@ class KalturaYouTubeApiCaptionDistributionInfo extends KalturaObject{
 	public $remoteId;
 	
 	/**
-	 * @var KalturaYouTubeApiDistributionCaptionAction
+	 * @var BorhanYouTubeApiDistributionCaptionAction
 	 */
 	public $action;	
 	

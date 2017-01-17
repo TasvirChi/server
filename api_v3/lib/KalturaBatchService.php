@@ -16,23 +16,23 @@
  * @package api
  * @subpackage services
  */
-class KalturaBatchService extends KalturaBaseService
+class BorhanBatchService extends BorhanBaseService
 {
 	/* (non-PHPdoc)
-	 * @see KalturaBaseService::initService()
+	 * @see BorhanBaseService::initService()
 	 */
 	public function initService($serviceId, $serviceName, $actionName)
 	{
 		parent::initService($serviceId, $serviceName, $actionName);
 
 		if($this->getPartnerId() != Partner::BATCH_PARTNER_ID)
-			throw new KalturaAPIException(KalturaErrors::SERVICE_FORBIDDEN, $this->serviceName.'->'.$this->actionName);
+			throw new BorhanAPIException(BorhanErrors::SERVICE_FORBIDDEN, $this->serviceName.'->'.$this->actionName);
 
 		myPartnerUtils::resetAllFilters();
 	}
 
-	protected function getExclusiveJobs(KalturaExclusiveLockKey $lockKey, $maxExecutionTime, $numberOfJobs, 
-			KalturaBatchJobFilter $filter = null, $jobType, $maxJobToPullForCache = 0)
+	protected function getExclusiveJobs(BorhanExclusiveLockKey $lockKey, $maxExecutionTime, $numberOfJobs, 
+			BorhanBatchJobFilter $filter = null, $jobType, $maxJobToPullForCache = 0)
 	{
 		$dbJobType = kPluginableEnumsManager::apiToCore('BatchJobType', $jobType);
 

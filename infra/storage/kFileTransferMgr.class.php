@@ -287,7 +287,7 @@ abstract class kFileTransferMgr
 	 */
 	public function login ( $server, $user, $pass, $port = null)
 	{
-		KalturaLog::debug("Login to server [$server] port [$port] username/password [$user/$pass]");
+		BorhanLog::debug("Login to server [$server] port [$port] username/password [$user/$pass]");
 		
 		$this->connection_id = @($this->doConnect($server, $port));
 		if (!$this->connection_id) {
@@ -297,7 +297,7 @@ abstract class kFileTransferMgr
 		
 		if(@($this->doLogin($user, $pass)))
 		{
-			KalturaLog::debug("Logged in successfully");
+			BorhanLog::debug("Logged in successfully");
 		}
 		else
 		{
@@ -324,7 +324,7 @@ abstract class kFileTransferMgr
 	 */
 	public function loginPubKey ( $server, $user, $pubKeyFile, $privKeyFile, $passphrase = null, $port = null)
 	{
-		KalturaLog::debug("Login to server [$server] port [$port] username [$user] public key file [$pubKeyFile] private key file [$privKeyFile]");
+		BorhanLog::debug("Login to server [$server] port [$port] username [$user] public key file [$pubKeyFile] private key file [$privKeyFile]");
 		
 		$this->connection_id = @($this->doConnect($server, $port));
 		if (!$this->connection_id) {
@@ -334,7 +334,7 @@ abstract class kFileTransferMgr
 		
 		if(@($this->doLoginPubKey($user, $pubKeyFile, $privKeyFile, $passphrase)))
 		{
-			KalturaLog::debug("Logged in successfully");
+			BorhanLog::debug("Logged in successfully");
 		}
 		else
 		{
@@ -359,7 +359,7 @@ abstract class kFileTransferMgr
 	 */
 	public function putFile ($remote_file, $local_file, $overwrite = false, $overwrite_if_different = true)
 	{
-		KalturaLog::debug("Puts file [$remote_file] from local [$local_file] overwrite [$overwrite]");
+		BorhanLog::debug("Puts file [$remote_file] from local [$local_file] overwrite [$overwrite]");
 		
 		// parameter checks
 		if (!$this->connection_id) {
@@ -398,7 +398,7 @@ abstract class kFileTransferMgr
 				    @$this->mkDir(dirname($remote_file));
 				}
 				catch (Exception $e) {
-				    KalturaLog::log('Error creating directory ['.dirname($remote_file).'] - ['.$e->getMessage().'] - proceeding anyway');
+				    BorhanLog::log('Error creating directory ['.dirname($remote_file).'] - ['.$e->getMessage().'] - proceeding anyway');
 				}
 			}
 		}
@@ -414,7 +414,7 @@ abstract class kFileTransferMgr
 			throw new kFileTransferMgrException("Can't put file [$remote_file] - " . $last_error['message'], kFileTransferMgrException::otherError);
 		}
 		
-		KalturaLog::debug("File uploaded successfully");
+		BorhanLog::debug("File uploaded successfully");
 		return self::FILETRANSFERMGR_RES_OK;
 	}
 	
@@ -430,7 +430,7 @@ abstract class kFileTransferMgr
 	 */
 	public function getFile ( $remote_file, $local_file = null)
 	{
-		KalturaLog::debug("Gets file [$remote_file] to local [$local_file]");
+		BorhanLog::debug("Gets file [$remote_file] to local [$local_file]");
 		
 		// parameter checks
 		if (!$this->connection_id) {
@@ -452,7 +452,7 @@ abstract class kFileTransferMgr
 		}
 		else
 		{
-			KalturaLog::debug("File retrieved successfully");
+			BorhanLog::debug("File retrieved successfully");
 			if(is_null($local_file))
 				return $res;
 				
@@ -471,7 +471,7 @@ abstract class kFileTransferMgr
 	 */
 	public function mkDir ($remote_path)
 	{
-		KalturaLog::debug("Makes directory [$remote_path]");
+		BorhanLog::debug("Makes directory [$remote_path]");
 		
 		// parameter checks
 		if (!$this->connection_id) {
@@ -517,7 +517,7 @@ abstract class kFileTransferMgr
 			throw new kFileTransferMgrException("Can't make directory [$remote_path] - " . $last_error['message'], kFileTransferMgrException::otherError);
 		}
 		
-		KalturaLog::debug("Directory [$remote_path] created successfully");
+		BorhanLog::debug("Directory [$remote_path] created successfully");
 		return self::FILETRANSFERMGR_RES_OK;
 	}
 	
@@ -533,7 +533,7 @@ abstract class kFileTransferMgr
 	 */
 	public function chmod ($remote_file, $chmod_code)
 	{
-		KalturaLog::debug("Changes mode [$chmod_code] on file [$remote_file]");
+		BorhanLog::debug("Changes mode [$chmod_code] on file [$remote_file]");
 		
 		// parameter changes
 		if (!$this->connection_id) {
@@ -553,7 +553,7 @@ abstract class kFileTransferMgr
 		}
 		else
 		{
-			KalturaLog::debug("Mode changed successfully");
+			BorhanLog::debug("Mode changed successfully");
 			return self::FILETRANSFERMGR_RES_OK;
 		}
 	}
@@ -572,10 +572,10 @@ abstract class kFileTransferMgr
 	{
 		$remote_file = trim($remote_file);
 		
-		KalturaLog::debug("Checking if file exists [$remote_file]");
+		BorhanLog::debug("Checking if file exists [$remote_file]");
 		
 		if ($this->start_dir && strpos($this->start_dir, $remote_file) === 0) {
-			KalturaLog::debug("File is part of start directory - exists");
+			BorhanLog::debug("File is part of start directory - exists");
 			return true;
 		}
 		
@@ -591,11 +591,11 @@ abstract class kFileTransferMgr
 		
 		if($res)
 		{
-			KalturaLog::debug("File exists");
+			BorhanLog::debug("File exists");
 		}
 		else
 		{
-			KalturaLog::debug("File does not exist");
+			BorhanLog::debug("File does not exist");
 		}
 		
 		return $res;
@@ -605,7 +605,7 @@ abstract class kFileTransferMgr
 
 	public function delFile ($remote_file)
 	{
-		KalturaLog::debug("Deleting file [$remote_file]");
+		BorhanLog::debug("Deleting file [$remote_file]");
 		
 		// parameter checks
 		if (!$this->connection_id) {
@@ -625,7 +625,7 @@ abstract class kFileTransferMgr
 		}
 		else
 		{
-			KalturaLog::debug("File deleted successfully");
+			BorhanLog::debug("File deleted successfully");
 			return self::FILETRANSFERMGR_RES_OK;
 		}
 	}
@@ -633,7 +633,7 @@ abstract class kFileTransferMgr
 
 	public function delDir ($remote_path)
 	{
-		KalturaLog::debug("Deleting directory [$remote_path]");
+		BorhanLog::debug("Deleting directory [$remote_path]");
 		
 		// parameter checks
 		if (!$this->connection_id) {
@@ -653,7 +653,7 @@ abstract class kFileTransferMgr
 		}
 		else
 		{
-			KalturaLog::debug("Directory deleted successfully");
+			BorhanLog::debug("Directory deleted successfully");
 			return self::FILETRANSFERMGR_RES_OK;
 		}
 	}
@@ -665,7 +665,7 @@ abstract class kFileTransferMgr
 	 */
 	public function listDir ($remote_path)
 	{
-		KalturaLog::debug("Listing directory [$remote_path]");
+		BorhanLog::debug("Listing directory [$remote_path]");
 		
 		// parameter checks
 		if (!$this->connection_id) {
@@ -687,7 +687,7 @@ abstract class kFileTransferMgr
 	 */
 	public function listFileObjects ($remote_path)
 	{
-		KalturaLog::debug("Listing directory [$remote_path]");
+		BorhanLog::debug("Listing directory [$remote_path]");
 		
 		// parameter checks
 		if (!$this->connection_id) {
@@ -715,7 +715,7 @@ abstract class kFileTransferMgr
 	{
 		$remote_file = trim($remote_file);
 		
-		KalturaLog::debug("Checking for size of file [$remote_file]");
+		BorhanLog::debug("Checking for size of file [$remote_file]");
 				
 		// parameter checks
 		if (!$this->connection_id) {
@@ -729,11 +729,11 @@ abstract class kFileTransferMgr
 		
 		if(is_null($res) || $res < -1 )
 		{
-			KalturaLog::debug("Cannot find size of [$remote_file]");
+			BorhanLog::debug("Cannot find size of [$remote_file]");
 			throw new kFileTransferMgrException("Error finding file size.", kFileTransferMgrException::otherError);
 		}
 		
-		KalturaLog::debug("File size [$res] found for [$remote_file]");
+		BorhanLog::debug("File size [$res] found for [$remote_file]");
 		
 		return $res;
 	}
@@ -751,7 +751,7 @@ abstract class kFileTransferMgr
 	{
 		$remote_file = trim($remote_file);
 		
-		KalturaLog::debug("Checking for modification time of file [$remote_file]");
+		BorhanLog::debug("Checking for modification time of file [$remote_file]");
 				
 		// parameter checks
 		if (!$this->connection_id) {
@@ -765,11 +765,11 @@ abstract class kFileTransferMgr
 		
 		if(is_null($res) || $res < -1 )
 		{
-			KalturaLog::debug("Cannot find modification time of [$remote_file]");
+			BorhanLog::debug("Cannot find modification time of [$remote_file]");
 			throw new kFileTransferMgrException("Error finding modification time.", kFileTransferMgrException::otherError);
 		}
 		
-		KalturaLog::debug("File modification time [$res] found for [$remote_file]");
+		BorhanLog::debug("File modification time [$res] found for [$remote_file]");
 		
 		return $res;
 	}
@@ -794,12 +794,12 @@ abstract class kFileTransferMgr
 	 */
 	private function fixPathString ($path)
 	{
-		KalturaLog::debug("Fix path [$path] with start directory [$this->start_dir]");
+		BorhanLog::debug("Fix path [$path] with start directory [$this->start_dir]");
 		
 		$new_path = trim($path);
 		$new_path = str_replace("\\", "/", $new_path);
 		
-		KalturaLog::debug("Fixed path [$new_path]");
+		BorhanLog::debug("Fixed path [$new_path]");
 		return $new_path;
 	}
 

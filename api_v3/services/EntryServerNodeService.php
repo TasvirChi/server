@@ -6,7 +6,7 @@
  * @package api
  * @subpackage services
  */
-class EntryServerNodeService extends KalturaBaseService
+class EntryServerNodeService extends BorhanBaseService
 {
 
 	public function initService($serviceId, $serviceName, $actionName)
@@ -17,13 +17,13 @@ class EntryServerNodeService extends KalturaBaseService
 	}
 
 	/**
-	 * Adds a entry_user_node to the Kaltura DB.
+	 * Adds a entry_user_node to the Borhan DB.
 	 *
 	 * @action add
-	 * @param KalturaEntryServerNode $entryServerNode
-	 * @return KalturaEntryServerNode
+	 * @param BorhanEntryServerNode $entryServerNode
+	 * @return BorhanEntryServerNode
 	 */
-	private function addAction(KalturaEntryServerNode $entryServerNode)
+	private function addAction(BorhanEntryServerNode $entryServerNode)
 	{
 		$dbEntryServerNode = $this->addNewEntryServerNode($entryServerNode);
 
@@ -33,12 +33,12 @@ class EntryServerNodeService extends KalturaBaseService
 		$te->setDescription(__METHOD__ . ":" . __LINE__ . "::" . $dbEntryServerNode->getServerType().":".$dbEntryServerNode->getServerNodeId());
 		TrackEntry::addTrackEntry($te);
 
-		$entryServerNode = KalturaEntryServerNode::getInstance($dbEntryServerNode, $this->getResponseProfile());
+		$entryServerNode = BorhanEntryServerNode::getInstance($dbEntryServerNode, $this->getResponseProfile());
 		return $entryServerNode;
 
 	}
 
-	private function addNewEntryServerNode(KalturaEntryServerNode $entryServerNode)
+	private function addNewEntryServerNode(BorhanEntryServerNode $entryServerNode)
 	{
 		$dbEntryServerNode = $entryServerNode->toInsertableObject();
 		/* @var $dbEntryServerNode EntryServerNode */
@@ -53,20 +53,20 @@ class EntryServerNodeService extends KalturaBaseService
 	 *
 	 * @action update
 	 * @param int $id
-	 * @param KalturaEntryServerNode $entryServerNode
-	 * @return KalturaEntryServerNode|null|object
-	 * @throws KalturaAPIException
+	 * @param BorhanEntryServerNode $entryServerNode
+	 * @return BorhanEntryServerNode|null|object
+	 * @throws BorhanAPIException
 	 */
-	public function updateAction($id, KalturaEntryServerNode $entryServerNode)
+	public function updateAction($id, BorhanEntryServerNode $entryServerNode)
 	{
 		$dbEntryServerNode = EntryServerNodePeer::retrieveByPK($id);
 		if (!$dbEntryServerNode)
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $id);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $id);
 
 		$dbEntryServerNode = $entryServerNode->toUpdatableObject($dbEntryServerNode);
 		$dbEntryServerNode->save();
 
-		$entryServerNode = KalturaEntryServerNode::getInstance($dbEntryServerNode, $this->getResponseProfile());
+		$entryServerNode = BorhanEntryServerNode::getInstance($dbEntryServerNode, $this->getResponseProfile());
 		return $entryServerNode;
 	}
 
@@ -74,29 +74,29 @@ class EntryServerNodeService extends KalturaBaseService
 	 * Deletes the row in the database
 	 * @action delete
 	 * @param int $id
-	 * @throws KalturaAPIException
+	 * @throws BorhanAPIException
 	 */
 	private function deleteAction($id)
 	{
 		$dbEntryServerNode = EntryServerNodePeer::retrieveByPK($id);
 		if (!$dbEntryServerNode)
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $id);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $id);
 		$dbEntryServerNode->deleteOrMarkForDeletion();
 
 	}
 
 	/**
 	 * @action list
-	 * @param KalturaEntryServerNodeFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaEntryServerNodeListResponse
+	 * @param BorhanEntryServerNodeFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanEntryServerNodeListResponse
 	 */
-	public function listAction(KalturaEntryServerNodeFilter $filter = null, KalturaFilterPager $pager = null)
+	public function listAction(BorhanEntryServerNodeFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaEntryServerNodeFilter();
+			$filter = new BorhanEntryServerNodeFilter();
 		if (!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 
 		return $filter->getListResponse($pager, $this->getResponseProfile());
 	}
@@ -104,16 +104,16 @@ class EntryServerNodeService extends KalturaBaseService
 	/**
 	 * @action get
 	 * @param string $id
-	 * @return KalturaEntryServerNode
-	 * @throws KalturaAPIException
+	 * @return BorhanEntryServerNode
+	 * @throws BorhanAPIException
 	 */
 	public function getAction($id)
 	{
 		$dbEntryServerNode = EntryServerNodePeer::retrieveByPK( $id );
 		if(!$dbEntryServerNode)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_SERVER_NODE_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_SERVER_NODE_NOT_FOUND, $id);
 
-		$entryServerNode = KalturaEntryServerNode::getInstance($dbEntryServerNode);
+		$entryServerNode = BorhanEntryServerNode::getInstance($dbEntryServerNode);
 		if (!$entryServerNode)
 			return null;
 		$entryServerNode->fromObject($dbEntryServerNode);
@@ -126,15 +126,15 @@ class EntryServerNodeService extends KalturaBaseService
 	 * @action validateRegisteredEntryServerNode
 	 * @param int $id entry server node id
 	 *
-	 * @throws KalturaAPIException
+	 * @throws BorhanAPIException
 	 */
 	public function validateRegisteredEntryServerNodeAction($id)
 	{
-		KalturaResponseCacher::disableCache();
+		BorhanResponseCacher::disableCache();
 		
 		$dbEntryServerNode = EntryServerNodePeer::retrieveByPK( $id );
 		if(!$dbEntryServerNode)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_SERVER_NODE_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_SERVER_NODE_NOT_FOUND, $id);
 		
 		/* @var EntryServerNode $dbEntryServerNode */
 		$dbEntryServerNode->validateEntryServerNode();

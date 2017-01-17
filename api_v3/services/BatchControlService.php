@@ -16,7 +16,7 @@
  * @package api
  * @subpackage services
  */
-class BatchControlService extends KalturaBaseService 
+class BatchControlService extends BorhanBaseService 
 {
 	// use initService to add a peer to the partner filter
 	/**
@@ -38,12 +38,12 @@ class BatchControlService extends KalturaBaseService
 	 * batch reportStatus action saves the a status attribute from a remote scheduler and returns pending commands for the scheduler
 	 * 
 	 * @action reportStatus
-	 * @param KalturaScheduler $scheduler The scheduler
-	 * @param KalturaSchedulerStatusArray $schedulerStatuses A scheduler status array
-	 * @param KalturaWorkerQueueFilterArray $workerQueueFilters Filters list to get queues
-	 * @return KalturaSchedulerStatusResponse
+	 * @param BorhanScheduler $scheduler The scheduler
+	 * @param BorhanSchedulerStatusArray $schedulerStatuses A scheduler status array
+	 * @param BorhanWorkerQueueFilterArray $workerQueueFilters Filters list to get queues
+	 * @return BorhanSchedulerStatusResponse
 	 */
-	function reportStatusAction(KalturaScheduler $scheduler, KalturaSchedulerStatusArray $schedulerStatuses, KalturaWorkerQueueFilterArray $workerQueueFilters)
+	function reportStatusAction(BorhanScheduler $scheduler, BorhanSchedulerStatusArray $schedulerStatuses, BorhanWorkerQueueFilterArray $workerQueueFilters)
 	{
 		$schedulerDb = $this->getOrCreateScheduler($scheduler);
 		$schedulerChanged = false;
@@ -76,49 +76,49 @@ class BatchControlService extends KalturaBaseService
 		
 		
 		// creates a response
-		$schedulerStatusResponse = new KalturaSchedulerStatusResponse();
+		$schedulerStatusResponse = new BorhanSchedulerStatusResponse();
 
 		if(kConf::hasParam('batch_enable_control_panel') && kConf::get('batch_enable_control_panel'))
 		{
 			// gets the control pannel commands
 			$c = new Criteria();
 			$c->add(ControlPanelCommandPeer::SCHEDULER_ID, $schedulerDb->getId());
-			$c->add(ControlPanelCommandPeer::TYPE, KalturaControlPanelCommandType::CONFIG, Criteria::NOT_EQUAL);
-			$c->add(ControlPanelCommandPeer::STATUS, KalturaControlPanelCommandStatus::PENDING);
+			$c->add(ControlPanelCommandPeer::TYPE, BorhanControlPanelCommandType::CONFIG, Criteria::NOT_EQUAL);
+			$c->add(ControlPanelCommandPeer::STATUS, BorhanControlPanelCommandStatus::PENDING);
 			$commandsList = ControlPanelCommandPeer::doSelect($c);
 			foreach($commandsList as $command)
 			{
-				$command->setStatus(KalturaControlPanelCommandStatus::HANDLED);
+				$command->setStatus(BorhanControlPanelCommandStatus::HANDLED);
 				$command->save();
 			}
-			$schedulerStatusResponse->controlPanelCommands = KalturaControlPanelCommandArray::fromDbArray($commandsList, $this->getResponseProfile());
+			$schedulerStatusResponse->controlPanelCommands = BorhanControlPanelCommandArray::fromDbArray($commandsList, $this->getResponseProfile());
 			
 			// gets new configs
 			$c = new Criteria();
 			$c->add(SchedulerConfigPeer::SCHEDULER_ID, $schedulerDb->getId());
-			$c->add(SchedulerConfigPeer::COMMAND_STATUS, KalturaControlPanelCommandStatus::PENDING);
+			$c->add(SchedulerConfigPeer::COMMAND_STATUS, BorhanControlPanelCommandStatus::PENDING);
 			$configList = SchedulerConfigPeer::doSelect($c);
 			foreach($configList as $config)
 			{
-				$config->setCommandStatus(KalturaControlPanelCommandStatus::HANDLED);
+				$config->setCommandStatus(BorhanControlPanelCommandStatus::HANDLED);
 				$config->save();
 			}
-			$schedulerStatusResponse->schedulerConfigs = KalturaSchedulerConfigArray::fromDbArray($configList, $this->getResponseProfile());
+			$schedulerStatusResponse->schedulerConfigs = BorhanSchedulerConfigArray::fromDbArray($configList, $this->getResponseProfile());
 		}
 		else
 		{
-			$schedulerStatusResponse->controlPanelCommands = new KalturaControlPanelCommandArray();
-			$schedulerStatusResponse->schedulerConfigs = new KalturaSchedulerConfigArray();
+			$schedulerStatusResponse->controlPanelCommands = new BorhanControlPanelCommandArray();
+			$schedulerStatusResponse->schedulerConfigs = new BorhanSchedulerConfigArray();
 		}
 		
 		// gets queues length
-		$schedulerStatusResponse->queuesStatus = new KalturaBatchQueuesStatusArray();
+		$schedulerStatusResponse->queuesStatus = new BorhanBatchQueuesStatusArray();
 		foreach($workerQueueFilters as $workerQueueFilter)
 		{
 			$dbJobType = kPluginableEnumsManager::apiToCore('BatchJobType', $workerQueueFilter->jobType);
 			$filter = $workerQueueFilter->filter->toFilter($dbJobType);
 			
-			$batchQueuesStatus = new KalturaBatchQueuesStatus();
+			$batchQueuesStatus = new BorhanBatchQueuesStatus();
 			$batchQueuesStatus->jobType = $workerQueueFilter->jobType;
 			$batchQueuesStatus->workerId = $workerQueueFilter->workerId;
 			$batchQueuesStatus->size = kBatchManager::getQueueSize($workerQueueFilter->schedulerId, $workerQueueFilter->workerId, $dbJobType, $filter);
@@ -133,10 +133,10 @@ class BatchControlService extends KalturaBaseService
 	/**
 	 * batch getOrCreateScheduler returns a scheduler by name, create it if doesnt exist
 	 * 
-	 * @param KalturaScheduler $scheduler
+	 * @param BorhanScheduler $scheduler
 	 * @return Scheduler
 	 */
-	private function getOrCreateScheduler(KalturaScheduler $scheduler)
+	private function getOrCreateScheduler(BorhanScheduler $scheduler)
 	{
 		$c = new Criteria();
 		$c->add ( SchedulerPeer::CONFIGURED_ID, $scheduler->configuredId);
@@ -145,7 +145,7 @@ class BatchControlService extends KalturaBaseService
 		if($schedulerDb)
 		{
 			if(strlen($schedulerDb->getHost()) && $schedulerDb->getHost() != $scheduler->host)
-				throw new KalturaAPIException(KalturaErrors::SCHEDULER_HOST_CONFLICT, $scheduler->configuredId, $scheduler->host, $schedulerDb->getHost());
+				throw new BorhanAPIException(BorhanErrors::SCHEDULER_HOST_CONFLICT, $scheduler->configuredId, $scheduler->host, $schedulerDb->getHost());
 			
 			if($schedulerDb->getName() != $scheduler->name || $schedulerDb->getHost() != $scheduler->host)
 			{
@@ -175,7 +175,7 @@ class BatchControlService extends KalturaBaseService
 	 * 
 	 * @param Scheduler $scheduler The scheduler object
 	 * @param int $workerConfigId The worker configured id
-	 * @param KalturaBatchJobType $workerType The type of the remote worker
+	 * @param BorhanBatchJobType $workerType The type of the remote worker
 	 * @param string $workerName The name of the remote worker
 	 * @return Worker
 	 */
@@ -236,15 +236,15 @@ class BatchControlService extends KalturaBaseService
 	 * batch configLoaded action saves the configuration as loaded by a remote scheduler
 	 * 
 	 * @action configLoaded
-	 * @param KalturaScheduler $scheduler The remote scheduler
+	 * @param BorhanScheduler $scheduler The remote scheduler
 	 * @param string $configParam The parameter that was loaded
 	 * @param string $configValue The value that was loaded
 	 * @param string $configParamPart The parameter part that was loaded
 	 * @param int $workerConfigId The id of the job that the configuration refers to, not mandatory if the configuration refers to the scheduler
 	 * @param string $workerName The name of the job that the configuration refers to, not mandatory if the configuration refers to the scheduler 
-	 * @return KalturaSchedulerConfig
+	 * @return BorhanSchedulerConfig
 	 */
-	function configLoadedAction(KalturaScheduler $scheduler, $configParam, $configValue, $configParamPart = null, $workerConfigId = null, $workerName = null)
+	function configLoadedAction(BorhanScheduler $scheduler, $configParam, $configValue, $configParamPart = null, $workerConfigId = null, $workerName = null)
 	{
 		$schedulerDb = $this->getOrCreateScheduler($scheduler);
 		
@@ -270,7 +270,7 @@ class BatchControlService extends KalturaBaseService
 		
 		$configDb->save();
 		
-		$config = new KalturaSchedulerConfig();
+		$config = new BorhanSchedulerConfig();
 		$config->fromObject($configDb, $this->getResponseProfile());
 		return $config;
 	}
@@ -290,43 +290,43 @@ class BatchControlService extends KalturaBaseService
 	 * @param int $schedulerId The id of the remote scheduler location
 	 * @param int $adminId The id of the admin that called the stop
 	 * @param string $cause The reason it was stopped
-	 * @return KalturaControlPanelCommand
+	 * @return BorhanControlPanelCommand
 	 */
 	function stopSchedulerAction($schedulerId, $adminId, $cause)
 	{
 		$adminDb = kuserPeer::retrieveByPK($adminId);
 		$schedulerDb = SchedulerPeer::retrieveByPK($schedulerId);
 		if(!$schedulerDb)
-			throw new KalturaAPIException(KalturaErrors::SCHEDULER_NOT_FOUND, $schedulerId);
+			throw new BorhanAPIException(BorhanErrors::SCHEDULER_NOT_FOUND, $schedulerId);
 	
 		$description = "Stop " . $schedulerDb->getName();
 			
 		// check if the same command already sent and not done yet
 		$c = new Criteria();
-		$c->add(ControlPanelCommandPeer::STATUS, array(KalturaControlPanelCommandStatus::PENDING, KalturaControlPanelCommandStatus::HANDLED), Criteria::IN);
+		$c->add(ControlPanelCommandPeer::STATUS, array(BorhanControlPanelCommandStatus::PENDING, BorhanControlPanelCommandStatus::HANDLED), Criteria::IN);
 		$c->add(ControlPanelCommandPeer::SCHEDULER_ID, $schedulerId);
-		$c->add(ControlPanelCommandPeer::TYPE, KalturaControlPanelCommandType::STOP);
-		$c->add(ControlPanelCommandPeer::TARGET_TYPE, KalturaControlPanelCommandTargetType::SCHEDULER);
+		$c->add(ControlPanelCommandPeer::TYPE, BorhanControlPanelCommandType::STOP);
+		$c->add(ControlPanelCommandPeer::TARGET_TYPE, BorhanControlPanelCommandTargetType::SCHEDULER);
 		$commandExists = ControlPanelCommandPeer::doCount($c);
 		if($commandExists > 0)
-			throw new KalturaAPIException(KalturaErrors::COMMAND_ALREADY_PENDING);
+			throw new BorhanAPIException(BorhanErrors::COMMAND_ALREADY_PENDING);
 		
 		// saves the command to the DB
 		$commandDb = new ControlPanelCommand();
 		$commandDb->setSchedulerId($schedulerId);
 		$commandDb->setSchedulerConfiguredId($schedulerDb->getConfiguredId());
 		$commandDb->setCreatedById($adminId);
-		$commandDb->setType(KalturaControlPanelCommandType::STOP);
-		$commandDb->setStatus(KalturaControlPanelCommandStatus::PENDING);
+		$commandDb->setType(BorhanControlPanelCommandType::STOP);
+		$commandDb->setStatus(BorhanControlPanelCommandStatus::PENDING);
 		$commandDb->setDescription($description);
-		$commandDb->setTargetType(KalturaControlPanelCommandTargetType::SCHEDULER);
+		$commandDb->setTargetType(BorhanControlPanelCommandTargetType::SCHEDULER);
 
 		if($adminDb)
 			$commandDb->setCreatedBy($adminDb->getName());
 			
 		$commandDb->save();
 		
-		$command = new KalturaControlPanelCommand();
+		$command = new BorhanControlPanelCommand();
 		$command->fromObject($commandDb, $this->getResponseProfile());
 		return $command;
 	}	
@@ -338,7 +338,7 @@ class BatchControlService extends KalturaBaseService
 	 * @param int $workerId The id of the job to be stopped
 	 * @param int $adminId The id of the admin that called the stop
 	 * @param string $cause The reason it was stopped
-	 * @return KalturaControlPanelCommand
+	 * @return BorhanControlPanelCommand
 	 */
 	function stopWorkerAction($workerId, $adminId, $cause)
 	{
@@ -346,28 +346,28 @@ class BatchControlService extends KalturaBaseService
 		
 		$workerDb = SchedulerWorkerPeer::retrieveByPK($workerId);
 		if(!$workerDb)
-			throw new KalturaAPIException(KalturaErrors::WORKER_NOT_FOUND, $workerId);
+			throw new BorhanAPIException(BorhanErrors::WORKER_NOT_FOUND, $workerId);
 		
 		$workerName = $workerDb->getName();
 		$schedulerId = $workerDb->getSchedulerId();
 		
 		$schedulerDb = SchedulerPeer::retrieveByPK($schedulerId);
 		if(!$schedulerDb)
-			throw new KalturaAPIException(KalturaErrors::SCHEDULER_NOT_FOUND, $schedulerId);
+			throw new BorhanAPIException(BorhanErrors::SCHEDULER_NOT_FOUND, $schedulerId);
 		
 		$schedulerName = $schedulerDb->getName();
 		$description = "Stop $workerName on $schedulerName";
 			
 		// check if the same command already sent and not done yet
 		$c = new Criteria();
-		$c->add(ControlPanelCommandPeer::STATUS, array(KalturaControlPanelCommandStatus::PENDING, KalturaControlPanelCommandStatus::HANDLED), Criteria::IN);
+		$c->add(ControlPanelCommandPeer::STATUS, array(BorhanControlPanelCommandStatus::PENDING, BorhanControlPanelCommandStatus::HANDLED), Criteria::IN);
 		$c->add(ControlPanelCommandPeer::SCHEDULER_ID, $schedulerId);
-		$c->add(ControlPanelCommandPeer::TYPE, KalturaControlPanelCommandType::STOP);
-		$c->add(ControlPanelCommandPeer::TARGET_TYPE, KalturaControlPanelCommandTargetType::JOB);
+		$c->add(ControlPanelCommandPeer::TYPE, BorhanControlPanelCommandType::STOP);
+		$c->add(ControlPanelCommandPeer::TARGET_TYPE, BorhanControlPanelCommandTargetType::JOB);
 		$c->add(ControlPanelCommandPeer::WORKER_ID, $workerId);
 		$commandExists = ControlPanelCommandPeer::doCount($c);
 		if($commandExists > 0)
-			throw new KalturaAPIException(KalturaErrors::COMMAND_ALREADY_PENDING);
+			throw new BorhanAPIException(BorhanErrors::COMMAND_ALREADY_PENDING);
 		
 		// saves the command to the DB
 		$commandDb = new ControlPanelCommand();
@@ -377,10 +377,10 @@ class BatchControlService extends KalturaBaseService
 		$commandDb->setWorkerConfiguredId($workerDb->getConfiguredId());
 		$commandDb->setWorkerName($workerName);
 		$commandDb->setCreatedById($adminId);
-		$commandDb->setType(KalturaControlPanelCommandType::STOP);
-		$commandDb->setStatus(KalturaControlPanelCommandStatus::PENDING);
+		$commandDb->setType(BorhanControlPanelCommandType::STOP);
+		$commandDb->setStatus(BorhanControlPanelCommandStatus::PENDING);
 		$commandDb->setDescription($description);
-		$commandDb->setTargetType(KalturaControlPanelCommandTargetType::JOB);
+		$commandDb->setTargetType(BorhanControlPanelCommandTargetType::JOB);
 		$commandDb->setCause($cause);
 
 		if($adminDb)
@@ -388,7 +388,7 @@ class BatchControlService extends KalturaBaseService
 				
 		$commandDb->save();
 		
-		$command = new KalturaControlPanelCommand();
+		$command = new BorhanControlPanelCommand();
 		$command->fromObject($commandDb, $this->getResponseProfile());
 		return $command;
 	}	
@@ -401,7 +401,7 @@ class BatchControlService extends KalturaBaseService
 	 * @param int $batchIndex The index of the batch job process to be stopped
 	 * @param int $adminId The id of the admin that called the stop
 	 * @param string $cause The reason it was stopped
-	 * @return KalturaControlPanelCommand
+	 * @return BorhanControlPanelCommand
 	 */
 	function killAction($workerId, $batchIndex, $adminId, $cause)
 	{
@@ -409,14 +409,14 @@ class BatchControlService extends KalturaBaseService
 		
 		$workerDb = SchedulerWorkerPeer::retrieveByPK($workerId);
 		if(!$workerDb)
-			throw new KalturaAPIException(KalturaErrors::WORKER_NOT_FOUND, $workerId);
+			throw new BorhanAPIException(BorhanErrors::WORKER_NOT_FOUND, $workerId);
 		
 		$workerName = $workerDb->getName();
 		$schedulerId = $workerDb->getSchedulerId();
 		
 		$schedulerDb = SchedulerPeer::retrieveByPK($schedulerId);
 		if(!$schedulerDb)
-			throw new KalturaAPIException(KalturaErrors::SCHEDULER_NOT_FOUND, $schedulerId);
+			throw new BorhanAPIException(BorhanErrors::SCHEDULER_NOT_FOUND, $schedulerId);
 		
 		$schedulerName = $schedulerDb->getName();
 			
@@ -426,16 +426,16 @@ class BatchControlService extends KalturaBaseService
 			
 		// check if the same command already sent and not done yet
 		$c = new Criteria();
-		$c->add(ControlPanelCommandPeer::STATUS, array(KalturaControlPanelCommandStatus::PENDING, KalturaControlPanelCommandStatus::HANDLED), Criteria::IN);
+		$c->add(ControlPanelCommandPeer::STATUS, array(BorhanControlPanelCommandStatus::PENDING, BorhanControlPanelCommandStatus::HANDLED), Criteria::IN);
 		$c->add(ControlPanelCommandPeer::SCHEDULER_ID, $schedulerId);
 		$c->add(ControlPanelCommandPeer::WORKER_ID, $workerId);
 		$c->add(ControlPanelCommandPeer::WORKER_NAME, $workerName);
 		$c->add(ControlPanelCommandPeer::BATCH_INDEX, $batchIndex);
-		$c->add(ControlPanelCommandPeer::TYPE, KalturaControlPanelCommandType::KILL);
-		$c->add(ControlPanelCommandPeer::TARGET_TYPE, KalturaControlPanelCommandTargetType::BATCH);
+		$c->add(ControlPanelCommandPeer::TYPE, BorhanControlPanelCommandType::KILL);
+		$c->add(ControlPanelCommandPeer::TARGET_TYPE, BorhanControlPanelCommandTargetType::BATCH);
 		$commandExists = ControlPanelCommandPeer::doCount($c);
 		if($commandExists > 0)
-			throw new KalturaAPIException(KalturaErrors::COMMAND_ALREADY_PENDING);
+			throw new BorhanAPIException(BorhanErrors::COMMAND_ALREADY_PENDING);
 		
 		// saves the command to the DB
 		$commandDb = new ControlPanelCommand();
@@ -446,17 +446,17 @@ class BatchControlService extends KalturaBaseService
 		$commandDb->setWorkerName($workerName);
 		$commandDb->setBatchIndex($batchIndex);
 		$commandDb->setCreatedById($adminId);
-		$commandDb->setType(KalturaControlPanelCommandType::KILL);
-		$commandDb->setStatus(KalturaControlPanelCommandStatus::PENDING);
+		$commandDb->setType(BorhanControlPanelCommandType::KILL);
+		$commandDb->setStatus(BorhanControlPanelCommandStatus::PENDING);
 		$commandDb->setDescription($description);
-		$commandDb->setTargetType(KalturaControlPanelCommandTargetType::BATCH);
+		$commandDb->setTargetType(BorhanControlPanelCommandTargetType::BATCH);
 				
 		if($adminDb)
 			$commandDb->setCreatedBy($adminDb->getName());
 				
 		$commandDb->save();
 		
-		$command = new KalturaControlPanelCommand();
+		$command = new BorhanControlPanelCommand();
 		$command->fromObject($commandDb, $this->getResponseProfile());
 		return $command;
 	}	
@@ -468,7 +468,7 @@ class BatchControlService extends KalturaBaseService
 	 * @param int $workerId The id of the job to be started
 	 * @param int $adminId The id of the admin that called the start
 	 * @param string $cause The reason it was started 
-	 * @return KalturaControlPanelCommand
+	 * @return BorhanControlPanelCommand
 	 */
 	function startWorkerAction($workerId, $adminId, $cause = null)
 	{
@@ -476,14 +476,14 @@ class BatchControlService extends KalturaBaseService
 		
 		$workerDb = SchedulerWorkerPeer::retrieveByPK($workerId);
 		if(!$workerDb)
-			throw new KalturaAPIException(KalturaErrors::WORKER_NOT_FOUND, $workerId);
+			throw new BorhanAPIException(BorhanErrors::WORKER_NOT_FOUND, $workerId);
 		
 		$workerName = $workerDb->getName();
 		$schedulerId = $workerDb->getSchedulerId();
 		
 		$schedulerDb = SchedulerPeer::retrieveByPK($schedulerId);
 		if(!$schedulerDb)
-			throw new KalturaAPIException(KalturaErrors::SCHEDULER_NOT_FOUND, $schedulerId);
+			throw new BorhanAPIException(BorhanErrors::SCHEDULER_NOT_FOUND, $schedulerId);
 		
 		$schedulerName = $schedulerDb->getName();
 			
@@ -491,24 +491,24 @@ class BatchControlService extends KalturaBaseService
 			
 		// check if the same command already sent and not done yet
 		$c = new Criteria();
-		$c->add(ControlPanelCommandPeer::STATUS, array(KalturaControlPanelCommandStatus::PENDING, KalturaControlPanelCommandStatus::HANDLED), Criteria::IN);
+		$c->add(ControlPanelCommandPeer::STATUS, array(BorhanControlPanelCommandStatus::PENDING, BorhanControlPanelCommandStatus::HANDLED), Criteria::IN);
 		$c->add(ControlPanelCommandPeer::SCHEDULER_ID, $schedulerId);
-		$c->add(ControlPanelCommandPeer::TYPE, KalturaControlPanelCommandType::START);
-		$c->add(ControlPanelCommandPeer::TARGET_TYPE, KalturaControlPanelCommandTargetType::JOB);
+		$c->add(ControlPanelCommandPeer::TYPE, BorhanControlPanelCommandType::START);
+		$c->add(ControlPanelCommandPeer::TARGET_TYPE, BorhanControlPanelCommandTargetType::JOB);
 		$c->add(ControlPanelCommandPeer::WORKER_ID, $workerId);
 		$commandExists = ControlPanelCommandPeer::doCount($c);
 		if($commandExists > 0)
-			throw new KalturaAPIException(KalturaErrors::COMMAND_ALREADY_PENDING);
+			throw new BorhanAPIException(BorhanErrors::COMMAND_ALREADY_PENDING);
 	
 		// saves the command to the DB
 		$commandDb = new ControlPanelCommand();
 		$commandDb->setSchedulerId($schedulerId);
 		$commandDb->setSchedulerConfiguredId($schedulerDb->getConfiguredId());
 		$commandDb->setCreatedById($adminId);
-		$commandDb->setType(KalturaControlPanelCommandType::START);
-		$commandDb->setStatus(KalturaControlPanelCommandStatus::PENDING);
+		$commandDb->setType(BorhanControlPanelCommandType::START);
+		$commandDb->setStatus(BorhanControlPanelCommandStatus::PENDING);
 		$commandDb->setDescription($description);
-		$commandDb->setTargetType(KalturaControlPanelCommandTargetType::JOB);
+		$commandDb->setTargetType(BorhanControlPanelCommandTargetType::JOB);
 		$commandDb->setWorkerId($workerId);
 		$commandDb->setWorkerConfiguredId($workerDb->getConfiguredId());
 		$commandDb->setWorkerName($workerName);
@@ -518,7 +518,7 @@ class BatchControlService extends KalturaBaseService
 				
 		$commandDb->save();
 		
-		$command = new KalturaControlPanelCommand();
+		$command = new BorhanControlPanelCommand();
 		$command->fromObject($commandDb, $this->getResponseProfile());
 		return $command;
 	}
@@ -533,7 +533,7 @@ class BatchControlService extends KalturaBaseService
 	 * @param string $configValue The value to be set
 	 * @param string $configParamPart The parameter part to be set - for additional params
 	 * @param string $cause The reason it was changed
-	 * @return KalturaControlPanelCommand
+	 * @return BorhanControlPanelCommand
 	 */
 	function setSchedulerConfigAction($schedulerId, $adminId, $configParam, $configValue, $configParamPart = null, $cause = null)
 	{
@@ -541,7 +541,7 @@ class BatchControlService extends KalturaBaseService
 		
 		$schedulerDb = SchedulerPeer::retrieveByPK($schedulerId);
 		if(!$schedulerDb)
-			throw new KalturaAPIException(KalturaErrors::SCHEDULER_NOT_FOUND, $schedulerId);
+			throw new BorhanAPIException(BorhanErrors::SCHEDULER_NOT_FOUND, $schedulerId);
 		
 		$schedulerName = $schedulerDb->getName();
 		
@@ -554,10 +554,10 @@ class BatchControlService extends KalturaBaseService
 		$commandDb->setSchedulerId($schedulerId);
 		$commandDb->setSchedulerConfiguredId($schedulerDb->getConfiguredId());
 		$commandDb->setCreatedById($adminId);
-		$commandDb->setType(KalturaControlPanelCommandType::CONFIG);
-		$commandDb->setStatus(KalturaControlPanelCommandStatus::PENDING);
+		$commandDb->setType(BorhanControlPanelCommandType::CONFIG);
+		$commandDb->setStatus(BorhanControlPanelCommandStatus::PENDING);
 		$commandDb->setDescription($description);
-		$commandDb->setTargetType(KalturaControlPanelCommandTargetType::SCHEDULER);
+		$commandDb->setTargetType(BorhanControlPanelCommandTargetType::SCHEDULER);
 		$commandDb->setCause($cause);
 			
 		if($adminDb)
@@ -570,7 +570,7 @@ class BatchControlService extends KalturaBaseService
 		$configDb->setSchedulerId($schedulerId);
 		$configDb->setSchedulerConfiguredId($schedulerDb->getConfiguredId());
 		$configDb->setCommandId($commandDb->getId());
-		$configDb->setCommandStatus(KalturaControlPanelCommandStatus::PENDING);
+		$configDb->setCommandStatus(BorhanControlPanelCommandStatus::PENDING);
 		$configDb->setSchedulerName($schedulerName);
 		$configDb->setVariable($configParam);
 		$configDb->setVariablePart($configParamPart);
@@ -581,7 +581,7 @@ class BatchControlService extends KalturaBaseService
 				
 		$configDb->save();
 		
-		$command = new KalturaControlPanelCommand();
+		$command = new BorhanControlPanelCommand();
 		$command->fromObject($commandDb, $this->getResponseProfile());
 		return $command;
 	}
@@ -596,7 +596,7 @@ class BatchControlService extends KalturaBaseService
 	 * @param string $configValue The value to be set
 	 * @param string $configParamPart The parameter part to be set - for additional params
 	 * @param string $cause The reason it was changed
-	 * @return KalturaControlPanelCommand
+	 * @return BorhanControlPanelCommand
 	 */
 	function setWorkerConfigAction($workerId, $adminId, $configParam, $configValue, $configParamPart = null, $cause = null)
 	{
@@ -604,14 +604,14 @@ class BatchControlService extends KalturaBaseService
 		
 		$workerDb = SchedulerWorkerPeer::retrieveByPK($workerId);
 		if(!$workerDb)
-			throw new KalturaAPIException(KalturaErrors::WORKER_NOT_FOUND, $workerId);
+			throw new BorhanAPIException(BorhanErrors::WORKER_NOT_FOUND, $workerId);
 		
 		$workerName = $workerDb->getName();
 		$schedulerId = $workerDb->getSchedulerId();
 		
 		$schedulerDb = SchedulerPeer::retrieveByPK($schedulerId);
 		if(!$schedulerDb)
-			throw new KalturaAPIException(KalturaErrors::SCHEDULER_NOT_FOUND, $schedulerId);
+			throw new BorhanAPIException(BorhanErrors::SCHEDULER_NOT_FOUND, $schedulerId);
 		
 		$schedulerName = $schedulerDb->getName();
 		
@@ -624,13 +624,13 @@ class BatchControlService extends KalturaBaseService
 		$commandDb->setSchedulerId($schedulerId);
 		$commandDb->setSchedulerConfiguredId($schedulerDb->getConfiguredId());
 		$commandDb->setCreatedById($adminId);
-		$commandDb->setType(KalturaControlPanelCommandType::CONFIG);
-		$commandDb->setStatus(KalturaControlPanelCommandStatus::PENDING);
+		$commandDb->setType(BorhanControlPanelCommandType::CONFIG);
+		$commandDb->setStatus(BorhanControlPanelCommandStatus::PENDING);
 		$commandDb->setDescription($description);
 		$commandDb->setWorkerId($workerId);
 		$commandDb->setWorkerConfiguredId($workerDb->getConfiguredId());
 		$commandDb->setWorkerName($workerName);
-		$commandDb->setTargetType(KalturaControlPanelCommandTargetType::JOB);
+		$commandDb->setTargetType(BorhanControlPanelCommandTargetType::JOB);
 		
 		if($adminDb)
 			$commandDb->setCreatedBy($adminDb->getName());
@@ -644,7 +644,7 @@ class BatchControlService extends KalturaBaseService
 		$configDb->setSchedulerId($schedulerId);
 		$configDb->setSchedulerConfiguredId($schedulerDb->getConfiguredId());
 		$configDb->setCommandId($commandDb->getId());
-		$configDb->setCommandStatus(KalturaControlPanelCommandStatus::PENDING);
+		$configDb->setCommandStatus(BorhanControlPanelCommandStatus::PENDING);
 		$configDb->setSchedulerName($schedulerName);
 		$configDb->setVariable($configParam);
 		$configDb->setVariablePart($configParamPart);
@@ -658,7 +658,7 @@ class BatchControlService extends KalturaBaseService
 		
 		$configDb->save();
 		
-		$command = new KalturaControlPanelCommand();
+		$command = new BorhanControlPanelCommand();
 		$command->fromObject($commandDb, $this->getResponseProfile());
 		return $command;
 	}
@@ -668,17 +668,17 @@ class BatchControlService extends KalturaBaseService
 	 * 
 	 * @action setCommandResult
 	 * @param int $commandId The id of the command
-	 * @param KalturaControlPanelCommandStatus $status The status of the command
+	 * @param BorhanControlPanelCommandStatus $status The status of the command
 	 * @param int $timestamp The time that the command performed
 	 * @param string $errorDescription The description, important for failed commands
-	 * @return KalturaControlPanelCommand
+	 * @return BorhanControlPanelCommand
 	 */
 	function setCommandResultAction($commandId, $status, $errorDescription = null)
 	{
 		// find the command
 		$commandDb = ControlPanelCommandPeer::retrieveByPK($commandId);
 		if (!$commandDb)
-			throw new KalturaAPIException(KalturaErrors::COMMAND_NOT_FOUND, $commandId);
+			throw new BorhanAPIException(BorhanErrors::COMMAND_NOT_FOUND, $commandId);
 		
 		// save the results to the DB
 		$commandDb->setStatus($status);
@@ -687,7 +687,7 @@ class BatchControlService extends KalturaBaseService
 		$commandDb->save();
 
 		// if is config, update the config status
-		if($commandDb->getType() == KalturaControlPanelCommandType::CONFIG)
+		if($commandDb->getType() == BorhanControlPanelCommandType::CONFIG)
 		{
 			$c = new Criteria();
 			$c->add ( SchedulerConfigPeer::COMMAND_ID, $commandId);
@@ -700,7 +700,7 @@ class BatchControlService extends KalturaBaseService
 			}
 		}
 		
-		$command = new KalturaControlPanelCommand();
+		$command = new BorhanControlPanelCommand();
 		$command->fromObject($commandDb, $this->getResponseProfile());
 		return $command;
 	}
@@ -709,14 +709,14 @@ class BatchControlService extends KalturaBaseService
 	 * list batch control commands
 	 * 
 	 * @action listCommands
-	 * @param KalturaControlPanelCommandFilter $filter
-	 * @param KalturaFilterPager $pager  
-	 * @return KalturaControlPanelCommandListResponse
+	 * @param BorhanControlPanelCommandFilter $filter
+	 * @param BorhanFilterPager $pager  
+	 * @return BorhanControlPanelCommandListResponse
 	 */
-	function listCommandsAction(KalturaControlPanelCommandFilter $filter = null, KalturaFilterPager $pager = null)
+	function listCommandsAction(BorhanControlPanelCommandFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaControlPanelCommandFilter();
+			$filter = new BorhanControlPanelCommandFilter();
 			
 		$controlPanelCommandFilter = new ControlPanelCommandFilter();
 		$filter->toObject($controlPanelCommandFilter);
@@ -726,16 +726,16 @@ class BatchControlService extends KalturaBaseService
 		$controlPanelCommandFilter->attachToCriteria($c);
 		
 		if (!$pager)
-			$pager = new KalturaFilterPager ();
+			$pager = new BorhanFilterPager ();
 		
 		$pager->attachToCriteria($c);
 		
 		$count = ControlPanelCommandPeer::doCount($c);
 		$list = ControlPanelCommandPeer::doSelect($c);
 
-		$newList = KalturaControlPanelCommandArray::fromDbArray($list, $this->getResponseProfile());
+		$newList = BorhanControlPanelCommandArray::fromDbArray($list, $this->getResponseProfile());
 		
-		$response = new KalturaControlPanelCommandListResponse();
+		$response = new BorhanControlPanelCommandListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $count;
 		
@@ -747,17 +747,17 @@ class BatchControlService extends KalturaBaseService
 	 * 
 	 * @action getCommand
 	 * @param int $commandId The id of the command
-	 * @return KalturaControlPanelCommand
+	 * @return BorhanControlPanelCommand
 	 */
 	function getCommandAction($commandId)
 	{
 		// finds command in the DB
 		$commandDb = ControlPanelCommandPeer::retrieveByPK($commandId);
 		if (!$commandDb)
-			throw new KalturaAPIException(KalturaErrors::COMMAND_NOT_FOUND, $commandId);
+			throw new BorhanAPIException(BorhanErrors::COMMAND_NOT_FOUND, $commandId);
 		
 		// returns the command
-		$command = new KalturaControlPanelCommand();
+		$command = new BorhanControlPanelCommand();
 		$command->fromObject($commandDb, $this->getResponseProfile());
 		return $command;
 	}
@@ -766,16 +766,16 @@ class BatchControlService extends KalturaBaseService
 	 * list all Schedulers
 	 * 
 	 * @action listSchedulers
-	 * @return KalturaSchedulerListResponse
+	 * @return BorhanSchedulerListResponse
 	 */
 	function listSchedulersAction()
 	{
 		$c = new Criteria();
 		$count = SchedulerPeer::doCount($c, false, myDbHelper::getConnection(myDbHelper::DB_HELPER_CONN_PROPEL2));
 		$list = SchedulerPeer::doSelect($c, myDbHelper::getConnection(myDbHelper::DB_HELPER_CONN_PROPEL2));
-		$newList = KalturaSchedulerArray::fromDbArray($list, $this->getResponseProfile());
+		$newList = BorhanSchedulerArray::fromDbArray($list, $this->getResponseProfile());
 		
-		$response = new KalturaSchedulerListResponse();
+		$response = new BorhanSchedulerListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $count;
 		
@@ -786,16 +786,16 @@ class BatchControlService extends KalturaBaseService
 	 * list all Workers
 	 * 
 	 * @action listWorkers
-	 * @return KalturaSchedulerWorkerListResponse
+	 * @return BorhanSchedulerWorkerListResponse
 	 */
 	function listWorkersAction()
 	{
 		$c = new Criteria();
 		$count = SchedulerWorkerPeer::doCount($c, false, myDbHelper::getConnection(myDbHelper::DB_HELPER_CONN_PROPEL2));
 		$list = SchedulerWorkerPeer::doSelect($c, myDbHelper::getConnection(myDbHelper::DB_HELPER_CONN_PROPEL2));
-		$newList = KalturaSchedulerWorkerArray::fromDbArray($list, $this->getResponseProfile());
+		$newList = BorhanSchedulerWorkerArray::fromDbArray($list, $this->getResponseProfile());
 		
-		$response = new KalturaSchedulerWorkerListResponse();
+		$response = new BorhanSchedulerWorkerListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $count;
 		
@@ -806,21 +806,21 @@ class BatchControlService extends KalturaBaseService
 	 * batch getFullStatus action returns the status of all schedulers and queues
 	 * 
 	 * @action getFullStatus
-	 * @return KalturaFullStatusResponse
+	 * @return BorhanFullStatusResponse
 	 */
 	function getFullStatusAction()
 	{
-		$response = new KalturaFullStatusResponse();
+		$response = new BorhanFullStatusResponse();
 		
 		// gets queues length
 //		$c = new Criteria();
-//		$c->add(BatchJobPeer::STATUS, array(KalturaBatchJobStatus::PENDING, KalturaBatchJobStatus::RETRY), Criteria::IN);
+//		$c->add(BatchJobPeer::STATUS, array(BorhanBatchJobStatus::PENDING, BorhanBatchJobStatus::RETRY), Criteria::IN);
 //		$c->addGroupByColumn(BatchJobPeer::JOB_TYPE);
 //		$c->addSelectColumn('AVG(DATEDIFF(NOW(),' . BatchJobPeer::CREATED_AT . '))');
 		$queueList = BatchJobPeer::doQueueStatus(myDbHelper::getConnection(myDbHelper::DB_HELPER_CONN_PROPEL2));
-		$response->queuesStatus = KalturaBatchQueuesStatusArray::fromBatchQueuesStatusArray($queueList);
+		$response->queuesStatus = BorhanBatchQueuesStatusArray::fromBatchQueuesStatusArray($queueList);
 		
-		$response->schedulers = KalturaSchedulerArray::statusFromSchedulerArray(SchedulerPeer::doSelect(new Criteria(), myDbHelper::getConnection(myDbHelper::DB_HELPER_CONN_PROPEL2)));
+		$response->schedulers = BorhanSchedulerArray::statusFromSchedulerArray(SchedulerPeer::doSelect(new Criteria(), myDbHelper::getConnection(myDbHelper::DB_HELPER_CONN_PROPEL2)));
 		
 		return $response;
 	}

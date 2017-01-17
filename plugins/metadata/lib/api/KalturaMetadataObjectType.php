@@ -3,7 +3,7 @@
  * @package plugins.metadata
  * @subpackage api.enum
  */
-class KalturaMetadataObjectType extends KalturaDynamicEnum implements MetadataObjectType
+class BorhanMetadataObjectType extends BorhanDynamicEnum implements MetadataObjectType
 {
 	public static function getEnumClass()
 	{

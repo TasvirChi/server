@@ -19,12 +19,12 @@ $dryRun = true;
 if(in_array('realrun', $argv))
 {
 	$dryRun = false;
-	KalturaLog::debug('Using real run mode');
+	BorhanLog::debug('Using real run mode');
 }
 else
-	KalturaLog::debug('Using dry run mode');
+	BorhanLog::debug('Using dry run mode');
 	
-KalturaStatement::setDryRun($dryRun);
+BorhanStatement::setDryRun($dryRun);
 
 $partnerId = $argv[1] == 'null' ? null : $argv[1];
 $roleName = $argv[2];
@@ -43,7 +43,7 @@ $userRoles = UserRolePeer::doSelect($criteria);
 while(count($userRoles))
 {
 	
-	KalturaLog::info("[" . count($userRoles) . "] user roles .");
+	BorhanLog::info("[" . count($userRoles) . "] user roles .");
 	foreach($userRoles as $userRole)
 	{
 		foreach($parmissionNames as $parmissionName)
@@ -58,7 +58,7 @@ while(count($userRoles))
 }
 
 
-KalturaLog::info("Done");
+BorhanLog::info("Done");
 
 
 function addPermissionsToRole($role, $permissionList)
@@ -74,7 +74,7 @@ function addPermissionsToRole($role, $permissionList)
 	foreach ($permissionsToAddArray as $perm)
 	{
 		if (in_array($perm, $currentPermissionsArray)) {
-			KalturaLog::log('Role name ['.$role->getName().'] already has permission ['.$perm.']');
+			BorhanLog::log('Role name ['.$role->getName().'] already has permission ['.$perm.']');
 		}
 		else {
 			$tempArray[] = $perm;
@@ -86,7 +86,7 @@ function addPermissionsToRole($role, $permissionList)
 	$role->setPermissionNames($currentPermissions);
 	$role->save();
 	
-	KalturaLog::log('Added permission ['.$tempString.'] to role name ['.$role->getName().']');
+	BorhanLog::log('Added permission ['.$tempString.'] to role name ['.$role->getName().']');
 }
 
 

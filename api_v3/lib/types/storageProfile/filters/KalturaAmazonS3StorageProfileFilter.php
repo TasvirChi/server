@@ -3,6 +3,6 @@
  * @package api
  * @subpackage filters
  */
-class KalturaAmazonS3StorageProfileFilter extends KalturaAmazonS3StorageProfileBaseFilter
+class BorhanAmazonS3StorageProfileFilter extends BorhanAmazonS3StorageProfileBaseFilter
 {
 }

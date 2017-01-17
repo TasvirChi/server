@@ -6,6 +6,6 @@
  * @subpackage objects
  * @abstract
  */
-abstract class KalturaOperationAttributes extends KalturaObject 
+abstract class BorhanOperationAttributes extends BorhanObject 
 {
 }

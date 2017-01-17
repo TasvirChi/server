@@ -4,17 +4,17 @@
  * @subpackage objects
  * @abstract
  */
-abstract class KalturaCompareCondition extends KalturaCondition
+abstract class BorhanCompareCondition extends BorhanCondition
 {
 	/**
 	 * Value to evaluate against the field and operator
-	 * @var KalturaIntegerValue
+	 * @var BorhanIntegerValue
 	 */
 	public $value;
 	
 	/**
 	 * Comparing operator
-	 * @var KalturaSearchConditionComparison
+	 * @var BorhanSearchConditionComparison
 	 */
 	public $comparison;
 	
@@ -29,7 +29,7 @@ abstract class KalturaCompareCondition extends KalturaCondition
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{
@@ -40,27 +40,27 @@ abstract class KalturaCompareCondition extends KalturaCondition
 	}
 	 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject()
+	 * @see BorhanObject::fromObject()
 	 */
-	public function doFromObject($dbObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($dbObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		/* @var $dbObject kFieldMatchCondition */
 		parent::doFromObject($dbObject, $responseProfile);
 		
 		$valueType = get_class($dbObject->getValue());
-		KalturaLog::debug("Loading KalturaIntegerValue from type [$valueType]");
+		BorhanLog::debug("Loading BorhanIntegerValue from type [$valueType]");
 		switch ($valueType)
 		{
 			case 'kIntegerValue':
-				$this->value = new KalturaIntegerValue();
+				$this->value = new BorhanIntegerValue();
 				break;
 				
 			case 'kTimeContextField':
-				$this->value = new KalturaTimeContextField();
+				$this->value = new BorhanTimeContextField();
 				break;
 				
 			default:
-				$this->value = KalturaPluginManager::loadObject('KalturaIntegerValue', $valueType);
+				$this->value = BorhanPluginManager::loadObject('BorhanIntegerValue', $valueType);
 				break;
 		}
 		

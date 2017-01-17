@@ -7,7 +7,7 @@ abstract class QueueProvider
 {
     public static function getInstance($objectType = null)
     {
-        return KalturaPluginManager::loadObject('QueueProvider', $objectType);
+        return BorhanPluginManager::loadObject('QueueProvider', $objectType);
     }
 
     abstract public function exists($queueName);

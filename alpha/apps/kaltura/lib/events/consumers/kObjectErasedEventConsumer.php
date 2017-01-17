@@ -3,7 +3,7 @@
  * @package Core
  * @subpackage events
  */
-interface kObjectErasedEventConsumer extends KalturaEventConsumer
+interface kObjectErasedEventConsumer extends BorhanEventConsumer
 {
     /**
 	 * @param BaseObject $object

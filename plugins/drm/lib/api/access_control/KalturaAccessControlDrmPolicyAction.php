@@ -3,7 +3,7 @@
  * @package plugins.drm
  * @subpackage api.objects
  */
-class KalturaAccessControlDrmPolicyAction extends KalturaRuleAction
+class BorhanAccessControlDrmPolicyAction extends BorhanRuleAction
 {
 	/**
 	 * Drm policy id
@@ -31,7 +31,7 @@ class KalturaAccessControlDrmPolicyAction extends KalturaRuleAction
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

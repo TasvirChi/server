@@ -17,12 +17,12 @@ class HuluFeedHelper
 	protected $_xpath;
 	
 	/**
-	 * @var KalturaHuluDistributionProfile
+	 * @var BorhanHuluDistributionProfile
 	 */
 	protected $_distributionProfile;
 	
 	/**
-	 * @var KalturaHuluDistributionJobProviderData
+	 * @var BorhanHuluDistributionJobProviderData
 	 */
 	protected $_providerData;
 	
@@ -33,10 +33,10 @@ class HuluFeedHelper
 	
 	/**
 	 * @param string $templateName
-	 * @param KalturaHuluDistributionProfile $distributionProfile
-	 * @param KalturaHuluDistributionJobProviderData $providerData
+	 * @param BorhanHuluDistributionProfile $distributionProfile
+	 * @param BorhanHuluDistributionJobProviderData $providerData
 	 */
-	public function __construct($templateName, KalturaHuluDistributionProfile $distributionProfile, KalturaHuluDistributionJobProviderData $providerData)
+	public function __construct($templateName, BorhanHuluDistributionProfile $distributionProfile, BorhanHuluDistributionJobProviderData $providerData)
 	{
 		$this->_distributionProfile = $distributionProfile;
 		$this->_providerData = $providerData;
@@ -50,36 +50,36 @@ class HuluFeedHelper
 			$this->_fieldValues = array();
 		
 		// series
-		$this->setNodeValueFieldConfigId('/content/metadata/series/title', KalturaHuluDistributionField::SERIES_TITLE);
-		$this->setNodeValueFieldConfigId('/content/metadata/series/description', KalturaHuluDistributionField::SERIES_DESCRIPTION);
-		$this->setNodeValueFieldConfigId('/content/metadata/series/primaryCategory', KalturaHuluDistributionField::SERIES_PRIMARY_CATEGORY);
-		$additionalCategories = explode(',', $this->_fieldValues[KalturaHuluDistributionField::SERIES_ADDITIONAL_CATEGORIES]);
+		$this->setNodeValueFieldConfigId('/content/metadata/series/title', BorhanHuluDistributionField::SERIES_TITLE);
+		$this->setNodeValueFieldConfigId('/content/metadata/series/description', BorhanHuluDistributionField::SERIES_DESCRIPTION);
+		$this->setNodeValueFieldConfigId('/content/metadata/series/primaryCategory', BorhanHuluDistributionField::SERIES_PRIMARY_CATEGORY);
+		$additionalCategories = explode(',', $this->_fieldValues[BorhanHuluDistributionField::SERIES_ADDITIONAL_CATEGORIES]);
 		foreach($additionalCategories as $additionalCategory)
 			$this->createAndAppendByXPath('/content/metadata/series/additionalCategories', 'category', $additionalCategory);
-		$this->setNodeValueFieldConfigId('/content/metadata/series/channel', KalturaHuluDistributionField::SERIES_CHANNEL);
+		$this->setNodeValueFieldConfigId('/content/metadata/series/channel', BorhanHuluDistributionField::SERIES_CHANNEL);
 		
 		// season
-		$this->setNodeValueFieldConfigId('/content/metadata/season/seasonNumber', KalturaHuluDistributionField::SEASON_NUMBER);
-		$this->setNodeValueFieldConfigId('/content/metadata/season/seasonSynopsis', KalturaHuluDistributionField::SEASON_SYNOPSIS);
-		$this->setNodeValueFieldConfigId('/content/metadata/season/tuneinInformation', KalturaHuluDistributionField::SEASON_TUNEIN_INFORMATION);
+		$this->setNodeValueFieldConfigId('/content/metadata/season/seasonNumber', BorhanHuluDistributionField::SEASON_NUMBER);
+		$this->setNodeValueFieldConfigId('/content/metadata/season/seasonSynopsis', BorhanHuluDistributionField::SEASON_SYNOPSIS);
+		$this->setNodeValueFieldConfigId('/content/metadata/season/tuneinInformation', BorhanHuluDistributionField::SEASON_TUNEIN_INFORMATION);
 		
 		// video
-		$this->setNodeValueFieldConfigId('/content/metadata/video/mediaType', KalturaHuluDistributionField::VIDEO_MEDIA_TYPE);
-		$this->setNodeValueFieldConfigId('/content/metadata/video/title', KalturaHuluDistributionField::VIDEO_TITLE);
-		$this->setNodeValueFieldConfigId('/content/metadata/video/episodeNumber', KalturaHuluDistributionField::VIDEO_EPISODE_NUMBER);
-		$this->setNodeValueFieldConfigId('/content/metadata/video/rating', KalturaHuluDistributionField::VIDEO_RATING);
-		$this->setNodeValueFieldConfigId('/content/metadata/video/contentRatingReason', KalturaHuluDistributionField::VIDEO_CONTENT_RATING_REASON);
-		$this->setNodeValueFieldConfigId('/content/metadata/video/description', KalturaHuluDistributionField::VIDEO_DESCRIPTION);
-		$this->setNodeValueFieldConfigId('/content/metadata/video/fullDescription', KalturaHuluDistributionField::VIDEO_FULL_DESCRIPTION);
-		$this->setNodeValueFieldConfigId('/content/metadata/video/copyright', KalturaHuluDistributionField::VIDEO_COPYRIGHT);
-		$this->setNodeValueFieldConfigId('/content/metadata/video/keywords', KalturaHuluDistributionField::VIDEO_KEYWORDS);
-		$this->setNodeValueFieldConfigId('/content/metadata/video/language', KalturaHuluDistributionField::VIDEO_LANGUAGE);
-		$this->setNodeValueFieldConfigId('/content/metadata/video/programmingType', KalturaHuluDistributionField::VIDEO_PROGRAMMING_TYPE);
-		$this->setNodeValueFieldConfigId('/content/metadata/video/externalId', KalturaHuluDistributionField::VIDEO_EXTERNAL_ID);
+		$this->setNodeValueFieldConfigId('/content/metadata/video/mediaType', BorhanHuluDistributionField::VIDEO_MEDIA_TYPE);
+		$this->setNodeValueFieldConfigId('/content/metadata/video/title', BorhanHuluDistributionField::VIDEO_TITLE);
+		$this->setNodeValueFieldConfigId('/content/metadata/video/episodeNumber', BorhanHuluDistributionField::VIDEO_EPISODE_NUMBER);
+		$this->setNodeValueFieldConfigId('/content/metadata/video/rating', BorhanHuluDistributionField::VIDEO_RATING);
+		$this->setNodeValueFieldConfigId('/content/metadata/video/contentRatingReason', BorhanHuluDistributionField::VIDEO_CONTENT_RATING_REASON);
+		$this->setNodeValueFieldConfigId('/content/metadata/video/description', BorhanHuluDistributionField::VIDEO_DESCRIPTION);
+		$this->setNodeValueFieldConfigId('/content/metadata/video/fullDescription', BorhanHuluDistributionField::VIDEO_FULL_DESCRIPTION);
+		$this->setNodeValueFieldConfigId('/content/metadata/video/copyright', BorhanHuluDistributionField::VIDEO_COPYRIGHT);
+		$this->setNodeValueFieldConfigId('/content/metadata/video/keywords', BorhanHuluDistributionField::VIDEO_KEYWORDS);
+		$this->setNodeValueFieldConfigId('/content/metadata/video/language', BorhanHuluDistributionField::VIDEO_LANGUAGE);
+		$this->setNodeValueFieldConfigId('/content/metadata/video/programmingType', BorhanHuluDistributionField::VIDEO_PROGRAMMING_TYPE);
+		$this->setNodeValueFieldConfigId('/content/metadata/video/externalId', BorhanHuluDistributionField::VIDEO_EXTERNAL_ID);
 		
-		$this->setNodeValueFullDateFieldConfigId('/content/metadata/video/availableDate', KalturaHuluDistributionField::VIDEO_AVAILABLE_DATE);
-		$this->setNodeValueFullDateFieldConfigId('/content/metadata/video/expirationDate', KalturaHuluDistributionField::VIDEO_EXPIRATION_DATE);
-		$this->setNodeValueShortDateFieldConfigId('/content/metadata/video/originalPremiereDate', KalturaHuluDistributionField::VIDEO_ORIGINAL_PREMIERE_DATE);
+		$this->setNodeValueFullDateFieldConfigId('/content/metadata/video/availableDate', BorhanHuluDistributionField::VIDEO_AVAILABLE_DATE);
+		$this->setNodeValueFullDateFieldConfigId('/content/metadata/video/expirationDate', BorhanHuluDistributionField::VIDEO_EXPIRATION_DATE);
+		$this->setNodeValueShortDateFieldConfigId('/content/metadata/video/originalPremiereDate', BorhanHuluDistributionField::VIDEO_ORIGINAL_PREMIERE_DATE);
 		
 		$this->addFileNode('Mezzanine video', $this->_providerData->fileBaseName.'.'.pathinfo($this->_providerData->videoAssetFilePath, PATHINFO_EXTENSION));
 		$this->addFileNode('Mezzanine thumbnail', $this->_providerData->fileBaseName.'.'.pathinfo($this->_providerData->thumbAssetFilePath, PATHINFO_EXTENSION));
@@ -101,7 +101,7 @@ class HuluFeedHelper
 		$segments = array();
 		foreach($cuePoints as $cuePoint)
 		{
-			/* @var $cuePoint KalturaAdCuePoint */
+			/* @var $cuePoint BorhanAdCuePoint */
 			$seconds = floor($cuePoint->startTime / 1000);
 			$time = new DateTime('@'.$seconds, new DateTimeZone('UTC'));
 			$hours = $time->format('H');

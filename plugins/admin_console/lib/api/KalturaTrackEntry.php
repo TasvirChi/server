@@ -3,7 +3,7 @@
  * @package plugins.adminConsole
  * @subpackage api.objects
  */
-class KalturaTrackEntry extends KalturaObject
+class BorhanTrackEntry extends BorhanObject
 {
 	/**
 	 * @var int
@@ -11,7 +11,7 @@ class KalturaTrackEntry extends KalturaObject
 	public $id;
 
 	/**
-	 * @var KalturaTrackEntryEventType
+	 * @var BorhanTrackEntryEventType
 	 */
 	public $trackEventType;
 

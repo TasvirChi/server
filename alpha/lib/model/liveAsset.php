@@ -57,7 +57,7 @@ class liveAsset extends flavorAsset
 			return true;
 		}
 		
-		KalturaLog::log("Sub type provided [$sub_type] is not one of known live-asset sub types validating from parent");
+		BorhanLog::log("Sub type provided [$sub_type] is not one of known live-asset sub types validating from parent");
 		return parent::validateFileSyncSubType($sub_type);
 	}
 	

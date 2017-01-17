@@ -5,7 +5,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaEvalStringField extends KalturaStringField
+class BorhanEvalStringField extends BorhanStringField
 {
 	/**
 	 * PHP code
@@ -25,7 +25,7 @@ class KalturaEvalStringField extends KalturaStringField
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

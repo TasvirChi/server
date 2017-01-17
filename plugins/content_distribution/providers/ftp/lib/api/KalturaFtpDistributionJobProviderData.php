@@ -3,42 +3,42 @@
  * @package plugins.ftpDistribution
  * @subpackage api.objects
  */
-class KalturaFtpDistributionJobProviderData extends KalturaConfigurableDistributionJobProviderData
+class BorhanFtpDistributionJobProviderData extends BorhanConfigurableDistributionJobProviderData
 {
 	/**
-	 * @var KalturaFtpDistributionFileArray
+	 * @var BorhanFtpDistributionFileArray
 	 */
 	public $filesForDistribution;
 	
 	/**
 	 * Called on the server side and enables you to populate the object with any data from the DB
 	 * 
-	 * @param KalturaDistributionJobData $distributionJobData
+	 * @param BorhanDistributionJobData $distributionJobData
 	 */
-	public function __construct(KalturaDistributionJobData $distributionJobData = null)
+	public function __construct(BorhanDistributionJobData $distributionJobData = null)
 	{
 		parent::__construct($distributionJobData);
 		
 		if(!$distributionJobData)
 			return;
 			
-		if(!($distributionJobData->distributionProfile instanceof KalturaFtpDistributionProfile))
+		if(!($distributionJobData->distributionProfile instanceof BorhanFtpDistributionProfile))
 			return;
 			
 		$entryDistributionDb = EntryDistributionPeer::retrieveByPK($distributionJobData->entryDistributionId);
 		$distributionProfileDb = DistributionProfilePeer::retrieveByPK($distributionJobData->distributionProfileId);
 		
 		if (is_null($entryDistributionDb))
-			return KalturaLog::err('Entry distribution #'.$distributionJobData->entryDistributionId.' not found');
+			return BorhanLog::err('Entry distribution #'.$distributionJobData->entryDistributionId.' not found');
 		
 		if (is_null($distributionProfileDb))
-			return KalturaLog::err('Distribution profile #'.$distributionJobData->distributionProfileId.' not found');
+			return BorhanLog::err('Distribution profile #'.$distributionJobData->distributionProfileId.' not found');
 
 		if (!$distributionProfileDb instanceof FtpDistributionProfile)
-			return KalturaLog::err('Distribution profile #'.$distributionJobData->distributionProfileId.' is not instance of FtpDistributionProfile');
+			return BorhanLog::err('Distribution profile #'.$distributionJobData->distributionProfileId.' is not instance of FtpDistributionProfile');
 
 		$this->filesForDistribution = $this->getDistributionFiles($distributionProfileDb, $entryDistributionDb);
-		KalturaLog::log("Files for distribution: ".print_r($this->filesForDistribution, true));
+		BorhanLog::log("Files for distribution: ".print_r($this->filesForDistribution, true));
 	}
 		
 	/**
@@ -52,7 +52,7 @@ class KalturaFtpDistributionJobProviderData extends KalturaConfigurableDistribut
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -61,14 +61,14 @@ class KalturaFtpDistributionJobProviderData extends KalturaConfigurableDistribut
 	
 	protected function getDistributionFiles(FtpDistributionProfile $distributionProfileDb, EntryDistribution $entryDistributionDb)
 	{
-		$files = new KalturaFtpDistributionFileArray();
+		$files = new BorhanFtpDistributionFileArray();
 		$sendMetadataAfterAssets = false;
 		if(!is_null($distributionProfileDb->getSendMetadataAfterAssets()))
 			$sendMetadataAfterAssets = $distributionProfileDb->getSendMetadataAfterAssets();
 			
 		if (!$distributionProfileDb->getDisableMetadata()) 
 		{
-			$metadataFile = new KalturaFtpDistributionFile();
+			$metadataFile = new BorhanFtpDistributionFile();
 			$metadataXml = $distributionProfileDb->getMetadataXml($entryDistributionDb);
 			$metadataFile->filename = $distributionProfileDb->getMetadataFilename($entryDistributionDb);
 			$metadataFile->contents = $metadataXml;
@@ -85,14 +85,14 @@ class KalturaFtpDistributionJobProviderData extends KalturaConfigurableDistribut
 		
 		$assets = assetPeer::retrieveByIds(array_merge($flavorAssetsIds, $thumbnailAssetIds, $assetIds));
 		
-		KalturaLog::log("Assets to distribute: ".print_r($assets, true));
+		BorhanLog::log("Assets to distribute: ".print_r($assets, true));
 		
 		foreach($assets as $asset) 
 		{
 			/* @var $assets asset */
 			$syncKey = $asset->getSyncKey(flavorAsset::FILE_SYNC_FLAVOR_ASSET_SUB_TYPE_ASSET);
 			
-			$file = new KalturaFtpDistributionFile();
+			$file = new BorhanFtpDistributionFile();
 			$file->assetId = $asset->getId();
 			
 			$file->localFilePath = kFileSyncUtils::getLocalFilePathForKey($syncKey, false);

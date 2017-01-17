@@ -3,7 +3,7 @@
  * @package plugins.drm
  * @subpackage api.objects
  */
-class KalturaDrmLicenseAccessDetails extends  KalturaObject {
+class BorhanDrmLicenseAccessDetails extends  BorhanObject {
 
     /**
      * Drm policy name

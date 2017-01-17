@@ -8,7 +8,7 @@ function setCacheExpiry($entriesCount , $feedId)
 		if ($item["key"] == "partnerId" && $item["value"] == kCurrentContext::$partner_id ||
 			$item["key"] == "feedId" && $item["value"] == $feedId)
 		{
-			KalturaResponseCacher::setExpiry($item["expiry"]);
+			BorhanResponseCacher::setExpiry($item["expiry"]);
 			return;
 		}
 	}
@@ -26,7 +26,7 @@ function setCacheExpiry($entriesCount , $feedId)
 		$expiry = min($expiry , $cacheTimeFrame);
 	}
 
-	KalturaResponseCacher::setExpiry($expiry);
+	BorhanResponseCacher::setExpiry($expiry);
 }
 
 function getRequestParameter($paramName)
@@ -52,9 +52,9 @@ $start = microtime(true);
 set_time_limit(0);
 
 // check cache before loading anything
-require_once(__DIR__ . "/../lib/KalturaResponseCacher.php");
+require_once(__DIR__ . "/../lib/BorhanResponseCacher.php");
 $expiry = kConf::hasParam("v3cache_getfeed_default_expiry") ? kConf::get("v3cache_getfeed_default_expiry") : 86400;
-$cache = new KalturaResponseCacher(null, kCacheManager::CACHE_TYPE_API_V3_FEED, $expiry);
+$cache = new BorhanResponseCacher(null, kCacheManager::CACHE_TYPE_API_V3_FEED, $expiry);
 $cache->checkOrStart();
 ob_start();
 
@@ -62,8 +62,8 @@ ob_start();
 DbManager::setConfig(kConf::getDB());
 DbManager::initialize();
 
-KalturaLog::debug(">------------------------------------- syndicationFeedRenderer -------------------------------------");
-KalturaLog::debug("getFeed Params [" . print_r(requestUtils::getRequestParams(), true) . "]");
+BorhanLog::debug(">------------------------------------- syndicationFeedRenderer -------------------------------------");
+BorhanLog::debug("getFeed Params [" . print_r(requestUtils::getRequestParams(), true) . "]");
 
 kCurrentContext::$host = (isset($_SERVER["HOSTNAME"]) ? $_SERVER["HOSTNAME"] : null);
 kCurrentContext::$user_ip = requestUtils::getRemoteAddress();
@@ -85,7 +85,7 @@ if (function_exists('apc_fetch'))
 
 try
 {
-	$syndicationFeedRenderer = new KalturaSyndicationFeedRenderer($feedId, $feedProcessingKey, $ks);
+	$syndicationFeedRenderer = new BorhanSyndicationFeedRenderer($feedId, $feedProcessingKey, $ks);
 	$syndicationFeedRenderer->addFlavorParamsAttachedFilter();
 	
 	kCurrentContext::$partner_id = $syndicationFeedRenderer->syndicationFeed->partnerId;
@@ -97,25 +97,25 @@ try
 }
 catch(PropelException $pex)
 {
-	KalturaLog::alert($pex->getMessage());
-	KExternalErrors::dieError(KExternalErrors::PROCESSING_FEED_REQUEST, 'KalturaSyndication: Database error');
+	BorhanLog::alert($pex->getMessage());
+	KExternalErrors::dieError(KExternalErrors::PROCESSING_FEED_REQUEST, 'BorhanSyndication: Database error');
 }
 catch(Exception $ex)
 {
-	KalturaLog::err($ex->getMessage());
-	$msg = 'KalturaSyndication: ' . str_replace(array("\n", "\r"), array("\t", ''), $ex->getMessage());
+	BorhanLog::err($ex->getMessage());
+	$msg = 'BorhanSyndication: ' . str_replace(array("\n", "\r"), array("\t", ''), $ex->getMessage());
 	KExternalErrors::dieError(KExternalErrors::PROCESSING_FEED_REQUEST, $msg);
 }
 
-//in KalturaSyndicationFeedRenderer - if the limit does restrict the amount of entries - the entries counter passes the limit's value by one , so it must be decreased back
+//in BorhanSyndicationFeedRenderer - if the limit does restrict the amount of entries - the entries counter passes the limit's value by one , so it must be decreased back
 $entriesCount = $syndicationFeedRenderer->getReturnedEntriesCount();
 $entriesCount--;
 
 setCacheExpiry($entriesCount , $feedId);
 
 $end = microtime(true);
-KalturaLog::info("syndicationFeedRenderer-end [".($end - $start)."] memory: ".memory_get_peak_usage(true));
-KalturaLog::debug("<------------------------------------- syndicationFeedRenderer -------------------------------------");
+BorhanLog::info("syndicationFeedRenderer-end [".($end - $start)."] memory: ".memory_get_peak_usage(true));
+BorhanLog::debug("<------------------------------------- syndicationFeedRenderer -------------------------------------");
 
 $result = ob_get_contents();
 ob_end_clean();

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaRemotePath extends KalturaObject
+class BorhanRemotePath extends BorhanObject
 {
 	/**
 	 * @var int

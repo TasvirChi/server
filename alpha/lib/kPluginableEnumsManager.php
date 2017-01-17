@@ -44,7 +44,7 @@ class kPluginableEnumsManager
 		{
 			$dynamicEnumId = $dynamicEnum->getId();
 			$dynamicEnumType = $dynamicEnum->getEnumName();
-			$dynamicEnumApiName = $dynamicEnum->getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $dynamicEnum->getValueName();
+			$dynamicEnumApiName = $dynamicEnum->getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $dynamicEnum->getValueName();
 			if(!isset(self::$coreMap[$dynamicEnumType]))
 				self::$coreMap[$dynamicEnumType] = array();
 				
@@ -68,7 +68,7 @@ class kPluginableEnumsManager
 		{
 			$dynamicEnumId = $dynamicEnum->getId();
 			$dynamicEnumType = $dynamicEnum->getEnumName();
-			$dynamicEnumApiName = $dynamicEnum->getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $dynamicEnum->getValueName();
+			$dynamicEnumApiName = $dynamicEnum->getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $dynamicEnum->getValueName();
 			if(!isset(self::$apiMap[$dynamicEnumType]))
 				self::$apiMap[$dynamicEnumType] = array();
 				
@@ -132,7 +132,7 @@ class kPluginableEnumsManager
 	
 	public static function genericApiToCore($genericValue)
 	{
-	    list($type, $value) = explode(IKalturaEnumerator::PLUGIN_VALUE_DELIMITER, $genericValue, 2);
+	    list($type, $value) = explode(IBorhanEnumerator::PLUGIN_VALUE_DELIMITER, $genericValue, 2);
 	    
 	    return self::apiToCore($type, $value);
 	}
@@ -142,7 +142,7 @@ class kPluginableEnumsManager
 		if(is_null($value))
 			return null;
 			
-		$split = explode(IKalturaEnumerator::PLUGIN_VALUE_DELIMITER, $value);
+		$split = explode(IBorhanEnumerator::PLUGIN_VALUE_DELIMITER, $value);
 		if(count($split) == 1)
 		{
 			if(!preg_match('/[\w\d]+/', $value))
@@ -179,17 +179,17 @@ class kPluginableEnumsManager
 
 	/**
 	 * @param string $value
-	 * @return IKalturaEnumerator
+	 * @return IBorhanEnumerator
 	 */
 	public static function getPlugin($value)
 	{
-		$split = explode(IKalturaEnumerator::PLUGIN_VALUE_DELIMITER, $value, 2);
+		$split = explode(IBorhanEnumerator::PLUGIN_VALUE_DELIMITER, $value, 2);
 		if(count($split) == 1)
 			return null;
 			
 		list($pluginName, $valueName) = $split;
-		$plugin = KalturaPluginManager::getPluginInstance($pluginName);
-		if($plugin && $plugin instanceof IKalturaEnumerator)
+		$plugin = BorhanPluginManager::getPluginInstance($pluginName);
+		if($plugin && $plugin instanceof IBorhanEnumerator)
 			return $plugin;
 			
 		return null;

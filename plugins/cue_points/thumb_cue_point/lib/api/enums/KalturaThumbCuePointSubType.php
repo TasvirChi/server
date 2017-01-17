@@ -3,7 +3,7 @@
  * @package plugins.cuePoint
  * @subpackage api.enum
  */
-class KalturaThumbCuePointSubType extends KalturaEnum implements ThumbCuePointSubType
+class BorhanThumbCuePointSubType extends BorhanEnum implements ThumbCuePointSubType
 {
 
 }

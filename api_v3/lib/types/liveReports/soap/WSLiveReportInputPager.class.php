@@ -3,7 +3,7 @@
 
 class WSLiveReportInputPager extends WSBaseObject
 {	
-	function getKalturaObject() {
+	function getBorhanObject() {
 		return null;
 	}
 				

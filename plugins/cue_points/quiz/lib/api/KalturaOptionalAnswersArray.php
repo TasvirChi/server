@@ -1,28 +1,28 @@
 <?php
 /**
  *
- * Associative array of KalturaOptionalAnswer
+ * Associative array of BorhanOptionalAnswer
  *
  * @package plugins.quiz
  * @subpackage api.objects
  */
 
-class KalturaOptionalAnswersArray extends KalturaAssociativeArray {
+class BorhanOptionalAnswersArray extends BorhanAssociativeArray {
 
 	public function __construct()
 	{
-		return parent::__construct("KalturaOptionalAnswer");
+		return parent::__construct("BorhanOptionalAnswer");
 	}
 
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaOptionalAnswersArray();
+		$newArr = new BorhanOptionalAnswersArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-			$answerObj = new KalturaOptionalAnswer();
+			$answerObj = new BorhanOptionalAnswer();
 			$answerObj->fromObject($obj, $responseProfile);
 			$newArr[] = $answerObj;
 		}

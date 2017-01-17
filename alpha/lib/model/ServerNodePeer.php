@@ -27,7 +27,7 @@ class ServerNodePeer extends BaseServerNodePeer {
 		if ( self::$s_criteria_filter == null )
 			self::$s_criteria_filter = new criteriaFilter ();
 	
-		$c = KalturaCriteria::create(ServerNodePeer::OM_CLASS);
+		$c = BorhanCriteria::create(ServerNodePeer::OM_CLASS);
 		$c->addAnd ( ServerNodePeer::STATUS, ServerNodeStatus::DELETED, Criteria::NOT_EQUAL);
 	
 		self::$s_criteria_filter->setFilter($c);
@@ -113,7 +113,7 @@ class ServerNodePeer extends BaseServerNodePeer {
 			if(isset(self::$class_types_cache[$serverNodeType]))
 				return self::$class_types_cache[$serverNodeType];
 	
-			$extendedCls = KalturaPluginManager::getObjectClass(parent::OM_CLASS, $serverNodeType);
+			$extendedCls = BorhanPluginManager::getObjectClass(parent::OM_CLASS, $serverNodeType);
 			if($extendedCls)
 			{
 				self::$class_types_cache[$serverNodeType] = $extendedCls;

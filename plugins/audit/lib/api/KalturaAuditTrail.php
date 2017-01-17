@@ -3,7 +3,7 @@
  * @package plugins.audit
  * @subpackage api.objects
  */
-class KalturaAuditTrail extends KalturaObject implements IRelatedFilterable
+class BorhanAuditTrail extends BorhanObject implements IRelatedFilterable
 {
 	/**
 	 * @var int
@@ -28,14 +28,14 @@ class KalturaAuditTrail extends KalturaObject implements IRelatedFilterable
 	public $parsedAt;
 
 	/**
-	 * @var KalturaAuditTrailStatus
+	 * @var BorhanAuditTrailStatus
 	 * @filter eq,in
 	 * @readonly
 	 */
 	public $status;
 
 	/**
-	 * @var KalturaAuditTrailObjectType
+	 * @var BorhanAuditTrailObjectType
 	 * @filter eq,in
 	 */
 	public $auditObjectType;
@@ -53,7 +53,7 @@ class KalturaAuditTrail extends KalturaObject implements IRelatedFilterable
 	public $relatedObjectId;
 
 	/**
-	 * @var KalturaAuditTrailObjectType
+	 * @var BorhanAuditTrailObjectType
 	 * @filter eq,in
 	 */
 	public $relatedObjectType;
@@ -92,13 +92,13 @@ class KalturaAuditTrail extends KalturaObject implements IRelatedFilterable
 	public $userId;
 
 	/**
-	 * @var KalturaAuditTrailAction
+	 * @var BorhanAuditTrailAction
 	 * @filter eq,in
 	 */
 	public $action;
 
 	/**
-	 * @var KalturaAuditTrailInfo
+	 * @var BorhanAuditTrailInfo
 	 */
 	public $data;
 
@@ -110,7 +110,7 @@ class KalturaAuditTrail extends KalturaObject implements IRelatedFilterable
 	public $ks;
 
 	/**
-	 * @var KalturaAuditTrailContext
+	 * @var BorhanAuditTrailContext
 	 * @filter eq,in
 	 * @readonly
 	 */
@@ -215,7 +215,7 @@ class KalturaAuditTrail extends KalturaObject implements IRelatedFilterable
 			
 		$dbAuditTrail = parent::toObject($dbAuditTrail, $propsToSkip);
 		
-		if($this->data && $this->data instanceof KalturaAuditTrailInfo)
+		if($this->data && $this->data instanceof BorhanAuditTrailInfo)
 			$dbAuditTrail->setData($this->data->toObject());
 			
 		return $dbAuditTrail;
@@ -224,7 +224,7 @@ class KalturaAuditTrail extends KalturaObject implements IRelatedFilterable
 	/**
 	 * @param AuditTrail $dbAuditTrail
 	 */
-	public function doFromObject($dbAuditTrail, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($dbAuditTrail, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($dbAuditTrail, $responseProfile);
 		
@@ -234,19 +234,19 @@ class KalturaAuditTrail extends KalturaObject implements IRelatedFilterable
 			switch(get_class($dbData))
 			{
 				case 'kAuditTrailChangeInfo':
-					$this->data = new KalturaAuditTrailChangeInfo();
+					$this->data = new BorhanAuditTrailChangeInfo();
 					break;
 					
 				case 'kAuditTrailFileSyncCreateInfo':
-					$this->data = new KalturaAuditTrailFileSyncCreateInfo();
+					$this->data = new BorhanAuditTrailFileSyncCreateInfo();
 					break;
 					
 				case 'kAuditTrailTextInfo':
-					$this->data = new KalturaAuditTrailTextInfo();
+					$this->data = new BorhanAuditTrailTextInfo();
 					break;
 					
 				default:
-	//				$this->data = new KalturaAuditTrailInfo();
+	//				$this->data = new BorhanAuditTrailInfo();
 					$this->data = null;
 					break;
 			}

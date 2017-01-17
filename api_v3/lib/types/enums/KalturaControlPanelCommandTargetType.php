@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaControlPanelCommandTargetType extends KalturaEnum
+class BorhanControlPanelCommandTargetType extends BorhanEnum
 {
 	const DATA_CENTER = 1;
 	const SCHEDULER = 2;

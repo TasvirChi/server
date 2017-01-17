@@ -50,14 +50,14 @@ while($entries)
 		kCurrentContext::$partner_id = $entry->getPartnerId();
 		kCurrentContext::$master_partner_id = $entry->getPartnerId();
 		
-		KalturaLog::debug("Deletes entry [" . $entry->getId() . "]");
-		KalturaStatement::setDryRun($dryRun);
+		BorhanLog::debug("Deletes entry [" . $entry->getId() . "]");
+		BorhanStatement::setDryRun($dryRun);
 		myEntryUtils::deleteEntry($entry, $entry->getPartnerId());
-		KalturaStatement::setDryRun(false);
+		BorhanStatement::setDryRun(false);
 	}
 	kEventsManager::flushEvents();
 	kMemoryManager::clearMemory();
 	$entries = entryPeer::doSelect($c);
 }
-KalturaLog::debug("Deleted [$count] entries");
+BorhanLog::debug("Deleted [$count] entries");
 

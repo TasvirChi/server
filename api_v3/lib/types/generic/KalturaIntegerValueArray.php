@@ -1,24 +1,24 @@
 <?php
 /**
- * An array of KalturaIntegerValue
+ * An array of BorhanIntegerValue
  * 
  * @package api
  * @subpackage objects
  */
-class KalturaIntegerValueArray extends KalturaTypedArray
+class BorhanIntegerValueArray extends BorhanTypedArray
 {
 	/**
 	 * @param array<string|kIntegerValue> $strings
-	 * @return KalturaIntegerValueArray
+	 * @return BorhanIntegerValueArray
 	 */
-	public static function fromDbArray(array $ints = null, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $ints = null, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$intArray = new KalturaIntegerValueArray();
+		$intArray = new BorhanIntegerValueArray();
 		if($ints && is_array($ints))
 		{
 			foreach($ints as $int)
 			{
-				$intObject = new KalturaStringValue();
+				$intObject = new BorhanStringValue();
 				
 				if($int instanceof kValue)
 				{
@@ -37,6 +37,6 @@ class KalturaIntegerValueArray extends KalturaTypedArray
 	
 	public function __construct()
 	{
-		return parent::__construct("KalturaIntegerValue");
+		return parent::__construct("BorhanIntegerValue");
 	}
 }

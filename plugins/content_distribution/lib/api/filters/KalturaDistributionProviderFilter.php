@@ -3,10 +3,10 @@
  * @package plugins.contentDistribution
  * @subpackage api.filters
  */
-class KalturaDistributionProviderFilter extends KalturaDistributionProviderBaseFilter
+class BorhanDistributionProviderFilter extends BorhanDistributionProviderBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{

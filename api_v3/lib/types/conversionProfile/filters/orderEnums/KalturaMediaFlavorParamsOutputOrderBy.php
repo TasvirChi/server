@@ -3,6 +3,6 @@
  * @package api
  * @subpackage filters.enum
  */
-class KalturaMediaFlavorParamsOutputOrderBy extends KalturaFlavorParamsOutputOrderBy
+class BorhanMediaFlavorParamsOutputOrderBy extends BorhanFlavorParamsOutputOrderBy
 {
 }

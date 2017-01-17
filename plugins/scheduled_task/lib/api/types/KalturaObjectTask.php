@@ -4,11 +4,11 @@
  * @package plugins.scheduledTask
  * @subpackage api.objects
  */
-abstract class KalturaObjectTask extends KalturaObject
+abstract class BorhanObjectTask extends BorhanObject
 {
 	/**
 	 * @readonly
-	 * @var KalturaObjectTaskType
+	 * @var BorhanObjectTaskType
 	 */
 	public $type;
 
@@ -25,7 +25,7 @@ abstract class KalturaObjectTask extends KalturaObject
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -53,21 +53,21 @@ abstract class KalturaObjectTask extends KalturaObject
 		switch($dbObject->getType())
 		{
 			case ObjectTaskType::DELETE_ENTRY:
-				return new KalturaDeleteEntryObjectTask();
+				return new BorhanDeleteEntryObjectTask();
 			case ObjectTaskType::MODIFY_CATEGORIES:
-				return new KalturaModifyCategoriesObjectTask();
+				return new BorhanModifyCategoriesObjectTask();
 			case ObjectTaskType::DELETE_ENTRY_FLAVORS:
-				return new KalturaDeleteEntryFlavorsObjectTask();
+				return new BorhanDeleteEntryFlavorsObjectTask();
 			case ObjectTaskType::CONVERT_ENTRY_FLAVORS:
-				return new KalturaConvertEntryFlavorsObjectTask();
+				return new BorhanConvertEntryFlavorsObjectTask();
 			case ObjectTaskType::DELETE_LOCAL_CONTENT:
-				return new KalturaDeleteLocalContentObjectTask();
+				return new BorhanDeleteLocalContentObjectTask();
 			case ObjectTaskType::STORAGE_EXPORT:
-				return new KalturaStorageExportObjectTask();
+				return new BorhanStorageExportObjectTask();
 			case ObjectTaskType::MODIFY_ENTRY:
-				return new KalturaModifyEntryObjectTask();
+				return new BorhanModifyEntryObjectTask();
 			default:
-				return KalturaPluginManager::loadObject('KalturaObjectTask', $dbObject->getType());
+				return BorhanPluginManager::loadObject('BorhanObjectTask', $dbObject->getType());
 		}
 	}
 }

@@ -37,7 +37,7 @@ class serveIsmAction extends sfAction
 						
 		$syncKey = $this->getFileSyncKey($objectId, $type);
 				
-		KalturaMonitorClient::initApiMonitor(false, 'extwidget.serveIsm', $this->entry->getPartnerId());
+		BorhanMonitorClient::initApiMonitor(false, 'extwidget.serveIsm', $this->entry->getPartnerId());
 		
 		myPartnerUtils::enforceDelivery($this->entry, $this->flavorAsset);
 		
@@ -47,7 +47,7 @@ class serveIsmAction extends sfAction
 			
 			if (is_null($fileSync))
 			{
-				KalturaLog::log("Error - no FileSync for type [$type] objectId [$objectId]");
+				BorhanLog::log("Error - no FileSync for type [$type] objectId [$objectId]");
 				KExternalErrors::dieError(KExternalErrors::FILE_NOT_FOUND);
 			}
 			

@@ -26,8 +26,8 @@
 	<meta property="og:video:height" content="<?php echo $uiConf->getHeight();?>" />	
 
 	<meta name="twitter:card" content="player"/>
-    <meta name="twitter:site" content="@kaltura"/>
-    <meta name="twitter:creator" content="@kaltura"/>
+    <meta name="twitter:site" content="@borhan"/>
+    <meta name="twitter:creator" content="@borhan"/>
     <meta name="twitter:title" content="<?php echo htmlspecialchars($entry_name); ?>" />
     <meta name="twitter:description" content="<?php echo htmlspecialchars($entry_description); ?>" />
     <meta name="twitter:image" content="<?php echo $entry_thumbnail_secure_url; ?>/width/<?php echo $uiConf->getWidth();?>" />
@@ -39,7 +39,7 @@
     <meta name="twitter:player:height" content="<?php echo $uiConf->getHeight();?>" />
     <meta name="twitter:player:width" content="<?php echo $uiConf->getWidth();?>" />
 
-	<meta property="og:site_name" content="Kaltura" />
+	<meta property="og:site_name" content="Borhan" />
 	<?php } ?>
 	<title><?php echo htmlspecialchars($entry_name); ?></title>
 	<link type="text/css" rel="stylesheet" href="/lib/css/shortlink.css" />
@@ -60,7 +60,7 @@
 	<script src="/lib/js/json2.min.js"></script>
 	<![endif]-->
 	<script src="/lib/js/jquery-1.8.3.min.js"></script>
-	<script src="/lib/js/KalturaEmbedCodeGenerator-1.0.6.min.js"></script>	
+	<script src="/lib/js/BorhanEmbedCodeGenerator-1.0.6.min.js"></script>	
 </head>
 <body>
 	<?php if(!$framed) { ?>

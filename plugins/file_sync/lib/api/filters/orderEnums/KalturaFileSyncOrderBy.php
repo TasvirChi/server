@@ -3,7 +3,7 @@
  * @package plugins.fileSync
  * @subpackage api.filters.enum
  */
-class KalturaFileSyncOrderBy extends KalturaStringEnum
+class BorhanFileSyncOrderBy extends BorhanStringEnum
 {
 	const VERSION_ASC = "+version";
 	const VERSION_DESC = "-version";

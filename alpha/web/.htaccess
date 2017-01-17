@@ -17,13 +17,13 @@ RedirectMatch permanent ^/show/?$ /index.php/login/register?invite=1\&goto=/inde
 RedirectMatch permanent ^/id/(.+?)/?$ /index.php/browse?kshow_id=$1
 RewriteEngine on
 
-# redirect kmc.kaltura.com to kaltura's kmc
-RewriteCond %{HTTP_HOST} kmc.kaltura.com
-RewriteRule .*  http://www.kaltura.com/index.php/kmc
+# redirect bmc.borhan.com to borhan's bmc
+RewriteCond %{HTTP_HOST} bmc.borhan.com
+RewriteRule .*  http://www.borhan.com/index.php/bmc
 
-# will redirect kaltura.com/kmc to www.kaltura.com/index.php/kmc
-RewriteCond %{HTTP_HOST} ^kaltura.com$
-RewriteRule .*  http://www.kaltura.com/index.php/kmc [L]
+# will redirect borhan.com/bmc to www.borhan.com/index.php/bmc
+RewriteCond %{HTTP_HOST} ^borhan.com$
+RewriteRule .*  http://www.borhan.com/index.php/bmc [L]
 
 # redirect flash file with swfparams parameters to the bare flash file
 RewriteRule ^(.*)/swfparams/(.*) /$1
@@ -37,7 +37,7 @@ RewriteRule ^p/[0-9]+/raw/(.*)$ /index.php/extwidget/raw/$1 [L]
 RewriteRule ^p/[0-9]+/sp/[0-9]+/download/(.*)$ index.php/extwidget/download/$1 [L]
 RewriteRule ^p/[0-9]+/download/(.*)$ index.php/extwidget/download/$1 [L]
 
-# added Kaltura Screen Recorder Rewrite
+# added Borhan Screen Recorder Rewrite
 RewriteRule ^p/[0-9]+/sp/[0-9]+/ksr/(.*)$ index.php/extwidget/ksr/$1 [L]
 RewriteRule ^p/[0-9]+/ksr/(.*)$ index.php/extwidget/ksr/$1 [L]
 
@@ -70,10 +70,10 @@ RewriteRule ^p/[0-9]+/demos/(.*)$ /demos/$1 [L]
 RewriteRule ^p/[0-9]+/sp/[0-9]+/flash/(.*)$ /flash/$1 [L]
 RewriteRule ^p/[0-9]+/flash/(.*)$ /flash/$1 [L]
 
-RewriteRule ^kwidget/(.*)$ /index.php/extwidget/kwidget/$1 [L]
-RewriteRule ^kcw/(.*)$ /index.php/extwidget/kcw/$1 [L]
+RewriteRule ^bwidget/(.*)$ /index.php/extwidget/bwidget/$1 [L]
+RewriteRule ^bcw/(.*)$ /index.php/extwidget/bcw/$1 [L]
 RewriteRule ^kse/(.*)$ /index.php/extwidget/kse/$1 [L]
-RewriteRule ^kae/(.*)$ /index.php/extwidget/kae/$1 [L]
+RewriteRule ^bae/(.*)$ /index.php/extwidget/bae/$1 [L]
 RewriteRule ^kupload/(.*)$ /index.php/extwidget/kupload/$1 [L]
 RewriteRule ^krecord/(.*)$ /index.php/extwidget/krecord/$1 [L]
 RewriteRule ^kgeneric/(.*)$ /index.php/extwidget/kgeneric/$1 [L]

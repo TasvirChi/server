@@ -4,7 +4,7 @@
  * @package plugins.metadata
  * @subpackage api.services
  */
-class MetadataBatchService extends KalturaBatchService
+class MetadataBatchService extends BorhanBatchService
 {
 
 
@@ -14,16 +14,16 @@ class MetadataBatchService extends KalturaBatchService
 	 * batch getExclusiveTransformMetadataJob action allows to get a BatchJob of type METADATA_TRANSFORM
 	 *
 	 * @action getExclusiveTransformMetadataJobs
-	 * @param KalturaExclusiveLockKey $lockKey The unique lock key from the batch-process. Is used for the locking mechanism
+	 * @param BorhanExclusiveLockKey $lockKey The unique lock key from the batch-process. Is used for the locking mechanism
 	 * @param int $maxExecutionTime The maximum time in seconds the job reguarly take. Is used for the locking mechanism when determining an unexpected termination of a batch-process.
 	 * @param int $numberOfJobs The maximum number of jobs to return.
-	 * @param KalturaBatchJobFilter $filter Set of rules to fetch only rartial list of jobs
+	 * @param BorhanBatchJobFilter $filter Set of rules to fetch only rartial list of jobs
 	 * @param int $maxOffset The maximum offset we accept for the distance from the best result.
-	 * @return KalturaBatchJobArray
+	 * @return BorhanBatchJobArray
 	 *
 	 * TODO remove the destXsdPath from the job data and get it later using the api, then delete this method
 	 */
-	function getExclusiveTransformMetadataJobsAction(KalturaExclusiveLockKey $lockKey, $maxExecutionTime, $numberOfJobs, KalturaBatchJobFilter $filter = null, $maxOffset = null)
+	function getExclusiveTransformMetadataJobsAction(BorhanExclusiveLockKey $lockKey, $maxExecutionTime, $numberOfJobs, BorhanBatchJobFilter $filter = null, $maxOffset = null)
 	{
 		$jobs = $this->getExclusiveJobs($lockKey, $maxExecutionTime, $numberOfJobs, $filter, BatchJobType::METADATA_TRANSFORM, $maxOffset);
 
@@ -44,7 +44,7 @@ class MetadataBatchService extends KalturaBatchService
 			}
 		}
 
-		return KalturaBatchJobArray::fromBatchJobArray($jobs);
+		return BorhanBatchJobArray::fromBatchJobArray($jobs);
 	}
 
 	/**
@@ -54,30 +54,30 @@ class MetadataBatchService extends KalturaBatchService
 	 * @param int $metadataProfileId The id of the metadata profile
 	 * @param int $srcVersion The old metadata profile version
 	 * @param int $destVersion The new metadata profile version
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaTransformMetadataResponse
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanTransformMetadataResponse
 	 */
-	function getTransformMetadataObjectsAction($metadataProfileId, $srcVersion, $destVersion, KalturaFilterPager $pager = null)
+	function getTransformMetadataObjectsAction($metadataProfileId, $srcVersion, $destVersion, BorhanFilterPager $pager = null)
 	{
-		$response = new KalturaTransformMetadataResponse();
+		$response = new BorhanTransformMetadataResponse();
 
 		$c = new Criteria();
 		$c->add(MetadataPeer::METADATA_PROFILE_ID, $metadataProfileId);
 		$c->add(MetadataPeer::METADATA_PROFILE_VERSION, $srcVersion, Criteria::LESS_THAN);
-		$c->add(MetadataPeer::STATUS, KalturaMetadataStatus::VALID);
+		$c->add(MetadataPeer::STATUS, BorhanMetadataStatus::VALID);
 		$response->lowerVersionCount = MetadataPeer::doCount($c);
 
 		$c = new Criteria();
 		$c->add(MetadataPeer::METADATA_PROFILE_ID, $metadataProfileId);
 		$c->add(MetadataPeer::METADATA_PROFILE_VERSION, $srcVersion);
-		$c->add(MetadataPeer::STATUS, KalturaMetadataStatus::VALID);
+		$c->add(MetadataPeer::STATUS, BorhanMetadataStatus::VALID);
 		$response->totalCount = MetadataPeer::doCount($c);
 
 		if ($pager)
 			$pager->attachToCriteria($c);
 
 		$list = MetadataPeer::doSelect($c);
-		$response->objects = KalturaMetadataArray::fromDbArray($list, $this->getResponseProfile());
+		$response->objects = BorhanMetadataArray::fromDbArray($list, $this->getResponseProfile());
 
 		return $response;
 	}

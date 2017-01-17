@@ -5,7 +5,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaClientNotification extends KalturaObject 
+class BorhanClientNotification extends BorhanObject 
 {
     /**
      * The URL where the notification should be sent to 

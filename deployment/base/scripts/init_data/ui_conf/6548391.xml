@@ -1,7 +1,7 @@
-<layout id="full" name="BlackBoard 2.0 - course gallery player" skinPath="/content/uiconf/kaltura/kmc/appstudio/kdp3/eagle/skin/v3.5.9/skin.swf">
+<layout id="full" name="BlackBoard 2.0 - course gallery player" skinPath="/content/uiconf/borhan/bmc/appstudio/bdp3/eagle/skin/v3.5.9/skin.swf">
   <HBox id="topLevel" width="100%" height="100%">
     <VBox id="player" width="100%" height="100%" styleName="black">
-      <Plugin id="kalturaMix" width="0%" height="0%" includeInLayout="false" loadingPolicy="onDemand"/>
+      <Plugin id="borhanMix" width="0%" height="0%" includeInLayout="false" loadingPolicy="onDemand"/>
       <Plugin id="statistics" width="0%" height="0%" includeInLayout="false"/>
       <Canvas id="PlayerHolder" height="100%" width="100%" styleName="black">
         <Video id="video" width="100%" height="100%"/>
@@ -24,7 +24,7 @@
         </VBox>
         <HBox id="ccOverComboBoxWrapper" horizontalAlign="right" width="100%" height="100%" paddingRight="5" paddingTop="5">
           <Plugin id="captionsOverFader" width="0%" height="0%" includeInLayout="false" target="{ccOverComboBoxWrapper}" hoverTarget="{PlayerHolder}" duration="0.5" autoHide="true" path="faderPlugin.swf"/>
-          <ComboBox id="ccOverComboBox" width="90" styleName="_kdp" selectedIndex="{closedCaptionsOverPlayer.currentCCFileIndex}" kevent_change="sendNotification( 'closedCaptionsSelected' , ccOverComboBox.selectedItem)" dataProvider="{closedCaptionsOverPlayer.availableCCFilesLabels}" prompt="Captions" visible="{closedCaptionsOverPlayer.hasCaptions}" tooltip=""/>
+          <ComboBox id="ccOverComboBox" width="90" styleName="_bdp" selectedIndex="{closedCaptionsOverPlayer.currentCCFileIndex}" kevent_change="sendNotification( 'closedCaptionsSelected' , ccOverComboBox.selectedItem)" dataProvider="{closedCaptionsOverPlayer.availableCCFilesLabels}" prompt="Captions" visible="{closedCaptionsOverPlayer.hasCaptions}" tooltip=""/>
         </HBox>
       </Canvas>
       <Canvas id="controlsHolder" width="100%" height="30">
@@ -45,7 +45,7 @@
             <Button id="fullScreenBtnControllerScreen" command="fullScreen" buttonType="iconButton" height="22" styleName="controllerScreen" icon="openFullScreenIcon" selectedUpIcon="closeFullScreenIcong" selectedOverIcon="closeFullScreenIcon" selectedDownIcon="closeFullScreenIcon" selectedDisabledIcon="closeFullScreenIcon" focusRectPadding="0" allowDisable="false" tooltip="Toggle fullscreen" k_buttonType="buttonIconControllerArea" upTooltip="Open Full Screen" selectedTooltip="Close Full Screen" color1="14540253" color2="16777215" color3="3355443" color4="10066329" color5="16777215" font="Arial"/>
           </HBox>
           <Spacer width="13"/>
-          <Button id="kalturaLogo" height="50" width="100" kClick="navigate('http://www.kaltura.com')" styleName="controllerScreen" icon="kalturaLogo"/>
+          <Button id="borhanLogo" height="50" width="100" kClick="navigate('http://www.borhan.com')" styleName="controllerScreen" icon="borhanLogo"/>
           <Spacer width="13"/>
         </HBox>
       </Canvas>

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaAssetParamsOutput extends KalturaAssetParams
+class BorhanAssetParamsOutput extends BorhanAssetParams
 {
 	/**
 	 * @var int
@@ -33,7 +33,7 @@ class KalturaAssetParamsOutput extends KalturaAssetParams
 	/**
 	 * The container format of the Flavor Params
 	 *  
-	 * @var KalturaContainerFormat
+	 * @var BorhanContainerFormat
 	 */
 	public $format;
 	
@@ -63,7 +63,7 @@ class KalturaAssetParamsOutput extends KalturaAssetParams
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($object = null, $skip = array())
 	{

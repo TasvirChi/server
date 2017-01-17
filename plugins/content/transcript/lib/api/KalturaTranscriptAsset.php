@@ -3,7 +3,7 @@
  * @package plugins.transcript
  * @subpackage api.objects
  */
-class KalturaTranscriptAsset extends KalturaAttachmentAsset
+class BorhanTranscriptAsset extends BorhanAttachmentAsset
 {
 	/**
 	 * The accuracy of the transcript - values between 0 and 1
@@ -13,13 +13,13 @@ class KalturaTranscriptAsset extends KalturaAttachmentAsset
 	
 	/**
 	 * Was verified by human or machine
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $humanVerified;
 	
 	/**
 	 * The language of the transcript
-	 * @var KalturaLanguage
+	 * @var BorhanLanguage
 	 */
 	public $language;
 	

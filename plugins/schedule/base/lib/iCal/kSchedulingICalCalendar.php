@@ -4,11 +4,11 @@ class kSchedulingICalCalendar extends kSchedulingICalComponent
 {
 	/**
 	 * @param string $data
-	 * @param KalturaScheduleEventType $eventsType
+	 * @param BorhanScheduleEventType $eventsType
 	 */
 	public function __construct($data = null, $eventsType = null)
 	{
-		$this->setKalturaType($eventsType);
+		$this->setBorhanType($eventsType);
 		parent::__construct($data);
 	}
 	

@@ -6,7 +6,7 @@
  * @subpackage objects
  * @abstract
  */
-abstract class KalturaValue extends KalturaObject
+abstract class BorhanValue extends BorhanObject
 {
 	/**
 	 * @var string
@@ -20,7 +20,7 @@ abstract class KalturaValue extends KalturaObject
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{

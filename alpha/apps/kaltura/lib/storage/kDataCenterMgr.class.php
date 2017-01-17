@@ -105,7 +105,7 @@ class kDataCenterMgr
 	
 	public static function getRemoteDcExternalUrl ( FileSync $file_sync )
 	{
-		KalturaLog::log("File Sync [{$file_sync->getId()}]");
+		BorhanLog::log("File Sync [{$file_sync->getId()}]");
 		$dc_id = $file_sync->getDc();		
 		$dc = self::getDcById ( $dc_id );
 		$url = $dc["url"];
@@ -114,7 +114,7 @@ class kDataCenterMgr
 
 	public static function getRemoteDcExternalUrlByDcId ( $dc_id )
 	{
-		KalturaLog::log("DC id [{$dc_id}]");
+		BorhanLog::log("DC id [{$dc_id}]");
 		$dc = self::getDcById ( $dc_id );
 		$url = $dc["url"];
 		return $url;
@@ -127,14 +127,14 @@ class kDataCenterMgr
 		$remote_url = preg_replace('/^https?:\/\//', '', $remote_url);
 		$remote_url = infraRequestUtils::getProtocol() . '://' . $remote_url;
 		
-		KalturaLog::log ("URL to redirect to [$remote_url]" );
+		BorhanLog::log ("URL to redirect to [$remote_url]" );
 		
 		return $remote_url;
 	}
 	
 	public static function createCmdForRemoteDataCenter(FileSync $fileSync)
 	{
-		KalturaLog::log("File Sync [{$fileSync->getId()}]");
+		BorhanLog::log("File Sync [{$fileSync->getId()}]");
 		$remoteUrl = self::getInternalRemoteUrl($fileSync); 
 		$locaFilePath = self::getLocalTempPathForFileSync($fileSync);
 		$cmdLine = kConf::get( "bin_path_curl" ) . ' -f -s -L -o"'.$locaFilePath.'" "'.$remoteUrl.'"';
@@ -148,7 +148,7 @@ class kDataCenterMgr
 	
 	public static function getInternalRemoteUrl(FileSync $file_sync)
 	{
-		KalturaLog::log("File Sync [{$file_sync->getId()}]");
+		BorhanLog::log("File Sync [{$file_sync->getId()}]");
 		// LOG retrieval
 
 		$dc =  self::getDcById ( $file_sync->getDc() );
@@ -171,7 +171,7 @@ class kDataCenterMgr
 	 */
 	public static function retrieveFileFromRemoteDataCenter ( FileSync $file_sync )
 	{
-		KalturaLog::log("File sync [{$file_sync->getId()}]");
+		BorhanLog::log("File sync [{$file_sync->getId()}]");
 		// LOG retrieval
 
 		$cmd_line = self::createCmdForRemoteDataCenter($file_sync);
@@ -179,18 +179,18 @@ class kDataCenterMgr
 		
 		if (!file_exists($local_file_path)) // don't need to fetch twice 
 		{ 
-			KalturaLog::log("Executing " . $cmd_line);
+			BorhanLog::log("Executing " . $cmd_line);
 			exec($cmd_line);
 			
 			clearstatcache();
 			if (!file_exists($local_file_path))
 			{
-				KalturaLog::err("Temp file not retrieved [$local_file_path]");
+				BorhanLog::err("Temp file not retrieved [$local_file_path]");
 				return false;
 			}
 		}
 		else {
-			KalturaLog::log("Already exists in temp folder [{$local_file_path}]");
+			BorhanLog::log("Already exists in temp folder [{$local_file_path}]");
 		}
 
 		return file_get_contents( $local_file_path );
@@ -203,7 +203,7 @@ class kDataCenterMgr
 	{
 		$file_sync_id = $file_sync->getId();
 		
-		KalturaLog::log("File sync id [$file_sync_id], file_hash [$file_hash], file_name [$file_name]");
+		BorhanLog::log("File sync id [$file_sync_id], file_hash [$file_hash], file_name [$file_name]");
 		// TODO - verify security
 		
 		$current_dc = self::getCurrentDc();
@@ -212,7 +212,7 @@ class kDataCenterMgr
 		if ( $file_sync->getDc() != $current_dc_id )
 		{
 			$error = "DC[$current_dc_id]: FileSync with id [$file_sync_id] does not belong to this DC";
-			KalturaLog::err($error); 
+			BorhanLog::err($error); 
 			KExternalErrors::dieError(KExternalErrors::BAD_QUERY);
 		}
 		
@@ -232,7 +232,7 @@ class kDataCenterMgr
 		{
 			$file_name_msg = $file_name ? "file name [$file_name] " : '';
 			$error = "DC[$current_dc_id]: Path for fileSync id [$file_sync_id] ".$file_name_msg."does not exist, resolved path [$resolvedPath]";
-			KalturaLog::err($error); 
+			BorhanLog::err($error); 
 			KExternalErrors::dieError(KExternalErrors::FILE_NOT_FOUND);
 		}
 		
@@ -241,13 +241,13 @@ class kDataCenterMgr
 		if ( $file_hash != $expected_file_hash )  
 		{
 			$error = "DC[$current_dc_id]: FileSync with id [$file_sync_id] - invalid hash";
-			KalturaLog::err($error); 
+			BorhanLog::err($error); 
 			KExternalErrors::dieError(KExternalErrors::INVALID_TOKEN);
 		}
 				
 		if ($fileSyncIsDir && is_dir($resolvedPath))
 		{
-			KalturaLog::log("Serving directory content from [".$resolvedPath."]");
+			BorhanLog::log("Serving directory content from [".$resolvedPath."]");
 			$contents = kFile::listDir($resolvedPath);
 			sort($contents, SORT_STRING);
 			$contents = serialize($contents);
@@ -257,7 +257,7 @@ class kDataCenterMgr
 		}
 		else
 		{
-			KalturaLog::log("Serving file from [".$resolvedPath."]");
+			BorhanLog::log("Serving file from [".$resolvedPath."]");
 			kFileUtils::dumpFile( $resolvedPath );
 		}
 		

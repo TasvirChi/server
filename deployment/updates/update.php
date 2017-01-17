@@ -4,7 +4,7 @@ require_once (dirname(__FILE__) . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARAT
 ini_set("memory_limit", "512M");
 error_reporting(E_ALL);
 
-KAutoloader::addClassPath(KAutoloader::buildPath(KALTURA_ROOT_PATH, "vendor", "ZendFramework", "*"));
+KAutoloader::addClassPath(KAutoloader::buildPath(BORHAN_ROOT_PATH, "vendor", "ZendFramework", "*"));
 KAutoloader::register();
 
 $code = array();

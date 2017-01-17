@@ -11,11 +11,11 @@ class BulkUploadCategoryEntryEngineFilter extends BulkUploadEngineFilter
     
 	/**
 	 * Function to create a new category from bulk upload result.
-	 * @param KalturaBulkUploadResult $bulkUploadResult
+	 * @param BorhanBulkUploadResult $bulkUploadResult
 	 */
-	protected function createObjectFromResultAndJobData (KalturaBulkUploadResult $bulkUploadResult)
+	protected function createObjectFromResultAndJobData (BorhanBulkUploadResult $bulkUploadResult)
 	{
-	    $categoryEntry = new KalturaCategoryEntry();
+	    $categoryEntry = new BorhanCategoryEntry();
 	    
 	    if ($bulkUploadResult->entryId)
 	        $categoryEntry->entryId = $bulkUploadResult->entryId;
@@ -32,25 +32,25 @@ class BulkUploadCategoryEntryEngineFilter extends BulkUploadEngineFilter
 	    return KBatchBase::$kClient->categoryEntry->add($categoryEntry);
 	}
 
-	protected function deleteObjectFromResult (KalturaBulkUploadResult $bulkUploadResult)
+	protected function deleteObjectFromResult (BorhanBulkUploadResult $bulkUploadResult)
 	{
 		return KBatchBase::$kClient->categoryEntry->delete($bulkUploadResult->entryId, $bulkUploadResult->categoryId);
 	}
 	
 	/**
 	 * create specific instance ob BulkUploadResult and set it's properties
-	 * @param $object - Result can be created either from KalturaBaseEntry or from KalturaCategoryEntry depending on the 
+	 * @param $object - Result can be created either from BorhanBaseEntry or from BorhanCategoryEntry depending on the 
 	 * filter passed to the job
 	 * 
 	 * @see BulkUploadEngineFilter::fillUploadResultInstance()
 	 */
 	protected function fillUploadResultInstance ($object)
 	{
-	    $bulkUploadResult = new KalturaBulkUploadResultCategoryEntry();
-	    if($object instanceof KalturaBaseEntry)
+	    $bulkUploadResult = new BorhanBulkUploadResultCategoryEntry();
+	    if($object instanceof BorhanBaseEntry)
 	    {
 	    	//get category entry object based on the entry details
-	    	$filter = new KalturaCategoryEntryFilter();
+	    	$filter = new BorhanCategoryEntryFilter();
 	    	$filter->entryIdEqual = $object->id;
 	    	$filter->categoryIdEqual = $object->categoryId;
 	    	$list = $this->listObjects($filter);
@@ -59,7 +59,7 @@ class BulkUploadCategoryEntryEngineFilter extends BulkUploadEngineFilter
 	    		$categoryEntry = reset($list->objects);
 	    	}	    	
 	    }
-	    else if($object instanceof KalturaCategoryEntry)
+	    else if($object instanceof BorhanCategoryEntry)
 	    {
 	    	$categoryEntry = $object;
 	    }
@@ -84,28 +84,28 @@ class BulkUploadCategoryEntryEngineFilter extends BulkUploadEngineFilter
 	 * 
 	 * @see BulkUploadEngineFilter::listObjects()
 	 */
-	protected function listObjects(KalturaFilter $filter, KalturaFilterPager $pager = null) 
+	protected function listObjects(BorhanFilter $filter, BorhanFilterPager $pager = null) 
 	{
 		KBatchBase::impersonate($this->currentPartnerId);
 		
 		$filter->orderBy = "+createdAt";
 		
-		if($filter instanceof KalturaBaseEntryFilter)
+		if($filter instanceof BorhanBaseEntryFilter)
 			return KBatchBase::$kClient->baseEntry->listAction($filter, $pager);
-		else if($filter instanceof KalturaCategoryEntryFilter)
+		else if($filter instanceof BorhanCategoryEntryFilter)
 		{
-			$filter->statusEqual = KalturaCategoryEntryStatus::ACTIVE;
+			$filter->statusEqual = BorhanCategoryEntryStatus::ACTIVE;
 			return KBatchBase::$kClient->categoryEntry->listAction($filter, $pager);	
 		}
 		else	
-			throw new KalturaBatchException("Unsupported filter: {get_class($filter)}", KalturaBatchJobAppErrors::BULK_VALIDATION_FAILED); 			
+			throw new BorhanBatchException("Unsupported filter: {get_class($filter)}", BorhanBatchJobAppErrors::BULK_VALIDATION_FAILED); 			
 			
 		KBatchBase::unimpersonate();	
 	}
 
 	protected function getBulkUploadResultObjectType()
 	{
-		return KalturaBulkUploadObjectType::CATEGORY_ENTRY;
+		return BorhanBulkUploadObjectType::CATEGORY_ENTRY;
 	}
 	
 	protected function isErrorResult($requestResult){

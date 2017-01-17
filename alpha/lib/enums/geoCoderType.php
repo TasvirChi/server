@@ -5,5 +5,5 @@
  */ 
 interface geoCoderType extends BaseEnum
 {
-	const KALTURA = 1;
+	const BORHAN = 1;
 }

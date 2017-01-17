@@ -133,7 +133,7 @@ function openInNewWindow ( url )
 
 </script>
 
-<div class="mykaltura_viewAll mykaltura_media" style="width: 80%;">
+<div class="myborhan_viewAll myborhan_media" style="width: 80%;">
 	<div>
 	</div>
 	<div class="content">

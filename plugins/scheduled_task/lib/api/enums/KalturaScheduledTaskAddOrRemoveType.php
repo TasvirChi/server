@@ -5,6 +5,6 @@
  * @subpackage api.enum
  * @see ScheduledTaskAddOrRemoveType
  */
-class KalturaScheduledTaskAddOrRemoveType extends KalturaEnum implements ScheduledTaskAddOrRemoveType
+class BorhanScheduledTaskAddOrRemoveType extends BorhanEnum implements ScheduledTaskAddOrRemoveType
 {
 }

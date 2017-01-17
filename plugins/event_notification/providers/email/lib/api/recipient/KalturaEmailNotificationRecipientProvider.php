@@ -4,23 +4,23 @@
  * @package plugins.emailNotification
  * @subpackage model.data
  */
-abstract class KalturaEmailNotificationRecipientProvider extends KalturaObject
+abstract class BorhanEmailNotificationRecipientProvider extends BorhanObject
 {
 	public static function getProviderInstance ($dbObject)
 	{
 		switch (get_class($dbObject))
 		{
 			case 'kEmailNotificationStaticRecipientProvider':
-				$instance = new KalturaEmailNotificationStaticRecipientProvider();
+				$instance = new BorhanEmailNotificationStaticRecipientProvider();
 				break;
 			case 'kEmailNotificationCategoryRecipientProvider':
-				$instance = new KalturaEmailNotificationCategoryRecipientProvider();
+				$instance = new BorhanEmailNotificationCategoryRecipientProvider();
 				break;
 			case 'kEmailNotificationUserRecipientProvider':
-				$instance = new KalturaEmailNotificationUserRecipientProvider();
+				$instance = new BorhanEmailNotificationUserRecipientProvider();
 				break;
 			default:
-				$instance = KalturaPluginManager::loadObject('kEmailNotificationRecipientProvider', get_class($dbObject));
+				$instance = BorhanPluginManager::loadObject('kEmailNotificationRecipientProvider', get_class($dbObject));
 				break;
 		}
 		

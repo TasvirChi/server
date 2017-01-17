@@ -20,7 +20,7 @@ class MantisClient extends nusoap_client
 	function logError()
 	{
 		if ($this->getError())
-			KalturaLog::err("MantisClient error calling operation: [".$this->operation."], error: [".$this->getError()."], request: [".$this->request."], response: [".$this->response."]");
+			BorhanLog::err("MantisClient error calling operation: [".$this->operation."], error: [".$this->getError()."], request: [".$this->request."], response: [".$this->response."]");
 	}
 	
 	function getBaseParams()

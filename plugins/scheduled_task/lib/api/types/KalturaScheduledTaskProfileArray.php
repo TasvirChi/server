@@ -3,17 +3,17 @@
  * @package plugins.scheduledTask
  * @subpackage api.objects
  */
-class KalturaScheduledTaskProfileArray extends KalturaTypedArray
+class BorhanScheduledTaskProfileArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaScheduledTaskProfileArray();
+		$newArr = new BorhanScheduledTaskProfileArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-    		$nObj = new KalturaScheduledTaskProfile();
+    		$nObj = new BorhanScheduledTaskProfile();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaScheduledTaskProfileArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaScheduledTaskProfile");
+		parent::__construct("BorhanScheduledTaskProfile");
 	}
 }

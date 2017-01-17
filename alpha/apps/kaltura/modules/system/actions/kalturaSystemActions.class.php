@@ -4,14 +4,14 @@
  * @subpackage system
  * @deprecated
  */
-require_once ( __DIR__ . "/kalturaSystemAction.class.php" );
+require_once ( __DIR__ . "/borhanSystemAction.class.php" );
 
 /**
  * @package    Core
  * @subpackage system
  * @deprecated
  */
-abstract class kalturaSystemActions extends kalturaSystemAction
+abstract class borhanSystemActions extends borhanSystemAction
 {
 	/**
 	 * Dispatches to the action defined by the 'action' parameter of the sfRequest object.
@@ -23,7 +23,7 @@ abstract class kalturaSystemActions extends kalturaSystemAction
 	 *
 	 * @throws sfInitializationException
 	 *
-	 * @see kalturaAction
+	 * @see borhanAction
 	 */
 	public function execute()
 	{
@@ -32,14 +32,14 @@ abstract class kalturaSystemActions extends kalturaSystemAction
 		if (!is_callable(array($this, $actionToRun)))
 		{
 			// action not found
-			$error = 'kalturaSystemAction initialization failed for module "%s", action "%s". You must create a "%s" method.';
+			$error = 'borhanSystemAction initialization failed for module "%s", action "%s". You must create a "%s" method.';
 			$error = sprintf($error, $this->getModuleName(), $this->getActionName(), $actionToRun);
 			throw new sfInitializationException($error);
 		}
 
 		if (sfConfig::get('sf_logging_enabled'))
 		{
-			$this->getContext()->getLogger()->info('{kalturaSystemAction} call "'.get_class($this).'->'.$actionToRun.'()'.'"');
+			$this->getContext()->getLogger()->info('{borhanSystemAction} call "'.get_class($this).'->'.$actionToRun.'()'.'"');
 		}
 
 		// run action

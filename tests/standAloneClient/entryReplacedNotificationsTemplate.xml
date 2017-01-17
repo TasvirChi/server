@@ -12,7 +12,7 @@
 	</session>
 
 	<request service="eventNotificationTemplate" action="add" plugin="eventNotification" partnerId="{prompt:Target Partner ID:}">
-		<template objectType="KalturaEmailNotificationTemplate">
+		<template objectType="BorhanEmailNotificationTemplate">
 			<name>Entry Content Replaced</name>
 			<systemName>Entry_Content_Replaced</systemName>
 			<description>Email notification template to be sent when an entry content replaced successfully.</description>
@@ -24,40 +24,40 @@
 			<body>Your recently replaced media: "{entry_name}", is ready for playback: [AppEntryUrl]{entry_id}</body>
 			<fromEmail>{from_email}</fromEmail>
 			<fromName>{from_name}</fromName>
-			<to objectType="KalturaEmailNotificationStaticRecipientProvider">
+			<to objectType="BorhanEmailNotificationStaticRecipientProvider">
 				<emailRecipients objectType="array">
-					<item objectType = "KalturaEmailNotificationRecipient">
-						<email objectType="KalturaEvalStringField">
+					<item objectType = "BorhanEmailNotificationRecipient">
+						<email objectType="BorhanEvalStringField">
 							<code>$scope->getEvent()->getObject()->getkuser()->getEmail()</code>
 						</email>
-						<name objectType="KalturaEvalStringField">
+						<name objectType="BorhanEvalStringField">
 							<code>$scope->getEvent()->getObject()->getkuser()->getFirstName() . ' ' . $scope->getEvent()->getObject()->getkuser()->getLastName()</code>
 						</name>
 					</item>
 				</emailRecipients>
 			</to>
 			<contentParameters objectType="array">
-				<item objectType="KalturaEventNotificationParameter">
+				<item objectType="BorhanEventNotificationParameter">
 					<key>from_email</key>
-					<value objectType="KalturaEvalStringField">
+					<value objectType="BorhanEvalStringField">
 						<code>kConf::get("partner_notification_email")</code>
 					</value>
 				</item>
-				<item objectType="KalturaEventNotificationParameter">
+				<item objectType="BorhanEventNotificationParameter">
 					<key>from_name</key>
-					<value objectType="KalturaEvalStringField">
+					<value objectType="BorhanEvalStringField">
 						<code>kConf::get("partner_notification_name")</code>
 					</value>
 				</item>
-				<item objectType="KalturaEventNotificationParameter">
+				<item objectType="BorhanEventNotificationParameter">
 					<key>entry_id</key>
-					<value objectType="KalturaEvalStringField">
+					<value objectType="BorhanEvalStringField">
 						<code>$scope->getEvent()->getObject()->getId()</code>
 					</value>
 				</item>
-				<item objectType="KalturaEventNotificationParameter">
+				<item objectType="BorhanEventNotificationParameter">
 					<key>entry_name</key>
-					<value objectType="KalturaEvalStringField">
+					<value objectType="BorhanEvalStringField">
 						<code>$scope->getEvent()->getObject()->getName()</code>
 					</value>
 				</item>

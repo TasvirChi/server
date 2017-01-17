@@ -8,22 +8,22 @@
  */
 class KAsyncNotifierParamsUtils
 {
-	public static function prepareNotificationData($url, $signature_key, KalturaBatchJob $job, KalturaNotificationJobData $data, $prefix = null)
+	public static function prepareNotificationData($url, $signature_key, BorhanBatchJob $job, BorhanNotificationJobData $data, $prefix = null)
 	{
 		$params = array("notification_id" => $job->id, "notification_type" => $data->typeAsString, "puser_id" => $data->userId, "partner_id" => $job->partnerId);
 		
 		switch($data->objType)
 		{
-			case KalturaNotificationObjectType::USER:
+			case BorhanNotificationObjectType::USER:
 				$params["user_id"] = $data->objectId;
 				break;
-			case KalturaNotificationObjectType::ENTRY:
+			case BorhanNotificationObjectType::ENTRY:
 				$params["entry_id"] = $data->objectId;
 				break;
-			case KalturaNotificationObjectType::KSHOW:
+			case BorhanNotificationObjectType::KSHOW:
 				$params["kshow_id"] = $data->objectId;
 				break;
-			case KalturaNotificationObjectType::BATCH_JOB:
+			case BorhanNotificationObjectType::BATCH_JOB:
 				$params["job_id"] = $data->objectId;
 				break;
 			default:

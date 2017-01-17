@@ -3,10 +3,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaDataListResponse extends KalturaListResponse
+class BorhanDataListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaDataEntryArray
+	 * @var BorhanDataEntryArray
 	 * @readonly
 	 */
 	public $objects;

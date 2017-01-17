@@ -1,16 +1,16 @@
 <?php
 /**
- * to get example code for kmc wrapper add:
+ * to get example code for bmc wrapper add:
  *  --include-code
  */
 
-define("KALTURA_ROOT_PATH", realpath(__DIR__ . '/../../'));
+define("BORHAN_ROOT_PATH", realpath(__DIR__ . '/../../'));
 define ('SEARCH_BY_TAG_FUNCTION_NAME', 'find_confs_by_usage_tag');
 
 $code = array();
-$kcw_for_editors = array();
-$kdp_for_studio = array();
-$exlude_tags_from_code = array('uploadforkae', 'uploadforkse',);
+$bcw_for_editors = array();
+$bdp_for_studio = array();
+$exlude_tags_from_code = array('uploadforbae', 'uploadforkse',);
 
 /** init arguments **/
 $arguments = array();
@@ -60,7 +60,7 @@ if($includeCode)
 {
   $code[] = '$c = new Criteria();';
   $code[] = '$c->addAnd(UiConfPeer::PARTNER_ID, '.$confObj->statics->partner_id.');';
-  $code[] = '$c->addAnd(UiConfPeer::TAGS, "%'.$baseTag.'_".$this->kmc_'.$baseTag.'_version."%", Criteria::LIKE);';
+  $code[] = '$c->addAnd(UiConfPeer::TAGS, "%'.$baseTag.'_".$this->bmc_'.$baseTag.'_version."%", Criteria::LIKE);';
   $code[] = '$c->addAnd(UiConfPeer::TAGS, "%autodeploy%", Criteria::LIKE);';
   $code[] = '$this->confs = UiConfPeer::doSelect($c);';
 }
@@ -85,13 +85,13 @@ foreach($sections as $section)
     if($uiconf)
     {
       $uiconf_id = add_ui_conf($kclient, $uiconf);
-      if($configObj->usage == 'uploadforkae' || $configObj->usage == 'uploadforkse')
+      if($configObj->usage == 'uploadforbae' || $configObj->usage == 'uploadforkse')
       {
-	$kcw_for_editors[$configObj->identifier] = $uiconf_id;
+	$bcw_for_editors[$configObj->identifier] = $uiconf_id;
       }
       if($configObj->usage == 'template_uiconf_for_appstudio')
       {
-        $kdp_for_studio[$configObj->identifier] = $uiconf_id;
+        $bdp_for_studio[$configObj->identifier] = $uiconf_id;
       }
     }
     else
@@ -112,18 +112,18 @@ if($includeCode)
     if(in_array($tag, $exlude_tags_from_code)) continue;
     $code[] = '$this->'.$baseTag.'_uiconfs_'.$tag.' = $this->'.SEARCH_BY_TAG_FUNCTION_NAME.'("'.$baseTag.'_'.$tag.'");';
   }
-  echo PHP_EOL.'// code for KMC wrapper'.PHP_EOL;
+  echo PHP_EOL.'// code for BMC wrapper'.PHP_EOL;
   $code[] = add_search_conf_by_tag_code();
   echo implode(PHP_EOL, $code);
 }
 
 function getClient($partner_id, $admin_secret, $host)
 {
-  require_once(__DIR__ . '/KalturaClient.php');  
+  require_once(__DIR__ . '/BorhanClient.php');  
   
-  $kconf = new KalturaConfiguration($partner_id);
+  $kconf = new BorhanConfiguration($partner_id);
   $kconf->serviceUrl = $host;
-  $kclient = new KalturaClient($kconf);
+  $kclient = new BorhanClient($kconf);
   $kclient->setKs($kclient->session->startLocal($admin_secret, "", 2));
   
   return $kclient;
@@ -131,8 +131,8 @@ function getClient($partner_id, $admin_secret, $host)
 function init($conf_file_path, $infra_path)
 {
   $conf = parse_ini_file($conf_file_path, true);
-  require_once(KALTURA_ROOT_PATH.DIRECTORY_SEPARATOR."infra".DIRECTORY_SEPARATOR."KAutoloader.php");
-  KAutoloader::setIncludePath(array(KAutoloader::buildPath(KALTURA_ROOT_PATH, "vendor", "ZendFramework", "library"),));
+  require_once(BORHAN_ROOT_PATH.DIRECTORY_SEPARATOR."infra".DIRECTORY_SEPARATOR."KAutoloader.php");
+  KAutoloader::setIncludePath(array(KAutoloader::buildPath(BORHAN_ROOT_PATH, "vendor", "ZendFramework", "library"),));
   KAutoloader::register();
   
   $confObj = new Zend_Config_Ini($conf_file_path);
@@ -140,8 +140,8 @@ function init($conf_file_path, $infra_path)
 }
 function populate_uiconf_from_config($confConfigObj, $baseSwfUrl, $swfName, $objType)
 {
-  global $defaultTags, $baseTag, $confObj, $kcw_for_editors, $kdp_for_studio;
-  $uiconf = new KalturaUiConf();
+  global $defaultTags, $baseTag, $confObj, $bcw_for_editors, $bdp_for_studio;
+  $uiconf = new BorhanUiConf();
   $uiconf->confFile = read_conf_file_from_path($confConfigObj->conf_file);
   if($uiconf->confFile === FALSE)
   {
@@ -149,20 +149,20 @@ function populate_uiconf_from_config($confConfigObj, $baseSwfUrl, $swfName, $obj
   }
   
   $replace_tag = '';
-  if($objType == KalturaUiConfObjType::ADVANCED_EDITOR) $replace_tag = 'uIConfigId';
-  if($objType == KalturaUiConfObjType::SIMPLE_EDITOR) $replace_tag = 'UIConfigId';
+  if($objType == BorhanUiConfObjType::ADVANCED_EDITOR) $replace_tag = 'uIConfigId';
+  if($objType == BorhanUiConfObjType::SIMPLE_EDITOR) $replace_tag = 'UIConfigId';
   if($replace_tag)
   {
-    if(isset($confConfigObj->kcw_identifier) && isset($kcw_for_editors[$confConfigObj->kcw_identifier]))
+    if(isset($confConfigObj->bcw_identifier) && isset($bcw_for_editors[$confConfigObj->bcw_identifier]))
     {
       $pattern = '/<'.$replace_tag.'>(.*)<\/'.$replace_tag.'>/';
-      $replacement = "<$replace_tag>{$kcw_for_editors[$confConfigObj->kcw_identifier]}</$replace_tag>";
+      $replacement = "<$replace_tag>{$bcw_for_editors[$confConfigObj->bcw_identifier]}</$replace_tag>";
       $uiconf->confFile = preg_replace($pattern, $replacement, $uiconf->confFile);
     }
   }
   if(isset($confConfigObj->usage) && $confConfigObj->usage == 'templates')
   {
-    foreach($kdp_for_studio as $identifier => $confId)
+    foreach($bdp_for_studio as $identifier => $confId)
     {
       $uiconf->confFile = str_replace('@@'.$identifier.'@@', $confId, $uiconf->confFile);
     }
@@ -220,7 +220,7 @@ function read_conf_file_from_path($file_path, $is_features = false)
 }
 function get_uiconf_objtype_const_from_number($num)
 {
-  $reflectionClass = new ReflectionClass('KalturaUiConfObjType');
+  $reflectionClass = new ReflectionClass('BorhanUiConfObjType');
   $allConsts = $reflectionClass->getConstants();
   $consts = array();
   foreach($allConsts as $key => $value)
@@ -228,7 +228,7 @@ function get_uiconf_objtype_const_from_number($num)
     if($value == $num)
       return $key;
   }
-  $objType = KalturaUiConfObjType::SIMPLE_EDITOR;
+  $objType = BorhanUiConfObjType::SIMPLE_EDITOR;
 }
 
 function add_search_conf_by_tag_code()

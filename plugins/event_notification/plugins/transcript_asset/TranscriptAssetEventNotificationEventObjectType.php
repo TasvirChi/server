@@ -3,7 +3,7 @@
  * @package plugins.transcriptAssetEventNotifications
  * @subpackage lib
  */
-class TranscriptAssetEventNotificationEventObjectType implements IKalturaPluginEnum, EventNotificationEventObjectType
+class TranscriptAssetEventNotificationEventObjectType implements IBorhanPluginEnum, EventNotificationEventObjectType
 {
 	const TRANSCRIPT_ASSET = 'TranscriptAsset';
 	

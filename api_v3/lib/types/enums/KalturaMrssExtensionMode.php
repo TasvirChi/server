@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaMrssExtensionMode extends KalturaEnum implements MrssExtensionMode
+class BorhanMrssExtensionMode extends BorhanEnum implements MrssExtensionMode
 {
 	
 }

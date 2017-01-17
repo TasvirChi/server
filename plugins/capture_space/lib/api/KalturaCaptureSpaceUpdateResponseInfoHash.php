@@ -3,9 +3,9 @@
  * @package plugins.captureSpace
  * @subpackage api.objects
  */
-class KalturaCaptureSpaceUpdateResponseInfoHash extends KalturaObject {
+class BorhanCaptureSpaceUpdateResponseInfoHash extends BorhanObject {
     /**
-     * @var KalturaCaptureSpaceHashAlgorithm
+     * @var BorhanCaptureSpaceHashAlgorithm
      */
     public $algorithm;
 

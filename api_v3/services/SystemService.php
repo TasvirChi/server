@@ -7,7 +7,7 @@
  * @package api
  * @subpackage services
  */
-class SystemService extends KalturaBaseService
+class SystemService extends BorhanBaseService
 {
 	const APIV3_FAIL_PING = "APIV3_FAIL_PING";
 	
@@ -60,7 +60,7 @@ class SystemService extends KalturaBaseService
 	 */
 	function getTimeAction()
 	{
-		KalturaResponseCacher::disableCache();
+		BorhanResponseCacher::disableCache();
 		return time();
 	}
 	
@@ -70,7 +70,7 @@ class SystemService extends KalturaBaseService
 	 */
 	function getVersionAction()
 	{	
-		KalturaResponseCacher::disableCache();
+		BorhanResponseCacher::disableCache();
 		$version = file_get_contents(realpath(dirname(__FILE__)) . '/../../VERSION.txt');
 		return trim($version);
 	}

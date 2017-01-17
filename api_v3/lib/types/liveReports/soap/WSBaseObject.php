@@ -2,16 +2,16 @@
 
 abstract class WSBaseObject extends SoapObject {
 	
-	abstract function getKalturaObject();
+	abstract function getBorhanObject();
 	
-	public function toKalturaObject() {
-		$kalturaObj = $this->getKalturaObject();
-		self::cloneObject($this, $kalturaObj);
-		return $kalturaObj;
+	public function toBorhanObject() {
+		$borhanObj = $this->getBorhanObject();
+		self::cloneObject($this, $borhanObj);
+		return $borhanObj;
 	}
 	
-	public function fromKalturaObject($kalturaObj) {
-		self::cloneObject($kalturaObj, $this);
+	public function fromBorhanObject($borhanObj) {
+		self::cloneObject($borhanObj, $this);
 	}
 	
 	protected static function cloneObject($objA, $objB) {
@@ -22,7 +22,7 @@ abstract class WSBaseObject extends SoapObject {
 			$value = $prop->getValue($objA);
 			
 			if ($value instanceof WSBaseObject) {
-				$value = $value->toKalturaObject();
+				$value = $value->toBorhanObject();
 			} else if($value instanceof SoapArray) {
 				/**
 				 * @var SoapArray $value
@@ -31,7 +31,7 @@ abstract class WSBaseObject extends SoapObject {
 				$newObj = array();
 				foreach($arr as $val) {
 					if ($val instanceof WSBaseObject) {
-						$newObj[] = $val->toKalturaObject();
+						$newObj[] = $val->toBorhanObject();
 					} else {
 						$newObj[] = $val;
 					}

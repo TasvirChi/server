@@ -7,30 +7,30 @@
  */
 abstract class KCollectionConversionEngine extends KConversionEngine
 {
-	protected abstract function convertCollection ( KalturaConvertCollectionJobData &$data );
-	protected abstract function parseCreatedFiles (KalturaConvertCollectionJobData &$data);
+	protected abstract function convertCollection ( BorhanConvertCollectionJobData &$data );
+	protected abstract function parseCreatedFiles (BorhanConvertCollectionJobData &$data);
 	
-	public function simulate ( KalturaConvartableJobData $data )
+	public function simulate ( BorhanConvartableJobData $data )
 	{
 		return $this->simulateCollection ( $data );
 	}	
 	
-	private function simulateCollection ( KalturaConvertCollectionJobData $data )
+	private function simulateCollection ( BorhanConvertCollectionJobData $data )
 	{
 		return  ''; //TODO
 	}
 	
-	public function convert ( KalturaConvartableJobData &$data )
+	public function convert ( BorhanConvartableJobData &$data )
 	{
 		return  $this->convertCollection ( $data );
 	}	
 	
 	
 	/**
-	 * @param KalturaConvertJobData $data
+	 * @param BorhanConvertJobData $data
 	 * @return array<KConversioEngineResult>
 	 */
-	protected function getExecutionCommandAndConversionString ( KalturaConvertCollectionJobData $data )
+	protected function getExecutionCommandAndConversionString ( BorhanConvertCollectionJobData $data )
 	{
 		$uniqid = uniqid("convert_") . '.xml';
 		$xmlPath = $data->destDirLocalPath . DIRECTORY_SEPARATOR . $uniqid;
@@ -39,18 +39,18 @@ abstract class KCollectionConversionEngine extends KConversionEngine
 		$xml = str_replace(KDLCmdlinePlaceholders::OutDir, $data->destDirLocalPath, $xml);
 		file_put_contents($xmlPath, $xml);
 
-		KalturaLog::debug("Config File Path: $xmlPath");
+		BorhanLog::debug("Config File Path: $xmlPath");
 		$this->configFilePath = $xmlPath;
 		$this->logFilePath = $data->destDirLocalPath . DIRECTORY_SEPARATOR . $data->destFileName . '.log';
 		
 				
-		KalturaLog::debug("Command Line Str: " . $data->commandLinesStr);
+		BorhanLog::debug("Command Line Str: " . $data->commandLinesStr);
 		$cmd_line_arr = $this->getCmdArray($data->commandLinesStr);
 		
 		$conversion_engine_result_list = array();
 		foreach ( $cmd_line_arr as $type => $cmd_line )
 		{
-			KalturaLog::debug("Command Line type[$type] line[$cmd_line]");
+			BorhanLog::debug("Command Line type[$type] line[$cmd_line]");
 			
 			if($type != $this->getType())
 				continue;

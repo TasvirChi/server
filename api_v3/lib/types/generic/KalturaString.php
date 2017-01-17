@@ -2,11 +2,11 @@
 /**
  * A string representation to return an array of strings
  * 
- * @see KalturaStringArray
+ * @see BorhanStringArray
  * @package api
  * @subpackage objects
  */
-class KalturaString extends KalturaObject
+class BorhanString extends BorhanObject
 {
 	/**
 	 * @var string

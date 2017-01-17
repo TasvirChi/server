@@ -13,7 +13,7 @@ class DeliveryProfileLivePackagerMss extends DeliveryProfileLive
 		$httpUrl = $this->getLivePackagerUrl($serverNode);
 		$httpUrl .= "manifest";
 		
-		KalturaLog::debug("Live Stream url [$httpUrl]");
+		BorhanLog::debug("Live Stream url [$httpUrl]");
 		return $httpUrl;
 	}
 }

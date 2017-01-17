@@ -2,14 +2,14 @@
 /**
  * @package api
  * @subpackage objects
- * @deprecated use KalturaRule instead
+ * @deprecated use BorhanRule instead
  */
-class KalturaUserAgentRestriction extends KalturaBaseRestriction 
+class BorhanUserAgentRestriction extends BorhanBaseRestriction 
 {
 	/**
 	 * User agent restriction type (Allow or deny)
 	 * 
-	 * @var KalturaUserAgentRestrictionType
+	 * @var BorhanUserAgentRestrictionType
 	 */
 	public $userAgentRestrictionType; 
 	
@@ -32,9 +32,9 @@ class KalturaUserAgentRestriction extends KalturaBaseRestriction
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseRestriction::toRule()
+	 * @see BorhanBaseRestriction::toRule()
 	 */
-	public function toRule(KalturaRestrictionArray $restrictions)
+	public function toRule(BorhanRestrictionArray $restrictions)
 	{
 		return $this->toObject(new kAccessControlUserAgentRestriction());
 	}

@@ -2,7 +2,7 @@
 /**
  * @package plugins.podcastDistribution
  */
-class PodcastDistributionPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaEnumerator, IKalturaPending, IKalturaObjectLoader, IKalturaContentDistributionProvider, IKalturaEventConsumers
+class PodcastDistributionPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanEnumerator, IBorhanPending, IBorhanObjectLoader, IBorhanContentDistributionProvider, IBorhanEventConsumers
 {
 	const PLUGIN_NAME = 'podcastDistribution';
 	const CONTENT_DSTRIBUTION_VERSION_MAJOR = 2;
@@ -18,12 +18,12 @@ class PodcastDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	
 	public static function dependsOn()
 	{
-		$contentDistributionVersion = new KalturaVersion(
+		$contentDistributionVersion = new BorhanVersion(
 			self::CONTENT_DSTRIBUTION_VERSION_MAJOR,
 			self::CONTENT_DSTRIBUTION_VERSION_MINOR,
 			self::CONTENT_DSTRIBUTION_VERSION_BUILD);
 			
-		$dependency = new KalturaDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
+		$dependency = new BorhanDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
 		return array($dependency);
 	}
 	
@@ -59,7 +59,7 @@ class PodcastDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::PODCAST)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::PODCAST)
 		{
 			if($baseClass == 'IDistributionEngineCloseDelete')
 				return new PodcastDistributionEngine();
@@ -82,14 +82,14 @@ class PodcastDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 			if($baseClass == 'IDistributionEngineUpdate')
 				return new PodcastDistributionEngine();
 		
-			if($baseClass == 'KalturaDistributionProfile')
-				return new KalturaPodcastDistributionProfile();
+			if($baseClass == 'BorhanDistributionProfile')
+				return new BorhanPodcastDistributionProfile();
 		
-			if($baseClass == 'KalturaDistributionJobProviderData')
-				return new KalturaPodcastDistributionJobProviderData();
+			if($baseClass == 'BorhanDistributionJobProviderData')
+				return new BorhanPodcastDistributionJobProviderData();
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::PODCAST)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::PODCAST)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 			{
@@ -98,9 +98,9 @@ class PodcastDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 			}
 		}
 		
-		if($baseClass == 'KalturaDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(PodcastDistributionProviderType::PODCAST))
+		if($baseClass == 'BorhanDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(PodcastDistributionProviderType::PODCAST))
 		{
-			$reflect = new ReflectionClass('KalturaPodcastDistributionJobProviderData');
+			$reflect = new ReflectionClass('BorhanPodcastDistributionJobProviderData');
 			return $reflect->newInstanceArgs($constructorArgs);
 		}
 	
@@ -110,8 +110,8 @@ class PodcastDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 			return $reflect->newInstanceArgs($constructorArgs);
 		}
 	
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(PodcastDistributionProviderType::PODCAST))
-			return new KalturaPodcastDistributionProfile();
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(PodcastDistributionProviderType::PODCAST))
+			return new BorhanPodcastDistributionProfile();
 			
 		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(PodcastDistributionProviderType::PODCAST))
 			return new PodcastDistributionProfile();
@@ -127,7 +127,7 @@ class PodcastDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	public static function getObjectClass($baseClass, $enumValue)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::PODCAST)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::PODCAST)
 		{
 			if($baseClass == 'IDistributionEngineCloseDelete')
 				return 'PodcastDistributionEngine';
@@ -150,30 +150,30 @@ class PodcastDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 			if($baseClass == 'IDistributionEngineUpdate')
 				return 'PodcastDistributionEngine';
 		
-			if($baseClass == 'KalturaDistributionProfile')
-				return 'KalturaPodcastDistributionProfile';
+			if($baseClass == 'BorhanDistributionProfile')
+				return 'BorhanPodcastDistributionProfile';
 		
-			if($baseClass == 'KalturaDistributionJobProviderData')
-				return 'KalturaPodcastDistributionJobProviderData';
+			if($baseClass == 'BorhanDistributionJobProviderData')
+				return 'BorhanPodcastDistributionJobProviderData';
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::PODCAST)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::PODCAST)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 				return 'Form_PodcastProfileConfiguration';
 				
-			if($baseClass == 'Kaltura_Client_ContentDistribution_Type_DistributionProfile')
-				return 'Kaltura_Client_PodcastDistribution_Type_PodcastDistributionProfile';
+			if($baseClass == 'Borhan_Client_ContentDistribution_Type_DistributionProfile')
+				return 'Borhan_Client_PodcastDistribution_Type_PodcastDistributionProfile';
 		}
 		
-		if($baseClass == 'KalturaDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(PodcastDistributionProviderType::PODCAST))
-			return 'KalturaPodcastDistributionJobProviderData';
+		if($baseClass == 'BorhanDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(PodcastDistributionProviderType::PODCAST))
+			return 'BorhanPodcastDistributionJobProviderData';
 	
 		if($baseClass == 'kDistributionJobProviderData' && $enumValue == self::getApiValue(PodcastDistributionProviderType::PODCAST))
 			return 'kPodcastDistributionJobProviderData';
 	
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(PodcastDistributionProviderType::PODCAST))
-			return 'KalturaPodcastDistributionProfile';
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(PodcastDistributionProviderType::PODCAST))
+			return 'BorhanPodcastDistributionProfile';
 			
 		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(PodcastDistributionProviderType::PODCAST))
 			return 'PodcastDistributionProfile';
@@ -194,11 +194,11 @@ class PodcastDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	/**
 	 * Return an API distribution provider instance
 	 * 
-	 * @return KalturaDistributionProvider
+	 * @return BorhanDistributionProvider
 	 */
-	public static function getKalturaProvider()
+	public static function getBorhanProvider()
 	{
-		$distributionProvider = new KalturaPodcastDistributionProvider();
+		$distributionProvider = new BorhanPodcastDistributionProvider();
 		$distributionProvider->fromObject(self::getProvider());
 		return $distributionProvider;
 	}
@@ -240,7 +240,7 @@ class PodcastDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	 */
 	public static function getDistributionProviderTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('DistributionProviderType', $value);
 	}
 	
@@ -249,6 +249,6 @@ class PodcastDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 }

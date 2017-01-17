@@ -24,7 +24,7 @@ class KGenericDebuger
 	 */
 	private $configFileName = null;
 	
-	private $logDir = "/web/kaltura/log";
+	private $logDir = "/web/borhan/log";
 	private $initOnly = false;
 	
 	/**

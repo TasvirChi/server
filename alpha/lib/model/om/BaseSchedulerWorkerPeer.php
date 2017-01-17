@@ -372,7 +372,7 @@ abstract class BaseSchedulerWorkerPeer {
 		
 		$queryResult = SchedulerWorkerPeer::populateObjects(BasePeer::doSelect($criteriaForSelect, $con));
 		
-		if($criteriaForSelect instanceof KalturaCriteria)
+		if($criteriaForSelect instanceof BorhanCriteria)
 			$criteriaForSelect->applyResultsSort($queryResult);
 		
 		if ($cacheKey !== null)
@@ -468,7 +468,7 @@ abstract class BaseSchedulerWorkerPeer {
 		SchedulerWorkerPeer::getCriteriaFilter()->applyFilter($criteria);
 	}
 	
-	public static function addPartnerToCriteria($partnerId, $privatePartnerData = false, $partnerGroup = null, $kalturaNetwork = null)
+	public static function addPartnerToCriteria($partnerId, $privatePartnerData = false, $partnerGroup = null, $borhanNetwork = null)
 	{
 	}
 	

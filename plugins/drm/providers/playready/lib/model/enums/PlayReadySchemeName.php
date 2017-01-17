@@ -5,7 +5,7 @@
 * @subpackage model.enums
 */
 
-class PlayReadySchemeName implements IKalturaPluginEnum, DrmSchemeName
+class PlayReadySchemeName implements IBorhanPluginEnum, DrmSchemeName
 {
 	const PLAYREADY = 'PLAYREADY';
 

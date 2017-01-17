@@ -17,7 +17,7 @@
 	</session>
 	<multirequest>
 		<request service="eventNotificationTemplate" action="add" plugin="eventNotification" partnerId="0">
-			<template objectType="KalturaPushNotificationTemplate">
+			<template objectType="BorhanPushNotificationTemplate">
 				<name>CODE_QNA_NOTIFICATIONS</name>
 				<systemName>CODE_QNA_NOTIFICATIONS</systemName>
 				<description>Push notification template to be sent when a new code cue-point is created</description>
@@ -25,47 +25,47 @@
 				<eventType>5</eventType> <!-- EventNotificationEventType::OBJECT_CREATED -->
 				<eventObjectType>cuePointEventNotifications.CuePoint</eventObjectType>
 				<eventConditions objectType="array">
-					<item objectType="KalturaOrCondition">
+					<item objectType="BorhanOrCondition">
 						<conditions objectType="array">
-							<item objectType="KalturaFieldMatchCondition">
+							<item objectType="BorhanFieldMatchCondition">
 								<description>Cue-point type equals</description>
-								<field objectType="KalturaEvalStringField">
+								<field objectType="BorhanEvalStringField">
 									<code>$scope->getObject()->getType()</code>
 								</field>
 								<values objectType="array">
-									<item objectType="KalturaStringValue">
+									<item objectType="BorhanStringValue">
 										<value>{trigger_cuepoint}</value>
 									</item>
 								</values>
 							</item>
 						</conditions>
 					</item>
-					<item objectType="KalturaFieldMatchCondition">
+					<item objectType="BorhanFieldMatchCondition">
 						<description>Tags_Like</description>
-						<field objectType="KalturaEvalStringField">
+						<field objectType="BorhanEvalStringField">
 							<code>$scope->getObject()->getTags() ? ( count(array_intersect(array("player-qna-settings-update","WEBCASTSTATETAG"), explode(",", $scope->getObject()->getTags()))) ? 1 : 0 ) : 0</code>
 						</field>
 						<values objectType="array">
-							<item objectType="KalturaStringValue">
+							<item objectType="BorhanStringValue">
 								<value>1</value>
 							</item>
 						</values>
 					</item>
 				</eventConditions>
 				<contentParameters objectType="array">
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>entryId</key>
 						<description></description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>$scope->getObject()->getEntryId()</code>
 						</value>
 					</item>
 				</contentParameters>
 				<userParameters objectType="array">
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>trigger_cuepoint</key>
-						<description>Cue-point type that triggers the event (Code type only), See:KalturaCuePointType:/api_v3/testmeDoc/enums/KalturaCuePointType.html</description>
-						<value objectType="KalturaStringValue">
+						<description>Cue-point type that triggers the event (Code type only), See:BorhanCuePointType:/api_v3/testmeDoc/enums/BorhanCuePointType.html</description>
+						<value objectType="BorhanStringValue">
 							<value></value>
 						</value>
 					</item>

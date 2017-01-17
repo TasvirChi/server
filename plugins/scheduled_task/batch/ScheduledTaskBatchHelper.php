@@ -3,12 +3,12 @@
 class ScheduledTaskBatchHelper
 {
 	/**
-	 * @param KalturaClient $client
-	 * @param KalturaScheduledTaskProfile $scheduledTaskProfile
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaObjectListResponse
+	 * @param BorhanClient $client
+	 * @param BorhanScheduledTaskProfile $scheduledTaskProfile
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanObjectListResponse
 	 */
-	public static function query(KalturaClient $client, KalturaScheduledTaskProfile $scheduledTaskProfile, KalturaFilterPager $pager)
+	public static function query(BorhanClient $client, BorhanScheduledTaskProfile $scheduledTaskProfile, BorhanFilterPager $pager)
 	{
 		$objectFilterEngineType = $scheduledTaskProfile->objectFilterEngineType;
 		$objectFilterEngine = KObjectFilterEngineFactory::getInstanceByType($objectFilterEngineType, $client);

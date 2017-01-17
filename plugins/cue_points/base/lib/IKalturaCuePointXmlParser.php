@@ -3,7 +3,7 @@
  * @package plugins.cuePoint
  * @subpackage plugins
  */
-interface IKalturaCuePointXmlParser extends IKalturaBase
+interface IBorhanCuePointXmlParser extends IBorhanBase
 {
 	/**
 	 * @param SimpleXMLElement $scene

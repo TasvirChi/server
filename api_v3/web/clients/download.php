@@ -1,13 +1,13 @@
 <?php
 require_once(__DIR__ . "/../../bootstrap.php");
-KalturaLog::setContext("CLIENTS");
-KalturaLog::debug(__FILE__ . " start");
+BorhanLog::setContext("CLIENTS");
+BorhanLog::debug(__FILE__ . " start");
 $requestedName = isset($_GET["name"]) ? $_GET['name'] : null;
 if (!$requestedName)
 	die("File not found");
 
-$generatorOutputPath = KAutoloader::buildPath(KALTURA_ROOT_PATH, "generator", "output");
-$generatorConfigPath = KAutoloader::buildPath(KALTURA_ROOT_PATH, "generator", "config.ini");
+$generatorOutputPath = KAutoloader::buildPath(BORHAN_ROOT_PATH, "generator", "output");
+$generatorConfigPath = KAutoloader::buildPath(BORHAN_ROOT_PATH, "generator", "config.ini");
 $config = new Zend_Config_Ini($generatorConfigPath);
 foreach($config as $name => $item)
 {
@@ -22,4 +22,4 @@ foreach($config as $name => $item)
 	}
 }
 die("File not found");
-KalturaLog::debug(__FILE__ . " end");
+BorhanLog::debug(__FILE__ . " end");

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaRecalculateResponseProfileCacheJobData extends KalturaRecalculateCacheJobData
+class BorhanRecalculateResponseProfileCacheJobData extends BorhanRecalculateCacheJobData
 {
 	/**
 	 * http / https
@@ -12,12 +12,12 @@ class KalturaRecalculateResponseProfileCacheJobData extends KalturaRecalculateCa
 	public $protocol;
 
 	/**
-	 * @var KalturaSessionType
+	 * @var BorhanSessionType
 	 */
 	public $ksType;
 
 	/**
-	 * @var KalturaIntegerValueArray
+	 * @var BorhanIntegerValueArray
 	 */
 	public $userRoles;
 

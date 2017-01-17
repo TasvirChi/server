@@ -3,7 +3,7 @@
  * @package infra
  * @subpackage Plugins
  */
-class KalturaVersion
+class BorhanVersion
 {
 	/**
 	 * @var int
@@ -21,11 +21,11 @@ class KalturaVersion
 	protected $build;
 	
 	/**
-	 * @var KalturaVersion
+	 * @var BorhanVersion
 	 */
 	protected $brokenCompatibilityVersion;
 
-	public function __construct($major, $minor, $build, KalturaVersion $brokenCompatibilityVersion = null)
+	public function __construct($major, $minor, $build, BorhanVersion $brokenCompatibilityVersion = null)
 	{
 		$this->major = $major;
 		$this->minor = $minor;
@@ -42,10 +42,10 @@ class KalturaVersion
 	}
 	
 	/**
-	 * @param KalturaVersion $version
+	 * @param BorhanVersion $version
 	 * @return bool
 	 */
-	public function isCompatible(KalturaVersion $version)
+	public function isCompatible(BorhanVersion $version)
 	{
 		if($version->getMajor() > $this->major)
 			return false;

@@ -82,9 +82,9 @@ class Form_NewFlavorParam extends Infra_Form
             'filters' => array('StringTrim')
         ));
 
-        $element_array = array(new Kaltura_Form_Element_EnumSelect('video_codec', array('enum' => 'Kaltura_Client_Enum_VideoCodec')),
-            new Kaltura_Form_Element_EnumSelect('audio_codec', array('enum' => 'Kaltura_Client_Enum_AudioCodec')),
-            new Kaltura_Form_Element_EnumSelect('container_format', array('enum' => 'Kaltura_Client_Enum_ContainerFormat')));
+        $element_array = array(new Borhan_Form_Element_EnumSelect('video_codec', array('enum' => 'Borhan_Client_Enum_VideoCodec')),
+            new Borhan_Form_Element_EnumSelect('audio_codec', array('enum' => 'Borhan_Client_Enum_AudioCodec')),
+            new Borhan_Form_Element_EnumSelect('container_format', array('enum' => 'Borhan_Client_Enum_ContainerFormat')));
 
         $element_array[0]->setLabel('Video Codec:');
 

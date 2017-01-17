@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters
  */
-class KalturaThumbAssetFilter extends KalturaThumbAssetBaseFilter
+class BorhanThumbAssetFilter extends BorhanThumbAssetBaseFilter
 {	
 	static private $map_between_objects = array
 	(
@@ -17,24 +17,24 @@ class KalturaThumbAssetFilter extends KalturaThumbAssetBaseFilter
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaAssetFilter::getTypeListResponse()
+	 * @see BorhanAssetFilter::getTypeListResponse()
 	 */
-	public function getTypeListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null, array $types = null)
+	public function getTypeListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null, array $types = null)
 	{
 		list($list, $totalCount) = $this->doGetListResponse($pager, $types);
 		
-		$response = new KalturaThumbAssetListResponse();
-		$response->objects = KalturaThumbAssetArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanThumbAssetListResponse();
+		$response->objects = BorhanThumbAssetArray::fromDbArray($list, $responseProfile);
 		$response->totalCount = $totalCount;
 		return $response;  
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaAssetFilter::getListResponse()
+	 * @see BorhanAssetFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$types = KalturaPluginManager::getExtendedTypes(assetPeer::OM_CLASS, assetType::THUMBNAIL);
+		$types = BorhanPluginManager::getExtendedTypes(assetPeer::OM_CLASS, assetType::THUMBNAIL);
 		return $this->getTypeListResponse($pager, $responseProfile, $types);
 	}
 }

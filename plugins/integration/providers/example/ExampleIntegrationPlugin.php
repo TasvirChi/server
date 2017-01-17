@@ -10,7 +10,7 @@ class ExampleIntegrationPlugin extends IntegrationProviderPlugin
 	const INTEGRATION_PLUGIN_VERSION_BUILD = 0;
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -22,7 +22,7 @@ class ExampleIntegrationPlugin extends IntegrationProviderPlugin
 	 */
 	public static function getRequiredIntegrationPluginVersion()
 	{
-		return new KalturaVersion(
+		return new BorhanVersion(
 			self::INTEGRATION_PLUGIN_VERSION_MAJOR,
 			self::INTEGRATION_PLUGIN_VERSION_MINOR,
 			self::INTEGRATION_PLUGIN_VERSION_BUILD
@@ -46,7 +46,7 @@ class ExampleIntegrationPlugin extends IntegrationProviderPlugin
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
@@ -55,15 +55,15 @@ class ExampleIntegrationPlugin extends IntegrationProviderPlugin
 			return 'kExampleIntegrationJobProviderData';
 		}
 	
-		if($baseClass == 'KalturaIntegrationJobProviderData')
+		if($baseClass == 'BorhanIntegrationJobProviderData')
 		{
 			if($enumValue == self::getApiValue(ExampleIntegrationProviderType::EXAMPLE) || $enumValue == self::getIntegrationProviderCoreValue(ExampleIntegrationProviderType::EXAMPLE))
-				return 'KalturaExampleIntegrationJobProviderData';
+				return 'BorhanExampleIntegrationJobProviderData';
 		}
 	
 		if($baseClass == 'KIntegrationEngine' || $baseClass == 'KIntegrationCloserEngine')
 		{
-			if($enumValue == KalturaIntegrationProviderType::EXAMPLE)
+			if($enumValue == BorhanIntegrationProviderType::EXAMPLE)
 				return 'KExampleIntegrationEngine';
 		}
 		if($baseClass == 'IIntegrationProvider' && $enumValue == self::getIntegrationProviderCoreValue(ExampleIntegrationProviderType::EXAMPLE))

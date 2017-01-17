@@ -3,19 +3,19 @@
  * @package api
  * @subpackage objects
  */
-class KalturaFlavorAssetWithParams extends KalturaObject
+class BorhanFlavorAssetWithParams extends BorhanObject
 {
 	/**
 	 * The Flavor Asset (Can be null when there are params without asset)
 	 * 
-	 * @var KalturaFlavorAsset
+	 * @var BorhanFlavorAsset
 	 */
 	public $flavorAsset;
 	
 	/**
 	 * The Flavor Params
 	 * 
-	 * @var KalturaFlavorParams
+	 * @var BorhanFlavorParams
 	 */
 	public $flavorParams;
 	

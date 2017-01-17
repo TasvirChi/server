@@ -1,14 +1,14 @@
 <?php
 /**
  * @package    Core
- * @subpackage KMC
+ * @subpackage BMC
  */
 
 /**
  * @package    Core
- * @subpackage KMC
+ * @subpackage BMC
  */
-class supportAction extends kalturaAction
+class supportAction extends borhanAction
 {
     const SUPPORT_EMAIL_TYPE_ID = 210;
     
@@ -19,12 +19,12 @@ class supportAction extends kalturaAction
         
         $this->sent_request = false;
 
-        if(isset($_GET['style']) && $_GET['style'] == 'v') {    // kmc virgo
-            $this->closeFunction = 'parent.kmcCloseModal()';
+        if(isset($_GET['style']) && $_GET['style'] == 'v') {    // bmc virgo
+            $this->closeFunction = 'parent.bmcCloseModal()';
             $this->bodyBgColor = 'E1E1E1';
         }
         else {
-            $this->closeFunction = 'parent.kmc.utils.closeModal()';
+            $this->closeFunction = 'parent.bmc.utils.closeModal()';
             $this->bodyBgColor = 'F8F8F8';
         }
 
@@ -48,7 +48,7 @@ class supportAction extends kalturaAction
                     kMailJobData::MAIL_PRIORITY_NORMAL,
                     $_POST['email'], 
                     $_POST['your_name'].' ',
-                    'kalturasupport@kaltura.com',
+                    'borhansupport@borhan.com',
                     $body_params,
                     $subject_params);
 

@@ -3,17 +3,17 @@
  * @package api
  * @subpackage objects
  */
-class KalturaMediaInfoArray extends KalturaTypedArray
+class BorhanMediaInfoArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaMediaInfoArray();
+		$newArr = new BorhanMediaInfoArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-    		$nObj = new KalturaMediaInfo();
+    		$nObj = new BorhanMediaInfo();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaMediaInfoArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaMediaInfo");	
+		parent::__construct("BorhanMediaInfo");	
 	}
 }

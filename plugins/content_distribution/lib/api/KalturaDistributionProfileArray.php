@@ -3,20 +3,20 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaDistributionProfileArray extends KalturaTypedArray
+class BorhanDistributionProfileArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaDistributionProfileArray();
+		$newArr = new BorhanDistributionProfileArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-    		$nObj = KalturaDistributionProfileFactory::createKalturaDistributionProfile($obj->getProviderType());
+    		$nObj = BorhanDistributionProfileFactory::createBorhanDistributionProfile($obj->getProviderType());
     		if(!$nObj)
     		{
-    			KalturaLog::err("Distribution Profile Factory could not find matching profile type for provider [" . $obj->getProviderType() . "]");
+    			BorhanLog::err("Distribution Profile Factory could not find matching profile type for provider [" . $obj->getProviderType() . "]");
     			continue;
     		}
 			$nObj->fromObject($obj, $responseProfile);
@@ -28,6 +28,6 @@ class KalturaDistributionProfileArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaDistributionProfile");	
+		parent::__construct("BorhanDistributionProfile");	
 	}
 }

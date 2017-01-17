@@ -28,13 +28,13 @@ while(count($categories))
 	foreach($categories as $category)
 	{
 	    /* @var $category Category */
-		KalturaLog::log('category id ' . $category->getId() . ' int id[' . $category->getIntId() . '] crc id[' . $sphinx->getSphinxId($category) . '] last updated at ['. $category->getUpdatedAt(null) .']');
+		BorhanLog::log('category id ' . $category->getId() . ' int id[' . $category->getIntId() . '] crc id[' . $sphinx->getSphinxId($category) . '] last updated at ['. $category->getUpdatedAt(null) .']');
 		
 		try {
 			$ret = $sphinx->saveToSphinx($category, true);
 		}
 		catch(Exception $e){
-			KalturaLog::err($e->getMessage());
+			BorhanLog::err($e->getMessage());
 			exit -1;
 		}
 	}
@@ -44,5 +44,5 @@ while(count($categories))
 	$categories = categoryPeer::doSelect($c, $con);
 }
 
-KalturaLog::log('Done. Cureent time: ' . time());
+BorhanLog::log('Done. Cureent time: ' . time());
 exit(0);

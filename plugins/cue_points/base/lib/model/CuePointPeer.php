@@ -44,7 +44,7 @@ class CuePointPeer extends BaseCuePointPeer implements IMetadataPeer, IRelatedOb
 		if (self::$s_criteria_filter == null)
 			self::$s_criteria_filter = new criteriaFilter();
 
-		$c = KalturaCriteria::create(CuePointPeer::OM_CLASS);
+		$c = BorhanCriteria::create(CuePointPeer::OM_CLASS);
 		$c->addAnd(CuePointPeer::STATUS, CuePointStatus::DELETED, Criteria::NOT_EQUAL);
 
 		if (self::$userContentOnly)
@@ -62,7 +62,7 @@ class CuePointPeer extends BaseCuePointPeer implements IMetadataPeer, IRelatedOb
 //				$c->addAnd(CuePointPeer::KUSER_ID, $kuser->getId());
 				$criteria = $c->getNewCriterion(self::KUSER_ID, $kuser->getId());
 				$criteria->addOr($c->getNewCriterion(self::IS_PUBLIC, CuePoint::getIndexPrefix($partnerId).true, Criteria::EQUAL));
-				$criteria->addTag(KalturaCriterion::TAG_USER_SESSION);
+				$criteria->addTag(BorhanCriterion::TAG_USER_SESSION);
 				$criteria->addOr(
 					$c->getNewCriterion(
 						CuePointPeer::TYPE,
@@ -87,7 +87,7 @@ class CuePointPeer extends BaseCuePointPeer implements IMetadataPeer, IRelatedOb
 			else if (!$puserId)
 			{
 				$criterionIsPublic = $c->getNewCriterion(self::IS_PUBLIC, CuePoint::getIndexPrefix($partnerId).true, Criteria::EQUAL);
-				$criterionIsPublic->addTag(KalturaCriterion::TAG_WIDGET_SESSION);
+				$criterionIsPublic->addTag(BorhanCriterion::TAG_WIDGET_SESSION);
 				$c->add($criterionIsPublic);
 			}
 		}
@@ -108,7 +108,7 @@ class CuePointPeer extends BaseCuePointPeer implements IMetadataPeer, IRelatedOb
 			if (isset(self::$class_types_cache[$assetType]))
 				return self::$class_types_cache[$assetType];
 
-			$extendedCls = KalturaPluginManager::getObjectClass(self::OM_CLASS, $assetType);
+			$extendedCls = BorhanPluginManager::getObjectClass(self::OM_CLASS, $assetType);
 			if ($extendedCls)
 			{
 				self::$class_types_cache[$assetType] = $extendedCls;
@@ -144,13 +144,13 @@ class CuePointPeer extends BaseCuePointPeer implements IMetadataPeer, IRelatedOb
 				/* @var $cuePoint CuePoint */
 				if (kCurrentContext::$ks_uid && $cuePoint->getPuserId() !== kCurrentContext::$ks_uid && !$cuePoint->getIsPublic() && $cuePoint->getEntryId() != $privilagedEntryId)
 				{
-					KalturaLog::warning("Filtering cuePoint select result with the following: [ks_uid -" . kCurrentContext::$ks_uid . "] [puserId - " . $cuePoint->getPuserId() . "] [isPublic - " . $cuePoint->getIsPublicStr() . "] [cuepointEntryId -  " . $cuePoint->getEntryId() . "] [privilagedEntryId - " . $privilagedEntryId . "] ");
+					BorhanLog::warning("Filtering cuePoint select result with the following: [ks_uid -" . kCurrentContext::$ks_uid . "] [puserId - " . $cuePoint->getPuserId() . "] [isPublic - " . $cuePoint->getIsPublicStr() . "] [cuepointEntryId -  " . $cuePoint->getEntryId() . "] [privilagedEntryId - " . $privilagedEntryId . "] ");
 					unset($selectResults[$key]);
 					$removedRecordsCount++;
 				}
 			}
 
-			if ($criteria instanceof KalturaCriteria)
+			if ($criteria instanceof BorhanCriteria)
 			{
 				$recordsCount = $criteria->getRecordsCount();
 				$criteria->setRecordsCount($recordsCount - $removedRecordsCount);
@@ -162,9 +162,9 @@ class CuePointPeer extends BaseCuePointPeer implements IMetadataPeer, IRelatedOb
 
 	public static function retrieveByPK($pk, PropelPDO $con = null)
 	{
-		KalturaCriterion::disableTags(array(KalturaCriterion::TAG_USER_SESSION, KalturaCriterion::TAG_WIDGET_SESSION));
+		BorhanCriterion::disableTags(array(BorhanCriterion::TAG_USER_SESSION, BorhanCriterion::TAG_WIDGET_SESSION));
 		$res = parent::retrieveByPK($pk, $con);
-		KalturaCriterion::restoreTags(array(KalturaCriterion::TAG_USER_SESSION, KalturaCriterion::TAG_WIDGET_SESSION));
+		BorhanCriterion::restoreTags(array(BorhanCriterion::TAG_USER_SESSION, BorhanCriterion::TAG_WIDGET_SESSION));
 
 		return $res;
 	}
@@ -176,7 +176,7 @@ class CuePointPeer extends BaseCuePointPeer implements IMetadataPeer, IRelatedOb
 	{
 		$c = clone $criteria;
 
-		if ($c instanceof KalturaCriteria)
+		if ($c instanceof BorhanCriteria)
 		{
 			$c->applyFilters();
 			$criteria->setRecordsCount($c->getRecordsCount());
@@ -196,7 +196,7 @@ class CuePointPeer extends BaseCuePointPeer implements IMetadataPeer, IRelatedOb
 	 */
 	public static function retrieveBySystemName($entryId, $systemName, PropelPDO $con = null)
 	{
-		$criteria = KalturaCriteria::create(CuePointPeer::OM_CLASS);
+		$criteria = BorhanCriteria::create(CuePointPeer::OM_CLASS);
 		$criteria->add(CuePointPeer::ENTRY_ID, $entryId);
 		$criteria->add(CuePointPeer::SYSTEM_NAME, $systemName);
 
@@ -213,7 +213,7 @@ class CuePointPeer extends BaseCuePointPeer implements IMetadataPeer, IRelatedOb
 	 */
 	public static function retrieveByEntryId($entryId, $types = null, PropelPDO $con = null)
 	{
-		$criteria = KalturaCriteria::create(CuePointPeer::OM_CLASS);
+		$criteria = BorhanCriteria::create(CuePointPeer::OM_CLASS);
 		$criteria->add(CuePointPeer::ENTRY_ID, $entryId);
 		$criteria->add(CuePointPeer::STATUS, CuePointStatus::DELETED, Criteria::NOT_EQUAL);
 
@@ -231,7 +231,7 @@ class CuePointPeer extends BaseCuePointPeer implements IMetadataPeer, IRelatedOb
 	 */
 	public static function countByEntryIdAndTypes($entryId, array $types = null, PropelPDO $con = null)
 	{
-		$criteria = KalturaCriteria::create(CuePointPeer::OM_CLASS);
+		$criteria = BorhanCriteria::create(CuePointPeer::OM_CLASS);
 		$criteria->add(CuePointPeer::ENTRY_ID, $entryId);
 		$criteria->add(CuePointPeer::STATUS, CuePointStatus::DELETED, Criteria::NOT_EQUAL);
 		
@@ -248,7 +248,7 @@ class CuePointPeer extends BaseCuePointPeer implements IMetadataPeer, IRelatedOb
 	 */
 	public static function hasReadyCuePointOnEntry($entryId, PropelPDO $con = null)
 	{
-		$criteria = KalturaCriteria::create(CuePointPeer::OM_CLASS);
+		$criteria = BorhanCriteria::create(CuePointPeer::OM_CLASS);
 		$criteria->add( CuePointPeer::ENTRY_ID, $entryId );
 		$criteria->add( CuePointPeer::STATUS, CuePointStatus::READY ); // READY, but not yet HANDLED
 		$cuePoint = CuePointPeer::doSelectOne($criteria, $con);
@@ -269,7 +269,7 @@ class CuePointPeer extends BaseCuePointPeer implements IMetadataPeer, IRelatedOb
 	 */
 	public static function retrieveByEntryIdTypeAndLimit($partnerId, $entryId, $limit, $offset, $types = array(), PropelPDO $con = null)
 	{
-		$criteria = KalturaCriteria::create(CuePointPeer::OM_CLASS);
+		$criteria = BorhanCriteria::create(CuePointPeer::OM_CLASS);
 		$criteria->add(CuePointPeer::ENTRY_ID, $entryId);
 		$criteria->add(CuePointPeer::PARTNER_ID, $partnerId);
 		$criteria->add(CuePointPeer::STATUS, CuePointStatus::DELETED, Criteria::NOT_EQUAL);

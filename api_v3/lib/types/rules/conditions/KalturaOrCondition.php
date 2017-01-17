@@ -3,10 +3,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaOrCondition extends KalturaCondition
+class BorhanOrCondition extends BorhanCondition
 {
 	/**
-	 * @var KalturaConditionArray
+	 * @var BorhanConditionArray
 	 */
 	public $conditions;
 	
@@ -29,7 +29,7 @@ class KalturaOrCondition extends KalturaCondition
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

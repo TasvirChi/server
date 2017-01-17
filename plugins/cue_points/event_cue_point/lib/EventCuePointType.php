@@ -3,7 +3,7 @@
  * @package plugins.eventCuePoint
  * @subpackage lib.enum
  */
-class EventCuePointType implements IKalturaPluginEnum, CuePointType
+class EventCuePointType implements IBorhanPluginEnum, CuePointType
 {
 	const EVENT = 'Event';
 	

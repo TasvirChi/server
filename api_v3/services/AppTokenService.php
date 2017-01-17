@@ -5,7 +5,7 @@
  *
  * @service appToken
  */
-class AppTokenService extends KalturaBaseService
+class AppTokenService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -17,15 +17,15 @@ class AppTokenService extends KalturaBaseService
 	 * Add new application authentication token
 	 * 
 	 * @action add
-	 * @param KalturaAppToken $appToken
-	 * @return KalturaAppToken
+	 * @param BorhanAppToken $appToken
+	 * @return BorhanAppToken
 	 */
-	function addAction(KalturaAppToken $appToken)
+	function addAction(BorhanAppToken $appToken)
 	{
 		$dbAppToken = $appToken->toInsertableObject();
 		$dbAppToken->save();
 		
-		$appToken = new KalturaAppToken();
+		$appToken = new BorhanAppToken();
 		$appToken->fromObject($dbAppToken, $this->getResponseProfile());
 		return $appToken;
 	}
@@ -35,17 +35,17 @@ class AppTokenService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param string $id
-	 * @return KalturaAppToken
+	 * @return BorhanAppToken
 	 * 
-	 * @throws KalturaErrors::APP_TOKEN_ID_NOT_FOUND
+	 * @throws BorhanErrors::APP_TOKEN_ID_NOT_FOUND
 	 */
 	function getAction($id)
 	{
 		$dbAppToken = AppTokenPeer::retrieveByPK($id);
 		if(!$dbAppToken)
-			throw new KalturaAPIException(KalturaErrors::APP_TOKEN_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::APP_TOKEN_ID_NOT_FOUND, $id);
 		
-		$appToken = new KalturaAppToken();
+		$appToken = new BorhanAppToken();
 		$appToken->fromObject($dbAppToken, $this->getResponseProfile());
 		return $appToken;
 	}
@@ -55,21 +55,21 @@ class AppTokenService extends KalturaBaseService
 	 * 
 	 * @action update
 	 * @param string $id
-	 * @param KalturaAppToken $appToken
-	 * @return KalturaAppToken
+	 * @param BorhanAppToken $appToken
+	 * @return BorhanAppToken
 	 * 
-	 * @throws KalturaErrors::APP_TOKEN_ID_NOT_FOUND
+	 * @throws BorhanErrors::APP_TOKEN_ID_NOT_FOUND
 	 */
-	function updateAction($id, KalturaAppToken $appToken)
+	function updateAction($id, BorhanAppToken $appToken)
 	{
 		$dbAppToken = AppTokenPeer::retrieveByPK($id);
 		if(!$dbAppToken)
-			throw new KalturaAPIException(KalturaErrors::APP_TOKEN_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::APP_TOKEN_ID_NOT_FOUND, $id);
 		
 		$appToken->toUpdatableObject($dbAppToken);
 		$dbAppToken->save();
 		
-		$appToken = new KalturaAppToken();
+		$appToken = new BorhanAppToken();
 		$appToken->fromObject($dbAppToken, $this->getResponseProfile());
 		return $appToken;
 	}
@@ -80,13 +80,13 @@ class AppTokenService extends KalturaBaseService
 	 * @action delete
 	 * @param string $id
 	 * 
-	 * @throws KalturaErrors::APP_TOKEN_ID_NOT_FOUND
+	 * @throws BorhanErrors::APP_TOKEN_ID_NOT_FOUND
 	 */
 	function deleteAction($id)
 	{
 		$dbAppToken = AppTokenPeer::retrieveByPK($id);
 		if(!$dbAppToken)
-			throw new KalturaAPIException(KalturaErrors::APP_TOKEN_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::APP_TOKEN_ID_NOT_FOUND, $id);
 		
 		$invalidSessionKey = ks::buildSessionIdHash($this->getPartnerId(), $id); 
 		invalidSessionPeer::invalidateByKey($invalidSessionKey, invalidSession::INVALID_SESSION_TYPE_SESSION_ID, $dbAppToken->getExpiry());
@@ -98,17 +98,17 @@ class AppTokenService extends KalturaBaseService
 	 * List application authentication tokens by filter and pager
 	 * 
 	 * @action list
-	 * @param KalturaFilterPager $filter
-	 * @param KalturaAppTokenFilter $pager
-	 * @return KalturaAppTokenListResponse
+	 * @param BorhanFilterPager $filter
+	 * @param BorhanAppTokenFilter $pager
+	 * @return BorhanAppTokenListResponse
 	 */
-	function listAction(KalturaAppTokenFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanAppTokenFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if(!$filter)
-			$filter = new KalturaAppTokenFilter();
+			$filter = new BorhanAppTokenFilter();
 		
 		if(!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 		
 		$c = new Criteria();
 		$appTokenFilter = $filter->toObject();
@@ -125,49 +125,49 @@ class AppTokenService extends KalturaBaseService
 		}
 		else
 		{
-			KalturaFilterPager::detachFromCriteria($c);
+			BorhanFilterPager::detachFromCriteria($c);
 			$totalCount = AppTokenPeer::doCount($c);
 		}
 		
-		$response = new KalturaAppTokenListResponse();
+		$response = new BorhanAppTokenListResponse();
 		$response->totalCount = $totalCount;
-		$response->objects = KalturaAppTokenArray::fromDbArray($list, $this->getResponseProfile());
+		$response->objects = BorhanAppTokenArray::fromDbArray($list, $this->getResponseProfile());
 		return $response;
 	}
 	
 	/**
-	 * Starts a new KS (kaltura Session) based on application authentication token id
+	 * Starts a new KS (borhan Session) based on application authentication token id
 	 * 
 	 * @action startSession
 	 * @param string $id application token id
 	 * @param string $tokenHash hashed token, built of sha1 on current KS concatenated with the application token
 	 * @param string $userId session user id, will be ignored if a different user id already defined on the application token
-	 * @param KalturaSessionType $type session type, will be ignored if a different session type already defined on the application token
+	 * @param BorhanSessionType $type session type, will be ignored if a different session type already defined on the application token
 	 * @param int $expiry session expiry (in seconds), could be overwritten by shorter expiry of the application token and the session-expiry that defined on the application token 
-	 * @throws KalturaErrors::APP_TOKEN_ID_NOT_FOUND
-	 * @return KalturaSessionInfo
+	 * @throws BorhanErrors::APP_TOKEN_ID_NOT_FOUND
+	 * @return BorhanSessionInfo
 	 */
 	function startSessionAction($id, $tokenHash, $userId = null, $type = null, $expiry = null)
 	{
 		$dbAppToken = AppTokenPeer::retrieveByPK($id);
 		if(!$dbAppToken)
-			throw new KalturaAPIException(KalturaErrors::APP_TOKEN_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::APP_TOKEN_ID_NOT_FOUND, $id);
 		
 		if($dbAppToken->getStatus() != AppTokenStatus::ACTIVE)
-			throw new KalturaAPIException(KalturaErrors::APP_TOKEN_NOT_ACTIVE, $id);
+			throw new BorhanAPIException(BorhanErrors::APP_TOKEN_NOT_ACTIVE, $id);
 		
 		$appTokenHash = $dbAppToken->calcHash();
 		if($appTokenHash !== $tokenHash)
-			throw new KalturaAPIException(KalturaErrors::INVALID_APP_TOKEN_HASH);
+			throw new BorhanAPIException(BorhanErrors::INVALID_APP_TOKEN_HASH);
 		
-		KalturaResponseCacher::disableCache();
+		BorhanResponseCacher::disableCache();
 		
 		$tokenExpiry = $dbAppToken->getSessionDuration();
 		if(!is_null($dbAppToken->getExpiry()))
 		{
 			$tokenExpiry = min($tokenExpiry, $dbAppToken->getExpiry() - time());
 			if($tokenExpiry < 0)
-				throw new KalturaAPIException(KalturaErrors::APP_TOKEN_EXPIRED, $id);
+				throw new BorhanAPIException(BorhanErrors::APP_TOKEN_EXPIRED, $id);
 		}
 		if(!$expiry)
 		{
@@ -199,9 +199,9 @@ class AppTokenService extends KalturaBaseService
 		
 		$ks = kSessionUtils::createKSession($partnerId, $secret, $userId, $expiry, $type, $privileges);
 		if(!$ks)
-			throw new KalturaAPIException(APIErrors::START_SESSION_ERROR, $partnerId);
+			throw new BorhanAPIException(APIErrors::START_SESSION_ERROR, $partnerId);
 			
-		$sessionInfo = new KalturaSessionInfo();
+		$sessionInfo = new BorhanSessionInfo();
 		$sessionInfo->ks = $ks->toSecureString();
 		$sessionInfo->partnerId = $partnerId;
 		$sessionInfo->userId = $userId;

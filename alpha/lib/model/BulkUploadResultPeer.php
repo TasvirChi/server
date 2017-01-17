@@ -144,7 +144,7 @@ class BulkUploadResultPeer extends BaseBulkUploadResultPeer
 			if(isset(self::$class_types_cache[$bulkUploadReultObjectType]))
 				return self::$class_types_cache[$bulkUploadReultObjectType];
 				
-			$extendedCls = KalturaPluginManager::getObjectClass(parent::OM_CLASS, $bulkUploadReultObjectType);
+			$extendedCls = BorhanPluginManager::getObjectClass(parent::OM_CLASS, $bulkUploadReultObjectType);
 			if($extendedCls)
 			{
 				self::$class_types_cache[$bulkUploadReultObjectType] = $extendedCls;

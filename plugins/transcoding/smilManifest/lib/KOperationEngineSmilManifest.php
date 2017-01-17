@@ -27,7 +27,7 @@ class KOperationEngineSmilManifest extends KSingleOutputOperationEngine
 		$wrapperElement = $xpath->query('/smil/body/switch')->item(0);
 		foreach($this->data->srcFileSyncs as $srcFileSync)
 		{
-			/** @var KalturaSourceFileSyncDescriptor $srcFileSync */
+			/** @var BorhanSourceFileSyncDescriptor $srcFileSync */
 			$fileName = pathinfo($srcFileSync->actualFileSyncLocalPath, PATHINFO_BASENAME);
 			$bitrate = $this->getBitrateForAsset($srcFileSync->assetId);
 			$this->addSmilVideo($wrapperElement, $fileName, $bitrate);
@@ -38,7 +38,7 @@ class KOperationEngineSmilManifest extends KSingleOutputOperationEngine
 		file_put_contents($smilFilePath, $smilData);
 
 		$destFileSyncDescArr = array();
-		$fileSyncDesc = new KalturaDestFileSyncDescriptor();
+		$fileSyncDesc = new BorhanDestFileSyncDescriptor();
 		$fileSyncDesc->fileSyncLocalPath = $smilFilePath;
 		$fileSyncDesc->fileSyncObjectSubType = 1; // asset;
 		$destFileSyncDescArr[] = $fileSyncDesc;
@@ -82,7 +82,7 @@ class KOperationEngineSmilManifest extends KSingleOutputOperationEngine
 
 		foreach($this->data->pluginData as $pluginData)
 		{
-			/** @var KalturaKeyValue $pluginData */
+			/** @var BorhanKeyValue $pluginData */
 			if ($pluginData->key == 'asset_'.$assetId.'_bitrate')
 				return $pluginData->value;
 		}

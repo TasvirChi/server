@@ -1,19 +1,19 @@
 <?php
 
-define('KALTURA_ROOT_PATH', realpath(dirname(__FILE__) . '/../../../../..'));
-require_once(KALTURA_ROOT_PATH . '/infra/KAutoloader.php');
+define('BORHAN_ROOT_PATH', realpath(dirname(__FILE__) . '/../../../../..'));
+require_once(BORHAN_ROOT_PATH . '/infra/KAutoloader.php');
 
-define("KALTURA_API_PATH", KALTURA_ROOT_PATH . "/api_v3");
+define("BORHAN_API_PATH", BORHAN_ROOT_PATH . "/api_v3");
 
-require_once(KALTURA_ROOT_PATH . '/alpha/config/kConf.php');
+require_once(BORHAN_ROOT_PATH . '/alpha/config/kConf.php');
 // Autoloader
-require_once(KALTURA_ROOT_PATH.DIRECTORY_SEPARATOR."infra".DIRECTORY_SEPARATOR."KAutoloader.php");
-KAutoloader::addClassPath(KAutoloader::buildPath(KALTURA_ROOT_PATH, "vendor", "propel", "*"));
-KAutoloader::addClassPath(KAutoloader::buildPath(KALTURA_API_PATH, "lib", "*"));
-KAutoloader::addClassPath(KAutoloader::buildPath(KALTURA_API_PATH, "services", "*"));
-KAutoloader::addClassPath(KAutoloader::buildPath(KALTURA_ROOT_PATH, "alpha", "plugins", "*")); // needed for testmeDoc
-KAutoloader::addClassPath(KAutoloader::buildPath(KALTURA_ROOT_PATH, "plugins", "*"));
-KAutoloader::addClassPath(KAutoloader::buildPath(KALTURA_ROOT_PATH, "generator")); // needed for testmeDoc
+require_once(BORHAN_ROOT_PATH.DIRECTORY_SEPARATOR."infra".DIRECTORY_SEPARATOR."KAutoloader.php");
+KAutoloader::addClassPath(KAutoloader::buildPath(BORHAN_ROOT_PATH, "vendor", "propel", "*"));
+KAutoloader::addClassPath(KAutoloader::buildPath(BORHAN_API_PATH, "lib", "*"));
+KAutoloader::addClassPath(KAutoloader::buildPath(BORHAN_API_PATH, "services", "*"));
+KAutoloader::addClassPath(KAutoloader::buildPath(BORHAN_ROOT_PATH, "alpha", "plugins", "*")); // needed for testmeDoc
+KAutoloader::addClassPath(KAutoloader::buildPath(BORHAN_ROOT_PATH, "plugins", "*"));
+KAutoloader::addClassPath(KAutoloader::buildPath(BORHAN_ROOT_PATH, "generator")); // needed for testmeDoc
 KAutoloader::setClassMapFilePath(kConf::get("cache_root_path") . '/plugins/' . basename(__FILE__) . '.cache');
 //KAutoloader::dumpExtra();
 KAutoloader::register();
@@ -22,7 +22,7 @@ KAutoloader::register();
 date_default_timezone_set(kConf::get("date_default_timezone")); // America/New_York
 
 error_reporting(E_ALL);
-KalturaLog::setLogger(new KalturaStdoutLogger());
+BorhanLog::setLogger(new BorhanStdoutLogger());
 
 $dbConf = kConf::getDB();
 DbManager::setConfig($dbConf);
@@ -68,12 +68,12 @@ foreach($argv as $arg)
 $entry = entryPeer::retrieveByPKNoFilter($entryId);
 $mrss = kMrssManager::getEntryMrss($entry);
 file_put_contents('mrss.xml', $mrss);
-KalturaLog::debug("MRSS [$mrss]");
+BorhanLog::debug("MRSS [$mrss]");
 
-$distributionJobData = new KalturaDistributionSubmitJobData();
+$distributionJobData = new BorhanDistributionSubmitJobData();
 
 $dbDistributionProfile = DistributionProfilePeer::retrieveByPK(3);
-$distributionProfile = new KalturaDailymotionDistributionProfile();
+$distributionProfile = new BorhanDailymotionDistributionProfile();
 $distributionProfile->fromObject($dbDistributionProfile);
 $distributionJobData->distributionProfileId = $distributionProfile->id;
 
@@ -81,7 +81,7 @@ $distributionJobData->distributionProfileId = $distributionProfile->id;
 $distributionJobData->distributionProfile = $distributionProfile;
 
 $dbEntryDistribution = EntryDistributionPeer::retrieveByPK(24);
-$entryDistribution = new KalturaEntryDistribution();
+$entryDistribution = new BorhanEntryDistribution();
 $entryDistribution->fromObject($dbEntryDistribution);
 $distributionJobData->entryDistributionId = $entryDistribution->id;
 $distributionJobData->entryDistribution = $entryDistribution;
@@ -90,11 +90,11 @@ $myp = new DailymotionDistributionProfile();
 print_r($myp->validateForSubmission($dbEntryDistribution, "submit"));
 
 
-$providerData = new KalturaDailymotionDistributionJobProviderData($distributionJobData);
+$providerData = new BorhanDailymotionDistributionJobProviderData($distributionJobData);
 $distributionJobData->providerData = $providerData;
 
 //file_put_contents('out.xml', $providerData->xml);
-//KalturaLog::debug("XML [$providerData->xml]");
+//BorhanLog::debug("XML [$providerData->xml]");
 
 //return;
 $engine = new DailymotionDistributionEngine();
@@ -104,7 +104,7 @@ $engine->submit($distributionJobData);
 //$xml = new KDOMDocument();
 //if(!$xml->loadXML($mrss))
 //{
-//	KalturaLog::err("MRSS not is not valid XML:\n$mrss\n");
+//	BorhanLog::err("MRSS not is not valid XML:\n$mrss\n");
 //	exit;
 //}
 //
@@ -125,7 +125,7 @@ $engine->submit($distributionJobData);
 //	{
 //		$varNode->textContent = $distributionJobData->$name;
 //		$varNode->appendChild($xsl->createTextNode($distributionJobData->$name));
-//		KalturaLog::debug("Set variable [$name] to [{$distributionJobData->$name}]");
+//		BorhanLog::debug("Set variable [$name] to [{$distributionJobData->$name}]");
 //	}
 //}
 //
@@ -136,11 +136,11 @@ $engine->submit($distributionJobData);
 //$xml = $proc->transformToDoc($xml);
 //if(!$xml)
 //{
-//	KalturaLog::err("Transform returned false");
+//	BorhanLog::err("Transform returned false");
 //	exit;
 //}
 //
 //$xml = $xml->saveXML();
 //
 //file_put_contents('out.xml', $xml);
-//KalturaLog::debug("XML [$xml]");
+//BorhanLog::debug("XML [$xml]");

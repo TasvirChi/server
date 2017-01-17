@@ -3,7 +3,7 @@
  * @package plugins.metadata
  * @subpackage api.objects
  */
-class KalturaMatchMetadataCondition extends KalturaMatchCondition
+class BorhanMatchMetadataCondition extends BorhanMatchCondition
 {
 	/**
 	 * May contain the full xpath to the field in three formats
@@ -43,7 +43,7 @@ class KalturaMatchMetadataCondition extends KalturaMatchCondition
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaMatchCondition::getMapBetweenObjects()
+	 * @see BorhanMatchCondition::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -51,7 +51,7 @@ class KalturaMatchMetadataCondition extends KalturaMatchCondition
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUsage()
+	 * @see BorhanObject::validateForUsage()
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -62,7 +62,7 @@ class KalturaMatchMetadataCondition extends KalturaMatchCondition
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

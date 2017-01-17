@@ -6,15 +6,15 @@
  * @subpackage objects
  * @abstract
  */
-abstract class KalturaIntegerField extends KalturaIntegerValue
+abstract class BorhanIntegerField extends BorhanIntegerValue
 {
 	/* (non-PHPdoc)
-	 * @see KalturaIntegerValue::toObject()
+	 * @see BorhanIntegerValue::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{
-		if(!is_null($this->value) && !($this->value instanceof KalturaNullField))
-			throw new KalturaAPIException(KalturaErrors::PROPERTY_VALIDATION_NOT_UPDATABLE, $this->getFormattedPropertyNameWithClassName('value'));
+		if(!is_null($this->value) && !($this->value instanceof BorhanNullField))
+			throw new BorhanAPIException(BorhanErrors::PROPERTY_VALIDATION_NOT_UPDATABLE, $this->getFormattedPropertyNameWithClassName('value'));
 
 		return parent::toObject($dbObject, $skip);
 	}

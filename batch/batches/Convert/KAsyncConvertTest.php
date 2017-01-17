@@ -26,69 +26,69 @@ class KAsyncConvertTest extends PHPUnit_Framework_TestCase
 	
 	public function testFFMPEG()
 	{
-		$this->doTestHD(KalturaConversionEngineType::FFMPEG);
-		$this->doTestHQ(KalturaConversionEngineType::FFMPEG);
-		$this->doTestNormalBig(KalturaConversionEngineType::FFMPEG);
-		$this->doTestNormalSmall(KalturaConversionEngineType::FFMPEG);
-		$this->doTestLowSmall(KalturaConversionEngineType::FFMPEG);
+		$this->doTestHD(BorhanConversionEngineType::FFMPEG);
+		$this->doTestHQ(BorhanConversionEngineType::FFMPEG);
+		$this->doTestNormalBig(BorhanConversionEngineType::FFMPEG);
+		$this->doTestNormalSmall(BorhanConversionEngineType::FFMPEG);
+		$this->doTestLowSmall(BorhanConversionEngineType::FFMPEG);
 	}
 	
 	public function testMENCODER()
 	{
-		$this->doTestHD(KalturaConversionEngineType::MENCODER);
-		$this->doTestHQ(KalturaConversionEngineType::MENCODER);
-		$this->doTestNormalBig(KalturaConversionEngineType::MENCODER);
-		$this->doTestNormalSmall(KalturaConversionEngineType::MENCODER);
-		$this->doTestLowSmall(KalturaConversionEngineType::MENCODER);
+		$this->doTestHD(BorhanConversionEngineType::MENCODER);
+		$this->doTestHQ(BorhanConversionEngineType::MENCODER);
+		$this->doTestNormalBig(BorhanConversionEngineType::MENCODER);
+		$this->doTestNormalSmall(BorhanConversionEngineType::MENCODER);
+		$this->doTestLowSmall(BorhanConversionEngineType::MENCODER);
 	}
 	
 	public function testON2()
 	{
-		$this->doTestHD(KalturaConversionEngineType::ON2);
-		$this->doTestHQ(KalturaConversionEngineType::ON2);
-		$this->doTestNormalBig(KalturaConversionEngineType::ON2);
-		$this->doTestNormalSmall(KalturaConversionEngineType::ON2);
-		$this->doTestLowSmall(KalturaConversionEngineType::ON2);
+		$this->doTestHD(BorhanConversionEngineType::ON2);
+		$this->doTestHQ(BorhanConversionEngineType::ON2);
+		$this->doTestNormalBig(BorhanConversionEngineType::ON2);
+		$this->doTestNormalSmall(BorhanConversionEngineType::ON2);
+		$this->doTestLowSmall(BorhanConversionEngineType::ON2);
 	}
 	
 	private function doTestHD($engineType)
 	{
 		$filePath = realpath(dirname( __FILE__ ) . '/../../../tests/files/example.avi');
 		$flavorParams = $this->prepareFlavorParams('mp4', 'h264', '1920', '1080', '4000');
-		$this->doTest($engineType, $filePath, $flavorParams, KalturaBatchJobStatus::FINISHED);
+		$this->doTest($engineType, $filePath, $flavorParams, BorhanBatchJobStatus::FINISHED);
 	}
 	
 	private function doTestHQ($engineType)
 	{
 		$filePath = realpath(dirname( __FILE__ ) . '/../../../tests/files/example.avi');
 		$flavorParams = $this->prepareFlavorParams('mp4', 'h264', '1280', '720', '2500');
-		$this->doTest($engineType, $filePath, $flavorParams, KalturaBatchJobStatus::FINISHED);
+		$this->doTest($engineType, $filePath, $flavorParams, BorhanBatchJobStatus::FINISHED);
 	}
 	
 	private function doTestNormalBig($engineType)
 	{
 		$filePath = realpath(dirname( __FILE__ ) . '/../../../tests/files/example.avi');
 		$flavorParams = $this->prepareFlavorParams('mp4', 'h264', '1280', '720', '1350');
-		$this->doTest($engineType, $filePath, $flavorParams, KalturaBatchJobStatus::FINISHED);
+		$this->doTest($engineType, $filePath, $flavorParams, BorhanBatchJobStatus::FINISHED);
 	}
 	
 	private function doTestNormalSmall($engineType)
 	{
 		$filePath = realpath(dirname( __FILE__ ) . '/../../../tests/files/example.avi');
 		$flavorParams = $this->prepareFlavorParams('mp4', 'h264', '512', '288', '750');
-		$this->doTest($engineType, $filePath, $flavorParams, KalturaBatchJobStatus::FINISHED);
+		$this->doTest($engineType, $filePath, $flavorParams, BorhanBatchJobStatus::FINISHED);
 	}
 	
 	private function doTestLowSmall($engineType)
 	{
 		$filePath = realpath(dirname( __FILE__ ) . '/../../../tests/files/example.avi');
 		$flavorParams = $this->prepareFlavorParams('mp4', 'h264', '512', '288', '00');
-		$this->doTest($engineType, $filePath, $flavorParams, KalturaBatchJobStatus::FINISHED);
+		$this->doTest($engineType, $filePath, $flavorParams, BorhanBatchJobStatus::FINISHED);
 	}
 	
 	private function prepareFlavorParams($fmt, $codec, $w, $h, $br)
 	{
-		$flavorParams = new KalturaFlavorParams();
+		$flavorParams = new BorhanFlavorParams();
 		
 		$flavorParams->format = $fmt;
 		
@@ -136,17 +136,17 @@ class KAsyncConvertTest extends PHPUnit_Framework_TestCase
 	
 	private function prepareJobs($engineType, $filePath, $flavorParams)
 	{
-		$data = new KalturaConvertJobData();
-		$srcFileSyncDescriptor = new KalturaSourceFileSyncDescriptor();
+		$data = new BorhanConvertJobData();
+		$srcFileSyncDescriptor = new BorhanSourceFileSyncDescriptor();
 		$srcFileSyncDescriptor->fileSyncLocalPath = $filePath;
-		$data->srcFileSyncs = new KalturaSourceFileSyncDescriptorArray();
+		$data->srcFileSyncs = new BorhanSourceFileSyncDescriptorArray();
 		$data->srcFileSyncs[] = $srcFileSyncDescriptor;
 		$data->flavorParamsOutput = $flavorParams;
 		
-		$job = new KalturaBatchJob();
+		$job = new BorhanBatchJob();
 		$job->id = 1;
 		$job->jobSubType = $engineType;
-		$job->status = KalturaBatchJobStatus::PENDING;
+		$job->status = BorhanBatchJobStatus::PENDING;
 		$job->data = $data;
 		
 		return array($job);

@@ -109,7 +109,7 @@ abstract class kMatchCondition extends kCondition
 	{
 		if(in_array($field, $values))
 		{
-			KalturaLog::debug("[$this->description] Field found in the values list, condition is true");
+			BorhanLog::debug("[$this->description] Field found in the values list, condition is true");
 			return true;
 		}
 		
@@ -117,12 +117,12 @@ abstract class kMatchCondition extends kCondition
 		{
 			if($this->matches($field, $value))
 			{
-				KalturaLog::debug("[$this->description] Field [$field] matches value [$value], condition is true");
+				BorhanLog::debug("[$this->description] Field [$field] matches value [$value], condition is true");
 				return true;
 			}
 		}
 			
-		KalturaLog::debug("[$this->description] No match found, condition is false");
+		BorhanLog::debug("[$this->description] No match found, condition is false");
 		return false;
 	}
 	
@@ -134,16 +134,16 @@ abstract class kMatchCondition extends kCondition
 		$field = $this->getFieldValue($scope);
 		$values = $this->getStringValues($scope);
 		
-		KalturaLog::debug("[$this->description] Matches field [$field] to values [" . print_r($values, true) . "]");
+		BorhanLog::debug("[$this->description] Matches field [$field] to values [" . print_r($values, true) . "]");
 		if (!count($values))
 		{
-			KalturaLog::debug("[$this->description] No values found, condition is true");
+			BorhanLog::debug("[$this->description] No values found, condition is true");
 			return true;
 		}
 		
 		if (is_null($field))
 		{
-			KalturaLog::debug("[$this->description] Field is empty, condition is false");
+			BorhanLog::debug("[$this->description] Field is empty, condition is false");
 			return false;
 		}
 
@@ -153,11 +153,11 @@ abstract class kMatchCondition extends kCondition
 			{
 				if(!$this->fieldFulfilled($fieldItem, $values))
 				{
-					KalturaLog::debug("[$this->description] Field item [$fieldItem] does not fulfill, condition is false");
+					BorhanLog::debug("[$this->description] Field item [$fieldItem] does not fulfill, condition is false");
 					return false;
 				}
 			}
-			KalturaLog::debug("[$this->description] All field items fulfilled, condition is true");
+			BorhanLog::debug("[$this->description] All field items fulfilled, condition is true");
 			return true;
 		}
 		

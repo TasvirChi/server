@@ -5,10 +5,10 @@
  * @package plugins.emailNotification
  * @subpackage model.data
  */
-class KalturaEmailNotificationUserRecipientProvider extends KalturaEmailNotificationRecipientProvider
+class BorhanEmailNotificationUserRecipientProvider extends BorhanEmailNotificationRecipientProvider
 {
 	/**
-	 * @var KalturaUserFilter
+	 * @var BorhanUserFilter
 	 */
 	public $filter;
 	
@@ -17,7 +17,7 @@ class KalturaEmailNotificationUserRecipientProvider extends KalturaEmailNotifica
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -25,7 +25,7 @@ class KalturaEmailNotificationUserRecipientProvider extends KalturaEmailNotifica
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($dbObject = null, $propertiesToSkip = array())
 	{
@@ -36,14 +36,14 @@ class KalturaEmailNotificationUserRecipientProvider extends KalturaEmailNotifica
 	}	
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject($source_object)
+	 * @see BorhanObject::fromObject($source_object)
 	 */
-	public function doFromObject($dbObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($dbObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($dbObject, $responseProfile);
 		if ($dbObject->getFilter())
 		{
-			$this->filter = new KalturaUserFilter();
+			$this->filter = new BorhanUserFilter();
 			$this->filter->fromObject($dbObject->getFilter());
 		}
 	}

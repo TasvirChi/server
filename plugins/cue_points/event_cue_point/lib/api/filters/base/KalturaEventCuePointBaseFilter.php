@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaEventCuePointBaseFilter extends KalturaCuePointFilter
+abstract class BorhanEventCuePointBaseFilter extends BorhanCuePointFilter
 {
 	static private $map_between_objects = array
 	(
@@ -27,12 +27,12 @@ abstract class KalturaEventCuePointBaseFilter extends KalturaCuePointFilter
 	}
 
 	/**
-	 * @var KalturaEventType
+	 * @var BorhanEventType
 	 */
 	public $eventTypeEqual;
 
 	/**
-	 * @dynamicType KalturaEventType
+	 * @dynamicType BorhanEventType
 	 * @var string
 	 */
 	public $eventTypeIn;

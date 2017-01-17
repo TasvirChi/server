@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaBulkUpload extends KalturaObject implements IFilterable
+class BorhanBulkUpload extends BorhanObject implements IFilterable
 {
 	/**
 	 * @var bigint
@@ -33,7 +33,7 @@ class KalturaBulkUpload extends KalturaObject implements IFilterable
 	public $numOfEntries;
 	
 	/**
-	 * @var KalturaBatchJobStatus
+	 * @var BorhanBatchJobStatus
 	 * @filter in,eq
 	 */
 	public $status;
@@ -55,14 +55,14 @@ class KalturaBulkUpload extends KalturaObject implements IFilterable
 	public $bulkFileUrl;
 	
 	/**
-	 * @var KalturaBulkUploadType;
+	 * @var BorhanBulkUploadType;
 	 */
 	public $bulkUploadType;
 	
 	
 	
 	/**
-	 * @var KalturaBulkUploadResultArray;
+	 * @var BorhanBulkUploadResultArray;
 	 */
 	public $results;
 	
@@ -72,7 +72,7 @@ class KalturaBulkUpload extends KalturaObject implements IFilterable
 	public $error;
 	
 	/**
-	 * @var KalturaBatchJobErrorTypes
+	 * @var BorhanBatchJobErrorTypes
 	 */
 	public $errorType;
 	
@@ -98,7 +98,7 @@ class KalturaBulkUpload extends KalturaObject implements IFilterable
 	public $numOfObjects;
 	
 	/**
-	 * @var KalturaBulkUploadObjectType
+	 * @var BorhanBulkUploadObjectType
 	 * @filter eq,in
 	 */
 	public $bulkUploadObjectType;
@@ -122,7 +122,7 @@ class KalturaBulkUpload extends KalturaObject implements IFilterable
 		return array_merge(parent::getMapBetweenObjects(), self::$map_between_objects);
 	}
 	
-	public function doFromObject($batchJobObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($batchJobObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 	    /* @var $batchJobObject BatchJobLog */
 	    if (is_null($batchJobObject))

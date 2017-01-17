@@ -29,14 +29,14 @@ class kVelocixProvisionJobData extends kProvisionJobData
 	const PUBLISH = 'publish';
 	
 	/**
-	 * @return KalturaKeyValueArray $provisioningParams
+	 * @return BorhanKeyValueArray $provisioningParams
 	 */
 	public function getProvisioningParams() {
 		return $this->provisioningParams;
 	}
 
 	/**
-	 * @param KalturaKeyValueArray $provisioningParams
+	 * @param BorhanKeyValueArray $provisioningParams
 	 */
 	public function setProvisioningParams($provisioningParams) {
 		$this->provisioningParams = $provisioningParams;

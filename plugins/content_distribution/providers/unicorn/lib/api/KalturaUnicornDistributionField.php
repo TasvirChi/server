@@ -3,6 +3,6 @@
  * @package plugins.unicornDistribution
  * @subpackage api.enum
  */
-class KalturaUnicornDistributionField extends KalturaStringEnum implements UnicornDistributionField
+class BorhanUnicornDistributionField extends BorhanStringEnum implements UnicornDistributionField
 {
 }

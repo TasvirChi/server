@@ -3,7 +3,7 @@
  * @package plugins.thumbCuePoint
  * @subpackage lib.enum
  */
-class timedThumbAssetType implements IKalturaPluginEnum, assetType
+class timedThumbAssetType implements IBorhanPluginEnum, assetType
 {
 	const TIMED_THUMB_ASSET = 'timedThumb';
 	

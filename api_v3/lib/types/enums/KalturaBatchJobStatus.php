@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaBatchJobStatus extends KalturaEnum
+class BorhanBatchJobStatus extends BorhanEnum
 {
 	const PENDING = 0; // in queue
 	const QUEUED = 1; // in process

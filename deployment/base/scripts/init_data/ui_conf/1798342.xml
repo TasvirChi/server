@@ -4,7 +4,7 @@
 		<UIConfigId>1798352</UIConfigId>
 	</ContributionWizard>
 
-	<Welcome>/content/uiconf/kaltura/generic/kse_2.1.6/welcome_light.swf</Welcome>
+	<Welcome>/content/uiconf/borhan/generic/kse_2.1.6/welcome_light.swf</Welcome>
 
 	<DefaultTransition>None</DefaultTransition>
 	<enableCW>true</enableCW>
@@ -19,8 +19,8 @@
 	<UIConfigList>
     	<UIConfig>
 			<target>simpleeditor.swf</target>
-		    <cssUrl>/content/uiconf/kaltura/generic/kse_2.1.6/styles_kse_light.swf</cssUrl>
-		    <localeUrl>/content/uiconf/kaltura/generic/kse_2.1.6/en_US_SimpleEditor.swf</localeUrl>
+		    <cssUrl>/content/uiconf/borhan/generic/kse_2.1.6/styles_kse_light.swf</cssUrl>
+		    <localeUrl>/content/uiconf/borhan/generic/kse_2.1.6/en_US_SimpleEditor.swf</localeUrl>
 		</UIConfig>
 	</UIConfigList>
 

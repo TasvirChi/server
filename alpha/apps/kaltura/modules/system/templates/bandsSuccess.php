@@ -19,7 +19,7 @@ foreach ( $band_list as $band ) {
 <tr <?php echo ($odd ? "style='background-color:#eee'" : "" ); ?>>
 	<td><?php echo $i ?></td> 
 	<td><?php echo $band->getId() ; ?></td>
-	<td><a href="javascript:goto ( 	<?php echo  "'" . $band_id . "' , 1 , '" . $hash . "'"  ?>	)" >Kaltura's <?php echo  $band_id; ?></a></td>
+	<td><a href="javascript:goto ( 	<?php echo  "'" . $band_id . "' , 1 , '" . $hash . "'"  ?>	)" >Borhan's <?php echo  $band_id; ?></a></td>
 	<td><a href="javascript:goto (	<?php echo  "'" . $band_id . "' , 2 , '" . $hash . "'"  ?>	)">Myspace's profile <?php echo  $band_id; ?></a></td>
 	<td><a href="javascript:goto (	<?php echo  "'" . $band_id . "' , 3 , '" . $hash . "'"  ?>	 )">Myspace's message <?php echo  $band_id; ?></a></td>
 	<td><?php echo $band->getKuser()->getScreenName() ; ?></td>
@@ -34,12 +34,12 @@ $i++;
 <script>
 function goto ( url , type , hash )
 {
-	kaltura_url = "http://www.kaltura.com/index.php/browse/bands?band_id=";
+	borhan_url = "http://www.borhan.com/index.php/browse/bands?band_id=";
 	myspace_profile = "http://profile.myspace.com/index.cfm?fuseaction=user.viewprofile&friendID=";
 	myspace_message = "http://messaging.myspace.com/index.cfm?fuseaction=mail.message&friendID=";
 	
 	if( type == 1 )
-		fixed_url =kaltura_url;
+		fixed_url =borhan_url;
 	else if ( type ==2 )
 		fixed_url = myspace_profile;
 	else 

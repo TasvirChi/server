@@ -3,7 +3,7 @@
  * @package api
  * @subpackage v3
  */
-class KalturaTypeReflectorCacher
+class BorhanTypeReflectorCacher
 {
 	protected static $_loadedTypeReflectors = array();
 	protected static $_enabled = true;
@@ -20,12 +20,12 @@ class KalturaTypeReflectorCacher
 	
 	/**
 	 * @param string $type
-	 * @return KalturaTypeReflector
+	 * @return BorhanTypeReflector
 	 */
 	static function get($type)
 	{
 		if (!self::$_enabled)
-			return new KalturaTypeReflector($type);
+			return new BorhanTypeReflector($type);
 			
 		if (!array_key_exists($type, self::$_loadedTypeReflectors))
 		{
@@ -47,13 +47,13 @@ class KalturaTypeReflectorCacher
 			
 			if (!$typeReflector)
 			{
-				$typeReflector = new KalturaTypeReflector($type);
+				$typeReflector = new BorhanTypeReflector($type);
 				$cachedData = serialize($typeReflector);
 				$bytesWritten = kFile::safeFilePutContents($cachedFilePath, $cachedData,0644);
 				if(!$bytesWritten)
 				{
 					$folderPermission = substr(decoct(fileperms(dirname($cachedFilePath))), 2);
-					error_log("Kaltura type reflector could not be saved to path [$cachedFilePath] type [$type] folder permisisons [$folderPermission]");
+					error_log("Borhan type reflector could not be saved to path [$cachedFilePath] type [$type] folder permisisons [$folderPermission]");
 				}
 			}
 			

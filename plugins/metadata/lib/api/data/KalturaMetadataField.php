@@ -3,7 +3,7 @@
  * @package plugins.metadata
  * @subpackage api.objects
  */
-class KalturaMetadataField extends KalturaStringField
+class BorhanMetadataField extends BorhanStringField
 {
 	/**
 	 * May contain the full xpath to the field in three formats
@@ -35,7 +35,7 @@ class KalturaMetadataField extends KalturaStringField
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaMatchCondition::getMapBetweenObjects()
+	 * @see BorhanMatchCondition::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -43,7 +43,7 @@ class KalturaMetadataField extends KalturaStringField
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUsage()
+	 * @see BorhanObject::validateForUsage()
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -54,7 +54,7 @@ class KalturaMetadataField extends KalturaStringField
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

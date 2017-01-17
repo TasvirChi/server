@@ -1,9 +1,9 @@
 <?php
 /**
  * @package    Core
- * @subpackage KMC
+ * @subpackage BMC
  */
-class logoutAction extends kalturaAction
+class logoutAction extends borhanAction
 {
 	public function execute ( ) 
 	{
@@ -29,16 +29,16 @@ class logoutAction extends kalturaAction
 				
 				$ksObj->kill();
 			}
-			KalturaLog::info("Killing session with ks - [$ksStr], decoded - [".base64_decode($ksStr)."]");
+			BorhanLog::info("Killing session with ks - [$ksStr], decoded - [".base64_decode($ksStr)."]");
 		}
 		else {
-			KalturaLog::err('logoutAction called with no KS');
+			BorhanLog::err('logoutAction called with no KS');
 		}
 		
 		setcookie('pid', "", 0, "/");
 		setcookie('subpid', "", 0, "/");
-		setcookie('kmcks', "", 0, "/");
+		setcookie('bmcks', "", 0, "/");
 
-		return sfView::NONE; //redirection to kmc/kmc is done from java script
+		return sfView::NONE; //redirection to bmc/bmc is done from java script
 	}
 }

@@ -30,16 +30,16 @@ class PartnerUsageController extends Zend_Controller_Action
 		
 		// init filters
 		
-		$usageFilter = new Kaltura_Client_Type_ReportInputFilter();
+		$usageFilter = new Borhan_Client_Type_ReportInputFilter();
 		$usageFilter->fromDate = DateTime::createFromFormat('m/d/Y', $from)->getTimestamp();
 		$usageFilter->toDate = DateTime::createFromFormat('m/d/Y', $to)->getTimestamp();
 		$usageFilter->timeZoneOffset = Infra_AuthHelper::getAuthInstance()->getIdentity()->getTimezoneOffset();
 		if ($form->getElement('interval')->getValue())
 		{
-		    $usageFilter->interval = ($form->getElement('interval')->getValue() == 'daily') ? Kaltura_Client_Enum_ReportInterval::DAYS : Kaltura_Client_Enum_ReportInterval::MONTHS;
+		    $usageFilter->interval = ($form->getElement('interval')->getValue() == 'daily') ? Borhan_Client_Enum_ReportInterval::DAYS : Borhan_Client_Enum_ReportInterval::MONTHS;
 		}
 		
-		$varConsolePlugin = Kaltura_Client_VarConsole_Plugin::get($client);
+		$varConsolePlugin = Borhan_Client_VarConsole_Plugin::get($client);
 		
 		// get results and paginate
 		$partnerFilter = $this->getPartnerFilterFromForm($form);
@@ -84,20 +84,20 @@ class PartnerUsageController extends Zend_Controller_Action
 		
 		// init filters
 		$partnerFilter = $this->getPartnerFilterFromForm($form);
-		$usageFilter = new Kaltura_Client_Type_ReportInputFilter();
+		$usageFilter = new Borhan_Client_Type_ReportInputFilter();
 		$usageFilter->fromDate = DateTime::createFromFormat('m/d/Y', $from)->getTimestamp();
 		$usageFilter->toDate = DateTime::createFromFormat('m/d/Y', $to)->getTimestamp();
 		$usageFilter->timeZoneOffset =Infra_AuthHelper::getAuthInstance()->getIdentity()->getTimezoneOffset();
 	    if ($form->getElement('interval')->getValue())
 		{
-		    $usageFilter->interval = ($form->getElement('interval')->getValue() == 'daily') ? Kaltura_Client_Enum_ReportInterval::DAYS : Kaltura_Client_Enum_ReportInterval::MONTHS;
+		    $usageFilter->interval = ($form->getElement('interval')->getValue() == 'daily') ? Borhan_Client_Enum_ReportInterval::DAYS : Borhan_Client_Enum_ReportInterval::MONTHS;
 		}
 		
-		$pager = new Kaltura_Client_Type_FilterPager();
+		$pager = new Borhan_Client_Type_FilterPager();
 		$pager->pageIndex = 1;
 		$pager->pageSize = 500;
 		
-		$varConsolePlugin = Kaltura_Client_VarConsole_Plugin::get($client);
+		$varConsolePlugin = Borhan_Client_VarConsole_Plugin::get($client);
 		
 		$items = array();
 		while(true)
@@ -137,7 +137,7 @@ class PartnerUsageController extends Zend_Controller_Action
 			$d = (new Zend_Date($item->partnerCreatedAt));
 			$dateId = strlen($item->dateId) == 6 ? DateTime::createFromFormat("Ym", $item->dateId) : DateTime::createFromFormat("Ymd", $item->dateId); 
 			echo 	strlen($item->dateId) == 6 ? $dateId->format("M Y") : $dateId->format("d M Y"),',',
-			        $this->view->enumTranslate('Kaltura_Client_Enum_PartnerStatus', $item->partnerStatus), ',',
+			        $this->view->enumTranslate('Borhan_Client_Enum_PartnerStatus', $item->partnerStatus), ',',
 					$item->partnerName, ',', 
 					$item->partnerId, ',', 
 					'"',$d->toString(Zend_Date::DATE_LONG), '",', 
@@ -154,7 +154,7 @@ class PartnerUsageController extends Zend_Controller_Action
 	
 	private function getPartnerFilterFromForm(Zend_Form $form)
 	{
-		$filter = new Kaltura_Client_Type_PartnerFilter();
+		$filter = new Borhan_Client_Type_PartnerFilter();
 		$filterType = $form->getValue('filter_type');
 		$filterInput = $form->getValue('filter_input');
 		$includeActive = $form->getValue('include_active');
@@ -174,14 +174,14 @@ class PartnerUsageController extends Zend_Controller_Action
 		}
 		$statuses = array();
 		if ($includeActive)
-			$statuses[] = Kaltura_Client_Enum_PartnerStatus::ACTIVE;
+			$statuses[] = Borhan_Client_Enum_PartnerStatus::ACTIVE;
 		if ($includeBlocked)
-			$statuses[] = Kaltura_Client_Enum_PartnerStatus::BLOCKED;
+			$statuses[] = Borhan_Client_Enum_PartnerStatus::BLOCKED;
 		if ($includeRemoved)
-			$statuses[] = Kaltura_Client_Enum_PartnerStatus::FULL_BLOCK;
+			$statuses[] = Borhan_Client_Enum_PartnerStatus::FULL_BLOCK;
 						
 		$filter->statusIn = implode(',', $statuses);
-		$filter->orderBy = Kaltura_Client_Enum_PartnerOrderBy::ID_DESC;
+		$filter->orderBy = Borhan_Client_Enum_PartnerOrderBy::ID_DESC;
 		return $filter;
 	}
 	
@@ -203,10 +203,10 @@ class PartnerUsageController extends Zend_Controller_Action
 		$partnerId = $settings->partnerId;
 		$secret = $settings->secret;
 		$sessionExpiry = $settings->sessionExpiry;
-		return self::createKS($partnerId, $secret, Kaltura_Client_Enum_SessionType::ADMIN, $sessionExpiry);
+		return self::createKS($partnerId, $secret, Borhan_Client_Enum_SessionType::ADMIN, $sessionExpiry);
 	}
 	
-	private static function createKS($partnerId, $adminSecret, $sessionType = Kaltura_Client_Enum_SessionType::ADMIN, $expiry = 7200)
+	private static function createKS($partnerId, $adminSecret, $sessionType = Borhan_Client_Enum_SessionType::ADMIN, $expiry = 7200)
 	{
 		$puserId = '';
 		$privileges = '';

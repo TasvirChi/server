@@ -41,7 +41,7 @@ class kCategoryEntryAdvancedFilter extends AdvancedSearchFilterItem
 	/* (non-PHPdoc)
 	 * @see AdvancedSearchFilterItem::applyCondition()
 	 */
-	public function applyCondition(IKalturaDbQuery $query)
+	public function applyCondition(IBorhanDbQuery $query)
 	{
 		if ( is_null( $this->categoriesMatchOr ) && is_null( $this->categoryIdEqual ) )
 		{
@@ -67,7 +67,7 @@ class kCategoryEntryAdvancedFilter extends AdvancedSearchFilterItem
 
 		$categoryEntries = explode( ',', $categoryEntries );
 
-		if($query instanceof IKalturaIndexQuery)
+		if($query instanceof IBorhanIndexQuery)
 		{
 			$categoriesStrs = array();
 			foreach($categoryEntries as $categoryId)
@@ -78,7 +78,7 @@ class kCategoryEntryAdvancedFilter extends AdvancedSearchFilterItem
 		}
 		else
 		{
-			$query->addColumnWhere(entryPeer::CATEGORIES_IDS, $categoryEntries, KalturaCriteria::IN_LIKE);
+			$query->addColumnWhere(entryPeer::CATEGORIES_IDS, $categoryEntries, BorhanCriteria::IN_LIKE);
 		}
 
 		if ( $this->orderBy )

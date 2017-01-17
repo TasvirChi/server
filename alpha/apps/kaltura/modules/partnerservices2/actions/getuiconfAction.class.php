@@ -10,7 +10,7 @@ class getuiconfAction extends defPartnerservices2Action
 {
     protected function partnerGroup2() {return  '0';}
                 
-	protected function kalturaNetwork2() {return true;}
+	protected function borhanNetwork2() {return true;}
 	
 	public function describe()
 	{
@@ -39,7 +39,7 @@ class getuiconfAction extends defPartnerservices2Action
 	
 	protected function ticketType ()	
 	{	
-		// validate for all partners that are not kaltura (partner_id=0)		
+		// validate for all partners that are not borhan (partner_id=0)		
 		$partner_id = $this->getP ( "partner_id");		
 		return ( $partner_id != 0 ? self::REQUIED_TICKET_REGULAR : self::REQUIED_TICKET_NONE );
 	}

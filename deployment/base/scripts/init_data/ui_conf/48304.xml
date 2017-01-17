@@ -1,10 +1,10 @@
 <layouts isPlaylist="multi">
-  <layout layoutId="" skinPath="/content/uiconf/kaltura/appstudio/v.1/kdp_skin_aps_v2.swf" playerName="playlist light">
+  <layout layoutId="" skinPath="/content/uiconf/borhan/appstudio/v.1/bdp_skin_aps_v2.swf" playerName="playlist light">
     <Canvas id="topLevelLayout" width="100%" height="100%" styleName="topLevelLayout">
       <VBox id="horizontalPlayerHolder" width="100%" height="100%" styleName="noGapsNoPadding">
         <VBox id="player" width="100%" height="100%" styleName="noGapsNoPadding">
           <Canvas height="100%" id="PlayerHolder" styleName="PlayerBackground" width="100%">
-          	<Module height="0" id="stats" k_path="stats/KalturaStatsModule.swf" width="0"/>
+          	<Module height="0" id="stats" k_path="stats/BorhanStatsModule.swf" width="0"/>
             <KplayerModule height="100%" id="myKplayer" k_path="kplayer/KplayerModule.swf" styleName="centered" width="100%"/>
             <screens height="100%" id="screens" styleName="centered" width="100%" k_path="screens/Screens.swf" k_end_screen_id="endScreen" k_end_screen_over_id="endScreen" k_pause_screen_id="pauseScreen" k_pause_screen_over_id="pauseScreen" k_play_screen_id="emptyScreen" k_play_screen_over_id="playScreen" k_start_screen_id="startScreen" k_start_screen_over_id="startScreen"/>
           </Canvas>
@@ -29,7 +29,7 @@
               <Button id="shareBtnControllerScreen" k_buttonType="buttonIconControllerArea" command="gigyaButton" label="Share" styleName="shareBtn" tooltip="share with friends"/>
             </HBox>
             <Spacer width="3"/>
-            <Button id="poweredByControllerScreen" width="32" height="20" k_click="navigate('http://www.kaltura.com')" styleName="kalturaLogoDark" k_theme_change="true"/>
+            <Button id="poweredByControllerScreen" width="32" height="20" k_click="navigate('http://www.borhan.com')" styleName="borhanLogoDark" k_theme_change="true"/>
             <Spacer width="3"/>
           </HBox>
         </VBox>
@@ -115,7 +115,7 @@
         <cssSelector componentId="listDemo" newClass="plItemsListLight"/>
         <cssSelector componentId="TopTitleScreen" newClass="controllerBoxLight"/>
         <cssSelector componentId="ControllerScreen" newClass="controllerBoxLight"/>
-        <cssSelector componentId="poweredByControllerScreen" newClass="kalturaLogoLight"/>
+        <cssSelector componentId="poweredByControllerScreen" newClass="borhanLogoLight"/>
         <cssSelector componentId="plTabs" newClass="scrollingTabsWhite"/>
         <cssSelector componentId="plPrevButton" newClass="nextPrevButtonsBright"/>
         <font>Arial</font>

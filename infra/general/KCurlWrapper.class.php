@@ -266,11 +266,11 @@ class KCurlWrapper
 				if($fileSize > $maxFileSize)
 					throw new Exception("File size [$fileSize] Excedded Max Siae Allowed [$maxFileSize]");
 					
-				KalturaLog::info("File size [$fileSize] validated");
+				BorhanLog::info("File size [$fileSize] validated");
 			}
 			else 
 			{
-				KalturaLog::info("File size validation skipped");
+				BorhanLog::info("File size validation skipped");
 			}
 		}
 		
@@ -280,7 +280,7 @@ class KCurlWrapper
 		$httpCode = curl_getinfo($curlWrapper->ch, CURLINFO_HTTP_CODE);
 		if (KCurlHeaderResponse::isError($httpCode))
 		{
-			KalturaLog::info("curl request [$url] return with http-code of [$httpCode]");
+			BorhanLog::info("curl request [$url] return with http-code of [$httpCode]");
 			if ($destFilePath)
 				unlink($destFilePath);
 			$res = false;
@@ -533,7 +533,7 @@ class KCurlWrapper
 		{
 			throw new Exception($exception->getMessage());
 		}
-		KalturaLog::info("Setting source URL to [$sourceUrl]");
+		BorhanLog::info("Setting source URL to [$sourceUrl]");
 		
 		$sourceUrl = self::encodeUrl($sourceUrl);
 		curl_setopt($this->ch, CURLOPT_URL, $sourceUrl);

@@ -4,7 +4,7 @@
  * @package infra
  * @subpackage Plugins
  */
-interface IKalturaSchemaContributor extends IKalturaBase
+interface IBorhanSchemaContributor extends IBorhanBase
 {
 	/**
 	 * @param SchemaType $type

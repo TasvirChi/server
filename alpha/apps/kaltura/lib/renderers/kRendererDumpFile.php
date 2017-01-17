@@ -71,9 +71,9 @@ class kRendererDumpFile implements kRendererBase
 		else
 			list($rangeFrom, $rangeTo, $rangeLength) = infraRequestUtils::handleRangeRequest($this->fileSize);
 
-		if (class_exists('KalturaMonitorClient'))
+		if (class_exists('BorhanMonitorClient'))
 		{
-			KalturaMonitorClient::monitorDumpFile($this->fileSize, $this->filePath);
+			BorhanMonitorClient::monitorDumpFile($this->fileSize, $this->filePath);
 		}
 				
 		infraRequestUtils::sendCdnHeaders($this->fileExt, $rangeLength, $this->maxAge, $this->mimeType, false, $this->lastModified);
@@ -89,7 +89,7 @@ class kRendererDumpFile implements kRendererBase
 		}
 		else if ($useXsendFile)
 		{
-			header('X-Kaltura-Sendfile:');
+			header('X-Borhan-Sendfile:');
 			header("X-Sendfile: {$this->filePath}");
 		}
 		else

@@ -21,7 +21,7 @@
       <Spacer />
       <Label label="Watermark URL" />
       <Input id="k_watermark_path" k_param="k_watermark_path"
-      k_value="http://www.kaltura.com/content/uiconf/kaltura/generic/kaltura_watermark.png" />
+      k_value="http://www.borhan.com/content/uiconf/borhan/generic/borhan_watermark.png" />
 
       <Spacer />
  	  <Label label="Watermark location on the video:" />
@@ -413,7 +413,7 @@
     k_value="false">
       <Spacer />
       <Label label="Download Button" bold="true" />
-      <Label label="Enables download of video to your computer. Note that the download button only supports downloads of single video files and does not support mix downloads - contact Kaltura Professional Services to enable download of mix content." />
+      <Label label="Enables download of video to your computer. Note that the download button only supports downloads of single video files and does not support mix downloads - contact Borhan Professional Services to enable download of mix content." />
       <Spacer />
       <Label label="Location &amp; Playing States:" />
       <CheckBox label="Video Area" selected="true"
@@ -463,8 +463,8 @@
       <Spacer />
       <Label label="Upload Button" bold="true" />
       <Label label="Launches the Uploader (Contribution Wizard). Allows users to add videos, images and audio files to the video. Enable this button only if you wish to allow uploading. Clicking on the button will invoke the javascript function 'gotoContributorWindow' with the current entry as an argument.  In order to connect this javascript function with editor launching follow the community guide:" />
-      <Label label="http://www.kaltura.org/implementing-javascript-handler-open-editor-or-kcw-kdp" />
-      <Label label="or contact Kaltura Professional Services for assistance." />
+      <Label label="http://www.borhan.org/implementing-javascript-handler-open-editor-or-bcw-bdp" />
+      <Label label="or contact Borhan Professional Services for assistance." />
       <Spacer />
       <Label label="Location &amp; Playing States:" />
       <CheckBox id="showOnVideoControllers" label="Video Area"
@@ -508,8 +508,8 @@
       <Spacer />
       <Label label="Remix Button" bold="true" />
       <Label label="Launches the Video Editor. Enable this button only if you wish to allow remixing. Clicking on the button will invoke the javascript function 'gotoEditorWindow' with the current entry as an argument.  In order to connect this javascript function with editor launching follow the community guide: " />
-      <Label label="http://www.kaltura.org/implementing-javascript-handler-open-editor-or-kcw-kdp" />
-      <Label label="or contact Kaltura Professional Services for assistance." />
+      <Label label="http://www.borhan.org/implementing-javascript-handler-open-editor-or-bcw-bdp" />
+      <Label label="or contact Borhan Professional Services for assistance." />
       <Spacer />
       <Label label="Location &amp; Playing States:" />
       <CheckBox id="showOnVideoControllers" label="Video Area"
@@ -602,7 +602,7 @@
     k_value="false">
       <Spacer />
       <Label label="Flag Button" bold="true" />
-      <Label label="Allows users to report inappropriate content. You may then review &amp; moderate the content in the Moderation tab of the Kaltura Management Console." />
+      <Label label="Allows users to report inappropriate content. You may then review &amp; moderate the content in the Moderation tab of the Borhan Management Console." />
       <Spacer />
       <Label label="Location &amp; Playing States:" />
       <CheckBox id="showOnVideoControllers" label="Video Area"
@@ -690,7 +690,7 @@
     k_param="selected" k_value="false">
       <Spacer />
       <Label label="Subply Component" bold="true" />
-      <Label label="Shows subtitles for this video. If there are no subtitles configured the component will be hidden. If you are interested in adding subtitles to your videos, contact Kaltura Professional Services." />
+      <Label label="Shows subtitles for this video. If there are no subtitles configured the component will be hidden. If you are interested in adding subtitles to your videos, contact Borhan Professional Services." />
       <Spacer />
       <Label label="Show subtitles on screen if available" />
     </feature>
@@ -700,10 +700,10 @@
       <Spacer />
       <Label label="Advertising Component" bold="true" />
       <Spacer />
-      <Label label="Allows you to include various types of video ads in your videso.  Please enter your credentials below and you will be transferred to the advertising management system to set up your ads.  If you do not have credentials and would like to add video ads to your account, please contact Kaltura Professional Services." />
+      <Label label="Allows you to include various types of video ads in your videso.  Please enter your credentials below and you will be transferred to the advertising management system to set up your ads.  If you do not have credentials and would like to add video ads to your account, please contact Borhan Professional Services." />
       <Label label="Adap.tv Partner Key" />
       <Input id="k_adaptv_key" k_param="k_adaptv_key"
-      k_value="kaltura" />
+      k_value="borhan" />
       <Spacer />
       <Label label="Adap.tv Zone ID" />
       <Input id="k_adaptv_zone" k_param="k_adaptv_zone"
@@ -722,7 +722,7 @@ function customFunc1 (entryId){
 // add your custom code here...
 }
 &lt;/script&gt;" />
-      <Label label="If needed, contact Kaltura Professional Services for assistance" />
+      <Label label="If needed, contact Borhan Professional Services for assistance" />
       <Spacer />
       <Label label="Location & Playing States:" />
       <CheckBox id="showOnVideoControllers" label="Video Area"
@@ -776,7 +776,7 @@ function customFunc2 (entryId){
 // add your custom code here...
 }
 &lt;/script&gt;" />
-      <Label label="If needed, contact Kaltura Professional Services for assistance" />
+      <Label label="If needed, contact Borhan Professional Services for assistance" />
       <Spacer />
       <Label label="Location & Playing States:" />
       <CheckBox id="showOnVideoControllers" label="Video Area"
@@ -829,7 +829,7 @@ function customFunc3 (entryId){
 // add your custom code here...
 }
 &lt;/script&gt;" />
-      <Label label="If needed, contact Kaltura Professional Services for assistance" />
+      <Label label="If needed, contact Borhan Professional Services for assistance" />
       <Spacer />
       <Label label="Location & Playing States:" />
       <CheckBox id="showOnVideoControllers" label="Video Area"
@@ -882,7 +882,7 @@ function customFunc4 (entryId){
 // add your custom code here...
 }
 &lt;/script&gt;" />
-      <Label label="If needed, contact Kaltura Professional Services for assistance" />
+      <Label label="If needed, contact Borhan Professional Services for assistance" />
       <Spacer />
       <Label label="Location & Playing States:" />
       <CheckBox id="showOnVideoControllers" label="Video Area"
@@ -936,7 +936,7 @@ function customFunc5 (entryId){
 // add your custom code here...
 }
 &lt;/script&gt;" />
-      <Label label="If needed, contact Kaltura Professional Services for assistance" />
+      <Label label="If needed, contact Borhan Professional Services for assistance" />
       <Spacer />
       <Label label="Location & Playing States:" />
       <CheckBox id="showOnVideoControllers" label="Video Area"
@@ -1155,7 +1155,7 @@ function customFunc5 (entryId){
 			<cssSelector componentId="listDemo" newClass="plItemsListDark"/>
 			<cssSelector componentId="TopTitleScreen" newClass="controllerBoxDark"/>
 			<cssSelector componentId="ControllerScreen" newClass="controllerBoxDark"/>
-			<cssSelector componentId="poweredByControllerScreen" newClass="kalturaLogoDark"/>
+			<cssSelector componentId="poweredByControllerScreen" newClass="borhanLogoDark"/>
 			<cssSelector componentId="plTabs" newClass="scrollingTabsDark"/>
 			<cssSelector componentId="plPrevButton" newClass="nextPrevButtonsDark"/>
 			<font>Arial</font>
@@ -1173,7 +1173,7 @@ function customFunc5 (entryId){
 			<cssSelector componentId="listDemo" newClass="plItemsListLight"/>
 			<cssSelector componentId="TopTitleScreen" newClass="controllerBoxLight"/>
 			<cssSelector componentId="ControllerScreen" newClass="controllerBoxLight"/>
-			<cssSelector componentId="poweredByControllerScreen" newClass="kalturaLogoLight"/>
+			<cssSelector componentId="poweredByControllerScreen" newClass="borhanLogoLight"/>
 			<cssSelector componentId="plTabs" newClass="scrollingTabsWhite"/>
 			<cssSelector componentId="plPrevButton" newClass="nextPrevButtonsBright"/>
 			<font>Arial</font>

@@ -3,17 +3,17 @@
  * @package plugins.playReady
  * @subpackage api.objects
  */
-class KalturaPlayReadyPlayEnablerHolder extends KalturaObject
+class BorhanPlayReadyPlayEnablerHolder extends BorhanObject
 {
 	/**
 	 * The type of the play enabler
 	 * 
-	 * @var KalturaPlayReadyPlayEnablerType
+	 * @var BorhanPlayReadyPlayEnablerType
 	 */
 	public $type;
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

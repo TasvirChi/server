@@ -3,6 +3,6 @@
  * @package api
  * @subpackage enum
  */
-class KalturaYahooSyndicationFeedOrderBy extends KalturaBaseSyndicationFeedOrderBy
+class BorhanYahooSyndicationFeedOrderBy extends BorhanBaseSyndicationFeedOrderBy
 {
 }

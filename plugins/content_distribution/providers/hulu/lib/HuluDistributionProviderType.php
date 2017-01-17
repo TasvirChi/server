@@ -3,7 +3,7 @@
  * @package plugins.huluDistribution
  * @subpackage lib
  */
-class HuluDistributionProviderType implements IKalturaPluginEnum, DistributionProviderType
+class HuluDistributionProviderType implements IBorhanPluginEnum, DistributionProviderType
 {
 	const HULU = 'HULU';
 	

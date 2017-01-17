@@ -3,7 +3,7 @@
  * @package plugins.tvComDistribution
  * @subpackage lib
  */
-class TVComDistributionProviderType implements IKalturaPluginEnum, DistributionProviderType
+class TVComDistributionProviderType implements IBorhanPluginEnum, DistributionProviderType
 {
 	const TVCOM = 'TVCOM';
 	

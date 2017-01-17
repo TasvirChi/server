@@ -3,7 +3,7 @@
  * @package plugins.sphinxSearch
  * @subpackage model.filters
  */
-abstract class SphinxCriteria extends KalturaCriteria implements IKalturaIndexQuery
+abstract class SphinxCriteria extends BorhanCriteria implements IBorhanIndexQuery
 {
 	const RANKER_NONE = 'none';
 	const RANKER_BM25 = 'BM25';
@@ -141,7 +141,7 @@ abstract class SphinxCriteria extends KalturaCriteria implements IKalturaIndexQu
 		if (!$this->selectColumn)
 			$this->selectColumn = $objectClass::getSphinxIdField();
 		
-		$sql = "SELECT {$this->selectColumn} $conditions FROM $index $wheres " . ($this->groupByColumn ? "GROUP BY {$this->groupByColumn} " : "" ) . "$orderBy LIMIT $limit OPTION ranker={$this->ranker}, max_matches=$maxMatches, comment='".kApiCache::KALTURA_COMMENT_MARKER."'";
+		$sql = "SELECT {$this->selectColumn} $conditions FROM $index $wheres " . ($this->groupByColumn ? "GROUP BY {$this->groupByColumn} " : "" ) . "$orderBy LIMIT $limit OPTION ranker={$this->ranker}, max_matches=$maxMatches, comment='".kApiCache::BORHAN_COMMENT_MARKER."'";
 
 		if (kConf::hasParam('sphinx_extra_options'))
 			$sql .= ', ' . kConf::get('sphinx_extra_options');
@@ -152,7 +152,7 @@ abstract class SphinxCriteria extends KalturaCriteria implements IKalturaIndexQu
 		{
 			if (preg_match($badQuery, $sql))
 			{
-				KalturaLog::log("bad sphinx query: [$badQuery] $sql");
+				BorhanLog::log("bad sphinx query: [$badQuery] $sql");
 				throw new kCoreException("Invalid sphinx query [$sql]\nMatched regular expression [$badQuery]", APIErrors::SEARCH_ENGINE_QUERY_FAILED);
 			}
 		}
@@ -169,7 +169,7 @@ abstract class SphinxCriteria extends KalturaCriteria implements IKalturaIndexQu
 		
 		$idsCount = count($ids);
 		$this->setFetchedIds($ids);
-		KalturaLog::info("Found $idsCount ids");
+		BorhanLog::info("Found $idsCount ids");
 
 		$this->sphinxRecordCount = false;
 
@@ -204,7 +204,7 @@ abstract class SphinxCriteria extends KalturaCriteria implements IKalturaIndexQu
 		
 		foreach($this->keyToRemove as $key)
 		{
-			KalturaLog::debug("Removing key [$key] from criteria");
+			BorhanLog::debug("Removing key [$key] from criteria");
 			$this->remove($key);
 		}
 		
@@ -219,7 +219,7 @@ abstract class SphinxCriteria extends KalturaCriteria implements IKalturaIndexQu
 			if ($this->sphinxRecordCount !== false)
 			{
 				$this->recordsCount = $this->sphinxRecordCount;
-				KalturaLog::info('Sphinx query total_found: ' . $this->recordsCount);
+				BorhanLog::info('Sphinx query total_found: ' . $this->recordsCount);
 			}
 			else
 			{
@@ -396,14 +396,14 @@ abstract class SphinxCriteria extends KalturaCriteria implements IKalturaIndexQu
 	{
 		$objectClass = $this->getIndexObjectName();
 		
-		if (KalturaLog::getEnableTests())
-			KalturaLog::debug('kaltura_entry_criteria ' . serialize($this));
+		if (BorhanLog::getEnableTests())
+			BorhanLog::debug('borhan_entry_criteria ' . serialize($this));
 			
 		$this->criteriasLeft = 0;
 		
 		foreach($this->filters as $index => $filter)
 		{
-			KalturaLog::info("Applies filter $index");
+			BorhanLog::info("Applies filter $index");
 			$this->applyFilter(clone $filter);
 		}
 		
@@ -412,7 +412,7 @@ abstract class SphinxCriteria extends KalturaCriteria implements IKalturaIndexQu
 		
 		if(!$this->hasAdvancedSearchFilter && !count($this->matchClause) && $this->shouldSkipSphinx() && !isset($this->groupByColumn) && !isset($this->selectColumn))
 		{
-			KalturaLog::log('Skip Sphinx');
+			BorhanLog::log('Skip Sphinx');
 			$this->sphinxSkipped = true;
 			return;
 		}
@@ -435,25 +435,25 @@ abstract class SphinxCriteria extends KalturaCriteria implements IKalturaIndexQu
 		{
 			if(!($criterion instanceof SphinxCriterion))
 			{
-				KalturaLog::debug("Criterion [" . $criterion->getColumn() . "] is not sphinx criteria");
+				BorhanLog::debug("Criterion [" . $criterion->getColumn() . "] is not sphinx criteria");
 				$this->criteriasLeft++;
 				continue;
 			}
 			
 			if($criterion->apply($this))
 			{
-				KalturaLog::debug("Criterion [" . $criterion->getColumn() . "] attached");
+				BorhanLog::debug("Criterion [" . $criterion->getColumn() . "] attached");
 				if(!in_array($field, $fieldsToKeep))
 					$this->keyToRemove[] = $field;
 			}
 			else
 			{
-				KalturaLog::debug("Criterion [" . $criterion->getColumn() . "] failed");
+				BorhanLog::debug("Criterion [" . $criterion->getColumn() . "] failed");
 				$this->criteriasLeft++;
 			}
 		}
 		
-		KalturaLog::debug("Applied " . count($this->matchClause) . " matches, " . count($this->whereClause) . " clauses, " . count($this->keyToRemove) . " keys removed, $this->criteriasLeft keys left");
+		BorhanLog::debug("Applied " . count($this->matchClause) . " matches, " . count($this->whereClause) . " clauses, " . count($this->keyToRemove) . " keys removed, $this->criteriasLeft keys left");
 		
 		// Adds special sphinx optimizations matches
 		$this->addSphinxOptimizationMatches($criterionsMap);
@@ -482,7 +482,7 @@ abstract class SphinxCriteria extends KalturaCriteria implements IKalturaIndexQu
 		}
 		
 		$wheres = '';
-		KalturaLog::debug("Where clause: " . print_r($this->whereClause, true));
+		BorhanLog::debug("Where clause: " . print_r($this->whereClause, true));
 		$this->whereClause = array_unique($this->whereClause);
 		if(count($this->whereClause))
 			$wheres = 'WHERE ' . implode(' AND ', $this->whereClause);
@@ -518,11 +518,11 @@ abstract class SphinxCriteria extends KalturaCriteria implements IKalturaIndexQu
 						$search = array_keys($replace);
 					}
 					
-					KalturaLog::debug("Add sort field[$orderField] copy from [$orderByColumn]");
+					BorhanLog::debug("Add sort field[$orderField] copy from [$orderByColumn]");
 					$orders[] = str_replace($search, $replace, $orderByColumn);
 				} else 
 				{
-					KalturaLog::debug("Skip sort field[$orderField] from [$orderByColumn] limit won't be used in sphinx query");
+					BorhanLog::debug("Skip sort field[$orderField] from [$orderByColumn] limit won't be used in sphinx query");
 					$setLimit = false;
 					$matches = null;
 					if(preg_match('/^\s*([^\s]+)\s+(ASC|DESC)\s*$/i', $orderByColumn, $matches))
@@ -605,7 +605,7 @@ abstract class SphinxCriteria extends KalturaCriteria implements IKalturaIndexQu
 			$fieldParts = explode(baseObjectFilter::FILTER_PREFIX, $field, 3);
 			if(count($fieldParts) != 3)
 			{
-				KalturaLog::debug("Skip field[$field] has [" . count($fieldParts) . "] parts");
+				BorhanLog::debug("Skip field[$field] has [" . count($fieldParts) . "] parts");
 				continue;
 			}
 			
@@ -621,7 +621,7 @@ abstract class SphinxCriteria extends KalturaCriteria implements IKalturaIndexQu
 				{
 					if (!$objectClass::hasMatchableField($fieldName))
 					{
-						KalturaLog::debug("** Skip field[$field] has no matchable for name[$fieldName]");
+						BorhanLog::debug("** Skip field[$field] has no matchable for name[$fieldName]");
 						$skip = true;
 						break;
 					}	
@@ -638,7 +638,7 @@ abstract class SphinxCriteria extends KalturaCriteria implements IKalturaIndexQu
 			}
 			elseif(!$objectClass::hasMatchableField($fieldName))
 			{
-				KalturaLog::debug("* Skip field[$field] has no matchable for name[$fieldName]");
+				BorhanLog::debug("* Skip field[$field] has no matchable for name[$fieldName]");
 				continue;
 			}
 			else
@@ -650,7 +650,7 @@ abstract class SphinxCriteria extends KalturaCriteria implements IKalturaIndexQu
 			
 			$fieldsEscapeType = $objectClass::getSearchFieldsEscapeType($fieldName);
 			
-			KalturaLog::debug("Attach field[$fieldName] as sphinx field[$sphinxField] of type [$type] and comparison[$operator] for value[$valStr]");
+			BorhanLog::debug("Attach field[$fieldName] as sphinx field[$sphinxField] of type [$type] and comparison[$operator] for value[$valStr]");
 
 			$partnerId = kCurrentContext::getCurrentPartnerId();
 			$notEmpty = kSphinxSearchManager::HAS_VALUE . $partnerId;
@@ -812,20 +812,20 @@ abstract class SphinxCriteria extends KalturaCriteria implements IKalturaIndexQu
 					$filter->unsetByName($field);
 					break;
 				default:
-					KalturaLog::debug("Skip field[$field] has no opertaor[$operator]");
+					BorhanLog::debug("Skip field[$field] has no opertaor[$operator]");
 			}
 		}
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaCriteria::applyFilter()
+	 * @see BorhanCriteria::applyFilter()
 	 */
 	protected function applyFilter(baseObjectFilter $filter)
 	{
 		$advancedSearch = $filter->getAdvancedSearch();
 		if(is_object($advancedSearch))
 		{
-			KalturaLog::debug('Apply advanced filter [' . get_class($advancedSearch) . ']');
+			BorhanLog::debug('Apply advanced filter [' . get_class($advancedSearch) . ']');
 			if($advancedSearch instanceof AdvancedSearchFilterItem)
 				$advancedSearch->apply($filter, $this);
 				
@@ -840,7 +840,7 @@ abstract class SphinxCriteria extends KalturaCriteria implements IKalturaIndexQu
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see KalturaCriteria::applyResultsSort()
+	 * @see BorhanCriteria::applyResultsSort()
 	 */
 	public function applyResultsSort(array &$objects)
 	{
@@ -941,13 +941,13 @@ abstract class SphinxCriteria extends KalturaCriteria implements IKalturaIndexQu
 			}
 			elseif(!$this->hasPeerFieldName($field))
 			{
-				KalturaLog::debug('Peer does not have the field [' . print_r($field,true) .']');
+				BorhanLog::debug('Peer does not have the field [' . print_r($field,true) .']');
 				return false;
 			}
 			elseif($objectClass::getFieldType($fieldName) == IIndexable::FIELD_TYPE_STRING && 
 					array_diff($comparisons, array(Criteria::EQUAL, Criteria::IN)))
 			{
-				KalturaLog::debug('Field is textual [' . print_r($fieldName,true) .'] and using comparisons [' . implode(',', $comparisons), ']');
+				BorhanLog::debug('Field is textual [' . print_r($fieldName,true) .'] and using comparisons [' . implode(',', $comparisons), ']');
 				return false;
 			}
 		}
@@ -986,37 +986,37 @@ abstract class SphinxCriteria extends KalturaCriteria implements IKalturaIndexQu
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaIndexQuery::addWhere()
+	 * @see IBorhanIndexQuery::addWhere()
 	 */
 	public function addWhere($statement)
 	{
 		if(strlen(trim($statement)))
 		{
 			$this->whereClause[] = $statement;
-			KalturaLog::debug("Added [$statement] count [" . count($this->whereClause) . "]");
+			BorhanLog::debug("Added [$statement] count [" . count($this->whereClause) . "]");
 		}
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaIndexQuery::addMatch()
+	 * @see IBorhanIndexQuery::addMatch()
 	 */
 	public function addMatch($match)
 	{
 		if(strlen(trim($match)))
 		{
 			$this->matchClause[] = $match;
-			KalturaLog::debug("Added [$match] count [" . count($this->matchClause) . "]");
+			BorhanLog::debug("Added [$match] count [" . count($this->matchClause) . "]");
 		}
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaIndexQuery::addCondition()
+	 * @see IBorhanIndexQuery::addCondition()
 	 */
 	public function addCondition($condition)
 	{
 		if(strlen(trim($condition)))
 		{
-			KalturaLog::debug("Added [$condition]");
+			BorhanLog::debug("Added [$condition]");
 			$this->conditionClause[] = $condition;
 		}
 	}
@@ -1029,13 +1029,13 @@ abstract class SphinxCriteria extends KalturaCriteria implements IKalturaIndexQu
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaIndexQuery::addOrderBy()
+	 * @see IBorhanIndexQuery::addOrderBy()
 	 */
 	public function addOrderBy($column, $orderByType = Criteria::ASC)
 	{
 		if(strlen(trim($column)))
 		{
-			KalturaLog::debug("Added [$column]");
+			BorhanLog::debug("Added [$column]");
 			$this->orderByClause[] = "$column $orderByType";
 		}
 	}

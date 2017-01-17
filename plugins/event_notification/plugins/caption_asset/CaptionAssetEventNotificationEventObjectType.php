@@ -3,7 +3,7 @@
  * @package plugins.captionAssetEventNotifications
  * @subpackage lib
  */
-class CaptionAssetEventNotificationEventObjectType implements IKalturaPluginEnum, EventNotificationEventObjectType
+class CaptionAssetEventNotificationEventObjectType implements IBorhanPluginEnum, EventNotificationEventObjectType
 {
 	const CAPTION_ASSET = 'CaptionAsset';
 	

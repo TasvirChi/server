@@ -3,7 +3,7 @@
  * @package plugins.avidemux
  * @subpackage lib
  */
-class AvidemuxConversionEngineType implements conversionEngineType, IKalturaPluginEnum
+class AvidemuxConversionEngineType implements conversionEngineType, IBorhanPluginEnum
 {
 	const AVIDEMUX = 'Avidemux';
 	

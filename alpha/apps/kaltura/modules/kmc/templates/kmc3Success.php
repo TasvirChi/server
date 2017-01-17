@@ -6,14 +6,14 @@ if ( !$allow_reports )
 {
   $first_login = true;
 }
-if ( kConf::get('kmc_display_server_tab') )
+if ( kConf::get('bmc_display_server_tab') )
 {
 	$support_url = '#support';
 	$_SESSION['api_v3_login'] = true;
 }
 else
 {
-	$support_url = '/index.php/kmc/support?type=' . md5($payingPartner) . '&pid=' . $partner_id . '&email=' . $email;
+	$support_url = '/index.php/bmc/support?type=' . md5($payingPartner) . '&pid=' . $partner_id . '&email=' . $email;
 }
 ?>
 <?php
@@ -68,9 +68,9 @@ else
 
 		$partnerUiconfsArray[] = $uiconf_array;
 	}
-	if(is_array($kdp508_players) && count($kdp508_players))
+	if(is_array($bdp508_players) && count($bdp508_players))
 	{
-		$fullPlayerPreviewEmbedList = array_merge($defaultUiconfsArray, $kdp508_players, $silverLightPlayerUiConfs, $partnerUiconfsArray, $jw_uiconfs_array);
+		$fullPlayerPreviewEmbedList = array_merge($defaultUiconfsArray, $bdp508_players, $silverLightPlayerUiConfs, $partnerUiconfsArray, $jw_uiconfs_array);
 	}
 	else
 	{
@@ -79,16 +79,16 @@ else
 	$ui_confs_player = json_encode($fullPlayerPreviewEmbedList);
 ?>
 
-<script type="text/javascript"> // move to kmc_js.php and include ?
-	var kmc = {
+<script type="text/javascript"> // move to bmc_js.php and include ?
+	var bmc = {
 		vars : {
 			service_url		: "<?php echo $service_url; ?>",
 			host			: "<?php echo $host; ?>",
 			cdn_host		: "<?php echo $cdn_host; ?>",
 			rtmp_host		: "<?php echo $rtmp_host; ?>",
 			flash_dir		: "<?php echo $flash_dir ?>",
-			createmix_url	: "<?php echo url_for('kmc/createmix'); ?>",
-			getuiconfs_url	: "<?php echo url_for('kmc/getuiconfs'); ?>",
+			createmix_url	: "<?php echo url_for('bmc/createmix'); ?>",
+			getuiconfs_url	: "<?php echo url_for('bmc/getuiconfs'); ?>",
 			terms_of_use	: "<?php echo kConf::get('terms_of_use_uri'); ?>",
 			jw_swf			: "<?php echo $jw_swf_name; ?>.swf",
 			ks				: "<?php echo $ks; ?>",
@@ -100,22 +100,22 @@ else
 			first_login		: <?php echo ($first_login) ? "true" : "false"; ?>,
 			paying_partner	: "<?php echo $payingPartner; ?>",
 			whitelabel		: <?php echo $templatePartnerId; ?>,
-			show_usage		: <?php echo (kConf::get("kmc_account_show_usage"))? "true" : "false"; ?>,
+			show_usage		: <?php echo (kConf::get("bmc_account_show_usage"))? "true" : "false"; ?>,
 			kse_uiconf		: "<?php echo $simple_editor->getId(); ?>", // add "id"
-			kae_uiconf		: "<?php echo $advanced_editor->getId(); ?>", // add "id"
-			kcw_uiconf		: "<?php echo $content_uiconfs_upload->getId(); ?>", // add "id"
-			default_kdp		: {
+			bae_uiconf		: "<?php echo $advanced_editor->getId(); ?>", // add "id"
+			bcw_uiconf		: "<?php echo $content_uiconfs_upload->getId(); ?>", // add "id"
+			default_bdp		: {
 					height		: "<?php echo $content_uiconfs_flavorpreview->getHeight(); ?>",
 					width		: "<?php echo $content_uiconfs_flavorpreview->getWidth(); ?>",
 					uiconf_id	: "<?php echo $content_uiconfs_flavorpreview->getId(); ?>",
 					swf_version	: "<?php echo $content_uiconfs_flavorpreview->getswfUrlVersion(); ?>"
 			},
 			versions			: {
-					dashboard		:	"<?php echo $kmc_dashboard_version ?>",
-					content			:	"<?php echo $kmc_content_version ?>",
-					appstudio		:	"<?php echo $kmc_appstudio_version ?>",
-					account			:	"<?php echo $kmc_account_version ?>", // "Settings" tab
-					reports			:	"<?php echo $kmc_rna_version ?>"
+					dashboard		:	"<?php echo $bmc_dashboard_version ?>",
+					content			:	"<?php echo $bmc_content_version ?>",
+					appstudio		:	"<?php echo $bmc_appstudio_version ?>",
+					account			:	"<?php echo $bmc_account_version ?>", // "Settings" tab
+					reports			:	"<?php echo $bmc_rna_version ?>"
 			},
 			appstudio_uiconfid	: "<?php echo $appstudio_uiconfs_templates->getId(); ?>",
 			reports_drilldown	: "<?php echo $reports_uiconfs_drilldown->getId(); ?>",
@@ -124,7 +124,7 @@ else
 			disableurlhashing	: "<?php echo $disableurlhashing; ?>",
 			players_list		: <?php echo $ui_confs_player; ?>,
 			playlists_list		: <?php echo $ui_confs_playlist; ?>,
-			enable_custom_data	: "<?php echo $kmc_enable_custom_data; ?>",
+			enable_custom_data	: "<?php echo $bmc_enable_custom_data; ?>",
 			metadata_view_uiconf	: "<?php echo $content_uiconfs_metadataview->getId(); ?>",
 			content_drilldown_uiconf : "<?php echo $content_uiconfs_drilldown->getId(); ?>",
 			content_moderate_uiconf	 : "<?php echo $content_uiconfs_moderation->getId(); ?>",
@@ -139,25 +139,25 @@ else
 
 </script>
 
-	<div id="kmcHeader"	<?php if($templatePartnerId) echo 'class="whiteLabel"'; ?>>
+	<div id="bmcHeader"	<?php if($templatePartnerId) echo 'class="whiteLabel"'; ?>>
 	 <div id="logo"></div>
      <ul>
-      <li><a id="Dashboard" href="<?php echo $service_url; ?>/index.php/kmc/kmc2#dashboard|''"><span>Dashboard</span></a></li>
-      <li><a id="Content" href="<?php echo $service_url; ?>/index.php/kmc/kmc2#content|Manage"><span>Content</span></a></li>
-     <?php if ( kConf::get ( "kmc_display_customize_tab" ) ) { ?>
-	  <li><a id="Appstudio" href="<?php echo $service_url; ?>/index.php/kmc/kmc2#appstudio|''"><span>Studio</span></a></li>
+      <li><a id="Dashboard" href="<?php echo $service_url; ?>/index.php/bmc/bmc2#dashboard|''"><span>Dashboard</span></a></li>
+      <li><a id="Content" href="<?php echo $service_url; ?>/index.php/bmc/bmc2#content|Manage"><span>Content</span></a></li>
+     <?php if ( kConf::get ( "bmc_display_customize_tab" ) ) { ?>
+	  <li><a id="Appstudio" href="<?php echo $service_url; ?>/index.php/bmc/bmc2#appstudio|''"><span>Studio</span></a></li>
 	 <?php } ?>
-	 <?php if ( kConf::get ( "kmc_display_account_tab" ) ) { ?>
-      <li><a id="Settings" href="<?php echo $service_url; ?>/index.php/kmc/kmc2#settings|Account Settings"><span>Settings</span></a></li>
+	 <?php if ( kConf::get ( "bmc_display_account_tab" ) ) { ?>
+      <li><a id="Settings" href="<?php echo $service_url; ?>/index.php/bmc/bmc2#settings|Account Settings"><span>Settings</span></a></li>
 	 <?php } ?>
-	 <?php if ( kConf::get ( "kmc_display_server_tab" ) ) { ?>
+	 <?php if ( kConf::get ( "bmc_display_server_tab" ) ) { ?>
       <li><a id="server" href="<?php echo $service_url; ?>/api_v3/system/batchwatch.php" target="_server"><span>Server</span></a></li>
 	 <?php } ?>
-	 <?php if ( kConf::get ( "kmc_display_developer_tab" ) ) { ?>
+	 <?php if ( kConf::get ( "bmc_display_developer_tab" ) ) { ?>
       <li><a id="developer" href="<?php echo $service_url; ?>/api_v3/testme/index.php"><span>Developer</span></a></li>
 	 <?php } ?>
 	 <?php if ($allow_reports) { ?>
-	 <li><a id="Analytics" href="<?php echo $service_url; ?>/index.php/kmc/kmc2#reports|Bandwidth Usage Reports"><span>Analytics</span></a></li>
+	 <li><a id="Analytics" href="<?php echo $service_url; ?>/index.php/bmc/bmc2#reports|Bandwidth Usage Reports"><span>Analytics</span></a></li>
 	 <?php } ?>
 <!--	 <li><a id="Advertising" href="#"><span>Advertising</span></a></li>-->
 	 </ul>
@@ -167,14 +167,14 @@ else
       <?php if ($templatePartnerId) { ?>
       <a id="Logout" href="#login">Logout</a>
       <?php } else { 
-	  // bf = /lib/pdf/KMC_Quick_Start_Guide__Butterfly.pdf
+	  // bf = /lib/pdf/BMC_Quick_Start_Guide__Butterfly.pdf
 	  ?>
-      <a id="Quickstart Guide" href="<?php echo $service_url ?>/content/docs/pdf/KMC3_Quick_Start_Guide.pdf" target="_blank">Quickstart Guide</a> &nbsp; | &nbsp;
+      <a id="Quickstart Guide" href="<?php echo $service_url ?>/content/docs/pdf/BMC3_Quick_Start_Guide.pdf" target="_blank">Quickstart Guide</a> &nbsp; | &nbsp;
 	  <a id="Logout" href="#logout">Logout</a> &nbsp; | &nbsp;
 	  <a id="Support" href="<?php echo $support_url; ?>" target="_blank">Support</a> <!-- @todo: !!! -->
       <?php } ?>
 	 </div>
-	</div><!-- kmcHeader -->
+	</div><!-- bmcHeader -->
 
 	<div id="main">
 		<div id="flash_wrap" class="flash_wrap">
@@ -184,4 +184,4 @@ else
          <iframe frameborder="0" id="server_frame" height="100%" width="100%"></iframe>
         </div> <!-- server_wrap -->
 	</div><!-- main -->
-<script type="text/javascript" src="/lib/js/kmc3.js"></script>
+<script type="text/javascript" src="/lib/js/bmc3.js"></script>

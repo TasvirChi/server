@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaRuleActionType extends KalturaDynamicEnum implements RuleActionType
+class BorhanRuleActionType extends BorhanDynamicEnum implements RuleActionType
 {
 	public static function getEnumClass()
 	{

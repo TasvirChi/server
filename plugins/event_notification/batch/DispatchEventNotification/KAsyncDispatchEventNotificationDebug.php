@@ -4,7 +4,7 @@
  * @subpackage Scheduler.Debug
  */
 
-// /opt/kaltura/app/batch
+// /opt/borhan/app/batch
 chdir(dirname(__FILE__) . "/../../../../batch");
 
 require_once(__DIR__ . "/../../../../batch/bootstrap.php");

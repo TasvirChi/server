@@ -2,7 +2,7 @@
 /**
  * @package plugins.ftpDistribution
  */
-class FtpScheduledDistributionPlugin extends KalturaPlugin implements IKalturaPending, IKalturaContentDistributionProvider
+class FtpScheduledDistributionPlugin extends BorhanPlugin implements IBorhanPending, IBorhanContentDistributionProvider
 {
 	const PLUGIN_NAME = 'ftpScheduledDistribution';
 	const CONTENT_DSTRIBUTION_VERSION_MAJOR = 2;
@@ -16,12 +16,12 @@ class FtpScheduledDistributionPlugin extends KalturaPlugin implements IKalturaPe
 	
 	public static function dependsOn()
 	{
-		$contentDistributionVersion = new KalturaVersion(
+		$contentDistributionVersion = new BorhanVersion(
 			self::CONTENT_DSTRIBUTION_VERSION_MAJOR,
 			self::CONTENT_DSTRIBUTION_VERSION_MINOR,
 			self::CONTENT_DSTRIBUTION_VERSION_BUILD);
 			
-		$dependency = new KalturaDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
+		$dependency = new BorhanDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
 		return array($dependency);
 	}
 	
@@ -38,11 +38,11 @@ class FtpScheduledDistributionPlugin extends KalturaPlugin implements IKalturaPe
 	/**
 	 * Return an API distribution provider instance
 	 * 
-	 * @return KalturaDistributionProvider
+	 * @return BorhanDistributionProvider
 	 */
-	public static function getKalturaProvider()
+	public static function getBorhanProvider()
 	{
-		$distributionProvider = new KalturaFtpScheduledDistributionProvider();
+		$distributionProvider = new BorhanFtpScheduledDistributionProvider();
 		$distributionProvider->fromObject(self::getProvider());
 		return $distributionProvider;
 	}

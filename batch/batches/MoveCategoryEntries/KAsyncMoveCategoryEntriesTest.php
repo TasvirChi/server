@@ -21,7 +21,7 @@ class KAsyncMoveCategoryEntriesTest extends PHPUnit_Framework_TestCase
 		$destCategoryId = 2;
 		$moveFromChildren = true;
 		$copyOnly = true;
-		$this->doTest($partnerId, $srcCategoryId, $destCategoryId, $moveFromChildren, $copyOnly, KalturaBatchJobStatus::FINISHED);
+		$this->doTest($partnerId, $srcCategoryId, $destCategoryId, $moveFromChildren, $copyOnly, BorhanBatchJobStatus::FINISHED);
 	}
 	
 	public function testCopyCurrent()
@@ -31,7 +31,7 @@ class KAsyncMoveCategoryEntriesTest extends PHPUnit_Framework_TestCase
 		$destCategoryId = 2;
 		$moveFromChildren = false;
 		$copyOnly = true;
-		$this->doTest($partnerId, $srcCategoryId, $destCategoryId, $moveFromChildren, $copyOnly, KalturaBatchJobStatus::FINISHED);
+		$this->doTest($partnerId, $srcCategoryId, $destCategoryId, $moveFromChildren, $copyOnly, BorhanBatchJobStatus::FINISHED);
 	}
 	
 	public function testMoveAll()
@@ -41,7 +41,7 @@ class KAsyncMoveCategoryEntriesTest extends PHPUnit_Framework_TestCase
 		$destCategoryId = 2;
 		$moveFromChildren = true;
 		$copyOnly = false;
-		$this->doTest($partnerId, $srcCategoryId, $destCategoryId, $moveFromChildren, $copyOnly, KalturaBatchJobStatus::FINISHED);
+		$this->doTest($partnerId, $srcCategoryId, $destCategoryId, $moveFromChildren, $copyOnly, BorhanBatchJobStatus::FINISHED);
 	}
 	
 	public function testMoveCurrent()
@@ -51,7 +51,7 @@ class KAsyncMoveCategoryEntriesTest extends PHPUnit_Framework_TestCase
 		$destCategoryId = 2;
 		$moveFromChildren = false;
 		$copyOnly = false;
-		$this->doTest($partnerId, $srcCategoryId, $destCategoryId, $moveFromChildren, $copyOnly, KalturaBatchJobStatus::FINISHED);
+		$this->doTest($partnerId, $srcCategoryId, $destCategoryId, $moveFromChildren, $copyOnly, BorhanBatchJobStatus::FINISHED);
 	}
 	
 	public function doTest($partnerId, $srcCategoryId, $destCategoryId, $moveFromChildren, $copyOnly, $expectedStatus)
@@ -82,16 +82,16 @@ class KAsyncMoveCategoryEntriesTest extends PHPUnit_Framework_TestCase
 	
 	private function prepareJobs($partnerId, $srcCategoryId, $destCategoryId, $moveFromChildren, $copyOnly)
 	{
-		$data = new KalturaMoveCategoryEntriesJobData();
+		$data = new BorhanMoveCategoryEntriesJobData();
 		$data->srcCategoryId = $srcCategoryId;
 		$data->destCategoryId = $destCategoryId;
 		$data->moveFromChildren = $moveFromChildren;
 		$data->copyOnly = $copyOnly;
 		
-		$job = new KalturaBatchJob();
+		$job = new BorhanBatchJob();
 		$job->id = 1;
 		$job->partnerId = $partnerId;
-		$job->status = KalturaBatchJobStatus::PENDING;
+		$job->status = BorhanBatchJobStatus::PENDING;
 		$job->data = $data;
 		
 		return array($job);

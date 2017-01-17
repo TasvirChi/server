@@ -6,24 +6,24 @@
 class KIndexingMetadataEngine extends KIndexingEngine
 {
 	/**
-	 * @param KalturaFilter $filter
+	 * @param BorhanFilter $filter
 	 * @param bool $shouldUpdate
 	 * @return int
 	 */
-	protected function index(KalturaFilter $filter, $shouldUpdate)
+	protected function index(BorhanFilter $filter, $shouldUpdate)
 	{
 		return $this->indexMetadataObjects($filter, $shouldUpdate);
 	}
 
 	/**
-	 * @param KalturaMetadataFilter $filter
+	 * @param BorhanMetadataFilter $filter
 	 * @param $shouldUpdate
 	 * @return int
 	 */
-	protected function indexMetadataObjects(KalturaMetadataFilter $filter, $shouldUpdate)
+	protected function indexMetadataObjects(BorhanMetadataFilter $filter, $shouldUpdate)
 	{
-		$filter->orderBy = KalturaMetadataOrderBy::CREATED_AT_ASC;
-		$metadataPlugin = KalturaMetadataClientPlugin::get(KBatchBase::$kClient);
+		$filter->orderBy = BorhanMetadataOrderBy::CREATED_AT_ASC;
+		$metadataPlugin = BorhanMetadataClientPlugin::get(KBatchBase::$kClient);
 		$metadataList = $metadataPlugin->metadata->listAction($filter, $this->pager);
 		if(!count($metadataList->objects))
 			return 0;

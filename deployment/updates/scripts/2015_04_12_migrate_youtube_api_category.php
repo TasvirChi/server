@@ -4,7 +4,7 @@
  */
 
 require_once (__DIR__ . '/../../bootstrap.php');
-require_once KALTURA_ROOT_PATH.'/vendor/google-api-php-client-1.1.2/src/Google/autoload.php'; 
+require_once BORHAN_ROOT_PATH.'/vendor/google-api-php-client-1.1.2/src/Google/autoload.php'; 
 
 $partnerId = null;
 if(isset($argv[1]) && is_numeric($argv[1]))
@@ -74,13 +74,13 @@ while($distributionProfiles){
 		$url = $distributionProfile->getApiAuthorizeUrl();
 		if($url)
 		{
-			KalturaLog::warning("Partner [" . $distributionProfile->getPartnerId() . "] Distribution-Profile [$lastId] not authorized");
+			BorhanLog::warning("Partner [" . $distributionProfile->getPartnerId() . "] Distribution-Profile [$lastId] not authorized");
 			continue;
 		}
 		
 		if(!isset($oldCategories[$distributionProfile->getDefaultCategory()]))
 		{
-			KalturaLog::warning("Partner [" . $distributionProfile->getPartnerId() . "] Distribution-Profile [$lastId] has no match to the category [" . $distributionProfile->getDefaultCategory() . "]");
+			BorhanLog::warning("Partner [" . $distributionProfile->getPartnerId() . "] Distribution-Profile [$lastId] has no match to the category [" . $distributionProfile->getDefaultCategory() . "]");
 			continue;
 		}
 		$oldCategory = $oldCategories[$distributionProfile->getDefaultCategory()];
@@ -108,14 +108,14 @@ while($distributionProfiles){
 			}
 			catch (Exception $e)
 			{
-				KalturaLog::err($e);
+				BorhanLog::err($e);
 				continue;
 			}
 		}
 	
 		if(!isset($categories[$oldCategory]))
 		{
-			KalturaLog::warning("Partner [" . $distributionProfile->getPartnerId() . "] Distribution-Profile [$lastId] old category [$oldCategory] not found");
+			BorhanLog::warning("Partner [" . $distributionProfile->getPartnerId() . "] Distribution-Profile [$lastId] old category [$oldCategory] not found");
 			continue;
 		}
 		

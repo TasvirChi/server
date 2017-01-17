@@ -85,18 +85,18 @@
 		<uIConfig>
 			<cvf>
 				<pluginsDirectory>/swf/plugins/cvesdk</pluginsDirectory>
-				<mediaServerUrl>rtmp://kaltura.com/oflaDemo</mediaServerUrl>
+				<mediaServerUrl>rtmp://borhan.com/oflaDemo</mediaServerUrl>
 				<pluginsProvider>/swf/plugins/cvesdk/plugins.xml</pluginsProvider></cvf>
-			<target>KalturaAdvancedVideoEditor.swf</target>
-			<cssUrl>/content/uiconf/kaltura/generic/kae_1.0.10/kae_generic_generic_styles.swf?r=23715</cssUrl>
-			<localeUrl>/content/uiconf/kaltura/generic/kae_1.0.10/kae_generic_en_US.swf?r=23715</localeUrl>
-			<baseLocaleUrl>/content/uiconf/kaltura/generic/kae_1.0.10/kae_generic_en_US_kaltura.swf?r=23714</baseLocaleUrl></uIConfig>
+			<target>BorhanAdvancedVideoEditor.swf</target>
+			<cssUrl>/content/uiconf/borhan/generic/bae_1.0.10/bae_generic_generic_styles.swf?r=23715</cssUrl>
+			<localeUrl>/content/uiconf/borhan/generic/bae_1.0.10/bae_generic_en_US.swf?r=23715</localeUrl>
+			<baseLocaleUrl>/content/uiconf/borhan/generic/bae_1.0.10/bae_generic_en_US_borhan.swf?r=23714</baseLocaleUrl></uIConfig>
 	</uIConfigList><extraData>
 		<contributionWizard>
 			<uIConfigId>380</uIConfigId>
 		</contributionWizard>
 	</extraData><screens>
-		<helpWindowUrl>/content/uiconf/kaltura/generic/kae_1.0.10/Help.png</helpWindowUrl></screens><javaScript enableJSCallbacks="1" enableStatisticsCallbacks="0" enableErrorCallbacks="0" verbose="0"></javaScript>
+		<helpWindowUrl>/content/uiconf/borhan/generic/bae_1.0.10/Help.png</helpWindowUrl></screens><javaScript enableJSCallbacks="1" enableStatisticsCallbacks="0" enableErrorCallbacks="0" verbose="0"></javaScript>
 	<notificationsAndRequests>
 		<enableStatisticsRequests>1</enableStatisticsRequests>
 		<enableReportErrorsRequests>1</enableReportErrorsRequests></notificationsAndRequests></uiConf>

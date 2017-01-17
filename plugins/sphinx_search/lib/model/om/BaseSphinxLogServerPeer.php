@@ -344,7 +344,7 @@ abstract class BaseSphinxLogServerPeer {
 		
 		$queryResult = SphinxLogServerPeer::populateObjects(BasePeer::doSelect($criteriaForSelect, $con));
 		
-		if($criteriaForSelect instanceof KalturaCriteria)
+		if($criteriaForSelect instanceof BorhanCriteria)
 			$criteriaForSelect->applyResultsSort($queryResult);
 		
 		if ($cacheKey !== null)
@@ -440,7 +440,7 @@ abstract class BaseSphinxLogServerPeer {
 		SphinxLogServerPeer::getCriteriaFilter()->applyFilter($criteria);
 	}
 	
-	public static function addPartnerToCriteria($partnerId, $privatePartnerData = false, $partnerGroup = null, $kalturaNetwork = null)
+	public static function addPartnerToCriteria($partnerId, $privatePartnerData = false, $partnerGroup = null, $borhanNetwork = null)
 	{
 	}
 	
@@ -777,7 +777,7 @@ abstract class BaseSphinxLogServerPeer {
 		}
 		$stmt->closeCursor();
 		
-		if($criteria instanceof KalturaCriteria)
+		if($criteria instanceof BorhanCriteria)
 			$criteria->applyResultsSort($results);
 		
 		return $results;

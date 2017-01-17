@@ -3,11 +3,11 @@
  * @package api
  * @subpackage objects
  */
-class KalturaFieldMatchCondition extends KalturaMatchCondition
+class BorhanFieldMatchCondition extends BorhanMatchCondition
 {
 	/**
 	 * Field to evaluate
-	 * @var KalturaStringField
+	 * @var BorhanStringField
 	 */
 	public $field;
 	
@@ -20,7 +20,7 @@ class KalturaFieldMatchCondition extends KalturaMatchCondition
 	}
 	 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{
@@ -34,55 +34,55 @@ class KalturaFieldMatchCondition extends KalturaMatchCondition
 	}
 	 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject()
+	 * @see BorhanObject::fromObject()
 	 */
-	public function doFromObject($dbObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($dbObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		/* @var $dbObject kFieldMatchCondition */
 		parent::doFromObject($dbObject, $responseProfile);
 		
 		$fieldType = get_class($dbObject->getField());
-		KalturaLog::debug("Loading KalturaStringField from type [$fieldType]");
+		BorhanLog::debug("Loading BorhanStringField from type [$fieldType]");
 		switch ($fieldType)
 		{
 			case 'kCountryContextField':
-				$this->field = new KalturaCountryContextField();
+				$this->field = new BorhanCountryContextField();
 				break;
 				
 			case 'kIpAddressContextField':
-				$this->field = new KalturaIpAddressContextField();
+				$this->field = new BorhanIpAddressContextField();
 				break;
 				
 			case 'kUserAgentContextField':
-				$this->field = new KalturaUserAgentContextField();
+				$this->field = new BorhanUserAgentContextField();
 				break;
 				
 			case 'kUserEmailContextField':
-				$this->field = new KalturaUserEmailContextField();
+				$this->field = new BorhanUserEmailContextField();
 				break;
 				
 			case 'kCoordinatesContextField':
-				$this->field = new KalturaCoordinatesContextField();
+				$this->field = new BorhanCoordinatesContextField();
 				break;
 
 			case 'kEvalStringField':
-			    $this->field = new KalturaEvalStringField();
+			    $this->field = new BorhanEvalStringField();
 			    break;
 			
 			case 'kObjectIdField':
-			    $this->field = new KalturaObjectIdField();
+			    $this->field = new BorhanObjectIdField();
 			    break;				
 				
 			case 'kEvalStringField':
-				$this->field = new KalturaEvalStringField();
+				$this->field = new BorhanEvalStringField();
 				break;
 				
 			case 'kObjectIdField':
-				$this->field = new KalturaObjectIdField();
+				$this->field = new BorhanObjectIdField();
 				break;
 				
 			default:
-				$this->field = KalturaPluginManager::loadObject('KalturaStringField', $fieldType);
+				$this->field = BorhanPluginManager::loadObject('BorhanStringField', $fieldType);
 				break;
 		}
 		

@@ -3,10 +3,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaMailJobData extends KalturaJobData
+class BorhanMailJobData extends BorhanJobData
 {
 	/**
-	 * @var KalturaMailType
+	 * @var BorhanMailType
 	 */
 	public $mailType;
 
@@ -16,7 +16,7 @@ class KalturaMailJobData extends KalturaJobData
     public $mailPriority;
 
     /**
-	 * @var KalturaMailJobStatus
+	 * @var BorhanMailJobStatus
 	 */
     public $status ;
     
@@ -62,7 +62,7 @@ class KalturaMailJobData extends KalturaJobData
     public $templatePath;
 
 	/**
- 	* @var KalturaLanguageCode
+ 	* @var BorhanLanguageCode
  	*/
     public $language;
 

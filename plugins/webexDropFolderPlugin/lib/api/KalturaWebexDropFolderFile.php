@@ -3,7 +3,7 @@
  * @package plugins.WebexDropFolder
  * @subpackage api.objects
  */
-class KalturaWebexDropFolderFile extends KalturaDropFolderFile
+class BorhanWebexDropFolderFile extends BorhanDropFolderFile
 {
 	/**
 	 * @var int

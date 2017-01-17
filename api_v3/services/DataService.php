@@ -7,15 +7,15 @@
  * @package api
  * @subpackage services
  */
-class DataService extends KalturaEntryService
+class DataService extends BorhanEntryService
 {
 	
-	protected function kalturaNetworkAllowed($actionName)
+	protected function borhanNetworkAllowed($actionName)
 	{
 		if ($actionName === 'get') {
 			return true;
 		}
-		return parent::kalturaNetworkAllowed($actionName);
+		return parent::borhanNetworkAllowed($actionName);
 	}
 	
 	
@@ -23,10 +23,10 @@ class DataService extends KalturaEntryService
 	 * Adds a new data entry
 	 * 
 	 * @action add
-	 * @param KalturaDataEntry $dataEntry Data entry
-	 * @return KalturaDataEntry The new data entry
+	 * @param BorhanDataEntry $dataEntry Data entry
+	 * @return BorhanDataEntry The new data entry
 	 */
-	function addAction(KalturaDataEntry $dataEntry)
+	function addAction(BorhanDataEntry $dataEntry)
 	{
 		$dbEntry = $dataEntry->toObject(new entry());
 		
@@ -37,7 +37,7 @@ class DataService extends KalturaEntryService
 		
 		$dbEntry->setPartnerId($this->getPartnerId());
 		$dbEntry->setSubpId($this->getPartnerId() * 100);
-		$dbEntry->setStatus(KalturaEntryStatus::READY);
+		$dbEntry->setStatus(BorhanEntryStatus::READY);
 		$dbEntry->setMediaType(entry::ENTRY_MEDIA_TYPE_AUTOMATIC); 
 		$dbEntry->save();
 		
@@ -60,21 +60,21 @@ class DataService extends KalturaEntryService
 	 * @action get
 	 * @param string $entryId Data entry id
 	 * @param int $version Desired version of the data
-	 * @return KalturaDataEntry The requested data entry
+	 * @return BorhanDataEntry The requested data entry
 	 * 
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
 	function getAction($entryId, $version = -1)
 	{
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 
-		if (!$dbEntry || $dbEntry->getType() != KalturaEntryType::DATA)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+		if (!$dbEntry || $dbEntry->getType() != BorhanEntryType::DATA)
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 
 		if ($version !== -1)
 			$dbEntry->setDesiredVersion($version);
 			
-		$dataEntry = new KalturaDataEntry();
+		$dataEntry = new BorhanDataEntry();
 		$dataEntry->fromObject($dbEntry, $this->getResponseProfile());
 
 		return $dataEntry;
@@ -85,15 +85,15 @@ class DataService extends KalturaEntryService
 	 * 
 	 * @action update
 	 * @param string $entryId Data entry id to update
-	 * @param KalturaDataEntry $documentEntry Data entry metadata to update
-	 * @return KalturaDataEntry The updated data entry
+	 * @param BorhanDataEntry $documentEntry Data entry metadata to update
+	 * @return BorhanDataEntry The updated data entry
 	 * 
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 * validateUser entry $entryId edit
 	 */
-	function updateAction($entryId, KalturaDataEntry $documentEntry)
+	function updateAction($entryId, BorhanDataEntry $documentEntry)
 	{
-		return $this->updateEntry($entryId, $documentEntry, KalturaEntryType::DATA);
+		return $this->updateEntry($entryId, $documentEntry, BorhanEntryType::DATA);
 	}
 	
 	/**
@@ -102,32 +102,32 @@ class DataService extends KalturaEntryService
 	 * @action delete
 	 * @param string $entryId Data entry id to delete
 	 * 
- 	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+ 	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
  	 * @validateUser entry entryId edit
 	 */
 	function deleteAction($entryId)
 	{
-		$this->deleteEntry($entryId, KalturaEntryType::DATA);
+		$this->deleteEntry($entryId, BorhanEntryType::DATA);
 	}
 	
 	/**
 	 * List data entries by filter with paging support.
 	 * 
 	 * @action list
-     * @param KalturaDataEntryFilter $filter Document entry filter
-	 * @param KalturaFilterPager $pager Pager
-	 * @return KalturaDataListResponse Wrapper for array of document entries and total count
+     * @param BorhanDataEntryFilter $filter Document entry filter
+	 * @param BorhanFilterPager $pager Pager
+	 * @return BorhanDataListResponse Wrapper for array of document entries and total count
 	 */
-	function listAction(KalturaDataEntryFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanDataEntryFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 	    if (!$filter)
-			$filter = new KalturaDataEntryFilter();
+			$filter = new BorhanDataEntryFilter();
 			
-	    $filter->typeEqual = KalturaEntryType::DATA;
+	    $filter->typeEqual = BorhanEntryType::DATA;
 	    list($list, $totalCount) = parent::listEntriesByFilter($filter, $pager);
 	    
-	    $newList = KalturaDataEntryArray::fromDbArray($list, $this->getResponseProfile());
-		$response = new KalturaDataListResponse();
+	    $newList = BorhanDataEntryArray::fromDbArray($list, $this->getResponseProfile());
+		$response = new BorhanDataListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $totalCount;
 		return $response;
@@ -142,14 +142,14 @@ class DataService extends KalturaEntryService
 	 * @param bool $forceProxy force to get the content without redirect
 	 * @return file
 	 * 
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
 	function serveAction($entryId, $version = -1, $forceProxy = false)
 	{
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 
-		if (!$dbEntry || $dbEntry->getType() != KalturaEntryType::DATA)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+		if (!$dbEntry || $dbEntry->getType() != BorhanEntryType::DATA)
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 
 		$ksObj = $this->getKs();
 		$ks = ($ksObj) ? $ksObj->getOriginalString() : null;
@@ -174,7 +174,7 @@ class DataService extends KalturaEntryService
 		else
 		{
 			$remoteUrl = kDataCenterMgr::getRedirectExternalUrl($fileSync);
-			KalturaLog::info("Redirecting to [$remoteUrl]");
+			BorhanLog::info("Redirecting to [$remoteUrl]");
 			if($forceProxy)
 			{
 				kFileUtils::dumpUrl($remoteUrl);

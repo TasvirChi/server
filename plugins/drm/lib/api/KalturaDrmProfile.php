@@ -3,7 +3,7 @@
  * @package plugins.drm
  * @subpackage api.objects
  */
-class KalturaDrmProfile extends KalturaObject implements IFilterable
+class BorhanDrmProfile extends BorhanObject implements IFilterable
 {	
 	/**
 	 * @var int
@@ -31,13 +31,13 @@ class KalturaDrmProfile extends KalturaObject implements IFilterable
 	public $description;
 	
 	/**
-	 * @var KalturaDrmProviderType
+	 * @var BorhanDrmProviderType
 	 * @filter eq,in
 	 */
 	public $provider;
 	
 	/**
-	 * @var KalturaDrmProfileStatus
+	 * @var BorhanDrmProfileStatus
 	 * @filter eq,in
 	 */
 	public $status;
@@ -101,15 +101,15 @@ class KalturaDrmProfile extends KalturaObject implements IFilterable
 		
 	/**
 	 * @param int $type
-	 * @return KalturaDrmProfile
+	 * @return BorhanDrmProfile
 	 */
 	static function getInstanceByType ($provider)
 	{
-		if ($provider == KalturaDrmProviderType::CENC)
+		if ($provider == BorhanDrmProviderType::CENC)
         {
-            return new KalturaDrmProfile();
+            return new BorhanDrmProfile();
         }
-        $obj = KalturaPluginManager::loadObject('KalturaDrmProfile', $provider);
+        $obj = BorhanPluginManager::loadObject('BorhanDrmProfile', $provider);
 		return $obj;
 	}
 

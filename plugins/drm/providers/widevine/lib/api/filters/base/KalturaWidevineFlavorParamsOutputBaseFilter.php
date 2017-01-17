@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaWidevineFlavorParamsOutputBaseFilter extends KalturaFlavorParamsOutputFilter
+abstract class BorhanWidevineFlavorParamsOutputBaseFilter extends BorhanFlavorParamsOutputFilter
 {
 	static private $map_between_objects = array
 	(

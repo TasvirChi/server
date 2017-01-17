@@ -55,7 +55,7 @@ class kYouTubeDistributionEventConsumer implements kBatchJobStatusEventConsumer
 		$entryDistribution = EntryDistributionPeer::retrieveByPK($data->getEntryDistributionId());
 		if(!$entryDistribution)
 		{
-			KalturaLog::err("Entry distribution [" . $data->getEntryDistributionId() . "] not found");
+			BorhanLog::err("Entry distribution [" . $data->getEntryDistributionId() . "] not found");
 			return $dbBatchJob;
 		}
 
@@ -83,7 +83,7 @@ class kYouTubeDistributionEventConsumer implements kBatchJobStatusEventConsumer
 		$entryDistribution = EntryDistributionPeer::retrieveByPK($data->getEntryDistributionId());
 		if(!$entryDistribution)
 		{
-			KalturaLog::err("Entry distribution [" . $data->getEntryDistributionId() . "] not found");
+			BorhanLog::err("Entry distribution [" . $data->getEntryDistributionId() . "] not found");
 			return $dbBatchJob;
 		}
 

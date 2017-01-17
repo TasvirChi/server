@@ -3,7 +3,7 @@
  * Enable custom metadata on ad cue point objects
  * @package plugins.cuePoint
  */
-class CuePointMetadataPlugin extends KalturaPlugin implements IKalturaPending, IKalturaSchemaContributor, IKalturaSearchDataContributor
+class CuePointMetadataPlugin extends BorhanPlugin implements IBorhanPending, IBorhanSchemaContributor, IBorhanSearchDataContributor
 {
 	const PLUGIN_NAME = 'cuePointMetadata';
 	const METADATA_PLUGIN_NAME = 'metadata';
@@ -12,7 +12,7 @@ class CuePointMetadataPlugin extends KalturaPlugin implements IKalturaPending, I
 	const METADATA_PLUGIN_VERSION_BUILD = 0;
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -20,20 +20,20 @@ class CuePointMetadataPlugin extends KalturaPlugin implements IKalturaPending, I
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$metadataVersion = new KalturaVersion(self::METADATA_PLUGIN_VERSION_MAJOR, self::METADATA_PLUGIN_VERSION_MINOR, self::METADATA_PLUGIN_VERSION_BUILD);
+		$metadataVersion = new BorhanVersion(self::METADATA_PLUGIN_VERSION_MAJOR, self::METADATA_PLUGIN_VERSION_MINOR, self::METADATA_PLUGIN_VERSION_BUILD);
 		
-		$metadataDependency = new KalturaDependency(self::METADATA_PLUGIN_NAME, $metadataVersion);
-		$cuePointDependency = new KalturaDependency(CuePointPlugin::getPluginName());
+		$metadataDependency = new BorhanDependency(self::METADATA_PLUGIN_NAME, $metadataVersion);
+		$cuePointDependency = new BorhanDependency(CuePointPlugin::getPluginName());
 		
 		return array($metadataDependency, $cuePointDependency);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSchemaContributor::contributeToSchema()
+	 * @see IBorhanSchemaContributor::contributeToSchema()
 	 */
 	public static function contributeToSchema($type)
 	{
@@ -247,7 +247,7 @@ class CuePointMetadataPlugin extends KalturaPlugin implements IKalturaPending, I
 				$metadata->setMetadataProfileVersion($metadataProfile->getVersion());
 				$metadata->setObjectType($objectType);
 				$metadata->setObjectId($cuePoint->getId());
-				$metadata->setStatus(KalturaMetadataStatus::VALID);
+				$metadata->setStatus(BorhanMetadataStatus::VALID);
 				
 				foreach($metadataElement->children() as $metadataContent)
 				{
@@ -334,7 +334,7 @@ class CuePointMetadataPlugin extends KalturaPlugin implements IKalturaPending, I
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSearchDataContributor::getSearchData()
+	 * @see IBorhanSearchDataContributor::getSearchData()
 	 */
 	public static function getSearchData(BaseObject $object)
 	{

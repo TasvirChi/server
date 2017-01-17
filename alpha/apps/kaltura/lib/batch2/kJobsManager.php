@@ -93,7 +93,7 @@ class kJobsManager
 		
 		$lockObject = $dbBatchJob->getBatchJobLock();
 		if(is_null($lockObject)) {
-			KalturaLog::err("Batch job [" . $dbBatchJob->getId() . "] doesn't have a lock object and can't be deleted. Status (" . $dbBatchJob->getStatus() . ")");
+			BorhanLog::err("Batch job [" . $dbBatchJob->getId() . "] doesn't have a lock object and can't be deleted. Status (" . $dbBatchJob->getStatus() . ")");
 			return $dbBatchJob;
 		}
 		
@@ -338,7 +338,7 @@ class kJobsManager
 			$clipOffset = $flavorParamsOutput->getClipOffset();
 			$clipDuration = $flavorParamsOutput->getClipDuration();
 			if(isset($clipOffset) || isset($clipDuration)){
-				KalturaLog::log("Found clipping params: clipOffset($clipOffset),clipDuration($clipDuration)");
+				BorhanLog::log("Found clipping params: clipOffset($clipOffset),clipDuration($clipDuration)");
 				break;
 			}
 		}
@@ -364,7 +364,7 @@ class kJobsManager
 			 */
 				
 				
-		KalturaLog::log("Calling CDLProceessFlavorsForCollection with [" . count($flavorParamsOutputs) . "] flavor params");
+		BorhanLog::log("Calling CDLProceessFlavorsForCollection with [" . count($flavorParamsOutputs) . "] flavor params");
 				
 		$presetXml = KDLWrap::CDLProceessFlavorsForCollection($flavorParamsOutputs);
 		$presetXml = str_replace(KDLCmdlinePlaceholders::OutFileName, $fileName, $presetXml);
@@ -388,7 +388,7 @@ class kJobsManager
 		}
 		
 		$currentConversionEngine = conversionEngineType::EXPRESSION_ENCODER3;
-		KalturaLog::log("Using conversion engine [$currentConversionEngine]");
+		BorhanLog::log("Using conversion engine [$currentConversionEngine]");
 		
 		if($sameRoot == null)
 		{
@@ -396,7 +396,7 @@ class kJobsManager
 			if($parentJob)
 			{
 				$dbConvertCollectionJob = $parentJob->createChild(BatchJobType::CONVERT_COLLECTION, $currentConversionEngine);
-				KalturaLog::log("Created from parent convert job with entry id [" . $dbConvertCollectionJob->getEntryId() . "]");
+				BorhanLog::log("Created from parent convert job with entry id [" . $dbConvertCollectionJob->getEntryId() . "]");
 			}
 			else
 			{
@@ -458,7 +458,7 @@ class kJobsManager
 		$flavorAsset = assetPeer::retrieveById($flavorAssetId);
 		if(!$flavorAsset)
 		{
-			KalturaLog::err("No flavor asset found for id [$flavorAssetId]");
+			BorhanLog::err("No flavor asset found for id [$flavorAssetId]");
 			return null;
 		}
 		$partner = PartnerPeer::retrieveByPK($flavorAsset->getPartnerId());
@@ -485,7 +485,7 @@ class kJobsManager
 			}
 			else 
 			{
-				if($flavor->getSourceRemoteStorageProfileId() == StorageProfile::STORAGE_KALTURA_DC)
+				if($flavor->getSourceRemoteStorageProfileId() == StorageProfile::STORAGE_BORHAN_DC)
 				{
 					if($fileSync->getFileType() != FileSync::FILE_SYNC_FILE_TYPE_URL)	
 						$srcFileSyncDescriptor->setFileSyncLocalPath($fileSync->getFullPath());							
@@ -528,7 +528,7 @@ class kJobsManager
 			$dbConvertFlavorJob->setJobSubType($dbCurrentConversionEngine);
 		}
 		$dbConvertFlavorJob->setEntryId($flavor->getEntryId());
-		KalturaLog::log("Job created with entry id [" . $dbConvertFlavorJob->getEntryId() . "]");
+		BorhanLog::log("Job created with entry id [" . $dbConvertFlavorJob->getEntryId() . "]");
 		
 		$mediaInfo = mediaInfoPeer::retrieveByPK($mediaInfoId);
 		if($mediaInfo === NULL) {
@@ -547,7 +547,7 @@ class kJobsManager
 	private static function getFileSyncForKey(FileSyncKey $srcSyncKey, flavorParamsOutput $flavor, asset $flavorAsset, Partner $partner, &$addImportJob)
 	{
 		$addImportJob = false;
-		$isLocal = ($flavor->getSourceRemoteStorageProfileId() == StorageProfile::STORAGE_KALTURA_DC);
+		$isLocal = ($flavor->getSourceRemoteStorageProfileId() == StorageProfile::STORAGE_BORHAN_DC);
 		
 		if($isLocal)
 			list($fileSync, $local) = kFileSyncUtils::getReadyFileSyncForKey($srcSyncKey, true, false);
@@ -566,7 +566,7 @@ class kJobsManager
 			$flavorAsset->setDescription($description);
 			$flavorAsset->save();
 				
-			KalturaLog::err($description);
+			BorhanLog::err($description);
 			return null;
 		}
 		
@@ -583,7 +583,7 @@ class kJobsManager
 	
 	private static function getNextConversionEngine(flavorParamsOutput $flavor, BatchJob $parentJob = null, $lastEngineType, kConvertJobData &$convertData)
 	{
-		KalturaLog::log("Conversion engines string: '" . $flavor->getConversionEngines() . "'");
+		BorhanLog::log("Conversion engines string: '" . $flavor->getConversionEngines() . "'");
 		
 		$currentConversionEngine = null;
 		
@@ -593,7 +593,7 @@ class kJobsManager
 		if(!$flavor->getEngineVersion()) // uses the old engine version
 		{
 			$conversionEngines = explode(',', $flavor->getConversionEngines());
-			KalturaLog::log(count($conversionEngines) . " conversion engines found for the flavor");
+			BorhanLog::log(count($conversionEngines) . " conversion engines found for the flavor");
 			$currentConversionEngine = reset($conversionEngines); // gets the first engine type
 		}
 		// remove until here
@@ -601,7 +601,7 @@ class kJobsManager
 		
 		if(is_null($lastEngineType))
 		{
-			KalturaLog::log("Last Engine Type is null, engine version [" . $flavor->getEngineVersion() . "]");
+			BorhanLog::log("Last Engine Type is null, engine version [" . $flavor->getEngineVersion() . "]");
 			if($flavor->getEngineVersion()) // uses the new engine version
 			{
 				$operatorSet = new kOperatorSets();
@@ -609,11 +609,11 @@ class kJobsManager
 				$nextOperator = $operatorSet->getOperator();
 				if(!$nextOperator)
 				{
-					KalturaLog::err("First operator is invalid");
+					BorhanLog::err("First operator is invalid");
 					return null;
 				}
 				
-				KalturaLog::log("Set first operator in first set");
+				BorhanLog::log("Set first operator in first set");
 				$currentConversionEngine = $nextOperator->id;
 			}
 		}
@@ -630,12 +630,12 @@ class kJobsManager
 			) // uses the new engine version
 			{
 				// using next oprator
-				KalturaLog::log("Adding next conversion operator");
+				BorhanLog::log("Adding next conversion operator");
 				
 				$parentData = $parentJob->getData();
 				if(!$parentData || !($parentData instanceof kConvartableJobData))
 				{
-					KalturaLog::err("Parent job data is invalid");
+					BorhanLog::err("Parent job data is invalid");
 					return null;
 				}
 				
@@ -646,11 +646,11 @@ class kJobsManager
 				$nextOperator = $operatorSet->getOperator($nextOperatorSet, $nextOperatorIndex);
 				if(!$nextOperator)
 				{
-					KalturaLog::err("Next operator is invalid");
+					BorhanLog::err("Next operator is invalid");
 					return null;
 				}
 				
-				KalturaLog::log("Moving to next operator [$nextOperatorIndex] in set [$nextOperatorSet]");
+				BorhanLog::log("Moving to next operator [$nextOperatorIndex] in set [$nextOperatorSet]");
 				$convertData->setCurrentOperationSet($nextOperatorSet);
 				$convertData->setCurrentOperationIndex($nextOperatorIndex);
 				
@@ -660,7 +660,7 @@ class kJobsManager
 			{
 				// TODO remove after all old version flavors migrated
 				
-				KalturaLog::log("Last used conversion engine is [$lastEngineType]");
+				BorhanLog::log("Last used conversion engine is [$lastEngineType]");
 				// searching for $lastEngineType in the list
 				while($lastEngineType != $currentConversionEngine && next($conversionEngines))
 					$currentConversionEngine = current($conversionEngines);
@@ -669,12 +669,12 @@ class kJobsManager
 				$currentConversionEngine = next($conversionEngines);
 				if(! $currentConversionEngine)
 				{
-					KalturaLog::err("There is no other conversion engine to use");
+					BorhanLog::err("There is no other conversion engine to use");
 					return null;
 				}
 			}
 		}
-		KalturaLog::log("Using conversion engine [$currentConversionEngine]");
+		BorhanLog::log("Using conversion engine [$currentConversionEngine]");
 		
 		self::contributeToConvertJobData($currentConversionEngine, $convertData);
 		
@@ -692,7 +692,7 @@ class kJobsManager
 	private static function contributeToConvertJobData($conversionEngineId, kConvertJobData &$convertData)
 	{
 		$plugin = kPluginableEnumsManager::getPlugin($conversionEngineId);
-		if($plugin && $plugin instanceof IKalturaBatchJobDataContributor)
+		if($plugin && $plugin instanceof IBorhanBatchJobDataContributor)
 		{
 			$convertData = $plugin->contributeToConvertJobData(BatchJobType::CONVERT, $conversionEngineId, $convertData);
 		}
@@ -714,7 +714,7 @@ class kJobsManager
 		$thumbAsset = assetPeer::retrieveById($thumbAssetId);
 		if(!$thumbAsset)
 		{
-			KalturaLog::err("No thumbnail asset found for id [$thumbAssetId]");
+			BorhanLog::err("No thumbnail asset found for id [$thumbAssetId]");
 			return null;
 		}
 		
@@ -727,7 +727,7 @@ class kJobsManager
 			$thumbAsset->setDescription("Source file sync not found: $srcSyncKey");
 			$thumbAsset->save();
 			
-			KalturaLog::err("Source file sync not found: $srcSyncKey");
+			BorhanLog::err("Source file sync not found: $srcSyncKey");
 			return null;
 		}
 		
@@ -847,7 +847,7 @@ class kJobsManager
 			{
 				$postConvertData->setCreateThumb(false);
 			}
-			elseif($flavorParamsOutput->getSourceRemoteStorageProfileId() != StorageProfile::STORAGE_KALTURA_DC)
+			elseif($flavorParamsOutput->getSourceRemoteStorageProfileId() != StorageProfile::STORAGE_BORHAN_DC)
 			{
 				$postConvertData->setCreateThumb(false);
 			}
@@ -899,7 +899,7 @@ class kJobsManager
 		
 		$batchJob->setObjectId($flavorAsset->getId());
 		$batchJob->setObjectType(BatchJobObjectType::ASSET);
-		KalturaLog::log("Post Convert created with file: " . $postConvertData->getSrcFileSyncLocalPath());
+		BorhanLog::log("Post Convert created with file: " . $postConvertData->getSrcFileSyncLocalPath());
 		
 		
 		return kJobsManager::addJob($batchJob, $postConvertData, BatchJobType::POSTCONVERT, $mediaParserType);
@@ -1149,7 +1149,7 @@ class kJobsManager
 		}
 		else
 		{
-			KalturaLog::warning("Object type [$objectType] is not expected to need cache recalculation");
+			BorhanLog::warning("Object type [$objectType] is not expected to need cache recalculation");
 			return null;
 		}
 
@@ -1219,7 +1219,7 @@ class kJobsManager
 			$entry->setStatus(entryStatus::PENDING);
 			$entry->save();
 			
-			KalturaLog::notice('Entry should not be converted');
+			BorhanLog::notice('Entry should not be converted');
 			return null;
 		}
 		
@@ -1227,7 +1227,7 @@ class kJobsManager
 		// if file size is 0, do not create conversion profile and set entry status as error converting
 		if (!file_exists($inputFileSyncLocalPath) || kFile::fileSize($inputFileSyncLocalPath) == 0)
 		{
-			KalturaLog::info("Input file [$inputFileSyncLocalPath] does not exist");
+			BorhanLog::info("Input file [$inputFileSyncLocalPath] does not exist");
 			
 			$partner = $entry->getPartner();
 			
@@ -1242,14 +1242,14 @@ class kJobsManager
 			$sourceIncludedInProfile = false;
 			$flavorAsset = assetPeer::retrieveById($flavorAssetId);
 			$flavors = flavorParamsConversionProfilePeer::retrieveByConversionProfile($conversionProfile->getId());
-			KalturaLog::info("Found flavors [" . count($flavors) . "] in conversion profile [" . $conversionProfile->getId() . "]");
+			BorhanLog::info("Found flavors [" . count($flavors) . "] in conversion profile [" . $conversionProfile->getId() . "]");
 			foreach($flavors as $flavor)
 			{
 				/* @var $flavor flavorParamsConversionProfile */
 				
 				if($flavor->getFlavorParamsId() == $flavorAsset->getFlavorParamsId())
 				{
-					KalturaLog::info("Flavor [" . $flavor->getFlavorParamsId() . "] is ingested source");
+					BorhanLog::info("Flavor [" . $flavor->getFlavorParamsId() . "] is ingested source");
 					$sourceIncludedInProfile = true;
 					continue;
 				}
@@ -1258,7 +1258,7 @@ class kJobsManager
 				
 				if($flavorParams instanceof liveParams || $flavor->getOrigin() == assetParamsOrigin::INGEST)
 				{
-					KalturaLog::info("Flavor [" . $flavor->getFlavorParamsId() . "] should be ingested");
+					BorhanLog::info("Flavor [" . $flavor->getFlavorParamsId() . "] should be ingested");
 					continue;
 				}
 			
@@ -1267,7 +1267,7 @@ class kJobsManager
 					$siblingFlavorAsset = assetPeer::retrieveByEntryIdAndParams($entry->getId(), $flavor->getFlavorParamsId());
 					if($siblingFlavorAsset)
 					{
-						KalturaLog::info("Flavor [" . $flavor->getFlavorParamsId() . "] already ingested");
+						BorhanLog::info("Flavor [" . $flavor->getFlavorParamsId() . "] already ingested");
 						continue;
 					}
 				}
@@ -1282,7 +1282,7 @@ class kJobsManager
 			{
 				foreach($sourceFileRequiredStorages as $storageId)
 				{
-					if($storageId == StorageProfile::STORAGE_KALTURA_DC)
+					if($storageId == StorageProfile::STORAGE_BORHAN_DC)
 					{
 						$key = $flavorAsset->getSyncKey(flavorAsset::FILE_SYNC_FLAVOR_ASSET_SUB_TYPE_ASSET);
 						list($syncFile, $local) = kFileSyncUtils::getReadyFileSyncForKey($key, true, false);
@@ -1306,7 +1306,7 @@ class kJobsManager
 					$flavorAsset->setDescription('Entry of size 0 should not be converted');
 					$flavorAsset->save();
 					
-					KalturaLog::err('Entry of size 0 should not be converted');
+					BorhanLog::err('Entry of size 0 should not be converted');
 					return null;
 				}
 			}
@@ -1403,7 +1403,7 @@ class kJobsManager
 		$batchJob->setObjectType(BatchJobObjectType::FILE_SYNC);
 		$batchJob->setJobSubType($externalStorage->getProtocol());
 		$batchJob->setDc($dc);
-		KalturaLog::log("Creating Storage export job, with source file: " . $netStorageExportData->getSrcFileSyncLocalPath()); 
+		BorhanLog::log("Creating Storage export job, with source file: " . $netStorageExportData->getSrcFileSyncLocalPath()); 
 		return self::addJob($batchJob, $netStorageExportData, BatchJobType::STORAGE_EXPORT, $externalStorage->getProtocol());
 	}
 	
@@ -1485,7 +1485,7 @@ class kJobsManager
 		$batchJob->setObjectId($fileSync->getId());
 		$batchJob->setObjectType(BatchJobObjectType::FILE_SYNC);
 		$batchJob->setJobSubType($storage->getProtocol());
-		KalturaLog::log("Creating Net-Storage Delete job, with source file: " . $netStorageDeleteData->getSrcFileSyncLocalPath()); 
+		BorhanLog::log("Creating Net-Storage Delete job, with source file: " . $netStorageDeleteData->getSrcFileSyncLocalPath()); 
 		return self::addJob($batchJob, $netStorageDeleteData, BatchJobType::STORAGE_DELETE, $storage->getProtocol());
 	}
 	
@@ -1508,7 +1508,7 @@ class kJobsManager
 		
 		$batchJob->setDc($dc);
 		
-		KalturaLog::log("Creating File Delete job, from data center id: ". $dc ." with source file: " . $deleteFileData->getLocalFileSyncPath());
+		BorhanLog::log("Creating File Delete job, from data center id: ". $dc ." with source file: " . $deleteFileData->getLocalFileSyncPath());
 		return self::addJob($batchJob, $deleteFileData, BatchJobType::DELETE_FILE );
 	}
 	
@@ -1518,11 +1518,11 @@ class kJobsManager
 		$profile = null;
 		try{
 			$profile = myPartnerUtils::getConversionProfile2ForEntry($parentJob->getEntryId());
-			KalturaLog::info("profile [" . $profile->getId() . "]");
+			BorhanLog::info("profile [" . $profile->getId() . "]");
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err($e->getMessage());
+			BorhanLog::err($e->getMessage());
 		}
 		
 		$mediaInfoEngine = mediaParserType::MEDIAINFO;
@@ -1540,14 +1540,14 @@ class kJobsManager
 		
 		$flavorAsset = assetPeer::retrieveById($flavorAssetId);
 		$entry = $flavorAsset->getentry();
-		if($entry && $entry->getSourceType() == EntrySourceType::KALTURA_RECORDED_LIVE)
+		if($entry && $entry->getSourceType() == EntrySourceType::BORHAN_RECORDED_LIVE)
 			$extractMediaData->setExtractId3Tags(true);
 		
 		$batchJob = $parentJob->createChild(BatchJobType::EXTRACT_MEDIA, $mediaInfoEngine, false);
 		$batchJob->setObjectId($flavorAssetId);
 		$batchJob->setObjectType(BatchJobObjectType::ASSET);
 		
-		KalturaLog::log("Creating Extract Media job, with source file: " . $extractMediaData->getSrcFileSyncLocalPath()); 
+		BorhanLog::log("Creating Extract Media job, with source file: " . $extractMediaData->getSrcFileSyncLocalPath()); 
 		return self::addJob($batchJob, $extractMediaData, BatchJobType::EXTRACT_MEDIA, $mediaInfoEngine);
 	}
 	
@@ -1664,7 +1664,7 @@ class kJobsManager
 			}
 			catch(Exception $e)
 			{
-				KalturaLog::err($e);
+				BorhanLog::err($e);
 				throw new APIException(APIErrors::BULK_UPLOAD_CREATE_CSV_FILE_SYNC_ERROR);
 			}
 			
@@ -1680,9 +1680,9 @@ class kJobsManager
 		if ($jobData->getBulkUploadObjectType() == BulkUploadObjectType::ENTRY && !$jobData->getObjectData()->getConversionProfileId())
 		{
 			$jobData->setConversionProfileId($partner->getDefaultConversionProfileId());
-			$kmcVersion = $partner->getKmcVersion();
+			$bmcVersion = $partner->getBmcVersion();
 		    $check = null;
-			if($kmcVersion < 2)
+			if($bmcVersion < 2)
     		{
     			$check = ConversionProfilePeer::retrieveByPK($jobData->getConversionProfileId());
     		}
@@ -1717,7 +1717,7 @@ class kJobsManager
 		return self::addJob( $batchJob, $jobData, BatchJobType::COPY_PARTNER );
 	}
 	
-	public static function addExportLiveReportJob($reportType, KalturaLiveReportExportParams $params)
+	public static function addExportLiveReportJob($reportType, BorhanLiveReportExportParams $params)
 	{
 		// Calculate time offset from server time to UTC
 		$dateTimeZoneServer = new DateTimeZone(kConf::get('date_default_timezone'));

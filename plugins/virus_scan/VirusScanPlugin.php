@@ -2,7 +2,7 @@
 /**
  * @package plugins.virusScan
  */
-class VirusScanPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaServices, IKalturaEventConsumers, IKalturaEnumerator, IKalturaObjectLoader, IKalturaAdminConsolePages 
+class VirusScanPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanServices, IBorhanEventConsumers, IBorhanEnumerator, IBorhanObjectLoader, IBorhanAdminConsolePages 
 {
 	const PLUGIN_NAME = 'virusScan';
 	const VIRUS_SCAN_FLOW_MANAGER_CLASS = 'kVirusScanFlowManager';
@@ -85,12 +85,12 @@ class VirusScanPlugin extends KalturaPlugin implements IKalturaPermissions, IKal
 			}
 		}
 	
-		if($baseClass == 'KalturaJobData')
+		if($baseClass == 'BorhanJobData')
 		{
 			if($enumValue == self::getApiValue(VirusScanBatchJobType::VIRUS_SCAN) || 
 			   $enumValue == self::getBatchJobTypeCoreValue(VirusScanBatchJobType::VIRUS_SCAN))
 			{
-				return new KalturaVirusScanJobData();
+				return new BorhanVirusScanJobData();
 			}
 		}
 		
@@ -116,11 +116,11 @@ class VirusScanPlugin extends KalturaPlugin implements IKalturaPermissions, IKal
 			}
 		}
 	
-		if($baseClass == 'KalturaJobData')
+		if($baseClass == 'BorhanJobData')
 		{
 			if($enumValue == self::getApiValue(VirusScanBatchJobType::VIRUS_SCAN))
 			{
-				return 'KalturaVirusScanJobData';
+				return 'BorhanVirusScanJobData';
 			}
 		}
 		
@@ -132,7 +132,7 @@ class VirusScanPlugin extends KalturaPlugin implements IKalturaPermissions, IKal
 	 */
 	public static function getBatchJobTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('BatchJobType', $value);
 	}
 	
@@ -141,7 +141,7 @@ class VirusScanPlugin extends KalturaPlugin implements IKalturaPermissions, IKal
 	 */
 	public static function getEntryStatusCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('entryStatus', $value);
 	}
 	
@@ -150,11 +150,11 @@ class VirusScanPlugin extends KalturaPlugin implements IKalturaPermissions, IKal
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaAdminConsolePages::getApplicationPages()
+	 * @see IBorhanAdminConsolePages::getApplicationPages()
 	 */
 	public static function getApplicationPages()
 	{

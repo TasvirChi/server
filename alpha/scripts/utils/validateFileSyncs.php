@@ -33,7 +33,7 @@ function deleteObject(FileSync $fileSync)
 			}
 			catch(Exception $e)
 			{
-				KalturaLog::err($e);
+				BorhanLog::err($e);
 			}
 			break;
 			
@@ -65,7 +65,7 @@ function deleteObject(FileSync $fileSync)
 		deleteObject($link);
 }
 
-KalturaStatement::setDryRun($dryRun);
+BorhanStatement::setDryRun($dryRun);
 
 $criteria = new Criteria();
 $criteria->add(FileSyncPeer::STATUS, FileSync::FILE_SYNC_STATUS_READY);
@@ -76,7 +76,7 @@ if($startId)
 	$criteria->add(FileSyncPeer::ID, $startId, Criteria::GREATER_THAN);
 
 $fileSyncsCount = FileSyncPeer::doCount($criteria);
-KalturaLog::debug("Found [$fileSyncsCount] file syncs");
+BorhanLog::debug("Found [$fileSyncsCount] file syncs");
 
 $criteria->addAscendingOrderByColumn(FileSyncPeer::ID);
 $criteria->setLimit(500);
@@ -96,7 +96,7 @@ while(count($fileSyncs))
 		if(!file_exists($fileSync->getFullPath()))
 			deleteObject($fileSync);
 			
-		KalturaLog::debug("Handled [$index/$fileSyncsCount]");
+		BorhanLog::debug("Handled [$index/$fileSyncsCount]");
 	}
 	kMemoryManager::clearMemory();
 	

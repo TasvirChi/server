@@ -3,9 +3,9 @@ error_reporting(E_ALL);
 
 require_once(dirname(__FILE__).'/../../../alpha/scripts/bootstrap.php');
 
-KAutoloader::addClassPath(KAutoloader::buildPath(KALTURA_ROOT_PATH, "plugins", "limelight", "*"));
-//KAutoloader::setClassMapFilePath(KALTURA_ROOT_PATH.'/cache/scripts/limelight/classMap.cache');
-KAutoloader::setClassMapFilePath(KALTURA_ROOT_PATH.'/cache/scripts/' . basename(__FILE__) . '.cache');
+KAutoloader::addClassPath(KAutoloader::buildPath(BORHAN_ROOT_PATH, "plugins", "limelight", "*"));
+//KAutoloader::setClassMapFilePath(BORHAN_ROOT_PATH.'/cache/scripts/limelight/classMap.cache');
+KAutoloader::setClassMapFilePath(BORHAN_ROOT_PATH.'/cache/scripts/' . basename(__FILE__) . '.cache');
 KAutoloader::register();
 
 $partnerId = 101;

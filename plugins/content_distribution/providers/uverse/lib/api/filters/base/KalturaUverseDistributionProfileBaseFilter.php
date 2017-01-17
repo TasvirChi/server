@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaUverseDistributionProfileBaseFilter extends KalturaConfigurableDistributionProfileFilter
+abstract class BorhanUverseDistributionProfileBaseFilter extends BorhanConfigurableDistributionProfileFilter
 {
 	static private $map_between_objects = array
 	(

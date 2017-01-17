@@ -3,7 +3,7 @@
  * @package infra
  * @subpackage Plugins
  */
-class KalturaDependency
+class BorhanDependency
 {
 	/**
 	 * @var string
@@ -11,15 +11,15 @@ class KalturaDependency
 	protected $pluginName;
 	
 	/**
-	 * @var KalturaVersion
+	 * @var BorhanVersion
 	 */
 	protected $minVersion;
 	
 	/**
 	 * @param string $pluginName
-	 * @param KalturaVersion $minVersion
+	 * @param BorhanVersion $minVersion
 	 */
-	public function __construct($pluginName, KalturaVersion $minVersion = null)
+	public function __construct($pluginName, BorhanVersion $minVersion = null)
 	{
 		$this->pluginName = $pluginName;
 		$this->minVersion = $minVersion;
@@ -34,7 +34,7 @@ class KalturaDependency
 	}
 
 	/**
-	 * @return KalturaVersion minimum version
+	 * @return BorhanVersion minimum version
 	 */
 	public function getMinimumVersion()
 	{

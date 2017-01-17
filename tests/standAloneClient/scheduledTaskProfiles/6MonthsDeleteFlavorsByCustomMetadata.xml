@@ -16,24 +16,24 @@
 	<session />
 	<!-- 6 Months Delete Flavors -->
 	<request service="scheduledTaskProfile" action="add" plugin="scheduledTask" partnerId="{variable:partnerId}">
-		<scheduledTaskProfile objectType="KalturaScheduledTaskProfile">
+		<scheduledTaskProfile objectType="BorhanScheduledTaskProfile">
 			<name>6 months delete flavors if metadata conditions met</name>
 			<objectFilterEngineType>1</objectFilterEngineType>
 			<maxTotalCountAllowed>{variable:maxTotalCountAllowed}</maxTotalCountAllowed>
-			<objectFilter objectType="KalturaMediaEntryFilter">
+			<objectFilter objectType="BorhanMediaEntryFilter">
 				<lastPlayedAtLessThanOrEqual>{php:return -6*30*24*60*60;}</lastPlayedAtLessThanOrEqual>
-				<advancedSearch objectType="KalturaSearchOperator">
+				<advancedSearch objectType="BorhanSearchOperator">
 					<type>1</type>
 					<items objectType="array">
-						<item objectType="KalturaMetadataSearchItem">
+						<item objectType="BorhanMetadataSearchItem">
 							<metadataProfileId>{variable:metadataProfileId}</metadataProfileId>
 							<type>1</type>
 							<items objectType="array">
-								<item objectType="KalturaSearchCondition">
+								<item objectType="BorhanSearchCondition">
 									<field>/*[local-name()='metadata']/*[local-name()='RetirementPolicy']</field>
 									<value>Prune</value>
 								</item>
-								<item objectType="KalturaSearchCondition">
+								<item objectType="BorhanSearchCondition">
 									<field>/*[local-name()='metadata']/*[local-name()='Pruned']</field>
 									<value>false</value>
 								</item>
@@ -43,12 +43,12 @@
 				</advancedSearch>
 			</objectFilter>
 			<objectTasks objectType="array">
-				<item objectType="KalturaDeleteEntryFlavorsObjectTask">
+				<item objectType="BorhanDeleteEntryFlavorsObjectTask">
 					<flavorParamsIds>{variable:flavorParamsIds}</flavorParamsIds>
 					<deleteType>2</deleteType><!-- DELETE_LIST -->
 					<stopProcessingOnError>true</stopProcessingOnError>
 				</item>
-				<item objectType="KalturaExecuteMetadataXsltObjectTask">
+				<item objectType="BorhanExecuteMetadataXsltObjectTask">
 					<metadataProfileId>{variable:metadataProfileId}</metadataProfileId>
 					<metadataObjectType>1</metadataObjectType><!-- ENTRY -->
 					<xslt>

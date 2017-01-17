@@ -3,7 +3,7 @@
  * @package plugins.cuePointEventNotifications
  * @subpackage lib
  */
-class CuePointEventNotificationEventObjectType implements IKalturaPluginEnum, EventNotificationEventObjectType
+class CuePointEventNotificationEventObjectType implements IBorhanPluginEnum, EventNotificationEventObjectType
 {
 	const CUE_POINT = 'CuePoint';
 	

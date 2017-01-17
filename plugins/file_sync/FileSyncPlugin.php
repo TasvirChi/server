@@ -2,7 +2,7 @@
 /**
  * @package plugins.fileSync
  */
-class FileSyncPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaServices
+class FileSyncPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanServices
 {
 	const PLUGIN_NAME = 'fileSync';
 	

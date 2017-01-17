@@ -43,10 +43,10 @@ class KWidevineOperationEngine extends KOperationEngine
 		$entry = KBatchBase::$kClient->baseEntry->get($this->job->entryId);
 		$this->buildPackageName($entry);
 		
-		KalturaLog::info('start Widevine packaging: '.$this->packageName);
+		BorhanLog::info('start Widevine packaging: '.$this->packageName);
 		
-		$drmPlugin = KalturaDrmClientPlugin::get(KBatchBase::$kClient);
-		$profile = $drmPlugin->drmProfile->getByProvider(KalturaDrmProviderType::WIDEVINE);
+		$drmPlugin = BorhanDrmClientPlugin::get(KBatchBase::$kClient);
+		$profile = $drmPlugin->drmProfile->getByProvider(BorhanDrmProviderType::WIDEVINE);
 		$wvAssetId = $this->registerAsset($profile);
 		$this->encryptPackage($profile);		
 		$this->updateFlavorAsset($wvAssetId);
@@ -91,11 +91,11 @@ class KWidevineOperationEngine extends KOperationEngine
 		{
 			KBatchBase::unimpersonate();
 			$logMessage = 'Asset registration failed, asset name: '.$this->packageName.' error: '.$errorMessage;
-			KalturaLog::err($logMessage);
+			BorhanLog::err($logMessage);
 			throw new KOperationEngineException($logMessage);
 		}
 										
-		KalturaLog::info('Widevine asset id: '.$wvAssetId);
+		BorhanLog::info('Widevine asset id: '.$wvAssetId);
 		
 		return $wvAssetId;
 	}
@@ -110,7 +110,7 @@ class KWidevineOperationEngine extends KOperationEngine
 		//try to fix source assets sync and re-try encryption
 		if($returnValue == KWidevineBatchHelper::FIX_ASSET_ERROR_RETURN_CODE)
 		{
-			KalturaLog::info("Trying to fix input files due to mismatch error ...");
+			BorhanLog::info("Trying to fix input files due to mismatch error ...");
 			$fixedInputFiles = $this->fixInputAssets($inputFiles);
 			$returnValue = $this->executeEncryptPackageCmd($profile, $fixedInputFiles);
 			if($returnValue != 0)
@@ -141,7 +141,7 @@ class KWidevineOperationEngine extends KOperationEngine
 										$profile->portal);
 										
 		exec($cmd, $output, $returnValue);
-		KalturaLog::info('Command execution output: '.print_r($output, true));	
+		BorhanLog::info('Command execution output: '.print_r($output, true));	
 
 		if($returnValue != 0)
 		{
@@ -159,7 +159,7 @@ class KWidevineOperationEngine extends KOperationEngine
 		$errorMessage = '';
 		$errorMessage = KWidevineBatchHelper::getEncryptPackageErrorMessage($returnValue);
 		$logMessage = 'Package encryption failed, asset name: '.$this->packageName.' error: '.$errorMessage;
-		KalturaLog::err($logMessage);
+		BorhanLog::err($logMessage);
 					
 		// in some cases this specific Widevine error needs a simple job retry in order to convert successfully  
 		if ($returnValue == KWidevineBatchHelper::SYNC_FRAME_OFFSET_MATCH_ERROR)
@@ -177,7 +177,7 @@ class KWidevineOperationEngine extends KOperationEngine
 		}		
 		$srcAssetIds = implode(',', $srcAssetIds);
 		
-		$filter = new KalturaAssetFilter();
+		$filter = new BorhanAssetFilter();
 		$filter->entryIdEqual = $this->job->entryId;
 		$filter->idIn = $srcAssetIds;
 		$flavorAssetList = KBatchBase::$kClient->flavorAsset->listAction($filter);	
@@ -188,7 +188,7 @@ class KWidevineOperationEngine extends KOperationEngine
 			$bitrates = array();			
 			foreach ($flavorAssetList->objects as $flavorAsset) 
 			{
-				/* @var $flavorAsset KalturaFlavorAsset */
+				/* @var $flavorAsset BorhanFlavorAsset */
 				if(in_array($flavorAsset->bitrate, $bitrates))
 					$redundantAssets[] = $flavorAsset->id;
 				else 
@@ -207,7 +207,7 @@ class KWidevineOperationEngine extends KOperationEngine
 		{
 			if(in_array($srcFileSyncDescriptor->assetId, $redundantAssets))
 			{
-				KalturaLog::info('Skipping flavor asset due to redundant bitrate: '.$srcFileSyncDescriptor->assetId);
+				BorhanLog::info('Skipping flavor asset due to redundant bitrate: '.$srcFileSyncDescriptor->assetId);
 			}
 			else 
 			{
@@ -226,7 +226,7 @@ class KWidevineOperationEngine extends KOperationEngine
 		if($entry->replacedEntryId)
 		{
 			$this->originalEntryId = $entry->replacedEntryId;
-			$filter = new KalturaAssetFilter();
+			$filter = new BorhanAssetFilter();
 			$filter->entryIdEqual = $entry->replacedEntryId;
 			$filter->tagsLike = 'widevine'; 
 			$flavorAssetList = KBatchBase::$kClient->flavorAsset->listAction($filter);
@@ -236,7 +236,7 @@ class KWidevineOperationEngine extends KOperationEngine
 				$replacedFlavorParamsId = $this->data->flavorParamsOutput->flavorParamsId;
 				foreach ($flavorAssetList->objects as $flavorAsset) 
 				{
-					/* @var $flavorAsset KalturaFlavorAsset */
+					/* @var $flavorAsset BorhanFlavorAsset */
 					if($flavorAsset->flavorParamsId == $replacedFlavorParamsId)
 					{
 						$flavorAssetId = $flavorAsset->id;
@@ -251,7 +251,7 @@ class KWidevineOperationEngine extends KOperationEngine
 	
 	private function updateFlavorAsset($wvAssetId = null)
 	{
-		$updatedFlavorAsset = new KalturaWidevineFlavorAsset();
+		$updatedFlavorAsset = new BorhanWidevineFlavorAsset();
 		if($wvAssetId)
 			$updatedFlavorAsset->widevineAssetId = $wvAssetId;
 		$updatedFlavorAsset->actualSourceAssetParamsIds = implode(',', $this->actualSrcAssetParams);		
@@ -275,13 +275,13 @@ class KWidevineOperationEngine extends KOperationEngine
 			$cmd = KWidevineBatchHelper::getFixAssetCmdLine($this->params->ffmpegCmd, $inputFile, $fixedInputFile);
 			$lastLine = exec($cmd, $output, $returnValue);
 			
-			KalturaLog::info('Command execution output: '.print_r($output, true));
+			BorhanLog::info('Command execution output: '.print_r($output, true));
 		
 			if($returnValue != 0)
 			{
 				KBatchBase::unimpersonate();
 				$logMessage = 'Asset fix failed: '.$inputFile.' error: '.$lastLine;
-				KalturaLog::err($logMessage);
+				BorhanLog::err($logMessage);
 				throw new KOperationEngineException($logMessage);
 			}										
 			$fixedInputFiles[] = $fixedInputFile;

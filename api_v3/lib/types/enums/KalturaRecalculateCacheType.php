@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaRecalculateCacheType extends KalturaDynamicEnum implements RecalculateCacheType
+class BorhanRecalculateCacheType extends BorhanDynamicEnum implements RecalculateCacheType
 {
 	/**
 	 * @return string

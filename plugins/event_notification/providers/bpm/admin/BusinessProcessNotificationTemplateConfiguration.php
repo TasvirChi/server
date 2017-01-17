@@ -5,35 +5,35 @@
  */
 class Form_BusinessProcessNotificationTemplateConfiguration extends Form_EventNotificationTemplateConfiguration
 {
-	private function getProcesses(Kaltura_Client_BusinessProcessNotification_Type_BusinessProcessServer $server)
+	private function getProcesses(Borhan_Client_BusinessProcessNotification_Type_BusinessProcessServer $server)
 	{
 	}
 	
 	/* (non-PHPdoc)
 	 * @see Form_EventNotificationTemplateConfiguration::addTypeElements()
 	 */
-	protected function addTypeElements(Kaltura_Client_EventNotification_Type_EventNotificationTemplate $eventNotificationTemplate)
+	protected function addTypeElements(Borhan_Client_EventNotification_Type_EventNotificationTemplate $eventNotificationTemplate)
 	{
-		if(!($eventNotificationTemplate instanceof Kaltura_Client_BusinessProcessNotification_Type_BusinessProcessNotificationTemplate))
+		if(!($eventNotificationTemplate instanceof Borhan_Client_BusinessProcessNotification_Type_BusinessProcessNotificationTemplate))
 			return;
 			
 		$client = Infra_ClientHelper::getClient();
-		$businessProcessNotificationPlugin = Kaltura_Client_BusinessProcessNotification_Plugin::get($client);
+		$businessProcessNotificationPlugin = Borhan_Client_BusinessProcessNotification_Plugin::get($client);
 
-		$filter = new Kaltura_Client_BusinessProcessNotification_Type_BusinessProcessServerFilter();
-		$filter->currentDcOrExternal = Kaltura_Client_Enum_NullableBoolean::TRUE_VALUE;
-		$pager = new Kaltura_Client_Type_FilterPager();
+		$filter = new Borhan_Client_BusinessProcessNotification_Type_BusinessProcessServerFilter();
+		$filter->currentDcOrExternal = Borhan_Client_Enum_NullableBoolean::TRUE_VALUE;
+		$pager = new Borhan_Client_Type_FilterPager();
 		$pager->pageSize = 500;
 		
 		$serversList = $businessProcessNotificationPlugin->businessProcessServer->listAction($filter, $pager);
-		/* @var $serversList Kaltura_Client_BusinessProcessNotification_Type_BusinessProcessServerListResponse */
+		/* @var $serversList Borhan_Client_BusinessProcessNotification_Type_BusinessProcessServerListResponse */
 		$businessProcessProvider = null;
 		$servers = array('' => 'Select Server');
 		foreach($serversList->objects as $server)
 		{
-			/* @var $server Kaltura_Client_BusinessProcessNotification_Type_BusinessProcessServer */
+			/* @var $server Borhan_Client_BusinessProcessNotification_Type_BusinessProcessServer */
 			if(!is_null($server->dc))
-				$servers[0] = 'Kaltura';
+				$servers[0] = 'Borhan';
 			else
 				$servers[$server->id] = $server->name;
 
@@ -60,7 +60,7 @@ class Form_BusinessProcessNotificationTemplateConfiguration extends Form_EventNo
  			'default' => $eventNotificationTemplate->processId,
  		));
  		
-		if($eventNotificationTemplate instanceof Kaltura_Client_BusinessProcessNotification_Type_BusinessProcessSignalNotificationTemplate)
+		if($eventNotificationTemplate instanceof Borhan_Client_BusinessProcessNotification_Type_BusinessProcessSignalNotificationTemplate)
 		{
 			$this->addElement('text', 'message', array(
 				'label'			=> 'Message:',
@@ -75,7 +75,7 @@ class Form_BusinessProcessNotificationTemplateConfiguration extends Form_EventNo
 			));
 		}
  		
-		if($eventNotificationTemplate instanceof Kaltura_Client_BusinessProcessNotification_Type_BusinessProcessStartNotificationTemplate)
+		if($eventNotificationTemplate instanceof Borhan_Client_BusinessProcessNotification_Type_BusinessProcessStartNotificationTemplate)
 		{
 			$this->addElement('checkbox', 'abort_on_deletion', array(
 				'label'			=> 'Abort on deletion:',

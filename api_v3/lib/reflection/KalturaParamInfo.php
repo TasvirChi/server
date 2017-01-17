@@ -3,7 +3,7 @@
  * @package api
  * @subpackage v3
  */
-class KalturaParamInfo extends KalturaPropertyInfo 
+class BorhanParamInfo extends BorhanPropertyInfo 
 {
 	private $_optional = false;
 	 

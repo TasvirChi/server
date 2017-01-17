@@ -6,14 +6,14 @@
  * @package plugins.dropFolder
  * @subpackage api.services
  */
-class DropFolderService extends KalturaBaseService
+class DropFolderService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
 		parent::initService($serviceId, $serviceName, $actionName);
 		
 		if (!DropFolderPlugin::isAllowedPartner($this->getPartnerId()))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, DropFolderPlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, DropFolderPlugin::PLUGIN_NAME);
 			
 		$this->applyPartnerFilterForClass('DropFolder');
 		$this->applyPartnerFilterForClass('DropFolderFile');
@@ -22,18 +22,18 @@ class DropFolderService extends KalturaBaseService
 	
 	
 	/**
-	 * Allows you to add a new KalturaDropFolder object
+	 * Allows you to add a new BorhanDropFolder object
 	 * 
 	 * @action add
-	 * @param KalturaDropFolder $dropFolder
-	 * @return KalturaDropFolder
+	 * @param BorhanDropFolder $dropFolder
+	 * @return BorhanDropFolder
 	 * 
-	 * @throws KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
-	 * @throws KalturaErrors::INGESTION_PROFILE_ID_NOT_FOUND
-	 * @throws KalturaDropFolderErrors::DROP_FOLDER_ALREADY_EXISTS
-	 * @throws KalturaErrors::DATA_CENTER_ID_NOT_FOUND
+	 * @throws BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
+	 * @throws BorhanErrors::INGESTION_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanDropFolderErrors::DROP_FOLDER_ALREADY_EXISTS
+	 * @throws BorhanErrors::DATA_CENTER_ID_NOT_FOUND
 	 */
-	public function addAction(KalturaDropFolder $dropFolder)
+	public function addAction(BorhanDropFolder $dropFolder)
 	{
 		// check for required parameters
 		$dropFolder->validatePropertyNotNull('name');
@@ -58,30 +58,30 @@ class DropFolderService extends KalturaBaseService
 		}
 		
 		if (!kDataCenterMgr::dcExists($dropFolder->dc)) {
-			throw new KalturaAPIException(KalturaErrors::DATA_CENTER_ID_NOT_FOUND, $dropFolder->dc);
+			throw new BorhanAPIException(BorhanErrors::DATA_CENTER_ID_NOT_FOUND, $dropFolder->dc);
 		}
 		
 		if (!PartnerPeer::retrieveByPK($dropFolder->partnerId)) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_PARTNER_ID, $dropFolder->partnerId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_PARTNER_ID, $dropFolder->partnerId);
 		}
 		
 		if (!DropFolderPlugin::isAllowedPartner($dropFolder->partnerId))
 		{
-			throw new KalturaAPIException(KalturaErrors::PLUGIN_NOT_AVAILABLE_FOR_PARTNER, DropFolderPlugin::getPluginName(), $dropFolder->partnerId);
+			throw new BorhanAPIException(BorhanErrors::PLUGIN_NOT_AVAILABLE_FOR_PARTNER, DropFolderPlugin::getPluginName(), $dropFolder->partnerId);
 		}
 
-		if($dropFolder->type == KalturaDropFolderType::LOCAL)
+		if($dropFolder->type == BorhanDropFolderType::LOCAL)
 		{
 			$existingDropFolder = DropFolderPeer::retrieveByPathDefaultFilter($dropFolder->path);
 			if ($existingDropFolder) {
-				throw new KalturaAPIException(KalturaDropFolderErrors::DROP_FOLDER_ALREADY_EXISTS, $dropFolder->path);
+				throw new BorhanAPIException(BorhanDropFolderErrors::DROP_FOLDER_ALREADY_EXISTS, $dropFolder->path);
 			}
 		}
 		
 		if (!is_null($dropFolder->conversionProfileId)) {
 			$conversionProfileDb = conversionProfile2Peer::retrieveByPK($dropFolder->conversionProfileId);
 			if (!$conversionProfileDb) {
-				throw new KalturaAPIException(KalturaErrors::INGESTION_PROFILE_ID_NOT_FOUND, $dropFolder->conversionProfileId);
+				throw new BorhanAPIException(BorhanErrors::INGESTION_PROFILE_ID_NOT_FOUND, $dropFolder->conversionProfileId);
 			}
 		}
 		
@@ -90,30 +90,30 @@ class DropFolderService extends KalturaBaseService
 		$dbDropFolder->save();
 		
 		// return the saved object
-		$dropFolder = KalturaDropFolder::getInstanceByType($dbDropFolder->getType());
+		$dropFolder = BorhanDropFolder::getInstanceByType($dbDropFolder->getType());
 		$dropFolder->fromObject($dbDropFolder, $this->getResponseProfile());
 		return $dropFolder;
 		
 	}
 	
 	/**
-	 * Retrieve a KalturaDropFolder object by ID
+	 * Retrieve a BorhanDropFolder object by ID
 	 * 
 	 * @action get
 	 * @param int $dropFolderId 
-	 * @return KalturaDropFolder
+	 * @return BorhanDropFolder
 	 * 
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */		
 	public function getAction($dropFolderId)
 	{
 		$dbDropFolder = DropFolderPeer::retrieveByPK($dropFolderId);
 		
 		if (!$dbDropFolder) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $dropFolderId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $dropFolderId);
 		}
 			
-		$dropFolder = KalturaDropFolder::getInstanceByType($dbDropFolder->getType());
+		$dropFolder = BorhanDropFolder::getInstanceByType($dbDropFolder->getType());
 		$dropFolder->fromObject($dbDropFolder, $this->getResponseProfile());
 		
 		return $dropFolder;
@@ -121,96 +121,96 @@ class DropFolderService extends KalturaBaseService
 	
 
 	/**
-	 * Update an existing KalturaDropFolder object
+	 * Update an existing BorhanDropFolder object
 	 * 
 	 * @action update
 	 * @param int $dropFolderId
-	 * @param KalturaDropFolder $dropFolder
-	 * @return KalturaDropFolder
+	 * @param BorhanDropFolder $dropFolder
+	 * @return BorhanDropFolder
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
-	 * @throws KalturaErrors::INGESTION_PROFILE_ID_NOT_FOUND
-	 * @throws KalturaErrors::DATA_CENTER_ID_NOT_FOUND
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INGESTION_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::DATA_CENTER_ID_NOT_FOUND
 	 */	
-	public function updateAction($dropFolderId, KalturaDropFolder $dropFolder)
+	public function updateAction($dropFolderId, BorhanDropFolder $dropFolder)
 	{
 		$dbDropFolder = DropFolderPeer::retrieveByPK($dropFolderId);
 		
 		if (!$dbDropFolder) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $dropFolderId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $dropFolderId);
 		}
 		
 		$dropFolder->validatePropertyMinValue('fileSizeCheckInterval', 0, true);
 		$dropFolder->validatePropertyMinValue('autoFileDeleteDays', 0, true);
 		
-		if (!is_null($dropFolder->path) && $dropFolder->path != $dbDropFolder->getPath() && $dropFolder->type == KalturaDropFolderType::LOCAL) 
+		if (!is_null($dropFolder->path) && $dropFolder->path != $dbDropFolder->getPath() && $dropFolder->type == BorhanDropFolderType::LOCAL) 
 		{
 			$existingDropFolder = DropFolderPeer::retrieveByPathDefaultFilter($dropFolder->path);
 			if ($existingDropFolder) {
-				throw new KalturaAPIException(KalturaDropFolderErrors::DROP_FOLDER_ALREADY_EXISTS, $dropFolder->path);
+				throw new BorhanAPIException(BorhanDropFolderErrors::DROP_FOLDER_ALREADY_EXISTS, $dropFolder->path);
 			}
 		}
 		
 		if (!is_null($dropFolder->dc)) {
 			if (!kDataCenterMgr::dcExists($dropFolder->dc)) {
-				throw new KalturaAPIException(KalturaErrors::DATA_CENTER_ID_NOT_FOUND, $dropFolder->dc);
+				throw new BorhanAPIException(BorhanErrors::DATA_CENTER_ID_NOT_FOUND, $dropFolder->dc);
 			}
 		}
 		
 		if (!is_null($dropFolder->conversionProfileId)) {
 			$conversionProfileDb = conversionProfile2Peer::retrieveByPK($dropFolder->conversionProfileId);
 			if (!$conversionProfileDb) {
-				throw new KalturaAPIException(KalturaErrors::INGESTION_PROFILE_ID_NOT_FOUND, $dropFolder->conversionProfileId);
+				throw new BorhanAPIException(BorhanErrors::INGESTION_PROFILE_ID_NOT_FOUND, $dropFolder->conversionProfileId);
 			}
 		}
 					
 		$dbDropFolder = $dropFolder->toUpdatableObject($dbDropFolder);
 		$dbDropFolder->save();
 	
-		$dropFolder = KalturaDropFolder::getInstanceByType($dbDropFolder->getType());
+		$dropFolder = BorhanDropFolder::getInstanceByType($dbDropFolder->getType());
 		$dropFolder->fromObject($dbDropFolder, $this->getResponseProfile());
 		
 		return $dropFolder;
 	}
 
 	/**
-	 * Mark the KalturaDropFolder object as deleted
+	 * Mark the BorhanDropFolder object as deleted
 	 * 
 	 * @action delete
 	 * @param int $dropFolderId 
-	 * @return KalturaDropFolder
+	 * @return BorhanDropFolder
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */		
 	public function deleteAction($dropFolderId)
 	{
 		$dbDropFolder = DropFolderPeer::retrieveByPK($dropFolderId);
 		
 		if (!$dbDropFolder) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $dropFolderId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $dropFolderId);
 		}
 
 		$dbDropFolder->setStatus(DropFolderStatus::DELETED);
 		$dbDropFolder->save();
 			
-		$dropFolder = KalturaDropFolder::getInstanceByType($dbDropFolder->getType());
+		$dropFolder = BorhanDropFolder::getInstanceByType($dbDropFolder->getType());
 		$dropFolder->fromObject($dbDropFolder, $this->getResponseProfile());
 		
 		return $dropFolder;
 	}
 	
 	/**
-	 * List KalturaDropFolder objects
+	 * List BorhanDropFolder objects
 	 * 
 	 * @action list
-	 * @param KalturaDropFolderFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaDropFolderListResponse
+	 * @param BorhanDropFolderFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanDropFolderListResponse
 	 */
-	public function listAction(KalturaDropFolderFilter  $filter = null, KalturaFilterPager $pager = null)
+	public function listAction(BorhanDropFolderFilter  $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaDropFolderFilter();
+			$filter = new BorhanDropFolderFilter();
 			
 		$dropFolderFilter = $filter->toObject();
 
@@ -219,12 +219,12 @@ class DropFolderService extends KalturaBaseService
 		$count = DropFolderPeer::doCount($c);
 		
 		if (! $pager)
-			$pager = new KalturaFilterPager ();
+			$pager = new BorhanFilterPager ();
 		$pager->attachToCriteria ( $c );
 		$list = DropFolderPeer::doSelect($c);
 		
-		$response = new KalturaDropFolderListResponse();
-		$response->objects = KalturaDropFolderArray::fromDbArray($list, $this->getResponseProfile());
+		$response = new BorhanDropFolderListResponse();
+		$response->objects = BorhanDropFolderArray::fromDbArray($list, $this->getResponseProfile());
 		$response->totalCount = $count;
 		
 		return $response;

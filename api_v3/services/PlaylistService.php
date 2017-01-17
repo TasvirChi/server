@@ -8,12 +8,12 @@
  * @package api
  * @subpackage services
  */
-class PlaylistService extends KalturaEntryService
+class PlaylistService extends BorhanEntryService
 {
 	/* (non-PHPdoc)
-	 * @see KalturaBaseService::globalPartnerAllowed()
+	 * @see BorhanBaseService::globalPartnerAllowed()
 	 */
-	protected function kalturaNetworkAllowed($actionName)
+	protected function borhanNetworkAllowed($actionName)
 	{
 		if ($actionName === 'executeFromContent') {
 			return true;
@@ -24,7 +24,7 @@ class PlaylistService extends KalturaEntryService
 		if ($actionName === 'getStatsFromContent') {
 			return true;
 		}
-		return parent::kalturaNetworkAllowed($actionName);
+		return parent::borhanNetworkAllowed($actionName);
 	}
 	
 	protected function globalPartnerAllowed($actionName)
@@ -49,16 +49,16 @@ class PlaylistService extends KalturaEntryService
 	
 	/**
 	 * Add new playlist
-	 * Note that all entries used in a playlist will become public and may appear in KalturaNetwork
+	 * Note that all entries used in a playlist will become public and may appear in BorhanNetwork
 	 *
 	 * @action add
-	 * @param KalturaPlaylist $playlist
+	 * @param BorhanPlaylist $playlist
 	 * @param bool $updateStats indicates that the playlist statistics attributes should be updated synchronously now
-	 * @return KalturaPlaylist
+	 * @return BorhanPlaylist
 	 *
 	 * @disableRelativeTime $playlist
 	 */
-	function addAction( KalturaPlaylist $playlist , $updateStats = false)
+	function addAction( BorhanPlaylist $playlist , $updateStats = false)
 	{
 		$dbPlaylist = $playlist->toInsertableObject();
 		
@@ -85,7 +85,7 @@ class PlaylistService extends KalturaEntryService
 		$trackEntry->setDescription(__METHOD__ . ":" . __LINE__ . "::ENTRY_PLAYLIST");
 		TrackEntry::addTrackEntry($trackEntry);
 		
-		$playlist = new KalturaPlaylist(); // start from blank
+		$playlist = new BorhanPlaylist(); // start from blank
 		$playlist->fromObject($dbPlaylist, $this->getResponseProfile());
 		
 		return $playlist;
@@ -98,7 +98,7 @@ class PlaylistService extends KalturaEntryService
 	 * @action get
 	 * @param string $id
 	 * @param int $version Desired version of the data
-	 * @return KalturaPlaylist
+	 * @return BorhanPlaylist
 	 *
 	 * @throws APIErrors::INVALID_ENTRY_ID
 	 * @throws APIErrors::INVALID_PLAYLIST_TYPE
@@ -108,14 +108,14 @@ class PlaylistService extends KalturaEntryService
 		$dbPlaylist = entryPeer::retrieveByPK( $id );
 		
 		if ( ! $dbPlaylist )
-			throw new KalturaAPIException ( APIErrors::INVALID_ENTRY_ID , "Playlist" , $id  );
+			throw new BorhanAPIException ( APIErrors::INVALID_ENTRY_ID , "Playlist" , $id  );
 		if ( $dbPlaylist->getType() != entryType::PLAYLIST )
-			throw new KalturaAPIException ( APIErrors::INVALID_PLAYLIST_TYPE );
+			throw new BorhanAPIException ( APIErrors::INVALID_PLAYLIST_TYPE );
 			
 		if ($version !== -1)
 			$dbPlaylist->setDesiredVersion($version);
 			
-		$playlist = new KalturaPlaylist(); // start from blank
+		$playlist = new BorhanPlaylist(); // start from blank
 		$playlist->fromObject($dbPlaylist, $this->getResponseProfile());
 		
 		return $playlist;
@@ -127,9 +127,9 @@ class PlaylistService extends KalturaEntryService
 	 *
 	 * @action update
 	 * @param string $id
-	 * @param KalturaPlaylist $playlist
+	 * @param BorhanPlaylist $playlist
 	 * @param bool $updateStats
-	 * @return KalturaPlaylist
+	 * @return BorhanPlaylist
 	 *
 	 * @throws APIErrors::INVALID_ENTRY_ID
 	 * @throws APIErrors::INVALID_PLAYLIST_TYPE
@@ -137,14 +137,14 @@ class PlaylistService extends KalturaEntryService
 	 *
 	 * @disableRelativeTime $playlist
 	 */
-	function updateAction( $id , KalturaPlaylist $playlist , $updateStats = false )
+	function updateAction( $id , BorhanPlaylist $playlist , $updateStats = false )
 	{
 		$dbPlaylist = entryPeer::retrieveByPK( $id );
 		
 		if ( ! $dbPlaylist )
-			throw new KalturaAPIException ( APIErrors::INVALID_ENTRY_ID , "Playlist" , $id  );
+			throw new BorhanAPIException ( APIErrors::INVALID_ENTRY_ID , "Playlist" , $id  );
 		if ( $dbPlaylist->getType() != entryType::PLAYLIST )
-			throw new KalturaAPIException ( APIErrors::INVALID_PLAYLIST_TYPE );
+			throw new BorhanAPIException ( APIErrors::INVALID_PLAYLIST_TYPE );
 		
 		$playlist->playlistType = $dbPlaylist->getMediaType();
 		
@@ -161,7 +161,7 @@ class PlaylistService extends KalturaEntryService
 		$allowEmpty = true ; // TODO - what is the policy  ?
 		if ( $playlistUpdate->getMediaType() && ($playlistUpdate->getMediaType() != $dbPlaylist->getMediaType() ) )
 		{
-			throw new KalturaAPIException ( APIErrors::INVALID_PLAYLIST_TYPE );
+			throw new BorhanAPIException ( APIErrors::INVALID_PLAYLIST_TYPE );
 		}
 		else
 		{
@@ -199,7 +199,7 @@ class PlaylistService extends KalturaEntryService
 	 */
 	function deleteAction(  $id )
 	{
-		$this->deleteEntry($id, KalturaEntryType::PLAYLIST);
+		$this->deleteEntry($id, BorhanEntryType::PLAYLIST);
 	}
 	
 	
@@ -208,30 +208,30 @@ class PlaylistService extends KalturaEntryService
 	 *
 	 * @action clone
 	 * @param string $id  Id of the playlist to clone
-	 * @param KalturaPlaylist $newPlaylist Parameters defined here will override the ones in the cloned playlist
-	 * @return KalturaPlaylist
+	 * @param BorhanPlaylist $newPlaylist Parameters defined here will override the ones in the cloned playlist
+	 * @return BorhanPlaylist
 	 *
 	 * @throws APIErrors::INVALID_ENTRY_ID
 	 * @throws APIErrors::INVALID_PLAYLIST_TYPE
 	 */
-	function cloneAction( $id, KalturaPlaylist $newPlaylist = null)
+	function cloneAction( $id, BorhanPlaylist $newPlaylist = null)
 	{
 		$dbPlaylist = entryPeer::retrieveByPK( $id );
 		
 		if ( !$dbPlaylist )
-			throw new KalturaAPIException ( APIErrors::INVALID_ENTRY_ID , "Playlist" , $id  );
+			throw new BorhanAPIException ( APIErrors::INVALID_ENTRY_ID , "Playlist" , $id  );
 			
 		if ( $dbPlaylist->getType() != entryType::PLAYLIST )
-			throw new KalturaAPIException ( APIErrors::INVALID_PLAYLIST_TYPE );
+			throw new BorhanAPIException ( APIErrors::INVALID_PLAYLIST_TYPE );
 			
 		if ($newPlaylist->playlistType && ($newPlaylist->playlistType != $dbPlaylist->getMediaType()))
-			throw new KalturaAPIException ( APIErrors::CANT_UPDATE_PARAMETER, 'playlistType' );
+			throw new BorhanAPIException ( APIErrors::CANT_UPDATE_PARAMETER, 'playlistType' );
 		
-		$oldPlaylist = new KalturaPlaylist();
+		$oldPlaylist = new BorhanPlaylist();
 		$oldPlaylist->fromObject($dbPlaylist, $this->getResponseProfile());
 			
 		if (!$newPlaylist) {
-			$newPlaylist = new KalturaPlaylist();
+			$newPlaylist = new BorhanPlaylist();
 		}
 		
 		$reflect = new ReflectionClass($newPlaylist);
@@ -258,23 +258,23 @@ class PlaylistService extends KalturaEntryService
 	 * List available playlists
 	 *
 	 * @action list
-	 * @param KalturaPlaylistFilter // TODO
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaPlaylistListResponse
+	 * @param BorhanPlaylistFilter // TODO
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanPlaylistListResponse
 	 */
-	function listAction( KalturaPlaylistFilter $filter=null, KalturaFilterPager $pager=null )
+	function listAction( BorhanPlaylistFilter $filter=null, BorhanFilterPager $pager=null )
 	{
 	    myDbHelper::$use_alternative_con = myDbHelper::DB_HELPER_CONN_PROPEL3;
 		
 
 	    if (!$filter)
-			$filter = new KalturaPlaylistFilter();
+			$filter = new BorhanPlaylistFilter();
 			
-	    $filter->typeEqual = KalturaEntryType::PLAYLIST;
+	    $filter->typeEqual = BorhanEntryType::PLAYLIST;
 	    list($list, $totalCount) = parent::listEntriesByFilter($filter, $pager);
 	    
-	    $newList = KalturaPlaylistArray::fromDbArray($list, $this->getResponseProfile());
-		$response = new KalturaPlaylistListResponse();
+	    $newList = BorhanPlaylistArray::fromDbArray($list, $this->getResponseProfile());
+		$response = new BorhanPlaylistListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $totalCount;
 		return $response;
@@ -287,21 +287,21 @@ class PlaylistService extends KalturaEntryService
 	 * @action execute
 	 * @param string $id
 	 * @param string $detailed
-	 * @param KalturaContext $playlistContext
-	 * @param KalturaMediaEntryFilterForPlaylist $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaBaseEntryArray
+	 * @param BorhanContext $playlistContext
+	 * @param BorhanMediaEntryFilterForPlaylist $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanBaseEntryArray
 	 */
-	function executeAction( $id , $detailed = false, KalturaContext $playlistContext = null, $filter = null, $pager = null )
+	function executeAction( $id , $detailed = false, BorhanContext $playlistContext = null, $filter = null, $pager = null )
 	{
 		myDbHelper::$use_alternative_con = myDbHelper::DB_HELPER_CONN_PROPEL3;
 
 		$playlist = entryPeer::retrieveByPK($id);
 		if (!$playlist)
-			throw new KalturaAPIException ( APIErrors::INVALID_ENTRY_ID , "Playlist" , $id  );
+			throw new BorhanAPIException ( APIErrors::INVALID_ENTRY_ID , "Playlist" , $id  );
 
 		if ($playlist->getType() != entryType::PLAYLIST)
-			throw new KalturaAPIException ( APIErrors::INVALID_PLAYLIST_TYPE );
+			throw new BorhanAPIException ( APIErrors::INVALID_PLAYLIST_TYPE );
 
 		$entryFilter = null;
 		if ($filter)
@@ -336,7 +336,7 @@ class PlaylistService extends KalturaEntryService
 
 		myEntryUtils::updatePuserIdsForEntries ( $entryList );
 			
-		return KalturaBaseEntryArray::fromDbArray($entryList, $this->getResponseProfile());
+		return BorhanBaseEntryArray::fromDbArray($entryList, $this->getResponseProfile());
 	}
 	
 
@@ -345,11 +345,11 @@ class PlaylistService extends KalturaEntryService
 	 * @disableTags TAG_WIDGET_SESSION
 	 *
 	 * @action executeFromContent
-	 * @param KalturaPlaylistType $playlistType
+	 * @param BorhanPlaylistType $playlistType
 	 * @param string $playlistContent
 	 * @param string $detailed
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaBaseEntryArray
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanBaseEntryArray
 	 */
 	function executeFromContentAction($playlistType, $playlistContent, $detailed = false, $pager = null)
 	{
@@ -359,32 +359,32 @@ class PlaylistService extends KalturaEntryService
 			myPlaylistUtils::setIsAdminKs(true);
 
 		$entryList = array();
-		if ($playlistType == KalturaPlaylistType::DYNAMIC)
+		if ($playlistType == BorhanPlaylistType::DYNAMIC)
 			$entryList = myPlaylistUtils::executeDynamicPlaylist($this->getPartnerId(), $playlistContent, null, true, $pager);
-		else if ($playlistType == KalturaPlaylistType::STATIC_LIST)
+		else if ($playlistType == BorhanPlaylistType::STATIC_LIST)
 			$entryList = myPlaylistUtils::executeStaticPlaylistFromEntryIdsString($playlistContent, null, true, $pager);
 			
 		myEntryUtils::updatePuserIdsForEntries($entryList);
 		
-		return KalturaBaseEntryArray::fromDbArray($entryList, $this->getResponseProfile());
+		return BorhanBaseEntryArray::fromDbArray($entryList, $this->getResponseProfile());
 	}
 	
 	/**
 	 * Revrieve playlist for playing purpose, based on media entry filters
 	 * @disableTags TAG_WIDGET_SESSION
 	 * @action executeFromFilters
-	 * @param KalturaMediaEntryFilterForPlaylistArray $filters
+	 * @param BorhanMediaEntryFilterForPlaylistArray $filters
 	 * @param int $totalResults
 	 * @param string $detailed
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaBaseEntryArray
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanBaseEntryArray
 	 */
-	function executeFromFiltersAction(KalturaMediaEntryFilterForPlaylistArray $filters, $totalResults, $detailed = true, $pager = null)
+	function executeFromFiltersAction(BorhanMediaEntryFilterForPlaylistArray $filters, $totalResults, $detailed = true, $pager = null)
 	{
 	    myDbHelper::$use_alternative_con = myDbHelper::DB_HELPER_CONN_PROPEL3;
 	    
-		$tempPlaylist = new KalturaPlaylist();
-		$tempPlaylist->playlistType = KalturaPlaylistType::DYNAMIC;
+		$tempPlaylist = new BorhanPlaylist();
+		$tempPlaylist->playlistType = BorhanPlaylistType::DYNAMIC;
 		$tempPlaylist->filters = $filters;
 		$tempPlaylist->totalResults = $totalResults;
 		$tempPlaylist->filtersToPlaylistContentXml();
@@ -396,9 +396,9 @@ class PlaylistService extends KalturaEntryService
 	 * Retrieve playlist statistics
 	 *
 	 * @action getStatsFromContent
-	 * @param KalturaPlaylistType $playlistType
+	 * @param BorhanPlaylistType $playlistType
 	 * @param string $playlistContent
-	 * @return KalturaPlaylist
+	 * @return BorhanPlaylist
 	 */
 	function getStatsFromContentAction( $playlistType , $playlistContent )
 	{
@@ -412,7 +412,7 @@ class PlaylistService extends KalturaEntryService
 				
 		myPlaylistUtils::updatePlaylistStatistics ( $this->getPartnerId() , $dbPlaylist );//, $extra_filters , $detailed );
 		
-		$playlist = new KalturaPlaylist(); // start from blank
+		$playlist = new BorhanPlaylist(); // start from blank
 		$playlist->fromObject($dbPlaylist, $this->getResponseProfile());
 		
 		return $playlist;

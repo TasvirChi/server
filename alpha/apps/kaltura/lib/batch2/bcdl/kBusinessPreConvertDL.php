@@ -25,21 +25,21 @@ class kBusinessPreConvertDL
 		$originalFlavorAsset = assetPeer::retrieveOriginalByEntryId($parentJob->getEntryId());
 		if (is_null($originalFlavorAsset))
 		{
-			KalturaLog::log('Original flavor asset not found');
+			BorhanLog::log('Original flavor asset not found');
 			return null;
 		}
 
 		$flavor = assetParamsOutputPeer::retrieveByPK($flavorParamsOutputId);
 		if (is_null($flavor))
 		{
-			KalturaLog::log("Flavor params output not found [$flavorParamsOutputId]");
+			BorhanLog::log("Flavor params output not found [$flavorParamsOutputId]");
 			return null;
 		}
 
 		$flavorAsset = assetPeer::retrieveById($flavorAssetId);
 		if (is_null($flavorAsset))
 		{
-			KalturaLog::log("Flavor asset not found [$flavorAssetId]");
+			BorhanLog::log("Flavor asset not found [$flavorAssetId]");
 			return null;
 		}
 		return self::decideFlavorConvert($flavorAsset, $flavor, $originalFlavorAsset, null, $mediaInfoId, $parentJob, $lastEngineType);
@@ -64,31 +64,31 @@ class kBusinessPreConvertDL
 
 		if($sourceParamsId)
 		{
-			KalturaLog::info("Look for flavor params [$sourceParamsId]");
+			BorhanLog::info("Look for flavor params [$sourceParamsId]");
 			$srcAsset = assetPeer::retrieveByEntryIdAndParams($entryId, $sourceParamsId);
 			if($srcAsset && $srcAsset->isLocalReadyStatus())
 				return $srcAsset;
 		}
 
-		KalturaLog::info("Look for a flavor tagged with thumbsource of entry [$entryId]");
+		BorhanLog::info("Look for a flavor tagged with thumbsource of entry [$entryId]");
 		$srcAsset = assetPeer::retrieveHighestBitrateByEntryId($entryId, flavorParams::TAG_THUMBSOURCE);
 		if($srcAsset && $srcAsset->isLocalReadyStatus())
 			return $srcAsset;
 
 
-		KalturaLog::info("Look for original flavor of entry [$entryId]");
+		BorhanLog::info("Look for original flavor of entry [$entryId]");
 		$srcAsset = assetPeer::retrieveOriginalByEntryId($entryId);
 		if($srcAsset && $srcAsset->isLocalReadyStatus())
 			return $srcAsset;
 
 
-		KalturaLog::info("Look for highest bitrate flavor with web tag on entry [$entryId]");
+		BorhanLog::info("Look for highest bitrate flavor with web tag on entry [$entryId]");
 		$srcAsset = assetPeer::retrieveHighestBitrateByEntryId($entryId, flavorParams::TAG_WEB);
 		if($srcAsset && $srcAsset->isLocalReadyStatus())
 			return $srcAsset;
 
 
-		KalturaLog::info("Look for highest bitrate flavor of entry [$entryId]");
+		BorhanLog::info("Look for highest bitrate flavor of entry [$entryId]");
 		$srcAsset = assetPeer::retrieveHighestBitrateByEntryId($entryId);
 		if($srcAsset && $srcAsset->isLocalReadyStatus())
 			return $srcAsset;
@@ -216,7 +216,7 @@ class kBusinessPreConvertDL
 			// creats the file sync
 			$logSyncKey = $thumbAsset->getSyncKey(flavorAsset::FILE_SYNC_FLAVOR_ASSET_SUB_TYPE_CONVERT_LOG);
 			kFileSyncUtils::moveFromFile($logPath, $logSyncKey);
-			KalturaLog::info("Log archived file to: " . kFileSyncUtils::getLocalFilePathForKey($logSyncKey));
+			BorhanLog::info("Log archived file to: " . kFileSyncUtils::getLocalFilePathForKey($logSyncKey));
 		}
 		else
 		{
@@ -225,7 +225,7 @@ class kBusinessPreConvertDL
 
 		$syncKey = $thumbAsset->getSyncKey(thumbAsset::FILE_SYNC_FLAVOR_ASSET_SUB_TYPE_ASSET);
 		kFileSyncUtils::moveFromFile($capturedPath, $syncKey);
-		KalturaLog::info("Thumbnail archived file to: " . kFileSyncUtils::getLocalFilePathForKey($syncKey));
+		BorhanLog::info("Thumbnail archived file to: " . kFileSyncUtils::getLocalFilePathForKey($syncKey));
 
 		$thumbAsset->setStatus(thumbAsset::ASSET_STATUS_READY);
 		$thumbAsset->save();
@@ -384,20 +384,20 @@ class kBusinessPreConvertDL
 	public static function decideAddEntryFlavor(BatchJob $parentJob = null, $entryId, $flavorParamsId, &$errDescription, $flavorAssetId = null,
 			array $dynamicAttributes = array(), $priority = 0)
 	{
-		KalturaLog::log("entryId [$entryId], flavorParamsId [$flavorParamsId]");
+		BorhanLog::log("entryId [$entryId], flavorParamsId [$flavorParamsId]");
 
 		$originalFlavorAsset = assetPeer::retrieveOriginalByEntryId($entryId);
 		if (is_null($originalFlavorAsset))
 		{
 			$errDescription = 'Original flavor asset not found';
-			KalturaLog::err($errDescription);
+			BorhanLog::err($errDescription);
 			return null;
 		}
 
 		if ($originalFlavorAsset->getId() != $flavorAssetId && !$originalFlavorAsset->isLocalReadyStatus())
 		{
 			$errDescription = 'Original flavor asset not ready';
-			KalturaLog::err($errDescription);
+			BorhanLog::err($errDescription);
 			return null;
 		}
 
@@ -409,14 +409,14 @@ class kBusinessPreConvertDL
 			 * Auto decrypt
 			 */
 			if($originalFlavorAsset->getEncryptionKey()){
-				KalturaLog::log("Encrypted Source, adding decryption (encryptionKey:".$originalFlavorAsset->getEncryptionKey().")");
+				BorhanLog::log("Encrypted Source, adding decryption (encryptionKey:".$originalFlavorAsset->getEncryptionKey().")");
 				$mediaInfo->decryptionKey = bin2hex(base64_decode($originalFlavorAsset->getEncryptionKey()));
 			}
 		}
 		$flavorParams = assetParamsPeer::retrieveByPK($flavorParamsId);
 		if (!$flavorParams)
 		{
-			KalturaLog::err("Flavor Params Id [$flavorParamsId] not found");
+			BorhanLog::err("Flavor Params Id [$flavorParamsId] not found");
 			return null;
 		}
 
@@ -440,7 +440,7 @@ class kBusinessPreConvertDL
 
 		if (is_null($flavor))
 		{
-			KalturaLog::err("Failed to validate media info [$errDescription]");
+			BorhanLog::err("Failed to validate media info [$errDescription]");
 			return null;
 		}
 
@@ -492,7 +492,7 @@ class kBusinessPreConvertDL
 			 * CHANGE: collection porcessing only for ExpressionEncoder jobs
 			 * to allow FFmpeg/ISMV processing
 			 */
-		KalturaLog::log("Check for collection case - asset(".$flavorAssetId."),engines(".$flavor->getConversionEngines().")");
+		BorhanLog::log("Check for collection case - asset(".$flavorAssetId."),engines(".$flavor->getConversionEngines().")");
 		if($collectionTag && $flavor->getConversionEngines()==conversionEngineType::EXPRESSION_ENCODER3)
 		{
 			$entry = entryPeer::retrieveByPK($entryId);
@@ -512,7 +512,7 @@ class kBusinessPreConvertDL
 				$flavorParamsOutput = assetParamsOutputPeer::retrieveByAssetId($tagedFlavorAsset->getId());
 				if(is_null($flavorParamsOutput))
 				{
-					KalturaLog::log("Creating flavor params output for asset [" . $tagedFlavorAsset->getId() . "]");
+					BorhanLog::log("Creating flavor params output for asset [" . $tagedFlavorAsset->getId() . "]");
 
 					$flavorParams = assetParamsPeer::retrieveByPK($tagedFlavorAsset->getId());
 					self::adjustAssetParams($entryId, array($flavorParams));
@@ -520,20 +520,20 @@ class kBusinessPreConvertDL
 
 					if (is_null($flavorParamsOutput))
 					{
-						KalturaLog::err("Failed to validate media info [$errDescription]");
+						BorhanLog::err("Failed to validate media info [$errDescription]");
 						continue;
 					}
 				}
 
 				if($flavorParamsOutput)
 				{
-					KalturaLog::log("Adding Collection flavor [" . $flavorParamsOutput->getId() . "] for asset [" . $tagedFlavorAsset->getId() . "]");
+					BorhanLog::log("Adding Collection flavor [" . $flavorParamsOutput->getId() . "] for asset [" . $tagedFlavorAsset->getId() . "]");
 					$flavors[$tagedFlavorAsset->getId()] = assetParamsOutputPeer::retrieveByAssetId($tagedFlavorAsset->getId());
 				}
 			}
 			if($flavorAssetId)
 			{
-				KalturaLog::log("Updating Collection flavor [" . $flavor->getId() . "] for asset [" . $tagedFlavorAsset->getId() . "]");
+				BorhanLog::log("Updating Collection flavor [" . $flavor->getId() . "] for asset [" . $tagedFlavorAsset->getId() . "]");
 				$flavors[$flavorAssetId] = $flavor;
 			}
 			return self::decideCollectionConvert($collectionTag, $originalFlavorAsset, $entry, $parentJob, $flavors);
@@ -557,7 +557,7 @@ class kBusinessPreConvertDL
 		// if there is no media info, the entire profile returned as is, decision layer ignored
 		if(!$mediaInfo)
 		{
-			KalturaLog::log("Validate Conversion Profile, no media info supplied");
+			BorhanLog::log("Validate Conversion Profile, no media info supplied");
 //			$ret = array();
 //			foreach($flavors as $flavor)
 //			{
@@ -568,12 +568,12 @@ class kBusinessPreConvertDL
 		}
 		else
 		{
-			KalturaLog::log("Validate Conversion Profile, media info [" . $mediaInfo->getId() . "]");
+			BorhanLog::log("Validate Conversion Profile, media info [" . $mediaInfo->getId() . "]");
 		}
 
 		self::adjustAssetParams($entryId, $flavors);
 		// call the decision layer
-		KalturaLog::log("Generate Target " . count($flavors) . " Flavors supplied");
+		BorhanLog::log("Generate Target " . count($flavors) . " Flavors supplied");
 		/*
 		 * Update flavorParams settings with overloeded params from 'conversionProfileFlavorParams'
 		 */
@@ -584,7 +584,7 @@ class kBusinessPreConvertDL
 		}
 
 		$cdl = KDLWrap::CDLGenerateTargetFlavors($mediaInfo, $flavors);
-		KalturaLog::log("Generate Target " . count($cdl->_targetList) . " Flavors returned");
+		BorhanLog::log("Generate Target " . count($cdl->_targetList) . " Flavors returned");
 
 		// check for errors
 		$errDescription = '';
@@ -599,20 +599,20 @@ class kBusinessPreConvertDL
 					if (strpos($error, 'Invalid File - No media content' !== false))
 					{
 						$errDescription .= "\nMedia err: $errDesc";
-						KalturaLog::err($error);
+						BorhanLog::err($error);
 						throw new kCoreException($error , KDLErrors::NoValidMediaStream);
 					}
 
 					if (strpos($error,'Invalid frame dimensions') !== false)
 					{
 						$errDescription .= "\nMedia err: $errDesc";
-						KalturaLog::err($error);
+						BorhanLog::err($error);
 						throw new kCoreException($error , KDLErrors::SanityInvalidFrameDim);
 					}
 				}
 			}
 
-			KalturaLog::log("Decision layer input errors: $errDesc");
+			BorhanLog::log("Decision layer input errors: $errDesc");
 			$errDescription .= "\nMedia err: $errDesc";
 		}
 
@@ -623,14 +623,14 @@ class kBusinessPreConvertDL
 			foreach($cdl->_warnings as $section => $errors)
 				$errDesc .= "$section warnings: " . join(";", $errors) . "\n";
 
-			KalturaLog::log("Decision layer input warnings: $errDesc");
+			BorhanLog::log("Decision layer input warnings: $errDesc");
 			$errDescription .= "\nMedia warn: $errDesc";
 		}
 
 		// rv - returned value from the decision layer
 		if(!$cdl->_rv)
 		{
-			KalturaLog::log("Decision layer returned false");
+			BorhanLog::log("Decision layer returned false");
 			return null;
 		}
 
@@ -652,14 +652,14 @@ class kBusinessPreConvertDL
 
 			if(!$flavor->IsValid())
 			{
-				KalturaLog::log("Flavor [" . $flavor->getFlavorParamsId() . "] is invalid");
+				BorhanLog::log("Flavor [" . $flavor->getFlavorParamsId() . "] is invalid");
 
 				// if required - failing the profile
 				if($flavor->getReadyBehavior() == flavorParamsConversionProfile::READY_BEHAVIOR_REQUIRED)
 				{
 					$errDescription = "Business decision layer, required flavor not valid: " . $flavor->getId();
 					$errDescription .= kBusinessConvertDL::parseFlavorDescription($flavor);
-					KalturaLog::log($errDescription);
+					BorhanLog::log($errDescription);
 					kBatchManager::createErrorFlavorAsset($flavor, $partnerId, $entryId, $errDescription);
 					$hasInvalidRequired = true;
 					continue;
@@ -669,14 +669,14 @@ class kBusinessPreConvertDL
 			// if required - failing the profile
 			if($flavor->_isNonComply)
 			{
-				KalturaLog::log("Flavor [" . $flavor->getFlavorParamsId() . "] is none complied");
-				// If the flavor is set to 'force' (generate the asset regardless of any Kaltura optimization),
+				BorhanLog::log("Flavor [" . $flavor->getFlavorParamsId() . "] is none complied");
+				// If the flavor is set to 'force' (generate the asset regardless of any Borhan optimization),
 				// don't fail it even if it is 'NonComply'
 				if($flavor->getReadyBehavior() == flavorParamsConversionProfile::READY_BEHAVIOR_REQUIRED && !$flavor->_force)
 				{
 					$errDescription = "Business decision layer, required flavor none complied: id[" . $flavor->getId() . "] flavor params id [" . $flavor->getFlavorParamsId() . "]";
 					$errDescription .= kBusinessConvertDL::parseFlavorDescription($flavor);
-					KalturaLog::log($errDescription);
+					BorhanLog::log($errDescription);
 					kBatchManager::createErrorFlavorAsset($flavor, $partnerId, $entryId, $errDescription);
 					$hasInvalidRequired = true;
 					continue;
@@ -685,7 +685,7 @@ class kBusinessPreConvertDL
 
 			foreach($flavor->getTagsArray() as $tag)
 			{
-				KalturaLog::log("Taged [$tag] flavor added [" . $flavor->getFlavorParamsId() . "]");
+				BorhanLog::log("Taged [$tag] flavor added [" . $flavor->getFlavorParamsId() . "]");
 				$tagedFlavors[$tag][$flavor->getFlavorParamsId()] = $flavor;
 			}
 		}
@@ -719,7 +719,7 @@ class kBusinessPreConvertDL
 		$finalTagedFlavors = array();
 		foreach($tagedFlavors as $tag => $tagedFlavorsArray)
 		{
-			KalturaLog::log("Filtering flavors by tag [$tag]");
+			BorhanLog::log("Filtering flavors by tag [$tag]");
 				/*
 				 * Digital-watermark tags should not participate in the 'tagged' flavor activation logic
 				 */
@@ -745,7 +745,7 @@ class kBusinessPreConvertDL
 		}
 		// sort the flavors to decide which one will be performed first
 		usort($finalFlavors, array('kBusinessConvertDL', 'compareFlavors'));
-		KalturaLog::log(count($finalFlavors) . " flavors sorted for execution");
+		BorhanLog::log(count($finalFlavors) . " flavors sorted for execution");
 		return $finalFlavors;
 	}
 
@@ -765,19 +765,19 @@ class kBusinessPreConvertDL
 			if(($final->_isRedundant || $final->_isNonComply) && !($final->_create_anyway || $final->_force)){
 				continue;
 			}
-			KalturaLog::log("id:$flavorParamsId,".($final->getName()).",rdn:".$final->_isRedundant.",non:".$final->_isNonComply.",frc:".$final->_force.",any:".$final->_create_anyway.",tags:".$final->getTags());
+			BorhanLog::log("id:$flavorParamsId,".($final->getName()).",rdn:".$final->_isRedundant.",non:".$final->_isNonComply.",frc:".$final->_force.",any:".$final->_create_anyway.",tags:".$final->getTags());
 			$tags = explode(',', $final->getTags());
 			foreach($tags as $tag) {
 				// Only for 'digital-watermark' flavors, otherwise - skip
 				if(strstr($tag,self::TAG_VARIANT_PAIR_ID)==false)
 					continue;
 
-				KalturaLog::log("found tag:$tag,count:".(count($finalTagedFlavors[$tag])));
+				BorhanLog::log("found tag:$tag,count:".(count($finalTagedFlavors[$tag])));
 				// Only a pair of flavors allowed for 'digital-watermark', otherwsie - skip
 				if(count($finalTagedFlavors[$tag])==2){
 					$f1 = reset($finalTagedFlavors[$tag]);
 					$f2 = end($finalTagedFlavors[$tag]);
-					KalturaLog::log("found pair:".($f1->getFlavorParamsId()).",".$f2->getFlavorParamsId());
+					BorhanLog::log("found pair:".($f1->getFlavorParamsId()).",".$f2->getFlavorParamsId());
 					if($f1->getFlavorParamsId()==$flavorParamsId) {
 						$finalFlavors[$f2->getFlavorParamsId()]->_create_anyway = 1;
 					}
@@ -824,7 +824,7 @@ class kBusinessPreConvertDL
 				 * Track the largest target flavor, required for cases when the source height is larger than ALL flavors
 				 */
 			if($target->getHeight()<$srcHgt){
-KalturaLog::log("Source is larger than the target, skipping - key:$key, srcHgt:$srcHgt, trgHgt:".$target->getHeight());
+BorhanLog::log("Source is larger than the target, skipping - key:$key, srcHgt:$srcHgt, trgHgt:".$target->getHeight());
 
 				if($targetLargestHeight<$target->getHeight()){
 					$targetLargestHeight=$target->getHeight();
@@ -840,7 +840,7 @@ KalturaLog::log("Source is larger than the target, skipping - key:$key, srcHgt:$
 			if(!$target->_isNonComply || $target->_force || $target->_create_anyway) {
 				$matchSourceHeightIdx = null;
 				$targetLargestHeightKey = null;
-KalturaLog::log("Found COMPLY/forced/create_anyway, leaving - key:$key, srcHgt:$srcHgt, trgHgt:".$target->getHeight());
+BorhanLog::log("Found COMPLY/forced/create_anyway, leaving - key:$key, srcHgt:$srcHgt, trgHgt:".$target->getHeight());
 				break;
 			}
 
@@ -852,7 +852,7 @@ KalturaLog::log("Found COMPLY/forced/create_anyway, leaving - key:$key, srcHgt:$
 				$matchSourceHeightIdx = $key;
 				$flPrm = assetParamsPeer::retrieveByPKs(array($key));
 				$matchSourceOriginalFlavorBR = $flPrm[0]->getVideoBitrate();
-KalturaLog::log("Set matchSourceHeightIdx:$key, matchSourceOriginalFlavorBR:$matchSourceOriginalFlavorBR, srcHgt:$srcHgt");
+BorhanLog::log("Set matchSourceHeightIdx:$key, matchSourceOriginalFlavorBR:$matchSourceOriginalFlavorBR, srcHgt:$srcHgt");
 				continue;
 			}
 
@@ -865,7 +865,7 @@ KalturaLog::log("Set matchSourceHeightIdx:$key, matchSourceOriginalFlavorBR:$mat
 			if($matchSourceOriginalFlavorBR>$flPrmBR){
 				$matchSourceOriginalFlavorBR = $flPrmBR;
 				$matchSourceHeightIdx = $key;
-KalturaLog::log("Switch to matchSourceHeightIdx:$matchSourceHeightIdx, matchSourceOriginalFlavorBR:$matchSourceOriginalFlavorBR srcHgt:$srcHgt");
+BorhanLog::log("Switch to matchSourceHeightIdx:$matchSourceHeightIdx, matchSourceOriginalFlavorBR:$matchSourceOriginalFlavorBR srcHgt:$srcHgt");
 			}
 //			if($target->getHeight()<$targetFlavorArr[$matchSourceHeightIdx]->getHeight()){
 //			}
@@ -885,7 +885,7 @@ KalturaLog::log("Switch to matchSourceHeightIdx:$matchSourceHeightIdx, matchSour
 				 */
 		if(isset($matchSourceHeightIdx) && $targetFlavorArr[$matchSourceHeightIdx]->_isNonComply) {
 			$targetFlavorArr[$matchSourceHeightIdx]->_create_anyway = true;
-KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
+BorhanLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 
 			/*
 			 * Check whether the next closest flavor to the matched one is redundant.
@@ -933,7 +933,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 			if($diff<0 || $diff/$matchSourceHeightFlavor->getVideoBitrate()>$thresholdRatio){
 				continue;
 			}
-			KalturaLog::log("Look for redundant: diff($diff),percent(".($diff*100/$matchSourceHeightFlavor->getVideoBitrate()).")");
+			BorhanLog::log("Look for redundant: diff($diff),percent(".($diff*100/$matchSourceHeightFlavor->getVideoBitrate()).")");
 			if(!isset($closest)){
 				$closest = $key;
 				$closestDiff = $diff;
@@ -945,7 +945,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 			}
 		}
 		if(isset($closest)){
-			KalturaLog::log("Found redundant: bitrate ".$targetFlavorArr[$closest]->getVideoBitrate());
+			BorhanLog::log("Found redundant: bitrate ".$targetFlavorArr[$closest]->getVideoBitrate());
 			$targetFlavorArr[$closest]->_isNonComply = true;
 			return true;
 		}
@@ -971,7 +971,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 			foreach($cdl->_errors as $section => $errors)
 				$errDesc .= "$section errors: " . join(";", $errors) . "\n";
 
-			KalturaLog::log("Decision layer input error: $errDesc");
+			BorhanLog::log("Decision layer input error: $errDesc");
 			$errDescription .= "\nMedia err: $errDesc";
 		}
 
@@ -981,7 +981,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 			foreach($cdl->_warnings as $section => $errors)
 				$errDesc .= "$section warnings: " . join(";", $errors) . "\n";
 
-			KalturaLog::log("Decision layer input warning: $errDesc");
+			BorhanLog::log("Decision layer input warning: $errDesc");
 			$errDescription .= "\nMedia warn: $errDesc";
 		}
 
@@ -1112,7 +1112,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 	 */
 	public static function decideProfileConvert(BatchJob $parentJob, BatchJob $convertProfileJob, $mediaInfoId = null)
 	{
-		KalturaLog::log("Conversion decision layer used for entry [" . $parentJob->getEntryId() . "]");
+		BorhanLog::log("Conversion decision layer used for entry [" . $parentJob->getEntryId() . "]");
 		$convertProfileData = $convertProfileJob->getData();
 
 		$entryId = $convertProfileJob->getEntryId();
@@ -1165,18 +1165,18 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 			$flavorsIds[] = $flavorsId;
 			$conversionProfileFlavorParams[$flavorsId] = $flavorParamsConversionProfile;
 		}
-		KalturaLog::info("Flavors in conversion profile [" . implode(',', $flavorsIds) . "]");
+		BorhanLog::info("Flavors in conversion profile [" . implode(',', $flavorsIds) . "]");
 
 		$sourceFlavor = null;
 		$flavors = assetParamsPeer::retrieveFlavorsByPKs($flavorsIds);
 
 		$ingestedNeeded = self::checkConvertProfileParams($flavors, $conversionProfileFlavorParams, $entry, $sourceFlavor);
 
-		KalturaLog::log(count($flavors) . " destination flavors found for this profile[" . $profile->getId() . "]");
+		BorhanLog::log(count($flavors) . " destination flavors found for this profile[" . $profile->getId() . "]");
 
 		if(!$sourceFlavor)
 		{
-			KalturaLog::log("Source flavor params not found");
+			BorhanLog::log("Source flavor params not found");
 			$originalFlavorAsset->setStatus(flavorAsset::FLAVOR_ASSET_STATUS_TEMP);
 			$originalFlavorAsset->save();
 				/*
@@ -1194,7 +1194,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 		}
 		elseif($shouldConvert)
 		{
-			KalturaLog::log("Source flavor params [" . $sourceFlavor->getId() . "] found");
+			BorhanLog::log("Source flavor params [" . $sourceFlavor->getId() . "] found");
 			$originalFlavorAsset->setFlavorParamsId($sourceFlavor->getId());
 
 			$res = self::decideSourceFlavorConvert($entryId, $sourceFlavor, $originalFlavorAsset, $profile->getId(), $flavors, $mediaInfo, $parentJob, $convertProfileJob);
@@ -1250,7 +1250,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 		if($convertProfileJob->getJobType() != BatchJobType::CONVERT_PROFILE)
 			throw new Exception("Root job [" . $convertProfileJob->getId() . "] is not profile conversion");
 
-		KalturaLog::log("Conversion decision layer continued for entry [" . $parentJob->getEntryId() . "]");
+		BorhanLog::log("Conversion decision layer continued for entry [" . $parentJob->getEntryId() . "]");
 		$convertProfileData = $convertProfileJob->getData();
 
 		$entryId = $convertProfileJob->getEntryId();
@@ -1302,7 +1302,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 		$flavors = assetParamsPeer::retrieveFlavorsByPKs($flavorsIds);
 		self::checkConvertProfileParams($flavors, $conversionProfileFlavorParams, $entry);
 
-		KalturaLog::log(count($flavors) . " destination flavors found for this profile[" . $profile->getId() . "]");
+		BorhanLog::log(count($flavors) . " destination flavors found for this profile[" . $profile->getId() . "]");
 
 		if(!count($flavors))
 			return false;
@@ -1313,7 +1313,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 			return self::decideProfileFlavorsConvert($parentJob, $convertProfileJob, $flavors, $conversionProfileFlavorParams,  $profile->getId(), $mediaInfo);
 		}
 		catch(Exception $e){
-			KalturaLog::err('decideProfileFlavorsConvert - ' . $e->getMessage());
+			BorhanLog::err('decideProfileFlavorsConvert - ' . $e->getMessage());
 		}
 	}
 
@@ -1332,7 +1332,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 		 * Auto-decrypt
 		 */
 		if(isset($mediaInfo) && $originalFlavorAsset->getEncryptionKey()){
-			KalturaLog::log("Encrypted Source, adding decryption (encryptionKey:".$originalFlavorAsset->getEncryptionKey().")");
+			BorhanLog::log("Encrypted Source, adding decryption (encryptionKey:".$originalFlavorAsset->getEncryptionKey().")");
 			$mediaInfo->decryptionKey = bin2hex(base64_decode($originalFlavorAsset->getEncryptionKey()));
 		}
 
@@ -1346,16 +1346,16 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 			if ($code == KDLErrors::SanityInvalidFrameDim || $code == KDLErrors::NoValidMediaStream)
 			{
 				$convertProfileJob = kJobsManager::failBatchJob($convertProfileJob, $errDescription);
-				KalturaLog::err($e->getMessage());
+				BorhanLog::err($e->getMessage());
 				throw $e;
 			}
 		}
 
-		KalturaLog::log(count($finalFlavors) . " flavors returned from the decision layer");
+		BorhanLog::log(count($finalFlavors) . " flavors returned from the decision layer");
 		if(is_null($finalFlavors))
 		{
 			$convertProfileJob = kJobsManager::failBatchJob($convertProfileJob, $errDescription);
-			KalturaLog::log("No flavors created");
+			BorhanLog::log("No flavors created");
 			//throw new Exception($errDescription); no need to throw alert if the root job failed
 		}
 
@@ -1407,14 +1407,14 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 			 * CHANGE: collection porcessing only for ExpressionEncoder jobs
 			 * to allow FFmpeg/ISMV processing
 			 */
-			KalturaLog::log("Check for collection case - engines(".$flavor->getConversionEngines().")");
+			BorhanLog::log("Check for collection case - engines(".$flavor->getConversionEngines().")");
 			if($collectionTag && $flavor->getConversionEngines()==conversionEngineType::EXPRESSION_ENCODER3)
 			{
 				$flavorsCollections[$collectionTag][] = $flavor;
 			}
 			else
 			{
-				KalturaLog::log("Adding flavor conversion with flavor params output id [" . $flavor->getId() . "] and flavor params asset id [" . $flavorAsset->getId() . "]");
+				BorhanLog::log("Adding flavor conversion with flavor params output id [" . $flavor->getId() . "] and flavor params asset id [" . $flavorAsset->getId() . "]");
 				$madiaInfoId = $mediaInfo ? $mediaInfo->getId() : null;
 				$createdJob = self::decideFlavorConvert($flavorAsset, $flavor, $originalFlavorAsset, $conversionProfileId, $madiaInfoId, $parentJob);
 
@@ -1434,7 +1434,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 
 		if(!$conversionsCreated && !$waitingAssets)
 		{
-			KalturaLog::log("No flavors created: $errDescription");
+			BorhanLog::log("No flavors created: $errDescription");
 			$convertProfileJob = kJobsManager::failBatchJob($convertProfileJob, $errDescription);
 			return false;
 		}
@@ -1460,7 +1460,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 		{
 			$flavorAsset->setStatus(flavorAsset::ASSET_STATUS_QUEUED);
 			$affectedRows = $flavorAsset->save();
-			KalturaLog::info('Changing asset status from Waiting to Queued, affected rows ['.$affectedRows.']');
+			BorhanLog::info('Changing asset status from Waiting to Queued, affected rows ['.$affectedRows.']');
 			if(!$affectedRows)
 				return false;
 
@@ -1508,10 +1508,10 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 
 		$readyAndNonApplicableAssetsCount = assetPeer::doCount($c);
 
-		KalturaLog::info('Verify source flavors are ready: number of ready and NA assets ['.$readyAndNonApplicableAssetsCount.'], number of source params ids ['.count($srcFlavorParamsIds).']');
+		BorhanLog::info('Verify source flavors are ready: number of ready and NA assets ['.$readyAndNonApplicableAssetsCount.'], number of source params ids ['.count($srcFlavorParamsIds).']');
 		if($readyAndNonApplicableAssetsCount < count($srcFlavorParamsIds))
 		{
-			KalturaLog::info('Not all source flavors are ready, changing status to WAIT_FOR_CONVERT');
+			BorhanLog::info('Not all source flavors are ready, changing status to WAIT_FOR_CONVERT');
 			$flavorAsset->setStatus(flavorAsset::ASSET_STATUS_WAIT_FOR_CONVERT);
 			$flavorAsset->setDescription("Source flavor assets are not ready");
 			$flavorAsset->save();
@@ -1523,7 +1523,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 		if(!count($srcFlavors))
 		{
 			//assuming all source flavors are Not Applicable
-			KalturaLog::log("Flavor [" . $flavorAsset->getFlavorParamsId() . "] is set to N/A since all it's sources are N/A");
+			BorhanLog::log("Flavor [" . $flavorAsset->getFlavorParamsId() . "] is set to N/A since all it's sources are N/A");
 			$flavorAsset->setStatus(flavorAsset::ASSET_STATUS_NOT_APPLICABLE);
 			$flavorAsset->save();
 			return false;
@@ -1539,11 +1539,11 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 		switch($collectionTag)
 		{
 			case flavorParams::TAG_ISM:
-				KalturaLog::log("Calling addConvertIsmCollectionJob with [" . count($flavors) . "] flavor params");
+				BorhanLog::log("Calling addConvertIsmCollectionJob with [" . count($flavors) . "] flavor params");
 				return kJobsManager::addConvertIsmCollectionJob($collectionTag, $srcSyncKey, $entry, $parentJob, $flavors, false);
 
 			default:
-				KalturaLog::log("Error: Invalid collection tag [$collectionTag]");
+				BorhanLog::log("Error: Invalid collection tag [$collectionTag]");
 				return null;
 		}
 	}
@@ -1552,7 +1552,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 	{
 		if($sourceFlavor && ($sourceFlavor->getOperators() || $sourceFlavor->getConversionEngines()) && $originalFlavorAsset->getInterFlowCount()== null)
 		{
-			KalturaLog::log("Source flavor asset requires conversion");
+			BorhanLog::log("Source flavor asset requires conversion");
 
 			self::adjustAssetParams($entryId, array($sourceFlavor));
 			$srcSyncKey = $originalFlavorAsset->getSyncKey(flavorAsset::FILE_SYNC_FLAVOR_ASSET_SUB_TYPE_ASSET);
@@ -1577,7 +1577,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 			 * Source auto-decrypt
 			 */
 			if(isset($mediaInfo) && $originalFlavorAsset->getEncryptionKey()){
-				KalturaLog::log("Encrypted Source, adding decryption (encryptionKey:".$originalFlavorAsset->getEncryptionKey().")");
+				BorhanLog::log("Encrypted Source, adding decryption (encryptionKey:".$originalFlavorAsset->getEncryptionKey().")");
 				$mediaInfo->decryptionKey = bin2hex(base64_decode($originalFlavorAsset->getEncryptionKey()));
 			}
 
@@ -1660,13 +1660,13 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 		// decided by the business logic layer
 		if($sourceFlavorOutput->_create_anyway)
 		{
-			KalturaLog::log("Flavor [" . $sourceFlavorOutput->getFlavorParamsId() . "] selected to be created anyway");
+			BorhanLog::log("Flavor [" . $sourceFlavorOutput->getFlavorParamsId() . "] selected to be created anyway");
 		}
 		else
 		{
 			if(!$sourceFlavorOutput->IsValid())
 			{
-				KalturaLog::log("Flavor [" . $sourceFlavorOutput->getFlavorParamsId() . "] is invalid");
+				BorhanLog::log("Flavor [" . $sourceFlavorOutput->getFlavorParamsId() . "] is invalid");
 				$originalFlavorAsset->setStatus(flavorAsset::FLAVOR_ASSET_STATUS_ERROR);
 				$originalFlavorAsset->save();
 
@@ -1677,11 +1677,11 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 			}
 
 			if($sourceFlavorOutput->_force)
-				KalturaLog::log("Flavor [" . $sourceFlavorOutput->getFlavorParamsId() . "] is forced");
+				BorhanLog::log("Flavor [" . $sourceFlavorOutput->getFlavorParamsId() . "] is forced");
 			elseif($sourceFlavorOutput->_isNonComply)
-				KalturaLog::log("Flavor [" . $sourceFlavorOutput->getFlavorParamsId() . "] is none-comply");
+				BorhanLog::log("Flavor [" . $sourceFlavorOutput->getFlavorParamsId() . "] is none-comply");
 			else
-				KalturaLog::log("Flavor [" . $sourceFlavorOutput->getFlavorParamsId() . "] is valid");
+				BorhanLog::log("Flavor [" . $sourceFlavorOutput->getFlavorParamsId() . "] is valid");
 		}
 
 		$originalFlavorAsset->setStatus(flavorAsset::FLAVOR_ASSET_STATUS_CONVERTING);
@@ -1746,7 +1746,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 	{
 		$batchJob = kJobsManager::failBatchJob($batchJob, $errDescription, $batchJobType);
 		kBatchManager::updateEntry($entryId, entryStatus::ERROR_CONVERTING);
-		KalturaLog::err($errDescription);
+		BorhanLog::err($errDescription);
 	}
 
 	private static function checkConvertProfileParams(&$flavors, $conversionProfileFlavorParams, $entry, &$sourceFlavor = null)
@@ -1759,7 +1759,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 		{
 			/* @var $flavor assetParams */
 
-			KalturaLog::info("Check flavor [" . $flavor->getId() . "]");
+			BorhanLog::info("Check flavor [" . $flavor->getId() . "]");
 			if(!isset($conversionProfileFlavorParams[$flavor->getId()]))
 				continue;
 
@@ -1786,7 +1786,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 			{
 				$sourceFlavor = $flavor;
 				unset($flavors[$index]);
-				KalturaLog::info("Flavor [" . $flavor->getId() . "] won't be converted because it has source tag");
+				BorhanLog::info("Flavor [" . $flavor->getId() . "] won't be converted because it has source tag");
 				continue;
 			}
 
@@ -1794,7 +1794,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 			{
 				unset($flavors[$index]);
 				$ingestedNeeded = true;
-				KalturaLog::info("Flavor [" . $flavor->getId() . "] won't be converted because it's ingested recorded live");
+				BorhanLog::info("Flavor [" . $flavor->getId() . "] won't be converted because it's ingested recorded live");
 				continue;
 			}
 
@@ -1805,14 +1805,14 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 			{
 				unset($flavors[$index]);
 				$ingestedNeeded = true;
-				KalturaLog::info("Flavor [" . $flavor->getId() . "] won't be converted because it should be ingested");
+				BorhanLog::info("Flavor [" . $flavor->getId() . "] won't be converted because it should be ingested");
 				continue;
 			}
 
 			if(in_array($flavor->getId(), $entryIngestedFlavors) &&
 				$conversionProfileFlavorParamsItem->getOrigin() == assetParamsOrigin::CONVERT_WHEN_MISSING)
 			{
-				KalturaLog::info("Flavor [" . $flavor->getId() . "] won't be converted because it already ingested");
+				BorhanLog::info("Flavor [" . $flavor->getId() . "] won't be converted because it already ingested");
 				unset($flavors[$index]);
 			}
 		}
@@ -1826,19 +1826,19 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 
 		if($profile->getCreationMode() == conversionProfile2::CONVERSION_PROFILE_2_CREATION_MODE_AUTOMATIC_BYPASS_FLV)
 		{
-			KalturaLog::log("The profile created from old conversion profile with bypass flv");
+			BorhanLog::log("The profile created from old conversion profile with bypass flv");
 			$isFlv = false;
 			if($mediaInfo)
 				$isFlv = KDLWrap::CDLIsFLV($mediaInfo);
 
 			if($isFlv && $originalFlavorAsset->hasTag(flavorParams::TAG_MBR))
 			{
-				KalturaLog::log("The source is mbr and flv, conversion will be bypassed");
+				BorhanLog::log("The source is mbr and flv, conversion will be bypassed");
 				$shouldConvert = false;
 			}
 			else
 			{
-				KalturaLog::log("The source is NOT mbr or flv, conversion will NOT be bypassed");
+				BorhanLog::log("The source is NOT mbr or flv, conversion will NOT be bypassed");
 			}
 		}
 		return $shouldConvert;
@@ -1851,10 +1851,10 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 	 */
 	protected static function adjustAssetParams($entryId, array $flavors)
 	{
-		$assetParamsAdjusters = KalturaPluginManager::getPluginInstances('IKalturaAssetParamsAdjuster');
+		$assetParamsAdjusters = BorhanPluginManager::getPluginInstances('IBorhanAssetParamsAdjuster');
 		foreach($assetParamsAdjusters as $assetParamsAdjuster)
 		{
-			/* @var $assetParamsAdjuster IKalturaAssetParamsAdjuster */
+			/* @var $assetParamsAdjuster IBorhanAssetParamsAdjuster */
 			$assetParamsAdjuster->adjustAssetParams($entryId, $flavors);
 		}
 	}
@@ -1866,11 +1866,11 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 	 */
 	protected static function setEncryptionAtRest($flavor, $flavorAsset)
 	{
-		KalturaLog::log("for asset".$flavorAsset->getId());
+		BorhanLog::log("for asset".$flavorAsset->getId());
 		$encryptionParams = self::acquireEncryptionParams($flavorAsset->getEntryId(), $flavorAsset->getId(), $flavorAsset->getPartnerId());
 		if(($commandLines=$flavor->getCommandLines())!=null) {
 				// Update the transcoding engines cmd-lines with encryption key/key_id values
-			KalturaLog::log("CommandLines Pre:".serialize($commandLines));
+			BorhanLog::log("CommandLines Pre:".serialize($commandLines));
 			$commandLines = str_replace (
 				array(KDLFlavor::ENCRYPTION_KEY_PLACEHOLDER, KDLFlavor::ENCRYPTION_KEY_ID_PLACEHOLDER),
 				array(bin2hex(base64_decode($encryptionParams->key)), bin2hex(base64_decode($encryptionParams->key_id))),
@@ -1881,7 +1881,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 		}
 		else if(($operatorsJsonStr=$flavor->getOperators())!=null){
 				// Update the transcoding operators cmd-lines with encryption key/key_id values
-			KalturaLog::log("Operators Pre:".($operatorsJsonStr));
+			BorhanLog::log("Operators Pre:".($operatorsJsonStr));
 			$operatorsJsonStr = str_replace (
 				array(KDLFlavor::ENCRYPTION_KEY_PLACEHOLDER, KDLFlavor::ENCRYPTION_KEY_ID_PLACEHOLDER),
 				array(bin2hex(base64_decode($encryptionParams->key)), bin2hex(base64_decode($encryptionParams->key_id))),
@@ -1910,7 +1910,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 		$licenseServerUrl = kConf::get('internal_encryption_url', 'drm', null);
 		if(!(isset($licenseServerUrl))) {
 			$errMsg = "Encryption: Missing 'internal_encryption_url' ";
-			KalturaLog::err($errMsg);
+			BorhanLog::err($errMsg);
 			throw new kCoreException($errMsg , KDLErrors::Encryption);
 		}
 
@@ -1922,10 +1922,10 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 
 		if(!(isset($signingKey))) {
 			$errMsg = "Encryption: Missing 'signing_key' ";
-			KalturaLog::err($errMsg);
+			BorhanLog::err($errMsg);
 			throw new kCoreException($errMsg , KDLErrors::Encryption);
 		}
-		KalturaLog::log("Successfully retrieved UDRM 'internal_encryption_url' and 'signing_key' vals ($signingKeys)");
+		BorhanLog::log("Successfully retrieved UDRM 'internal_encryption_url' and 'signing_key' vals ($signingKeys)");
 
 			/*
 			 * Prepare data for the UDRM service curl call
@@ -1946,12 +1946,12 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 			curl_setopt($ch, CURLOPT_POST, true);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonPostData);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			KalturaLog::log("calling UDRM service - serviceURL($serviceURL), data ($jsonPostData)");
+			BorhanLog::log("calling UDRM service - serviceURL($serviceURL), data ($jsonPostData)");
 
 			$output = curl_exec($ch);
 			if ($output === false){
 				$errMsg = "Encryption: Could not get UDRM Data,error message 'Curl had an error '".curl_error($ch)."'";
-				KalturaLog::err($errMsg);
+				BorhanLog::err($errMsg);
 				throw new kCoreException($errMsg , KDLErrors::Encryption);
 			}
 			$retVal = json_decode($output);
@@ -1960,7 +1960,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 		}
 
 		$errMsg = "Encryption: Did got invalid result from udrm service, output ($output)";
-		KalturaLog::err($errMsg);
+		BorhanLog::err($errMsg);
 		throw new kCoreException($errMsg , KDLErrors::Encryption);
 	}
 
@@ -1995,19 +1995,19 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 	 */
 	private static function overrideFlavorParamsWithMultistreamData($flavorParams, $entryId)
 	{
-		KalturaLog::log("entry($entryId)");
+		BorhanLog::log("entry($entryId)");
 		$entry = entryPeer::retrieveByPK($entryId);
 		if(!isset($entry))
 			return;
 		
 		$overrideSourceStreams = $entry->getStreams();	
 		if(!isset($overrideSourceStreams)){
-			KalturaLog::log("Nothing to override");
+			BorhanLog::log("Nothing to override");
 			return;
 		}
 		
 		$overrides = array();
-		KalturaLog::log("entry($entryId) - streams - ".print_r($overrideSourceStreams,1));
+		BorhanLog::log("entry($entryId) - streams - ".print_r($overrideSourceStreams,1));
 		foreach($overrideSourceStreams as $obj){
 			$override = new stdClass();
 			if($obj->getType()!='audio')
@@ -2029,7 +2029,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 		$returnOverideObj->audio = $overrides;
 		
 		$jsonMultiStream = $flavorParams->getMultiStream();
-		KalturaLog::log("entry($entryId) - json - original($jsonMultiStream)");
+		BorhanLog::log("entry($entryId) - json - original($jsonMultiStream)");
 		if(isset($jsonMultiStream)){
 			$multiStreamObj = json_decode($jsonMultiStream);
 			if(!isset($multiStreamObj)) {
@@ -2041,7 +2041,7 @@ KalturaLog::log("Forcing (create anyway) target $matchSourceHeightIdx");
 		}
 		$multiStreamObj->source = $returnOverideObj;
 		$jsonMultiStream = json_encode($multiStreamObj);
-		KalturaLog::log("entry($entryId) - json - updated($jsonMultiStream)");
+		BorhanLog::log("entry($entryId) - json - updated($jsonMultiStream)");
 		$flavorParams->setMultiStream($jsonMultiStream);
 	}
 	

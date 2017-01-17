@@ -6,7 +6,7 @@
  * @subpackage objects
  *
  */
-class KalturaBulkUploadEntryData extends KalturaBulkUploadObjectData
+class BorhanBulkUploadEntryData extends BorhanBulkUploadObjectData
 {
     /**
      * Selected profile id for all bulk entries

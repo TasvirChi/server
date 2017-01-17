@@ -56,7 +56,7 @@ class myPlaylistUtils
 			// assume this is a dynamic playlist			
 			// TODO - validate XML
 			$dynamic_playlist_str = $playlist->getDataContent(true);
-			KalturaLog::log( "Playlist [" . $playlist->getId() . "] [" . $playlist->getName() . "] dataContent:\n" . $dynamic_playlist_str );
+			BorhanLog::log( "Playlist [" . $playlist->getId() . "] [" . $playlist->getName() . "] dataContent:\n" . $dynamic_playlist_str );
 			if ( ! $dynamic_playlist_str ) $playlist->setDataContent( null , false ); // set to null and it the content of the xml won't be update
 		}
 		elseif ( $playlist->getMediaType() == entry::ENTRY_MEDIA_TYPE_GENERIC_1 )
@@ -295,12 +295,12 @@ class myPlaylistUtils
 	public static function executeStaticPlaylistFromEntryIds(array $entry_id_list, $entry_filter = null, $detailed = true, $pager = null)
 	{
 		// if exists extra_filters - use the first one to filter the entry_id_list
-		$c= KalturaCriteria::create(entryPeer::OM_CLASS);
+		$c= BorhanCriteria::create(entryPeer::OM_CLASS);
 		
 		$filter = new entryFilter();
 		$filter->setIdIn($entry_id_list);
 		$filter->setStatusEquel(entryStatus::READY);
-		$filter->setPartnerSearchScope(baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE);
+		$filter->setPartnerSearchScope(baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE);
 		$filter->attachToCriteria($c);
 		
 		
@@ -325,7 +325,7 @@ class myPlaylistUtils
 			{
 				$entry_filter->set ( "_eq_display_in_search" , null );
 			}
-			$entry_filter->setPartnerSearchScope(baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE);
+			$entry_filter->setPartnerSearchScope(baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE);
 			$entry_filter->attachToCriteria( $c );
 			
 			// add some hard-coded criteria
@@ -334,7 +334,7 @@ class myPlaylistUtils
 
 			if ( $display_in_search >= 2 )
 			{
-				// We don't allow searching in the KalturaNEtwork anymore (mainly for performance reasons)
+				// We don't allow searching in the BorhanNEtwork anymore (mainly for performance reasons)
 				// allow only assets for the partner  
 				$c->addAnd ( entryPeer::PARTNER_ID , $partner_id ); // 
 /*				
@@ -484,7 +484,7 @@ class myPlaylistUtils
 			$entry_filter_xml = $list_of_filters[$i];
 
 		    /* @var $entry_filter_xml SimpleXMLElement */
-			// 	in general this service can fetch entries from kaltura networks.
+			// 	in general this service can fetch entries from borhan networks.
 			// for each filter we should decide if thie assumption is true...
 			$allow_partner_only = true;
 			
@@ -519,7 +519,7 @@ class myPlaylistUtils
 					myBaseObject::CLONE_FIELD_POLICY_THIS , 
 					myBaseObject::CLONE_POLICY_PREFER_NEW , null , null , false );
 					
-				$entry_filter->setPartnerSearchScope ( baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE );
+				$entry_filter->setPartnerSearchScope ( baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE );
 			}
 			
 			self::updateEntryFilter( $entry_filter ,  $partner_id , true );
@@ -545,7 +545,7 @@ class myPlaylistUtils
 			// no need to fetch any more results
 			if ( $current_limit <= 0 ) break;
 
-			$c = KalturaCriteria::create(entryPeer::OM_CLASS);
+			$c = BorhanCriteria::create(entryPeer::OM_CLASS);
 			// don't fetch the same entries twice - filter out all the entries that were already fetched
 			if( $entry_ids_list ) $c->add ( entryPeer::ID , $entry_ids_list , Criteria::NOT_IN );
 			
@@ -573,7 +573,7 @@ class myPlaylistUtils
 
 			if ( $display_in_search >= 2 )
 			{
-				// We don't allow searching in the KalturaNEtwork anymore (mainly for performance reasons)
+				// We don't allow searching in the BorhanNEtwork anymore (mainly for performance reasons)
 				// allow only assets for the partner  
 				$c->addAnd ( entryPeer::PARTNER_ID , $partner_id ); // 
 /*				
@@ -603,11 +603,11 @@ class myPlaylistUtils
 
 		// Disable entitlement, which was already applied in entryPeer::prepareEntitlementCriteriaAndFilters()
 		// otherwise we will hit the 150 entries limit from SphinxCriterion
-		KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_ENTRY);
+		BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_ENTRY);
 
 		$db_entry_list = entryPeer::retrieveByPKs( $entry_ids_list );
 
-		KalturaCriterion::restoreTag(KalturaCriterion::TAG_ENTITLEMENT_ENTRY);
+		BorhanCriterion::restoreTag(BorhanCriterion::TAG_ENTITLEMENT_ENTRY);
 
 		// Map the entries to their IDs
 		$entry_map = array();
@@ -720,9 +720,9 @@ class myPlaylistUtils
 //		$autoplay_str = $autoplay ? "autoPlay=true" : "autoPlay=false" ; 
 		$autoplay_str = "";
 $embed = <<< HTML
-<object height="{$ui_conf->getHeight()}" width="{$ui_conf->getWidth()}" type="application/x-shockwave-flash" data="{$host}/kwidget/wid/{$wid}/ui_conf_id/{$ui_conf_id}" id="kaltura_playlist" style="visibility: visible;">		
+<object height="{$ui_conf->getHeight()}" width="{$ui_conf->getWidth()}" type="application/x-shockwave-flash" data="{$host}/bwidget/wid/{$wid}/ui_conf_id/{$ui_conf_id}" id="borhan_playlist" style="visibility: visible;">		
 <param name="allowscriptaccess" value="always"/><param name="allownetworking" value="all"/><param name="bgcolor" value="#000000"/><param name="wmode" value="opaque"/><param name="allowfullscreen" value="true"/>
-<param name="movie" value="{$host}/kwidget/wid/{$wid}/ui_conf_id/{$ui_conf_id}"/>
+<param name="movie" value="{$host}/bwidget/wid/{$wid}/ui_conf_id/{$ui_conf_id}"/>
 <param name="flashvars" value="layoutId=playlistLight&uid={$uid}&partner_id={$partner_id}&subp_id={$subp_id}&$playlist_flashvars"/></object>
 HTML;
 		return array ( $embed , $ui_conf->getWidth() ,  $ui_conf->getHeight() ); 		
@@ -792,7 +792,7 @@ HTML;
 		foreach ( $list_of_filters as $entry_filter_xml )
 		{
 			$prefix = "f{$i}_";
-			// 	in general this service can fetch entries from kaltura networks.
+			// 	in general this service can fetch entries from borhan networks.
 			// for each filter we should decide if thie assumption is true...
 			$allow_partner_only = true;
 			
@@ -807,7 +807,7 @@ HTML;
 				$entry_filter->setLimit( self::TOTAL_RESULTS );
 			}
 			
-			$entry_filter->setPartnerSearchScope ( baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE );
+			$entry_filter->setPartnerSearchScope ( baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE );
 			self::updateEntryFilter( $entry_filter ,  $partner_id );
 
 			//$entry_filters[] = $entry_filter;
@@ -838,7 +838,7 @@ HTML;
 		}	
 		else
 		{
-			$entry_filter->setPartnerSearchScope(baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE);
+			$entry_filter->setPartnerSearchScope(baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE);
 		}
 	}
 	
@@ -990,7 +990,7 @@ HTML;
 	        if (isset($propertyAttributes['dynamic']) && $propertyAttributes['dynamic'] = 1)
 	        {
 	            $tokenValue = (string)$property;
-	            KalturaLog::debug("Apply dynamic token [$property]");
+	            BorhanLog::debug("Apply dynamic token [$property]");
 	            $tokenValue = explode("::", $tokenValue);
 	            if ($tokenValue[0] == self::CONTEXT_DELIMITER)
 	            {
@@ -1001,7 +1001,7 @@ HTML;
     	                $getter = "get".$tokenPart;
     	                if (!method_exists($replaceValue, $getter))
     	                {
-    	                	KalturaLog::err("Method [$getter] not found on class [" . get_class($replaceValue) . "] for token [$property]");
+    	                	BorhanLog::err("Method [$getter] not found on class [" . get_class($replaceValue) . "] for token [$property]");
     	                	$replaceValue = null;
     	                	break;
     	                }
@@ -1011,7 +1011,7 @@ HTML;
     	            
     	            if(!$replaceValue)
     	            {
-    	            	KalturaLog::debug("Dynamic token [$property] is null");
+    	            	BorhanLog::debug("Dynamic token [$property] is null");
                         $contentAsDom = dom_import_simplexml($contentXml);
                         $contentAsDom->removeChild(dom_import_simplexml($property));
     	            	continue;

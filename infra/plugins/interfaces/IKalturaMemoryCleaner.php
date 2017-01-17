@@ -4,7 +4,7 @@
  * @package infra
  * @subpackage Plugins
  */
-interface IKalturaMemoryCleaner extends IKalturaBase
+interface IBorhanMemoryCleaner extends IBorhanBase
 {
 	public static function cleanMemory();
 }

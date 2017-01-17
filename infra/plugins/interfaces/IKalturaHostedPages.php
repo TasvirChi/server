@@ -4,6 +4,6 @@
  * @package infra
  * @subpackage Plugins
  */
-interface IKalturaHostedPages extends IKalturaApplicationPages
+interface IBorhanHostedPages extends IBorhanApplicationPages
 {
 }

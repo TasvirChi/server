@@ -3,7 +3,7 @@
  * @package plugins.ideticDistribution
  * @subpackage api.enum
  */
-class KalturaIdeticDistributionField extends KalturaStringEnum implements IdeticDistributionField
+class BorhanIdeticDistributionField extends BorhanStringEnum implements IdeticDistributionField
 {
 	// see IdeticDistributionField interface
 }

@@ -39,15 +39,15 @@ class ExampleDistributionEngine extends DistributionEngine implements
 	 * 
 	 * Demonstrate asynchronous external API usage
 	 */
-	public function submit(KalturaDistributionSubmitJobData $data)
+	public function submit(BorhanDistributionSubmitJobData $data)
 	{
 		// validates received object types
 				
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaExampleDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaExampleDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanExampleDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanExampleDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaExampleDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaExampleDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanExampleDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanExampleDistributionJobProviderData");
 		
 		// call the actual submit action
 		$this->handleSubmit($data, $data->distributionProfile, $data->providerData);
@@ -59,7 +59,7 @@ class ExampleDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseSubmit::closeSubmit()
 	 */
-	public function closeSubmit(KalturaDistributionSubmitJobData $data)
+	public function closeSubmit(BorhanDistributionSubmitJobData $data)
 	{
 		return ExampleExternalApiService::wasSubmitSucceed($data->remoteId);
 	}
@@ -67,15 +67,15 @@ class ExampleDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineDelete::delete()
 	 */
-	public function delete(KalturaDistributionDeleteJobData $data)
+	public function delete(BorhanDistributionDeleteJobData $data)
 	{
 		// demonstrate asynchronous XML delivery usage from XSL
 		
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaExampleDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaExampleDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanExampleDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanExampleDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaExampleDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaExampleDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanExampleDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanExampleDistributionJobProviderData");
 		
 		$this->handleDelete($data, $data->distributionProfile, $data->providerData);
 		
@@ -87,13 +87,13 @@ class ExampleDistributionEngine extends DistributionEngine implements
 	 * 
 	 * demonstrate asynchronous XML delivery usage from template and uploading the media
 	 */
-	public function update(KalturaDistributionUpdateJobData $data)
+	public function update(BorhanDistributionUpdateJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaExampleDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaExampleDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanExampleDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanExampleDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaExampleDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaExampleDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanExampleDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanExampleDistributionJobProviderData");
 		
 		$this->handleUpdate($data, $data->distributionProfile, $data->providerData);
 		
@@ -105,24 +105,24 @@ class ExampleDistributionEngine extends DistributionEngine implements
 	 * 
 	 * Demonstrate asynchronous http url parsing
 	 */
-	public function fetchReport(KalturaDistributionFetchReportJobData $data)
+	public function fetchReport(BorhanDistributionFetchReportJobData $data)
 	{
 		// TODO
 		return false;
 	}
 	
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaExampleDistributionProfile $distributionProfile
-	 * @param KalturaExampleDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanExampleDistributionProfile $distributionProfile
+	 * @param BorhanExampleDistributionJobProviderData $providerData
 	 */
-	protected function handleSubmit(KalturaDistributionJobData $data, KalturaExampleDistributionProfile $distributionProfile, KalturaExampleDistributionJobProviderData $providerData)
+	protected function handleSubmit(BorhanDistributionJobData $data, BorhanExampleDistributionProfile $distributionProfile, BorhanExampleDistributionJobProviderData $providerData)
 	{
 		$entryId = $data->entryDistribution->entryId;
 		$partnerId = $distributionProfile->partnerId;
 		$entry = $this->getEntry($partnerId, $entryId);
 
-		// populate the external API object with the Kaltura entry data
+		// populate the external API object with the Borhan entry data
 		$exampleExternalApiMediaItem = new ExampleExternalApiMediaItem();
 		$exampleExternalApiMediaItem->resourceId = $entry->id;
 		$exampleExternalApiMediaItem->title = $entry->name;
@@ -155,21 +155,21 @@ class ExampleDistributionEngine extends DistributionEngine implements
 	}
 	
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaExampleDistributionProfile $distributionProfile
-	 * @param KalturaExampleDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanExampleDistributionProfile $distributionProfile
+	 * @param BorhanExampleDistributionJobProviderData $providerData
 	 */
-	protected function handleDelete(KalturaDistributionJobData $data, KalturaExampleDistributionProfile $distributionProfile, KalturaExampleDistributionJobProviderData $providerData)
+	protected function handleDelete(BorhanDistributionJobData $data, BorhanExampleDistributionProfile $distributionProfile, BorhanExampleDistributionJobProviderData $providerData)
 	{
 		// TODO
 	}
 	
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaExampleDistributionProfile $distributionProfile
-	 * @param KalturaExampleDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanExampleDistributionProfile $distributionProfile
+	 * @param BorhanExampleDistributionJobProviderData $providerData
 	 */
-	protected function handleUpdate(KalturaDistributionJobData $data, KalturaExampleDistributionProfile $distributionProfile, KalturaExampleDistributionJobProviderData $providerData)
+	protected function handleUpdate(BorhanDistributionJobData $data, BorhanExampleDistributionProfile $distributionProfile, BorhanExampleDistributionJobProviderData $providerData)
 	{
 		$entryId = $data->entryDistribution->entryId;
 		$partnerId = $distributionProfile->partnerId;

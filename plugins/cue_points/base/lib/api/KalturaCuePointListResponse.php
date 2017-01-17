@@ -3,10 +3,10 @@
  * @package plugins.cuePoint
  * @subpackage api.objects
  */
-class KalturaCuePointListResponse extends KalturaListResponse
+class BorhanCuePointListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaCuePointArray
+	 * @var BorhanCuePointArray
 	 * @readonly
 	 */
 	public $objects;

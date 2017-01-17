@@ -54,7 +54,7 @@ class DocumentCreatedHandler implements kObjectCreatedEventConsumer, kObjectAdde
 		
 		if($object->getType() != entryType::DOCUMENT)
 		{
-			KalturaLog::info("entry id [" . $object->getId() . "] type [" . $object->getType() . "]");
+			BorhanLog::info("entry id [" . $object->getId() . "] type [" . $object->getType() . "]");
 			return true;
 		}
 	
@@ -65,7 +65,7 @@ class DocumentCreatedHandler implements kObjectCreatedEventConsumer, kObjectAdde
 			
 		if($object instanceof DocumentEntry)
 		{
-			KalturaLog::info("entry id [" . $object->getId() . "] already handled");
+			BorhanLog::info("entry id [" . $object->getId() . "] already handled");
 			return true;
 		}
 	

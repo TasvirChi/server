@@ -39,4 +39,4 @@ while(count($allCats))
 	$allCats = categoryPeer::doSelect($criteria);
 }
 
-KalturaLog::log('Done.');
+BorhanLog::log('Done.');

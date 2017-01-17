@@ -27,7 +27,7 @@ class CodeCuePointBulkUploadXmlHandler extends CuePointBulkUploadXmlHandler
 	 */
 	protected function getNewInstance()
 	{
-		return new KalturaCodeCuePoint();
+		return new BorhanCodeCuePoint();
 	}
 	
 	/* (non-PHPdoc)
@@ -39,7 +39,7 @@ class CodeCuePointBulkUploadXmlHandler extends CuePointBulkUploadXmlHandler
 			return null;
 			
 		$cuePoint = parent::parseCuePoint($scene);
-		if(!($cuePoint instanceof KalturaCodeCuePoint))
+		if(!($cuePoint instanceof BorhanCodeCuePoint))
 			return null;
 		
 		if(isset($scene->sceneEndTime))

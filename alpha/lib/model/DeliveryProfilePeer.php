@@ -100,7 +100,7 @@ class DeliveryProfilePeer extends BaseDeliveryProfilePeer {
 		if(isset(self::$class_types_cache[$deliveryType]))
 			return self::$class_types_cache[$deliveryType];
 		
-		$extendedCls = KalturaPluginManager::getObjectClass(parent::OM_CLASS, $deliveryType);
+		$extendedCls = BorhanPluginManager::getObjectClass(parent::OM_CLASS, $deliveryType);
 		if($extendedCls)
 		{
 			self::$class_types_cache[$deliveryType] = $extendedCls;
@@ -173,7 +173,7 @@ class DeliveryProfilePeer extends BaseDeliveryProfilePeer {
 		$entry = entryPeer::retrieveByPK($entryId);
 		if(!$entry)
 		{
-			KalturaLog::err('Failed to retrieve entryID: '. $entryId);
+			BorhanLog::err('Failed to retrieve entryID: '. $entryId);
 			return null;
 		}
 
@@ -181,7 +181,7 @@ class DeliveryProfilePeer extends BaseDeliveryProfilePeer {
 		$partner = PartnerPeer::retrieveByPK($partnerId);
 		if(!$partner)
 		{
-			KalturaLog::err('Failed to retrieve partnerId: '. $partnerId);
+			BorhanLog::err('Failed to retrieve partnerId: '. $partnerId);
 			return null;
 		}
 
@@ -298,11 +298,11 @@ class DeliveryProfilePeer extends BaseDeliveryProfilePeer {
 
 		if($delivery)
 		{
-			KalturaLog::info("Delivery ID for partnerId [$partnerId] and streamer type [$streamerType] is " . $delivery->getId());
+			BorhanLog::info("Delivery ID for partnerId [$partnerId] and streamer type [$streamerType] is " . $delivery->getId());
 		} else
 		{
 			$mediaProtocol = $deliveryAttributes ? $deliveryAttributes->getMediaProtocol() : null;
-			KalturaLog::err("Delivery ID can't be determined for partnerId [$partnerId] streamer type [$streamerType] and media protocol [$mediaProtocol]");
+			BorhanLog::err("Delivery ID can't be determined for partnerId [$partnerId] streamer type [$streamerType] and media protocol [$mediaProtocol]");
 		}
 
 		return $delivery;
@@ -385,7 +385,7 @@ class DeliveryProfilePeer extends BaseDeliveryProfilePeer {
 		$storageId = $deliveryAttributes->getStorageId();
 		$storageProfile = StorageProfilePeer::retrieveByPK($storageId);
 		if(!$storageProfile) {
-			KalturaLog::err('Couldn\'t retrieve storageId: '. $storageId);
+			BorhanLog::err('Couldn\'t retrieve storageId: '. $storageId);
 			return null;
 		}
 
@@ -393,7 +393,7 @@ class DeliveryProfilePeer extends BaseDeliveryProfilePeer {
 		$deliveryIds = $storageProfile->getDeliveryProfileIds();
 
 		if(!array_key_exists($streamerType, $deliveryIds)) {
-			KalturaLog::err("Delivery ID can't be determined for storageId [$storageId] ( PartnerId [" .  $storageProfile->getPartnerId() . "] ) and streamer type [ $streamerType ]");
+			BorhanLog::err("Delivery ID can't be determined for storageId [$storageId] ( PartnerId [" .  $storageProfile->getPartnerId() . "] ) and streamer type [ $streamerType ]");
 			return null;
 		}
 
@@ -404,7 +404,7 @@ class DeliveryProfilePeer extends BaseDeliveryProfilePeer {
 				$deliveryIds = array($streamerType => array($deliveryProfileId));
 			else
 			{
-				KalturaLog::err('Requested delivery profile id ['. $deliveryProfileId."], can't be determined for storageId [$storageId] ,PartnerId [".$storageProfile->getPartnerId()."] and streamer type [$streamerType]");
+				BorhanLog::err('Requested delivery profile id ['. $deliveryProfileId."], can't be determined for storageId [$storageId] ,PartnerId [".$storageProfile->getPartnerId()."] and streamer type [$streamerType]");
 				return null;
 			}
 		}
@@ -414,13 +414,13 @@ class DeliveryProfilePeer extends BaseDeliveryProfilePeer {
 		$deliveries = DeliveryProfilePeer::retrieveByPKs($deliveryIds[$streamerType]);
 		$delivery = self::selectByDeliveryAttributes($deliveries, $deliveryAttributes);
 		if($delivery) {
-			KalturaLog::info("Delivery ID for storageId [$storageId] ( PartnerId [" . $storageProfile->getPartnerId() . "] ) and streamer type [$streamerType] is " . $delivery->getId());
+			BorhanLog::info("Delivery ID for storageId [$storageId] ( PartnerId [" . $storageProfile->getPartnerId() . "] ) and streamer type [$streamerType] is " . $delivery->getId());
 			$delivery->setEntryId($deliveryAttributes->getEntryId());
 			$delivery->setStorageId($storageId);
 			
 			$delivery->initDeliveryDynamicAttributes($fileSync, $asset);
 		} else {
-			KalturaLog::err("Delivery ID can't be determined for storageId [$storageId] ( PartnerId [" .  $storageProfile->getPartnerId() . "] ) streamer type [$streamerType] and media protocol [".$deliveryAttributes->getMediaProtocol()."]");
+			BorhanLog::err("Delivery ID can't be determined for storageId [$storageId] ( PartnerId [" .  $storageProfile->getPartnerId() . "] ) streamer type [$streamerType] and media protocol [".$deliveryAttributes->getMediaProtocol()."]");
 		}
 		
 		return $delivery;
@@ -486,7 +486,7 @@ class DeliveryProfilePeer extends BaseDeliveryProfilePeer {
 		$entryId = $deliveryAttributes->getEntryId();
 		$entry = entryPeer::retrieveByPK($entryId);
 		if(!$entry) {
-			KalturaLog::err('Failed to retrieve entryId: '. $entryId);
+			BorhanLog::err('Failed to retrieve entryId: '. $entryId);
 			return null;
 		}
 		$partnerId = $entry->getPartnerId();
@@ -512,10 +512,10 @@ class DeliveryProfilePeer extends BaseDeliveryProfilePeer {
 		
 		$delivery = self::selectByDeliveryAttributes($deliveries, $deliveryAttributes);
 		if($delivery) {
-			KalturaLog::info("Delivery ID for Host Name: [$cdnHost] and streamer type: [$streamerType] is [" . $delivery->getId());
+			BorhanLog::info("Delivery ID for Host Name: [$cdnHost] and streamer type: [$streamerType] is [" . $delivery->getId());
 			$delivery->setEntryId($entryId);
 		} else {
-			KalturaLog::err("Delivery ID can't be determined for Host Name [$cdnHost] and streamer type [$streamerType]");
+			BorhanLog::err("Delivery ID can't be determined for Host Name [$cdnHost] and streamer type [$streamerType]");
 		}
 		return $delivery;
 		
@@ -565,7 +565,7 @@ class DeliveryProfilePeer extends BaseDeliveryProfilePeer {
 	 */
 	public static function getAllLiveDeliveryProfileTypes()
 	{
-		$deliveryProfileTypes = KalturaPluginManager::getExtendedTypes(self::OM_CLASS, self::LIVE_DELIVERY_PROFILE);
+		$deliveryProfileTypes = BorhanPluginManager::getExtendedTypes(self::OM_CLASS, self::LIVE_DELIVERY_PROFILE);
 		$deliveryProfileTypes = array_merge($deliveryProfileTypes, self::$LIVE_DELIVERY_PROFILES);
 		
 		$key = array_search(self::LIVE_DELIVERY_PROFILE, $deliveryProfileTypes);

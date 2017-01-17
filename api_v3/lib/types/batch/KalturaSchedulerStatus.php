@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaSchedulerStatus extends KalturaObject 
+class BorhanSchedulerStatus extends BorhanObject 
 {
 	/**
 	 * The id of the Category
@@ -37,7 +37,7 @@ class KalturaSchedulerStatus extends KalturaObject
 	/**
 	 * The type of the job worker.
 	 *  
-	 * @var KalturaBatchJobType
+	 * @var BorhanBatchJobType
 	 */
 	public $workerType;
 
@@ -46,7 +46,7 @@ class KalturaSchedulerStatus extends KalturaObject
 	/**
 	 * The status type
 	 *  
-	 * @var KalturaSchedulerStatusType
+	 * @var BorhanSchedulerStatusType
 	 */
 	public $type;
 
@@ -96,16 +96,16 @@ class KalturaSchedulerStatus extends KalturaObject
 		return array_merge(parent::getMapBetweenObjects(), self::$mapBetweenObjects);
 	}
 
-	public function doFromObject($dbData, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($dbData, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($dbData, $responseProfile);
 		
 		$statusesArray = $dbData->getStatuses();
 		if(is_array($statusesArray))
-			$this->statuses = KalturaSchedulerStatusArray::fromValuesArray($statusesArray, $this->schedulerId, $this->schedulerConfiguredId, $this->id, $this->configuredId, $this->type);
+			$this->statuses = BorhanSchedulerStatusArray::fromValuesArray($statusesArray, $this->schedulerId, $this->schedulerConfiguredId, $this->id, $this->configuredId, $this->type);
 		
-		$this->configs = KalturaSchedulerConfigArray::fromDbArray($dbData->getConfigs());
-		$this->lockedJobs = KalturaBatchJobArray::fromBatchJobArray($dbData->getLockedJobs());
+		$this->configs = BorhanSchedulerConfigArray::fromDbArray($dbData->getConfigs());
+		$this->lockedJobs = BorhanBatchJobArray::fromBatchJobArray($dbData->getLockedJobs());
 		
 		return $this;
 	}

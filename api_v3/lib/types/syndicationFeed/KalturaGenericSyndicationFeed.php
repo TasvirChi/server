@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaGenericSyndicationFeed extends KalturaBaseSyndicationFeed
+class BorhanGenericSyndicationFeed extends BorhanBaseSyndicationFeed
 {
     /**
     * feed description
@@ -21,7 +21,7 @@ class KalturaGenericSyndicationFeed extends KalturaBaseSyndicationFeed
         
     function __construct()
 	{
-		$this->type = KalturaSyndicationFeedType::KALTURA;
+		$this->type = BorhanSyndicationFeedType::BORHAN;
 	}
 	
 	private static $mapBetweenObjects = array

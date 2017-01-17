@@ -174,8 +174,8 @@ class kContextDataHelper
 				if (array_key_exists($partnerId, $optimizedPlayback))
 				{
 					$params = $optimizedPlayback[$partnerId];
-					if (array_key_exists('cache_kdp_access_control', $params) && $params['cache_kdp_access_control'] &&
-					 	(strpos(strtolower(kCurrentContext::$client_lang), "kdp") !== false || strpos(strtolower(kCurrentContext::$client_lang), "html") !== false ))
+					if (array_key_exists('cache_bdp_access_control', $params) && $params['cache_bdp_access_control'] &&
+					 	(strpos(strtolower(kCurrentContext::$client_lang), "bdp") !== false || strpos(strtolower(kCurrentContext::$client_lang), "html") !== false ))
 						return;
 				}
 			}		
@@ -314,7 +314,7 @@ class kContextDataHelper
 	private function setContextDataStorageProfilesXml()
 	{
 		if(PermissionPeer::isValidForPartner(PermissionName::FEATURE_REMOTE_STORAGE_DELIVERY_PRIORITY, $this->entry->getPartnerId()) &&
-			$this->partner->getStorageServePriority() != StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_ONLY)
+			$this->partner->getStorageServePriority() != StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_ONLY)
 		{
 			$asset = reset($this->allowedFlavorAssets);		
 			if(!$asset)
@@ -358,7 +358,7 @@ class kContextDataHelper
 		{
 			$protocols = array();
 			
-			if(!in_array($this->entry->getSource(), LiveEntry::$kalturaLiveSourceTypes))
+			if(!in_array($this->entry->getSource(), LiveEntry::$borhanLiveSourceTypes))
 				$protocols[] = PlaybackProtocol::AKAMAI_HDS;
 				
 			$protocols[] = PlaybackProtocol::HDS;
@@ -425,10 +425,10 @@ class kContextDataHelper
 			$this->mediaProtocol = PlaybackProtocol::HTTP;
 		
 		//If a plugin can determine the streamerType and mediaProtocol, prefer plugin result
-		$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaContextDataHelper');
+		$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanContextDataHelper');
 		foreach ($pluginInstances as $pluginInstance)
 		{
-			/* @var $pluginInstance IKalturaContextDataHelper */
+			/* @var $pluginInstance IBorhanContextDataHelper */
 			$this->streamerType = $pluginInstance->getContextDataStreamerType($scope, $flavorTags, $this->streamerType);
 			$this->mediaProtocol = $pluginInstance->getContextDataMediaProtocol($scope, $flavorTags, $this->streamerType, $this->mediaProtocol);
 		}
@@ -447,7 +447,7 @@ class kContextDataHelper
 				
 		if (!count($enabledDeliveryTypes))
 		{
-			KalturaLog::err('At least one non auto delivery type must be specified');
+			BorhanLog::err('At least one non auto delivery type must be specified');
 			return array();
 		}
 

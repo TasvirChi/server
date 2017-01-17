@@ -5,7 +5,7 @@
  *
  * @service fileAsset
  */
-class FileAssetService extends KalturaBaseService
+class FileAssetService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -18,17 +18,17 @@ class FileAssetService extends KalturaBaseService
 	 * Add new file asset
 	 * 
 	 * @action add
-	 * @param KalturaFileAsset $fileAsset
-	 * @return KalturaFileAsset
+	 * @param BorhanFileAsset $fileAsset
+	 * @return BorhanFileAsset
 	 */
-	function addAction(KalturaFileAsset $fileAsset)
+	function addAction(BorhanFileAsset $fileAsset)
 	{
 		$dbFileAsset = $fileAsset->toInsertableObject();
 		$dbFileAsset->setPartnerId($this->getPartnerId());
-		$dbFileAsset->setStatus(KalturaFileAssetStatus::PENDING);
+		$dbFileAsset->setStatus(BorhanFileAssetStatus::PENDING);
 		$dbFileAsset->save();
 		
-		$fileAsset = new KalturaFileAsset();
+		$fileAsset = new BorhanFileAsset();
 		$fileAsset->fromObject($dbFileAsset, $this->getResponseProfile());
 		return $fileAsset;
 	}
@@ -38,17 +38,17 @@ class FileAssetService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param int $id
-	 * @return KalturaFileAsset
+	 * @return BorhanFileAsset
 	 * 
-	 * @throws KalturaErrors::FILE_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::FILE_ASSET_ID_NOT_FOUND
 	 */
 	function getAction($id)
 	{
 		$dbFileAsset = FileAssetPeer::retrieveByPK($id);
 		if (!$dbFileAsset)
-			throw new KalturaAPIException(KalturaErrors::FILE_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::FILE_ASSET_ID_NOT_FOUND, $id);
 			
-		$fileAsset = new KalturaFileAsset();
+		$fileAsset = new BorhanFileAsset();
 		$fileAsset->fromObject($dbFileAsset, $this->getResponseProfile());
 		return $fileAsset;
 	}
@@ -58,21 +58,21 @@ class FileAssetService extends KalturaBaseService
 	 * 
 	 * @action update
 	 * @param int $id
-	 * @param KalturaFileAsset $fileAsset
-	 * @return KalturaFileAsset
+	 * @param BorhanFileAsset $fileAsset
+	 * @return BorhanFileAsset
 	 * 
-	 * @throws KalturaErrors::FILE_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::FILE_ASSET_ID_NOT_FOUND
 	 */
-	function updateAction($id, KalturaFileAsset $fileAsset)
+	function updateAction($id, BorhanFileAsset $fileAsset)
 	{
 		$dbFileAsset = FileAssetPeer::retrieveByPK($id);
 		if (!$dbFileAsset)
-			throw new KalturaAPIException(KalturaErrors::FILE_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::FILE_ASSET_ID_NOT_FOUND, $id);
 		
 		$fileAsset->toUpdatableObject($dbFileAsset);
 		$dbFileAsset->save();
 		
-		$fileAsset = new KalturaFileAsset();
+		$fileAsset = new BorhanFileAsset();
 		$fileAsset->fromObject($dbFileAsset, $this->getResponseProfile());
 		return $fileAsset;
 	}
@@ -83,15 +83,15 @@ class FileAssetService extends KalturaBaseService
 	 * @action delete
 	 * @param int $id
 	 * 
-	 * @throws KalturaErrors::FILE_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::FILE_ASSET_ID_NOT_FOUND
 	 */
 	function deleteAction($id)
 	{
 		$dbFileAsset = FileAssetPeer::retrieveByPK($id);
 		if (!$dbFileAsset)
-			throw new KalturaAPIException(KalturaErrors::FILE_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::FILE_ASSET_ID_NOT_FOUND, $id);
 
-		$dbFileAsset->setStatus(KalturaFileAssetStatus::DELETED);
+		$dbFileAsset->setStatus(BorhanFileAssetStatus::DELETED);
 		$dbFileAsset->save();
 	}
 
@@ -102,14 +102,14 @@ class FileAssetService extends KalturaBaseService
 	 * @param int $id
 	 * @return file
 	 *  
-	 * @throws KalturaErrors::FILE_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::FILE_DOESNT_EXIST
+	 * @throws BorhanErrors::FILE_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::FILE_DOESNT_EXIST
 	 */
 	public function serveAction($id)
 	{
 		$dbFileAsset = FileAssetPeer::retrieveByPK($id);
 		if (!$dbFileAsset)
-			throw new KalturaAPIException(KalturaErrors::FILE_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::FILE_ASSET_ID_NOT_FOUND, $id);
 		
 		return $this->serveFile($dbFileAsset, FileAsset::FILE_SYNC_ASSET, $dbFileAsset->getName());
 	}
@@ -119,23 +119,23 @@ class FileAssetService extends KalturaBaseService
      *
      * @action setContent
      * @param string $id
-     * @param KalturaContentResource $contentResource
-     * @return KalturaFileAsset
-	 * @throws KalturaErrors::FILE_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
-	 * @throws KalturaErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
-	 * @throws KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED 
+     * @param BorhanContentResource $contentResource
+     * @return BorhanFileAsset
+	 * @throws BorhanErrors::FILE_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
+	 * @throws BorhanErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
+	 * @throws BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED 
      */
-    function setContentAction($id, KalturaContentResource $contentResource)
+    function setContentAction($id, BorhanContentResource $contentResource)
     {
 		$dbFileAsset = FileAssetPeer::retrieveByPK($id);
 		if (!$dbFileAsset)
-			throw new KalturaAPIException(KalturaErrors::FILE_ASSET_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::FILE_ASSET_ID_NOT_FOUND, $id);
 		
 		$kContentResource = $contentResource->toObject();
     	$this->attachContentResource($dbFileAsset, $kContentResource);
 		
-		$fileAsset = new KalturaFileAsset();
+		$fileAsset = new BorhanFileAsset();
 		$fileAsset->fromObject($dbFileAsset, $this->getResponseProfile());
 		return $fileAsset;
     }
@@ -143,12 +143,12 @@ class FileAssetService extends KalturaBaseService
 	/**
 	 * @param FileAsset $dbFileAsset
 	 * @param kContentResource $contentResource
-	 * @throws KalturaErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
-	 * @throws KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
-	 * @throws KalturaErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
-	 * @throws KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND
-	 * @throws KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND
-	 * @throws KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED
+	 * @throws BorhanErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY
+	 * @throws BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN
+	 * @throws BorhanErrors::RECORDED_WEBCAM_FILE_NOT_FOUND
+	 * @throws BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND
+	 * @throws BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED
 	 */
 	protected function attachContentResource(FileAsset $dbFileAsset, kContentResource $contentResource)
 	{
@@ -162,9 +162,9 @@ class FileAssetService extends KalturaBaseService
 				
 			default:
 				$msg = "Resource of type [" . get_class($contentResource) . "] is not supported";
-				KalturaLog::err($msg);
+				BorhanLog::err($msg);
 				
-				throw new KalturaAPIException(KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($contentResource));
+				throw new BorhanAPIException(BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($contentResource));
     	}
     }
     
@@ -243,17 +243,17 @@ class FileAssetService extends KalturaBaseService
 	 * List file assets by filter and pager
 	 * 
 	 * @action list
-	 * @param KalturaFilterPager $filter
-	 * @param KalturaFileAssetFilter $pager
-	 * @return KalturaFileAssetListResponse
+	 * @param BorhanFilterPager $filter
+	 * @param BorhanFileAssetFilter $pager
+	 * @return BorhanFileAssetListResponse
 	 */
-	function listAction(KalturaFileAssetFilter $filter, KalturaFilterPager $pager = null)
+	function listAction(BorhanFileAssetFilter $filter, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaFileAssetFilter();
+			$filter = new BorhanFileAssetFilter();
 			
 		if(!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 			
 		return $filter->getListResponse($pager, $this->getResponseProfile());   
 	}

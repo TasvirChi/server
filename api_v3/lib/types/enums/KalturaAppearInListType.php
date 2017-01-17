@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaAppearInListType extends KalturaEnum implements DisplayInSearchType
+class BorhanAppearInListType extends BorhanEnum implements DisplayInSearchType
 { 
 
 }

@@ -3,7 +3,7 @@
  * @package plugins.audit
  * @subpackage api.objects
  */
-class KalturaAuditTrailChangeItem extends KalturaObject
+class BorhanAuditTrailChangeItem extends BorhanObject
 {
 	/**
 	 * @var string

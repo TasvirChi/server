@@ -171,9 +171,9 @@ class kCurrentContext
 	
 	public static function initPartnerByAssetId($assetId)
 	{		
-		KalturaCriterion::disableTags(array(KalturaCriterion::TAG_ENTITLEMENT_ENTRY, KalturaCriterion::TAG_WIDGET_SESSION));
+		BorhanCriterion::disableTags(array(BorhanCriterion::TAG_ENTITLEMENT_ENTRY, BorhanCriterion::TAG_WIDGET_SESSION));
 		$asset = assetPeer::retrieveByIdNoFilter($assetId);
-		KalturaCriterion::restoreTags(array(KalturaCriterion::TAG_ENTITLEMENT_ENTRY, KalturaCriterion::TAG_WIDGET_SESSION));
+		BorhanCriterion::restoreTags(array(BorhanCriterion::TAG_ENTITLEMENT_ENTRY, BorhanCriterion::TAG_WIDGET_SESSION));
 		
 		if(!$asset)
 			return null;

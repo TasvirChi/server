@@ -5,7 +5,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaStringResource extends KalturaContentResource
+class BorhanStringResource extends BorhanContentResource
 {
 	/**
 	 * Textual content
@@ -14,7 +14,7 @@ class KalturaStringResource extends KalturaContentResource
 	public $content;
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUsage($sourceObject, $propertiesToSkip)
+	 * @see BorhanObject::validateForUsage($sourceObject, $propertiesToSkip)
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -24,7 +24,7 @@ class KalturaStringResource extends KalturaContentResource
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($object_to_fill = null, $props_to_skip = array())
 	{

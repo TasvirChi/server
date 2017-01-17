@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaApiParameterPermissionItemBaseFilter extends KalturaPermissionItemFilter
+abstract class BorhanApiParameterPermissionItemBaseFilter extends BorhanPermissionItemFilter
 {
 	static private $map_between_objects = array
 	(

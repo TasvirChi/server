@@ -135,7 +135,7 @@ class kDropFolderContentProcessorJobData extends kJobData
 			case DropFolderType::S3:
 				$res = new kDropFolderContentProcessorJobData();
 			default:
-				$res = KalturaPluginManager::loadObject('kDropFolderContentProcessorJobData', $dropFolderType);
+				$res = BorhanPluginManager::loadObject('kDropFolderContentProcessorJobData', $dropFolderType);
 		}
 		
 		if (!$res)

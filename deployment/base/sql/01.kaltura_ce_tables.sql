@@ -1340,9 +1340,9 @@ CREATE TABLE IF NOT EXISTS `kvote` (
   KEY `entry_user_status_index` (`entry_id`,`kuser_id`,`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `kwidget_log` */
+/*Table structure for table `bwidget_log` */
 
-CREATE TABLE IF NOT EXISTS `kwidget_log` (
+CREATE TABLE IF NOT EXISTS `bwidget_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `widget_id` varchar(24) DEFAULT NULL,
   `source_widget_id` varchar(24) DEFAULT NULL,
@@ -1365,9 +1365,9 @@ CREATE TABLE IF NOT EXISTS `kwidget_log` (
   KEY `referer_index` (`referer`(255)),
   KEY `entry_id_kshow_id_index` (`entry_id`,`kshow_id`),
   KEY `partner_id_subp_id_index` (`partner_id`,`subp_id`),
-  KEY `kwidget_log_FI_1` (`widget_id`),
-  KEY `kwidget_log_FI_2` (`kshow_id`),
-  KEY `kwidget_log_FI_4` (`ui_conf_id`)
+  KEY `bwidget_log_FI_1` (`widget_id`),
+  KEY `bwidget_log_FI_2` (`kshow_id`),
+  KEY `bwidget_log_FI_4` (`ui_conf_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `media_info` */
@@ -1557,7 +1557,7 @@ CREATE TABLE IF NOT EXISTS `partner` (
   `work_group_id` int(11) DEFAULT NULL,
   `partner_group_type` smallint(6) DEFAULT '1',
   `partner_parent_id` int(11) DEFAULT NULL,
-  `kmc_version` varchar(15) DEFAULT '1',
+  `bmc_version` varchar(15) DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `partner_alias_index` (`partner_alias`),
   KEY `updated_at` (`updated_at`),

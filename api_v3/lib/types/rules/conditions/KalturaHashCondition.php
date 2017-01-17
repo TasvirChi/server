@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaHashCondition extends KalturaCondition
+class BorhanHashCondition extends BorhanCondition
 {
 	/**
 	 * hash name
@@ -39,7 +39,7 @@ class KalturaHashCondition extends KalturaCondition
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

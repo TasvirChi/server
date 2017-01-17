@@ -22,9 +22,9 @@ class LiveReportEntryQueryEngine extends LiveReportEngine {
 	public function run($fp, array $args = array()) {
 		$this->checkParams($args, array(LiveReportConstants::TIME_REFERENCE_PARAM, LiveReportConstants::IS_LIVE, LiveReportConstants::ENTRY_IDS));
 
-		$reportType = KalturaLiveReportType::ENTRY_TOTAL;
+		$reportType = BorhanLiveReportType::ENTRY_TOTAL;
 		
-		$filter = new KalturaLiveReportInputFilter();
+		$filter = new BorhanLiveReportInputFilter();
 		$filter->live =  $args[LiveReportConstants::IS_LIVE];
 		$filter->toTime = $args[LiveReportConstants::TIME_REFERENCE_PARAM];
 		$filter->fromTime = $args[LiveReportConstants::TIME_REFERENCE_PARAM] - $this->timeFrame;

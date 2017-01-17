@@ -7,7 +7,7 @@ require(__DIR__ . '/IndexGeneratorBase.php');
 
 require_once(__DIR__ . '/../../../../api_v3/bootstrap.php');
 
-KalturaTypeReflector::setClassInheritMapPath(KAutoloader::buildPath(kConf::get("cache_root_path"), "api_v3", "KalturaClassInheritMap.cache"));
+BorhanTypeReflector::setClassInheritMapPath(KAutoloader::buildPath(kConf::get("cache_root_path"), "api_v3", "BorhanClassInheritMap.cache"));
 
 class ApiSearchObjectsGenerator extends IndexGeneratorBase
 {
@@ -31,13 +31,13 @@ class ApiSearchObjectsGenerator extends IndexGeneratorBase
 		if (!$object->apiName)
 			return;
 
-		$typeReflector = KalturaTypeReflectorCacher::get($object->apiName);
+		$typeReflector = BorhanTypeReflectorCacher::get($object->apiName);
 		/** @var array($apiType => $apiParentType) $apiTypes */
 		$apiTypes = array($object->apiName => null);
 		$subTypes = $typeReflector->getSubTypesNames();
 		foreach($subTypes as $subType)
 		{
-			$subTypeReflector = KalturaTypeReflectorCacher::get($subType);
+			$subTypeReflector = BorhanTypeReflectorCacher::get($subType);
 			$apiTypes[$subType] = $subTypeReflector->getParentTypeReflector()->getType();
 		}
 
@@ -46,16 +46,16 @@ class ApiSearchObjectsGenerator extends IndexGeneratorBase
 		$compareAttributes = $this->getCompareAttributes($key);
 		foreach($apiTypes as $apiType => $parentApiType)
 		{
-			$typeReflector = KalturaTypeReflectorCacher::get($apiType);
+			$typeReflector = BorhanTypeReflectorCacher::get($apiType);
 			$enumsToGenerate[$apiType.'MatchAttribute'] = array(
 				$apiType,
 				$this->filterAttributeByClass($typeReflector, $matchAttributes),
-				($parentApiType) ? $parentApiType.'MatchAttribute' : 'KalturaStringEnum',
+				($parentApiType) ? $parentApiType.'MatchAttribute' : 'BorhanStringEnum',
 			);
 			$enumsToGenerate[$apiType.'CompareAttribute'] = array(
 				$apiType,
 				$this->filterAttributeByClass($typeReflector, $compareAttributes),
-				($parentApiType) ? $parentApiType.'CompareAttribute' : 'KalturaStringEnum'
+				($parentApiType) ? $parentApiType.'CompareAttribute' : 'BorhanStringEnum'
 			);
 		}
 
@@ -77,7 +77,7 @@ class ApiSearchObjectsGenerator extends IndexGeneratorBase
 			$fp = fopen($filePath, 'w+');
 			if(!$fp)
 			{
-				KalturaLog::err("Failed to open file " . $filePath);
+				BorhanLog::err("Failed to open file " . $filePath);
 				exit(1);
 			}
 
@@ -95,14 +95,14 @@ class ApiSearchObjectsGenerator extends IndexGeneratorBase
 		if (!$object->apiName)
 			return;
 
-		$typeReflector = KalturaTypeReflectorCacher::get($object->apiName);
+		$typeReflector = BorhanTypeReflectorCacher::get($object->apiName);
 
 		$apiTypes = array_merge(array($object->apiName), $typeReflector->getSubTypesNames());
 		$classesToGenerate = array();
 		foreach($apiTypes as $apiType)
 		{
-			$classesToGenerate[$apiType.'MatchAttributeCondition'] = array($apiType, $apiType.'MatchAttribute', 'KalturaSearchMatchAttributeCondition');
-			$classesToGenerate[$apiType.'CompareAttributeCondition'] = array($apiType, $apiType.'CompareAttribute', 'KalturaSearchComparableAttributeCondition');
+			$classesToGenerate[$apiType.'MatchAttributeCondition'] = array($apiType, $apiType.'MatchAttribute', 'BorhanSearchMatchAttributeCondition');
+			$classesToGenerate[$apiType.'CompareAttributeCondition'] = array($apiType, $apiType.'CompareAttribute', 'BorhanSearchComparableAttributeCondition');
 		}
 
 		foreach($classesToGenerate as $className => $additionalData)
@@ -117,7 +117,7 @@ class ApiSearchObjectsGenerator extends IndexGeneratorBase
 			$fp = fopen($filePath, 'w+');
 			if(!$fp)
 			{
-				KalturaLog::err("Failed to open file " . $filePath);
+				BorhanLog::err("Failed to open file " . $filePath);
 				exit(1);
 			}
 
@@ -214,7 +214,7 @@ class ApiSearchObjectsGenerator extends IndexGeneratorBase
 		return $attributes;
 	}
 
-	private function filterAttributeByClass(KalturaTypeReflector $typeReflector, array &$attributes)
+	private function filterAttributeByClass(BorhanTypeReflector $typeReflector, array &$attributes)
 	{
 		$attributesForClass = array();
 		$attributesLeft = array();
@@ -231,12 +231,12 @@ class ApiSearchObjectsGenerator extends IndexGeneratorBase
 		return $attributesForClass;
 	}
 
-	private function getProperty(KalturaTypeReflector $typeReflector, $name)
+	private function getProperty(BorhanTypeReflector $typeReflector, $name)
 	{
 		$properties = $typeReflector->getCurrentProperties();
 		foreach($properties as $property)
 		{
-			/** @var KalturaPropertyInfo $property */
+			/** @var BorhanPropertyInfo $property */
 			if ($property->getName() == $name)
 				return $property;
 		}
@@ -276,7 +276,7 @@ function main($argv)
 {
 	if(count($argv) < 2)
 	{
-		KalturaLog::err("Illegal command. use IndexObjectsGenerator <indexFile>\n");
+		BorhanLog::err("Illegal command. use IndexObjectsGenerator <indexFile>\n");
 		exit(1);
 	}
 
@@ -285,7 +285,7 @@ function main($argv)
 	$args = array_slice($argv, 1);
 	foreach($args as $arg) {
 		$indexFile = $arg;
-		KalturaLog::info("Handling Index file $indexFile");
+		BorhanLog::info("Handling Index file $indexFile");
 		$keys = $generator->load($indexFile);
 		$generator->generateEnumFiles($keys);
 		$generator->generateSearchObjectFiles($keys);

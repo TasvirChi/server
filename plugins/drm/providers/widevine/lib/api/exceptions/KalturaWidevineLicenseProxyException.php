@@ -3,14 +3,14 @@
  * @package plugins.widevine
  * @subpackage api.errors
  */
-class KalturaWidevineLicenseProxyException extends Exception 
+class BorhanWidevineLicenseProxyException extends Exception 
 {
 	private $wvCode;
 	
 	public function __construct ($code = null) 
 	{
 		if(!$code || !is_int($code))
-			$this->wvCode = KalturaWidevineErrorCodes::UNKNOWN_ERROR;
+			$this->wvCode = BorhanWidevineErrorCodes::UNKNOWN_ERROR;
 		else
 			$this->wvCode = $code;
 	}

@@ -6,7 +6,7 @@
 class kAmazonS3StorageExportJobData extends kStorageExportJobData  
 {
 	 /**
-	 * @var KalturaAmazonS3StorageProfileFilesPermissionLevel
+	 * @var BorhanAmazonS3StorageProfileFilesPermissionLevel
 	 */   	
     private $filesPermissionInS3;
     

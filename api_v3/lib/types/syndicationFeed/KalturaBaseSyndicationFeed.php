@@ -4,7 +4,7 @@
  * @subpackage objects
  * @abstract
  */
-abstract class KalturaBaseSyndicationFeed extends KalturaObject implements IFilterable
+abstract class BorhanBaseSyndicationFeed extends BorhanObject implements IFilterable
 {
 	/**
 	 * 
@@ -46,7 +46,7 @@ abstract class KalturaBaseSyndicationFeed extends KalturaObject implements IFilt
 	/**
 	 * feed status
 	 * 
-	 * @var KalturaSyndicationFeedStatus
+	 * @var BorhanSyndicationFeedStatus
 	 * @readonly
 	 */
 	public $status;
@@ -54,7 +54,7 @@ abstract class KalturaBaseSyndicationFeed extends KalturaObject implements IFilt
 	/**
 	 * feed type
 	 * 
-	 * @var KalturaSyndicationFeedType
+	 * @var BorhanSyndicationFeedType
 	 * @insertonly
 	 * @filter order
 	 */
@@ -88,7 +88,7 @@ abstract class KalturaBaseSyndicationFeed extends KalturaObject implements IFilt
 	public $allowEmbed;
 	
 	/**
-	 * Select a uiconf ID as player skin to include in the kwidget url
+	 * Select a uiconf ID as player skin to include in the bwidget url
 	 *
 	 * @var int
 	 */
@@ -125,7 +125,7 @@ abstract class KalturaBaseSyndicationFeed extends KalturaObject implements IFilt
 	public $storageId;
 
 	/**
-	 * @var KalturaSyndicationFeedEntriesOrderBy
+	 * @var BorhanSyndicationFeedEntriesOrderBy
 	 */
 	public $entriesOrderBy;
 	
@@ -189,30 +189,30 @@ abstract class KalturaBaseSyndicationFeed extends KalturaObject implements IFilt
 		
 		$playlistEntry = entryPeer::retrieveByPK($this->playlistId);
 		if(! $playlistEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $this->playlistId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $this->playlistId);
 	}
 	
 	public function validateStorageId($partnerId)
 	{
-		if (is_null($this->storageId) || $this->storageId instanceof KalturaNullField)
+		if (is_null($this->storageId) || $this->storageId instanceof BorhanNullField)
 			return;
 			
 		$storage = StorageProfilePeer::retrieveByPK($this->storageId);
 		if(!$storage)
-			throw new KalturaAPIException(KalturaErrors::SYNDICATION_FEED_INVALID_STORAGE_ID);
+			throw new BorhanAPIException(BorhanErrors::SYNDICATION_FEED_INVALID_STORAGE_ID);
 
 		$partner = PartnerPeer::retrieveByPK($partnerId);
 		
 		// storage doesn't belong to the partner
 		if($storage->getPartnerId() != $partner->getId())
-			throw new KalturaAPIException(KalturaErrors::SYNDICATION_FEED_INVALID_STORAGE_ID);
+			throw new BorhanAPIException(BorhanErrors::SYNDICATION_FEED_INVALID_STORAGE_ID);
 			
-		// partner configured to use kaltura data centers only
-		if($partner->getStorageServePriority() ==  StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_ONLY)
-			throw new KalturaAPIException(KalturaErrors::SYNDICATION_FEED_KALTURA_DC_ONLY);
+		// partner configured to use borhan data centers only
+		if($partner->getStorageServePriority() ==  StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_ONLY)
+			throw new BorhanAPIException(BorhanErrors::SYNDICATION_FEED_BORHAN_DC_ONLY);
 	}
 	
-	public function doFromObject($source_object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($source_object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($source_object, $responseProfile);
 		if($this->shouldGet('feedUrl', $responseProfile) && isset($this->id) && $this->id)

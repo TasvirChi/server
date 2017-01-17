@@ -3,7 +3,7 @@
  * @package plugins.schedule
  * @subpackage api.filters
  */
-class KalturaScheduleEventFilter extends KalturaScheduleEventBaseFilter
+class BorhanScheduleEventFilter extends BorhanScheduleEventBaseFilter
 {
 	static private $map_between_objects = array
 	(
@@ -88,7 +88,7 @@ class KalturaScheduleEventFilter extends KalturaScheduleEventBaseFilter
 	public $resourceSystemNamesLike;
 
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -101,9 +101,9 @@ class KalturaScheduleEventFilter extends KalturaScheduleEventBaseFilter
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::getListResponse()
+	 * @see BorhanRelatedFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$type = $this->getListResponseType();
 
@@ -112,7 +112,7 @@ class KalturaScheduleEventFilter extends KalturaScheduleEventBaseFilter
 			$dbKuser = kuserPeer::getKuserByPartnerAndUid(kCurrentContext::$ks_partner_id, $this->ownerIdEqual);
 			if (!$dbKuser)
 			{
-				throw new KalturaAPIException (KalturaErrors::INVALID_USER_ID);
+				throw new BorhanAPIException (BorhanErrors::INVALID_USER_ID);
 			}
 			$this->ownerIdEqual = $dbKuser->getId();
 		}
@@ -122,7 +122,7 @@ class KalturaScheduleEventFilter extends KalturaScheduleEventBaseFilter
 			$dbKusers = kuserPeer::getKuserByPartnerAndUids(kCurrentContext::$ks_partner_id, $userIds);
 			if (count($dbKusers) < count($userIds))
 			{
-				throw new KalturaAPIException (KalturaErrors::INVALID_USER_ID);
+				throw new BorhanAPIException (BorhanErrors::INVALID_USER_ID);
 			}
 			$kuserIds = array();
 			foreach ($dbKusers as $dbKuser)
@@ -133,7 +133,7 @@ class KalturaScheduleEventFilter extends KalturaScheduleEventBaseFilter
 			$this->ownerIdIn = implode(',', $kuserIds);
 		}
 
-		$c = KalturaCriteria::create(ScheduleEventPeer::OM_CLASS);
+		$c = BorhanCriteria::create(ScheduleEventPeer::OM_CLASS);
 		if ($type)
 		{
 			$c->add(ScheduleEventPeer::TYPE, $type);
@@ -145,8 +145,8 @@ class KalturaScheduleEventFilter extends KalturaScheduleEventBaseFilter
 
 		$list = ScheduleEventPeer::doSelect($c);
 
-		$response = new KalturaScheduleEventListResponse();
-		$response->objects = KalturaScheduleEventArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanScheduleEventListResponse();
+		$response->objects = BorhanScheduleEventArray::fromDbArray($list, $responseProfile);
 		$response->totalCount = $c->getRecordsCount();
 		return $response;
 	}

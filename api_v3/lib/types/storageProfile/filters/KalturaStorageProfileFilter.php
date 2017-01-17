@@ -3,10 +3,10 @@
  * @package api
  * @subpackage filters
  */
-class KalturaStorageProfileFilter extends KalturaStorageProfileBaseFilter
+class BorhanStorageProfileFilter extends BorhanStorageProfileBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{

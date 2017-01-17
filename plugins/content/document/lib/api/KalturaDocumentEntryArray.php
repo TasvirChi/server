@@ -3,16 +3,16 @@
  * @package plugins.document
  * @subpackage api.objects
  */
-class KalturaDocumentEntryArray extends KalturaTypedArray
+class BorhanDocumentEntryArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaDocumentEntryArray();
+		$newArr = new BorhanDocumentEntryArray();
 		if ($arr == null)
 			return $newArr;		
 		foreach ($arr as $obj)
 		{
-    		$nObj = KalturaEntryFactory::getInstanceByType($obj->getType());
+    		$nObj = BorhanEntryFactory::getInstanceByType($obj->getType());
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -22,6 +22,6 @@ class KalturaDocumentEntryArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaDocumentEntry");	
+		parent::__construct("BorhanDocumentEntry");	
 	}
 }

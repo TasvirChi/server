@@ -3,17 +3,17 @@
  * @package api
  * @subpackage filters
  */
-class KalturaThumbParamsFilter extends KalturaThumbParamsBaseFilter
+class BorhanThumbParamsFilter extends BorhanThumbParamsBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaAssetParamsFilter::getTypeListResponse()
+	 * @see BorhanAssetParamsFilter::getTypeListResponse()
 	 */
-	public function getTypeListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null, array $types = null)
+	public function getTypeListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null, array $types = null)
 	{
 		list($list, $totalCount) = $this->doGetListResponse($pager, $types);
 		
-		$response = new KalturaThumbParamsListResponse();
-		$response->objects = KalturaThumbParamsArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanThumbParamsListResponse();
+		$response->objects = BorhanThumbParamsArray::fromDbArray($list, $responseProfile);
 		$response->totalCount = $totalCount;
 		return $response;  
 	}

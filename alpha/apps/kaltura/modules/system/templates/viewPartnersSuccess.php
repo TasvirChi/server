@@ -125,7 +125,7 @@ function openGroups()
 }
 </script>
 
-<div class="mykaltura_viewAll mykaltura_media" style="width: 98%;">
+<div class="myborhan_viewAll myborhan_media" style="width: 98%;">
 	<div>
 		<span style="float:right;">
 			<a href="javascript:openGroups()">Groups</a> 

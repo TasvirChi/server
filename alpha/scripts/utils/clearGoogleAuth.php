@@ -4,12 +4,12 @@
  */
 
 
-chdir('/opt/kaltura/Jupiter-10.9.0/alpha/scripts/utils');
+chdir('/opt/borhan/Jupiter-10.9.0/alpha/scripts/utils');
 
-require_once('/opt/kaltura/Jupiter-10.9.0/alpha/scripts/bootstrap.php');
+require_once('/opt/borhan/Jupiter-10.9.0/alpha/scripts/bootstrap.php');
 
 $realRun = in_array('realrun', $argv);
-KalturaStatement::setDryRun(!$realRun);
+BorhanStatement::setDryRun(!$realRun);
 
 if (count($argv) < 2)
 {

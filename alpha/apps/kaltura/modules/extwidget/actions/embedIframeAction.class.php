@@ -75,7 +75,7 @@ class embedIframeAction extends sfAction
 					$valid_country = requestUtils::matchIpCountry( $countries_str , $current_country );
 					if ( ! $valid_country )
 					{
-						KalturaLog::log("Attempting to access widget [$widget_id] and entry [$entry_id] from country [$current_country]. Retrning entry_id: [$fallback_entry_id] kshow_id [$fallback_kshow_id]" );
+						BorhanLog::log("Attempting to access widget [$widget_id] and entry [$entry_id] from country [$current_country]. Retrning entry_id: [$fallback_entry_id] kshow_id [$fallback_kshow_id]" );
 						$entry_id = $fallback_entry_id;
 					}
 				}
@@ -108,7 +108,7 @@ class embedIframeAction extends sfAction
 		$cachedResponse  = $cache->get($requestKey);
 		if ($allowCache && $cachedResponse) // dont use cache if we want to force no caching
 		{
-			header("X-Kaltura: cached-action");
+			header("X-Borhan: cached-action");
 			header("Expires: Sun, 19 Nov 2000 08:52:00 GMT");
 			header("Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0");
 			header("Pragma: no-cache");

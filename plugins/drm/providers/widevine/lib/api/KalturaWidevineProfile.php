@@ -3,7 +3,7 @@
  * @package plugins.widevine
  * @subpackage api.objects
  */
-class KalturaWidevineProfile extends KalturaDrmProfile
+class BorhanWidevineProfile extends BorhanDrmProfile
 {
     /**
 	 * @var string
@@ -64,7 +64,7 @@ class KalturaWidevineProfile extends KalturaDrmProfile
 	{
 		if (!WidevinePlugin::isAllowedPartner(kCurrentContext::getCurrentPartnerId()) || !WidevinePlugin::isAllowedPartner($this->partnerId))
 		{
-			throw new KalturaAPIException (KalturaErrors::PERMISSION_NOT_FOUND, 'Permission not found to use the Widevine feature.');
+			throw new BorhanAPIException (BorhanErrors::PERMISSION_NOT_FOUND, 'Permission not found to use the Widevine feature.');
 		}
 		return parent::validateForInsert($propertiesToSkip);
 	}
@@ -73,7 +73,7 @@ class KalturaWidevineProfile extends KalturaDrmProfile
 	{
 		if (!WidevinePlugin::isAllowedPartner(kCurrentContext::getCurrentPartnerId()) || !WidevinePlugin::isAllowedPartner($sourceObject->getPartnerId()))
 		{
-			throw new KalturaAPIException (KalturaErrors::PERMISSION_NOT_FOUND, 'Permission not found to use the Widevine feature.');
+			throw new BorhanAPIException (BorhanErrors::PERMISSION_NOT_FOUND, 'Permission not found to use the Widevine feature.');
 		}
 		return parent::validateForUpdate($sourceObject, $propertiesToSkip);
 	}

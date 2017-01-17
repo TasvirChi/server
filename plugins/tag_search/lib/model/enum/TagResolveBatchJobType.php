@@ -3,11 +3,11 @@
  * @package plugins.tag_search
  *  @subpackage model.enum
  */
-class TagResolveBatchJobType implements IKalturaPluginEnum, BatchJobType
+class TagResolveBatchJobType implements IBorhanPluginEnum, BatchJobType
 {
 	const TAG_RESOLVE = 'TagResolve';
 	/* (non-PHPdoc)
-	 * @see IKalturaPluginEnum::getAdditionalValues()
+	 * @see IBorhanPluginEnum::getAdditionalValues()
 	 */
 	public static function getAdditionalValues() {
 		return array(
@@ -17,7 +17,7 @@ class TagResolveBatchJobType implements IKalturaPluginEnum, BatchJobType
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPluginEnum::getAdditionalDescriptions()
+	 * @see IBorhanPluginEnum::getAdditionalDescriptions()
 	 */
 	public static function getAdditionalDescriptions() {
 		return array();

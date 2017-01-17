@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaDeliveryProfileVodPackagerHls extends KalturaDeliveryProfileVodPackagerPlayServer
+class BorhanDeliveryProfileVodPackagerHls extends BorhanDeliveryProfileVodPackagerPlayServer
 {
 	/**
 	 * @var bool

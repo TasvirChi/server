@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaReportGraph extends KalturaObject 
+class BorhanReportGraph extends BorhanObject 
 {
 	/**
 	 * @var string

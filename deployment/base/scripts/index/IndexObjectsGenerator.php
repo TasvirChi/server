@@ -22,7 +22,7 @@ class IndexObjectsGenerator extends IndexGeneratorBase
 		$fp = fopen($path, 'w');
 		if(!$fp)
 		{
-			KalturaLog::err("Failed to open file " . $path);
+			BorhanLog::err("Failed to open file " . $path);
 			exit(1);
 		}
 		
@@ -297,23 +297,23 @@ class IndexObjectsGenerator extends IndexGeneratorBase
 	
 	public function generateConfigurationFile($structFile, $outputFile) {
 		
-		print "Generating Kaltura.conf file based on {$structFile} at {$outputFile}\n";
+		print "Generating Borhan.conf file based on {$structFile} at {$outputFile}\n";
 		
 		$sphinxConfiguration = file_get_contents($structFile);
 		
 		foreach ($this->searchableObjects as $object) {
-			$sphinxConfiguration = preg_replace("/@FIELDS_PLACEHOLDER-kaltura_{$object->indexName}@/", 
+			$sphinxConfiguration = preg_replace("/@FIELDS_PLACEHOLDER-borhan_{$object->indexName}@/", 
 				$this->generateFields($object->name), $sphinxConfiguration, -1, $cnt);
 			if($cnt != 1)
 			{
-				KalturaLog::err("Failed to generate kaltura conf for {$object->name}.");
+				BorhanLog::err("Failed to generate borhan conf for {$object->name}.");
 				exit (1);
 			}
 		}
 		
 		if(preg_match("/@FIELDS_PLACEHOLDER-([\w]*)@/", $sphinxConfiguration,$matches))
 		{
-			KalturaLog::err("Not all kaltura conf sections were filled! Missing " . $matches[1]);
+			BorhanLog::err("Not all borhan conf sections were filled! Missing " . $matches[1]);
 			exit (1);
 		}
 		file_put_contents($outputFile, $sphinxConfiguration);
@@ -359,7 +359,7 @@ function main($argv)
 {
 	if(count($argv) < 4)
 	{
-		KalturaLog::err("Illegal command. use IndexObjectsGenerator <template> <updated-conf> <indexFile>=<generationPath>\n");
+		BorhanLog::err("Illegal command. use IndexObjectsGenerator <template> <updated-conf> <indexFile>=<generationPath>\n");
 		exit(1);
 	}
 	$template = $argv[1];
@@ -372,7 +372,7 @@ function main($argv)
 			continue;
 		
 		list($indexFile, $dirPath) = explode("=", $arg);
-		KalturaLog::info("Handling Index file $indexFile");
+		BorhanLog::info("Handling Index file $indexFile");
 		$keys = $generator->load($indexFile);
 		$generator->generateIndexFiles($keys, $dirPath);
 	}

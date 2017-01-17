@@ -3,7 +3,7 @@
  * @package plugins.adCuePoint
  * @subpackage api.filters
  */
-class KalturaAdCuePointFilter extends KalturaAdCuePointBaseFilter
+class BorhanAdCuePointFilter extends BorhanAdCuePointBaseFilter
 {
 	static private $map_between_objects = array
 	(
@@ -20,14 +20,14 @@ class KalturaAdCuePointFilter extends KalturaAdCuePointBaseFilter
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::validateForResponseProfile()
+	 * @see BorhanRelatedFilter::validateForResponseProfile()
 	 */
 	public function validateForResponseProfile()
 	{
-		// override KalturaCuePointFilter::validateForResponseProfile because all ad cue-points are public
+		// override BorhanCuePointFilter::validateForResponseProfile because all ad cue-points are public
 	}
 
-	public function getTypeListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null, $type = null)
+	public function getTypeListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null, $type = null)
 	{
 		return parent::getTypeListResponse($pager, $responseProfile, AdCuePointPlugin::getCuePointTypeCoreValue(AdCuePointType::AD));
 	}

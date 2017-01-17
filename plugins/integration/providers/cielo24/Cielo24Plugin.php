@@ -2,7 +2,7 @@
 /**
  * @package plugins.cielo24
  */
-class Cielo24Plugin extends IntegrationProviderPlugin implements IKalturaEventConsumers
+class Cielo24Plugin extends IntegrationProviderPlugin implements IBorhanEventConsumers
 {
 	const PLUGIN_NAME = 'cielo24';
 	const FLOW_MANAGER = 'kCielo24FlowManager';
@@ -12,7 +12,7 @@ class Cielo24Plugin extends IntegrationProviderPlugin implements IKalturaEventCo
 	const INTEGRATION_PLUGIN_VERSION_BUILD = 0;
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -24,7 +24,7 @@ class Cielo24Plugin extends IntegrationProviderPlugin implements IKalturaEventCo
 	 */
 	public static function getRequiredIntegrationPluginVersion()
 	{
-		return new KalturaVersion(
+		return new BorhanVersion(
 			self::INTEGRATION_PLUGIN_VERSION_MAJOR,
 			self::INTEGRATION_PLUGIN_VERSION_MINOR,
 			self::INTEGRATION_PLUGIN_VERSION_BUILD
@@ -32,7 +32,7 @@ class Cielo24Plugin extends IntegrationProviderPlugin implements IKalturaEventCo
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	 */
 	public static function getEventConsumers()
 	{
@@ -59,7 +59,7 @@ class Cielo24Plugin extends IntegrationProviderPlugin implements IKalturaEventCo
 	
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
@@ -68,15 +68,15 @@ class Cielo24Plugin extends IntegrationProviderPlugin implements IKalturaEventCo
 			return 'kCielo24JobProviderData';
 		}
 	
-		if($baseClass == 'KalturaIntegrationJobProviderData')
+		if($baseClass == 'BorhanIntegrationJobProviderData')
 		{
 			if($enumValue == self::getApiValue(Cielo24IntegrationProviderType::CIELO24) || $enumValue == self::getIntegrationProviderCoreValue(Cielo24IntegrationProviderType::CIELO24))
-				return 'KalturaCielo24JobProviderData';
+				return 'BorhanCielo24JobProviderData';
 		}
 	
 		if($baseClass == 'KIntegrationEngine' || $baseClass == 'KIntegrationCloserEngine')
 		{
-			if($enumValue == KalturaIntegrationProviderType::CIELO24)
+			if($enumValue == BorhanIntegrationProviderType::CIELO24)
 				return 'KCielo24IntegrationEngine';
 		}
 		if($baseClass == 'IIntegrationProvider' && $enumValue == self::getIntegrationProviderCoreValue(Cielo24IntegrationProviderType::CIELO24))
@@ -90,7 +90,7 @@ class Cielo24Plugin extends IntegrationProviderPlugin implements IKalturaEventCo
 	 */
 	public static function getProviderTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('IntegrationProviderType', $value);
 	}
 	

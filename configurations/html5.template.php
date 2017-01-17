@@ -14,60 +14,60 @@ if( ! file_exists( $kConfPath ) ) {
                 die('Error: Unable to find kConf.php at ' . $kConfPath);
         }
 }
-// Load kaltura configuration file
+// Load borhan configuration file
 require_once( $kConfPath );
 
 $kConf = new kConf();
 
-// Kaltura HTML5lib Version
-$wgKalturaVersion = basename(getcwd()); // Gets the version by the folder name
+// Borhan HTML5lib Version
+$wgBorhanVersion = basename(getcwd()); // Gets the version by the folder name
 
-// The default Kaltura service url:
-$wgKalturaServiceUrl = wgGetUrl('cdn_api_host');
-// Default Kaltura CDN url:
-$wgKalturaCDNUrl = wgGetUrl('cdn_host');
+// The default Borhan service url:
+$wgBorhanServiceUrl = wgGetUrl('cdn_api_host');
+// Default Borhan CDN url:
+$wgBorhanCDNUrl = wgGetUrl('cdn_host');
 // Default Stats URL
-$wgKalturaStatsServiceUrl = wgGetUrl('stats_host');
+$wgBorhanStatsServiceUrl = wgGetUrl('stats_host');
 // Default Live Stats URL
-$wgKalturaLiveStatsServiceUrl = wgGetUrl('live_stats_host');
-// Default Kaltura Analytics URL
-$wgKalturaAnalyticsServiceUrl = wgGetUrl('analytics_host');
+$wgBorhanLiveStatsServiceUrl = wgGetUrl('live_stats_host');
+// Default Borhan Analytics URL
+$wgBorhanAnalyticsServiceUrl = wgGetUrl('analytics_host');
 
 // SSL host names
 if( $wgHTTPProtocol == 'https' ){
-        $wgKalturaServiceUrl = wgGetUrl('cdn_api_host_https');
-        $wgKalturaCDNUrl = wgGetUrl('cdn_host_https');
-        $wgKalturaStatsServiceUrl = wgGetUrl('stats_host_https');
-	$wgKalturaLiveStatsServiceUrl = wgGetUrl('live_stats_host_https');
-	$wgKalturaAnalyticsServiceUrl = wgGetUrl('analytics_host_https');
+        $wgBorhanServiceUrl = wgGetUrl('cdn_api_host_https');
+        $wgBorhanCDNUrl = wgGetUrl('cdn_host_https');
+        $wgBorhanStatsServiceUrl = wgGetUrl('stats_host_https');
+	$wgBorhanLiveStatsServiceUrl = wgGetUrl('live_stats_host_https');
+	$wgBorhanAnalyticsServiceUrl = wgGetUrl('analytics_host_https');
 }
 
 // Default Asset CDN Path (used in ResouceLoader.php):
-$wgCDNAssetPath = $wgKalturaCDNUrl;
+$wgCDNAssetPath = $wgBorhanCDNUrl;
 
-// Default Kaltura Cache Path
-$wgScriptCacheDirectory = $kConf->get('cache_root_path') . '/html5/' . $wgKalturaVersion;
+// Default Borhan Cache Path
+$wgScriptCacheDirectory = $kConf->get('cache_root_path') . '/html5/' . $wgBorhanVersion;
 
-$wgLoadScript = $wgKalturaServiceUrl . '/html5/html5lib/' . $wgKalturaVersion . '/load.php';
+$wgLoadScript = $wgBorhanServiceUrl . '/html5/html5lib/' . $wgBorhanVersion . '/load.php';
 $wgResourceLoaderUrl = $wgLoadScript;
 
-// Salt for proxy the user IP address to Kaltura API
+// Salt for proxy the user IP address to Borhan API
 if( $kConf->hasParam('remote_addr_header_salt') ) {
-        $wgKalturaRemoteAddressSalt = $kConf->get('remote_addr_header_salt');
+        $wgBorhanRemoteAddressSalt = $kConf->get('remote_addr_header_salt');
 }
 
 // Disable Apple HLS if defined in kConf
 if( $kConf->hasParam('use_apple_adaptive') ) {
-        $wgKalturaUseAppleAdaptive = $kConf->get('use_apple_adaptive');
+        $wgBorhanUseAppleAdaptive = $kConf->get('use_apple_adaptive');
 }
 
-// Get Kaltura Supported API Features
+// Get Borhan Supported API Features
 if( $kConf->hasParam('features') ) {
-        $wgKalturaApiFeatures = $kConf->get('features');
+        $wgBorhanApiFeatures = $kConf->get('features');
 }
 
 // Allow Iframe to connect remote service
-$wgKalturaAllowIframeRemoteService = true;
+$wgBorhanAllowIframeRemoteService = true;
 
 // Set debug for true (testing only)
 $wgEnableScriptDebug = false;
@@ -76,7 +76,7 @@ $wgEnableScriptDebug = false;
 if( $kConf->hasMap('playReady') ) {
         $playReadyMap = $kConf->getMap('playReady');
         if($playReadyMap)
-                $wgKalturaLicenseServerUrl = $playReadyMap['license_server_url'];
+                $wgBorhanLicenseServerUrl = $playReadyMap['license_server_url'];
 }
 
 // A helper function to get full URL of host

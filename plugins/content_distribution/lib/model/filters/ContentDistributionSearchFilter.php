@@ -33,7 +33,7 @@ class ContentDistributionSearchFilter extends AdvancedSearchFilterItem
 	protected $entryDistributionFlag;
 	
 	/**
-	 * enum from KalturaEntryDistributionStatus
+	 * enum from BorhanEntryDistributionStatus
 	 * @var int
 	 */
 	protected $entryDistributionStatus;
@@ -186,9 +186,9 @@ class ContentDistributionSearchFilter extends AdvancedSearchFilterItem
 	/* (non-PHPdoc)
 	 * @see AdvancedSearchFilterItem::applyCondition()
 	 */
-	public function applyCondition(IKalturaDbQuery $query)
+	public function applyCondition(IBorhanDbQuery $query)
 	{
-		if ($query instanceof IKalturaIndexQuery){
+		if ($query instanceof IBorhanIndexQuery){
 			$condition = $this->getCondition();
 			$key = '@' . ContentDistributionSphinxPlugin::getSphinxFieldName(ContentDistributionPlugin::SPHINX_EXPANDER_FIELD_DATA);
 			$query->addMatch("($key $condition)");

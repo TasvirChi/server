@@ -50,7 +50,7 @@ $partner_id =  $request->getParameter ( "partner_id" );
 if ( ! $partner_id ) $partner_id =  $request->getParameter ( "p" );
 if ( $partner_id == -1 ) // can add code for specific partners whentrying to debug them
 {
-	// add an extra logfile for specific partners - the directory will be the same as the kaltura_prod 
+	// add an extra logfile for specific partners - the directory will be the same as the borhan_prod 
 	// the name will be p_<partner_id>.log
 	$log_path = sfConfig::get( "sf_log_dir" );
 	$logger = sfLogger::getInstance();

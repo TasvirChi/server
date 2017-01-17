@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaEntryContextDataResult extends KalturaContextDataResult
+class BorhanEntryContextDataResult extends BorhanContextDataResult
 {
 	/**
 	 * @var bool
@@ -70,14 +70,14 @@ class KalturaEntryContextDataResult extends KalturaContextDataResult
 	
 	/**
 	 * Array of messages as received from the access control rules that invalidated
-	 * @var KalturaStringArray
+	 * @var BorhanStringArray
 	 * @deprecated
 	 */
 	public $accessControlMessages;
 	
 	/**
 	 * Array of actions as received from the access control rules that invalidated
-	 * @var KalturaRuleActionArray
+	 * @var BorhanRuleActionArray
 	 * @deprecated
 	 */
 	public $accessControlActions;
@@ -85,7 +85,7 @@ class KalturaEntryContextDataResult extends KalturaContextDataResult
 	/**
 	 * Array of allowed flavor assets according to access control limitations and requested tags
 	 * 
-	 * @var KalturaFlavorAssetArray
+	 * @var BorhanFlavorAssetArray
 	 */
 	public $flavorAssets;
 
@@ -99,7 +99,7 @@ class KalturaEntryContextDataResult extends KalturaContextDataResult
 	/**
      * Array of allowed flavor assets according to access control limitations and requested tags
      *
-     * @var KalturaPluginDataArray
+     * @var BorhanPluginDataArray
      */
     public $pluginData;
 
@@ -117,7 +117,7 @@ class KalturaEntryContextDataResult extends KalturaContextDataResult
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{

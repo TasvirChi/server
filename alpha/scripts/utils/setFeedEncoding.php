@@ -12,7 +12,7 @@ $dryRun = ($argv[3] != 'realrun');
 
 require_once(__DIR__ . '/../bootstrap.php');
 
-KalturaStatement::setDryRun($dryRun);
+BorhanStatement::setDryRun($dryRun);
 
 $feed = syndicationFeedPeer::retrieveByPK($feedId);
 $mrssParameters = $feed->getMrssParameters();
@@ -26,4 +26,4 @@ $mrssParameters->setEncoding($encoding);
 $feed->setMrssParameters($mrssParameters);
 $feed->save();
 
-KalturaLog::debug('Done');
+BorhanLog::debug('Done');

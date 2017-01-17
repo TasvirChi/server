@@ -2,7 +2,7 @@
 /**
  * @package plugins.contentDistribution
  */
-class ContentDistributionPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaServices, IKalturaEventConsumers, IKalturaEnumerator, IKalturaVersion, IKalturaSearchDataContributor, IKalturaObjectLoader, IKalturaAdminConsolePages, IKalturaApplicationPartialView, IKalturaPending, IKalturaSchemaContributor
+class ContentDistributionPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanServices, IBorhanEventConsumers, IBorhanEnumerator, IBorhanVersion, IBorhanSearchDataContributor, IBorhanObjectLoader, IBorhanAdminConsolePages, IBorhanApplicationPartialView, IBorhanPending, IBorhanSchemaContributor
 {
 	const PLUGIN_NAME = 'contentDistribution';
 	const PLUGIN_VERSION_MAJOR = 2;
@@ -13,21 +13,21 @@ class ContentDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	const SPHINX_EXPANDER_FIELD_DATA = 'data';
 
 	/* (non-PHPdoc)
-	 * @see KalturaPlugin::getInstance()
+	 * @see BorhanPlugin::getInstance()
 	 */
 	public function getInstance($interface)
 	{
 		if($this instanceof $interface)
 			return $this;
 			
-		if($interface == 'IKalturaMrssContributor')
+		if($interface == 'IBorhanMrssContributor')
 			return kContentDistributionMrssManager::get();
 			
 		return null;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -35,16 +35,16 @@ class ContentDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$dependency = new KalturaDependency(MetadataPlugin::getPluginName());
+		$dependency = new BorhanDependency(MetadataPlugin::getPluginName());
 		return array($dependency);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissions::isAllowedPartner()
+	 * @see IBorhanPermissions::isAllowedPartner()
 	 */
 	public static function isAllowedPartner($partnerId)
 	{
@@ -59,7 +59,7 @@ class ContentDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaServices::getServicesMap()
+	 * @see IBorhanServices::getServicesMap()
 	 */
 	public static function getServicesMap()
 	{
@@ -75,7 +75,7 @@ class ContentDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	 */
 	public static function getEventConsumers()
 	{
@@ -86,7 +86,7 @@ class ContentDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -109,11 +109,11 @@ class ContentDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaVersion::getVersion()
+	 * @see IBorhanVersion::getVersion()
 	 */
 	public static function getVersion()
 	{
-		return new KalturaVersion(
+		return new BorhanVersion(
 			self::PLUGIN_VERSION_MAJOR,
 			self::PLUGIN_VERSION_MINOR,
 			self::PLUGIN_VERSION_BUILD
@@ -121,7 +121,7 @@ class ContentDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSearchDataContributor::getSearchData()
+	 * @see IBorhanSearchDataContributor::getSearchData()
 	 */
 	public static function getSearchData(BaseObject $object)
 	{
@@ -133,7 +133,7 @@ class ContentDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
@@ -187,32 +187,32 @@ class ContentDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 				return new kDistributionDisableJobData();
 		}
 	
-		if($baseClass == 'KalturaJobData')
+		if($baseClass == 'BorhanJobData')
 		{
 			if($enumValue == self::getApiValue(ContentDistributionBatchJobType::DISTRIBUTION_SUBMIT) || $enumValue == self::getBatchJobTypeCoreValue(ContentDistributionBatchJobType::DISTRIBUTION_SUBMIT))
-				return new KalturaDistributionSubmitJobData();
+				return new BorhanDistributionSubmitJobData();
 				
 			if($enumValue == self::getApiValue(ContentDistributionBatchJobType::DISTRIBUTION_UPDATE) || $enumValue == self::getBatchJobTypeCoreValue(ContentDistributionBatchJobType::DISTRIBUTION_UPDATE))
-				return new KalturaDistributionUpdateJobData();
+				return new BorhanDistributionUpdateJobData();
 				
 			if($enumValue == self::getApiValue(ContentDistributionBatchJobType::DISTRIBUTION_DELETE) || $enumValue == self::getBatchJobTypeCoreValue(ContentDistributionBatchJobType::DISTRIBUTION_DELETE))
-				return new KalturaDistributionDeleteJobData();
+				return new BorhanDistributionDeleteJobData();
 				
 			if($enumValue == self::getApiValue(ContentDistributionBatchJobType::DISTRIBUTION_FETCH_REPORT) || $enumValue == self::getBatchJobTypeCoreValue(ContentDistributionBatchJobType::DISTRIBUTION_FETCH_REPORT))
-				return new KalturaDistributionFetchReportJobData();
+				return new BorhanDistributionFetchReportJobData();
 				
 			if($enumValue == self::getApiValue(ContentDistributionBatchJobType::DISTRIBUTION_ENABLE) || $enumValue == self::getBatchJobTypeCoreValue(ContentDistributionBatchJobType::DISTRIBUTION_ENABLE))
-				return new KalturaDistributionEnableJobData();
+				return new BorhanDistributionEnableJobData();
 				
 			if($enumValue == self::getApiValue(ContentDistributionBatchJobType::DISTRIBUTION_DISABLE) || $enumValue == self::getBatchJobTypeCoreValue(ContentDistributionBatchJobType::DISTRIBUTION_DISABLE))
-				return new KalturaDistributionDisableJobData();
+				return new BorhanDistributionDisableJobData();
 		}
 		
 		return null;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
@@ -247,32 +247,32 @@ class ContentDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 				return 'kDistributionDisableJobData';
 		}
 	
-		if($baseClass == 'KalturaJobData')
+		if($baseClass == 'BorhanJobData')
 		{
 			if($enumValue == self::getApiValue(ContentDistributionBatchJobType::DISTRIBUTION_SUBMIT) || $enumValue == self::getBatchJobTypeCoreValue(ContentDistributionBatchJobType::DISTRIBUTION_SUBMIT))
-				return 'KalturaDistributionSubmitJobData';
+				return 'BorhanDistributionSubmitJobData';
 				
 			if($enumValue == self::getApiValue(ContentDistributionBatchJobType::DISTRIBUTION_UPDATE) || $enumValue == self::getBatchJobTypeCoreValue(ContentDistributionBatchJobType::DISTRIBUTION_UPDATE))
-				return 'KalturaDistributionUpdateJobData';
+				return 'BorhanDistributionUpdateJobData';
 				
 			if($enumValue == self::getApiValue(ContentDistributionBatchJobType::DISTRIBUTION_DELETE) || $enumValue == self::getBatchJobTypeCoreValue(ContentDistributionBatchJobType::DISTRIBUTION_DELETE))
-				return 'KalturaDistributionDeleteJobData';
+				return 'BorhanDistributionDeleteJobData';
 				
 			if($enumValue == self::getApiValue(ContentDistributionBatchJobType::DISTRIBUTION_FETCH_REPORT) || $enumValue == self::getBatchJobTypeCoreValue(ContentDistributionBatchJobType::DISTRIBUTION_FETCH_REPORT))
-				return 'KalturaDistributionFetchReportJobData';
+				return 'BorhanDistributionFetchReportJobData';
 				
 			if($enumValue == self::getApiValue(ContentDistributionBatchJobType::DISTRIBUTION_ENABLE) || $enumValue == self::getBatchJobTypeCoreValue(ContentDistributionBatchJobType::DISTRIBUTION_ENABLE))
-				return 'KalturaDistributionEnableJobData';
+				return 'BorhanDistributionEnableJobData';
 				
 			if($enumValue == self::getApiValue(ContentDistributionBatchJobType::DISTRIBUTION_DISABLE) || $enumValue == self::getBatchJobTypeCoreValue(ContentDistributionBatchJobType::DISTRIBUTION_DISABLE))
-				return 'KalturaDistributionDisableJobData';
+				return 'BorhanDistributionDisableJobData';
 		}
 		
 		return null;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaAdminConsolePages::getApplicationPages()
+	 * @see IBorhanAdminConsolePages::getApplicationPages()
 	 */
 	public static function getApplicationPages()
 	{
@@ -293,14 +293,14 @@ class ContentDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaApplicationPartialView::getApplicationPartialViews()
+	 * @see IBorhanApplicationPartialView::getApplicationPartialViews()
 	 */
 	public static function getApplicationPartialViews($controller, $action)
 	{
 		if($controller == 'batch' && $action == 'entryInvestigation')
 		{
 			return array(
-				new Kaltura_View_Helper_EntryInvestigateDistribution(),
+				new Borhan_View_Helper_EntryInvestigateDistribution(),
 			);
 		}
 		
@@ -312,7 +312,7 @@ class ContentDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	 */
 	public static function getContentDistributionFileSyncObjectTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('FileSyncObjectType', $value);
 	}
 	
@@ -321,7 +321,7 @@ class ContentDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	 */
 	public static function getBatchJobTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('BatchJobType', $value);
 	}
 	
@@ -330,7 +330,7 @@ class ContentDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	 */
 	public static function getObjectFeatureTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('ObjectFeatureType', $value);
 	}
 	
@@ -339,11 +339,11 @@ class ContentDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSchemaContributor::contributeToSchema()
+	 * @see IBorhanSchemaContributor::contributeToSchema()
 	 */
 	public static function contributeToSchema($type)
 	{
@@ -427,17 +427,17 @@ class ContentDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 					<xs:documentation>Entry distribution last report date</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="dirtyStatus" minOccurs="0" maxOccurs="1" type="KalturaEntryDistributionFlag">
+			<xs:element name="dirtyStatus" minOccurs="0" maxOccurs="1" type="BorhanEntryDistributionFlag">
 				<xs:annotation>
 					<xs:documentation>Indicates that there are future action to be submitted</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="status" minOccurs="1" maxOccurs="1" type="KalturaEntryDistributionStatus">
+			<xs:element name="status" minOccurs="1" maxOccurs="1" type="BorhanEntryDistributionStatus">
 				<xs:annotation>
 					<xs:documentation>Entry distribution status</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="sunStatus" minOccurs="1" maxOccurs="1" type="KalturaEntryDistributionSunStatus">
+			<xs:element name="sunStatus" minOccurs="1" maxOccurs="1" type="BorhanEntryDistributionSunStatus">
 				<xs:annotation>
 					<xs:documentation>Entry distribution availability status</xs:documentation>
 				</xs:annotation>
@@ -457,7 +457,7 @@ class ContentDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 					<xs:documentation>Submission error number</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="errorType" minOccurs="0" maxOccurs="1" type="KalturaBatchJobErrorTypes">
+			<xs:element name="errorType" minOccurs="0" maxOccurs="1" type="BorhanBatchJobErrorTypes">
 				<xs:annotation>
 					<xs:documentation>Submission error type</xs:documentation>
 				</xs:annotation>

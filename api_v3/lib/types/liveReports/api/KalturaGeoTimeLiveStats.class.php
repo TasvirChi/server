@@ -4,21 +4,21 @@
  * @package api
  * @subpackage objects
  */
-class KalturaGeoTimeLiveStats extends KalturaEntryLiveStats
+class BorhanGeoTimeLiveStats extends BorhanEntryLiveStats
 {	
 	/**
-	 * @var KalturaCoordinate
+	 * @var BorhanCoordinate
 	 **/
 	public $city;
 	
 	/**
-	 * @var KalturaCoordinate
+	 * @var BorhanCoordinate
 	 **/
 	public $country;
 	
 	public function getWSObject() {
 		$obj = new WSGeoTimeLiveStats();
-		$obj->fromKalturaObject($this);
+		$obj->fromBorhanObject($this);
 		return $obj;
 	}
 }

@@ -3,10 +3,10 @@
  * @package plugins.captionSearch
  * @subpackage api.objects
  */
-class KalturaCaptionAssetItemListResponse extends KalturaListResponse
+class BorhanCaptionAssetItemListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaCaptionAssetItemArray
+	 * @var BorhanCaptionAssetItemArray
 	 * @readonly
 	 */
 	public $objects;

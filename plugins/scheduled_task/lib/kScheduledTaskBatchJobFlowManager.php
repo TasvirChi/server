@@ -48,7 +48,7 @@ class kScheduledTaskBatchJobFlowManager implements kBatchJobStatusEventConsumer
 		}
 		catch(Exception $ex)
 		{
-			KalturaLog::err($ex);
+			BorhanLog::err($ex);
 			return self::finishJobWithError($job, 'Failed to move file: '.$ex->getMessage());
 		}
 		return $job;

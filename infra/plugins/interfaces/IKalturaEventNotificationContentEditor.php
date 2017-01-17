@@ -4,7 +4,7 @@
  * @package infra
  * @subpackage Plugins
  */
-interface IKalturaEventNotificationContentEditor extends IKalturaBase
+interface IBorhanEventNotificationContentEditor extends IBorhanBase
 {
 	/**
 	 * Function sweeps the given fields of the emailNotificationTemplate, and parses expressions of the type

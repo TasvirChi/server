@@ -16,7 +16,7 @@ jQuery(document).ready(function() {
 
 		switch ( protocol )
 		{
-		case "<?php echo Kaltura_Client_Enum_StorageProfileProtocol::S3?>":				
+		case "<?php echo Borhan_Client_Enum_StorageProfileProtocol::S3?>":				
 			jQuery('#filesPermissionInS3-label').css('visibility', 'visible');
 			jQuery('#filesPermissionInS3').css('visibility', 'visible');
 			jQuery('#s3Region-label').css('visibility', 'visible');
@@ -32,7 +32,7 @@ jQuery(document).ready(function() {
 			jQuery('#storageFtpPassiveMode').css('visibility', 'hidden');
 			jQuery('#storageFtpPassiveMode-label').css('visibility', 'hidden');
 			break;
-		case "<?php echo Kaltura_Client_Enum_StorageProfileProtocol::FTP?>":
+		case "<?php echo Borhan_Client_Enum_StorageProfileProtocol::FTP?>":
 			jQuery('#storageFtpPassiveMode').css('visibility', 'visible');
 			jQuery('#storageFtpPassiveMode-label').css('visibility', 'visible');
 			jQuery('#filesPermissionInS3-label').css('visibility', 'hidden');
@@ -48,7 +48,7 @@ jQuery(document).ready(function() {
 			jQuery('#endPoint-label').css('visibility', 'hidden');
 			jQuery('#endPoint').css('visibility', 'hidden');
 			break;
-		case "<?php echo Kaltura_Client_Enum_StorageProfileProtocol::SFTP?>":
+		case "<?php echo Borhan_Client_Enum_StorageProfileProtocol::SFTP?>":
 			setKeyPairSettings(true);
 			// No break, the rest of the settings should be as default
 		default:

@@ -3,19 +3,19 @@
  * @package api
  * @subpackage objects
  */
-abstract class KalturaBaseResponseProfile extends KalturaObject implements IApiObjectFactory
+abstract class BorhanBaseResponseProfile extends BorhanObject implements IApiObjectFactory
 {
-	public static function getInstance($sourceObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function getInstance($sourceObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$object = null;
 		
 		if($sourceObject instanceof ResponseProfile)
 		{
-			$object = new KalturaResponseProfile();
+			$object = new BorhanResponseProfile();
 		}
 		elseif($sourceObject instanceof kResponseProfile)
 		{
-			$object = new KalturaDetachedResponseProfile();
+			$object = new BorhanDetachedResponseProfile();
 		}
 		
 		if($object)

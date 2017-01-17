@@ -51,7 +51,7 @@ abstract class myBatchBase
 		self::$batch_script_name = $script_name;
 		/* easeier process management */
 		$batch_script = substr(self::$batch_script_name, strrpos(str_replace("\\", "/", self::$batch_script_name), "/")+1);
-		if(kConf::get('kaltura_installation_type') == 'CE')
+		if(kConf::get('borhan_installation_type') == 'CE')
 		{
 			/* on CE verify that other batches are not running */
 			$stub_status = new batchStatus();
@@ -163,7 +163,7 @@ abstract class myBatchBase
 		}
 		if ( $should_perform_shutdown )
 		{
-			KalturaLog::log ( "Attempting shutdown of DB due to errors" );
+			BorhanLog::log ( "Attempting shutdown of DB due to errors" );
 			// All of this brutal shutdown & init is to release all DB connections and restart as clean as possible
 			//
 			//self::$s_databaseManager->shutdown();
@@ -181,10 +181,10 @@ abstract class myBatchBase
 	{
 		self::$s_failure_count++;
 
-		KalturaLog::debug ( "Failed [" . self::$s_failure_count . "] times out of the allowed [" . self::MAX_FAILURES . "]" );
+		BorhanLog::debug ( "Failed [" . self::$s_failure_count . "] times out of the allowed [" . self::MAX_FAILURES . "]" );
 		if ( self::$s_failure_count >= self::MAX_FAILURES )
 		{
-			KalturaLog::debug ( "Fatal error, failed too many times [" . self::$s_failure_count . "]" );
+			BorhanLog::debug ( "Fatal error, failed too many times [" . self::$s_failure_count . "]" );
 			exit ( );
 		}
 	}
@@ -201,10 +201,10 @@ abstract class myBatchBase
 			return true;
 		$mem_usage =  memory_get_usage() ;
 		$limit =  self::parseMemorySize ( ini_get( "memory_limit") );
-//		KalturaLog::debug ( "shouldProceed: $mem_usage / $limit [" . ( $mem_usage < 0.8 * $limit ) . "]" );
+//		BorhanLog::debug ( "shouldProceed: $mem_usage / $limit [" . ( $mem_usage < 0.8 * $limit ) . "]" );
 		if  ( $mem_usage > ( 0.8 * $limit ) )
 		{
-	//		KalturaLog::debug ( "shouldProceed - NO! memory: [$mem_usage] limit [$limit]" );
+	//		BorhanLog::debug ( "shouldProceed - NO! memory: [$mem_usage] limit [$limit]" );
 			return false;
 		}
 		
@@ -228,7 +228,7 @@ abstract class myBatchBase
 		{
 			if ( self::$s_pending_tasks == 0  )
 			{
-				KalturaLog::log ( "Gracefully exiting..." );
+				BorhanLog::log ( "Gracefully exiting..." );
 				die();
 			}
 			else 
@@ -237,17 +237,17 @@ abstract class myBatchBase
 				{
 					// set the force_die_time 
 					self::$s_force_die_time = time() + self::SECONDS_TO_FORCE_DIE;
-					KalturaLog::debug ( "Should exis but still exists [" . self::$s_pending_tasks . "] pending tasts ... Will FORCE DIE in [" . 
+					BorhanLog::debug ( "Should exis but still exists [" . self::$s_pending_tasks . "] pending tasts ... Will FORCE DIE in [" . 
 						self::SECONDS_TO_FORCE_DIE . "] seconds");
 				}
 				elseif ( time() > self::$s_force_die_time )
 				{
-					KalturaLog::debug ( "FORCE DIE !!. There are still [" . self::$s_pending_tasks . "] pending tasts but their time has come !" );
+					BorhanLog::debug ( "FORCE DIE !!. There are still [" . self::$s_pending_tasks . "] pending tasts but their time has come !" );
 					die();
 				}
 				else
 				{
-					KalturaLog::debug ( "Should exit but still exists [" . self::$s_pending_tasks . "] pending tasts ... Will FORCE DIE in [" . 
+					BorhanLog::debug ( "Should exit but still exists [" . self::$s_pending_tasks . "] pending tasts ... Will FORCE DIE in [" . 
 						(time() - self::$s_force_die_time ) . "] seconds");					
 				}
 			}

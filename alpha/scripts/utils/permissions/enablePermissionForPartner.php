@@ -24,7 +24,7 @@ if ($argc > 3){
 require_once (dirname ( __FILE__ ) . '/../../bootstrap.php');
 
 $con = myDbHelper::getConnection ( myDbHelper::DB_HELPER_CONN_PROPEL2 );
-KalturaStatement::setDryRun ( $dryRun );
+BorhanStatement::setDryRun ( $dryRun );
 
 $dbPermission = PermissionPeer::getByNameAndPartner ( $permissionName, $partnerId );
 var_dump($dbPermission);
@@ -41,4 +41,4 @@ $dbPermission->save ();
 
 kMemoryManager::clearMemory();
 
-KalturaLog::debug("Done");
+BorhanLog::debug("Done");

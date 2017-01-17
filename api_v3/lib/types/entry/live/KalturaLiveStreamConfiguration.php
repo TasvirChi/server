@@ -5,10 +5,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaLiveStreamConfiguration extends KalturaObject
+class BorhanLiveStreamConfiguration extends BorhanObject
 {
 	/**
-	 * @var KalturaPlaybackProtocol
+	 * @var BorhanPlaybackProtocol
 	 */
 	public $protocol;
 	
@@ -40,7 +40,7 @@ class KalturaLiveStreamConfiguration extends KalturaObject
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -48,7 +48,7 @@ class KalturaLiveStreamConfiguration extends KalturaObject
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($dbObject = null, $propsToSkip = array())
 	{

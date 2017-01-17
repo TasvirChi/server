@@ -5,7 +5,7 @@
  *
  * @service liveChannelSegment
  */
-class LiveChannelSegmentService extends KalturaBaseService
+class LiveChannelSegmentService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -13,24 +13,24 @@ class LiveChannelSegmentService extends KalturaBaseService
 		$this->applyPartnerFilterForClass('LiveChannelSegment'); 	
 		
 		if(!PermissionPeer::isValidForPartner(PermissionName::FEATURE_LIVE_CHANNEL, $this->getPartnerId()))
-			throw new KalturaAPIException(KalturaErrors::SERVICE_FORBIDDEN, $this->serviceName.'->'.$this->actionName);
+			throw new BorhanAPIException(BorhanErrors::SERVICE_FORBIDDEN, $this->serviceName.'->'.$this->actionName);
 	}
 	
 	/**
 	 * Add new live channel segment
 	 * 
 	 * @action add
-	 * @param KalturaLiveChannelSegment $liveChannelSegment
-	 * @return KalturaLiveChannelSegment
+	 * @param BorhanLiveChannelSegment $liveChannelSegment
+	 * @return BorhanLiveChannelSegment
 	 */
-	function addAction(KalturaLiveChannelSegment $liveChannelSegment)
+	function addAction(BorhanLiveChannelSegment $liveChannelSegment)
 	{
 		$dbLiveChannelSegment = $liveChannelSegment->toInsertableObject();
 		$dbLiveChannelSegment->setPartnerId($this->getPartnerId());
 		$dbLiveChannelSegment->setStatus(LiveChannelSegmentStatus::ACTIVE);
 		$dbLiveChannelSegment->save();
 		
-		$liveChannelSegment = new KalturaLiveChannelSegment();
+		$liveChannelSegment = new BorhanLiveChannelSegment();
 		$liveChannelSegment->fromObject($dbLiveChannelSegment, $this->getResponseProfile());
 		return $liveChannelSegment;
 	}
@@ -40,17 +40,17 @@ class LiveChannelSegmentService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param int $id
-	 * @return KalturaLiveChannelSegment
+	 * @return BorhanLiveChannelSegment
 	 * 
-	 * @throws KalturaErrors::LIVE_CHANNEL_SEGMENT_ID_NOT_FOUND
+	 * @throws BorhanErrors::LIVE_CHANNEL_SEGMENT_ID_NOT_FOUND
 	 */
 	function getAction($id)
 	{
 		$dbLiveChannelSegment = LiveChannelSegmentPeer::retrieveByPK($id);
 		if (!$dbLiveChannelSegment)
-			throw new KalturaAPIException(KalturaErrors::LIVE_CHANNEL_SEGMENT_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::LIVE_CHANNEL_SEGMENT_ID_NOT_FOUND, $id);
 			
-		$liveChannelSegment = new KalturaLiveChannelSegment();
+		$liveChannelSegment = new BorhanLiveChannelSegment();
 		$liveChannelSegment->fromObject($dbLiveChannelSegment, $this->getResponseProfile());
 		return $liveChannelSegment;
 	}
@@ -60,21 +60,21 @@ class LiveChannelSegmentService extends KalturaBaseService
 	 * 
 	 * @action update
 	 * @param int $id
-	 * @param KalturaLiveChannelSegment $liveChannelSegment
-	 * @return KalturaLiveChannelSegment
+	 * @param BorhanLiveChannelSegment $liveChannelSegment
+	 * @return BorhanLiveChannelSegment
 	 * 
-	 * @throws KalturaErrors::LIVE_CHANNEL_SEGMENT_ID_NOT_FOUND
+	 * @throws BorhanErrors::LIVE_CHANNEL_SEGMENT_ID_NOT_FOUND
 	 */
-	function updateAction($id, KalturaLiveChannelSegment $liveChannelSegment)
+	function updateAction($id, BorhanLiveChannelSegment $liveChannelSegment)
 	{
 		$dbLiveChannelSegment = LiveChannelSegmentPeer::retrieveByPK($id);
 		if (!$dbLiveChannelSegment)
-			throw new KalturaAPIException(KalturaErrors::LIVE_CHANNEL_SEGMENT_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::LIVE_CHANNEL_SEGMENT_ID_NOT_FOUND, $id);
 		
 		$liveChannelSegment->toUpdatableObject($dbLiveChannelSegment);
 		$dbLiveChannelSegment->save();
 		
-		$liveChannelSegment = new KalturaLiveChannelSegment();
+		$liveChannelSegment = new BorhanLiveChannelSegment();
 		$liveChannelSegment->fromObject($dbLiveChannelSegment, $this->getResponseProfile());
 		return $liveChannelSegment;
 	}
@@ -85,13 +85,13 @@ class LiveChannelSegmentService extends KalturaBaseService
 	 * @action delete
 	 * @param int $id
 	 * 
-	 * @throws KalturaErrors::LIVE_CHANNEL_SEGMENT_ID_NOT_FOUND
+	 * @throws BorhanErrors::LIVE_CHANNEL_SEGMENT_ID_NOT_FOUND
 	 */
 	function deleteAction($id)
 	{
 		$dbLiveChannelSegment = LiveChannelSegmentPeer::retrieveByPK($id);
 		if (!$dbLiveChannelSegment)
-			throw new KalturaAPIException(KalturaErrors::LIVE_CHANNEL_SEGMENT_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::LIVE_CHANNEL_SEGMENT_ID_NOT_FOUND, $id);
 
 		$dbLiveChannelSegment->setStatus(LiveChannelSegmentStatus::DELETED);
 		$dbLiveChannelSegment->save();
@@ -101,17 +101,17 @@ class LiveChannelSegmentService extends KalturaBaseService
 	 * List live channel segments by filter and pager
 	 * 
 	 * @action list
-	 * @param KalturaFilterPager $filter
-	 * @param KalturaLiveChannelSegmentFilter $pager
-	 * @return KalturaLiveChannelSegmentListResponse
+	 * @param BorhanFilterPager $filter
+	 * @param BorhanLiveChannelSegmentFilter $pager
+	 * @return BorhanLiveChannelSegmentListResponse
 	 */
-	function listAction(KalturaLiveChannelSegmentFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanLiveChannelSegmentFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaLiveChannelSegmentFilter();
+			$filter = new BorhanLiveChannelSegmentFilter();
 			
 		if (!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 			
 		return $filter->getListResponse($pager, $this->getResponseProfile());
 	}

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaLiveChannelSegmentType extends KalturaDynamicEnum implements LiveChannelSegmentType
+class BorhanLiveChannelSegmentType extends BorhanDynamicEnum implements LiveChannelSegmentType
 {
 	public static function getEnumClass()
 	{

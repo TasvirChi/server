@@ -2,11 +2,11 @@
 /**
  * A string representation to return an array of strings
  * 
- * @see KalturaStringValueArray
+ * @see BorhanStringValueArray
  * @package api
  * @subpackage objects
  */
-class KalturaStringValue extends KalturaValue
+class BorhanStringValue extends BorhanValue
 {
 	/**
 	 * @var string
@@ -14,7 +14,7 @@ class KalturaStringValue extends KalturaValue
     public $value;
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

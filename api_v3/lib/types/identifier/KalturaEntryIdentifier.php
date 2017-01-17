@@ -3,16 +3,16 @@
  * @package api
  * @subpackage objects
  */
-class KalturaEntryIdentifier extends KalturaObjectIdentifier
+class BorhanEntryIdentifier extends BorhanObjectIdentifier
 {
 	/**
 	 * Identifier of the object
-	 * @var KalturaEntryIdentifierField
+	 * @var BorhanEntryIdentifierField
 	 */
 	public $identifier;
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObjectIdentifier::toObject()
+	 * @see BorhanObjectIdentifier::toObject()
 	 */
 	public function toObject ($dbObject = null, $propsToSkip = array())
 	{
@@ -27,7 +27,7 @@ class KalturaEntryIdentifier extends KalturaObjectIdentifier
 		);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{

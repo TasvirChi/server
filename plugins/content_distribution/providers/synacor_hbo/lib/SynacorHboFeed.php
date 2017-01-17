@@ -221,7 +221,7 @@ class SynacorHboFeed
 				switch($assetType){
 					case CaptionPlugin::getAssetTypeCoreValue(CaptionAssetType::CAPTION):
 						/* @var $captionPlugin CaptionPlugin */
-						$captionPlugin = KalturaPluginManager::getPluginInstance(CaptionPlugin::PLUGIN_NAME);
+						$captionPlugin = BorhanPluginManager::getPluginInstance(CaptionPlugin::PLUGIN_NAME);
 						$dummyElement = new SimpleXMLElement('<dummy/>');
 						$captionPlugin->contributeCaptionAssets($additionalAsset, $dummyElement);
 						$dummyDom = dom_import_simplexml($dummyElement);
@@ -231,7 +231,7 @@ class SynacorHboFeed
 						break;
 					case AttachmentPlugin::getAssetTypeCoreValue(AttachmentAssetType::ATTACHMENT):
 						/* @var $attachmentPlugin AttachmentPlugin */
-						$attachmentPlugin = KalturaPluginManager::getPluginInstance(AttachmentPlugin::PLUGIN_NAME);
+						$attachmentPlugin = BorhanPluginManager::getPluginInstance(AttachmentPlugin::PLUGIN_NAME);
 						$dummyElement = new SimpleXMLElement('<dummy/>');
 						$attachmentPlugin->contributeAttachmentAssets($additionalAsset, $dummyElement);
 						$dummyDom = dom_import_simplexml($dummyElement);

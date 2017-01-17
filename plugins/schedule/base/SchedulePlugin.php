@@ -2,7 +2,7 @@
 /**
  * @package plugins.schedule
  */
-class SchedulePlugin extends KalturaPlugin implements IKalturaServices, IKalturaEventConsumers, IKalturaVersion, IKalturaObjectLoader
+class SchedulePlugin extends BorhanPlugin implements IBorhanServices, IBorhanEventConsumers, IBorhanVersion, IBorhanObjectLoader
 {
 	const PLUGIN_NAME = 'schedule';
 	const PLUGIN_VERSION_MAJOR = 1;
@@ -13,7 +13,7 @@ class SchedulePlugin extends KalturaPlugin implements IKalturaServices, IKaltura
 	
 	public static function dependsOn()
 	{
-		$metadataDependency = new KalturaDependency(self::METADATA_PLUGIN_NAME);
+		$metadataDependency = new BorhanDependency(self::METADATA_PLUGIN_NAME);
 		
 		return array($metadataDependency);
 	}
@@ -24,16 +24,16 @@ class SchedulePlugin extends KalturaPlugin implements IKalturaServices, IKaltura
 	
 	/*
 	 * (non-PHPdoc)
-	 * @see IKalturaVersion::getVersion()
+	 * @see IBorhanVersion::getVersion()
 	 */
 	public static function getVersion()
 	{
-		return new KalturaVersion(self::PLUGIN_VERSION_MAJOR, self::PLUGIN_VERSION_MINOR, self::PLUGIN_VERSION_BUILD);
+		return new BorhanVersion(self::PLUGIN_VERSION_MAJOR, self::PLUGIN_VERSION_MINOR, self::PLUGIN_VERSION_BUILD);
 	}
 	
 	/*
 	 * (non-PHPdoc)
-	 * @see IKalturaServices::getServicesMap()
+	 * @see IBorhanServices::getServicesMap()
 	 */
 	public static function getServicesMap()
 	{
@@ -43,7 +43,7 @@ class SchedulePlugin extends KalturaPlugin implements IKalturaServices, IKaltura
 	
 	/*
 	 * (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	 */
 	public static function getEventConsumers()
 	{
@@ -52,24 +52,24 @@ class SchedulePlugin extends KalturaPlugin implements IKalturaServices, IKaltura
 	
 	/*
 	 * (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if($baseClass == 'KalturaSerializer' && $enumValue == self::ICAL_RESPONSE_TYPE)
-			return new KalturaICalSerializer();
+		if($baseClass == 'BorhanSerializer' && $enumValue == self::ICAL_RESPONSE_TYPE)
+			return new BorhanICalSerializer();
 		
 		return null;
 	}
 	
 	/*
 	 * (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
-		if($baseClass == 'KalturaSerializer' && $enumValue == self::ICAL_RESPONSE_TYPE)
-			return 'KalturaICalSerializer';
+		if($baseClass == 'BorhanSerializer' && $enumValue == self::ICAL_RESPONSE_TYPE)
+			return 'BorhanICalSerializer';
 		
 		return null;
 	}

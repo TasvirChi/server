@@ -3,12 +3,12 @@
  * @package plugins.tagSearch
  * @subpackage api.filters
  */
-class KalturaTagFilter extends KalturaFilter
+class BorhanTagFilter extends BorhanFilter
 {
     /**
 	 * 
 	 * 
-	 * @var KalturaTaggedObjectType
+	 * @var BorhanTaggedObjectType
 	 */
 	public $objectTypeEqual;
 
@@ -68,7 +68,7 @@ class KalturaTagFilter extends KalturaFilter
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -76,7 +76,7 @@ class KalturaTagFilter extends KalturaFilter
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::toObject()
+	 * @see BorhanFilter::toObject()
 	 */
 	public function toObject ($object = null, $props_to_skip = array())
 	{

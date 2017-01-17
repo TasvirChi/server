@@ -44,7 +44,7 @@ function checkCache()
 		{
 			sendCachingHeaders(60, true, time());
 
-			header("X-Kaltura:cached-dispatcher-redirect");
+			header("X-Borhan:cached-dispatcher-redirect");
 			header("Location:$url");
 			die;
 		}
@@ -64,7 +64,7 @@ function checkCache()
 
 	if (strpos($uri, "/playManifest") !== false)
 	{
-		require_once(dirname(__FILE__)."/../apps/kaltura/lib/cache/kPlayManifestCacher.php");
+		require_once(dirname(__FILE__)."/../apps/borhan/lib/cache/kPlayManifestCacher.php");
 		$cache = kPlayManifestCacher::getInstance();
 		$cache->checkOrStart();
 	}	
@@ -111,27 +111,27 @@ function checkCache()
 					}
 
 					$processing_time = microtime(true) - $start_time;
-					header("X-Kaltura:cached-dispatcher,$key,$processing_time");
+					header("X-Borhan:cached-dispatcher,$key,$processing_time");
 					echo $response;
 					die;
 				}
 			}
 		}
 	}
-	else if (strpos($uri, "/kwidget") !== false)	
+	else if (strpos($uri, "/bwidget") !== false)	
 	{
-		require_once(dirname(__FILE__)."/../apps/kaltura/lib/cache/kCacheManager.php");
+		require_once(dirname(__FILE__)."/../apps/borhan/lib/cache/kCacheManager.php");
 
 		$cache = kCacheManager::getSingleLayerCache(kCacheManager::CACHE_TYPE_PS2);
 		if ($cache)
 		{
 			// check if we cached the patched swf with flashvars
 			$uri = $protocol.$uri;
-			$cachedResponse = $cache->get("kwidgetswf$uri");
+			$cachedResponse = $cache->get("bwidgetswf$uri");
 			if ($cachedResponse) // dont use cache if we want to force no caching
 			{
 				$max_age = 60 * 10;
-				header("X-Kaltura:cached-dispatcher");
+				header("X-Borhan:cached-dispatcher");
 				header("Content-Type: application/x-shockwave-flash");
 				sendCachingHeaders($max_age, true, time());
 				header("Content-Length: ".strlen($cachedResponse));
@@ -139,10 +139,10 @@ function checkCache()
 				die;
 			}
 			
-			$cachedResponse = $cache->get("kwidget$uri");
+			$cachedResponse = $cache->get("bwidget$uri");
 			if ($cachedResponse)
 			{
-				header("X-Kaltura:cached-dispatcher");
+				header("X-Borhan:cached-dispatcher");
 				header("Expires: Sun, 19 Nov 2000 08:52:00 GMT");
 				header("Cache-Control" , "no-store, no-cache, must-revalidate, post-check=0, pre-check=0");
 				header("Pragma" , "no-cache" );
@@ -177,12 +177,12 @@ function checkCache()
 	}
 	else if (strpos($uri, "/thumbnail") !== false)	
 	{
-		require_once(dirname(__FILE__)."/../apps/kaltura/lib/cache/kCacheManager.php");
+		require_once(dirname(__FILE__)."/../apps/borhan/lib/cache/kCacheManager.php");
 		
 		$cache = kCacheManager::getSingleLayerCache(kCacheManager::CACHE_TYPE_PS2);
 		if ($cache)
 		{
-			require_once(dirname(__FILE__) . '/../apps/kaltura/lib/renderers/kRendererDumpFile.php');
+			require_once(dirname(__FILE__) . '/../apps/borhan/lib/renderers/kRendererDumpFile.php');
 			
 			$cachedResponse = $cache->get("thumb$uri");
 			if ($cachedResponse && is_array($cachedResponse))
@@ -199,9 +199,9 @@ function checkCache()
 					}
 				}
 				
-				require_once(dirname(__FILE__) . '/../apps/kaltura/lib/monitor/KalturaMonitorClient.php');
-				KalturaMonitorClient::initApiMonitor(true, 'extwidget.thumbnail', $renderer->partnerId);
-				header("X-Kaltura:cached-dispatcher-thumb");
+				require_once(dirname(__FILE__) . '/../apps/borhan/lib/monitor/BorhanMonitorClient.php');
+				BorhanMonitorClient::initApiMonitor(true, 'extwidget.thumbnail', $renderer->partnerId);
+				header("X-Borhan:cached-dispatcher-thumb");
 				$renderer->output();
 				die;
 			}
@@ -209,7 +209,7 @@ function checkCache()
 	}	
 	else if (strpos($uri, "/embedIframe/") !== false)
 	{
-		require_once(dirname(__FILE__)."/../apps/kaltura/lib/cache/kCacheManager.php");
+		require_once(dirname(__FILE__)."/../apps/borhan/lib/cache/kCacheManager.php");
 		
 		$cache = kCacheManager::getSingleLayerCache(kCacheManager::CACHE_TYPE_PS2);
 		if ($cache)
@@ -218,7 +218,7 @@ function checkCache()
 			$cachedResponse = $cache->get("embedIframe$uri");
 			if ($cachedResponse) // dont use cache if we want to force no caching
 			{
-				header("X-Kaltura:cached-dispatcher");
+				header("X-Borhan:cached-dispatcher");
 				sendCachingHeaders(0);
 				header("Location:$cachedResponse");
 				
@@ -228,10 +228,10 @@ function checkCache()
 	}
 	else if (strpos($uri, "/serveFlavor/") !== false && function_exists('apc_fetch') && $_SERVER["REQUEST_METHOD"] == "GET")
 	{
-		require_once(dirname(__FILE__) . '/../apps/kaltura/lib/renderers/kRendererDumpFile.php');
-		require_once(dirname(__FILE__) . '/../apps/kaltura/lib/renderers/kRendererString.php');
-		require_once(dirname(__FILE__) . '/../apps/kaltura/lib/monitor/KalturaMonitorClient.php');
-		require_once(dirname(__FILE__) . '/../apps/kaltura/lib/request/kIpAddressUtils.php');
+		require_once(dirname(__FILE__) . '/../apps/borhan/lib/renderers/kRendererDumpFile.php');
+		require_once(dirname(__FILE__) . '/../apps/borhan/lib/renderers/kRendererString.php');
+		require_once(dirname(__FILE__) . '/../apps/borhan/lib/monitor/BorhanMonitorClient.php');
+		require_once(dirname(__FILE__) . '/../apps/borhan/lib/request/kIpAddressUtils.php');
 		
 		$host = isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST'];
 		$cacheKey = 'dumpFile-'.kIpAddressUtils::isInternalIp($_SERVER['REMOTE_ADDR']).'-'.$host.$uri;
@@ -239,8 +239,8 @@ function checkCache()
 		$renderer = apc_fetch($cacheKey);
 		if ($renderer)
 		{
-			KalturaMonitorClient::initApiMonitor(true, 'extwidget.serveFlavor', $renderer->partnerId);
-			header("X-Kaltura:cached-dispatcher");
+			BorhanMonitorClient::initApiMonitor(true, 'extwidget.serveFlavor', $renderer->partnerId);
+			header("X-Borhan:cached-dispatcher");
 			$renderer->output();
 			die;
 		}
@@ -249,7 +249,7 @@ function checkCache()
 
 checkCache();
 
-define('KALTURA_LOG', 		'ps2');
+define('BORHAN_LOG', 		'ps2');
 define('SF_ENVIRONMENT',	'prod');
 define('SF_DEBUG',			false);
 

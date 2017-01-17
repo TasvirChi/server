@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters
  */
-class KalturaReportInputFilter extends KalturaReportInputBaseFilter 
+class BorhanReportInputFilter extends BorhanReportInputBaseFilter 
 {
 	/**
 	 * Search keywords to filter objects
@@ -44,12 +44,12 @@ class KalturaReportInputFilter extends KalturaReportInputBaseFilter
 	/**
 	 * Aggregated results according to interval
 	 * 
-	 * @var KalturaReportInterval
+	 * @var BorhanReportInterval
 	 */
 	public $interval;
 	
 	/* (non-PHPdoc)
-	 * @see KalturaReportInputBaseFilter::toReportsInputFilter()
+	 * @see BorhanReportInputBaseFilter::toReportsInputFilter()
 	 */
 	public function toReportsInputFilter($reportInputFilter = null)
 	{
@@ -66,7 +66,7 @@ class KalturaReportInputFilter extends KalturaReportInputBaseFilter
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaReportInputBaseFilter::fromReportsInputFilter()
+	 * @see BorhanReportInputBaseFilter::fromReportsInputFilter()
 	 */
 	public function fromReportsInputFilter($reportInputFilter )
 	{

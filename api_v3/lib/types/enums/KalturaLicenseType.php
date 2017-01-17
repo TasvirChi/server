@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaLicenseType extends KalturaEnum
+class BorhanLicenseType extends BorhanEnum
 {
 	const UNKNOWN = -1;
 	const NONE = 0;

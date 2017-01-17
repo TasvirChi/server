@@ -1,11 +1,11 @@
 <?php
 /**
- * Used to ingest media that is already ingested to Kaltura system as a different file in the past, the new created flavor asset will be ready immediately using a file sync of link type that will point to the existing file sync.
+ * Used to ingest media that is already ingested to Borhan system as a different file in the past, the new created flavor asset will be ready immediately using a file sync of link type that will point to the existing file sync.
  * 
  * @package api
  * @subpackage objects
  */
-class KalturaFileSyncResource extends KalturaContentResource
+class BorhanFileSyncResource extends BorhanContentResource
 {
 	/**
 	 * The object type of the file sync object 
@@ -32,7 +32,7 @@ class KalturaFileSyncResource extends KalturaContentResource
 	public $version;
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUsage($sourceObject, $propertiesToSkip)
+	 * @see BorhanObject::validateForUsage($sourceObject, $propertiesToSkip)
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -46,7 +46,7 @@ class KalturaFileSyncResource extends KalturaContentResource
 	private static $map_between_objects = array('fileSyncObjectType', 'objectSubType', 'objectId', 'version');
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -54,7 +54,7 @@ class KalturaFileSyncResource extends KalturaContentResource
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($object_to_fill = null, $props_to_skip = array())
 	{

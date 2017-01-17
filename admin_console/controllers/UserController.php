@@ -17,7 +17,7 @@ class UserController extends Zend_Controller_Action
 		$form = new Form_UserFilter();
 		$form->setAction($action);
 		
-		$systemPartnerPlugin = Kaltura_Client_SystemPartner_Plugin::get($client);
+		$systemPartnerPlugin = Borhan_Client_SystemPartner_Plugin::get($client);
 		$userRoles = $client->userRole->listAction();
 		Form_PackageHelper::addPackagesToForm($form, $userRoles->objects, 'user_roles', true, 'All Service Editions');
 		
@@ -28,7 +28,7 @@ class UserController extends Zend_Controller_Action
 		// init filter
 		$userFilter = $this->getUserFilterFromRequest($request);
 		$userFilter->partnerIdEqual = $config->settings->partnerId;
-		$userFilter->orderBy = Kaltura_Client_Enum_UserOrderBy::CREATED_AT_DESC;
+		$userFilter->orderBy = Borhan_Client_Enum_UserOrderBy::CREATED_AT_DESC;
 		
 		$paginatorAdapter = new Infra_FilterPaginator($client->user, "listAction", null, $userFilter);
 		$paginator = new Infra_Paginator($paginatorAdapter);
@@ -48,7 +48,7 @@ class UserController extends Zend_Controller_Action
 	
 	private function getUserFilterFromRequest(Zend_Controller_Request_Abstract $request)
 	{
-		$filter = new Kaltura_Client_Type_UserFilter();
+		$filter = new Borhan_Client_Type_UserFilter();
 		$filterType = $request->getParam('filter_type');
 		$filterInput = $request->getParam('filter_input');
 		$user_roles = $request->getParam('user_roles');
@@ -150,7 +150,7 @@ class UserController extends Zend_Controller_Action
 		{
 			$loginForm->isValid($request->getPost());
 			
-			$adapter = new Kaltura_AdminAuthAdapter();
+			$adapter = new Borhan_AdminAuthAdapter();
 			$adapter->setPrivileges('disableentitlement');
 
 			$safeEmailFieldValue = strip_Tags($request->getPost('email')); // Strip HTML Tags to prevent a potential XSS attack
@@ -202,8 +202,8 @@ class UserController extends Zend_Controller_Action
 		$this->_helper->viewRenderer->setNoRender();
 		$userId = $this->_getParam('userId');
 		$client = Infra_ClientHelper::getClient();
-		$user = new Kaltura_Client_Type_User();
-		$user->status = Kaltura_Client_Enum_UserStatus::BLOCKED;
+		$user = new Borhan_Client_Type_User();
+		$user->status = Borhan_Client_Enum_UserStatus::BLOCKED;
 		$client->user->update($userId, $user);
 		echo $this->_helper->json('ok', false);
 	}
@@ -213,8 +213,8 @@ class UserController extends Zend_Controller_Action
 		$this->_helper->viewRenderer->setNoRender();
 		$userId = $this->_getParam('userId');
 		$client = Infra_ClientHelper::getClient();
-		$user = new Kaltura_Client_Type_User();
-		$user->status = Kaltura_Client_Enum_UserStatus::ACTIVE;
+		$user = new Borhan_Client_Type_User();
+		$user->status = Borhan_Client_Enum_UserStatus::ACTIVE;
 		$client->user->update($userId, $user);
 		echo $this->_helper->json('ok', false);
 	}
@@ -262,7 +262,7 @@ class UserController extends Zend_Controller_Action
 		
 		$form = new Form_AssignPartners();
 		$client = Infra_ClientHelper::getClient();
-		$systemPartnerPlugin = Kaltura_Client_SystemPartner_Plugin::get($client);
+		$systemPartnerPlugin = Borhan_Client_SystemPartner_Plugin::get($client);
 		
 		Form_PackageHelper::addPackagesToForm($form, $systemPartnerPlugin->systemPartner->getPackages(), 'partner_package');
 		
@@ -287,11 +287,11 @@ class UserController extends Zend_Controller_Action
 			try
 			{
 				$client = Infra_ClientHelper::getClient();
-				$user = new Kaltura_Client_Type_User();
+				$user = new Borhan_Client_Type_User();
 				$user->email = $request->getPost('email');
 				$user->firstName = $request->getPost('first_name');
 				$user->lastName = $request->getPost('last_name');
-				$user->status = Kaltura_Client_Enum_UserStatus::ACTIVE;
+				$user->status = Borhan_Client_Enum_UserStatus::ACTIVE;
 				$user->id = $user->email;
 				$user->isAdmin = true;
 				$user->roleIds = $request->getPost('role');
@@ -337,7 +337,7 @@ class UserController extends Zend_Controller_Action
 					throw new Exception('', 'LOGIN_DATA_NOT_FOUND');
 				}
 				
-				$identity = new Kaltura_AdminUserIdentity($user, $ks);
+				$identity = new Borhan_AdminUserIdentity($user, $ks);
 				$auth->getStorage()->write($identity); // new identity (email could be updated)
 				
 				$this->view->done = true;
@@ -393,7 +393,7 @@ class UserController extends Zend_Controller_Action
 				$userId = $request->getParam('userId');
 				$roleId = $request->getPost('role');
 				
-				$user = new Kaltura_Client_Type_User();
+				$user = new Borhan_Client_Type_User();
 				$user->roleIds = $roleId;
 				$client->user->update($userId, $user); // call api user->update
 				$this->_helper->redirector('index');
@@ -437,7 +437,7 @@ class UserController extends Zend_Controller_Action
 				if (isset($partnerPackages)) {
 					$partnerPackagesStr = implode(",", $partnerPackages);
 				}
-				$user = new Kaltura_Client_Type_User();
+				$user = new Borhan_Client_Type_User();
 				$user->allowedPartnerIds = $partnerIds;
 				$user->allowedPartnerPackages = $partnerPackagesStr;
 				$client->user->update($userId, $user); // call api user->update
@@ -475,9 +475,9 @@ class UserController extends Zend_Controller_Action
 		
 		$config = Zend_Registry::get('config');
 		
-		$filter = new Kaltura_Client_Type_UserRoleFilter();
+		$filter = new Borhan_Client_Type_UserRoleFilter();
 		$filter->partnerIdEqual = $config->settings->partnerId;
-		$filter->orderBy = Kaltura_Client_Enum_UserOrderBy::CREATED_AT_DESC;
+		$filter->orderBy = Borhan_Client_Enum_UserOrderBy::CREATED_AT_DESC;
 		$paginatorAdapter = new Infra_FilterPaginator($client->userRole, "listAction", null, $filter);
 		$paginator = new Infra_Paginator($paginatorAdapter);
 		$paginator->setCurrentPageNumber($page);
@@ -499,7 +499,7 @@ class UserController extends Zend_Controller_Action
 		{
 			$form->isValid($request->getPost());
 			$form->populate($request->getPost());
-			$userRole = new Kaltura_Client_Type_UserRole();
+			$userRole = new Borhan_Client_Type_UserRole();
 			$userRole->permissionNames = $form->getPermissionNames();
 			try{
 				$client->userRole->update($userId, $userRole);

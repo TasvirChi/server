@@ -6,7 +6,7 @@
  * @package api
  * @subpackage services
  */
-class MediaInfoService extends KalturaBaseService
+class MediaInfoService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -19,19 +19,19 @@ class MediaInfoService extends KalturaBaseService
 	 * List media info objects by filter and pager
 	 * 
 	 * @action list
-	 * @param KalturaMediaInfoFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaMediaInfoListResponse
+	 * @param BorhanMediaInfoFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanMediaInfoListResponse
 	 */
-	function listAction(KalturaMediaInfoFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanMediaInfoFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 	    myDbHelper::$use_alternative_con = myDbHelper::DB_HELPER_CONN_PROPEL2;
 	    
 		if (!$filter)
-			$filter = new KalturaMediaInfoFilter();
+			$filter = new BorhanMediaInfoFilter();
 
 		if (!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 			
 		$mediaInfoFilter = new MediaInfoFilter();
 		
@@ -41,7 +41,7 @@ class MediaInfoService extends KalturaBaseService
 		{
 			// Since media_info table does not have partner_id column, enforce partner by getting the asset
 			if (!assetPeer::retrieveById($filter->flavorAssetIdEqual))
-				throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND, $filter->flavorAssetIdEqual);
+				throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND, $filter->flavorAssetIdEqual);
 		}
 
 		$c = new Criteria();
@@ -52,8 +52,8 @@ class MediaInfoService extends KalturaBaseService
 		$pager->attachToCriteria($c);
 		$dbList = mediaInfoPeer::doSelect($c);
 		
-		$list = KalturaMediaInfoArray::fromDbArray($dbList, $this->getResponseProfile());
-		$response = new KalturaMediaInfoListResponse();
+		$list = BorhanMediaInfoArray::fromDbArray($dbList, $this->getResponseProfile());
+		$response = new BorhanMediaInfoListResponse();
 		$response->objects = $list;
 		$response->totalCount = $totalCount;
 		return $response;

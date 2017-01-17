@@ -3,7 +3,7 @@
  * @package plugins.tagSearch
  * @subpackage api.objects
  */
-class KalturaIndexTagsByPrivacyContextJobData extends KalturaJobData
+class BorhanIndexTagsByPrivacyContextJobData extends BorhanJobData
 {
 	/**
 	 * @var int

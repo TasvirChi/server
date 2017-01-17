@@ -17,7 +17,7 @@ class KAsyncClearCuePoints extends KPeriodicWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::CLEANUP;
+		return BorhanBatchJobType::CLEANUP;
 	}
 	
 	/* (non-PHPdoc)
@@ -25,18 +25,18 @@ class KAsyncClearCuePoints extends KPeriodicWorker
 	*/
 	public function run($jobs = null)
 	{
-		$entryFilter = new KalturaLiveStreamEntryFilter();
-		$entryFilter->isLive = KalturaNullableBoolean::TRUE_VALUE;
-		$entryFilter->orderBy = KalturaLiveStreamEntryOrderBy::CREATED_AT_ASC;
+		$entryFilter = new BorhanLiveStreamEntryFilter();
+		$entryFilter->isLive = BorhanNullableBoolean::TRUE_VALUE;
+		$entryFilter->orderBy = BorhanLiveStreamEntryOrderBy::CREATED_AT_ASC;
 		
 		$entryFilter->moderationStatusIn = 
-			KalturaEntryModerationStatus::PENDING_MODERATION . ',' .
-			KalturaEntryModerationStatus::APPROVED . ',' .
-			KalturaEntryModerationStatus::REJECTED . ',' .
-			KalturaEntryModerationStatus::FLAGGED_FOR_REVIEW . ',' .
-			KalturaEntryModerationStatus::AUTO_APPROVED;
+			BorhanEntryModerationStatus::PENDING_MODERATION . ',' .
+			BorhanEntryModerationStatus::APPROVED . ',' .
+			BorhanEntryModerationStatus::REJECTED . ',' .
+			BorhanEntryModerationStatus::FLAGGED_FOR_REVIEW . ',' .
+			BorhanEntryModerationStatus::AUTO_APPROVED;
 		
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageSize = 100;
 		$pager->pageIndex = 1;
 		
@@ -48,8 +48,8 @@ class KAsyncClearCuePoints extends KPeriodicWorker
 			{
 				//When entry has recording on the cue poitns are copied from the live entry to the vod entry
 				//The copy process allready markes the live entry cue points as handled
-				/* @var $entry KalturaLiveEntry */
-				if($entry->recordStatus !== KalturaRecordStatus::DISABLED)
+				/* @var $entry BorhanLiveEntry */
+				if($entry->recordStatus !== BorhanRecordStatus::DISABLED)
 					continue;
 					
 				$this->clearEntryCuePoints($entry);
@@ -62,19 +62,19 @@ class KAsyncClearCuePoints extends KPeriodicWorker
 	
 	private function clearEntryCuePoints($entry)
 	{
-		$cuePointPlugin = KalturaCuePointClientPlugin::get(self::$kClient);
+		$cuePointPlugin = BorhanCuePointClientPlugin::get(self::$kClient);
 		
-		$cuePointFilter = $this->getFilter("KalturaCuePointFilter");
+		$cuePointFilter = $this->getFilter("BorhanCuePointFilter");
 		$cuePointFilter->entryIdEqual = $entry->id;
 		
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageSize = 100;
 		
 		$cuePoints = $cuePointPlugin->cuePoint->listAction($cuePointFilter, $pager);
 
 		if(!$cuePoints->objects)
 		{
-			KalturaLog::debug("No cue points found for entry [{$entry->id}] continue to next live entry");
+			BorhanLog::debug("No cue points found for entry [{$entry->id}] continue to next live entry");
 			return;
 		}
 
@@ -83,7 +83,7 @@ class KAsyncClearCuePoints extends KPeriodicWorker
 		self::$kClient->startMultiRequest();
 		foreach ($cuePoints->objects as $cuePoint)
 		{
-			$cuePointPlugin->cuePoint->updateStatus($cuePoint->id, KalturaCuePointStatus::HANDLED);
+			$cuePointPlugin->cuePoint->updateStatus($cuePoint->id, BorhanCuePointStatus::HANDLED);
 		}
 		self::$kClient->doMultiRequest();
 		self::unimpersonate();

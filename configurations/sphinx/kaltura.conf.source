@@ -1,4 +1,4 @@
-index kaltura_base
+index borhan_base
 {
 	type	 = rt
 	dict	 = keywords
@@ -78,7 +78,7 @@ index kaltura_base
 }
 
 
-index kaltura_kuser_base:kaltura_base
+index borhan_kuser_base:borhan_base
 {
 	dict	 = keywords
 	min_prefix_len	 = 3
@@ -154,16 +154,16 @@ index kaltura_kuser_base:kaltura_base
 	
 }
 
-index kaltura_entry:kaltura_base
+index borhan_entry:borhan_base
 {
-	path	 = @BASE_DIR@/sphinx/kaltura_rt
-	@FIELDS_PLACEHOLDER-kaltura_entry@
+	path	 = @BASE_DIR@/sphinx/borhan_rt
+	@FIELDS_PLACEHOLDER-borhan_entry@
 }
 
-index kaltura_category
+index borhan_category
 {
 	type	 = rt
-	path	 = @BASE_DIR@/sphinx/kaltura_category_rt
+	path	 = @BASE_DIR@/sphinx/borhan_category_rt
 	dict	 = keywords
 	min_prefix_len	 = 1
 	enable_star	 = 1
@@ -238,62 +238,62 @@ index kaltura_category
 
 	charset_type	 = utf-8
 	rt_mem_limit	 = 1024M
-	@FIELDS_PLACEHOLDER-kaltura_category@	
+	@FIELDS_PLACEHOLDER-borhan_category@	
 }
 
-index kaltura_kuser:kaltura_kuser_base
+index borhan_kuser:borhan_kuser_base
 {
-	path	 = @BASE_DIR@/sphinx/kaltura_kuser_rt
-	@FIELDS_PLACEHOLDER-kaltura_kuser@
+	path	 = @BASE_DIR@/sphinx/borhan_kuser_rt
+	@FIELDS_PLACEHOLDER-borhan_kuser@
 }
 
-index kaltura_category_kuser:kaltura_kuser_base
+index borhan_category_kuser:borhan_kuser_base
 {
-	path	 = @BASE_DIR@/sphinx/kaltura_category_kuser_rt
-	@FIELDS_PLACEHOLDER-kaltura_category_kuser@
+	path	 = @BASE_DIR@/sphinx/borhan_category_kuser_rt
+	@FIELDS_PLACEHOLDER-borhan_category_kuser@
 }
 
-index kaltura_cue_point:kaltura_base
+index borhan_cue_point:borhan_base
 {
-	path	 = @BASE_DIR@/sphinx/kaltura_cue_point_rt
-	@FIELDS_PLACEHOLDER-kaltura_cue_point@
+	path	 = @BASE_DIR@/sphinx/borhan_cue_point_rt
+	@FIELDS_PLACEHOLDER-borhan_cue_point@
 }
 
-index kaltura_entry_distribution:kaltura_base
+index borhan_entry_distribution:borhan_base
 {
-	path	 = @BASE_DIR@/sphinx/kaltura_distribution_rt
-	@FIELDS_PLACEHOLDER-kaltura_entry_distribution@
+	path	 = @BASE_DIR@/sphinx/borhan_distribution_rt
+	@FIELDS_PLACEHOLDER-borhan_entry_distribution@
 }
 
-index kaltura_caption_item:kaltura_base
+index borhan_caption_item:borhan_base
 {
-	path	 = @BASE_DIR@/sphinx/kaltura_caption_item_rt
-	@FIELDS_PLACEHOLDER-kaltura_caption_item@
+	path	 = @BASE_DIR@/sphinx/borhan_caption_item_rt
+	@FIELDS_PLACEHOLDER-borhan_caption_item@
 }
 
-index kaltura_tag:kaltura_kuser_base
+index borhan_tag:borhan_kuser_base
 {
-	path	 = @BASE_DIR@/sphinx/kaltura_tag_rt
-	@FIELDS_PLACEHOLDER-kaltura_tag@
+	path	 = @BASE_DIR@/sphinx/borhan_tag_rt
+	@FIELDS_PLACEHOLDER-borhan_tag@
 }
 
-index kaltura_metadata:kaltura_base
+index borhan_metadata:borhan_base
 {
-	path	 = @BASE_DIR@/sphinx/kaltura_metadata_rt
-	@FIELDS_PLACEHOLDER-kaltura_metadata@
+	path	 = @BASE_DIR@/sphinx/borhan_metadata_rt
+	@FIELDS_PLACEHOLDER-borhan_metadata@
 }
 
-index kaltura_schedule_event:kaltura_base
+index borhan_schedule_event:borhan_base
 {
-	path	 = @BASE_DIR@/sphinx/kaltura_schedule_event_rt
-	@FIELDS_PLACEHOLDER-kaltura_schedule_event@
+	path	 = @BASE_DIR@/sphinx/borhan_schedule_event_rt
+	@FIELDS_PLACEHOLDER-borhan_schedule_event@
 }
 
 
 searchd
 {
-	log = @LOG_DIR@/sphinx/kaltura_sphinx_searchd.log
-	query_log = @LOG_DIR@/sphinx/kaltura_sphinx_query.log
+	log = @LOG_DIR@/sphinx/borhan_sphinx_searchd.log
+	query_log = @LOG_DIR@/sphinx/borhan_sphinx_query.log
 	query_log_format = sphinxql
 	read_timeout = 5
 	max_children = 30

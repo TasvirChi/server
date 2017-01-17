@@ -6,7 +6,7 @@
  * @package    Core
  * @subpackage externalServices
  */
-class flickrAction extends kalturaAction
+class flickrAction extends borhanAction
 {
 	public function execute()
 	{

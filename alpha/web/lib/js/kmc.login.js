@@ -1,4 +1,4 @@
-// Get the KMC base url based on current location
+// Get the BMC base url based on current location
 var baseUrl = (options.secureLogin) ? 'https:' : window.location.protocol;
 	baseUrl += '//' + window.location.hostname;
 	baseUrl += (window.location.port) ? ':' + window.location.port : '';
@@ -7,7 +7,7 @@ function loginF( remMe, partner_id, subp_id, uid, ks , screen_name, email ) {
 
 	// Extlogin URL
 	var hash = window.location.hash || ''; 
-	var url = baseUrl + '/index.php/kmc/extlogin' + hash;
+	var url = baseUrl + '/index.php/bmc/extlogin' + hash;
 
 	// Setup input fields
 	var ks_input = $('<input />').attr({
@@ -35,7 +35,7 @@ function loginF( remMe, partner_id, subp_id, uid, ks , screen_name, email ) {
 }
 
 function gotoSignup() {
-	window.location = baseUrl + "/index.php/kmc/signup";
+	window.location = baseUrl + "/index.php/bmc/signup";
 }
 
 $(function() {

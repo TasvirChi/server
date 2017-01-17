@@ -3,7 +3,7 @@
  * @package plugins.playReady
  * @subpackage api.objects
  */
-class KalturaPlayReadyProfile extends KalturaDrmProfile
+class BorhanPlayReadyProfile extends BorhanDrmProfile
 {
     /**
 	 * @var string
@@ -33,7 +33,7 @@ class KalturaPlayReadyProfile extends KalturaDrmProfile
 	{
 		if (!PlayReadyPlugin::isAllowedPartner(kCurrentContext::getCurrentPartnerId()) || !PlayReadyPlugin::isAllowedPartner($this->partnerId))
 		{
-			throw new KalturaAPIException (KalturaErrors::PERMISSION_NOT_FOUND, 'Permission not found to use the PlayReady feature.');
+			throw new BorhanAPIException (BorhanErrors::PERMISSION_NOT_FOUND, 'Permission not found to use the PlayReady feature.');
 		}
 		return parent::validateForInsert($propertiesToSkip);
 	}
@@ -42,7 +42,7 @@ class KalturaPlayReadyProfile extends KalturaDrmProfile
 	{
 		if (!PlayReadyPlugin::isAllowedPartner(kCurrentContext::getCurrentPartnerId()) || !PlayReadyPlugin::isAllowedPartner($sourceObject->getPartnerId()))
 		{
-			throw new KalturaAPIException (KalturaErrors::PERMISSION_NOT_FOUND, 'Permission not found to use the PlayReady feature.');
+			throw new BorhanAPIException (BorhanErrors::PERMISSION_NOT_FOUND, 'Permission not found to use the PlayReady feature.');
 		}
 		return parent::validateForUpdate($sourceObject, $propertiesToSkip);
 	}

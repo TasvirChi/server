@@ -4,7 +4,7 @@
  * @package plugins.scheduledTask
  * @subpackage api.objects.objectTasks
  */
-class KalturaStorageExportObjectTask extends KalturaObjectTask
+class BorhanStorageExportObjectTask extends BorhanObjectTask
 {
 	/**
 	 * Storage profile id
@@ -27,7 +27,7 @@ class KalturaStorageExportObjectTask extends KalturaObjectTask
 		return $dbObject;
 	}
 
-	public function doFromObject($srcObj, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($srcObj, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($srcObj, $responseProfile);
 

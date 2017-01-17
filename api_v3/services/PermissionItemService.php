@@ -6,7 +6,7 @@
  * @package api
  * @subpackage services
  */
-class PermissionItemService extends KalturaBaseService
+class PermissionItemService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -29,22 +29,22 @@ class PermissionItemService extends KalturaBaseService
 	
 	/**
 	 * Adds a new permission item object to the account.
-	 * This action is available only to Kaltura system administrators.
+	 * This action is available only to Borhan system administrators.
 	 * 
 	 * @action add
-	 * @param KalturaPermissionItem $permissionItem The new permission item
-	 * @return KalturaPermissionItem The added permission item object
+	 * @param BorhanPermissionItem $permissionItem The new permission item
+	 * @return BorhanPermissionItem The added permission item object
 	 * 
-	 * @throws KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
-	 * @throws KalturaErrors::PROPERTY_VALIDATION_NOT_UPDATABLE
+	 * @throws BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
+	 * @throws BorhanErrors::PROPERTY_VALIDATION_NOT_UPDATABLE
 	 */
-	public function addAction(KalturaPermissionItem $permissionItem)
+	public function addAction(BorhanPermissionItem $permissionItem)
 	{							    
 	    $dbPermissionItem = $permissionItem->toInsertableObject(null, array('type'));
 	    $dbPermissionItem->setPartnerId($this->getPartnerId());
 		$dbPermissionItem->save();
 		
-		$permissionItem = new KalturaPermissionItem();
+		$permissionItem = new BorhanPermissionItem();
 		$permissionItem->fromObject($dbPermissionItem, $this->getResponseProfile());
 		
 		return $permissionItem;
@@ -55,26 +55,26 @@ class PermissionItemService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param int $permissionItemId The permission item's unique identifier
-	 * @return KalturaPermissionItem The retrieved permission item object
+	 * @return BorhanPermissionItem The retrieved permission item object
 	 * 
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */		
 	public function getAction($permissionItemId)
 	{
 		$dbPermissionItem = PermissionItemPeer::retrieveByPK($permissionItemId);
 		
 		if (!$dbPermissionItem) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $permissionItemId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $permissionItemId);
 		}
 			
 		if ($dbPermissionItem->getType() == PermissionItemType::API_ACTION_ITEM) {
-			$permissionItem = new KalturaApiActionPermissionItem();
+			$permissionItem = new BorhanApiActionPermissionItem();
 		}
 		else if ($dbPermissionItem->getType() == PermissionItemType::API_PARAMETER_ITEM) {
-			$permissionItem = new KalturaApiParameterPermissionItem();
+			$permissionItem = new BorhanApiParameterPermissionItem();
 		}
 		else {
-			$permissionItem = new KalturaPermissionItem();
+			$permissionItem = new BorhanPermissionItem();
 		}
 		
 		$permissionItem->fromObject($dbPermissionItem, $this->getResponseProfile());
@@ -85,27 +85,27 @@ class PermissionItemService extends KalturaBaseService
 
 	/**
 	 * Updates an existing permission item object.
-	 * This action is available only to Kaltura system administrators.
+	 * This action is available only to Borhan system administrators.
 	 * 
 	 * @action update
 	 * @param int $permissionItemId The permission item's unique identifier
-	 * @param KalturaPermissionItem $permissionItem The updated permission item parameters
-	 * @return KalturaPermissionItem The updated permission item object
+	 * @param BorhanPermissionItem $permissionItem The updated permission item parameters
+	 * @return BorhanPermissionItem The updated permission item object
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */	
-	public function updateAction($permissionItemId, KalturaPermissionItem $permissionItem)
+	public function updateAction($permissionItemId, BorhanPermissionItem $permissionItem)
 	{
 		$dbPermissionItem = PermissionItemPeer::retrieveByPK($permissionItemId);
 	
 		if (!$dbPermissionItem) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $permissionItemId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $permissionItemId);
 		}
 		
 		$dbPermissionItem = $permissionItem->toUpdatableObject($dbPermissionItem, array('type'));
 		$dbPermissionItem->save();
 	
-		$permissionItem = new KalturaPermissionItem();
+		$permissionItem = new BorhanPermissionItem();
 		$permissionItem->fromObject($dbPermissionItem, $this->getResponseProfile());
 		
 		return $permissionItem;
@@ -113,25 +113,25 @@ class PermissionItemService extends KalturaBaseService
 
 	/**
 	 * Deletes an existing permission item object.
-	 * This action is available only to Kaltura system administrators.
+	 * This action is available only to Borhan system administrators.
 	 * 
 	 * @action delete
 	 * @param int $permissionItemId The permission item's unique identifier
-	 * @return KalturaPermissionItem The deleted permission item object
+	 * @return BorhanPermissionItem The deleted permission item object
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */		
 	public function deleteAction($permissionItemId)
 	{
 		$dbPermissionItem = PermissionItemPeer::retrieveByPK($permissionItemId);
 	
 		if (!$dbPermissionItem) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $permissionItemId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $permissionItemId);
 		}
 		
 		$dbPermissionItem->delete();
 			
-		$permissionItem = new KalturaPermissionItem();
+		$permissionItem = new BorhanPermissionItem();
 		$permissionItem->fromObject($dbPermissionItem, $this->getResponseProfile());
 		
 		return $permissionItem;
@@ -141,14 +141,14 @@ class PermissionItemService extends KalturaBaseService
 	 * Lists permission item objects that are associated with an account.
 	 * 
 	 * @action list
-	 * @param KalturaPermissionItemFilter $filter A filter used to exclude specific types of permission items
-	 * @param KalturaFilterPager $pager A limit for the number of records to display on a page
-	 * @return KalturaPermissionItemListResponse The list of permission item objects
+	 * @param BorhanPermissionItemFilter $filter A filter used to exclude specific types of permission items
+	 * @param BorhanFilterPager $pager A limit for the number of records to display on a page
+	 * @return BorhanPermissionItemListResponse The list of permission item objects
 	 */
-	public function listAction(KalturaPermissionItemFilter  $filter = null, KalturaFilterPager $pager = null)
+	public function listAction(BorhanPermissionItemFilter  $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaPermissionItemFilter();
+			$filter = new BorhanPermissionItemFilter();
 			
 		return $filter->getListResponse($pager, $this->getResponseProfile());
 	}	

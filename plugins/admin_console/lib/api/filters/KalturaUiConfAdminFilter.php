@@ -3,6 +3,6 @@
  * @package plugins.adminConsole
  * @subpackage api.filters
  */
-class KalturaUiConfAdminFilter extends KalturaUiConfAdminBaseFilter
+class BorhanUiConfAdminFilter extends BorhanUiConfAdminBaseFilter
 {
 }

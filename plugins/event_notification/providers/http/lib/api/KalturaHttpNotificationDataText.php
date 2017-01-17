@@ -3,16 +3,16 @@
  * @package plugins.httpNotification
  * @subpackage api.objects
  */
-class KalturaHttpNotificationDataText extends KalturaHttpNotificationData
+class BorhanHttpNotificationDataText extends BorhanHttpNotificationData
 {
 	/**
-	 * @var KalturaStringValue
+	 * @var BorhanStringValue
 	 */
 	public $content;
 	
 	/**
 	 * It's protected on purpose, used by getData
-	 * @see KalturaHttpNotificationDataText::getData()
+	 * @see BorhanHttpNotificationDataText::getData()
 	 * @var string
 	 */
 	protected $data;
@@ -23,7 +23,7 @@ class KalturaHttpNotificationDataText extends KalturaHttpNotificationData
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -31,7 +31,7 @@ class KalturaHttpNotificationDataText extends KalturaHttpNotificationData
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $propertiesToSkip = array())
 	{
@@ -42,9 +42,9 @@ class KalturaHttpNotificationDataText extends KalturaHttpNotificationData
 	}
 	 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject()
+	 * @see BorhanObject::fromObject()
 	 */
-	public function doFromObject($dbObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($dbObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		/* @var $dbObject kHttpNotificationDataText */
 		parent::doFromObject($dbObject, $responseProfile);
@@ -55,15 +55,15 @@ class KalturaHttpNotificationDataText extends KalturaHttpNotificationData
 			switch ($contentType)
 			{
 				case 'kStringValue':
-					$this->content = new KalturaStringValue();
+					$this->content = new BorhanStringValue();
 					break;
 					
 				case 'kEvalStringField':
-					$this->content = new KalturaEvalStringField();
+					$this->content = new BorhanEvalStringField();
 					break;
 					
 				default:
-					$this->content = KalturaPluginManager::loadObject('KalturaStringValue', $contentType);
+					$this->content = BorhanPluginManager::loadObject('BorhanStringValue', $contentType);
 					break;
 			}
 			
@@ -76,7 +76,7 @@ class KalturaHttpNotificationDataText extends KalturaHttpNotificationData
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaHttpNotificationData::getData()
+	 * @see BorhanHttpNotificationData::getData()
 	 */
 	public function getData(kHttpNotificationDispatchJobData $jobData = null)
 	{

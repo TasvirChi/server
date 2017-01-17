@@ -16,7 +16,7 @@ function retrieveSubject( $type, $id )
 
 function returnUserLink( $username )
 {
-	return "<a href='/index.php/mykaltura/viewprofile?screenname=".$username."'>".$username."</a>";
+	return "<a href='/index.php/myborhan/viewprofile?screenname=".$username."'>".$username."</a>";
 }
 
 function returnEntryLink( $kshow_id, $entry_id )
@@ -44,7 +44,7 @@ function returnEntryThumbnailLink( $kshow_id, $path, $entry_id, $media_type )
 
 function returnUserThumbnailLink( $path, $screenname )
 {
-	return "<a href='/index.php/mykaltura/viewprofile?screenname=".$screenname."'><img src='".$path."' alt='' /></a>";
+	return "<a href='/index.php/myborhan/viewprofile?screenname=".$screenname."'><img src='".$path."' alt='' /></a>";
 }
 
 function getEntryTypeText( $type )
@@ -84,7 +84,7 @@ echo <<<EOT
 	<div class="top">
 		<a href="/index.php/system/login?exit=true">logout</a>
 	</div>
-	<h1>Kaltura System Dashboard $bands_only_str</h1>
+	<h1>Borhan System Dashboard $bands_only_str</h1>
 	<span>Updated: $now</span>
 </div>
 
@@ -165,7 +165,7 @@ echo '<table border="0" cellspacing="0" cellpadding="10">';
 if( !$entries ) echo '<h3>No entries found</h3>';
 	else 
 	{
-	echo '<thead><tr><td>ID</td><td>Thumbnail</td><td>Created</td><td>Contributor</td><td>Media Type</td><td >Name</td><td width="40%">Part of kaltura</td></tr></thead>';
+	echo '<thead><tr><td>ID</td><td>Thumbnail</td><td>Created</td><td>Contributor</td><td>Media Type</td><td >Name</td><td width="40%">Part of borhan</td></tr></thead>';
 		foreach ( $entries as $entry )
 		{
 			$kshow = $entry->getkshow();
@@ -201,7 +201,7 @@ if( !$kusers ) echo '<h3>No users found</h3>';
 			'<td class="image">'.returnUserThumbnailLink( $kuser->getPicturePath(), $kuser->getScreenName() ).'</td>'.
 			'<td>'.$kuser->getFormattedCreatedAt().'</td>'.
 			'<td>'.returnUserLink( $kuser->getScreenName()).'</td>'.
-			'<td>Kalturas:' .$kuser->getProducedKshows() . "<br/>Roughcuts:" . $kuser->getRoughcutCount() .'</td>'.
+			'<td>Borhans:' .$kuser->getProducedKshows() . "<br/>Roughcuts:" . $kuser->getRoughcutCount() .'</td>'.
 			'<td class="country">'.($kuser->getCountry() ? image_tag('flags/'.strtolower($kuser->getCountry()).'.gif') : '').' '.$kuser->getCity().' '.$kuser->getState().'<br/>'.($kuser->getGender() == 1 ? 'Male' : ($kuser->getGender() == 2 ? 'Female' : '')).'<br/>'.$kuser->getAboutMe().'</td>'.
 			'</tr>'.
 			'</tbody>';

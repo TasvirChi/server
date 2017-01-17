@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaMetadataBaseFilter extends KalturaRelatedFilter
+abstract class BorhanMetadataBaseFilter extends BorhanRelatedFilter
 {
 	static private $map_between_objects = array
 	(
@@ -81,9 +81,9 @@ abstract class KalturaMetadataBaseFilter extends KalturaRelatedFilter
 	public $metadataProfileVersionLessThanOrEqual;
 
 	/**
-	 * When null, default is KalturaMetadataObjectType::ENTRY
+	 * When null, default is BorhanMetadataObjectType::ENTRY
 	 * 
-	 * @var KalturaMetadataObjectType
+	 * @var BorhanMetadataObjectType
 	 */
 	public $metadataObjectTypeEqual;
 
@@ -133,7 +133,7 @@ abstract class KalturaMetadataBaseFilter extends KalturaRelatedFilter
 	public $updatedAtLessThanOrEqual;
 
 	/**
-	 * @var KalturaMetadataStatus
+	 * @var BorhanMetadataStatus
 	 */
 	public $statusEqual;
 

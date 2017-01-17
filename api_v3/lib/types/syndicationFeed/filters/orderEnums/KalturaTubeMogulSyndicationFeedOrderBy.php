@@ -3,6 +3,6 @@
  * @package api
  * @subpackage filters.enum
  */
-class KalturaTubeMogulSyndicationFeedOrderBy extends KalturaBaseSyndicationFeedOrderBy
+class BorhanTubeMogulSyndicationFeedOrderBy extends BorhanBaseSyndicationFeedOrderBy
 {
 }

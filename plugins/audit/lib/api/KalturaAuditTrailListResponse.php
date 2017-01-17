@@ -3,10 +3,10 @@
  * @package plugins.audit
  * @subpackage api.objects
  */
-class KalturaAuditTrailListResponse extends KalturaListResponse
+class BorhanAuditTrailListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaAuditTrailArray
+	 * @var BorhanAuditTrailArray
 	 * @readonly
 	 */
 	public $objects;

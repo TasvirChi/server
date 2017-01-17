@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaFlavorParamsOutput extends KalturaFlavorParams
+class BorhanFlavorParamsOutput extends BorhanFlavorParams
 {
 	/**
 	 * @var int
@@ -82,7 +82,7 @@ class KalturaFlavorParamsOutput extends KalturaFlavorParams
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($object = null, $skip = array())
 	{

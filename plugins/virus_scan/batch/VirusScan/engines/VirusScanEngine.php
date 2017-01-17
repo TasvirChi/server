@@ -8,12 +8,12 @@ abstract class VirusScanEngine
 		
 	/**
 	 * Return a new instance of a class extending VirusScanEngine, according to give $type
-	 * @param KalturaVirusScanEngineType $type
+	 * @param BorhanVirusScanEngineType $type
 	 * @return VirusScanEngine
 	 */
 	public static function getEngine($type)
 	{
-		return KalturaPluginManager::loadObject('VirusScanEngine', $type);
+		return BorhanPluginManager::loadObject('VirusScanEngine', $type);
 	}
 	
 	

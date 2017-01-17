@@ -4,7 +4,7 @@
  * @package Core
  * @subpackage events
  */
-class kObjectCopiedEvent extends KalturaEvent implements IKalturaDatabaseEvent, IKalturaObjectRelatedEvent
+class kObjectCopiedEvent extends BorhanEvent implements IBorhanDatabaseEvent, IBorhanObjectRelatedEvent
 {
 	const EVENT_CONSUMER = 'kObjectCopiedEventConsumer';
 	
@@ -34,7 +34,7 @@ class kObjectCopiedEvent extends KalturaEvent implements IKalturaDatabaseEvent, 
 		if(method_exists($toObject, 'getId'))
 			$additionalLog2 .= 'id [' . $toObject->getId() . ']';
 			
-		KalturaLog::debug("Event [" . get_class($this) . "] from object type [" . get_class($fromObject) . "] $additionalLog1 to object type [" . get_class($toObject) . "] $additionalLog2");
+		BorhanLog::debug("Event [" . get_class($this) . "] from object type [" . get_class($fromObject) . "] $additionalLog1 to object type [" . get_class($toObject) . "] $additionalLog2");
 	}
 	
 	public function getConsumerInterface()
@@ -46,7 +46,7 @@ class kObjectCopiedEvent extends KalturaEvent implements IKalturaDatabaseEvent, 
 	 * @param kObjectCopiedEventConsumer $consumer
 	 * @return bool true if should continue to the next consumer
 	 */
-	protected function doConsume(KalturaEventConsumer $consumer)
+	protected function doConsume(BorhanEventConsumer $consumer)
 	{
 		if(!$consumer->shouldConsumeCopiedEvent($this->fromObject, $this->toObject))
 			return true;
@@ -58,9 +58,9 @@ class kObjectCopiedEvent extends KalturaEvent implements IKalturaDatabaseEvent, 
 		if(method_exists($this->toObject, 'getId'))
 			$additionalLog2 .= 'id [' . $this->toObject->getId() . ']';
 			
-		KalturaLog::debug('consumer [' . get_class($consumer) . '] started handling [' . get_class($this) . '] from object type [' . get_class($this->fromObject) . "] $additionalLog1 to object type [" . get_class($this->toObject) . "] $additionalLog2");
+		BorhanLog::debug('consumer [' . get_class($consumer) . '] started handling [' . get_class($this) . '] from object type [' . get_class($this->fromObject) . "] $additionalLog1 to object type [" . get_class($this->toObject) . "] $additionalLog2");
 		$result = $consumer->objectCopied($this->fromObject, $this->toObject);
-		KalturaLog::debug('consumer [' . get_class($consumer) . '] finished handling [' . get_class($this) . '] from object type [' . get_class($this->fromObject) . "] $additionalLog1 to object type [" . get_class($this->toObject) . "] $additionalLog2");
+		BorhanLog::debug('consumer [' . get_class($consumer) . '] finished handling [' . get_class($this) . '] from object type [' . get_class($this->fromObject) . "] $additionalLog1 to object type [" . get_class($this->toObject) . "] $additionalLog2");
 		return $result;
 	}
 	
@@ -89,7 +89,7 @@ class kObjectCopiedEvent extends KalturaEvent implements IKalturaDatabaseEvent, 
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaEvent::getScope()
+	 * @see BorhanEvent::getScope()
 	 */
 	public function getScope()
 	{
@@ -101,7 +101,7 @@ class kObjectCopiedEvent extends KalturaEvent implements IKalturaDatabaseEvent, 
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectRelatedEvent::getObject()
+	 * @see IBorhanObjectRelatedEvent::getObject()
 	 */
 	public function getObject() 
 	{

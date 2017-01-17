@@ -7,8 +7,8 @@ abstract class KDispatchEventNotificationEngine
 {	
 	
 	/**
-	 * @param KalturaEventNotificationTemplate $eventNotificationTemplate
-	 * @param KalturaEventNotificationDispatchJobData $data
+	 * @param BorhanEventNotificationTemplate $eventNotificationTemplate
+	 * @param BorhanEventNotificationDispatchJobData $data
 	 */
-	abstract public function dispatch(KalturaEventNotificationTemplate $eventNotificationTemplate, KalturaEventNotificationDispatchJobData &$data);
+	abstract public function dispatch(BorhanEventNotificationTemplate $eventNotificationTemplate, BorhanEventNotificationDispatchJobData &$data);
 }

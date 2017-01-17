@@ -3,7 +3,7 @@
  * @package plugins.bulkUploadCsv
  * @subpackage lib
  */
-class BulkUploadCsvType implements IKalturaPluginEnum, BulkUploadType
+class BulkUploadCsvType implements IBorhanPluginEnum, BulkUploadType
 {
 	const CSV = 'CSV';
 	

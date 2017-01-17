@@ -17,7 +17,7 @@ class Form_PartnerConfiguration extends Infra_Form
     protected $limitSubForms = array();
     
     /**
-     * @var array<Kaltura_Client_Type_PlayerDeliveryType>
+     * @var array<Borhan_Client_Type_PlayerDeliveryType>
      */
     protected $playerDeliveryTypes = array();
     
@@ -88,8 +88,8 @@ class Form_PartnerConfiguration extends Infra_Form
 			'ignore' 		=> true,
 		));
 		
-		$this->addElement('text', 'kmc_version', array(
-			'label'			=> 'KMC Release Version:',
+		$this->addElement('text', 'bmc_version', array(
+			'label'			=> 'BMC Release Version:',
 			'filters'		=> array('StringTrim'),
 			'readonly'		=> true,
 			'ignore' 		=> true,
@@ -112,7 +112,7 @@ class Form_PartnerConfiguration extends Infra_Form
 			));
 
 		$this->addElement('checkbox', 'time_aligned_renditions', array(
-		    'label'	  => 'Kaltura Live Streams - Exclude Source Rendition',
+		    'label'	  => 'Borhan Live Streams - Exclude Source Rendition',
 		    'decorators' => array('ViewHelper', array('Label', array('placement' => 'append')), array('HtmlTag',  array('tag' => 'dt', 'class' => 'partner_configuration_checkbox_field')))
 		));		
 						
@@ -222,7 +222,7 @@ class Form_PartnerConfiguration extends Infra_Form
 				
 		foreach($this->playerDeliveryTypes as $playerDeliveryType)
 		{
-			/* @var $playerDeliveryType Kaltura_Client_Type_PlayerDeliveryType */
+			/* @var $playerDeliveryType Borhan_Client_Type_PlayerDeliveryType */
 			$systemDefault = ($playerDeliveryType->enabledByDefault) ? 'Enabled' : 'Disabled';
 			$description = ($playerDeliveryType->id) ? "(<b>$systemDefault</b> as system default)" : '';
 			$this->addElement('checkbox', 'delivery_type_' . $playerDeliveryType->id, array(
@@ -240,12 +240,12 @@ class Form_PartnerConfiguration extends Infra_Form
 		
 
 //--------------------------- Remote Storage Account policy ---------------------------
-		$storageServP = new Kaltura_Form_Element_EnumSelect('storage_serve_priority', array('enum' => 'Kaltura_Client_Enum_StorageServePriority'));
+		$storageServP = new Borhan_Form_Element_EnumSelect('storage_serve_priority', array('enum' => 'Borhan_Client_Enum_StorageServePriority'));
 		$storageServP->setLabel('Delivery Policy:');
 		$this->addElements(array($storageServP));
 		
-		$this->addElement('checkbox', 'storage_delete_from_kaltura', array(
-			'label'	  => 'Delete exported storage from Kaltura',
+		$this->addElement('checkbox', 'storage_delete_from_borhan', array(
+			'label'	  => 'Delete exported storage from Borhan',
 			'decorators' => array('ViewHelper', array('Label', array('placement' => 'append')), array('HtmlTag',  array('tag' => 'dt', 'class' => 'partner_configuration_checkbox_field')))
 		));
 				
@@ -319,7 +319,7 @@ class Form_PartnerConfiguration extends Infra_Form
 		
 
 //--------------------------- Group Association ---------------------------
-		$partnerGroupTypes = new Kaltura_Form_Element_EnumSelect('partner_group_type', array('enum' => 'Kaltura_Client_Enum_PartnerGroupType'));
+		$partnerGroupTypes = new Borhan_Form_Element_EnumSelect('partner_group_type', array('enum' => 'Borhan_Client_Enum_PartnerGroupType'));
 		$partnerGroupTypes->setLabel('Account Type:');
 		$this->addElements(array($partnerGroupTypes));
 		
@@ -385,7 +385,7 @@ class Form_PartnerConfiguration extends Infra_Form
 		
 		
 		$this->addElement('checkbox', 'is_first_login', array(
-			'label'	  => 'Force First Login Message in KMC',
+			'label'	  => 'Force First Login Message in BMC',
 			'decorators' => array('ViewHelper', array('Label', array('placement' => 'append')), array('HtmlTag',  array('class' => 'partner_configuration_checkbox_field_only')))
 		));
 				
@@ -408,7 +408,7 @@ class Form_PartnerConfiguration extends Infra_Form
  	
 		
 	//--------------- Live Stream Params ----------------------------
-		$sourceTypes = array(Kaltura_Client_Enum_SourceType::AKAMAI_LIVE => 'Akamai Live');
+		$sourceTypes = array(Borhan_Client_Enum_SourceType::AKAMAI_LIVE => 'Akamai Live');
 
 		$this->addElement('select', 'default_live_stream_entry_source_type', array(
 		   'label'   => 'Live Stream source type:',
@@ -430,10 +430,10 @@ class Form_PartnerConfiguration extends Infra_Form
 
 		//--------------- HTML purifier behaviour ----------------------------
 		$htmlPurifierOptions = array(
-			Kaltura_Client_Enum_HTMLPurifierBehaviourType::IGNORE => 'Ignore',
-			Kaltura_Client_Enum_HTMLPurifierBehaviourType::NOTIFY => 'Notify',
-			Kaltura_Client_Enum_HTMLPurifierBehaviourType::SANITIZE => 'Sanitize',						
-			Kaltura_Client_Enum_HTMLPurifierBehaviourType::BLOCK => 'Block',						
+			Borhan_Client_Enum_HTMLPurifierBehaviourType::IGNORE => 'Ignore',
+			Borhan_Client_Enum_HTMLPurifierBehaviourType::NOTIFY => 'Notify',
+			Borhan_Client_Enum_HTMLPurifierBehaviourType::SANITIZE => 'Sanitize',						
+			Borhan_Client_Enum_HTMLPurifierBehaviourType::BLOCK => 'Block',						
 		);
 		$this->addElement('select', 'html_purifier_behaviour', array(
 			'label' => 'HTML Purifier Behaviour',
@@ -483,7 +483,7 @@ class Form_PartnerConfiguration extends Infra_Form
 			
 			$permissionNames[self::GROUP_CONTENT_INGESTION_OPTIONS]['Content Moderation'] = 'moderate_content';
 		    $permissionNames[self::GROUP_ENABLE_DISABLE_FEATURES]['Default Entitlement Enforcement'] = 'default_entitlement_enforcement';
-		    $permissionNames[self::GROUP_ENABLE_DISABLE_FEATURES]['Kaltura Live Streams - Exclude Source Rendition'] = 'time_aligned_renditions';
+		    $permissionNames[self::GROUP_ENABLE_DISABLE_FEATURES]['Borhan Live Streams - Exclude Source Rendition'] = 'time_aligned_renditions';
 			ksort($permissionNames[self::GROUP_ENABLE_DISABLE_FEATURES]);
 			ksort($permissionNames[self::GROUP_CONTENT_INGESTION_OPTIONS]);
 			ksort($permissionNames[self::GROUP_REMOTE_STORAGE]);
@@ -615,7 +615,7 @@ class Form_PartnerConfiguration extends Infra_Form
 		$configureAccountsOptionsMonitorUsage = array('accountOptionsMonitorUsage'); // EAGLE PRD group 5
 		$configureAccountsOptionsMonitorView = array('accountOptionsMonitorView');
 		$configureAccountsOptions = array('accountPackages','accountOptions','includedUsage', 'includedUsageSecondPart', 'enableDisableFeatures'); // EAGLE PRD group 6
-		$configureKmcUsers = array('configureKmcUsers');
+		$configureBmcUsers = array('configureBmcUsers');
 		
 		//according to current permissin call to setPermissionGroupElementsToReadOnly
 		//with the correct group array as parameter
@@ -628,8 +628,8 @@ class Form_PartnerConfiguration extends Infra_Form
 		if (!(Infra_AclHelper::isAllowed('partner', 'configure-account-info'))){
 			$this->setPermissionGroupElementsToReadOnly($configureAccountsOptions);
 		}
-		if (!(Infra_AclHelper::isAllowed('partner', 'configure-kmc-users'))){
-			$this->setPermissionGroupElementsToReadOnly($configureKmcUsers);
+		if (!(Infra_AclHelper::isAllowed('partner', 'configure-bmc-users'))){
+			$this->setPermissionGroupElementsToReadOnly($configureBmcUsers);
 		}
 		if (!(Infra_AclHelper::isAllowed('partner', 'configure-general-information'))){
 			$this->setPermissionGroupElementsToReadOnly($configureGeneralInformation);
@@ -647,12 +647,12 @@ class Form_PartnerConfiguration extends Infra_Form
 	}
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param Kaltura_Client_SystemPartner_Type_SystemPartnerConfiguration $object
+	 * @param Borhan_Client_SystemPartner_Type_SystemPartnerConfiguration $object
 	 * @param bool $add_underscore
 	 */
 	public function populateFromObject($object, $add_underscore = true)
 	{
-		/* @var $object Kaltura_Client_SystemPartner_Type_SystemPartnerConfiguration */
+		/* @var $object Borhan_Client_SystemPartner_Type_SystemPartnerConfiguration */
 		parent::populateFromObject($object, $add_underscore);
 		
 		if (is_array($object->limits))
@@ -674,7 +674,7 @@ class Form_PartnerConfiguration extends Infra_Form
 		{
 			foreach($object->customDeliveryTypes as $customDeliveryType)
 			{
-				/* @var $customDeliveryType Kaltura_Client_Type_KeyBooleanValue */
+				/* @var $customDeliveryType Borhan_Client_Type_KeyBooleanValue */
 		        $element = $this->getElement('delivery_type_' . $customDeliveryType->key);
 				if ($customDeliveryType->value)
 					$element->setAttrib('data-checked', true);
@@ -687,7 +687,7 @@ class Form_PartnerConfiguration extends Infra_Form
 			return;
 			
 		foreach($object->permissions as $permission){
-			$this->setDefault($permission->name, ($permission->status == Kaltura_Client_Enum_PermissionStatus::ACTIVE));
+			$this->setDefault($permission->name, ($permission->status == Borhan_Client_Enum_PermissionStatus::ACTIVE));
 		}
 		
 		// partner is set to free trail package
@@ -706,7 +706,7 @@ class Form_PartnerConfiguration extends Infra_Form
 	public function getObject($objectType, array $properties, $add_underscore = true, $include_empty_fields = false)
 	{
 		$systemPartnerConfiguration = parent::getObject($objectType, $properties, $add_underscore, $include_empty_fields);
-		/* @var $systemPartnerConfiguration Kaltura_Client_SystemPartner_Type_SystemPartnerConfiguration */
+		/* @var $systemPartnerConfiguration Borhan_Client_SystemPartner_Type_SystemPartnerConfiguration */
 		
 		$moduls = Zend_Registry::get('config')->moduls;
 		if ($moduls)
@@ -722,13 +722,13 @@ class Form_PartnerConfiguration extends Infra_Form
 				if(!$modul->enabled)
 					continue;
 					
-				$permission = new Kaltura_Client_Type_Permission();
+				$permission = new Borhan_Client_Type_Permission();
 				$permission->type = $modul->permissionType;
 				$permission->name = $modul->permissionName;
-				$permission->status = Kaltura_Client_Enum_PermissionStatus::ACTIVE;
+				$permission->status = Borhan_Client_Enum_PermissionStatus::ACTIVE;
 				
 				if(!isset($properties[str_replace('.', '', $modul->permissionName)]) || !$properties[str_replace('.', '', $modul->permissionName)])
-					$permission->status = Kaltura_Client_Enum_PermissionStatus::BLOCKED;
+					$permission->status = Borhan_Client_Enum_PermissionStatus::BLOCKED;
 					
 				$systemPartnerConfiguration->permissions[] = $permission;
 				
@@ -737,8 +737,8 @@ class Form_PartnerConfiguration extends Infra_Form
 					$basePermissionTypes = explode(',', $modul->basePermissionType);
 					foreach($basePermissionNames as $index => $basePermissionName)
 					{
-						$basePermissionType = isset($basePermissionTypes[$index]) ? $basePermissionTypes[$index] : Kaltura_Client_Enum_PermissionType::SPECIAL_FEATURE;
-						$basePermission = new Kaltura_Client_Type_Permission();
+						$basePermissionType = isset($basePermissionTypes[$index]) ? $basePermissionTypes[$index] : Borhan_Client_Enum_PermissionType::SPECIAL_FEATURE;
+						$basePermission = new Borhan_Client_Type_Permission();
 						$basePermission->name = trim($basePermissionName);
 						$basePermission->type = trim($basePermissionType);
 						$basePermission->status = $permission->status;
@@ -748,7 +748,7 @@ class Form_PartnerConfiguration extends Infra_Form
 						{
 							if (($permission->name == $basePermission->name) && ($permission->type == $basePermission->type))
 							{
-								if ($basePermission->status == Kaltura_Client_Enum_PermissionStatus::ACTIVE)
+								if ($basePermission->status == Borhan_Client_Enum_PermissionStatus::ACTIVE)
 									$permission->status = $basePermission->status;
 								$permissionSet = true;
 								break;
@@ -771,7 +771,7 @@ class Form_PartnerConfiguration extends Infra_Form
 				$limitType = $subForm->getName();
 				if(isset($properties[$limitType]))
 				{
-					$limit = $subForm->getObject('Kaltura_Client_SystemPartner_Type_SystemPartnerLimit', $properties[$limitType], false, $include_empty_fields);
+					$limit = $subForm->getObject('Borhan_Client_SystemPartner_Type_SystemPartnerLimit', $properties[$limitType], false, $include_empty_fields);
 					$systemPartnerConfiguration->limits[] = $limit;
 				}
 			}
@@ -782,13 +782,13 @@ class Form_PartnerConfiguration extends Infra_Form
 		{
 			foreach($this->playerDeliveryTypes as $playerDeliveryType)
 			{
-				/** @var Kaltura_Client_Type_PlayerDeliveryType $playerDeliveryType */
+				/** @var Borhan_Client_Type_PlayerDeliveryType $playerDeliveryType */
 				$deliveryEnabled = isset($properties["delivery_type_{$playerDeliveryType->id}"]) && $properties["delivery_type_{$playerDeliveryType->id}"];
 
 				// save custom delivery type only if it's different than system's default
 				if ($deliveryEnabled != $playerDeliveryType->enabledByDefault)
 				{
-					$customDeliveryType = new Kaltura_Client_Type_KeyBooleanValue();
+					$customDeliveryType = new Borhan_Client_Type_KeyBooleanValue();
 					$customDeliveryType->key = $playerDeliveryType->id;
 					$customDeliveryType->value = $deliveryEnabled;
 					$systemPartnerConfiguration->customDeliveryTypes[] = $customDeliveryType;
@@ -801,43 +801,43 @@ class Form_PartnerConfiguration extends Infra_Form
 		
 	protected function addLimitsElements()
 	{
-		$userLoginAttempsSubForm = new Form_PartnerConfigurationLimitSubForm(Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::USER_LOGIN_ATTEMPTS, 'Maximum login attemps:', false);
-		$this->addLimitSubForm($userLoginAttempsSubForm, Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::USER_LOGIN_ATTEMPTS);
+		$userLoginAttempsSubForm = new Form_PartnerConfigurationLimitSubForm(Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::USER_LOGIN_ATTEMPTS, 'Maximum login attemps:', false);
+		$this->addLimitSubForm($userLoginAttempsSubForm, Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::USER_LOGIN_ATTEMPTS);
 		
-		$monthlyBandwidthSubForm = new Form_PartnerConfigurationLimitSubForm(Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_BANDWIDTH, 'Streaming (GB):');
-		$this->addLimitSubForm($monthlyBandwidthSubForm, Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_BANDWIDTH);
+		$monthlyBandwidthSubForm = new Form_PartnerConfigurationLimitSubForm(Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_BANDWIDTH, 'Streaming (GB):');
+		$this->addLimitSubForm($monthlyBandwidthSubForm, Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_BANDWIDTH);
 		
-		$monthlyStorageSubForm = new Form_PartnerConfigurationLimitSubForm(Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STORAGE, 'Storage (GB):');
-		$this->addLimitSubForm($monthlyStorageSubForm, Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STORAGE);
+		$monthlyStorageSubForm = new Form_PartnerConfigurationLimitSubForm(Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STORAGE, 'Storage (GB):');
+		$this->addLimitSubForm($monthlyStorageSubForm, Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STORAGE);
 		
-		$monthlyStorageAndBandwidthSubForm = new Form_PartnerConfigurationLimitSubForm(Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STORAGE_AND_BANDWIDTH, 'Streaming + Storage (GB):');
-		$this->addLimitSubForm($monthlyStorageAndBandwidthSubForm, Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STORAGE_AND_BANDWIDTH);
+		$monthlyStorageAndBandwidthSubForm = new Form_PartnerConfigurationLimitSubForm(Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STORAGE_AND_BANDWIDTH, 'Streaming + Storage (GB):');
+		$this->addLimitSubForm($monthlyStorageAndBandwidthSubForm, Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STORAGE_AND_BANDWIDTH);
 		
-		$adminLoginUsersSubForm = new Form_PartnerConfigurationLimitSubForm(Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::ADMIN_LOGIN_USERS, 'Number of administrative (KMC) users:');
-		$this->addLimitSubForm($adminLoginUsersSubForm, Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::ADMIN_LOGIN_USERS);
+		$adminLoginUsersSubForm = new Form_PartnerConfigurationLimitSubForm(Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::ADMIN_LOGIN_USERS, 'Number of administrative (BMC) users:');
+		$this->addLimitSubForm($adminLoginUsersSubForm, Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::ADMIN_LOGIN_USERS);
 		
-		$numberOfPublishersSubForm = new Form_PartnerConfigurationLimitSubForm(Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::PUBLISHERS, 'included accounts:');
-		$this->addLimitSubForm($numberOfPublishersSubForm, Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::PUBLISHERS);
+		$numberOfPublishersSubForm = new Form_PartnerConfigurationLimitSubForm(Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::PUBLISHERS, 'included accounts:');
+		$this->addLimitSubForm($numberOfPublishersSubForm, Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::PUBLISHERS);
 		
-		$monthlyStreamsSubForm = new Form_PartnerConfigurationLimitSubForm(Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STREAM_ENTRIES, 'Monthly Streams:');
-		$this->addLimitSubForm($monthlyStreamsSubForm, Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STREAM_ENTRIES);
+		$monthlyStreamsSubForm = new Form_PartnerConfigurationLimitSubForm(Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STREAM_ENTRIES, 'Monthly Streams:');
+		$this->addLimitSubForm($monthlyStreamsSubForm, Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STREAM_ENTRIES);
 
-		$numberOfEndUsersSubForm = new Form_PartnerConfigurationLimitSubForm(Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::END_USERS, 'Number of End-Users:');
-		$this->addLimitSubForm($numberOfEndUsersSubForm, Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::END_USERS);
+		$numberOfEndUsersSubForm = new Form_PartnerConfigurationLimitSubForm(Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::END_USERS, 'Number of End-Users:');
+		$this->addLimitSubForm($numberOfEndUsersSubForm, Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::END_USERS);
 		
-		$numberOfEntriesSubForm = new Form_PartnerConfigurationLimitSubForm(Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::ENTRIES, 'Number of videos allowed:');
-		$this->addLimitSubForm($numberOfEntriesSubForm, Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::ENTRIES);
+		$numberOfEntriesSubForm = new Form_PartnerConfigurationLimitSubForm(Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::ENTRIES, 'Number of videos allowed:');
+		$this->addLimitSubForm($numberOfEntriesSubForm, Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::ENTRIES);
 		
-		$accessControlsSubForm = new Form_PartnerConfigurationLimitSubForm(Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::ACCESS_CONTROLS, 'Maximum access control profiles:', false);
-		$this->addLimitSubForm($accessControlsSubForm, Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::ACCESS_CONTROLS);
+		$accessControlsSubForm = new Form_PartnerConfigurationLimitSubForm(Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::ACCESS_CONTROLS, 'Maximum access control profiles:', false);
+		$this->addLimitSubForm($accessControlsSubForm, Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::ACCESS_CONTROLS);
 		
-		$liveStreamInputsSubForm = new Form_PartnerConfigurationLimitSubForm(Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::LIVE_STREAM_INPUTS, 'Concurrent Live passthrough streams:', false);
-		$liveStreamInputsSubForm->requirePartnerPermission(Kaltura_Client_Enum_PermissionName::FEATURE_KALTURA_LIVE_STREAM);
-		$this->addLimitSubForm($liveStreamInputsSubForm, Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::LIVE_STREAM_INPUTS);
+		$liveStreamInputsSubForm = new Form_PartnerConfigurationLimitSubForm(Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::LIVE_STREAM_INPUTS, 'Concurrent Live passthrough streams:', false);
+		$liveStreamInputsSubForm->requirePartnerPermission(Borhan_Client_Enum_PermissionName::FEATURE_BORHAN_LIVE_STREAM);
+		$this->addLimitSubForm($liveStreamInputsSubForm, Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::LIVE_STREAM_INPUTS);
 		
-		$liveStreamOutputsSubForm = new Form_PartnerConfigurationLimitSubForm(Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::LIVE_STREAM_OUTPUTS, 'Concurrent Live-Plus streams purchased:', false);
-		$liveStreamOutputsSubForm->requirePartnerPermission(Kaltura_Client_Enum_PermissionName::FEATURE_KALTURA_LIVE_STREAM_TRANSCODE);
-		$this->addLimitSubForm($liveStreamOutputsSubForm, Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::LIVE_STREAM_OUTPUTS);
+		$liveStreamOutputsSubForm = new Form_PartnerConfigurationLimitSubForm(Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::LIVE_STREAM_OUTPUTS, 'Concurrent Live-Plus streams purchased:', false);
+		$liveStreamOutputsSubForm->requirePartnerPermission(Borhan_Client_Enum_PermissionName::FEATURE_BORHAN_LIVE_STREAM_TRANSCODE);
+		$this->addLimitSubForm($liveStreamOutputsSubForm, Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::LIVE_STREAM_OUTPUTS);
 				
 	}
 	/**
@@ -847,18 +847,18 @@ class Form_PartnerConfiguration extends Infra_Form
 	{
 		//adding display groups
 		
-		$this->addDisplayGroup(array('partner_name', 'description','admin_name', 'admin_email', 'id', 'kmc_version', 'language', 'crossLine'), 'generalInformation', array('legend' => 'General Information'));
+		$this->addDisplayGroup(array('partner_name', 'description','admin_name', 'admin_email', 'id', 'bmc_version', 'language', 'crossLine'), 'generalInformation', array('legend' => 'General Information'));
 		$this->addDisplayGroup(array('partner_group_type', 'partner_parent_id','reference_id','crossLine'), 'groupAssociation', array('legend' => 'Multi-Account Group Related information'));
 		
 		$this->addDisplayGroup(array_merge(array('delivery_profile_ids', 'live_delivery_profile_ids', 'deliveryFormat', 'delivery_profile_type', 'editDeliveryProfiles', 'enforce_delivery', 'checkbox_host', 'host', 'checkbox_cdn_host', 'cdn_host', 'checkbox_thumbnail_host', 'thumbnail_host', 'checkbox_cache_flavor_version', 'cache_flavor_version', 'support_animated_thumbnails'), $permissionNames[self::GROUP_PUBLISHER_DELIVERY_SETTINGS], array ('crossLine')), 'publisherSpecificDeliverySettings', array('legend' => 'Publisher Specific Delivery Settings'));
-		$this->addDisplayGroup(array_merge(array('storage_serve_priority', 'storage_delete_from_kaltura','import_remote_source_for_convert'), $permissionNames[self::GROUP_REMOTE_STORAGE] ,array('crossLine')), 'remoteStorageAccountPolicy', array('legend' => 'Remote Storage Policy'));
+		$this->addDisplayGroup(array_merge(array('storage_serve_priority', 'storage_delete_from_borhan','import_remote_source_for_convert'), $permissionNames[self::GROUP_REMOTE_STORAGE] ,array('crossLine')), 'remoteStorageAccountPolicy', array('legend' => 'Remote Storage Policy'));
 
 		$this->addDisplayGroup(array_merge(array('notifications_config', 'allow_multi_notification'), $permissionNames[self::GROUP_NOTIFICATION_CONFIG] ,array('crossLine')), 'advancedNotificationSettings', array('legend' => 'Advanced Notification Settings'));
 		$this->addDisplayGroup(array_merge(array('def_thumb_offset','def_thumb_density') , $permissionNames[self::GROUP_CONTENT_INGESTION_OPTIONS], array('enable_bulk_upload_notifications_emails', 'bulk_upload_notifications_email', 'crossLine')), 'publisherSpecificIngestionSettings', array('legend' => 'Content Ingestion Options'));
 		$this->addDisplayGroup(array('logout_url', 'crossLine'), 'signSignOn', array('legend' => 'Sign Sign On'));
 		$this->addDisplayGroup(array_merge(array('api_access_control_id', 'restrict_entry_by_metadata'), $permissionNames[self::GROUP_ACCESS_CONTROL], array('crossLine')), 'apiAccessControlIdGroup', array('legend' => 'Access Control'));
-		$this->addDisplayGroup(array_merge(array(Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::USER_LOGIN_ATTEMPTS.'_max',
-									// Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::USER_LOGIN_ATTEMPTS.'_overagePrice',
+		$this->addDisplayGroup(array_merge(array(Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::USER_LOGIN_ATTEMPTS.'_max',
+									// Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::USER_LOGIN_ATTEMPTS.'_overagePrice',
 									 'login_block_period',
 									 'num_prev_pass_to_keep',
 									 'pass_replace_freq'), 
@@ -871,37 +871,37 @@ class Form_PartnerConfiguration extends Infra_Form
 		$this->addDisplayGroup(array('is_first_login','crossLine'), 'accountOptions');
 				
 		$this->addDisplayGroup(array('includedUsageLabel', 'mothly_bandwidth_combined',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STORAGE_AND_BANDWIDTH.'_max',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STORAGE_AND_BANDWIDTH.'_overagePrice',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STORAGE_AND_BANDWIDTH.'_overageUnit',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_BANDWIDTH.'_max',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_BANDWIDTH.'_overagePrice',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_BANDWIDTH.'_overageUnit',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STORAGE.'_max',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STORAGE.'_overagePrice',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STORAGE.'_overageUnit',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STORAGE_AND_BANDWIDTH.'_max',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STORAGE_AND_BANDWIDTH.'_overagePrice',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STORAGE_AND_BANDWIDTH.'_overageUnit',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_BANDWIDTH.'_max',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_BANDWIDTH.'_overagePrice',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_BANDWIDTH.'_overageUnit',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STORAGE.'_max',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STORAGE.'_overagePrice',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STORAGE.'_overageUnit',
 									),'includedUsage', array('legend' => 'Included Usage'));
 		$this->addDisplayGroup(array(
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::ADMIN_LOGIN_USERS.'_max',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::ADMIN_LOGIN_USERS.'_overagePrice',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::ADMIN_LOGIN_USERS.'_overageUnit'
-									), 'configureKmcUsers');
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::ADMIN_LOGIN_USERS.'_max',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::ADMIN_LOGIN_USERS.'_overagePrice',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::ADMIN_LOGIN_USERS.'_overageUnit'
+									), 'configureBmcUsers');
 		$this->addDisplayGroup(array(
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::PUBLISHERS.'_max',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::PUBLISHERS.'_overagePrice',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::PUBLISHERS.'_overageUnit',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STREAM_ENTRIES.'_max',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STREAM_ENTRIES.'_overagePrice',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STREAM_ENTRIES.'_overageUnit',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::END_USERS.'_max',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::END_USERS.'_overagePrice',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::END_USERS.'_overageUnit',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::ENTRIES.'_max',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::ENTRIES.'_overagePrice',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::ENTRIES.'_overageUnit',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::ACCESS_CONTROLS.'_max',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::LIVE_STREAM_INPUTS.'_max',
-									Kaltura_Client_SystemPartner_Enum_SystemPartnerLimitType::LIVE_STREAM_OUTPUTS.'_max',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::PUBLISHERS.'_max',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::PUBLISHERS.'_overagePrice',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::PUBLISHERS.'_overageUnit',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STREAM_ENTRIES.'_max',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STREAM_ENTRIES.'_overagePrice',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::MONTHLY_STREAM_ENTRIES.'_overageUnit',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::END_USERS.'_max',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::END_USERS.'_overagePrice',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::END_USERS.'_overageUnit',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::ENTRIES.'_max',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::ENTRIES.'_overagePrice',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::ENTRIES.'_overageUnit',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::ACCESS_CONTROLS.'_max',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::LIVE_STREAM_INPUTS.'_max',
+									Borhan_Client_SystemPartner_Enum_SystemPartnerLimitType::LIVE_STREAM_OUTPUTS.'_max',
 									'crossLine'), 'includedUsageSecondPart');
 
 		$this->addDisplayGroup(

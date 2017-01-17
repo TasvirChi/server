@@ -3,12 +3,12 @@
  * @package api
  * @subpackage objects
  */
-class KalturaAssetPropertiesCompareCondition extends KalturaCondition
+class BorhanAssetPropertiesCompareCondition extends BorhanCondition
 {
 	/**
 	 * Array of key/value objects that holds the property and the value to find and compare on an asset object
 	 *
-	 * @var KalturaKeyValueArray
+	 * @var BorhanKeyValueArray
 	 */
 	public $properties;
 
@@ -31,7 +31,7 @@ class KalturaAssetPropertiesCompareCondition extends KalturaCondition
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{
@@ -52,14 +52,14 @@ class KalturaAssetPropertiesCompareCondition extends KalturaCondition
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject()
+	 * @see BorhanObject::fromObject()
 	 */
-	public function doFromObject($dbObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($dbObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		/** @var $dbObject kAssetPropertiesCompareCondition */
 		parent::doFromObject($dbObject, $responseProfile);
 		
 		if($this->shouldGet('properties', $responseProfile))
-			$this->properties = KalturaKeyValueArray::fromKeyValueArray($dbObject->getProperties());
+			$this->properties = BorhanKeyValueArray::fromKeyValueArray($dbObject->getProperties());
 	}
 }

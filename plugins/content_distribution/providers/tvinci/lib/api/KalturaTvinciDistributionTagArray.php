@@ -3,22 +3,22 @@
  * @package plugins.tvinciDistribution
  * @subpackage api.objects
  */
-class KalturaTvinciDistributionTagArray extends KalturaTypedArray
+class BorhanTvinciDistributionTagArray extends BorhanTypedArray
 {
 	public function __construct()
 	{
-		parent::__construct("KalturaTvinciDistributionTag");
+		parent::__construct("BorhanTvinciDistributionTag");
 	}
 	
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaTvinciDistributionTagArray();
+		$newArr = new BorhanTvinciDistributionTagArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-			$nObj = new KalturaTvinciDistributionTag();
+			$nObj = new BorhanTvinciDistributionTag();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}

@@ -37,7 +37,7 @@ class addentryAction extends defPartnerservices2Action
                         )
                     ),
                 "out" => array (
-                    "ks" => array("type" => "string", "desc" => "Kaltura Session - a token used as an input for the rest of the services") ,
+                    "ks" => array("type" => "string", "desc" => "Borhan Session - a token used as an input for the rest of the services") ,
                     ),
                 "errors" => array (
                     APIErrors::INVALID_KSHOW_ID,
@@ -187,7 +187,7 @@ class addentryAction extends defPartnerservices2Action
 		if ( $this->getP ( "quick_edit" ) == '0' ||  $this->getP ( "quick_edit" ) == "false"  ) $quick_edit = false 	;
         if ( $quick_edit == '0' || $quick_edit === "false" || !$quick_edit || $quick_edit == false  )
         {
-			KalturaLog::err ( '$quick_edit: [' . $quick_edit . ']' );        	
+			BorhanLog::err ( '$quick_edit: [' . $quick_edit . ']' );        	
             $quick_edit = false;
             
             //$quick_edit = true;
@@ -231,7 +231,7 @@ class addentryAction extends defPartnerservices2Action
             // check that mandatory fields were set
             // TODO
 
-            KalturaLog::err ( "addentry: fields_modified: " . print_r ( $fields_modified , true ) );
+            BorhanLog::err ( "addentry: fields_modified: " . print_r ( $fields_modified , true ) );
 
             $entry_source = $entry->getSource() ;
             
@@ -248,7 +248,7 @@ class addentryAction extends defPartnerservices2Action
                 $file_extension = strtolower(pathinfo( $this->getP ( $prefix .  "realFilename" ) , PATHINFO_EXTENSION  ));
                 $entry_full_path = myUploadUtils::getUploadPath( $token , $file_alias , null , $file_extension );
             	if (!file_exists($entry_full_path)) {
-                	KalturaLog::err ( "Invalid UPLOAD PATH [".$entry_full_path."] while trying to add entry for partner id [".$partner_id."] with token [".$token."] & original name [".$this->getP($prefix."name")."]");
+                	BorhanLog::err ( "Invalid UPLOAD PATH [".$entry_full_path."] while trying to add entry for partner id [".$partner_id."] with token [".$token."] & original name [".$this->getP($prefix."name")."]");
                 	$this->addError(APIErrors::INVALID_FILE_NAME);
                 	continue;
                 }
@@ -282,7 +282,7 @@ class addentryAction extends defPartnerservices2Action
             else
             {
             	// HACK - if the conversion_quality was not set in the proper way - 
-            	// see if the partner_data holds a hack - string that starts with conversionQuality= - this is set when the CW is opened in the KMC
+            	// see if the partner_data holds a hack - string that starts with conversionQuality= - this is set when the CW is opened in the BMC
             	// the conversionQuality is of format conversionQuality=XXX;<the rest of the text>
             	// 
             	if ( kString::beginsWith( $entry->getPartnerData() , "conversionQuality:" ) )
@@ -303,7 +303,7 @@ class addentryAction extends defPartnerservices2Action
             // I don't remember why we set the kshow to null every time ...
             // but when we fetched it automatically - hang on to it !
             if ( $null_kshow )	$kshow = null;
-            if( $entry_source == entry::ENTRY_MEDIA_SOURCE_KALTURA_USER_CLIPS ||  $entry_source == "100")
+            if( $entry_source == entry::ENTRY_MEDIA_SOURCE_BORHAN_USER_CLIPS ||  $entry_source == "100")
             {
 				if ($entry_source == "100")
             		$entry_id = $this->getP ("media{$i}_id" );
@@ -401,11 +401,11 @@ class addentryAction extends defPartnerservices2Action
                     $paramsArray['entry_to_time'] = $this->getP ( $prefix .  "toTime" , 0 );
                     
                 }
-                elseif( $entry_source == entry::ENTRY_MEDIA_SOURCE_KALTURA ||
-                        $entry_source == entry::ENTRY_MEDIA_SOURCE_KALTURA_PARTNER ||
-                        $entry_source == entry::ENTRY_MEDIA_SOURCE_KALTURA_PARTNER_KSHOW ||
-                        $entry_source == entry::ENTRY_MEDIA_SOURCE_KALTURA_KSHOW ||
-                        $entry_source == entry::ENTRY_MEDIA_SOURCE_KALTURA_USER_CLIPS) // we might reach here if we can't find the existing entry
+                elseif( $entry_source == entry::ENTRY_MEDIA_SOURCE_BORHAN ||
+                        $entry_source == entry::ENTRY_MEDIA_SOURCE_BORHAN_PARTNER ||
+                        $entry_source == entry::ENTRY_MEDIA_SOURCE_BORHAN_PARTNER_KSHOW ||
+                        $entry_source == entry::ENTRY_MEDIA_SOURCE_BORHAN_KSHOW ||
+                        $entry_source == entry::ENTRY_MEDIA_SOURCE_BORHAN_USER_CLIPS) // we might reach here if we can't find the existing entry
                 {
                     // optimize - no need to actually go through the import and conversion phase
                     // find the source entry_id from the url
@@ -424,8 +424,8 @@ class addentryAction extends defPartnerservices2Action
                     {
                         // copy worked ok - no need to use insertEntryHelper
                         //$entry->setStatus ( entryStatus::READY );
-                        // force the data to be ready even if the policy is to moderate - this is kaltura's content and was already approved
-                        // (roman) true argument removed, so kaltura's content will be moderated according to partner's moderation settings
+                        // force the data to be ready even if the policy is to moderate - this is borhan's content and was already approved
+                        // (roman) true argument removed, so borhan's content will be moderated according to partner's moderation settings
                         $entry->setStatusReady ();
                         $insert = false;
                         $entry_modified = true;
@@ -453,7 +453,7 @@ class addentryAction extends defPartnerservices2Action
 
                 if ( $insert )
                 {
-                    KalturaLog::err ( "paramsArray" . print_r ( $paramsArray , true ) );
+                    BorhanLog::err ( "paramsArray" . print_r ( $paramsArray , true ) );
 
                     $insert_entry_helper = new myInsertEntryHelper($this , $kuser_id, $kshow_id, $paramsArray );
                     $insert_entry_helper->setPartnerId( $partner_id , $subp_id );
@@ -464,11 +464,11 @@ class addentryAction extends defPartnerservices2Action
                 }
             } // create_entry = true
 
-			KalturaLog::err ( 'id: ' . $entry->getId() . ' $quick_edit:' . $quick_edit );
+			BorhanLog::err ( 'id: ' . $entry->getId() . ' $quick_edit:' . $quick_edit );
 
             if ( $quick_edit )
             {
-            	KalturaLog::info("quick edit with kshow_id [$kshow_id]");
+            	BorhanLog::info("quick edit with kshow_id [$kshow_id]");
                 if ( !$kshow) $kshow = kshowPeer::retrieveByPK( $kshow_id ); // this i
                 if ( !$kshow )
                 {

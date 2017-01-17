@@ -112,7 +112,7 @@ class myReportsMgr
 		}
 		
 		$end = microtime(true);
-		KalturaLog::log( "getGraph took [" . ( $end - $start ) . "]" );
+		BorhanLog::log( "getGraph took [" . ( $end - $start ) . "]" );
 		
 		return $res;
 	}
@@ -321,7 +321,7 @@ class myReportsMgr
 		}
 			
 		$end = microtime(true);
-		KalturaLog::log( "getTotal took [" . ( $end - $start ) . "]" );
+		BorhanLog::log( "getTotal took [" . ( $end - $start ) . "]" );
 		
 		return $res;
 	}
@@ -341,7 +341,7 @@ class myReportsMgr
 			if ( $total_count <= 0 )
 			{
 				$end = microtime(true);
-				KalturaLog::log( "getTable took [" . ( $end - $start ) . "]" );			
+				BorhanLog::log( "getTable took [" . ( $end - $start ) . "]" );			
 				return array ( array() , array() , 0 );
 			}
 		}
@@ -384,7 +384,7 @@ class myReportsMgr
 		}
 		
 		$end = microtime(true);
-		KalturaLog::log( "getTable took [" . ( $end - $start ) . "]" );
+		BorhanLog::log( "getTable took [" . ( $end - $start ) . "]" );
 
 		return $res;
 	}
@@ -408,7 +408,7 @@ class myReportsMgr
 		}
 		
 		$end = microtime(true);
-		KalturaLog::log( "getSubTotal took [" . ( $end - $start ) . "]" );
+		BorhanLog::log( "getSubTotal took [" . ( $end - $start ) . "]" );
 		
 		return $res;
 	}
@@ -627,7 +627,7 @@ class myReportsMgr
 		$total_count = self::$count_cache->get( $cache_key );
 		if ( $total_count )
 		{
-			KalturaLog::log( "count from cache: [$total_count]" );
+			BorhanLog::log( "count from cache: [$total_count]" );
 			return $total_count;
 		}
 		
@@ -640,7 +640,7 @@ class myReportsMgr
 		{
 			$total_count = 0;
 		}
-	KalturaLog::log( "count: [$total_count]" );
+	BorhanLog::log( "count: [$total_count]" );
 	
 		self::$count_cache->put( $cache_key , $total_count ); // store in the cache for next time
 		return $total_count;				
@@ -714,7 +714,7 @@ class myReportsMgr
 			$sql_raw_content = file_get_contents( $file_path );
 			if ( ! $sql_raw_content )
 			{
-				$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaReportProvider');
+				$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanReportProvider');
 				foreach ($pluginInstances as $pluginInstance)
 				{
 
@@ -745,7 +745,7 @@ class myReportsMgr
 						if ($input_filter->ancestorPlaybackContext)
 							$categoryFilter->set("_matchor_likex_full_name", $input_filter->ancestorPlaybackContext);
 						
-						$c = KalturaCriteria::create(categoryPeer::OM_CLASS);
+						$c = BorhanCriteria::create(categoryPeer::OM_CLASS);
 						$categoryFilter->attachToCriteria($c);
 						$c->applyFilters();
 					
@@ -792,7 +792,7 @@ class myReportsMgr
 			
 			if ($shouldSelectFromSearchEngine)
 			{
-				$c = KalturaCriteria::create(entryPeer::OM_CLASS);
+				$c = BorhanCriteria::create(entryPeer::OM_CLASS);
 				$entryFilter->attachToCriteria($c);
 				$c->applyFilters();
 				
@@ -851,7 +851,7 @@ class myReportsMgr
 			if ($input_filter instanceof endUserReportsInputFilter && ($input_filter->userIds != null) && ($report_type == self::REPORT_TYPE_USER_USAGE || $report_type == self::REPORT_TYPE_SPECIFIC_USER_USAGE) ) {
 					$userFilter = new kuserFilter();
 					$userFilter->set("_in_puser_id", $input_filter->userIds);
-					$c = KalturaCriteria::create(kuserPeer::OM_CLASS);
+					$c = BorhanCriteria::create(kuserPeer::OM_CLASS);
 					$userFilter->attachToCriteria($c);
 					$c->applyFilters();
 				
@@ -873,17 +873,17 @@ class myReportsMgr
 				$query_header = "/* -- " . self::$type_map[$report_type] . " " . self::$flavor_map[$report_flavor] . " -- */\n";
 			else 
 				$query_header = "/* -- " . $report_type . " -- */\n";
-			KalturaLog::log( "\n{$query_header}{$query}" );
+			BorhanLog::log( "\n{$query_header}{$query}" );
 			
 			$res = self::executeQuery ( $query, $link );
 			
 			$end = microtime(true);
-			KalturaLog::log( "Query took [" . ( $end - $start ) . "]" );
+			BorhanLog::log( "Query took [" . ( $end - $start ) . "]" );
 			return $res;
 		}
 		catch ( Exception $ex )
 		{
-			KalturaLog::log( $ex->getMessage() );
+			BorhanLog::log( $ex->getMessage() );
 			// TODO - write proeper error
 			if ($ex->getCode() == kCoreException::SEARCH_TOO_GENERAL);
 				throw $ex;
@@ -1332,7 +1332,7 @@ class myReportsMgr
 		if (!$result) 
 		{
 		
-		    KalturaLog::err('Invalid query: ' . $error_function($link));
+		    BorhanLog::err('Invalid query: ' . $error_function($link));
 		    $message = 'Invalid query';
 		    throw new kCoreException($message, kCoreException::INVALID_QUERY);
 		}
@@ -1457,7 +1457,7 @@ class myReportsMgr
 		
 		$connect_function = $mysql_function.'_connect';
 		$link  = $connect_function( $host , $db_config["user"] , $db_config["password"] , null, $db_config["port"] );
-		KalturaLog::log( "Reports query using database host: [$host] user [" . $db_config["user"] . "]" );
+		BorhanLog::log( "Reports query using database host: [$host] user [" . $db_config["user"] . "]" );
 		
 		return $link;
 	}	

@@ -17,17 +17,17 @@ class VerizonVcastFeedHelper
 	protected $_xpath;
 	
 	/**
-	 * @var KalturaDistributionJobData
+	 * @var BorhanDistributionJobData
 	 */
 	protected $_distributionJobData;
 	
 	/**
-	 * @var KalturaVerizonVcastDistributionProfile
+	 * @var BorhanVerizonVcastDistributionProfile
 	 */
 	protected $_distributionProfile;
 	
 	/**
-	 * @var KalturaVerizonVcastDistributionJobProviderData
+	 * @var BorhanVerizonVcastDistributionJobProviderData
 	 */
 	protected $_providerData;
 	
@@ -48,10 +48,10 @@ class VerizonVcastFeedHelper
 	
 	/**
 	 * @param string $templateName
-	 * @param KalturaVerizonVcastDistributionProfile $distributionProfile
-	 * @param KalturaVerizonVcastDistributionJobProviderData $providerData
+	 * @param BorhanVerizonVcastDistributionProfile $distributionProfile
+	 * @param BorhanVerizonVcastDistributionJobProviderData $providerData
 	 */
-	public function __construct($templateName, KalturaDistributionJobData $distributionJobData, KalturaVerizonVcastDistributionJobProviderData $providerData, array $flavorAssets, array $thumbnailAssets)
+	public function __construct($templateName, BorhanDistributionJobData $distributionJobData, BorhanVerizonVcastDistributionJobProviderData $providerData, array $flavorAssets, array $thumbnailAssets)
 	{
 		$this->_distributionJobData = $distributionJobData;
 		$this->_distributionProfile = $distributionJobData->distributionProfile;
@@ -75,28 +75,28 @@ class VerizonVcastFeedHelper
 		if (!$this->_fieldValues) 
 			$this->_fieldValues = array();
 		
-		$this->setNodeValueFieldConfigId('//ns2:title', KalturaVerizonVcastDistributionField::TITLE);
-		$this->setNodeValueFieldConfigId('//ns2:externalid', KalturaVerizonVcastDistributionField::EXTERNAL_ID);
-		$this->setNodeValueFieldConfigId('//ns2:shortdescription', KalturaVerizonVcastDistributionField::SHORT_DESCRIPTION);
-		$this->setNodeValueFieldConfigId('//ns2:description', KalturaVerizonVcastDistributionField::DESCRIPTION);
-		$this->setNodeValueFieldConfigId('//ns2:keywords', KalturaVerizonVcastDistributionField::KEYWORDS);
-		$this->setNodeValueShortDateFieldConfigId('//ns2:pubDate', KalturaVerizonVcastDistributionField::PUB_DATE);
-		$this->setNodeValueFieldConfigId('//ns2:category', KalturaVerizonVcastDistributionField::CATEGORY);
-		$this->setNodeValueFieldConfigId('//ns2:genre', KalturaVerizonVcastDistributionField::GENRE);
-		$this->setNodeValueFieldConfigId('//ns2:rating', KalturaVerizonVcastDistributionField::RATING);
-		$this->setNodeValueFieldConfigId('//ns2:copyright', KalturaVerizonVcastDistributionField::COPYRIGHT);
-		$this->setNodeValueFieldConfigId('//ns2:entitlement', KalturaVerizonVcastDistributionField::ENTITLEMENT);
+		$this->setNodeValueFieldConfigId('//ns2:title', BorhanVerizonVcastDistributionField::TITLE);
+		$this->setNodeValueFieldConfigId('//ns2:externalid', BorhanVerizonVcastDistributionField::EXTERNAL_ID);
+		$this->setNodeValueFieldConfigId('//ns2:shortdescription', BorhanVerizonVcastDistributionField::SHORT_DESCRIPTION);
+		$this->setNodeValueFieldConfigId('//ns2:description', BorhanVerizonVcastDistributionField::DESCRIPTION);
+		$this->setNodeValueFieldConfigId('//ns2:keywords', BorhanVerizonVcastDistributionField::KEYWORDS);
+		$this->setNodeValueShortDateFieldConfigId('//ns2:pubDate', BorhanVerizonVcastDistributionField::PUB_DATE);
+		$this->setNodeValueFieldConfigId('//ns2:category', BorhanVerizonVcastDistributionField::CATEGORY);
+		$this->setNodeValueFieldConfigId('//ns2:genre', BorhanVerizonVcastDistributionField::GENRE);
+		$this->setNodeValueFieldConfigId('//ns2:rating', BorhanVerizonVcastDistributionField::RATING);
+		$this->setNodeValueFieldConfigId('//ns2:copyright', BorhanVerizonVcastDistributionField::COPYRIGHT);
+		$this->setNodeValueFieldConfigId('//ns2:entitlement', BorhanVerizonVcastDistributionField::ENTITLEMENT);
 		
-		$this->setNodeValueFullDateFieldConfigId('//ns2:liveDate', KalturaVerizonVcastDistributionField::LIVE_DATE);
-		$this->setNodeValueFullDateFieldConfigId('//ns2:endDate', KalturaVerizonVcastDistributionField::END_DATE);
-		$this->setNodeValueFieldConfigId('//ns2:priority', KalturaVerizonVcastDistributionField::PRIORITY);
-		$this->setNodeValueFieldConfigId('//ns2:allowStreaming', KalturaVerizonVcastDistributionField::ALLOW_STREAMING);
-		$this->setNodeValueFieldConfigId('//ns2:streamingPriceCode', KalturaVerizonVcastDistributionField::STREAMING_PRICE_CODE);
-		$this->setNodeValueFieldConfigId('//ns2:allowDownload', KalturaVerizonVcastDistributionField::ALLOW_DOWNLOAD);
-		$this->setNodeValueFieldConfigId('//ns2:downloadPriceCode', KalturaVerizonVcastDistributionField::DOWNLOAD_PRICE_CODE);
-		$this->setNodeValueFieldConfigId('//ns2:provider', KalturaVerizonVcastDistributionField::PROVIDER);
-		$this->setNodeValueFieldConfigId('//ns2:providerid', KalturaVerizonVcastDistributionField::PROVIDER_ID);
-		$this->setOrRemoveNodeValueFieldConfigId('//ns2:alertCode', KalturaVerizonVcastDistributionField::ALERT_CODE);
+		$this->setNodeValueFullDateFieldConfigId('//ns2:liveDate', BorhanVerizonVcastDistributionField::LIVE_DATE);
+		$this->setNodeValueFullDateFieldConfigId('//ns2:endDate', BorhanVerizonVcastDistributionField::END_DATE);
+		$this->setNodeValueFieldConfigId('//ns2:priority', BorhanVerizonVcastDistributionField::PRIORITY);
+		$this->setNodeValueFieldConfigId('//ns2:allowStreaming', BorhanVerizonVcastDistributionField::ALLOW_STREAMING);
+		$this->setNodeValueFieldConfigId('//ns2:streamingPriceCode', BorhanVerizonVcastDistributionField::STREAMING_PRICE_CODE);
+		$this->setNodeValueFieldConfigId('//ns2:allowDownload', BorhanVerizonVcastDistributionField::ALLOW_DOWNLOAD);
+		$this->setNodeValueFieldConfigId('//ns2:downloadPriceCode', BorhanVerizonVcastDistributionField::DOWNLOAD_PRICE_CODE);
+		$this->setNodeValueFieldConfigId('//ns2:provider', BorhanVerizonVcastDistributionField::PROVIDER);
+		$this->setNodeValueFieldConfigId('//ns2:providerid', BorhanVerizonVcastDistributionField::PROVIDER_ID);
+		$this->setOrRemoveNodeValueFieldConfigId('//ns2:alertCode', BorhanVerizonVcastDistributionField::ALERT_CODE);
 		
 		foreach($thumbnailAssets as $thumbnailAsset)
 		{
@@ -138,7 +138,7 @@ class VerizonVcastFeedHelper
 	protected function shouldIngestFlavor(asset $flavorAsset)
 	{
 		// mediaFile array was not initialized meaning this is the first submit job
-		if (!($this->_distributionJobData->mediaFiles instanceof KalturaDistributionRemoteMediaFileArray))
+		if (!($this->_distributionJobData->mediaFiles instanceof BorhanDistributionRemoteMediaFileArray))
 			return true;
 		
 		// find the mediaFile of our flavor

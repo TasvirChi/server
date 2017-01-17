@@ -3,7 +3,7 @@
  * @package plugins.audit
  * @subpackage api.filters
  */
-class KalturaAuditTrailFilter extends KalturaAuditTrailBaseFilter
+class BorhanAuditTrailFilter extends BorhanAuditTrailBaseFilter
 {
 	static private $map_between_objects = array
 	(
@@ -26,7 +26,7 @@ class KalturaAuditTrailFilter extends KalturaAuditTrailBaseFilter
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -61,9 +61,9 @@ class KalturaAuditTrailFilter extends KalturaAuditTrailBaseFilter
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::getListResponse()
+	 * @see BorhanRelatedFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$auditTrailFilter = $this->toObject();
 		
@@ -74,8 +74,8 @@ class KalturaAuditTrailFilter extends KalturaAuditTrailBaseFilter
 		$pager->attachToCriteria($c);
 		$list = AuditTrailPeer::doSelect($c);
 		
-		$response = new KalturaAuditTrailListResponse();
-		$response->objects = KalturaAuditTrailArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanAuditTrailListResponse();
+		$response->objects = BorhanAuditTrailArray::fromDbArray($list, $responseProfile);
 		$response->totalCount = $count;
 		
 		return $response;

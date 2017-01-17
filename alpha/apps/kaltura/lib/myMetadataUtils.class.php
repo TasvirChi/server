@@ -353,7 +353,7 @@ class myMetadataUtils
 
 		if ( $vidAssets_count >= self::MAX_ENTRIES_IN_METADATA )
 		{
-			KalturaLog::log ( "Exceeded number of entries in metadata [" . self::MAX_ENTRIES_IN_METADATA . "]. Will not add entry [{$entry_id}] to file." );
+			BorhanLog::log ( "Exceeded number of entries in metadata [" . self::MAX_ENTRIES_IN_METADATA . "]. Will not add entry [{$entry_id}] to file." );
 			$should_save = false;
 			return null;
 		}
@@ -431,7 +431,7 @@ class myMetadataUtils
 		// update the pending element if needed
 		$should_save = self::updatePending ( $xml_doc , $entry_id , true );
 
-KalturaLog::log ( "Will append to xml\n{$newVidasset}" );
+BorhanLog::log ( "Will append to xml\n{$newVidasset}" );
 
 		$temp_xml_doc = new DOMDocument();
 		$temp_xml_doc->loadXML ( $newVidasset );
@@ -442,7 +442,7 @@ KalturaLog::log ( "Will append to xml\n{$newVidasset}" );
 
 		if (!$vidAsset_parentNode)
 		{
-			KalturaLog::log ( "No VideoAssets parent node for entry [{$entry_id}] content [{$content}]." );
+			BorhanLog::log ( "No VideoAssets parent node for entry [{$entry_id}] content [{$content}]." );
 			return null;
 		}
 		
@@ -474,7 +474,7 @@ KalturaLog::log ( "Will append to xml\n{$newVidasset}" );
             // entries can be os status ENTRY_STATUS_READY or ENTRY_STATUS_ERROR_CONVERTING
             $status= $entry->getStatus();
 
-            KalturaLog::log ( "updateAllMetadataVersionsRelevantForEntry [" . $entry->getId() . "] with status [" . $status . "]");
+            BorhanLog::log ( "updateAllMetadataVersionsRelevantForEntry [" . $entry->getId() . "] with status [" . $status . "]");
             $metadata = $show_entry->getMetadata ();
             if ( $metadata )
             {
@@ -486,7 +486,7 @@ KalturaLog::log ( "Will append to xml\n{$newVidasset}" );
                         myNotificationMgr::createNotification(kNotificationJobData::NOTIFICATION_TYPE_ENTRY_UPDATE, $entry);
                   }
             }
-            KalturaLog::log ( "updateAllMetadataVersionsRelevantForEntry [" . $entry->getId() . "]  created a new version" );
+            BorhanLog::log ( "updateAllMetadataVersionsRelevantForEntry [" . $entry->getId() . "]  created a new version" );
             
             return true;
       }

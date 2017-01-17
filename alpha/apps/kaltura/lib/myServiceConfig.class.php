@@ -87,7 +87,7 @@ class myServiceConfig
 		
 	protected function getDefaultPath ()
 	{
-		return SF_ROOT_DIR."/apps/kaltura/modules/partnerservices2/service_config/";
+		return SF_ROOT_DIR."/apps/borhan/modules/partnerservices2/service_config/";
 	}
 		
 	protected function getPath ()
@@ -102,7 +102,7 @@ class myServiceConfig
 	public function __construct ( $file_name , $service_name = null, $useDefualt = true )
 	{
 		$path = $this->getPath();
-		KalturaLog::debug("Path [$path] File [$file_name] Service [$service_name]");
+		BorhanLog::debug("Path [$path] File [$file_name] Service [$service_name]");
 		
 		$config_table_list = array ( );
 		
@@ -156,7 +156,7 @@ class myServiceConfig
 	public function getAllowEmptyPuser()	{	return $this->get ( "aep" );		}
 	//public function getReadWrite()			{	return $this->get ( "wr" );			}
 	public function getPartnerGroup()		{	return $this->get ( "pg" );			}
-	public function getKalturaNetwork()		{	return $this->get ( "kn" );			}
+	public function getBorhanNetwork()		{	return $this->get ( "kn" );			}
 	public function getMatchIp()			{	return $this->get ( "mip" );		}
 	public function getTags()				{	return $this->get ( "tags" );		}
 

@@ -6,12 +6,12 @@
 class DropFolderXmlBulkUploadEngine extends BulkUploadEngineXml
 {
 	/**
-	 * @var KalturaDropFolder
+	 * @var BorhanDropFolder
 	 */
 	private $dropFolder = null;
 	
 	/**
-	 * @var KalturaDropFolderFile
+	 * @var BorhanDropFolderFile
 	 */
 	private $xmlDropFolderFile = null;
 	
@@ -28,16 +28,16 @@ class DropFolderXmlBulkUploadEngine extends BulkUploadEngineXml
 	
 	/**
 	 * XML provided KS info
-	 * @var KalturaSessionInfo
+	 * @var BorhanSessionInfo
 	 */
 	private $ksInfo = null;
 	
-	public function __construct(KalturaBatchJob $job)
+	public function __construct(BorhanBatchJob $job)
 	{
 		parent::__construct($job);
 		
 		KBatchBase::impersonate($this->currentPartnerId);
-		$dropFolderPlugin = KalturaDropFolderClientPlugin::get(KBatchBase::$kClient);
+		$dropFolderPlugin = BorhanDropFolderClientPlugin::get(KBatchBase::$kClient);
 		KBatchBase::$kClient->startMultiRequest();
 		$dropFolderFile = $dropFolderPlugin->dropFolderFile->get($this->job->jobObjectId);
 		$dropFolderPlugin->dropFolder->get($dropFolderFile->dropFolderId);
@@ -54,7 +54,7 @@ class DropFolderXmlBulkUploadEngine extends BulkUploadEngineXml
 	 */
 	protected function getSchemaType()
 	{
-		return KalturaSchemaType::DROP_FOLDER_XML;
+		return BorhanSchemaType::DROP_FOLDER_XML;
 	}
 	
 	/* (non-PHPdoc)
@@ -63,20 +63,20 @@ class DropFolderXmlBulkUploadEngine extends BulkUploadEngineXml
 	public function handleBulkUpload()
 	{
 		KBatchBase::impersonate($this->currentPartnerId);
-		$dropFolderPlugin = KalturaDropFolderClientPlugin::get(KBatchBase::$kClient);
+		$dropFolderPlugin = BorhanDropFolderClientPlugin::get(KBatchBase::$kClient);
 		$this->setContentResourceFilesMap($dropFolderPlugin);
 		KBatchBase::unimpersonate();
 		
 		parent::handleBulkUpload();
 	}
 	
-	private function setContentResourceFilesMap(KalturaDropFolderClientPlugin $dropFolderPlugin)
+	private function setContentResourceFilesMap(BorhanDropFolderClientPlugin $dropFolderPlugin)
 	{
-		$filter = new KalturaDropFolderFileFilter();
+		$filter = new BorhanDropFolderFileFilter();
 		$filter->dropFolderIdEqual = $this->dropFolder->id;
 		$filter->leadDropFolderFileIdEqual = $this->xmlDropFolderFile->id;
 		
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageSize = 500;
 		$pager->pageIndex = 1;
 		
@@ -106,7 +106,7 @@ class DropFolderXmlBulkUploadEngine extends BulkUploadEngineXml
 	{
 		if(isset($elementToSearchIn->dropFolderFileContentResource))
 		{
-			$resource = new KalturaDropFolderFileResource();
+			$resource = new BorhanDropFolderFileResource();
 			$attributes = $elementToSearchIn->dropFolderFileContentResource->attributes();
 			$filePath = (string)$attributes['filePath'];
 			$resource->dropFolderFileId = $this->contentResourceNameToIdMap[$filePath];
@@ -120,18 +120,18 @@ class DropFolderXmlBulkUploadEngine extends BulkUploadEngineXml
 	/* (non-PHPdoc)
 	 * @see BulkUploadEngineXml::validateResource()
 	 */
-	protected function validateResource(KalturaResource $resource, SimpleXMLElement $elementToSearchIn)
+	protected function validateResource(BorhanResource $resource, SimpleXMLElement $elementToSearchIn)
 	{
-		if($resource instanceof KalturaDropFolderFileResource)
+		if($resource instanceof BorhanDropFolderFileResource)
 		{
 			$fileId = $resource->dropFolderFileId;
 			if (is_null($fileId)) {
-				throw new KalturaBulkUploadXmlException("Drop folder id is null", KalturaBatchJobAppErrors::BULK_ITEM_VALIDATION_FAILED);
+				throw new BorhanBulkUploadXmlException("Drop folder id is null", BorhanBatchJobAppErrors::BULK_ITEM_VALIDATION_FAILED);
 			}
 						
 			$filePath = $this->getFilePath($elementToSearchIn);
 			$this->validateFileSize($elementToSearchIn, $filePath);
-			if($this->dropFolder->type == KalturaDropFolderType::LOCAL)
+			if($this->dropFolder->type == BorhanDropFolderType::LOCAL)
 			{
 				$this->validateChecksum($elementToSearchIn, $filePath);
 			}
@@ -148,13 +148,13 @@ class DropFolderXmlBulkUploadEngine extends BulkUploadEngineXml
 		if(isset($filePath))
 		{
 			$filePath = $this->dropFolder->path.'/'.$filePath;
-			if($this->dropFolder->type == KalturaDropFolderType::LOCAL)
+			if($this->dropFolder->type == BorhanDropFolderType::LOCAL)
 				$filePath = realpath($filePath);
 			return $filePath;
 		}
 		else
 		{
-			throw new KalturaBulkUploadXmlException("Can't validate file as file path is null", KalturaBatchJobAppErrors::BULK_ITEM_VALIDATION_FAILED);
+			throw new BorhanBulkUploadXmlException("Can't validate file as file path is null", BorhanBatchJobAppErrors::BULK_ITEM_VALIDATION_FAILED);
 		}
 	}
 	
@@ -165,7 +165,7 @@ class DropFolderXmlBulkUploadEngine extends BulkUploadEngineXml
 			$fileSize = $this->fileTransferMgr->fileSize($filePath);
 			$xmlFileSize = (int)$elementToSearchIn->dropFolderFileContentResource->fileSize;
 			if($xmlFileSize != $fileSize)
-				throw new KalturaBulkUploadXmlException("File size is invalid for file [$filePath], Xml size [$xmlFileSize], actual size [$fileSize]", KalturaBatchJobAppErrors::BULK_ITEM_VALIDATION_FAILED);
+				throw new BorhanBulkUploadXmlException("File size is invalid for file [$filePath], Xml size [$xmlFileSize], actual size [$fileSize]", BorhanBatchJobAppErrors::BULK_ITEM_VALIDATION_FAILED);
 		}
 	}
 	
@@ -185,9 +185,9 @@ class DropFolderXmlBulkUploadEngine extends BulkUploadEngineXml
 			$xmlChecksum = (string)$elementToSearchIn->dropFolderFileContentResource->fileChecksum;
 			if($xmlChecksum != $checksum)
 			{
-				throw new KalturaBulkUploadXmlException("File checksum is invalid for file [$filePath], Xml checksum [$xmlChecksum], actual checksum [$checksum]", KalturaBatchJobAppErrors::BULK_ITEM_VALIDATION_FAILED);
+				throw new BorhanBulkUploadXmlException("File checksum is invalid for file [$filePath], Xml checksum [$xmlChecksum], actual checksum [$checksum]", BorhanBatchJobAppErrors::BULK_ITEM_VALIDATION_FAILED);
 			}
-			KalturaLog::info("Checksum [$checksum] verified for local resource [$filePath]");
+			BorhanLog::info("Checksum [$checksum] verified for local resource [$filePath]");
 		}
 	}
 	
@@ -203,7 +203,7 @@ class DropFolderXmlBulkUploadEngine extends BulkUploadEngineXml
 		$dropFolderFilePath = $this->dropFolder->path.'/'.$fileName;
 	    
 	    // local drop folder
-	    if ($this->dropFolder->type == KalturaDropFolderType::LOCAL) 
+	    if ($this->dropFolder->type == BorhanDropFolderType::LOCAL) 
 	    {
 	        $dropFolderFilePath = realpath($dropFolderFilePath);
 	        return $dropFolderFilePath;
@@ -224,12 +224,12 @@ class DropFolderXmlBulkUploadEngine extends BulkUploadEngineXml
 		if(KBatchBase::$taskConfig->getChmod())
 			$chmod = octdec(KBatchBase::$taskConfig->getChmod());
 			
-		KalturaLog::info("chmod($filepath, $chmod)");
+		BorhanLog::info("chmod($filepath, $chmod)");
 		@chmod($filepath, $chmod);
 		
 		$chown_name = KBatchBase::$taskConfig->params->fileOwner;
 		if ($chown_name) {
-			KalturaLog::info("Changing owner of file [$filepath] to [$chown_name]");
+			BorhanLog::info("Changing owner of file [$filepath] to [$chown_name]");
 			@chown($filepath, $chown_name);
 		}
 	}
@@ -258,14 +258,14 @@ class DropFolderXmlBulkUploadEngine extends BulkUploadEngineXml
 		}
 		catch (Exception $e){
 			KBatchBase::unimpersonate();
-			throw new KalturaBatchException("KS [$xmlKs] validation failed for [{$this->job->id}], $errorMessage", KalturaBatchJobAppErrors::BULK_VALIDATION_FAILED);
+			throw new BorhanBatchException("KS [$xmlKs] validation failed for [{$this->job->id}], $errorMessage", BorhanBatchJobAppErrors::BULK_VALIDATION_FAILED);
 		}
 		KBatchBase::unimpersonate();
 		
 		//validate ks is still valid
 		$currentTime = time();
 		if($currentTime > $this->ksInfo->expiry){
-			throw new KalturaBatchException("KS validation failed for [{$this->job->id}], ks provided in XML Expired", KalturaBatchJobAppErrors::BULK_VALIDATION_FAILED);
+			throw new BorhanBatchException("KS validation failed for [{$this->job->id}], ks provided in XML Expired", BorhanBatchJobAppErrors::BULK_VALIDATION_FAILED);
 		}
 	}
 	
@@ -276,10 +276,10 @@ class DropFolderXmlBulkUploadEngine extends BulkUploadEngineXml
 	protected function validateItem(SimpleXMLElement $item)
 	{
 		if($this->dropFolder->shouldValidateKS){
-			if(!isset($item->userId) && $this->ksInfo->sessionType == KalturaSessionType::USER)
-				throw new KalturaBulkUploadXmlException("Drop Folder is set with KS validation but no user id was provided", KalturaBatchJobAppErrors::BULK_ITEM_VALIDATION_FAILED);
-			if($item->userId != $this->ksInfo->userId && $this->ksInfo->sessionType == KalturaSessionType::USER)
-				throw new KalturaBulkUploadXmlException("Drop Folder is set with KS validation, KS user ID [" . $this->ksInfo->userId . "] does not match item user ID [" . $item->userId . "]", KalturaBatchJobAppErrors::BULK_ITEM_VALIDATION_FAILED);
+			if(!isset($item->userId) && $this->ksInfo->sessionType == BorhanSessionType::USER)
+				throw new BorhanBulkUploadXmlException("Drop Folder is set with KS validation but no user id was provided", BorhanBatchJobAppErrors::BULK_ITEM_VALIDATION_FAILED);
+			if($item->userId != $this->ksInfo->userId && $this->ksInfo->sessionType == BorhanSessionType::USER)
+				throw new BorhanBulkUploadXmlException("Drop Folder is set with KS validation, KS user ID [" . $this->ksInfo->userId . "] does not match item user ID [" . $item->userId . "]", BorhanBatchJobAppErrors::BULK_ITEM_VALIDATION_FAILED);
 		}
 			
 		parent::validateItem($item);

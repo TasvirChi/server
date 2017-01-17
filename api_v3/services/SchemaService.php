@@ -6,13 +6,13 @@
  * @package api
  * @subpackage services
  */
-class SchemaService extends KalturaBaseService 
+class SchemaService extends BorhanBaseService 
 {
 	const CORE_SCHEMA_NAME = 'core';
 	const ENUM_SCHEMA_NAME = 'enum';
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseService::partnerRequired()
+	 * @see BorhanBaseService::partnerRequired()
 	 */
 	protected function partnerRequired($actionName)
 	{
@@ -20,7 +20,7 @@ class SchemaService extends KalturaBaseService
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseService::isPermitted()
+	 * @see BorhanBaseService::isPermitted()
 	 */
 	protected function isPermitted(&$allowPrivatePartnerData)
 	{
@@ -31,7 +31,7 @@ class SchemaService extends KalturaBaseService
 	 * Serves the requested XSD according to the type and name. 
 	 * 
 	 * @action serve
-	 * @param KalturaSchemaType $type  
+	 * @param BorhanSchemaType $type  
 	 * @return file 
 	 */
 	function serveAction($type)
@@ -74,7 +74,7 @@ class SchemaService extends KalturaBaseService
 		else
 		{
 			$plugin = kPluginableEnumsManager::getPlugin($type);
-			if($plugin instanceof IKalturaSchemaDefiner)
+			if($plugin instanceof IBorhanSchemaDefiner)
 			{
 				$baseXsdElement = $plugin->getPluginSchema($type);
 			}
@@ -99,10 +99,10 @@ class SchemaService extends KalturaBaseService
 	' . $xsd;
 		}
 		
-		$schemaContributors = KalturaPluginManager::getPluginInstances('IKalturaSchemaContributor');
+		$schemaContributors = BorhanPluginManager::getPluginInstances('IBorhanSchemaContributor');
 		foreach($schemaContributors as $key => $schemaContributor)
 		{
-			/* @var $schemaContributor IKalturaSchemaContributor */
+			/* @var $schemaContributor IBorhanSchemaContributor */
 			$elements = $schemaContributor->contributeToSchema($type);
 			if($elements)
 			{
@@ -112,25 +112,25 @@ class SchemaService extends KalturaBaseService
 		}
 		
 		$resultXsd .= '
-	<!-- Kaltura enum types -->
+	<!-- Borhan enum types -->
 	';
 		
 		$enumClasses = array();
 		$matches = null;
-		if(preg_match_all('/type="(Kaltura[^"]+)"/', $elementsXSD, $matches))
+		if(preg_match_all('/type="(Borhan[^"]+)"/', $elementsXSD, $matches))
 			$enumClasses = $matches[1];
 		
 		$enumTypes = array();
 		foreach($enumClasses as $class)
 		{
-			$classTypeReflector = KalturaTypeReflectorCacher::get($class);
+			$classTypeReflector = BorhanTypeReflectorCacher::get($class);
 			if($classTypeReflector)
 				self::loadClassRecursively($classTypeReflector, $enumTypes);
 		}
 		
 		foreach($enumTypes as $class => $classTypeReflector)
 		{
-			if(!is_subclass_of($class, 'KalturaEnum') && !is_subclass_of($class, 'KalturaStringEnum')) // class must be enum
+			if(!is_subclass_of($class, 'BorhanEnum') && !is_subclass_of($class, 'BorhanStringEnum')) // class must be enum
 				continue;
 			
 			$xsdType = 'int';
@@ -164,15 +164,15 @@ class SchemaService extends KalturaBaseService
 		return $resultXsd;
 	}
 	
-	private static function loadClassRecursively(KalturaTypeReflector $classTypeReflector, &$enumClasses)
+	private static function loadClassRecursively(BorhanTypeReflector $classTypeReflector, &$enumClasses)
 	{
 		$class = $classTypeReflector->getType();
 		if(
-			$class == 'KalturaEnum'
+			$class == 'BorhanEnum'
 			||
-			$class == 'KalturaStringEnum'
+			$class == 'BorhanStringEnum'
 			||
-			$class == 'KalturaObject'
+			$class == 'BorhanObject'
 		)
 			return;
 			

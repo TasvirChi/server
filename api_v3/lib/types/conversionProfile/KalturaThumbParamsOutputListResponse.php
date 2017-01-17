@@ -3,10 +3,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaThumbParamsOutputListResponse extends KalturaListResponse
+class BorhanThumbParamsOutputListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaThumbParamsOutputArray
+	 * @var BorhanThumbParamsOutputArray
 	 * @readonly
 	 */
 	public $objects;

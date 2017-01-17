@@ -4,15 +4,15 @@
  * @subpackage api.objects
  * @abstract
  */
-abstract class KalturaDistributionValidationError extends KalturaObject
+abstract class BorhanDistributionValidationError extends BorhanObject
 {
 	/**
-	 * @var KalturaDistributionAction
+	 * @var BorhanDistributionAction
 	 */
 	public $action;
 	
 	/**
-	 * @var KalturaDistributionErrorType
+	 * @var BorhanDistributionErrorType
 	 */
 	public $errorType;
 	

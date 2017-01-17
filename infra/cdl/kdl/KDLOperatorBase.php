@@ -18,7 +18,7 @@ abstract class KDLOperatorBase {
 	}
 	
     public function __construct($id, $name=null, $sourceBlacklist=null, $targetBlacklist=null) {
-		KalturaLog::log("KDLOperatorBase::__construct: id($id), name($name), sourceBlacklist(".print_r($sourceBlacklist,true)."), targetBlacklist(".print_r($targetBlacklist,true).")");
+		BorhanLog::log("KDLOperatorBase::__construct: id($id), name($name), sourceBlacklist(".print_r($sourceBlacklist,true)."), targetBlacklist(".print_r($targetBlacklist,true).")");
     	$this->_id=$id;
 		$this->_name=$name;
 		$this->_sourceBlacklist=$sourceBlacklist;

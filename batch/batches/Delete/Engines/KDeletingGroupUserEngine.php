@@ -8,18 +8,18 @@ class KDeletingGroupUserEngine extends KDeletingEngine
 	/* (non-PHPdoc)
 	 * @see KDeletingEngine::delete()
 	 */
-	protected function delete(KalturaFilter $filter)
+	protected function delete(BorhanFilter $filter)
 	{
 		return $this->deleteGroupUser($filter);
 	}
 	
 	/**
-	 * @param KalturaGroupUserFilter $filter The filter should return the list of groupUsers users that need to be deleted
+	 * @param BorhanGroupUserFilter $filter The filter should return the list of groupUsers users that need to be deleted
 	 * @return int the number of deleted groupUsers
 	 */
-	protected function deleteGroupUser(KalturaGroupUserFilter $filter)
+	protected function deleteGroupUser(BorhanGroupUserFilter $filter)
 	{
-		$filter->orderBy = KalturaGroupUserOrderBy::CREATED_AT_ASC;
+		$filter->orderBy = BorhanGroupUserOrderBy::CREATED_AT_ASC;
 		
 		$groupUsersList = KBatchBase::$kClient->groupUser->listAction($filter, $this->pager);
 		if(!count($groupUsersList->objects))
@@ -28,7 +28,7 @@ class KDeletingGroupUserEngine extends KDeletingEngine
 		KBatchBase::$kClient->startMultiRequest();
 		foreach($groupUsersList->objects as $groupUser)
 		{
-			/* @var $groupUser KalturaGroupUser */
+			/* @var $groupUser BorhanGroupUser */
 			KBatchBase::$kClient->groupUser->delete($groupUser->userId, $groupUser->groupId);
 		}
 		$results = KBatchBase::$kClient->doMultiRequest();

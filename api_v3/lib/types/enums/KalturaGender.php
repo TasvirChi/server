@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaGender extends KalturaEnum
+class BorhanGender extends BorhanEnum
 {
 	const UNKNOWN = 0;
 	const MALE = 1;

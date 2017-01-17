@@ -3,7 +3,7 @@
 function addRow($kuser, $even_row )
 {
 	
-	$link = '/index.php/mykaltura/viewprofile?screenname=' .$kuser['screenname'];
+	$link = '/index.php/myborhan/viewprofile?screenname=' .$kuser['screenname'];
 	
 	$s = '<tr ' . ( $even_row ? 'class="even" ' : '' ). '>'.
 	 	'<td class="imgHolder"><a href="'.$link.'"><img src="'.$kuser['image'].'" alt="'.$kuser['screenname'].'" /></a></td>'.
@@ -53,7 +53,7 @@ jQuery(document).ready(function(){
 }); // end document ready
 
 </script>
-	<div class="mykaltura_viewAll mykaltura_media">
+	<div class="myborhan_viewAll myborhan_media">
 		<div class="content">
 			<div class="top">
 				<div class="clearfix" style="margin:10px 0;">

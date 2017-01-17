@@ -2,7 +2,7 @@
 /**
  * @package plugins.businessProcessNotification
  */
-class BusinessProcessNotificationPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaPending, IKalturaObjectLoader, IKalturaEnumerator, IKalturaServices, IKalturaApplicationPartialView, IKalturaAdminConsolePages, IKalturaEventConsumers, IKalturaApplicationTranslations
+class BusinessProcessNotificationPlugin extends BorhanPlugin implements IBorhanVersion, IBorhanPending, IBorhanObjectLoader, IBorhanEnumerator, IBorhanServices, IBorhanApplicationPartialView, IBorhanAdminConsolePages, IBorhanEventConsumers, IBorhanApplicationTranslations
 {
 	const PLUGIN_NAME = 'businessProcessNotification';
 	const PLUGIN_VERSION_MAJOR = 1;
@@ -17,7 +17,7 @@ class BusinessProcessNotificationPlugin extends KalturaPlugin implements IKaltur
 	const BUSINESS_PROCESS_NOTIFICATION_FLOW_MANAGER = 'kBusinessProcessNotificationFlowManager';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -25,11 +25,11 @@ class BusinessProcessNotificationPlugin extends KalturaPlugin implements IKaltur
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaVersion::getVersion()
+	 * @see IBorhanVersion::getVersion()
 	 */
 	public static function getVersion()
 	{
-		return new KalturaVersion(
+		return new BorhanVersion(
 			self::PLUGIN_VERSION_MAJOR,
 			self::PLUGIN_VERSION_MINOR,
 			self::PLUGIN_VERSION_BUILD
@@ -37,7 +37,7 @@ class BusinessProcessNotificationPlugin extends KalturaPlugin implements IKaltur
 	}
 			
 	/* (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	 */
 	public static function getEventConsumers()
 	{
@@ -45,7 +45,7 @@ class BusinessProcessNotificationPlugin extends KalturaPlugin implements IKaltur
 	}
 			
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -59,7 +59,7 @@ class BusinessProcessNotificationPlugin extends KalturaPlugin implements IKaltur
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
@@ -79,18 +79,18 @@ class BusinessProcessNotificationPlugin extends KalturaPlugin implements IKaltur
 	}
 		
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
-		if($baseClass == 'KalturaEventNotificationDispatchJobData')
+		if($baseClass == 'BorhanEventNotificationDispatchJobData')
 		{
 			if(
 				$enumValue == self::getBusinessProcessNotificationTemplateTypeCoreValue(BusinessProcessNotificationTemplateType::BPM_START) || 
 				$enumValue == self::getBusinessProcessNotificationTemplateTypeCoreValue(BusinessProcessNotificationTemplateType::BPM_SIGNAL) || 
 				$enumValue == self::getBusinessProcessNotificationTemplateTypeCoreValue(BusinessProcessNotificationTemplateType::BPM_ABORT)
 			)
-				return 'KalturaBusinessProcessNotificationDispatchJobData';
+				return 'BorhanBusinessProcessNotificationDispatchJobData';
 		}
 		
 		if($baseClass == 'EventNotificationTemplate')
@@ -105,46 +105,46 @@ class BusinessProcessNotificationPlugin extends KalturaPlugin implements IKaltur
 				return 'BusinessProcessAbortNotificationTemplate';
 		}
 	
-		if($baseClass == 'KalturaEventNotificationTemplate')
+		if($baseClass == 'BorhanEventNotificationTemplate')
 		{
 			if($enumValue == self::getBusinessProcessNotificationTemplateTypeCoreValue(BusinessProcessNotificationTemplateType::BPM_START))
-				return 'KalturaBusinessProcessStartNotificationTemplate';
+				return 'BorhanBusinessProcessStartNotificationTemplate';
 				
 			if($enumValue == self::getBusinessProcessNotificationTemplateTypeCoreValue(BusinessProcessNotificationTemplateType::BPM_SIGNAL))
-				return 'KalturaBusinessProcessSignalNotificationTemplate';
+				return 'BorhanBusinessProcessSignalNotificationTemplate';
 				
 			if($enumValue == self::getBusinessProcessNotificationTemplateTypeCoreValue(BusinessProcessNotificationTemplateType::BPM_ABORT))
-				return 'KalturaBusinessProcessAbortNotificationTemplate';
+				return 'BorhanBusinessProcessAbortNotificationTemplate';
 		}
 	
 		if($baseClass == 'Form_EventNotificationTemplateConfiguration')
 		{
 			if(
-				$enumValue == Kaltura_Client_EventNotification_Enum_EventNotificationTemplateType::BPM_START || 
-				$enumValue == Kaltura_Client_EventNotification_Enum_EventNotificationTemplateType::BPM_SIGNAL || 
-				$enumValue == Kaltura_Client_EventNotification_Enum_EventNotificationTemplateType::BPM_ABORT
+				$enumValue == Borhan_Client_EventNotification_Enum_EventNotificationTemplateType::BPM_START || 
+				$enumValue == Borhan_Client_EventNotification_Enum_EventNotificationTemplateType::BPM_SIGNAL || 
+				$enumValue == Borhan_Client_EventNotification_Enum_EventNotificationTemplateType::BPM_ABORT
 			)
 				return 'Form_BusinessProcessNotificationTemplateConfiguration';
 		}
 	
-		if($baseClass == 'Kaltura_Client_EventNotification_Type_EventNotificationTemplate')
+		if($baseClass == 'Borhan_Client_EventNotification_Type_EventNotificationTemplate')
 		{
-			if($enumValue == Kaltura_Client_EventNotification_Enum_EventNotificationTemplateType::BPM_START)
-				return 'Kaltura_Client_BusinessProcessNotification_Type_BusinessProcessStartNotificationTemplate';
+			if($enumValue == Borhan_Client_EventNotification_Enum_EventNotificationTemplateType::BPM_START)
+				return 'Borhan_Client_BusinessProcessNotification_Type_BusinessProcessStartNotificationTemplate';
 				
-			if($enumValue == Kaltura_Client_EventNotification_Enum_EventNotificationTemplateType::BPM_SIGNAL)
-				return 'Kaltura_Client_BusinessProcessNotification_Type_BusinessProcessSignalNotificationTemplate';
+			if($enumValue == Borhan_Client_EventNotification_Enum_EventNotificationTemplateType::BPM_SIGNAL)
+				return 'Borhan_Client_BusinessProcessNotification_Type_BusinessProcessSignalNotificationTemplate';
 				
-			if($enumValue == Kaltura_Client_EventNotification_Enum_EventNotificationTemplateType::BPM_ABORT)
-				return 'Kaltura_Client_BusinessProcessNotification_Type_BusinessProcessAbortNotificationTemplate';
+			if($enumValue == Borhan_Client_EventNotification_Enum_EventNotificationTemplateType::BPM_ABORT)
+				return 'Borhan_Client_BusinessProcessNotification_Type_BusinessProcessAbortNotificationTemplate';
 		}
 	
 		if($baseClass == 'KDispatchEventNotificationEngine')
 		{
 			if(
-				$enumValue == KalturaEventNotificationTemplateType::BPM_START ||
-				$enumValue == KalturaEventNotificationTemplateType::BPM_SIGNAL ||
-				$enumValue == KalturaEventNotificationTemplateType::BPM_ABORT
+				$enumValue == BorhanEventNotificationTemplateType::BPM_START ||
+				$enumValue == BorhanEventNotificationTemplateType::BPM_SIGNAL ||
+				$enumValue == BorhanEventNotificationTemplateType::BPM_ABORT
 			)
 				return 'KDispatchBusinessProcessNotificationEngine';
 		}
@@ -153,36 +153,36 @@ class BusinessProcessNotificationPlugin extends KalturaPlugin implements IKaltur
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn() 
 	{
-		$minVersion = new KalturaVersion(
+		$minVersion = new BorhanVersion(
 			self::EVENT_NOTIFICATION_PLUGIN_VERSION_MAJOR,
 			self::EVENT_NOTIFICATION_PLUGIN_VERSION_MINOR,
 			self::EVENT_NOTIFICATION_PLUGIN_VERSION_BUILD
 		);
-		$dependency = new KalturaDependency(self::EVENT_NOTIFICATION_PLUGIN_NAME, $minVersion);
+		$dependency = new BorhanDependency(self::EVENT_NOTIFICATION_PLUGIN_NAME, $minVersion);
 		
 		return array($dependency);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaApplicationPartialView::getApplicationPartialViews()
+	 * @see IBorhanApplicationPartialView::getApplicationPartialViews()
 	 */
 	public static function getApplicationPartialViews($controller, $action)
 	{
 		if($controller == 'plugin' && $action == 'EventNotificationTemplateConfigureAction')
 		{
 			return array(
-				new Kaltura_View_Helper_BusinessProcessNotificationTemplateConfigure(),
+				new Borhan_View_Helper_BusinessProcessNotificationTemplateConfigure(),
 			);
 		}
 	
 		if($controller == 'batch' && $action == 'entryInvestigation')
 		{
 			return array(
-				new Kaltura_View_Helper_EntryBusinessProcess(),
+				new Borhan_View_Helper_EntryBusinessProcess(),
 			);
 		}
 		
@@ -190,7 +190,7 @@ class BusinessProcessNotificationPlugin extends KalturaPlugin implements IKaltur
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaAdminConsolePages::getApplicationPages()
+	 * @see IBorhanAdminConsolePages::getApplicationPages()
 	 */
 	public static function getApplicationPages() 
 	{
@@ -204,7 +204,7 @@ class BusinessProcessNotificationPlugin extends KalturaPlugin implements IKaltur
 	 */
 	public static function getBusinessProcessNotificationTemplateTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('EventNotificationTemplateType', $value);
 	}
 	
@@ -213,11 +213,11 @@ class BusinessProcessNotificationPlugin extends KalturaPlugin implements IKaltur
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaServices::getServicesMap()
+	 * @see IBorhanServices::getServicesMap()
 	 */
 	public static function getServicesMap() 
 	{
@@ -228,7 +228,7 @@ class BusinessProcessNotificationPlugin extends KalturaPlugin implements IKaltur
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaApplicationTranslations::getTranslations()
+	 * @see IBorhanApplicationTranslations::getTranslations()
 	 */
 	public static function getTranslations($locale)
 	{

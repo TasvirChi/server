@@ -2,7 +2,7 @@
 /**
  * @package plugins.youTubeDistribution
  */
-class YouTubeDistributionPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaEnumerator, IKalturaPending, IKalturaObjectLoader, IKalturaContentDistributionProvider, IKalturaEventConsumers
+class YouTubeDistributionPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanEnumerator, IBorhanPending, IBorhanObjectLoader, IBorhanContentDistributionProvider, IBorhanEventConsumers
 {
 	const PLUGIN_NAME = 'youTubeDistribution';
 	const CONTENT_DSTRIBUTION_VERSION_MAJOR = 2;
@@ -20,12 +20,12 @@ class YouTubeDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	
 	public static function dependsOn()
 	{
-		$contentDistributionVersion = new KalturaVersion(
+		$contentDistributionVersion = new BorhanVersion(
 			self::CONTENT_DSTRIBUTION_VERSION_MAJOR,
 			self::CONTENT_DSTRIBUTION_VERSION_MINOR,
 			self::CONTENT_DSTRIBUTION_VERSION_BUILD);
 			
-		$dependency = new KalturaDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
+		$dependency = new BorhanDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
 		return array($dependency);
 	}
 	
@@ -61,7 +61,7 @@ class YouTubeDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::YOUTUBE)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::YOUTUBE)
 		{
 			if($baseClass == 'IDistributionEngineCloseDelete')
 				return new YouTubeDistributionEngineSelector();
@@ -84,14 +84,14 @@ class YouTubeDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 			if($baseClass == 'IDistributionEngineUpdate')
 				return new YouTubeDistributionEngineSelector();
 		
-			if($baseClass == 'KalturaDistributionProfile')
-				return new KalturaYouTubeDistributionProfile();
+			if($baseClass == 'BorhanDistributionProfile')
+				return new BorhanYouTubeDistributionProfile();
 		
-			if($baseClass == 'KalturaDistributionJobProviderData')
-				return new KalturaYouTubeDistributionJobProviderData();
+			if($baseClass == 'BorhanDistributionJobProviderData')
+				return new BorhanYouTubeDistributionJobProviderData();
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::YOUTUBE)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::YOUTUBE)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 			{
@@ -100,9 +100,9 @@ class YouTubeDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 			}
 		}
 		
-		if($baseClass == 'KalturaDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(YouTubeDistributionProviderType::YOUTUBE))
+		if($baseClass == 'BorhanDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(YouTubeDistributionProviderType::YOUTUBE))
 		{
-			$reflect = new ReflectionClass('KalturaYouTubeDistributionJobProviderData');
+			$reflect = new ReflectionClass('BorhanYouTubeDistributionJobProviderData');
 			return $reflect->newInstanceArgs($constructorArgs);
 		}
 	
@@ -112,8 +112,8 @@ class YouTubeDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 			return $reflect->newInstanceArgs($constructorArgs);
 		}
 	
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(YouTubeDistributionProviderType::YOUTUBE))
-			return new KalturaYouTubeDistributionProfile();
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(YouTubeDistributionProviderType::YOUTUBE))
+			return new BorhanYouTubeDistributionProfile();
 			
 		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(YouTubeDistributionProviderType::YOUTUBE))
 			return new YouTubeDistributionProfile();
@@ -129,7 +129,7 @@ class YouTubeDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	public static function getObjectClass($baseClass, $enumValue)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::YOUTUBE)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::YOUTUBE)
 		{
 			if($baseClass == 'IDistributionEngineCloseDelete')
 				return 'YouTubeDistributionEngineSelector';
@@ -152,30 +152,30 @@ class YouTubeDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 			if($baseClass == 'IDistributionEngineUpdate')
 				return 'YouTubeDistributionEngineSelector';
 		
-			if($baseClass == 'KalturaDistributionProfile')
-				return 'KalturaYouTubeDistributionProfile';
+			if($baseClass == 'BorhanDistributionProfile')
+				return 'BorhanYouTubeDistributionProfile';
 		
-			if($baseClass == 'KalturaDistributionJobProviderData')
-				return 'KalturaYouTubeDistributionJobProviderData';
+			if($baseClass == 'BorhanDistributionJobProviderData')
+				return 'BorhanYouTubeDistributionJobProviderData';
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::YOUTUBE)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::YOUTUBE)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 				return 'Form_YouTubeProfileConfiguration';
 				
-			if($baseClass == 'Kaltura_Client_ContentDistribution_Type_DistributionProfile')
-				return 'Kaltura_Client_YouTubeDistribution_Type_YouTubeDistributionProfile';
+			if($baseClass == 'Borhan_Client_ContentDistribution_Type_DistributionProfile')
+				return 'Borhan_Client_YouTubeDistribution_Type_YouTubeDistributionProfile';
 		}
 		
-		if($baseClass == 'KalturaDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(YouTubeDistributionProviderType::YOUTUBE))
-			return 'KalturaYouTubeDistributionJobProviderData';
+		if($baseClass == 'BorhanDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(YouTubeDistributionProviderType::YOUTUBE))
+			return 'BorhanYouTubeDistributionJobProviderData';
 	
 		if($baseClass == 'kDistributionJobProviderData' && $enumValue == self::getApiValue(YouTubeDistributionProviderType::YOUTUBE))
 			return 'kYouTubeDistributionJobProviderData';
 	
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(YouTubeDistributionProviderType::YOUTUBE))
-			return 'KalturaYouTubeDistributionProfile';
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(YouTubeDistributionProviderType::YOUTUBE))
+			return 'BorhanYouTubeDistributionProfile';
 			
 		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(YouTubeDistributionProviderType::YOUTUBE))
 			return 'YouTubeDistributionProfile';
@@ -196,11 +196,11 @@ class YouTubeDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	/**
 	 * Return an API distribution provider instance
 	 * 
-	 * @return KalturaDistributionProvider
+	 * @return BorhanDistributionProvider
 	 */
-	public static function getKalturaProvider()
+	public static function getBorhanProvider()
 	{
-		$distributionProvider = new KalturaYouTubeDistributionProvider();
+		$distributionProvider = new BorhanYouTubeDistributionProvider();
 		$distributionProvider->fromObject(self::getProvider());
 		return $distributionProvider;
 	}
@@ -247,7 +247,7 @@ class YouTubeDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	 */
 	public static function getDistributionProviderTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('DistributionProviderType', $value);
 	}
 	
@@ -256,6 +256,6 @@ class YouTubeDistributionPlugin extends KalturaPlugin implements IKalturaPermiss
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 }

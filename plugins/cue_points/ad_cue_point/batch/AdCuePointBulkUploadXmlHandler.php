@@ -27,7 +27,7 @@ class AdCuePointBulkUploadXmlHandler extends CuePointBulkUploadXmlHandler
 	 */
 	protected function getNewInstance()
 	{
-		return new KalturaAdCuePoint();
+		return new BorhanAdCuePoint();
 	}
 	
 	/* (non-PHPdoc)
@@ -39,7 +39,7 @@ class AdCuePointBulkUploadXmlHandler extends CuePointBulkUploadXmlHandler
 			return null;
 			
 		$cuePoint = parent::parseCuePoint($scene);
-		if(!($cuePoint instanceof KalturaAdCuePoint))
+		if(!($cuePoint instanceof BorhanAdCuePoint))
 			return null;
 		
 		if(isset($scene->sceneEndTime))
@@ -57,9 +57,9 @@ class AdCuePointBulkUploadXmlHandler extends CuePointBulkUploadXmlHandler
 	
 	/**
 	 * Removes all non updatble fields from the cuepoint
-	 * @param KalturaCuePoint $entry
+	 * @param BorhanCuePoint $entry
 	 */
-	protected function removeNonUpdatbleFields(KalturaCuePoint $cuePoint)
+	protected function removeNonUpdatbleFields(BorhanCuePoint $cuePoint)
 	{
 		$retCuePoint = clone $cuePoint;
 		$retCuePoint->protocolType = null;

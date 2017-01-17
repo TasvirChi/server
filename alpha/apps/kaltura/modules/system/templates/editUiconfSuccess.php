@@ -124,13 +124,13 @@ function onCreationModeChange()
 	}
 }
 
-function isKdp3Swf() {
-	return (jQuery("input[@name=swfUrlDisabled]").val().indexOf('kdp3.swf') != -1);
+function isBdp3Swf() {
+	return (jQuery("input[@name=swfUrlDisabled]").val().indexOf('bdp3.swf') != -1);
 }
 
 jQuery(function () {
-	if (isKdp3Swf()) // because some of the kdp3 uiconfs are marked as kdp
-		jQuery("select[@name=type]").val("<?php echo uiConf::UI_CONF_TYPE_KDP3; ?>");
+	if (isBdp3Swf()) // because some of the bdp3 uiconfs are marked as bdp
+		jQuery("select[@name=type]").val("<?php echo uiConf::UI_CONF_TYPE_BDP3; ?>");
 	
 	// bind callbacks
 	jQuery("select[@name=type]").change(updateSwfVersions);
@@ -149,7 +149,7 @@ jQuery(function () {
 		return false;
 	});
 	jQuery("#editUiConf").click(function (e) {
-		window.location.href = "<?php echo url_for("system/kcwUiConfEditor?id=".$uiConf->getId()); ?>";
+		window.location.href = "<?php echo url_for("system/bcwUiConfEditor?id=".$uiConf->getId()); ?>";
 		return false;
 	});
 	jQuery("#previewUiConf").click(function (e) {
@@ -162,7 +162,7 @@ jQuery(function () {
 	onCreationModeChange();
 });
 </script>
-<div class="mykaltura_viewAll mykaltura_media" style="width: 80%;">
+<div class="myborhan_viewAll myborhan_media" style="width: 80%;">
 	<div class="content">
 		<div class="middle">
 			<div id="wraper">
@@ -252,7 +252,7 @@ jQuery(function () {
 						<select name="displayInSearch">
 							<option value="0" <?php echo ($uiConf->getDisplayInSearch() == 0) ? "selected=\"selected\"" : "" ?>>None</option>
 							<option value="1" <?php echo ($uiConf->getDisplayInSearch() == 1) ? "selected=\"selected\"" : "" ?>>Partner Only</option>
-							<option value="2" <?php echo ($uiConf->getDisplayInSearch() == 2) ? "selected=\"selected\"" : "" ?>>Kaltura Network</option>
+							<option value="2" <?php echo ($uiConf->getDisplayInSearch() == 2) ? "selected=\"selected\"" : "" ?>>Borhan Network</option>
 						</select>
 					</div>
 					<div class="item">

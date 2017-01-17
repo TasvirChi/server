@@ -3,12 +3,12 @@
  * @package plugins.metadata
  *  @subpackage model.enum
  */
-class MetadataObjectFeatureType implements IKalturaPluginEnum, ObjectFeatureType
+class MetadataObjectFeatureType implements IBorhanPluginEnum, ObjectFeatureType
 {
 	const CUSTOM_DATA = 'CustomData';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPluginEnum::getAdditionalValues()
+	 * @see IBorhanPluginEnum::getAdditionalValues()
 	 */
 	public static function getAdditionalValues() 
 	{
@@ -20,7 +20,7 @@ class MetadataObjectFeatureType implements IKalturaPluginEnum, ObjectFeatureType
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPluginEnum::getAdditionalDescriptions()
+	 * @see IBorhanPluginEnum::getAdditionalDescriptions()
 	 */
 	public static function getAdditionalDescriptions() {
 		return array();

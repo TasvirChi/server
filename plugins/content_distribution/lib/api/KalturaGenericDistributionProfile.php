@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaGenericDistributionProfile extends KalturaDistributionProfile
+class BorhanGenericDistributionProfile extends BorhanDistributionProfile
 {
 	/**
 	 * @insertonly
@@ -12,22 +12,22 @@ class KalturaGenericDistributionProfile extends KalturaDistributionProfile
 	public $genericProviderId;
 	
 	/**
-	 * @var KalturaGenericDistributionProfileAction
+	 * @var BorhanGenericDistributionProfileAction
 	 */
 	public $submitAction;
 	
 	/**
-	 * @var KalturaGenericDistributionProfileAction
+	 * @var BorhanGenericDistributionProfileAction
 	 */
 	public $updateAction;	
 	
 	/**
-	 * @var KalturaGenericDistributionProfileAction
+	 * @var BorhanGenericDistributionProfileAction
 	 */
 	public $deleteAction;	
 	
 	/**
-	 * @var KalturaGenericDistributionProfileAction
+	 * @var BorhanGenericDistributionProfileAction
 	 */
 	public $fetchReportAction;
 	
@@ -75,7 +75,7 @@ class KalturaGenericDistributionProfile extends KalturaDistributionProfile
 			if(!$this->$actionAttribute)
 				continue;
 				
-			$typeReflector = KalturaTypeReflectorCacher::get(get_class($this->$actionAttribute));
+			$typeReflector = BorhanTypeReflectorCacher::get(get_class($this->$actionAttribute));
 			
 			foreach ( $this->$actionAttribute->getMapBetweenObjects() as $this_prop => $object_prop )
 			{
@@ -88,7 +88,7 @@ class KalturaGenericDistributionProfile extends KalturaDistributionProfile
 					$propertyInfo = $typeReflector->getProperty($this_prop);
 					if (!$propertyInfo)
 					{
-			            KalturaLog::alert("property [$this_prop] was not found on object class [" . get_class($object) . "]");
+			            BorhanLog::alert("property [$this_prop] was not found on object class [" . get_class($object) . "]");
 					}
 					else if ($propertyInfo->isDynamicEnum())
 					{
@@ -103,7 +103,7 @@ class KalturaGenericDistributionProfile extends KalturaDistributionProfile
 						if (is_callable($setter_callback))
 					 	    call_user_func_array($setter_callback, array($value, $action));
 				 	    else 
-			            	KalturaLog::alert("setter for property [$object_prop] was not found on object class [" . get_class($object) . "]");
+			            	BorhanLog::alert("setter for property [$object_prop] was not found on object class [" . get_class($object) . "]");
 					}
 				}
 			}
@@ -115,7 +115,7 @@ class KalturaGenericDistributionProfile extends KalturaDistributionProfile
 		return $object;		
 	}
 
-	public function doFromObject($object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($object, $responseProfile);
 		
@@ -127,9 +127,9 @@ class KalturaGenericDistributionProfile extends KalturaDistributionProfile
 			$actionAttribute = "{$action}Action";
 			
 			if(!$this->$actionAttribute)
-				$this->$actionAttribute = new KalturaGenericDistributionProfileAction();
+				$this->$actionAttribute = new BorhanGenericDistributionProfileAction();
 				
-			$reflector = KalturaTypeReflectorCacher::get(get_class($this->$actionAttribute));
+			$reflector = BorhanTypeReflectorCacher::get(get_class($this->$actionAttribute));
 			$properties = $reflector->getProperties();
 			
 			foreach ( $this->$actionAttribute->getMapBetweenObjects() as $this_prop => $object_prop )
@@ -155,7 +155,7 @@ class KalturaGenericDistributionProfile extends KalturaDistributionProfile
 	            }
 	            else
 	            { 
-	            	KalturaLog::alert("getter for property [$object_prop] was not found on object class [" . get_class($object) . "]");
+	            	BorhanLog::alert("getter for property [$object_prop] was not found on object class [" . get_class($object) . "]");
 	            }
 			}
 		}
@@ -167,7 +167,7 @@ class KalturaGenericDistributionProfile extends KalturaDistributionProfile
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert()
+	 * @see BorhanObject::validateForInsert()
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{

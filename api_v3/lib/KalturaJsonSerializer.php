@@ -3,7 +3,7 @@
  * @package api
  * @subpackage v3
  */
-class KalturaJsonSerializer extends KalturaSerializer
+class BorhanJsonSerializer extends BorhanSerializer
 {	
 	public function setHttpHeaders()
 	{
@@ -38,7 +38,7 @@ class KalturaJsonSerializer extends KalturaSerializer
 			}
 		}
 		
-		if(is_object($object) && $object instanceof KalturaObject)
+		if(is_object($object) && $object instanceof BorhanObject)
 		{
 			$array['objectType'] = get_class($object);
 		}

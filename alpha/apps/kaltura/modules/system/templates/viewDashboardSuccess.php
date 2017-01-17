@@ -1,4 +1,4 @@
-<?php $sf_context->getResponse()->setTitle("Kaltura - Dashboard")?>
+<?php $sf_context->getResponse()->setTitle("Borhan - Dashboard")?>
 
 <?php 
 
@@ -15,7 +15,7 @@ function retrieveSubject( $type, $id )
 
 function returnUserLink( $username )
 {
-	return "<a href='/index.php/mykaltura/viewprofile?screenname=".$username."'>".$username."</a>";
+	return "<a href='/index.php/myborhan/viewprofile?screenname=".$username."'>".$username."</a>";
 }
 
 function returnEntryLink( $kshow_id, $entry_id )
@@ -43,7 +43,7 @@ function returnEntryThumbnailLink( $kshow_id, $path, $entry_id, $media_type )
 
 function returnUserThumbnailLink( $path, $screenname )
 {
-	return "<a href='/index.php/mykaltura/viewprofile?screenname=".$screenname."'><img width='50' src='".$path."' /></a>";
+	return "<a href='/index.php/myborhan/viewprofile?screenname=".$screenname."'><img width='50' src='".$path."' /></a>";
 }
 
 function getEntryTypeText( $type )
@@ -64,7 +64,7 @@ function getEntryTypeText( $type )
 ?>
 <a href="/index.php/system/login?exit=true">logout</a><br>
 <?php
-echo '<h1>Kaltura System Dashboard</h1><p>Updated: '.date("D M j G:i:s T Y").'</p>'; 
+echo '<h1>Borhan System Dashboard</h1><p>Updated: '.date("D M j G:i:s T Y").'</p>'; 
 
 echo '<h2>Summary</h2>';
 echo '<TABLE border="1" cellspacing="2" cellpadding="10" bgcolor="#efefef" >';
@@ -105,7 +105,7 @@ echo '<TABLE border="1" cellspacing="2" cellpadding="10">';
 if( !$entries ) echo '<h3>No entries found</h3>';
 	else 
 	{
-	echo '<TR><TD>ID</TD><TD>Thumbnail</TD><TD>Created</TD><TD>Contributor</TD><TD>Media Type</TD><TD >Name</TD><TD width="40%">Part of kaltura</TD></TR>';
+	echo '<TR><TD>ID</TD><TD>Thumbnail</TD><TD>Created</TD><TD>Contributor</TD><TD>Media Type</TD><TD >Name</TD><TD width="40%">Part of borhan</TD></TR>';
 		foreach ( $entries as $entry )
 		{
 			$kshow = $entry->getkshow();

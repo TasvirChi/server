@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaContextType extends KalturaDynamicEnum implements ContextType
+class BorhanContextType extends BorhanDynamicEnum implements ContextType
 {
 	public static function getEnumClass()
 	{

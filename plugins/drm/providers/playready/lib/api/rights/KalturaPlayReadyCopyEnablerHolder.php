@@ -3,17 +3,17 @@
  * @package plugins.playReady
  * @subpackage api.objects
  */
-class KalturaPlayReadyCopyEnablerHolder extends KalturaObject
+class BorhanPlayReadyCopyEnablerHolder extends BorhanObject
 {
 	/**
 	 * The type of the copy enabler
 	 * 
-	 * @var KalturaPlayReadyCopyEnablerType
+	 * @var BorhanPlayReadyCopyEnablerType
 	 */
 	public $type;
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

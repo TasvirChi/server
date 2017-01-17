@@ -18,7 +18,7 @@ if (!file_exists($xsltFilePath)) {
 
 require_once(dirname(__FILE__).'/../bootstrap.php');
 
-KalturaPluginManager::addPlugin('MetadataPlugin');
+BorhanPluginManager::addPlugin('MetadataPlugin');
 $dbMetadataProfile = MetadataProfilePeer::retrieveById($metadataProfileId);
 if (!$dbMetadataProfile) {
     die('ERROR - Cannot find metadata profile with id ['.$metadataProfileId.']'.PHP_EOL);

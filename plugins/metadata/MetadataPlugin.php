@@ -3,7 +3,7 @@
  * Enable adding custom metadata objects that releate to core objects
  * @package plugins.metadata
  */
-class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaPermissions, IKalturaServices, IKalturaEventConsumers, IKalturaObjectLoader, IKalturaBulkUploadHandler, IKalturaSearchDataContributor, IKalturaSchemaContributor, IKalturaSphinxConfiguration, IKalturaEnumerator, IKalturaObjectValidator
+class MetadataPlugin extends BorhanPlugin implements IBorhanVersion, IBorhanPermissions, IBorhanServices, IBorhanEventConsumers, IBorhanObjectLoader, IBorhanBulkUploadHandler, IBorhanSearchDataContributor, IBorhanSchemaContributor, IBorhanSphinxConfiguration, IBorhanEnumerator, IBorhanObjectValidator
 {
 
 	const SPHINX_DEFAULT_NUMBER_OF_DATE_FIELDS = 10;
@@ -34,21 +34,21 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 	const BULK_UPLOAD_DATE_FORMAT = '%Y-%m-%dT%H:%i:%s';
 
 	/* (non-PHPdoc)
-	 * @see KalturaPlugin::getInstance()
+	 * @see BorhanPlugin::getInstance()
 	 */
 	public function getInstance($interface)
 	{
 		if($this instanceof $interface)
 			return $this;
 			
-		if($interface == 'IKalturaMrssContributor')
+		if($interface == 'IBorhanMrssContributor')
 			return kMetadataMrssManager::get();
 			
 		return null;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -56,11 +56,11 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaVersion::getVersion()
+	 * @see IBorhanVersion::getVersion()
 	 */
 	public static function getVersion()
 	{
-		return new KalturaVersion(
+		return new BorhanVersion(
 			self::PLUGIN_VERSION_MAJOR,
 			self::PLUGIN_VERSION_MINOR,
 			self::PLUGIN_VERSION_BUILD
@@ -68,7 +68,7 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissions::isAllowedPartner()
+	 * @see IBorhanPermissions::isAllowedPartner()
 	 */
 	public static function isAllowedPartner($partnerId)
 	{
@@ -83,7 +83,7 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -112,7 +112,7 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 	 */
 	public static function getConditionTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('ConditionType', $value);
 	}
 	
@@ -122,7 +122,7 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 	 */
 	public static function getObjectFeaturetTypeCoreValue ($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('ObjectFeatureType', $value);
 	}
 	
@@ -131,11 +131,11 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaServices::getServicesMap()
+	 * @see IBorhanServices::getServicesMap()
 	 */
 	public static function getServicesMap()
 	{
@@ -148,7 +148,7 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	 */
 	public static function getEventConsumers()
 	{
@@ -161,7 +161,7 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
@@ -189,61 +189,61 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 		{
 			switch($enumValue)
 			{
-				case KalturaBatchJobType::METADATA_IMPORT:
+				case BorhanBatchJobType::METADATA_IMPORT:
 					return new kImportJobData();
 					
-				case KalturaBatchJobType::METADATA_TRANSFORM:
+				case BorhanBatchJobType::METADATA_TRANSFORM:
 					return new kTransformMetadataJobData();
 			}
 		}
 	
-		if($baseClass == 'KalturaJobData')
+		if($baseClass == 'BorhanJobData')
 		{
 			switch($enumValue)
 			{
-				case KalturaBatchJobType::METADATA_IMPORT:
-					return new KalturaImportJobData();
+				case BorhanBatchJobType::METADATA_IMPORT:
+					return new BorhanImportJobData();
 					
-				case KalturaBatchJobType::METADATA_TRANSFORM:
-					return new KalturaTransformMetadataJobData();
+				case BorhanBatchJobType::METADATA_TRANSFORM:
+					return new BorhanTransformMetadataJobData();
 			}
 		}
 	
-		if($baseClass == 'KalturaCondition')
+		if($baseClass == 'BorhanCondition')
 		{
 			if($enumValue == MetadataPlugin::getConditionTypeCoreValue(MetadataConditionType::METADATA_FIELD_COMPARE))
-				return new KalturaCompareMetadataCondition();
+				return new BorhanCompareMetadataCondition();
 				
 			if($enumValue == MetadataPlugin::getConditionTypeCoreValue(MetadataConditionType::METADATA_FIELD_MATCH))
-				return new KalturaMatchMetadataCondition();
+				return new BorhanMatchMetadataCondition();
 				
 			if($enumValue == MetadataPlugin::getConditionTypeCoreValue(MetadataConditionType::METADATA_FIELD_CHANGED))
-				return new KalturaMetadataFieldChangedCondition();
+				return new BorhanMetadataFieldChangedCondition();
 		}
 
-		if ($baseClass == 'KalturaFilter')
+		if ($baseClass == 'BorhanFilter')
 		{
 			if ($enumValue == 'MetadataFilter')
-				return new KalturaMetadataFilter();
+				return new BorhanMetadataFilter();
 		}
 
 		if($baseClass == 'KIndexingEngine')
 		{
-			if ($enumValue == KalturaIndexObjectType::METADATA)
+			if ($enumValue == BorhanIndexObjectType::METADATA)
 				return new KIndexingMetadataEngine();
 		}
 
-		if($baseClass == 'KalturaResponseProfileMapping')
+		if($baseClass == 'BorhanResponseProfileMapping')
 		{
 			if ($enumValue == 'kMetadataResponseProfileMapping')
-				return new KalturaMetadataResponseProfileMapping();
+				return new BorhanMetadataResponseProfileMapping();
 		}
 		
 		return null;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
@@ -263,23 +263,23 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 		{
 			switch($enumValue)
 			{
-				case KalturaBatchJobType::METADATA_IMPORT:
+				case BorhanBatchJobType::METADATA_IMPORT:
 					return 'kImportJobData';
 					
-				case KalturaBatchJobType::METADATA_TRANSFORM:
+				case BorhanBatchJobType::METADATA_TRANSFORM:
 					return 'kTransformMetadataJobData';
 			}
 		}
 	
-		if($baseClass == 'KalturaJobData')
+		if($baseClass == 'BorhanJobData')
 		{
 			switch($enumValue)
 			{
-				case KalturaBatchJobType::METADATA_IMPORT:
-					return 'KalturaImportJobData';
+				case BorhanBatchJobType::METADATA_IMPORT:
+					return 'BorhanImportJobData';
 					
-				case KalturaBatchJobType::METADATA_TRANSFORM:
-					return 'KalturaTransformMetadataJobData';
+				case BorhanBatchJobType::METADATA_TRANSFORM:
+					return 'BorhanTransformMetadataJobData';
 			}
 		}
 		
@@ -376,20 +376,20 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 		$ret = gmmktime($hour, $minute, $second, $month, $day, $year);
 		if($ret)
 		{
-			KalturaLog::info("Formated Date [$ret] " . date('Y-m-d\TH:i:s', $ret));
+			BorhanLog::info("Formated Date [$ret] " . date('Y-m-d\TH:i:s', $ret));
 			return $ret;
 		}
 			
-		KalturaLog::info("Formated Date [null]");
+		BorhanLog::info("Formated Date [null]");
 		return null;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadHandler::handleBulkUploadData()
+	 * @see IBorhanBulkUploadHandler::handleBulkUploadData()
 	 */
 	public static function handleBulkUploadData(BaseObject $object, array $data)
 	{
-		KalturaLog::info("Handle metadata for objectId ". $object->getId());
+		BorhanLog::info("Handle metadata for objectId ". $object->getId());
 			
 		if(!$object)
 			return;
@@ -417,7 +417,7 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 		if(!$metadataProfile)
 		{
 			$errorMessage = "Metadata profile [$metadataProfileId] not found";
-			KalturaLog::err($errorMessage);
+			BorhanLog::err($errorMessage);
 			self::addBulkUploadResultDescription($object, $object->getBulkUploadId(), $errorMessage);
 			return;
 		}
@@ -425,7 +425,7 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 		if ($metadataProfile->getObjectType() != kMetadataManager::getTypeNameFromObject($object))
 		{
 		    $errorMessage = "Metadata profile [$metadataProfileId] object type [". $metadataProfile->getObjectType() . "] is not compatible with object type [". kMetadataManager::getTypeNameFromObject($object) . "]";
-			KalturaLog::err($errorMessage);
+			BorhanLog::err($errorMessage);
 			self::addBulkUploadResultDescription($object, $object->getBulkUploadId(), $errorMessage);
 			return;
 		}
@@ -435,12 +435,12 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 		{
 			try{
 				$xmlData = file_get_contents($data[self::BULK_UPLOAD_COLUMN_URL]);
-				KalturaLog::info("Metadata downloaded [" . $data[self::BULK_UPLOAD_COLUMN_URL] . "]");
+				BorhanLog::info("Metadata downloaded [" . $data[self::BULK_UPLOAD_COLUMN_URL] . "]");
 			}
 			catch(Exception $e)
 			{
 				$errorMessage = "Download metadata[" . $data[self::BULK_UPLOAD_COLUMN_URL] . "] error: " . $e->getMessage();
-				KalturaLog::err($errorMessage);
+				BorhanLog::err($errorMessage);
 				self::addBulkUploadResultDescription($object, $object->getBulkUploadId(), $errorMessage);
 				$xmlData = null;
 			}
@@ -459,7 +459,7 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 			foreach($tmpMetadataProfileFields as $metadataProfileField)
 				$metadataProfileFields[$metadataProfileField->getKey()] = $metadataProfileField;
 			
-			KalturaLog::info("Found fields [" . count($metadataProfileFields) . "] for metadata profile [$metadataProfileId]");
+			BorhanLog::info("Found fields [" . count($metadataProfileFields) . "] for metadata profile [$metadataProfileId]");
 			$xml = new DOMDocument();
 			$dataFound = false;
 			
@@ -475,26 +475,26 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 				if(!isset($metadataProfileFields[$key]))
 				{
 					$errorMessage = "Field [$key] does not exist";
-					KalturaLog::err($errorMessage);
+					BorhanLog::err($errorMessage);
 					self::addBulkUploadResultDescription($object, $object->getBulkUploadId(), $errorMessage);
 					continue;
 				}
 				
 				$metadataProfileField = $metadataProfileFields[$key];
-				KalturaLog::info("Found field [" . $metadataProfileField->getXpath() . "] for value [$value]");
+				BorhanLog::info("Found field [" . $metadataProfileField->getXpath() . "] for value [$value]");
 				
 				$fieldValues = explode(self::BULK_UPLOAD_MULTI_VALUES_DELIMITER, $value);
 				foreach($fieldValues as $fieldValue)
 				{
 				    if ($fieldValue)
 				    {
-    					if($metadataProfileField->getType() == MetadataSearchFilter::KMC_FIELD_TYPE_DATE && !is_numeric($fieldValue))
+    					if($metadataProfileField->getType() == MetadataSearchFilter::BMC_FIELD_TYPE_DATE && !is_numeric($fieldValue))
     					{
     						$value = self::parseFormatedDate($fieldValue);
     						if(!$value || !strlen($value))
     						{
     							$errorMessage = "Could not parse date format [$fieldValue] for field [$key]";
-    							KalturaLog::err($errorMessage);
+    							BorhanLog::err($errorMessage);
     							self::addBulkUploadResultDescription($object, $object->getBulkUploadId(), $errorMessage);
     							continue;
     						}
@@ -502,10 +502,10 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
     						$fieldValue = $value;
     					}
     					
-    					if($metadataProfileField->getType() == MetadataSearchFilter::KMC_FIELD_TYPE_INT && !is_numeric($fieldValue))
+    					if($metadataProfileField->getType() == MetadataSearchFilter::BMC_FIELD_TYPE_INT && !is_numeric($fieldValue))
     					{
     						$errorMessage = "Could not parse int format [$fieldValue] for field [$key]";
-    						KalturaLog::err($errorMessage);
+    						BorhanLog::err($errorMessage);
     						self::addBulkUploadResultDescription($object, $object->getBulkUploadId(), $errorMessage);
     						continue;
     					}
@@ -536,7 +536,7 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 		
 		$dbMetadata = $dbMetadata = self::createOrFindMetadataObject($object, $metadataProfile);
 		
-		KalturaLog::info("Metadata [" . $dbMetadata->getId() . "] saved [$xmlData]");
+		BorhanLog::info("Metadata [" . $dbMetadata->getId() . "] saved [$xmlData]");
 		
 		$key = $dbMetadata->getSyncKey(Metadata::FILE_SYNC_METADATA_DATA);
 		kFileSyncUtils::file_put_contents($key, $xmlData);
@@ -565,7 +565,7 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 	            if (!$prefix || !$metadataProfileSystemName || !$metadataProfileFieldName)
 	            {
 	                $errorMessage = "Unexpected key structure. Expected metadata::ProfileSystemName::FieldSystemName.";
-                    KalturaLog::err($errorMessage);
+                    BorhanLog::err($errorMessage);
                     self::addBulkUploadResultDescription($object, $object->getBulkUploadId(), $errorMessage);
 				    continue;
 	            }
@@ -587,7 +587,7 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 	        if (!$metadataProfile)
 	        {
 	            $errorMessage = "Metadata profile with system name [$metadataProfileSystemName] could not be found.";
-                KalturaLog::err($errorMessage);
+                BorhanLog::err($errorMessage);
                 self::addBulkUploadResultDescription($object, $object->getBulkUploadId(), $errorMessage);
 				continue;
 	        }
@@ -595,7 +595,7 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 	        if ($metadataProfile->getObjectType() != kMetadataManager::getTypeNameFromObject($object))
 		    {
     		    $errorMessage = "Metadata profile [$metadataProfileSystemName] object type [". $metadataProfile->getObjectType() . "] is not compatible with object type [". kMetadataManager::getTypeNameFromObject($object) . "]";
-    			KalturaLog::err($errorMessage);
+    			BorhanLog::err($errorMessage);
     			self::addBulkUploadResultDescription($object, $object->getBulkUploadId(), $errorMessage);
     			continue;
 		    }
@@ -615,26 +615,26 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
                 if (!isset ($metadataProfileFields[$fieldSysName]))
                 {
                     $errorMessage = "Metadata profile field with system name [$fieldSysName] missing from metadata profile with id [$metadataProfileId]";
-                    KalturaLog::err($errorMessage);
+                    BorhanLog::err($errorMessage);
                     self::addBulkUploadResultDescription($object, $object->getBulkUploadId(), $errorMessage);
 					continue;
                 }
                 
                 $metadataProfileField = $metadataProfileFields[$fieldSysName];
-				KalturaLog::info("Found field [" . $metadataProfileField->getXpath() . "] for value [$fieldValue]");
+				BorhanLog::info("Found field [" . $metadataProfileField->getXpath() . "] for value [$fieldValue]");
 				
 				$fieldValues = explode(self::BULK_UPLOAD_MULTI_VALUES_DELIMITER, $fieldValue);
 				foreach($fieldValues as $fieldSingleValue)
 				{
 				    if ($fieldSingleValue)
 				    {
-    					if($metadataProfileField->getType() == MetadataSearchFilter::KMC_FIELD_TYPE_DATE && !is_numeric($fieldSingleValue))
+    					if($metadataProfileField->getType() == MetadataSearchFilter::BMC_FIELD_TYPE_DATE && !is_numeric($fieldSingleValue))
     					{
     						$valueAsDate = self::parseFormatedDate($fieldSingleValue);
     						if(!$valueAsDate || !strlen($valueAsDate))
     						{
     							$errorMessage = "Could not parse date format [$fieldValue] for field [$key]";
-    							KalturaLog::err($errorMessage);
+    							BorhanLog::err($errorMessage);
     							self::addBulkUploadResultDescription($object, $object->getBulkUploadId(), $errorMessage);
     							continue;
     						}
@@ -642,10 +642,10 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
     						$fieldSingleValue = $valueAsDate;
     					}
     					
-    					if($metadataProfileField->getType() == MetadataSearchFilter::KMC_FIELD_TYPE_INT && !is_numeric($fieldSingleValue))
+    					if($metadataProfileField->getType() == MetadataSearchFilter::BMC_FIELD_TYPE_INT && !is_numeric($fieldSingleValue))
     					{
     						$errorMessage = "Could not parse int format [$fieldSingleValue] for field [$key]";
-    						KalturaLog::err($errorMessage);
+    						BorhanLog::err($errorMessage);
     						self::addBulkUploadResultDescription($object, $object->getBulkUploadId(), $errorMessage);
     						continue;
     					}
@@ -676,7 +676,7 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
     		
     		$dbMetadata = self::createOrFindMetadataObject($object, $metadataProfile);
     		
-    		KalturaLog::info("Metadata [" . $dbMetadata->getId() . "] saved [$xmlData]");
+    		BorhanLog::info("Metadata [" . $dbMetadata->getId() . "] saved [$xmlData]");
     		
     		$key = $dbMetadata->getSyncKey(Metadata::FILE_SYNC_METADATA_DATA);
     		kFileSyncUtils::file_put_contents($key, $xmlData);
@@ -737,7 +737,7 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 		$bulkUploadResult = BulkUploadResultPeer::retrieveByObjectId($object->getId(), constant("BulkUploadObjectType::$objectType"), $bulkUploadId);
 		if(!$bulkUploadResult)
 		{
-			KalturaLog::err("Bulk upload results not found for object [{$object->getId()}]");
+			BorhanLog::err("Bulk upload results not found for object [{$object->getId()}]");
 			return;
 		}
 		
@@ -753,7 +753,7 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 	
 	protected static function addXpath(DOMDocument &$xml, $xPath, $value)
 	{
-		KalturaLog::info("add value [$value] to xPath [$xPath]");
+		BorhanLog::info("add value [$value] to xPath [$xPath]");
 		$xPaths = explode('/', $xPath);
 		$currentNode = $xml;
 		$currentXPath = '';
@@ -773,14 +773,14 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 				if($nodeList && $nodeList->length)
 				{
 					$currentNode = $nodeList->item(0);
-					KalturaLog::info("xPath [$xPath] already exists");
+					BorhanLog::info("xPath [$xPath] already exists");
 					continue;
 				}
 			}
 			
 			if(!preg_match('/\*\[\s*local-name\(\)\s*=\s*\'([^\']+)\'\s*\]/', $xPath, $matches))
 			{
-				KalturaLog::err("Xpath [$xPath] doesn't match");
+				BorhanLog::err("Xpath [$xPath] doesn't match");
 				return false;
 			}
 				
@@ -788,22 +788,22 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 			if($index + 1 == count($xPaths))
 			{
 				$value = htmlspecialchars($value,ENT_QUOTES,'UTF-8');
-				KalturaLog::info("Creating node [$nodeName] xPath [$xPath] with value [$value]");
+				BorhanLog::info("Creating node [$nodeName] xPath [$xPath] with value [$value]");
 				$valueNode = $xml->createElement($nodeName, $value);
 			}
 			else
 			{
-				KalturaLog::info("Creating node [$nodeName] xPath [$xPath]");
+				BorhanLog::info("Creating node [$nodeName] xPath [$xPath]");
 				$valueNode = $xml->createElement($nodeName);
 			}
-			KalturaLog::info("Appending node [$nodeName] to current node [$currentNode->localName]");
+			BorhanLog::info("Appending node [$nodeName] to current node [$currentNode->localName]");
 			$currentNode->appendChild($valueNode);
 			$currentNode = $valueNode;
 		}
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaSearchDataContributor::getSearchData()
+	 * @see IBorhanSearchDataContributor::getSearchData()
 	 */
 	public static function getSearchData(BaseObject $object)
 	{
@@ -841,7 +841,7 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 	}
 		
 	/* (non-PHPdoc)
-	 * @see IKalturaSphinxConfiguration::getSphinxSchema()
+	 * @see IBorhanSphinxConfiguration::getSphinxSchema()
 	 */
 	public static function getSphinxSchema()
 	{
@@ -849,7 +849,7 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaSchemaContributor::contributeToSchema()
+	 * @see IBorhanSchemaContributor::contributeToSchema()
 	 */
 	public static function contributeToSchema($type)
 	{
@@ -946,7 +946,7 @@ class MetadataPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaP
 	
 	public static function validateObject (BaseObject $object, $operation)
 	{
-	    if ($operation == IKalturaObjectValidator::OPERATION_COPY)
+	    if ($operation == IBorhanObjectValidator::OPERATION_COPY)
 	    {
     	    if ($object instanceof Partner)
     	    {

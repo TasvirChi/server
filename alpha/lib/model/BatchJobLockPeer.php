@@ -171,7 +171,7 @@ class BatchJobLockPeer extends BaseBatchJobLockPeer {
 	{
 		$batchJobLock = $batchJob->getBatchJobLock();
 		if($batchJobLock === null) {
-			KalturaLog::info("Lock object wasn't found for Batch Job " . $batchJob->getId());
+			BorhanLog::info("Lock object wasn't found for Batch Job " . $batchJob->getId());
 			return;
 		}
 		

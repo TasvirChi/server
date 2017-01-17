@@ -3,17 +3,17 @@
  * @package api
  * @subpackage objects
  */
-class KalturaFlavorAssetArray extends KalturaTypedArray
+class BorhanFlavorAssetArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaFlavorAssetArray();
+		$newArr = new BorhanFlavorAssetArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-		    $nObj = KalturaFlavorAsset::getInstance($obj, $responseProfile);
+		    $nObj = BorhanFlavorAsset::getInstance($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
 		
@@ -22,6 +22,6 @@ class KalturaFlavorAssetArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaFlavorAsset");	
+		parent::__construct("BorhanFlavorAsset");	
 	}
 }

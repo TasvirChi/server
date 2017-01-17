@@ -2,7 +2,7 @@
 /**
  * @package plugins.contentDistributionBulkUploadXml
  */
-class ContentDistributionBulkUploadXmlEnginePlugin extends KalturaPlugin implements IKalturaPending, IKalturaBulkUploadXmlHandler, IKalturaConfigurator
+class ContentDistributionBulkUploadXmlEnginePlugin extends BorhanPlugin implements IBorhanPending, IBorhanBulkUploadXmlHandler, IBorhanConfigurator
 {
 	const PLUGIN_NAME = 'contentDistributionBulkUploadXmlEngine';
 	
@@ -38,22 +38,22 @@ class ContentDistributionBulkUploadXmlEnginePlugin extends KalturaPlugin impleme
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$bulkUploadXmlVersion = new KalturaVersion(
+		$bulkUploadXmlVersion = new BorhanVersion(
 			self::BULK_UPLOAD_XML_VERSION_MAJOR,
 			self::BULK_UPLOAD_XML_VERSION_MINOR,
 			self::BULK_UPLOAD_XML_VERSION_BUILD);
 			
-		$contentDistributionVersion = new KalturaVersion(
+		$contentDistributionVersion = new BorhanVersion(
 			self::CONTENT_DSTRIBUTION_VERSION_MAJOR,
 			self::CONTENT_DSTRIBUTION_VERSION_MINOR,
 			self::CONTENT_DSTRIBUTION_VERSION_BUILD);
 			
-		$bulkUploadXmlDependency = new KalturaDependency(BulkUploadXmlPlugin::getPluginName(), $bulkUploadXmlVersion);
-		$contentDistributionDependency = new KalturaDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
+		$bulkUploadXmlDependency = new BorhanDependency(BulkUploadXmlPlugin::getPluginName(), $bulkUploadXmlVersion);
+		$contentDistributionDependency = new BorhanDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
 		
 		return array($bulkUploadXmlDependency, $contentDistributionDependency);
 	}
@@ -62,7 +62,7 @@ class ContentDistributionBulkUploadXmlEnginePlugin extends KalturaPlugin impleme
 	{
 		if(is_null($this->distributionProfilesNames))
 		{
-			$distributionPlugin = KalturaContentDistributionClientPlugin::get(KBatchBase::$kClient);
+			$distributionPlugin = BorhanContentDistributionClientPlugin::get(KBatchBase::$kClient);
 			$distributionProfileListResponse = $distributionPlugin->distributionProfile->listAction();
 			if(!is_array($distributionProfileListResponse->objects))
 				return null;
@@ -90,7 +90,7 @@ class ContentDistributionBulkUploadXmlEnginePlugin extends KalturaPlugin impleme
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::configureBulkUploadXmlHandler()
+	 * @see IBorhanBulkUploadXmlHandler::configureBulkUploadXmlHandler()
 	 */
 	public function configureBulkUploadXmlHandler(BulkUploadEngineXml $xmlBulkUploadEngine)
 	{
@@ -98,11 +98,11 @@ class ContentDistributionBulkUploadXmlEnginePlugin extends KalturaPlugin impleme
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::handleItemAdded()
+	 * @see IBorhanBulkUploadXmlHandler::handleItemAdded()
 	 */
-	public function handleItemAdded(KalturaObjectBase $object, SimpleXMLElement $item)
+	public function handleItemAdded(BorhanObjectBase $object, SimpleXMLElement $item)
 	{
-		if(!($object instanceof KalturaBaseEntry))
+		if(!($object instanceof BorhanBaseEntry))
 			return;
 			
 		if(empty($item->distributions))
@@ -124,20 +124,20 @@ class ContentDistributionBulkUploadXmlEnginePlugin extends KalturaPlugin impleme
 			$distributionProfileId = $this->getDistributionProfileId($distribution->distributionProfile, $distribution->distributionProvider);
 				
 		if(!$distributionProfileId)
-			throw new KalturaBatchException("Unable to retrieve distributionProfileId value", KalturaBatchJobAppErrors::BULK_MISSING_MANDATORY_PARAMETER);
+			throw new BorhanBatchException("Unable to retrieve distributionProfileId value", BorhanBatchJobAppErrors::BULK_MISSING_MANDATORY_PARAMETER);
 		
-		$distributionPlugin = KalturaContentDistributionClientPlugin::get(KBatchBase::$kClient);
+		$distributionPlugin = BorhanContentDistributionClientPlugin::get(KBatchBase::$kClient);
 		
-		$entryDistributionFilter = new KalturaEntryDistributionFilter();
+		$entryDistributionFilter = new BorhanEntryDistributionFilter();
 		$entryDistributionFilter->distributionProfileIdEqual = $distributionProfileId;
 		$entryDistributionFilter->entryIdEqual = $entryId;
 		
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageSize = 1;
 		
 		$entryDistributionResponse = $distributionPlugin->entryDistribution->listAction($entryDistributionFilter, $pager);
 		
-		$entryDistribution = new KalturaEntryDistribution();
+		$entryDistribution = new BorhanEntryDistribution();
 		$entryDistributionId = null;
 		if(is_array($entryDistributionResponse->objects) && count($entryDistributionResponse->objects) > 0)
 		{
@@ -169,7 +169,7 @@ class ContentDistributionBulkUploadXmlEnginePlugin extends KalturaPlugin impleme
 		if($entryDistributionId)
 		{
 			$updatedEntryDistribution = $distributionPlugin->entryDistribution->update($entryDistributionId, $entryDistribution);
-			if($submitWhenReady && $updatedEntryDistribution->dirtyStatus == KalturaEntryDistributionFlag::UPDATE_REQUIRED)
+			if($submitWhenReady && $updatedEntryDistribution->dirtyStatus == BorhanEntryDistributionFlag::UPDATE_REQUIRED)
 				$distributionPlugin->entryDistribution->submitUpdate($entryDistributionId);
 		}
 		else
@@ -180,23 +180,23 @@ class ContentDistributionBulkUploadXmlEnginePlugin extends KalturaPlugin impleme
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::handleItemUpdated()
+	 * @see IBorhanBulkUploadXmlHandler::handleItemUpdated()
 	 */
-	public function handleItemUpdated(KalturaObjectBase $object, SimpleXMLElement $item)
+	public function handleItemUpdated(BorhanObjectBase $object, SimpleXMLElement $item)
 	{
 		$this->handleItemAdded($object, $item);
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaBulkUploadXmlHandler::handleItemDeleted()
+	 * @see IBorhanBulkUploadXmlHandler::handleItemDeleted()
 	 */
-	public function handleItemDeleted(KalturaObjectBase $object, SimpleXMLElement $item)
+	public function handleItemDeleted(BorhanObjectBase $object, SimpleXMLElement $item)
 	{
 		// No handling required
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaConfigurator::getConfig()
+	 * @see IBorhanConfigurator::getConfig()
 	 */
 	public static function getConfig($configName)
 	{
@@ -207,7 +207,7 @@ class ContentDistributionBulkUploadXmlEnginePlugin extends KalturaPlugin impleme
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaConfigurator::getContainerName()
+	 * @see IBorhanConfigurator::getContainerName()
 	*/
 	public function getContainerName()
 	{

@@ -3,12 +3,12 @@
  * @package plugins.freewheelDistribution
  * @subpackage api.objects
  */
-class KalturaFreewheelDistributionJobProviderData extends KalturaDistributionJobProviderData
+class BorhanFreewheelDistributionJobProviderData extends BorhanDistributionJobProviderData
 {
 	/**
 	 * Demonstrate passing array of paths to the job
 	 * 
-	 * @var KalturaFreewheelDistributionAssetPathArray
+	 * @var BorhanFreewheelDistributionAssetPathArray
 	 */
 	public $videoAssetFilePaths;
 	
@@ -23,23 +23,23 @@ class KalturaFreewheelDistributionJobProviderData extends KalturaDistributionJob
 	/**
 	 * Called on the server side and enables you to populate the object with any data from the DB
 	 * 
-	 * @param KalturaDistributionJobData $distributionJobData
+	 * @param BorhanDistributionJobData $distributionJobData
 	 */
-	public function __construct(KalturaDistributionJobData $distributionJobData = null)
+	public function __construct(BorhanDistributionJobData $distributionJobData = null)
 	{
 		if(!$distributionJobData)
 			return;
 			
-		if(!($distributionJobData->distributionProfile instanceof KalturaFreewheelDistributionProfile))
+		if(!($distributionJobData->distributionProfile instanceof BorhanFreewheelDistributionProfile))
 			return;
 			
-		$this->videoAssetFilePaths = new KalturaFreewheelDistributionAssetPathArray();
+		$this->videoAssetFilePaths = new BorhanFreewheelDistributionAssetPathArray();
 		
 		// loads all the flavor assets that should be submitted to the remote destination site
 		$flavorAssets = assetPeer::retrieveByIds(explode(',', $distributionJobData->entryDistribution->flavorAssetIds));
 		foreach($flavorAssets as $flavorAsset)
 		{
-			$videoAssetFilePath = new KalturaFreewheelDistributionAssetPath();
+			$videoAssetFilePath = new BorhanFreewheelDistributionAssetPath();
 			$syncKey = $flavorAsset->getSyncKey(flavorAsset::FILE_SYNC_FLAVOR_ASSET_SUB_TYPE_ASSET);
 			$videoAssetFilePath->path = kFileSyncUtils::getLocalFilePathForKey($syncKey, false);
 			$this->videoAssetFilePaths[] = $videoAssetFilePath;
@@ -65,7 +65,7 @@ class KalturaFreewheelDistributionJobProviderData extends KalturaDistributionJob
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -73,7 +73,7 @@ class KalturaFreewheelDistributionJobProviderData extends KalturaDistributionJob
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($object = null, $skip = array())
 	{
@@ -92,18 +92,18 @@ class KalturaFreewheelDistributionJobProviderData extends KalturaDistributionJob
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject()
+	 * @see BorhanObject::fromObject()
 	 */
-	public function doFromObject($object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($object, $responseProfile);
 		$videoAssetFilePaths = $object->getVideoAssetFilePaths();
 		if($videoAssetFilePaths && is_array($videoAssetFilePaths))
 		{
-			$this->videoAssetFilePaths = new KalturaFreewheelDistributionAssetPathArray();
+			$this->videoAssetFilePaths = new BorhanFreewheelDistributionAssetPathArray();
 			foreach($videoAssetFilePaths as $assetFilePath)
 			{
-				$videoAssetFilePath = new KalturaFreewheelDistributionAssetPath();
+				$videoAssetFilePath = new BorhanFreewheelDistributionAssetPath();
 				$videoAssetFilePath->path = $assetFilePath;
 				$this->videoAssetFilePaths[] = $videoAssetFilePath;
 			}

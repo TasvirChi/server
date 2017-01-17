@@ -3,6 +3,6 @@
  * @package plugins.youtubeApiDistribution
  * @subpackage api.filters.enum
  */
-class KalturaYoutubeApiDistributionProviderOrderBy extends KalturaDistributionProviderOrderBy
+class BorhanYoutubeApiDistributionProviderOrderBy extends BorhanDistributionProviderOrderBy
 {
 }

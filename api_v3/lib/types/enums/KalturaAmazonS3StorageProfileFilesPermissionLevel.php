@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaAmazonS3StorageProfileFilesPermissionLevel extends KalturaStringEnum
+class BorhanAmazonS3StorageProfileFilesPermissionLevel extends BorhanStringEnum
 {
 	// ACL flags
 	const ACL_PRIVATE = "private";

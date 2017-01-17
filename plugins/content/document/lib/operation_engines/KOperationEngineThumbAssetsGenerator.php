@@ -37,7 +37,7 @@ class KOperationEngineThumbAssetsGenerator extends KOperationEngineDocument
 	{
 		if ( !$imagesList || count($imagesList)==0 )
 		{
-			KalturaLog::info('no slides, cannot generate thumb cue points');
+			BorhanLog::info('no slides, cannot generate thumb cue points');
 			return;
 		}
 
@@ -45,7 +45,7 @@ class KOperationEngineThumbAssetsGenerator extends KOperationEngineDocument
 		$entry = KBatchBase::$kClient->baseEntry->get($this->job->entryId);
 		KBatchBase::unimpersonate();
 		if ( !$entry || !$entry->parentEntryId ) {
-			KalturaLog::info('no parentEntryId, cannot generate thumb cue points');
+			BorhanLog::info('no parentEntryId, cannot generate thumb cue points');
 			return;
 		}
 
@@ -64,20 +64,20 @@ class KOperationEngineThumbAssetsGenerator extends KOperationEngineDocument
 		$index = 0;
 		$sortIndex = 0;
 		foreach ($images as $image) {
-			$thumbCuePoint = new KalturaThumbCuePoint();
+			$thumbCuePoint = new BorhanThumbCuePoint();
 			$thumbCuePoint->entryId = $cpEntryId;
 			$thumbCuePoint->partnerSortValue = $pageIndex*self::MAX_MULTI_REQUEST_INDEX+$sortIndex;
 			$sortIndex++;
 			KBatchBase::$kClient->cuePoint->add( $thumbCuePoint ) ;
 			$index++;
 
-			$thumbAsset = new KalturaTimedThumbAsset();
+			$thumbAsset = new BorhanTimedThumbAsset();
 			$thumbAsset->tags = $this->job->entryId;
 			$thumbAsset->cuePointId = "{" . $index . ":result:id}";
 			KBatchBase::$kClient->thumbAsset->add( $cpEntryId, $thumbAsset) ;
 			$index++;
 
-			$resource = new KalturaServerFileResource();
+			$resource = new BorhanServerFileResource();
 			$resource->localFilePath = $this->realInFilePath . DIRECTORY_SEPARATOR . $image;
 			KBatchBase::$kClient->thumbAsset->setContent("{" . $index . ":result:id}", $resource);
 			$index++;

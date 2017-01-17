@@ -14,7 +14,7 @@ class KConversionEngineMencoder  extends KJobConversionEngine
 	
 	public function getType()
 	{
-		return KalturaConversionEngineType::MENCODER;
+		return BorhanConversionEngineType::MENCODER;
 	}
 	
 	public function getCmd ()

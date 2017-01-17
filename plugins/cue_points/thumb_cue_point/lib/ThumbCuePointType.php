@@ -3,7 +3,7 @@
  * @package plugins.thumbCuePoint
  * @subpackage lib.enum
  */
-class ThumbCuePointType implements IKalturaPluginEnum, CuePointType
+class ThumbCuePointType implements IBorhanPluginEnum, CuePointType
 {
 	const THUMB = 'Thumb';
 	

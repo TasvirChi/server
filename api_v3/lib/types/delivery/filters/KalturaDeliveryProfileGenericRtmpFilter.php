@@ -3,6 +3,6 @@
  * @package api
  * @subpackage filters
  */
-class KalturaDeliveryProfileGenericRtmpFilter extends KalturaDeliveryProfileGenericRtmpBaseFilter
+class BorhanDeliveryProfileGenericRtmpFilter extends BorhanDeliveryProfileGenericRtmpBaseFilter
 {
 }

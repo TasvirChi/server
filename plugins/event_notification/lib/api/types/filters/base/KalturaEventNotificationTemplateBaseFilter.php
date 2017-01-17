@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaEventNotificationTemplateBaseFilter extends KalturaFilter
+abstract class BorhanEventNotificationTemplateBaseFilter extends BorhanFilter
 {
 	static private $map_between_objects = array
 	(
@@ -75,18 +75,18 @@ abstract class KalturaEventNotificationTemplateBaseFilter extends KalturaFilter
 	public $systemNameIn;
 
 	/**
-	 * @var KalturaEventNotificationTemplateType
+	 * @var BorhanEventNotificationTemplateType
 	 */
 	public $typeEqual;
 
 	/**
-	 * @dynamicType KalturaEventNotificationTemplateType
+	 * @dynamicType BorhanEventNotificationTemplateType
 	 * @var string
 	 */
 	public $typeIn;
 
 	/**
-	 * @var KalturaEventNotificationTemplateStatus
+	 * @var BorhanEventNotificationTemplateStatus
 	 */
 	public $statusEqual;
 

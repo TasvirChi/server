@@ -3,18 +3,18 @@
  * @package api
  * @subpackage objects
  */
-class KalturaTubeMogulSyndicationFeed extends KalturaBaseSyndicationFeed
+class BorhanTubeMogulSyndicationFeed extends BorhanBaseSyndicationFeed
 {
         /**
          *
-         * @var KalturaTubeMogulSyndicationFeedCategories
+         * @var BorhanTubeMogulSyndicationFeedCategories
          * @readonly
          */
         public $category;
         
 	function __construct()
 	{
-		$this->type = KalturaSyndicationFeedType::TUBE_MOGUL;
+		$this->type = BorhanSyndicationFeedType::TUBE_MOGUL;
 	}
         
 	private static $mapBetweenObjects = array
@@ -39,7 +39,7 @@ class KalturaTubeMogulSyndicationFeed extends KalturaBaseSyndicationFeed
             $this->categories = implode(',', $categories);
         }
         
-        public function doFromObject($source_object, KalturaDetachedResponseProfile $responseProfile = null)
+        public function doFromObject($source_object, BorhanDetachedResponseProfile $responseProfile = null)
         {
             parent::doFromObject($source_object, $responseProfile);
             $categories = explode(',', $this->categories);
@@ -52,21 +52,21 @@ class KalturaTubeMogulSyndicationFeed extends KalturaBaseSyndicationFeed
         }
         
         private static $mapCategories = array(
-            KalturaTubeMogulSyndicationFeedCategories::ARTS_AND_ANIMATION => 1,
-            KalturaTubeMogulSyndicationFeedCategories::COMEDY => 3,
-            KalturaTubeMogulSyndicationFeedCategories::ENTERTAINMENT => 4,
-            KalturaTubeMogulSyndicationFeedCategories::MUSIC => 5,
-            KalturaTubeMogulSyndicationFeedCategories::NEWS_AND_BLOGS => 6,
-            KalturaTubeMogulSyndicationFeedCategories::SCIENCE_AND_TECHNOLOGY => 7,
-            KalturaTubeMogulSyndicationFeedCategories::SPORTS => 8,
-            KalturaTubeMogulSyndicationFeedCategories::TRAVEL_AND_PLACES => 9,
-            KalturaTubeMogulSyndicationFeedCategories::VIDEO_GAMES => 10,
-            KalturaTubeMogulSyndicationFeedCategories::ANIMALS_AND_PETS => 11,
-            KalturaTubeMogulSyndicationFeedCategories::AUTOS => 12,
-            KalturaTubeMogulSyndicationFeedCategories::VLOGS_PEOPLE => 13,
-            KalturaTubeMogulSyndicationFeedCategories::HOW_TO_INSTRUCTIONAL_DIY => 14,
-            KalturaTubeMogulSyndicationFeedCategories::COMMERCIALS_PROMOTIONAL => 15,
-            KalturaTubeMogulSyndicationFeedCategories::FAMILY_AND_KIDS => 16,
+            BorhanTubeMogulSyndicationFeedCategories::ARTS_AND_ANIMATION => 1,
+            BorhanTubeMogulSyndicationFeedCategories::COMEDY => 3,
+            BorhanTubeMogulSyndicationFeedCategories::ENTERTAINMENT => 4,
+            BorhanTubeMogulSyndicationFeedCategories::MUSIC => 5,
+            BorhanTubeMogulSyndicationFeedCategories::NEWS_AND_BLOGS => 6,
+            BorhanTubeMogulSyndicationFeedCategories::SCIENCE_AND_TECHNOLOGY => 7,
+            BorhanTubeMogulSyndicationFeedCategories::SPORTS => 8,
+            BorhanTubeMogulSyndicationFeedCategories::TRAVEL_AND_PLACES => 9,
+            BorhanTubeMogulSyndicationFeedCategories::VIDEO_GAMES => 10,
+            BorhanTubeMogulSyndicationFeedCategories::ANIMALS_AND_PETS => 11,
+            BorhanTubeMogulSyndicationFeedCategories::AUTOS => 12,
+            BorhanTubeMogulSyndicationFeedCategories::VLOGS_PEOPLE => 13,
+            BorhanTubeMogulSyndicationFeedCategories::HOW_TO_INSTRUCTIONAL_DIY => 14,
+            BorhanTubeMogulSyndicationFeedCategories::COMMERCIALS_PROMOTIONAL => 15,
+            BorhanTubeMogulSyndicationFeedCategories::FAMILY_AND_KIDS => 16,
         );
 	public static function getCategoryId( $category )
 	{

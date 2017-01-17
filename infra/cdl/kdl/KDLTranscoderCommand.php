@@ -116,7 +116,7 @@ class KDLTranscoderCommand {
 	{
 		$cmd=null;
 		switch($transParams->_id){
-			case KDLTranscoders::KALTURA:
+			case KDLTranscoders::BORHAN:
 				$cmd=$transParams->_id;
 				break;
 			case KDLTranscoders::ON2:

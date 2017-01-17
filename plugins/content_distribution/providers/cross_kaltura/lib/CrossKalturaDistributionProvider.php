@@ -1,23 +1,23 @@
 <?php
 /**
- * @package plugins.crossKalturaDistribution
+ * @package plugins.crossBorhanDistribution
  * @subpackage lib
  */
-class CrossKalturaDistributionProvider extends ConfigurableDistributionProvider
+class CrossBorhanDistributionProvider extends ConfigurableDistributionProvider
 {
 	/**
-	 * @var CrossKalturaDistributionProvider
+	 * @var CrossBorhanDistributionProvider
 	 */
 	protected static $instance;
 	
 	
 	/**
-	 * @return CrossKalturaDistributionProvider
+	 * @return CrossBorhanDistributionProvider
 	 */
 	public static function get()
 	{
 		if(!self::$instance)
-			self::$instance = new CrossKalturaDistributionProvider();
+			self::$instance = new CrossBorhanDistributionProvider();
 			
 		return self::$instance;
 	}
@@ -27,7 +27,7 @@ class CrossKalturaDistributionProvider extends ConfigurableDistributionProvider
 	 */
 	public function getType()
 	{
-		return CrossKalturaDistributionPlugin::getDistributionProviderTypeCoreValue(CrossKalturaDistributionProviderType::CROSS_KALTURA);
+		return CrossBorhanDistributionPlugin::getDistributionProviderTypeCoreValue(CrossBorhanDistributionProviderType::CROSS_BORHAN);
 	}
 	
 	/* (non-PHPdoc)
@@ -35,7 +35,7 @@ class CrossKalturaDistributionProvider extends ConfigurableDistributionProvider
 	 */
 	public function getName()
 	{
-		return 'CrossKaltura';
+		return 'CrossBorhan';
 	}
 
 	/* (non-PHPdoc)

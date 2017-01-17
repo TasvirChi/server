@@ -6,7 +6,7 @@ define('JOB_STATUS_CODE_ERROR', 2);
 
 $config = array();
 $client = null;
-/* @var $client KalturaClient */
+/* @var $client BorhanClient */
 require_once __DIR__  . '/common.php';
 
 $options = getopt('', array(
@@ -14,14 +14,14 @@ $options = getopt('', array(
 	'debug',
 ));
 
-$monitorResult = new KalturaMonitorResult();
+$monitorResult = new BorhanMonitorResult();
 $apiCall = null;
 
 try
 {
 	$apiCall = 'session.start';
 	$start = microtime(true);
-	$ks = $client->session->start($config['monitor-partner']['secret'], 'monitor-user', KalturaSessionType::USER, $config['monitor-partner']['id']);
+	$ks = $client->session->start($config['monitor-partner']['secret'], 'monitor-user', BorhanSessionType::USER, $config['monitor-partner']['id']);
 	$client->setKs($ks);
 		
 	// create add entries csv
@@ -32,19 +32,19 @@ try
 			'*title' => 'monitor-bulk-csv1',
 			'description' => 'monitor bulk upload csv 1',
 			'tags' => 'monitor,csv',
-			'url' => $clientConfig->serviceUrl . '/content/templates/entry/data/kaltura_logo_animated_black.flv',
+			'url' => $clientConfig->serviceUrl . '/content/templates/entry/data/borhan_logo_animated_black.flv',
 			'contentType' => 'video',
 			'category' => 'monitor>csv',
-			'thumbnailUrl' => $clientConfig->serviceUrl . '/content/templates/entry/thumbnail/kaltura_logo_animated_black.jpg',
+			'thumbnailUrl' => $clientConfig->serviceUrl . '/content/templates/entry/thumbnail/borhan_logo_animated_black.jpg',
 		),
 		array(
 			'*title' => 'monitor-bulk-csv2',
 			'description' => 'monitor bulk upload csv 2',
 			'tags' => 'monitor,csv',
-			'url' => $clientConfig->serviceUrl . '/content/templates/entry/data/kaltura_logo_animated_blue.flv',
+			'url' => $clientConfig->serviceUrl . '/content/templates/entry/data/borhan_logo_animated_blue.flv',
 			'contentType' => 'video',
 			'category' => 'monitor>csv',
-			'thumbnailUrl' => $clientConfig->serviceUrl . '/content/templates/entry/thumbnail/kaltura_logo_animated_blue.jpg',
+			'thumbnailUrl' => $clientConfig->serviceUrl . '/content/templates/entry/thumbnail/borhan_logo_animated_blue.jpg',
 		),
 	);
 
@@ -58,35 +58,35 @@ try
 	$bulkStatus;
 	$apiCall = 'media.bulkUploadAdd';
 	$bulkUpload = $client->media->bulkUploadAdd($csvPath);
-	/* @var $bulkUpload KalturaBulkUpload */
+	/* @var $bulkUpload BorhanBulkUpload */
 
 
-	$bulkUploadPlugin = KalturaBulkUploadClientPlugin::get($client);
+	$bulkUploadPlugin = BorhanBulkUploadClientPlugin::get($client);
 	while($bulkUpload)
 	{
-		if($bulkUpload->status == KalturaBatchJobStatus::FINISHED)
+		if($bulkUpload->status == BorhanBatchJobStatus::FINISHED)
 		{
 			$bulkStatus = JOB_STATUS_CODE_OK;
 			$monitorDescription = "Entries Bulk Upload Job was finished successfully";
 			break;
 		}
-		if($bulkUpload->status == KalturaBatchJobStatus::FINISHED_PARTIALLY)
+		if($bulkUpload->status == BorhanBatchJobStatus::FINISHED_PARTIALLY)
 		{
 			$bulkStatus = JOB_STATUS_CODE_WARNING;
 			$monitorDescription = "Entries Bulk Upload Job was finished, but with some errors";
 			break;
 		}
-		if($bulkUpload->status == KalturaBatchJobStatus::FAILED)
+		if($bulkUpload->status == BorhanBatchJobStatus::FAILED)
 		{
 			$bulkError =  "Bulk upload [$bulkUpload->id] failed";
 			break;
 		}
-		if($bulkUpload->status == KalturaBatchJobStatus::ABORTED)
+		if($bulkUpload->status == BorhanBatchJobStatus::ABORTED)
 		{
 			$bulkError = "Bulk upload [$bulkUpload->id] aborted";
 			break;
 		}
-		if($bulkUpload->status == KalturaBatchJobStatus::FATAL)
+		if($bulkUpload->status == BorhanBatchJobStatus::FATAL)
 		{
 			$bulkError = "Bulk upload [$bulkUpload->id] failed fataly";
 			break;
@@ -104,9 +104,9 @@ try
 	
 	if ($bulkError) {
 		$bulkStatus = JOB_STATUS_CODE_ERROR;
-		$error = new KalturaMonitorError();
+		$error = new BorhanMonitorError();
 		$error->description = $bulkError;
-		$error->level = KalturaMonitorError::ERR;
+		$error->level = BorhanMonitorError::ERR;
 	
 		$monitorResult->errors[] = $error;
 		$monitorDescription = $bulkError;
@@ -115,14 +115,14 @@ try
 	try
 	{
 		$apiCall = 'media.list';
-		$entriesFilter = new KalturaMediaEntryFilter();
+		$entriesFilter = new BorhanMediaEntryFilter();
 		$entriesFilter->categoriesFullNameIn = 'monitor>csv';
-		$entriesPager = new KalturaFilterPager();
+		$entriesPager = new BorhanFilterPager();
 		$entriesPager->pageSize = 10;
 
 		$entriesList = $client->media->listAction($entriesFilter, $entriesPager);
 		foreach($entriesList->objects as $entry)
-		/*KalturaMediaEntry*/
+		/*BorhanMediaEntry*/
 		{
 			$apiCall = 'media.delete';
 			$client->media->delete($entry->id);
@@ -130,10 +130,10 @@ try
 	}
 	catch(Exception $ex)
 	{
-		$error = new KalturaMonitorError();
+		$error = new BorhanMonitorError();
 		$error->code = $ex->getCode();
 		$error->description = $ex->getMessage();
-		$error->level = KalturaMonitorError::WARN;
+		$error->level = BorhanMonitorError::WARN;
 		
 		$monitorResult->errors[] = $error;
 	}
@@ -143,28 +143,28 @@ try
 	$monitorResult->description = $monitorDescription;
 	
 }	
-catch(KalturaException $e)
+catch(BorhanException $e)
 {
 	$end = microtime(true);
 	$monitorResult->executionTime = $end - $start;
 	
-	$error = new KalturaMonitorError();
+	$error = new BorhanMonitorError();
 	$error->code = $e->getCode();
 	$error->description = $e->getMessage();
-	$error->level = KalturaMonitorError::ERR;
+	$error->level = BorhanMonitorError::ERR;
 	
 	$monitorResult->errors[] = $error;
 	$monitorResult->description = "Exception: " . get_class($e) . ", API: $apiCall, Code: " . $e->getCode() . ", Message: " . $e->getMessage();
 }
-catch(KalturaClientException $ce)
+catch(BorhanClientException $ce)
 {
 	$end = microtime(true);
 	$monitorResult->executionTime = $end - $start;
 	
-	$error = new KalturaMonitorError();
+	$error = new BorhanMonitorError();
 	$error->code = $ce->getCode();
 	$error->description = $ce->getMessage();
-	$error->level = KalturaMonitorError::CRIT;
+	$error->level = BorhanMonitorError::CRIT;
 	
 	$monitorResult->errors[] = $error;
 	$monitorResult->description = "Exception: " . get_class($ce) . ", API: $apiCall, Code: " . $ce->getCode() . ", Message: " . $ce->getMessage();

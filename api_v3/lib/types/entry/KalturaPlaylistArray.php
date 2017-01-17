@@ -3,15 +3,15 @@
  * @package api
  * @subpackage objects
  */
-class KalturaPlaylistArray extends KalturaTypedArray
+class BorhanPlaylistArray extends BorhanTypedArray
 {
-	public static function fromDbArray(array $arr = null, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $arr = null, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaPlaylistArray();
+		$newArr = new BorhanPlaylistArray();
 		if ( $arr == null ) return $newArr;
 		foreach ( $arr as $obj )
 		{
-    		$nObj = KalturaEntryFactory::getInstanceByType($obj->getType());
+    		$nObj = BorhanEntryFactory::getInstanceByType($obj->getType());
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -21,6 +21,6 @@ class KalturaPlaylistArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaPlaylist");	
+		parent::__construct("BorhanPlaylist");	
 	}
 }

@@ -26,11 +26,11 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 			$sourceDc = -1;
 		}
 				
-		$multiCentersPlugin = KalturaMultiCentersClientPlugin::get(self::$kClient);
+		$multiCentersPlugin = BorhanMultiCentersClientPlugin::get(self::$kClient);
 		
 		// create a response profile with the minimum fields needed (saves some queries on the API server)
-		$responseProfile = new KalturaDetachedResponseProfile();
-		$responseProfile->type = KalturaResponseProfileType::INCLUDE_FIELDS;
+		$responseProfile = new BorhanDetachedResponseProfile();
+		$responseProfile->type = BorhanResponseProfileType::INCLUDE_FIELDS;
 		$responseProfile->fields = 'id,originalId,fileSize,fileRoot,filePath,isDir';
 		
 		$timeLimit = time() + self::MAX_EXECUTION_TIME; 
@@ -120,15 +120,15 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::FILESYNC_IMPORT;
+		return BorhanBatchJobType::FILESYNC_IMPORT;
 	}
 
 	protected function getFilter()
 	{
-		$filter = new KalturaFileSyncFilter();
+		$filter = new BorhanFileSyncFilter();
 		if(KBatchBase::$taskConfig->filter)
 		{
-			// copy the attributes since KBatchBase::$taskConfig->filter is of type KalturaBatchJobFilter
+			// copy the attributes since KBatchBase::$taskConfig->filter is of type BorhanBatchJobFilter
 			foreach(KBatchBase::$taskConfig->filter as $attr => $value)
 			{
 				$filter->$attr = $value;
@@ -149,35 +149,35 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 		return $baseUrl . "/index.php/extwidget/serveMultiFile/ids/$fileSyncIds/hash/$fileHash";
 	}
 	
-	static protected function getFullPath(KalturaFileSync $fileSync)
+	static protected function getFullPath(BorhanFileSync $fileSync)
 	{
 		return $fileSync->fileRoot . $fileSync->filePath;
 	}
 	
-	protected function markFileSyncAsReady(KalturaFileSync $fileSync)
+	protected function markFileSyncAsReady(BorhanFileSync $fileSync)
 	{
-		$updateFileSync = new KalturaFileSync;
-		$updateFileSync->status = KalturaFileSyncStatus::READY;
+		$updateFileSync = new BorhanFileSync;
+		$updateFileSync->status = BorhanFileSyncStatus::READY;
 		$updateFileSync->fileRoot = $fileSync->fileRoot;
 		$updateFileSync->filePath = $fileSync->filePath;
 	
 		try
 		{
-			$responseProfile = new KalturaDetachedResponseProfile();
-			$responseProfile->type = KalturaResponseProfileType::INCLUDE_FIELDS;
+			$responseProfile = new BorhanDetachedResponseProfile();
+			$responseProfile->type = BorhanResponseProfileType::INCLUDE_FIELDS;
 			$responseProfile->fields = '';		// don't need the response
 			self::$kClient->setResponseProfile($responseProfile);
 				
-			$fileSyncPlugin = KalturaFileSyncClientPlugin::get(self::$kClient);
+			$fileSyncPlugin = BorhanFileSyncClientPlugin::get(self::$kClient);
 			$fileSyncPlugin->fileSync->update($fileSync->id, $updateFileSync);
 		}
-		catch(KalturaException $e)
+		catch(BorhanException $e)
 		{
-			KalturaLog::err($e);
+			BorhanLog::err($e);
 		}
-		catch(KalturaClientException $e)
+		catch(BorhanClientException $e)
 		{
-			KalturaLog::err($e);
+			BorhanLog::err($e);
 		}
 	}
 
@@ -185,16 +185,16 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 	{
 		try
 		{
-			$multiCentersPlugin = KalturaMultiCentersClientPlugin::get(self::$kClient);
+			$multiCentersPlugin = BorhanMultiCentersClientPlugin::get(self::$kClient);
 			$multiCentersPlugin->filesyncImportBatch->extendFileSyncLock($fileSyncId);
 		}
-		catch(KalturaException $e)
+		catch(BorhanException $e)
 		{
-			KalturaLog::err($e);
+			BorhanLog::err($e);
 		}
-		catch(KalturaClientException $e)
+		catch(BorhanClientException $e)
 		{
-			KalturaLog::err($e);
+			BorhanLog::err($e);
 		}
 	}
 	
@@ -203,14 +203,14 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 		$res = self::createAndSetDir(dirname($destination));
 		if ( !$res )
 		{
-			KalturaLog::err('Cannot create destination directory ['.dirname($destination).']');
+			BorhanLog::err('Cannot create destination directory ['.dirname($destination).']');
 			return false;
 		}
 		
 		$res = touch($destination);
 		if ( !$res )
 		{
-			KalturaLog::err("Cannot create file [$destination]");
+			BorhanLog::err("Cannot create file [$destination]");
 			return false;
 		}
 		return true;
@@ -227,7 +227,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 		$res = $this->createAndSetDir($dirDestination);
 		if (!$res) 
 		{
-			KalturaLog::err("Cannot create destination directory [$dirDestination]");
+			BorhanLog::err("Cannot create destination directory [$dirDestination]");
 			return false;
 		}
 		
@@ -238,7 +238,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 		
 		if ($contents === false || $curlError) 
 		{
-			KalturaLog::err("$curlError");
+			BorhanLog::err("$curlError");
 			return false;
 		}
 		$contents = unserialize($contents); // if an exception is thrown, it will be catched in fetchUrl
@@ -277,7 +277,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 				$res = $this->createAndSetDir($dirDestination.'/'.$name);
 				if (!$res)
 				{
-					KalturaLog::err('Cannot create destination directory ['.$dirDestination.'/'.$name.']');
+					BorhanLog::err('Cannot create destination directory ['.$dirDestination.'/'.$name.']');
 					return false;
 				}
 			}
@@ -325,13 +325,13 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 			if($actualFileSize >= $fileSize)
 			{
 				// file download finished ?
-				KalturaLog::info('File exists with size ['.$actualFileSize.'] - checking if finished...');
+				BorhanLog::info('File exists with size ['.$actualFileSize.'] - checking if finished...');
 				return $this->checkFile($fileDestination, $fileSize);
 			}
 			else
 			{
 				// will resume from the current offset
-				KalturaLog::info('File partialy exists - resume offset set to ['.$actualFileSize.']');
+				BorhanLog::info('File partialy exists - resume offset set to ['.$actualFileSize.']');
 				$resumeOffset = $actualFileSize;
 			}
 		}
@@ -349,7 +349,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 				$res = self::createAndSetDir(dirname($fileDestination));
 				if ( !$res )
 				{
-					KalturaLog::err('Cannot create destination directory ['.dirname($fileDestination).']');
+					BorhanLog::err('Cannot create destination directory ['.dirname($fileDestination).']');
 					return false;
 				}
 			}
@@ -362,7 +362,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 			// reset the resume offset, since the curl handle is reused
 			$this->curlWrapper->setResumeOffset(0);
 
-			KalturaLog::info("Curl results: $res");
+			BorhanLog::info("Curl results: $res");
 	
 			// handle errors
 			if (!$res || $curlError)
@@ -370,20 +370,20 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 				if($curlErrorNumber != CURLE_OPERATION_TIMEOUTED)
 				{
 					// an error other than timeout occured  - cannot continue
-					KalturaLog::err("$curlError");
+					BorhanLog::err("$curlError");
 					return false;
 				}
 				else
 				{
 					// timeout error occured, ignore and try to resume
-					KalturaLog::log('Curl timeout');
+					BorhanLog::log('Curl timeout');
 				}
 			}
 			
 			if(!file_exists($fileDestination))
 			{
 				// destination file does not exist for an unknown reason
-				KalturaLog::err("output file doesn't exist");
+				BorhanLog::err("output file doesn't exist");
 				return false;
 			}
 	
@@ -392,7 +392,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 			if($actualFileSize == $resumeOffset)
 			{
 				// no downloading was done at all - error
-				KalturaLog::err("$curlError");
+				BorhanLog::err("$curlError");
 				return false;
 			}
 			
@@ -416,7 +416,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 	{
 		if (!kString::beginsWith($contentType, 'multipart/form-data; boundary='))
 		{
-			KalturaLog::err("failed to parse multipart content type [$contentType]");
+			BorhanLog::err("failed to parse multipart content type [$contentType]");
 			return false;
 		}
 	
@@ -429,7 +429,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 		{
 			if (substr($contents, $curPos, 2 + strlen($boundary)) != '--' . $boundary)
 			{
-				KalturaLog::err("expected [--$boundary] at pos [$curPos]");
+				BorhanLog::err("expected [--$boundary] at pos [$curPos]");
 				return false;
 			}
 				
@@ -443,7 +443,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 			$dataEndPos = strpos($contents, "\n--" . $boundary, $headerEndPos);
 			if ($dataEndPos === false)
 			{
-				KalturaLog::err("failed to find end boundary");
+				BorhanLog::err("failed to find end boundary");
 				return false;
 			}
 				
@@ -463,7 +463,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 				
 			if (is_null($name))
 			{
-				KalturaLog::err("failed to extract part name from " . print_r($headers, true));
+				BorhanLog::err("failed to extract part name from " . print_r($headers, true));
 				return false;
 			}
 				
@@ -474,7 +474,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 	
 		if (substr($contents, $curPos + 2 + strlen($boundary), 2) != '--')
 		{
-			KalturaLog::err("last boundary must end with --");
+			BorhanLog::err("last boundary must end with --");
 			return false;
 		}
 	
@@ -498,7 +498,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 		
 		if ($contents === false || $curlError)
 		{
-			KalturaLog::err("failed to fetch $sourceUrl - $curlError");
+			BorhanLog::err("failed to fetch $sourceUrl - $curlError");
 			return false;
 		}
 		
@@ -507,7 +507,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 		$parsedContent = self::parseMultiPart($contentType, $contents);
 		if ($parsedContent === false)
 		{
-			KalturaLog::err("failed to parse multipart response $sourceUrl");
+			BorhanLog::err("failed to parse multipart response $sourceUrl");
 			return false;
 		}
 		
@@ -515,7 +515,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 		{
 			if (!isset($parsedContent[$fileSync->originalId]))
 			{
-				KalturaLog::err("missing content for file " . $fileSync->originalId);
+				BorhanLog::err("missing content for file " . $fileSync->originalId);
 				continue;
 			}
 				
@@ -525,13 +525,13 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 			$res = self::createAndSetDir(dirname($filePath));
 			if (!$res)
 			{
-				KalturaLog::err("failed to create dir for $filePath");
+				BorhanLog::err("failed to create dir for $filePath");
 				continue;
 			}
 				
 			if (!file_put_contents($filePath, $data))
 			{
-				KalturaLog::err("failed to write file $filePath");
+				BorhanLog::err("failed to write file $filePath");
 				continue;
 			}
 			
@@ -558,7 +558,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 		if(!file_exists($destFile))
 		{
 			// destination file does not exist
-			KalturaLog::err("file [$destFile] doesn't exist");
+			BorhanLog::err("file [$destFile] doesn't exist");
 			return false;
 		}
 
@@ -570,7 +570,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 		else if($actualSize != $fileSize)
 		{
 			// destination file size is wrong
-			KalturaLog::err("file [$destFile] has a wrong size. file size: [$actualSize] should be [$fileSize]");
+			BorhanLog::err("file [$destFile] has a wrong size. file size: [$actualSize] should be [$fileSize]");
 			return false;
 		}
 			
@@ -578,7 +578,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 		$chown_name = self::$taskConfig->params->fileOwner;
 		if ($chown_name) 
 		{
-			KalturaLog::info("Changing owner of file [$destFile] to [$chown_name]");
+			BorhanLog::info("Changing owner of file [$destFile] to [$chown_name]");
 			@chown($destFile, $chown_name);
 		}
 		
@@ -588,7 +588,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 		{
 			$chmod_perm = 0644;
 		}
-		KalturaLog::info("Changing mode of file [$destFile] to [$chmod_perm]");
+		BorhanLog::info("Changing mode of file [$destFile] to [$chmod_perm]");
 		@chmod($destFile, $chmod_perm);
 
 		// IMPORTANT - check's if file is seen by apache
@@ -615,20 +615,20 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 		if(!$curlHeaderResponse || !count($curlHeaderResponse->headers))
 		{
 			// error fetching headers
-			KalturaLog::err("$curlError");
+			BorhanLog::err("$curlError");
 			return false;
 		}
 	
     	if($curlError)
     	{
-    		KalturaLog::err("Headers error: $curlError");
-    		KalturaLog::err("Headers error number: $curlErrorNumber");
+    		BorhanLog::err("Headers error: $curlError");
+    		BorhanLog::err("Headers error number: $curlErrorNumber");
     	}
     			
 		if(!$curlHeaderResponse->isGoodCode())
 		{
 			// some error exists in the response
-			KalturaLog::err('HTTP Error: ' . $curlHeaderResponse->code . ' ' . $curlHeaderResponse->codeName);
+			BorhanLog::err('HTTP Error: ' . $curlHeaderResponse->code . ' ' . $curlHeaderResponse->codeName);
 			return false;
 		}
 		
@@ -684,7 +684,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 		$chown_name = self::$taskConfig->params->fileOwner;
 		if ($chown_name) 
 		{
-			KalturaLog::info("Changing owner of directory [$dirPath] to [$chown_name]");
+			BorhanLog::info("Changing owner of directory [$dirPath] to [$chown_name]");
 			@chown($dirPath, $chown_name);
 		}
 		
@@ -694,7 +694,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 		{
 			$chmod_perm = 0644;
 		}
-		KalturaLog::info("Changing mode of directory [$dirPath] to [$chmod_perm]");
+		BorhanLog::info("Changing mode of directory [$dirPath] to [$chmod_perm]");
 		@chmod($dirPath, $chmod_perm);
 		
 		return true;

@@ -13,13 +13,13 @@ class AttUverseDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineSubmit::submit()
 	 */
-	public function submit(KalturaDistributionSubmitJobData $data)
+	public function submit(BorhanDistributionSubmitJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaAttUverseDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaAttUverseDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanAttUverseDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanAttUverseDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaAttUverseDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaAttUverseDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanAttUverseDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanAttUverseDistributionJobProviderData");
 		
 		$this->handleSubmit($data, $data->distributionProfile, $data->providerData);
 		
@@ -29,13 +29,13 @@ class AttUverseDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineUpdate::update()
 	 */
-	public function update(KalturaDistributionUpdateJobData $data)
+	public function update(BorhanDistributionUpdateJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaAttUverseDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaAttUverseDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanAttUverseDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanAttUverseDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaUverseDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaUverseDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanUverseDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanUverseDistributionJobProviderData");
 		
 		$this->handleSubmit($data, $data->distributionProfile, $data->providerData);
 		
@@ -43,11 +43,11 @@ class AttUverseDistributionEngine extends DistributionEngine implements
 	}
 	
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaAttUverseDistributionProfile $distributionProfile
-	 * @param KalturaAttUverseDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanAttUverseDistributionProfile $distributionProfile
+	 * @param BorhanAttUverseDistributionJobProviderData $providerData
 	 */
-	protected function handleSubmit(KalturaDistributionJobData $data, KalturaAttUverseDistributionProfile $distributionProfile, KalturaAttUverseDistributionJobProviderData $providerData)
+	protected function handleSubmit(BorhanDistributionJobData $data, BorhanAttUverseDistributionProfile $distributionProfile, BorhanAttUverseDistributionJobProviderData $providerData)
 	{
 		/* @var $entryDistribution EntryDistribution */
 		$entryDistribution = $data->entryDistribution;	
@@ -63,16 +63,16 @@ class AttUverseDistributionEngine extends DistributionEngine implements
 		$remoteAssetFileUrls = array();
 		$remoteThumbnailFileUrls = array();
 		$remoteCaptionFileUrls = array();
-		/* @var $file KalturaAttUverseDistributionFile */
+		/* @var $file BorhanAttUverseDistributionFile */
 		foreach ($providerData->filesForDistribution as $file){
 			$ftpPath = $distributionProfile->ftpPath;
 			$destFilePath = $ftpPath ?  $ftpPath.DIRECTORY_SEPARATOR.$file->remoteFilename: $file->remoteFilename;	
 			$this->uploadAssetsFiles($ftpManager, $destFilePath, $file->localFilePath);
-			if ($file->assetType == KalturaAssetType::FLAVOR)
+			if ($file->assetType == BorhanAssetType::FLAVOR)
 				$remoteAssetFileUrls[$file->assetId] = 'ftp://'.$distributionProfile->ftpHost.'/'.$destFilePath;
-			if ( $file->assetType == KalturaAssetType::THUMBNAIL)
+			if ( $file->assetType == BorhanAssetType::THUMBNAIL)
 				$remoteThumbnailFileUrls[$file->assetId] = 'ftp://'.$distributionProfile->ftpHost.'/'.$destFilePath;
-			if ( ($file->assetType == KalturaAssetType::ATTACHMENT) ||($file->assetType == KalturaAssetType::CAPTION))
+			if ( ($file->assetType == BorhanAssetType::ATTACHMENT) ||($file->assetType == BorhanAssetType::CAPTION))
 				$remoteCaptionFileUrls[$file->assetId] = 'ftp://'.$distributionProfile->ftpHost.'/'.$destFilePath;
 		}
 		
@@ -88,10 +88,10 @@ class AttUverseDistributionEngine extends DistributionEngine implements
 	
 	/**
 	 * 
-	 * @param KalturaAttUverseDistributionProfile $distributionProfile
+	 * @param BorhanAttUverseDistributionProfile $distributionProfile
 	 * @return ftpMgr
 	 */
-	protected function getFTPManager(KalturaAttUverseDistributionProfile $distributionProfile)
+	protected function getFTPManager(BorhanAttUverseDistributionProfile $distributionProfile)
 	{
 		$host = $distributionProfile->ftpHost;
 		$login = $distributionProfile->ftpUsername;
@@ -107,7 +107,7 @@ class AttUverseDistributionEngine extends DistributionEngine implements
 	{									
 		if ($ftpManager->fileExists($destFileName))
 		{
-			KalturaLog::err('The file ['.$destFileName.'] already exists at the FTP');
+			BorhanLog::err('The file ['.$destFileName.'] already exists at the FTP');
 		}
 		else	
 		{					

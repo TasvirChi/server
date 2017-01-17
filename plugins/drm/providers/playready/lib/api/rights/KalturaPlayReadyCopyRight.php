@@ -3,7 +3,7 @@
  * @package plugins.playReady
  * @subpackage api.objects
  */
-class KalturaPlayReadyCopyRight extends KalturaPlayReadyRight
+class BorhanPlayReadyCopyRight extends BorhanPlayReadyRight
 {
     /**
 	 * @var int
@@ -11,7 +11,7 @@ class KalturaPlayReadyCopyRight extends KalturaPlayReadyRight
 	public $copyCount;
 	
 	/**
-	 * @var KalturaPlayReadyCopyEnablerHolderArray
+	 * @var BorhanPlayReadyCopyEnablerHolderArray
 	 */
 	public $copyEnablers;
 	

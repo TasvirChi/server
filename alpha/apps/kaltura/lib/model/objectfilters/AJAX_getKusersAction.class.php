@@ -38,7 +38,7 @@ class AJAX_getKusersAction extends AJAX_getObjectsAction
 		 	"date" => "-updated_at" , 
 			"views" => "-views" ,
 			"num_of_media" => "-entries" ,
-			"num_of_kalturas" => "-produced_kshows" ,
+			"num_of_borhans" => "-produced_kshows" ,
 			"ids" => "+id" );
 		return $sort_aliases;			
 	}

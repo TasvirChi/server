@@ -21,7 +21,7 @@ class KScheduleHelper extends KPeriodicWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::SCHEDULER_HELPER;
+		return BorhanBatchJobType::SCHEDULER_HELPER;
 	}
 	
 	/* (non-PHPdoc)
@@ -33,24 +33,24 @@ class KScheduleHelper extends KPeriodicWorker
 		{
 			$systemReady = self::$kClient->system->ping();
 			if (!$systemReady) {
-				KalturaLog::err("System is not yet ready - ping failed");
+				BorhanLog::err("System is not yet ready - ping failed");
 				return;
 			}
 		}
-		catch (KalturaClientException $e)
+		catch (BorhanClientException $e)
 		{
-			KalturaLog::err("System is not yet ready - ping failed");
+			BorhanLog::err("System is not yet ready - ping failed");
 			return;
 		}
 		
-		$scheduler = new KalturaScheduler();
+		$scheduler = new BorhanScheduler();
 		$scheduler->configuredId = $this->getSchedulerId();
 		$scheduler->name = $this->getSchedulerName();
 		$scheduler->host = KSchedulerConfig::getHostname();
 		
 		// get command results from the scheduler
 		$commandResults = KScheduleHelperManager::loadResultsCommandsFile();
-		KalturaLog::info(count($commandResults) . " command results returned from the scheduler");
+		BorhanLog::info(count($commandResults) . " command results returned from the scheduler");
 		if(count($commandResults))
 			$this->sendCommandResults($commandResults);
 		
@@ -58,34 +58,34 @@ class KScheduleHelper extends KPeriodicWorker
 		$configItems = KScheduleHelperManager::loadConfigItems();
 		if(count($configItems))
 		{
-			KalturaLog::info(count($configItems) . " config records sent from the scheduler");
+			BorhanLog::info(count($configItems) . " config records sent from the scheduler");
 			$this->sendConfigItems($scheduler, $configItems);
 		}
 		
 		$filters = KScheduleHelperManager::loadFilters();
-		KalturaLog::info(count($filters) . " filter records found for the scheduler");
+		BorhanLog::info(count($filters) . " filter records found for the scheduler");
 		
 		// get status from the schduler
 		$statuses = KScheduleHelperManager::loadStatuses();
-		KalturaLog::info(count($statuses) . " status records sent from the scheduler");
+		BorhanLog::info(count($statuses) . " status records sent from the scheduler");
 		
 		// send status to the server
 		$statusResponse = self::$kClient->batchcontrol->reportStatus($scheduler, (array)$statuses, (array)$filters);
-		KalturaLog::info(count($statusResponse->queuesStatus) . " queue status records returned from the server");
-		KalturaLog::info(count($statusResponse->controlPanelCommands) . " control commands returned from the server");
-		KalturaLog::info(count($statusResponse->schedulerConfigs) . " config items returned from the server");
+		BorhanLog::info(count($statusResponse->queuesStatus) . " queue status records returned from the server");
+		BorhanLog::info(count($statusResponse->controlPanelCommands) . " control commands returned from the server");
+		BorhanLog::info(count($statusResponse->schedulerConfigs) . " config items returned from the server");
 		
 		// send commands to the scheduler		
 		$commands = array_merge($statusResponse->queuesStatus, $statusResponse->schedulerConfigs, $statusResponse->controlPanelCommands);
-		KalturaLog::info(count($commands) . " commands sent to scheduler");
+		BorhanLog::info(count($commands) . " commands sent to scheduler");
 		$this->saveSchedulerCommands($commands);
 	}
 	
 	/**
-	 * @param KalturaScheduler $scheduler
-	 * @param array<KalturaSchedulerConfig> $configItems
+	 * @param BorhanScheduler $scheduler
+	 * @param array<BorhanSchedulerConfig> $configItems
 	 */
-	private function sendConfigItems(KalturaScheduler $scheduler, array $configItems)
+	private function sendConfigItems(BorhanScheduler $scheduler, array $configItems)
 	{
 		$configItemsArr = array_chunk($configItems, 100);
 		
@@ -95,7 +95,7 @@ class KScheduleHelper extends KPeriodicWorker
 			
 			foreach($configItems as $configItem)
 			{
-				if($configItem instanceof KalturaSchedulerConfig)
+				if($configItem instanceof BorhanSchedulerConfig)
 				{
 					if(is_null($configItem->value))
 						$configItem->value = '';
@@ -117,19 +117,19 @@ class KScheduleHelper extends KPeriodicWorker
 		
 		foreach($commandResults as $commandResult)
 		{
-			if($commandResult instanceof KalturaSchedulerConfig)
+			if($commandResult instanceof BorhanSchedulerConfig)
 			{
-				KalturaLog::info("Handling config id[$commandResult->id], with command id[$commandResult->commandId]");
+				BorhanLog::info("Handling config id[$commandResult->id], with command id[$commandResult->commandId]");
 				self::$kClient->batchcontrol->setCommandResult($commandResult->commandId, $commandResult->commandStatus);
 			}
-			elseif($commandResult instanceof KalturaControlPanelCommand)
+			elseif($commandResult instanceof BorhanControlPanelCommand)
 			{
-				KalturaLog::info("Handling command id[$commandResult->id]");
+				BorhanLog::info("Handling command id[$commandResult->id]");
 				self::$kClient->batchcontrol->setCommandResult($commandResult->id, $commandResult->status, $commandResult->errorDescription);
 			}
 			else
 			{
-				KalturaLog::err(get_class($commandResult) . " object sent from scheduler");
+				BorhanLog::err(get_class($commandResult) . " object sent from scheduler");
 			}
 		}
 		

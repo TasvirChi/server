@@ -22,43 +22,43 @@ class KAsyncBulkUpload extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::BULKUPLOAD;
+		return BorhanBatchJobType::BULKUPLOAD;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		ini_set('auto_detect_line_endings', true);
 		try 
 		{
 			$job = $this->startBulkUpload($job);
 		}
-		catch (KalturaBulkUploadAbortedException $abortedException)
+		catch (BorhanBulkUploadAbortedException $abortedException)
 		{
 			self::unimpersonate();
-			$job = $this->closeJob($job, null, null, null, KalturaBatchJobStatus::ABORTED);
+			$job = $this->closeJob($job, null, null, null, BorhanBatchJobStatus::ABORTED);
 		}
-		catch(KalturaBatchException $kbex)
+		catch(BorhanBatchException $kbex)
 		{
 			self::unimpersonate();
-			$job = $this->closeJob($job, KalturaBatchJobErrorTypes::APP, $kbex->getCode(), "Error: " . $kbex->getMessage(), KalturaBatchJobStatus::FAILED);
+			$job = $this->closeJob($job, BorhanBatchJobErrorTypes::APP, $kbex->getCode(), "Error: " . $kbex->getMessage(), BorhanBatchJobStatus::FAILED);
 		}
-		catch(KalturaException $kex)
+		catch(BorhanException $kex)
 		{
 			self::unimpersonate();
-			$job = $this->closeJob($job, KalturaBatchJobErrorTypes::KALTURA_API, $kex->getCode(), "Error: " . $kex->getMessage(), KalturaBatchJobStatus::FAILED);
+			$job = $this->closeJob($job, BorhanBatchJobErrorTypes::BORHAN_API, $kex->getCode(), "Error: " . $kex->getMessage(), BorhanBatchJobStatus::FAILED);
 		}
-		catch(KalturaClientException $kcex)
+		catch(BorhanClientException $kcex)
 		{
 			self::unimpersonate();
-			$job = $this->closeJob($job, KalturaBatchJobErrorTypes::KALTURA_CLIENT, $kcex->getCode(), "Error: " . $kcex->getMessage(), KalturaBatchJobStatus::RETRY);
+			$job = $this->closeJob($job, BorhanBatchJobErrorTypes::BORHAN_CLIENT, $kcex->getCode(), "Error: " . $kcex->getMessage(), BorhanBatchJobStatus::RETRY);
 		}
 		catch(Exception $ex)
 		{
 			self::unimpersonate();
-			$job = $this->closeJob($job, KalturaBatchJobErrorTypes::RUNTIME, $ex->getCode(), "Error: " . $ex->getMessage(), KalturaBatchJobStatus::FAILED);
+			$job = $this->closeJob($job, BorhanBatchJobErrorTypes::RUNTIME, $ex->getCode(), "Error: " . $ex->getMessage(), BorhanBatchJobStatus::FAILED);
 		}
 		ini_set('auto_detect_line_endings', false);
 		
@@ -76,18 +76,18 @@ class KAsyncBulkUpload extends KJobHandlerWorker
 	/**
 	 * 
 	 * Starts the bulk upload
-	 * @param KalturaBatchJob $job
+	 * @param BorhanBatchJob $job
 	 */
-	private function startBulkUpload(KalturaBatchJob $job)
+	private function startBulkUpload(BorhanBatchJob $job)
 	{
-		KalturaLog::info( "Start bulk upload ($job->id)" );
+		BorhanLog::info( "Start bulk upload ($job->id)" );
 		
 		//Gets the right Engine instance 
 		$engine = KBulkUploadEngine::getEngine($job->jobSubType, $job);
 		if (is_null ( $engine )) {
-			throw new KalturaException ( "Unable to find bulk upload engine", KalturaBatchJobAppErrors::ENGINE_NOT_FOUND );
+			throw new BorhanException ( "Unable to find bulk upload engine", BorhanBatchJobAppErrors::ENGINE_NOT_FOUND );
 		}
-		$job = $this->updateJob($job, 'Parsing file [' . $engine->getName() . ']', KalturaBatchJobStatus::QUEUED, $engine->getData());
+		$job = $this->updateJob($job, 'Parsing file [' . $engine->getName() . ']', BorhanBatchJobStatus::QUEUED, $engine->getData());
 		
 		$engine->setJob($job);
 		$engine->setData($job->data);
@@ -101,15 +101,15 @@ class KAsyncBulkUpload extends KJobHandlerWorker
 		$countErrorObjects = $countObjects[1];
 
 		if(!$countHandledObjects && !$engine->shouldRetry() && $countErrorObjects)
-			throw new KalturaBatchException("None of the uploaded items were processed succsessfuly", KalturaBatchJobAppErrors::BULK_NO_ENTRIES_HANDLED, $engine->getData());
+			throw new BorhanBatchException("None of the uploaded items were processed succsessfuly", BorhanBatchJobAppErrors::BULK_NO_ENTRIES_HANDLED, $engine->getData());
 		
 		if($engine->shouldRetry())
 		{
 			self::$kClient->batch->resetJobExecutionAttempts($job->id, $this->getExclusiveLockKey(), $job->jobType);
-			return $this->closeJob($job, null, null, "Retrying: ".$countHandledObjects." ".$engine->getObjectTypeTitle()." objects were handled untill now", KalturaBatchJobStatus::RETRY);
+			return $this->closeJob($job, null, null, "Retrying: ".$countHandledObjects." ".$engine->getObjectTypeTitle()." objects were handled untill now", BorhanBatchJobStatus::RETRY);
 		}
 			
-		return $this->closeJob($job, null, null, 'Waiting for objects closure', KalturaBatchJobStatus::ALMOST_DONE, $data);
+		return $this->closeJob($job, null, null, 'Waiting for objects closure', BorhanBatchJobStatus::ALMOST_DONE, $data);
 	}
 	
 	/**
@@ -125,7 +125,7 @@ class KAsyncBulkUpload extends KJobHandlerWorker
 		$counters = self::$kClient->batch->countBulkUploadEntries($jobId, $bulkuploadObjectType);
 		foreach($counters as $counter)
 		{
-			/** @var KalturaKeyValue $counter */
+			/** @var BorhanKeyValue $counter */
 			if ($counter->key == 'created')
 				$createdCount = $counter->value;
 			if ($counter->key == 'error')

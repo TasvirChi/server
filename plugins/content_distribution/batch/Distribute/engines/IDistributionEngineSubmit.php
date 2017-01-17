@@ -7,8 +7,8 @@ interface IDistributionEngineSubmit extends IDistributionEngine
 {
 	/**
 	 * sends media to external system.
-	 * @param KalturaDistributionSubmitJobData $data
+	 * @param BorhanDistributionSubmitJobData $data
 	 * @return bool true if finished, false if will be finished asynchronously
 	 */
-	public function submit(KalturaDistributionSubmitJobData $data);
+	public function submit(BorhanDistributionSubmitJobData $data);
 }

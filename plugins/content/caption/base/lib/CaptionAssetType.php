@@ -3,7 +3,7 @@
  * @package plugins.caption
  * @subpackage lib.enum
  */
-class CaptionAssetType implements IKalturaPluginEnum, assetType
+class CaptionAssetType implements IBorhanPluginEnum, assetType
 {
 	const CAPTION = 'Caption';
 	

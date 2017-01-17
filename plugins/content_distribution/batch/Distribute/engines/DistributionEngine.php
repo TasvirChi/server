@@ -17,20 +17,20 @@ abstract class DistributionEngine implements IDistributionEngine
 	
 	/**
 	 * @param string $interface
-	 * @param KalturaDistributionProviderType $providerType
-	 * @param KalturaDistributionJobData $data
+	 * @param BorhanDistributionProviderType $providerType
+	 * @param BorhanDistributionJobData $data
 	 * @return DistributionEngine
 	 */
-	public static function getEngine($interface, $providerType, KalturaDistributionJobData $data)
+	public static function getEngine($interface, $providerType, BorhanDistributionJobData $data)
 	{
 		$engine = null;
-		if($providerType == KalturaDistributionProviderType::GENERIC)
+		if($providerType == BorhanDistributionProviderType::GENERIC)
 		{
 			$engine = new GenericDistributionEngine();
 		}
 		else
 		{
-			$engine = KalturaPluginManager::loadObject($interface, $providerType);
+			$engine = BorhanPluginManager::loadObject($interface, $providerType);
 		}
 		
 		if($engine)
@@ -62,7 +62,7 @@ abstract class DistributionEngine implements IDistributionEngine
 
 	/**
 	 * @param string $entryId
-	 * @return KalturaMediaEntry
+	 * @return BorhanMediaEntry
 	 */
 	protected function getEntry($partnerId, $entryId)
 	{
@@ -75,12 +75,12 @@ abstract class DistributionEngine implements IDistributionEngine
 
 	/**
 	 * @param string $flavorAssetIds comma seperated
-	 * @return array<KalturaFlavorAsset>
+	 * @return array<BorhanFlavorAsset>
 	 */
 	protected function getFlavorAssets($partnerId, $flavorAssetIds)
 	{
 		KBatchBase::impersonate($partnerId);
-		$filter = new KalturaAssetFilter();
+		$filter = new BorhanAssetFilter();
 		$filter->idIn = $flavorAssetIds;
 		$flavorAssetsList = KBatchBase::$kClient->flavorAsset->listAction($filter);
 		KBatchBase::unimpersonate();
@@ -90,12 +90,12 @@ abstract class DistributionEngine implements IDistributionEngine
 
 	/**
 	 * @param string $thumbAssetIds comma seperated
-	 * @return array<KalturaThumbAsset>
+	 * @return array<BorhanThumbAsset>
 	 */
 	protected function getThumbAssets($partnerId, $thumbAssetIds)
 	{
 		KBatchBase::impersonate($partnerId);
-		$filter = new KalturaAssetFilter();
+		$filter = new BorhanAssetFilter();
 		$filter->idIn = $thumbAssetIds;
 		$thumbAssetsList = KBatchBase::$kClient->thumbAsset->listAction($filter);
 		KBatchBase::unimpersonate();
@@ -108,10 +108,10 @@ abstract class DistributionEngine implements IDistributionEngine
 	 */
 	protected function getThumbAssetUrl($thumbAssetId)
 	{
-		$contentDistributionPlugin = KalturaContentDistributionClientPlugin::get(KBatchBase::$kClient);
+		$contentDistributionPlugin = BorhanContentDistributionClientPlugin::get(KBatchBase::$kClient);
 		return $contentDistributionPlugin->contentDistributionBatch->getAssetUrl($thumbAssetId);
 	
-//		$domain = $this->kalturaClient->getConfig()->serviceUrl;
+//		$domain = $this->borhanClient->getConfig()->serviceUrl;
 //		return "$domain/api_v3/service/thumbAsset/action/serve/thumbAssetId/$thumbAssetId";
 	}
 
@@ -121,12 +121,12 @@ abstract class DistributionEngine implements IDistributionEngine
 	 */
 	protected function getFlavorAssetUrl($flavorAssetId)
 	{
-		$contentDistributionPlugin = KalturaContentDistributionClientPlugin::get(KBatchBase::$kClient);
+		$contentDistributionPlugin = BorhanContentDistributionClientPlugin::get(KBatchBase::$kClient);
 		return $contentDistributionPlugin->contentDistributionBatch->getAssetUrl($flavorAssetId);
 	}
 
 	/**
-	 * @param array<KalturaMetadata> $metadataObjects
+	 * @param array<BorhanMetadata> $metadataObjects
 	 * @param string $field
 	 * @return array|string
 	 */
@@ -156,25 +156,25 @@ abstract class DistributionEngine implements IDistributionEngine
 
 	/**
 	 * @param string $objectId
-	 * @param KalturaMetadataObjectType $objectType
-	 * @return array<KalturaMetadata>
+	 * @param BorhanMetadataObjectType $objectType
+	 * @return array<BorhanMetadata>
 	 */
-	protected function getMetadataObjects($partnerId, $objectId, $objectType = KalturaMetadataObjectType::ENTRY, $metadataProfileId = null)
+	protected function getMetadataObjects($partnerId, $objectId, $objectType = BorhanMetadataObjectType::ENTRY, $metadataProfileId = null)
 	{
-		if(!class_exists('KalturaMetadata'))
+		if(!class_exists('BorhanMetadata'))
 			return null;
 			
 		KBatchBase::impersonate($partnerId);
 		
-		$metadataFilter = new KalturaMetadataFilter();
+		$metadataFilter = new BorhanMetadataFilter();
 		$metadataFilter->objectIdEqual = $objectId;
 		$metadataFilter->metadataObjectTypeEqual = $objectType;
-		$metadataFilter->orderBy = KalturaMetadataOrderBy::CREATED_AT_DESC;
+		$metadataFilter->orderBy = BorhanMetadataOrderBy::CREATED_AT_DESC;
 		
 		if($metadataProfileId)
 			$metadataFilter->metadataProfileIdEqual = $metadataProfileId;
 		
-		$metadataPager = new KalturaFilterPager();
+		$metadataPager = new BorhanFilterPager();
 		$metadataPager->pageSize = 1;
 		$metadataListResponse = KBatchBase::$kClient->metadata->listAction($metadataFilter, $metadataPager);
 		

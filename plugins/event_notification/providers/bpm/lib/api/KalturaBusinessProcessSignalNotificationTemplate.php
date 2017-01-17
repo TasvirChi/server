@@ -3,7 +3,7 @@
  * @package plugins.businessProcessNotification
  * @subpackage api.objects
  */
-class KalturaBusinessProcessSignalNotificationTemplate extends KalturaBusinessProcessNotificationTemplate
+class BorhanBusinessProcessSignalNotificationTemplate extends BorhanBusinessProcessNotificationTemplate
 {	
 	/**
 	 * Define the message to be sent
@@ -33,7 +33,7 @@ class KalturaBusinessProcessSignalNotificationTemplate extends KalturaBusinessPr
 	}
 		 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -41,7 +41,7 @@ class KalturaBusinessProcessSignalNotificationTemplate extends KalturaBusinessPr
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $propertiesToSkip = array())
 	{

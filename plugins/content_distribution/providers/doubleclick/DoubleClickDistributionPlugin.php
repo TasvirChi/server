@@ -2,7 +2,7 @@
 /**
  * @package plugins.doubleClickDistribution
  */
-class DoubleClickDistributionPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaEnumerator, IKalturaPending, IKalturaObjectLoader, IKalturaContentDistributionProvider, IKalturaEventConsumers, IKalturaServices
+class DoubleClickDistributionPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanEnumerator, IBorhanPending, IBorhanObjectLoader, IBorhanContentDistributionProvider, IBorhanEventConsumers, IBorhanServices
 {
 	const PLUGIN_NAME = 'doubleClickDistribution';
 	const COMCAST_MRSS_EVENT_CONSUMER = "kDoubleClickFlowManager";
@@ -19,13 +19,13 @@ class DoubleClickDistributionPlugin extends KalturaPlugin implements IKalturaPer
 	
 	public static function dependsOn()
 	{
-		$contentDistributionVersion = new KalturaVersion(
+		$contentDistributionVersion = new BorhanVersion(
 			self::CONTENT_DSTRIBUTION_VERSION_MAJOR,
 			self::CONTENT_DSTRIBUTION_VERSION_MINOR,
 			self::CONTENT_DSTRIBUTION_VERSION_BUILD);
 			
-		$dependency1 = new KalturaDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
-		$dependency2 = new KalturaDependency(DoubleClickDistributionPlugin::DEPENDENTS_ON_PLUGIN_NAME_CUE_POINT);
+		$dependency1 = new BorhanDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
+		$dependency2 = new BorhanDependency(DoubleClickDistributionPlugin::DEPENDENTS_ON_PLUGIN_NAME_CUE_POINT);
 		return array($dependency1, $dependency2);
 	}
 	
@@ -61,13 +61,13 @@ class DoubleClickDistributionPlugin extends KalturaPlugin implements IKalturaPer
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::DOUBLECLICK)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::DOUBLECLICK)
 		{
-			if($baseClass == 'KalturaDistributionProfile')
-				return new KalturaDoubleClickDistributionProfile();
+			if($baseClass == 'BorhanDistributionProfile')
+				return new BorhanDoubleClickDistributionProfile();
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::DOUBLECLICK)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::DOUBLECLICK)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 			{
@@ -76,9 +76,9 @@ class DoubleClickDistributionPlugin extends KalturaPlugin implements IKalturaPer
 			}
 		}
 		
-		if($baseClass == 'KalturaDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(DoubleClickDistributionProviderType::DOUBLECLICK))
+		if($baseClass == 'BorhanDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(DoubleClickDistributionProviderType::DOUBLECLICK))
 		{
-			$reflect = new ReflectionClass('KalturaDoubleClickDistributionJobProviderData');
+			$reflect = new ReflectionClass('BorhanDoubleClickDistributionJobProviderData');
 			return $reflect->newInstanceArgs($constructorArgs);
 		}
 	
@@ -88,8 +88,8 @@ class DoubleClickDistributionPlugin extends KalturaPlugin implements IKalturaPer
 			return $reflect->newInstanceArgs($constructorArgs);
 		}
 	
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(DoubleClickDistributionProviderType::DOUBLECLICK))
-			return new KalturaDoubleClickDistributionProfile();
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(DoubleClickDistributionProviderType::DOUBLECLICK))
+			return new BorhanDoubleClickDistributionProfile();
 			
 		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(DoubleClickDistributionProviderType::DOUBLECLICK))
 			return new DoubleClickDistributionProfile();
@@ -105,7 +105,7 @@ class DoubleClickDistributionPlugin extends KalturaPlugin implements IKalturaPer
 	public static function getObjectClass($baseClass, $enumValue)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::DOUBLECLICK)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::DOUBLECLICK)
 		{
 			if($baseClass == 'IDistributionEngineCloseDelete')
 				return 'DoubleClickDistributionEngine';
@@ -134,30 +134,30 @@ class DoubleClickDistributionPlugin extends KalturaPlugin implements IKalturaPer
 			if($baseClass == 'IDistributionEngineDisable')
 				return 'DoubleClickDistributionEngine';
 		
-			if($baseClass == 'KalturaDistributionProfile')
-				return 'KalturaDoubleClickDistributionProfile';
+			if($baseClass == 'BorhanDistributionProfile')
+				return 'BorhanDoubleClickDistributionProfile';
 		
-			if($baseClass == 'KalturaDistributionJobProviderData')
-				return 'KalturaDoubleClickDistributionJobProviderData';
+			if($baseClass == 'BorhanDistributionJobProviderData')
+				return 'BorhanDoubleClickDistributionJobProviderData';
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::DOUBLECLICK)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::DOUBLECLICK)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 				return 'Form_DoubleClickProfileConfiguration';
 				
-			if($baseClass == 'Kaltura_Client_ContentDistribution_Type_DistributionProfile')
-				return 'Kaltura_Client_DoubleClickDistribution_Type_DoubleClickDistributionProfile';
+			if($baseClass == 'Borhan_Client_ContentDistribution_Type_DistributionProfile')
+				return 'Borhan_Client_DoubleClickDistribution_Type_DoubleClickDistributionProfile';
 		}
 		
-		if($baseClass == 'KalturaDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(DoubleClickDistributionProviderType::DOUBLECLICK))
-			return 'KalturaDoubleClickDistributionJobProviderData';
+		if($baseClass == 'BorhanDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(DoubleClickDistributionProviderType::DOUBLECLICK))
+			return 'BorhanDoubleClickDistributionJobProviderData';
 	
 		if($baseClass == 'kDistributionJobProviderData' && $enumValue == self::getApiValue(DoubleClickDistributionProviderType::DOUBLECLICK))
 			return 'kDoubleClickDistributionJobProviderData';
 	
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(DoubleClickDistributionProviderType::DOUBLECLICK))
-			return 'KalturaDoubleClickDistributionProfile';
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(DoubleClickDistributionProviderType::DOUBLECLICK))
+			return 'BorhanDoubleClickDistributionProfile';
 			
 		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(DoubleClickDistributionProviderType::DOUBLECLICK))
 			return 'DoubleClickDistributionProfile';
@@ -178,11 +178,11 @@ class DoubleClickDistributionPlugin extends KalturaPlugin implements IKalturaPer
 	/**
 	 * Return an API distribution provider instance
 	 * 
-	 * @return KalturaDistributionProvider
+	 * @return BorhanDistributionProvider
 	 */
-	public static function getKalturaProvider()
+	public static function getBorhanProvider()
 	{
-		$distributionProvider = new KalturaDoubleClickDistributionProvider();
+		$distributionProvider = new BorhanDoubleClickDistributionProvider();
 		$distributionProvider->fromObject(self::getProvider());
 		return $distributionProvider;
 	}
@@ -207,7 +207,7 @@ class DoubleClickDistributionPlugin extends KalturaPlugin implements IKalturaPer
 	 */
 	public static function getDistributionProviderTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('DistributionProviderType', $value);
 	}
 	
@@ -216,11 +216,11 @@ class DoubleClickDistributionPlugin extends KalturaPlugin implements IKalturaPer
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	 */
 	public static function getEventConsumers()
 	{
@@ -230,7 +230,7 @@ class DoubleClickDistributionPlugin extends KalturaPlugin implements IKalturaPer
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaServices::getServicesMap()
+	 * @see IBorhanServices::getServicesMap()
 	 */
 	public static function getServicesMap()
 	{

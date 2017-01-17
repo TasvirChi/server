@@ -33,7 +33,7 @@ class kEntitlementUtils
 	{
 		if ( is_null($privacyContextsArray) || is_null($partnerId))
 		{
-			KalturaLog::err("can't handle privacy context for privacyContextsArray: $privacyContextsArray and partnerId: $partnerId.");
+			BorhanLog::err("can't handle privacy context for privacyContextsArray: $privacyContextsArray and partnerId: $partnerId.");
 			return $privacyContextsArray;
 		}
 		$prefix = self::getPartnerPrefix($partnerId);
@@ -85,7 +85,7 @@ class kEntitlementUtils
 			$entry = $entry->getParentEntry();
 			if(!$entry)
 			{
-				KalturaLog::log('Parent entry not found, cannot validate entitlement');
+				BorhanLog::log('Parent entry not found, cannot validate entitlement');
 				return false;
 			}
 		}
@@ -94,7 +94,7 @@ class kEntitlementUtils
 
 		if(self::$entitlementForced === false)
 		{
-			KalturaLog::log('Entitlement forced to be disabled');
+			BorhanLog::log('Entitlement forced to be disabled');
 			return true;
 		}
 
@@ -102,7 +102,7 @@ class kEntitlementUtils
 		// for actions with no ks - need to check if partner have default entitlement feature enable.
 		if(!self::getEntitlementEnforcement() && $ks)
 		{
-			KalturaLog::log('Entry entitled: entitlement disabled');
+			BorhanLog::log('Entry entitled: entitlement disabled');
 			return true;
 		}
 
@@ -110,13 +110,13 @@ class kEntitlementUtils
 
 		if(!$ks && !$partner->getDefaultEntitlementEnforcement())
 		{
-			KalturaLog::info('Entry [' . print_r($entry->getId(), true) . '] entitled: no ks and default is with no enforcement');
+			BorhanLog::info('Entry [' . print_r($entry->getId(), true) . '] entitled: no ks and default is with no enforcement');
 			return true;
 		}
 
 		if($ks && in_array($entry->getId(), $ks->getDisableEntitlementForEntry()))
 		{
-			KalturaLog::info('Entry [' . print_r($entry->getId(), true) . '] entitled: ks disble entitlement for this entry');
+			BorhanLog::info('Entry [' . print_r($entry->getId(), true) . '] entitled: ks disble entitlement for this entry');
 			return true;
 		}
 
@@ -127,14 +127,14 @@ class kEntitlementUtils
 			// kuser is set on the entry as creator or uploader
 			if ($kuserId != '' && ($entry->getKuserId() == $kuserId))
 			{
-				KalturaLog::info('Entry [' . print_r($entry->getId(), true) . '] entitled: ks user is the same as entry->kuserId or entry->creatorKuserId [' . $kuserId . ']');
+				BorhanLog::info('Entry [' . print_r($entry->getId(), true) . '] entitled: ks user is the same as entry->kuserId or entry->creatorKuserId [' . $kuserId . ']');
 				return true;
 			}
 
 			// kuser is set on the entry entitled users edit or publish
 			if($entry->isEntitledKuserEdit($kuserId) || $entry->isEntitledKuserPublish($kuserId))
 			{
-				KalturaLog::info('Entry [' . print_r($entry->getId(), true) . '] entitled: ks user is the same as entry->entitledKusersEdit or entry->entitledKusersPublish');
+				BorhanLog::info('Entry [' . print_r($entry->getId(), true) . '] entitled: ks user is the same as entry->entitledKusersEdit or entry->entitledKusersPublish');
 				return true;
 			}
 		}
@@ -146,7 +146,7 @@ class kEntitlementUtils
 			$categoryEntry = categoryEntryPeer::retrieveOneActiveByEntryId($entry->getId());
 			if(!$categoryEntry)
 			{
-				KalturaLog::info('Entry [' . print_r($entry->getId(), true) . '] entitled: entry does not belong to any category');
+				BorhanLog::info('Entry [' . print_r($entry->getId(), true) . '] entitled: entry does not belong to any category');
 				return true;
 			}
 		}
@@ -164,7 +164,7 @@ class kEntitlementUtils
 				$categoryEntry = categoryEntryPeer::retrieveOneByEntryIdStatusPrivacyContextExistance($entry->getId(), array(CategoryEntryStatus::PENDING, CategoryEntryStatus::ACTIVE));
 				if($categoryEntry)
 				{
-					KalturaLog::info('Entry [' . print_r($entry->getId(), true) . '] entitled: entry belongs to public category and privacy context on the ks is not set');
+					BorhanLog::info('Entry [' . print_r($entry->getId(), true) . '] entitled: entry belongs to public category and privacy context on the ks is not set');
 					return true;
 				}
 			}
@@ -177,7 +177,7 @@ class kEntitlementUtils
 			if($ks && (!$ksPrivacyContexts || trim($ksPrivacyContexts) == '') && !count($allCategoriesEntry))
 			{
 				// entry that doesn't belong to any category is public
-				KalturaLog::info('Entry [' . print_r($entry->getId(), true) . '] entitled: entry does not belong to any category and privacy context on the ks is not set');
+				BorhanLog::info('Entry [' . print_r($entry->getId(), true) . '] entitled: entry does not belong to any category and privacy context on the ks is not set');
 				return true;
 			}
 		}
@@ -207,7 +207,7 @@ class kEntitlementUtils
 		//if entry doesn't belong to any category.
 		$categories[] = category::CATEGORY_ID_THAT_DOES_NOT_EXIST;
 
-		$c = KalturaCriteria::create(categoryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(categoryPeer::OM_CLASS);
 		$c->add(categoryPeer::ID, $categories, Criteria::IN);
 
 		$privacy = array(category::formatPrivacy(PrivacyType::ALL, $partner->getId()));
@@ -226,7 +226,7 @@ class kEntitlementUtils
 				$ksPrivacyContexts = self::addPrivacyContextsPrefix( $ksPrivacyContexts, $partner->getId() );
 			}
 
-			$c->add(categoryPeer::PRIVACY_CONTEXTS, $ksPrivacyContexts, KalturaCriteria::IN_LIKE);
+			$c->add(categoryPeer::PRIVACY_CONTEXTS, $ksPrivacyContexts, BorhanCriteria::IN_LIKE);
 
 			// kuser is set on the category as member
 			// this ugly code is temporery - since we have a bug in sphinxCriteria::getAllCriterionFields
@@ -235,7 +235,7 @@ class kEntitlementUtils
 				// get the groups that the user belongs to in case she is not associated to the category directly
 				$kgroupIds = KuserKgroupPeer::retrieveKgroupIdsByKuserId($kuserId);
 				$kgroupIds[] = $kuserId;
-				$membersCrit = $c->getNewCriterion ( categoryPeer::MEMBERS , $kgroupIds, KalturaCriteria::IN_LIKE);
+				$membersCrit = $c->getNewCriterion ( categoryPeer::MEMBERS , $kgroupIds, BorhanCriteria::IN_LIKE);
 				$membersCrit->addOr($crit);
 				$crit = $membersCrit;
 			}
@@ -243,23 +243,23 @@ class kEntitlementUtils
 		else
 		{
 			//no ks = set privacy context to default.
-			$c->add(categoryPeer::PRIVACY_CONTEXTS, array( self::getDefaultContextString( $partner->getId() )) , KalturaCriteria::IN_LIKE);
+			$c->add(categoryPeer::PRIVACY_CONTEXTS, array( self::getDefaultContextString( $partner->getId() )) , BorhanCriteria::IN_LIKE);
 		}
 
 		$c->addAnd($crit);
 
 		//remove default FORCED criteria since categories that has display in search = public - doesn't mean that all of their entries are public
-		KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		$category = categoryPeer::doSelectOne($c);
-		KalturaCriterion::restoreTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::restoreTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 
 		if($category)
 		{
-			KalturaLog::info('Entry [' . print_r($entry->getId(), true) . '] entitled: ks user is a member of this category or category privacy is set to public of authenticated');
+			BorhanLog::info('Entry [' . print_r($entry->getId(), true) . '] entitled: ks user is a member of this category or category privacy is set to public of authenticated');
 			return true;
 		}
 
-		KalturaLog::info('Entry [' . print_r($entry->getId(), true) . '] not entitled');
+		BorhanLog::info('Entry [' . print_r($entry->getId(), true) . '] not entitled');
 		return false;
 	}
 
@@ -326,8 +326,8 @@ class kEntitlementUtils
 
 		if (self::$entitlementEnforcement)
 		{
-			KalturaCriterion::enableTag(KalturaCriterion::TAG_ENTITLEMENT_ENTRY);
-			KalturaCriterion::enableTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+			BorhanCriterion::enableTag(BorhanCriterion::TAG_ENTITLEMENT_ENTRY);
+			BorhanCriterion::enableTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		}
 	}
 
@@ -399,22 +399,22 @@ class kEntitlementUtils
 		foreach ($privacyContexts as $categoryPrivacyContext => $Privacy)
 			$entryPrivacyContexts[] = $categoryPrivacyContext . self::TYPE_SEPERATOR . $Privacy;
 
-		KalturaLog::info('Privacy by context: ' . print_r($entryPrivacyContexts,true));
+		BorhanLog::info('Privacy by context: ' . print_r($entryPrivacyContexts,true));
 
 		return $entryPrivacyContexts;
 	}
 
 	private static function getCategoriesByIds($categoriesIds)
 	{
-		$c = KalturaCriteria::create(categoryPeer::OM_CLASS);
-		KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		$c = BorhanCriteria::create(categoryPeer::OM_CLASS);
+		BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		$c->add(categoryPeer::ID, $categoriesIds, Criteria::IN);
-		KalturaCriterion::restoreTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::restoreTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		$c->dontCount();
 
-		KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		$categories = categoryPeer::doSelect($c);
-		KalturaCriterion::restoreTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::restoreTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 
 		return $categories;
 	}

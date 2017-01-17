@@ -4,7 +4,7 @@
  * @package plugins.scheduledTask
  * @subpackage api.objects.objectTasks
  */
-class KalturaDeleteLocalContentObjectTask extends KalturaObjectTask
+class BorhanDeleteLocalContentObjectTask extends BorhanObjectTask
 {
 	public function __construct()
 	{

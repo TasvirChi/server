@@ -101,7 +101,7 @@ abstract class kManifestRenderer
 
 	// allow to replace {deliveryCode} place holder with the deliveryCode parameter passed to the action
 	// a publisher with a rtmpUrl set to {deliveryCode}.example.com/ondemand will be able to use different
-	// cdn configuration for different sub publishers by passing a different deliveryCode to the KDP
+	// cdn configuration for different sub publishers by passing a different deliveryCode to the BDP
 	abstract protected function replaceDeliveryCode();
 	
 	abstract protected function tokenizeUrls();

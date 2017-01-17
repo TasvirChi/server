@@ -4,14 +4,14 @@
  * @subpackage system
  * @deprecated
  */
-require_once ( __DIR__ . "/kalturaSystemAction.class.php" );
+require_once ( __DIR__ . "/borhanSystemAction.class.php" );
 
 /**
  * @package    Core
  * @subpackage system
  * @deprecated
  */
-class createWidgetsAction extends kalturaSystemAction
+class createWidgetsAction extends borhanSystemAction
 {
 	
 	/**
@@ -111,7 +111,7 @@ class createWidgetsAction extends kalturaSystemAction
 			}
 			
 					
-			// create a log file of the kaltura-widget tagss for wiki
+			// create a log file of the borhan-widget tagss for wiki
 			$partner = PartnerPeer::retrieveByPK( $partner_id );
 			if  ( $partner )
 			{
@@ -129,7 +129,7 @@ class createWidgetsAction extends kalturaSystemAction
 					$str = implode ( "|" , $values);
 					$base64_str = base64_encode( $str );
 					
-					$res [] = "kalturaid='$kshow_id'	kwid='$base64_str'	'$str'\n";
+					$res [] = "borhanid='$kshow_id'	kwid='$base64_str'	'$str'\n";
 				}
 			}
 		}

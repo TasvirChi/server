@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaContributionPolicyType extends KalturaEnum implements ContributionPolicyType
+class BorhanContributionPolicyType extends BorhanEnum implements ContributionPolicyType
 {
 	public static function getDescriptions()
 	{

@@ -75,7 +75,7 @@ class EmailNotificationTemplate extends BatchEventNotificationTemplate implement
 		}
 		
 		
-		KalturaLog::info("Sweeping Email Notification Template with id {$this->getId()} for metadata tokens.");
+		BorhanLog::info("Sweeping Email Notification Template with id {$this->getId()} for metadata tokens.");
 		
 		$jobDataFields = array ('to', 'cc', 'bcc');
 		$templateFields = array ('subject', 'body');
@@ -111,7 +111,7 @@ class EmailNotificationTemplate extends BatchEventNotificationTemplate implement
 				$sweepFieldValues[] = $fieldValue;
 		}
 		
-		$editorPlugins = KalturaPluginManager::getPluginInstances("IKalturaEventNotificationContentEditor");
+		$editorPlugins = BorhanPluginManager::getPluginInstances("IBorhanEventNotificationContentEditor");
 		foreach ($editorPlugins as $plugin)
 		{
 			$pluginContentParameters = $plugin->editTemplateFields($sweepFieldValues, $scope, $this->getObjectType());

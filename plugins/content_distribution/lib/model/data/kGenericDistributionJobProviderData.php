@@ -16,7 +16,7 @@ class kGenericDistributionJobProviderData extends kDistributionJobProviderData
 	private $resultParseData;
 	
 	/**
-	 * @var KalturaGenericDistributionProviderParser
+	 * @var BorhanGenericDistributionProviderParser
 	 */
 	private $resultParserType;
 
@@ -66,7 +66,7 @@ class kGenericDistributionJobProviderData extends kDistributionJobProviderData
 	}
 
 	/**
-	 * @param KalturaGenericDistributionProviderParser $resultParserType
+	 * @param BorhanGenericDistributionProviderParser $resultParserType
 	 */
 	public function setResultParserType($resultParserType)
 	{

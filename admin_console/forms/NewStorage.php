@@ -21,12 +21,12 @@ class Form_NewStorage extends Infra_Form
 		));
 		
 		$newProtocolType =
-			new Kaltura_Form_Element_EnumSelect(
+			new Borhan_Form_Element_EnumSelect(
 					'newProtocolType',
 					array(
-						'enum' => 'Kaltura_Client_Enum_StorageProfileProtocol',
+						'enum' => 'Borhan_Client_Enum_StorageProfileProtocol',
 						'excludes' => array (
-											Kaltura_Client_Enum_StorageProfileProtocol::KALTURA_DC,
+											Borhan_Client_Enum_StorageProfileProtocol::BORHAN_DC,
 										),
 					)
 				);

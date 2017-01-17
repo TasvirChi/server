@@ -80,7 +80,7 @@ class kTagFlowManager implements kObjectCreatedEventConsumer, kObjectDeletedEven
     	}
     	catch(Exception $e)
     	{
-    		KalturaLog::err($e);
+    		BorhanLog::err($e);
     	}
     }
 
@@ -340,14 +340,14 @@ class kTagFlowManager implements kObjectCreatedEventConsumer, kObjectDeletedEven
 	 * @param array $tagStrings
 	 * @param int $objectType
 	 * @param int $partnerId
-	 * @return KalturaCriteria
+	 * @return BorhanCriteria
 	 */
 	public static function getTagObjectsByTagStringsCriteria ($tagStrings, $objectType, $partnerId)
 	{
-	    $c = KalturaCriteria::create(TagPeer::OM_CLASS);
-	    $c->addAnd(TagPeer::TAG, $tagStrings, KalturaCriteria::IN);
-	    $c->addAnd(TagPeer::PARTNER_ID, $partnerId, KalturaCriteria::EQUAL);
-	    $c->addAnd(TagPeer::OBJECT_TYPE, $objectType, KalturaCriteria::EQUAL);
+	    $c = BorhanCriteria::create(TagPeer::OM_CLASS);
+	    $c->addAnd(TagPeer::TAG, $tagStrings, BorhanCriteria::IN);
+	    $c->addAnd(TagPeer::PARTNER_ID, $partnerId, BorhanCriteria::EQUAL);
+	    $c->addAnd(TagPeer::OBJECT_TYPE, $objectType, BorhanCriteria::EQUAL);
 	    return $c;
 	}
 	
@@ -392,7 +392,7 @@ class kTagFlowManager implements kObjectCreatedEventConsumer, kObjectDeletedEven
 			$partnerId = kCurrentContext::getCurrentPartnerId();
 		
 		$batchJob->setPartnerId($partnerId);
-		KalturaLog::log("Creating tag re-index job for categoryId [" . $data->getChangedCategoryId() . "] ");
+		BorhanLog::log("Creating tag re-index job for categoryId [" . $data->getChangedCategoryId() . "] ");
 		return kJobsManager::addJob($batchJob, $data, $jobType);
 	}
 	

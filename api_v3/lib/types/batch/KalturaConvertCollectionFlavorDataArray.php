@@ -3,14 +3,14 @@
  * @package api
  * @subpackage objects
  */
-class KalturaConvertCollectionFlavorDataArray extends KalturaTypedArray
+class BorhanConvertCollectionFlavorDataArray extends BorhanTypedArray
 {
-	public static function fromDbArray(array $arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaConvertCollectionFlavorDataArray();
+		$newArr = new BorhanConvertCollectionFlavorDataArray();
 		foreach ( $arr as $obj )
 		{
-			$nObj = new KalturaConvertCollectionFlavorData();
+			$nObj = new BorhanConvertCollectionFlavorData();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -20,6 +20,6 @@ class KalturaConvertCollectionFlavorDataArray extends KalturaTypedArray
 	
 	public function __construct( )
 	{
-		return parent::__construct ( "KalturaConvertCollectionFlavorData" );
+		return parent::__construct ( "BorhanConvertCollectionFlavorData" );
 	}
 }

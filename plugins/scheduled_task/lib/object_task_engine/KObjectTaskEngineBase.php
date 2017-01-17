@@ -12,12 +12,12 @@ abstract class KObjectTaskEngineBase
 	private $_originalPartnerId;
 
 	/**
-	 * @var KalturaClient
+	 * @var BorhanClient
 	 */
 	private $_client;
 
 	/**
-	 * @var KalturaObjectTask
+	 * @var BorhanObjectTask
 	 */
 	private $_objectTask;
 
@@ -31,7 +31,7 @@ abstract class KObjectTaskEngineBase
 	 */
 	public function execute($object)
 	{
-		KalturaLog::info('Executing object task '.get_class($this).' for object '.get_class($object));
+		BorhanLog::info('Executing object task '.get_class($this).' for object '.get_class($object));
 
 		if (is_null($this->_client))
 			throw new Exception('Client must be set before execution');
@@ -43,15 +43,15 @@ abstract class KObjectTaskEngineBase
 	}
 
 	/**
-	 * @param KalturaClient $client
+	 * @param BorhanClient $client
 	 */
-	public function setClient(KalturaClient $client)
+	public function setClient(BorhanClient $client)
 	{
 		$this->_client = $client;
 	}
 
 	/**
-	 * @return KalturaClient
+	 * @return BorhanClient
 	 */
 	public function getClient()
 	{
@@ -59,7 +59,7 @@ abstract class KObjectTaskEngineBase
 	}
 
 	/**
-	 * @param KalturaObjectTask $objectTask
+	 * @param BorhanObjectTask $objectTask
 	 */
 	public function setObjectTask($objectTask)
 	{
@@ -67,7 +67,7 @@ abstract class KObjectTaskEngineBase
 	}
 
 	/**
-	 * @return KalturaObjectTask
+	 * @return BorhanObjectTask
 	 */
 	public function getObjectTask()
 	{

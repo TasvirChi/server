@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaAssetParamsBaseFilter extends KalturaRelatedFilter
+abstract class BorhanAssetParamsBaseFilter extends BorhanRelatedFilter
 {
 	static private $map_between_objects = array
 	(
@@ -39,7 +39,7 @@ abstract class KalturaAssetParamsBaseFilter extends KalturaRelatedFilter
 	public $systemNameIn;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $isSystemDefaultEqual;
 

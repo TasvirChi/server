@@ -6,11 +6,11 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaAssetDistributionConditionsArray extends KalturaTypedArray
+class BorhanAssetDistributionConditionsArray extends BorhanTypedArray
 {
-	public static function fromDbArray(array $arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaAssetDistributionConditionsArray();
+		$newArr = new BorhanAssetDistributionConditionsArray();
 		if ($arr == null)
 			return $newArr;
 
@@ -19,7 +19,7 @@ class KalturaAssetDistributionConditionsArray extends KalturaTypedArray
 			switch(get_class($obj))
 			{
 				case 'kAssetDistributionPropertyCondition':
-					$nObj = new KalturaAssetDistributionPropertyCondition();
+					$nObj = new BorhanAssetDistributionPropertyCondition();
 					break;
 			}
 
@@ -32,6 +32,6 @@ class KalturaAssetDistributionConditionsArray extends KalturaTypedArray
 	
 	public function __construct()
 	{
-		parent::__construct("KalturaAssetDistributionCondition");
+		parent::__construct("BorhanAssetDistributionCondition");
 	}
 }

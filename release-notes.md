@@ -10,7 +10,7 @@ None.
 
 ### Deployment scripts ###
 
-	php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/tests/standAloneClient/playServerFlavorHttpEventNotification.xml
+	php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/tests/standAloneClient/playServerFlavorHttpEventNotification.xml
 
 ## Add temporary flag for new live recording LA ##
 
@@ -20,13 +20,13 @@ None.
 ### Configuration ###
 - Add new permission to admin.ini:
 
-		moduls.kalturaLiveStreamRecording.enabled = true
-		moduls.kalturaLiveStreamRecording.permissionType = 2
-		moduls.kalturaLiveStreamRecording.label = Kaltura Live Stream Recording
-		moduls.kalturaLiveStreamRecording.permissionName = FEATURE_LIVE_STREAM_KALTURA_RECORDING
-		moduls.kalturaLiveStreamRecording.basePermissionType = 2
-		moduls.kalturaLiveStreamRecording.basePermissionName = FEATURE_LIVE_STREAM
-		moduls.kalturaLiveStreamRecording.group = GROUP_ENABLE_DISABLE_FEATURES
+		moduls.borhanLiveStreamRecording.enabled = true
+		moduls.borhanLiveStreamRecording.permissionType = 2
+		moduls.borhanLiveStreamRecording.label = Borhan Live Stream Recording
+		moduls.borhanLiveStreamRecording.permissionName = FEATURE_LIVE_STREAM_BORHAN_RECORDING
+		moduls.borhanLiveStreamRecording.basePermissionType = 2
+		moduls.borhanLiveStreamRecording.basePermissionName = FEATURE_LIVE_STREAM
+		moduls.borhanLiveStreamRecording.group = GROUP_ENABLE_DISABLE_FEATURES
 
 ### Deployment scripts ###
 	
@@ -45,7 +45,7 @@ None.
 None.
 
 ### Deployment scripts ###
-	php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2016_12_20_update_schedule_event_permissions.php
+	php /opt/borhan/app/deployment/updates/scripts/add_permissions/2016_12_20_update_schedule_event_permissions.php
 	                
 ## Need to verify ability to list occurrences by resource of their parent for Extron ##
 
@@ -67,7 +67,7 @@ None.
 None.
 
 ### Deployment scripts ###
-	php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/deployment/updates/scripts/xml/2016_12_23_updateEntryReadyTemplateForLive.xml
+	php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/deployment/updates/scripts/xml/2016_12_23_updateEntryReadyTemplateForLive.xml
 
 ## Add new bpm_process_case table to the DB ##
 
@@ -143,7 +143,7 @@ None
 None.
 
 ### Deployment scripts ###
-	php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2016_12_06_update_base_entry_get_playing_data_permissions.php
+	php /opt/borhan/app/deployment/updates/scripts/add_permissions/2016_12_06_update_base_entry_get_playing_data_permissions.php
 	
 ## Ad cue points and flavor changed http notifications ##
 
@@ -155,10 +155,10 @@ None.
 
 ### Deployment scripts ###
 
-	php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/tests/standAloneClient/adCuePointHttpNotification.xml
-	php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/tests/standAloneClient/playServerFlavorHttpEventNotification.xml
+	php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/tests/standAloneClient/adCuePointHttpNotification.xml
+	php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/tests/standAloneClient/playServerFlavorHttpEventNotification.xml
 
-## support for Kaltura liveRecording - Full Live to Vod flow ##
+## support for Borhan liveRecording - Full Live to Vod flow ##
 
  - Issue Type: New Feature
  - Issue ID: PLAT-5807
@@ -206,7 +206,7 @@ None.
 
 # Lynx 12.6.0 #
 
-## support for Kaltura liveRecording - Full Live to Vod flow ##
+## support for Borhan liveRecording - Full Live to Vod flow ##
 
  - Issue Type: New Feature
  - Issue ID: PLAT-5807
@@ -218,11 +218,11 @@ None.
 	
 Add live flavor params tag to include hls required tags:
 
-	php /opt/kaltura/app/deployment/updates/scripts/2016_10_30_update_live_flavor_tags.php
+	php /opt/borhan/app/deployment/updates/scripts/2016_10_30_update_live_flavor_tags.php
 
 Add new permissions to mediaServer partner for media->update:
 
-	php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2016_11_22_media_server_media_update.php
+	php /opt/borhan/app/deployment/updates/scripts/add_permissions/2016_11_22_media_server_media_update.php
 	
 #### Known Issues & Limitations ####
 
@@ -239,7 +239,7 @@ None.
 
 ### Deployment scripts ###
 
-	php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/tests/standAloneClient/adCuePointHttpNotification.xml
+	php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/tests/standAloneClient/adCuePointHttpNotification.xml
 
 ## Allow entryServerNode get and list actions for partners ##
 
@@ -253,7 +253,7 @@ None.
 
 Add additional permissions to liveEntryServerNode service: 	
 
-	php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2016_11_21_entry_server_node_allow_partner_list.php
+	php /opt/borhan/app/deployment/updates/scripts/add_permissions/2016_11_21_entry_server_node_allow_partner_list.php
 
 #### Known Issues & Limitations ####
 
@@ -283,12 +283,12 @@ Add a new column to the category_entry table:
  - Issue ID: PLAT-6327
 
 ### Configuration ###
-update app/configurations/sphinx/kaltura.conf file and remove the following from kaltura_caption_item:
+update app/configurations/sphinx/borhan.conf file and remove the following from borhan_caption_item:
 rt_attr_uint = int_id 
 
 ### Deployment scripts ###
 	
-ReIndex and repopulate kaltura_caption tabel in sphinx.
+ReIndex and repopulate borhan_caption tabel in sphinx.
 
 #### Known Issues & Limitations ####
 
@@ -296,7 +296,7 @@ None.
 
 # Lynx 12.4.0 #
 
-## Initial support for Kaltura liveRecording ##
+## Initial support for Borhan liveRecording ##
 
  - Issue Type: New Feature
  - Issue ID: PLAT-5809
@@ -308,11 +308,11 @@ None.
 	
 Add new liveStream service setRecordedContent Action:
 
-	php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2016_10_20_live_stream_service_set_recorded_content.php
+	php /opt/borhan/app/deployment/updates/scripts/add_permissions/2016_10_20_live_stream_service_set_recorded_content.php
 
 Add new permissions to mediaServer partner:
 
-	php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2016_09_21_media_Server_upload_token_list.php
+	php /opt/borhan/app/deployment/updates/scripts/add_permissions/2016_09_21_media_Server_upload_token_list.php
 
 #### Known Issues & Limitations ####
 
@@ -324,7 +324,7 @@ None.
 - Issue ID: PLAT-6093
 
 ### Deployment scripts ###
-- Run 'mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 kaltura < /opt/kaltura/app/deployment/updates/sql/2016_10_20_alter_business_process_server_table_add_dc_column.sql'
+- Run 'mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 borhan < /opt/borhan/app/deployment/updates/sql/2016_10_20_alter_business_process_server_table_add_dc_column.sql'
 
 
 ## Allow Play Server to Run Flavor Asset List ##
@@ -353,8 +353,8 @@ None.
  - Issue ID: PLAT-6164
 
 ### Configuration ###
- - update sphinx kaltura.conf:
-	 Add index to kaltura_schedule_event:
+ - update sphinx borhan.conf:
+	 Add index to borhan_schedule_event:
 	- rt_attr_string = summary
 
 ### Deployment scripts ###
@@ -374,7 +374,7 @@ None.
 ### Deployment scripts ###
 	run:
 	 
-		php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2016_10_10_add_regenerate_secure_token_liveStream.php
+		php /opt/borhan/app/deployment/updates/scripts/add_permissions/2016_10_10_add_regenerate_secure_token_liveStream.php
 
 #### Known Issues & Limitations ####
 
@@ -389,7 +389,7 @@ None.
 
 ### Configuration ###
  - update OVP push servers to latest version
- - add an exchange on each server named "kaltura_exchange"
+ - add an exchange on each server named "borhan_exchange"
 
 ### Deployment scripts ###
 None.
@@ -406,7 +406,7 @@ None.
  
 ### Deployment scripts ###
 
-	php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/tests/standAloneClient/attachmentAssetHttpNotifications.xml
+	php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/tests/standAloneClient/attachmentAssetHttpNotifications.xml
 
 ## Add new batch job for handling copy cue-point from live to VOD ##
 
@@ -430,7 +430,7 @@ None.
 ### Deployment scripts ###
 	run:
 	 
-		php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2016_08_22_add_action_plugin_cuepoint.php
+		php /opt/borhan/app/deployment/updates/scripts/add_permissions/2016_08_22_add_action_plugin_cuepoint.php
 
 ## New category HTTP event notifications ##
 
@@ -442,7 +442,7 @@ None.
  
 ### Deployment scripts ###
 
-	cd /opt/kaltura/app/tests/standAloneClient
+	cd /opt/borhan/app/tests/standAloneClient
 	php exec.php categoryHttpNotifications.xml  
 
 ## Sphinx improvement - add partnerId to privacy_by_contextsx ##
@@ -470,7 +470,7 @@ None.
  
 ### Deployment scripts ###
 
-	php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/tests/standAloneClient/bpmNotificationTemplatesForBurntSubtitles.xml
+	php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/tests/standAloneClient/bpmNotificationTemplatesForBurntSubtitles.xml
 
 ## Live Delivery profile - enable overiding live delivery profiles per partner similar to how we work with VOD ##
 
@@ -484,11 +484,11 @@ None.
 	
 Import partner mediaServerConfiguration and set the new liveDeliveryProfile ovveride option:
 
-	php /opt/kaltura/app/deployment/updates/scripts/2016_08_30_migrate_partner_media_server_configurations.php execute
+	php /opt/borhan/app/deployment/updates/scripts/2016_08_30_migrate_partner_media_server_configurations.php execute
 
 For current eCDN partners set the default empty deliveryProfile on the serverNode config to avoid configuring new deliveryProfle per machine:
 
-	php /opt/kaltura/app/deployment/updates/scripts/2016_08_25_updateExternalServerNodes.php execute
+	php /opt/borhan/app/deployment/updates/scripts/2016_08_25_updateExternalServerNodes.php execute
 	
 ###### Note: the execute required param will be removed before the actual deployemnt.
 
@@ -501,15 +501,15 @@ None.
 
 # Kajam 11.21.0 #
 
-## Modify kaltura_cue_point sphinx index columns from int to text field (for better sphinx querying) ##
+## Modify borhan_cue_point sphinx index columns from int to text field (for better sphinx querying) ##
 
  - Issue Type: Bug
  - Issue ID: PLAT-5742
 
 ### Configuration ###
-- update sphinx kaltura.conf:
+- update sphinx borhan.conf:
 	
-		Make sure that to kaltura_cue_point index is modified from rt_attr_uint to rt_field :
+		Make sure that to borhan_cue_point index is modified from rt_attr_uint to rt_field :
 		- rt_field = cue_point_type
 		- rt_field = kuser_id
 		- rt_field = is_public
@@ -533,7 +533,7 @@ None.
 
 ### Deployment scripts ###
 
-	php /opt/kaltura/app/deployment/updates/scripts/2016_08_01_create_polls_default_schecma.php
+	php /opt/borhan/app/deployment/updates/scripts/2016_08_01_create_polls_default_schecma.php
 
 #### Known Issues & Limitations ####
 
@@ -551,7 +551,7 @@ None.
  
 ### Deployment scripts ###
 
-	php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/tests/standAloneClient/bpmNotificationTemplatesForBurntSubtitles.xml
+	php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/tests/standAloneClient/bpmNotificationTemplatesForBurntSubtitles.xml
 
 # Kajam 11.19.0 #
 
@@ -564,7 +564,7 @@ None.
 
 #### Deployment Scripts ####
 
-- Run mysql -ukaltura -p -P3306 kaltura < 2016_07_07_alter_schedule_event_table_add_updated_at_key.sql
+- Run mysql -uborhan -p -P3306 borhan < 2016_07_07_alter_schedule_event_table_add_updated_at_key.sql
 
 #### Known Issues & Limitations ####
 
@@ -627,7 +627,7 @@ None.
  
 ### Deployment scripts ###
 
-	php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/tests/standAloneClient/bpmNotificationTemplatesForBurntSubtitles.xml
+	php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/tests/standAloneClient/bpmNotificationTemplatesForBurntSubtitles.xml
 
 #### Known Issues & Limitations ####
 
@@ -676,9 +676,9 @@ None.
 - Issue ID: PLAT-5488 PLAT-5484
 
 ### Configuration ###
-- update sphinx kaltura.conf:
+- update sphinx borhan.conf:
 	
-		Add the following to kaltura_schedule_event index:
+		Add the following to borhan_schedule_event index:
 		- rt_field = template_entry_categories_ids
 		- rt_field = resource_system_names
 		- rt_field = template_entry_id
@@ -703,7 +703,7 @@ IP, userId and password (of your admin-console account), partner (insert -2 for 
 
 #### Deployment Scripts ####
 
-		php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/deployment/updates/scripts/xml/2016_05_31_updateEntryReadyTemplateForReplace.xml
+		php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/deployment/updates/scripts/xml/2016_05_31_updateEntryReadyTemplateForReplace.xml
 		
 #### Known Issues & Limitations ####
 
@@ -737,7 +737,7 @@ None.
 
 #### Deployment Scripts ####
 
-		- Run 'php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2016_05_31_add_additional_actions_to_entryServerNode.php'
+		- Run 'php /opt/borhan/app/deployment/updates/scripts/add_permissions/2016_05_31_add_additional_actions_to_entryServerNode.php'
 		
 #### Known Issues & Limitations ####
 
@@ -754,7 +754,7 @@ None.
 
 #### Deployment Scripts ####
 
-		php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/tests/standAloneClient/bpmNotificationTemplatesForBurntSubtitles.xml
+		php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/tests/standAloneClient/bpmNotificationTemplatesForBurntSubtitles.xml
 
 #### Known Issues & Limitations ####
 
@@ -769,7 +769,7 @@ None.
 - None.
  
 #### Deployment Scripts ####
-php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2016_01_17_flavorasset_service_add_play_server_permission.php
+php /opt/borhan/app/deployment/updates/scripts/add_permissions/2016_01_17_flavorasset_service_add_play_server_permission.php
 
 #### Known Issues & Limitations ####
 
@@ -786,7 +786,7 @@ None.
 
 #### Deployment Scripts ####
 
-		php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2016_05_05_add_additional_actions_to_entryServerNode.php
+		php /opt/borhan/app/deployment/updates/scripts/add_permissions/2016_05_05_add_additional_actions_to_entryServerNode.php
 
 #### Known Issues & Limitations ####
 
@@ -799,13 +799,13 @@ None.
 
 #### Configuration ####
 
-- configurations/sphinx/kaltura.conf -  add the following line to the kaltura_category index:  
+- configurations/sphinx/borhan.conf -  add the following line to the borhan_category index:  
 rt_field = aggregation_categories  
 
 #### Deployment Scripts ####
 
-		php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2016_05_29_enable_category_update_to_partner_-2.php  
-		php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2016_05_29_limit_access_to_isAggregationChannel_property.php  
+		php /opt/borhan/app/deployment/updates/scripts/add_permissions/2016_05_29_enable_category_update_to_partner_-2.php  
+		php /opt/borhan/app/deployment/updates/scripts/add_permissions/2016_05_29_limit_access_to_isAggregationChannel_property.php  
 
 # Kajam 11.15.0 #
 
@@ -820,7 +820,7 @@ rt_field = aggregation_categories
 
 #### Deployment Scripts ####
 
-		php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/tests/standAloneClient/contentUpdateNotifications.xml
+		php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/tests/standAloneClient/contentUpdateNotifications.xml
 
 #### Known Issues & Limitations ####
 
@@ -850,7 +850,7 @@ Added the following to batch.ini file under KAsyncValidateLiveMediaServers:
  - params.minCreationTime = 120
  
 #### Deployment scripts####
-	php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2016_04_26_add_batch_to_entryServerNode.php
+	php /opt/borhan/app/deployment/updates/scripts/add_permissions/2016_04_26_add_batch_to_entryServerNode.php
 	
 ## Added the new analytics service ##
  
@@ -863,7 +863,7 @@ Added the following to local.ini in server-saas-config:
  - analytics_internal_API_url = http://dataretrieval-access-stg-491967709.us-west-2.elb.amazonaws.com:9000/query 
 
 #### Deployment scripts####
-	php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2016_04_17_analytics.php
+	php /opt/borhan/app/deployment/updates/scripts/add_permissions/2016_04_17_analytics.php
  
 #### Known Issues & Limitations ####
  - None.
@@ -877,7 +877,7 @@ Added the following to local.ini in server-saas-config:
 - None.
  
 #### Deployment scripts####
-	php /opt/kaltura/app/deployment/updates/scripts/2016_04_05_migrate_tvinci_distribution_tags_to_be_dynamic.php <partner_id> realrun
+	php /opt/borhan/app/deployment/updates/scripts/2016_04_05_migrate_tvinci_distribution_tags_to_be_dynamic.php <partner_id> realrun
  
 #### Known Issues & Limitations ####
  - None.
@@ -895,7 +895,7 @@ Added the following to local.ini in server-saas-config:
 
 #### Deployment scripts####
 
-	php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2016_04_14_update_batch_service.php
+	php /opt/borhan/app/deployment/updates/scripts/add_permissions/2016_04_14_update_batch_service.php
 
 #### Known Issues & Limitations ####
 - None.
@@ -905,8 +905,8 @@ Added the following to local.ini in server-saas-config:
 - Issue ID: PLAT-5245
 
 #### Configuration ####
-- copy "index kaltura_schedule_event:kaltura_base" section from /opt/kaltura/app/configurations/sphinx/kaltura.conf.template
-to /opt/kaltura/app/configurations/sphinx/kaltura.conf
+- copy "index borhan_schedule_event:borhan_base" section from /opt/borhan/app/configurations/sphinx/borhan.conf.template
+to /opt/borhan/app/configurations/sphinx/borhan.conf
 modifiy path to appropriate directory.
 - restart sphinx service
 
@@ -921,7 +921,7 @@ modifiy path to appropriate directory.
 
 #### Deployment scripts####
 
-	php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/deployment/updates/scripts/xml/updateCommentWasAddedToEntryEmailNotificationTemplateCode.xml
+	php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/deployment/updates/scripts/xml/updateCommentWasAddedToEntryEmailNotificationTemplateCode.xml
 
 #### Known Issues & Limitations ####
 - None.
@@ -943,7 +943,7 @@ modifiy path to appropriate directory.
 		php deployment/base/scripts/installPlugins.php
 	
 	Create new tables:
-		mysql -ukaltura -p -P3306 kaltura < deployment/updates/sql/2016_03_17_create_schedule_tables.sql
+		mysql -uborhan -p -P3306 borhan < deployment/updates/sql/2016_03_17_create_schedule_tables.sql
 
 #### Known Issues & Limitations ####
 - None.
@@ -970,7 +970,7 @@ modifiy path to appropriate directory.
 
 #### Deployment Scripts ####
 	Update permissions: 
-		php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2016_03_22_media_server_live_stream_list.php
+		php /opt/borhan/app/deployment/updates/scripts/add_permissions/2016_03_22_media_server_live_stream_list.php
 	
 #### Known Issues & Limitations ####
 - None.
@@ -984,7 +984,7 @@ modifiy path to appropriate directory.
 
 #### Deployment Scripts ####
 	Update permissions: 
-		php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2013_03_24_update_content_docs_action.php
+		php /opt/borhan/app/deployment/updates/scripts/add_permissions/2013_03_24_update_content_docs_action.php
 	
 #### Known Issues & Limitations ####
 - None.
@@ -998,13 +998,13 @@ modifiy path to appropriate directory.
 
 #### Deployment Scripts ####
 	Update permissions: 
-		php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2016_02_10_entry_server_node_service.php
+		php /opt/borhan/app/deployment/updates/scripts/add_permissions/2016_02_10_entry_server_node_service.php
 	
 	Create new entry_server_node table:
-		mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 kaltura < /opt/kaltura/app/deployment/updates/sql/2016_02_10_create_entry_server_node_table.sql
+		mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 borhan < /opt/borhan/app/deployment/updates/sql/2016_02_10_create_entry_server_node_table.sql
 		
 	Import all live entries to the new table:
-		php /opt/kaltura/app/deployment/updates/scripts/2016_02_17_move_live_entry_to_entry_server_node.php
+		php /opt/borhan/app/deployment/updates/scripts/2016_02_17_move_live_entry_to_entry_server_node.php
 
 #### Known Issues & Limitations ####
 - None.
@@ -1052,16 +1052,16 @@ None.
 		  friendlyName = Clear old cue points from live entry
 		  type = KAsyncClearCuePoints
 		  scriptPath = ../plugins/cue_points/base/batch/clearCuePonts/KAsyncClearCuePointsExe.php
-		  filter.KalturaCuePointFilter.cuePointTypeIn = "thumbCuePoint.Thumb,adCuePoint.Ad,codeCuePoint.Code"
-		  filter.KalturaCuePointFilter.orderBy = "+createdAt"
-		  filter.KalturaCuePointFilter.createdAtLessThanOrEqual = "-86400"
-		  filter.KalturaCuePointFilter.statusEqual = 1
+		  filter.BorhanCuePointFilter.cuePointTypeIn = "thumbCuePoint.Thumb,adCuePoint.Ad,codeCuePoint.Code"
+		  filter.BorhanCuePointFilter.orderBy = "+createdAt"
+		  filter.BorhanCuePointFilter.createdAtLessThanOrEqual = "-86400"
+		  filter.BorhanCuePointFilter.statusEqual = 1
 
 #### Known Issues & Limitations ####
 - None.
 
 #### Deployment scripts ####
- - php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2016_02_29_batch_cue_point.php
+ - php /opt/borhan/app/deployment/updates/scripts/add_permissions/2016_02_29_batch_cue_point.php
 
 ## Avoid API caching of anonymous users base on widget role unless found in blacklist ##
  - Issue Type:bug\feature
@@ -1129,9 +1129,9 @@ None.
 ### Installation ###
 None.
 #### Configuration ####
-Copy the file '/opt/kaltura/app/batch/kaltura_batch.sh' to /etc/init.d/kaltura-batch and overwrite.
-Edit file '/opt/kaltura/app/configurations/monit/monit.avail/batch.rc'. Set the value 'with pidfile "/opt/kaltura/var/run/batch.pid"'
-Edit file '/opt/kaltura/app/configurations/batch/batch.ini' and set 'pidFileDir = /opt/kaltura/var/run/'
+Copy the file '/opt/borhan/app/batch/borhan_batch.sh' to /etc/init.d/borhan-batch and overwrite.
+Edit file '/opt/borhan/app/configurations/monit/monit.avail/batch.rc'. Set the value 'with pidfile "/opt/borhan/var/run/batch.pid"'
+Edit file '/opt/borhan/app/configurations/batch/batch.ini' and set 'pidFileDir = /opt/borhan/var/run/'
 #### Known Issues & Limitations ####
 None.
 #### Deployment scripts ####
@@ -1165,7 +1165,7 @@ None.
 
 #### Deployment Scripts ####
 
-		php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/tests/standAloneClient/flavorAssetChangedHttpNotificationTemplate.xml
+		php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/tests/standAloneClient/flavorAssetChangedHttpNotificationTemplate.xml
 
 #### Known Issues & Limitations ####
 
@@ -1221,7 +1221,7 @@ None.
 #### Known Issues & Limitations ####
 None.
 #### Deployment scripts ####
- - mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 kaltura < /opt/kaltura/app/deployment/updates/sql/2016_02_03_add_default_duration_to_drm_policies.sql
+ - mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 borhan < /opt/borhan/app/deployment/updates/sql/2016_02_03_add_default_duration_to_drm_policies.sql
 
 
 # Kajam-11.7.0 #
@@ -1250,14 +1250,14 @@ None.
  - Issue Type: New Feature
  - Issue ID: WEBC-629
 #### Installation ####
- - deploy new jars to Wowza - new jars can be found in the ticket https://kaltura.atlassian.net/browse/WEBC-629
+ - deploy new jars to Wowza - new jars can be found in the ticket https://borhan.atlassian.net/browse/WEBC-629
 #### Configuration ####
  - Validate facebook.ini exists in the configuration directory
  - Added FacebookDistribution to plugins.ini
 #### Known Issues & Limitations ####
 None.
 #### Deployment scripts ####
- - php /opt/kaltura/app/deployment/base/scripts/installPlugins.php
+ - php /opt/borhan/app/deployment/base/scripts/installPlugins.php
 
 ## Usage dashboard ##
 
@@ -1266,9 +1266,9 @@ None.
 
 #### Installation ####
 
-- Download latest Usage Dashboard package from https://github.com/kaltura/usage-dashboard/releases/
-- Extract the zip to `/opt/kaltura/apps/usage-dashboard/`
-- If the app version is v1.0.0, make sure that `/opt/kaltura/apps/usage-dashboard/v1.0.0/index.html` exists
+- Download latest Usage Dashboard package from https://github.com/borhan/usage-dashboard/releases/
+- Extract the zip to `/opt/borhan/apps/usage-dashboard/`
+- If the app version is v1.0.0, make sure that `/opt/borhan/apps/usage-dashboard/v1.0.0/index.html` exists
 
 #### Configuration ####
 
@@ -1344,7 +1344,7 @@ None.
 - task: WEBC-631
 #### Configuration ####
  - configure ffprobe on API / BATCH servers - used to parse AMF data from mp4 files generated by wowza.
-to do so: add bin_path_ffprobeKAMFMediaInfoParser to local.ini to be a symbolic link to /opt/kaltura/bin/ffmpeg-2.7.2-bin/ffprobe.sh
+to do so: add bin_path_ffprobeKAMFMediaInfoParser to local.ini to be a symbolic link to /opt/borhan/bin/ffmpeg-2.7.2-bin/ffprobe.sh
 the symbolic link should be named ffprobeKAMFMediaInfoParser
 
 ## Update permissions ##
@@ -1367,19 +1367,19 @@ the symbolic link should be named ffprobeKAMFMediaInfoParser
  - Issue ID: PLAT-3634 
 
 ### Deployment scripts (note the order of the scripts is important run them as listed ) ###
-	 - php /opt/kaltura/app/deployment/base/scripts/installPlugins.php
+	 - php /opt/borhan/app/deployment/base/scripts/installPlugins.php
 
-	 - php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2015_09_08_server_node_service.php
+	 - php /opt/borhan/app/deployment/updates/scripts/add_permissions/2015_09_08_server_node_service.php
 	 
-	 - php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2015_09_16_media_server_server_node.php
+	 - php /opt/borhan/app/deployment/updates/scripts/add_permissions/2015_09_16_media_server_server_node.php
 
-	 - mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 kaltura < /opt/kaltura/app/deployment/updates/sql/2015_09_08_alter_edge_server_table.sql
+	 - mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 borhan < /opt/borhan/app/deployment/updates/sql/2015_09_08_alter_edge_server_table.sql
 
-	 - mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 kaltura < /opt/kaltura/app/deployment/updates/sql/2015_09_08_rename_edge_server_table.sql
+	 - mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 borhan < /opt/borhan/app/deployment/updates/sql/2015_09_08_rename_edge_server_table.sql
 	 
-	 - php /opt/kaltura/app/deployment/updates/scripts/2015_09_21_migrateMediaServerTableToServerNodeTable.php
+	 - php /opt/borhan/app/deployment/updates/scripts/2015_09_21_migrateMediaServerTableToServerNodeTable.php
 	 
-	 - php /opt/kaltura/app/deployment/updates/scripts/2015_10_29_migrate_edge_server_permissions.php
+	 - php /opt/borhan/app/deployment/updates/scripts/2015_10_29_migrate_edge_server_permissions.php
 	 
 #### Configuration ####
 
@@ -1407,8 +1407,8 @@ the symbolic link should be named ffprobeKAMFMediaInfoParser
 		domain-hls = SAME_AS_THE_DOMAIN_VALUE
 
 	- Edited Wowza Server.xml:
-		- property: "KalturaServerManagers"
-		  Remove the value "com.kaltura.media.server.wowza.StatusManager"
+		- property: "BorhanServerManagers"
+		  Remove the value "com.borhan.media.server.wowza.StatusManager"
 
 #### Known Issues & Limitations ####
 
@@ -1437,11 +1437,11 @@ None.
   
 ### Deployment scripts ###
 
-	php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/tests/standAloneClient/scheduledTaskProfiles/30DayDeleteAfterScheduleEnd.xml  
+	php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/tests/standAloneClient/scheduledTaskProfiles/30DayDeleteAfterScheduleEnd.xml  
 	Input: 
 	- partner ID - 1956791
 	- Max total count allowed per execution: 500
-	- Host name: www.kaltura.com
+	- Host name: www.borhan.com
 	- Partner email address: admin console admin user
 	- Partner password: user's password
 	- Partner ID: -2
@@ -1456,11 +1456,11 @@ None.
 None.
 
 #### Deployment Scripts ####
-	php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2015_10_25_add_like_list_permission.php
-	php /opt/kaltura/app/alpha/scripts/utils/permissions/addPermissionToRole.php 0 Basic\ User\ Session\ Role LIKE_LIST_USER realrun (please use copy-paste carefully here)
+	php /opt/borhan/app/deployment/updates/scripts/add_permissions/2015_10_25_add_like_list_permission.php
+	php /opt/borhan/app/alpha/scripts/utils/permissions/addPermissionToRole.php 0 Basic\ User\ Session\ Role LIKE_LIST_USER realrun (please use copy-paste carefully here)
 
 	(only for on-prem/CE environments)
-	mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 kaltura < deployment/updates/sql/2015_10_25_alter_kvote_table_puser_id_table.sql
+	mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 borhan < deployment/updates/sql/2015_10_25_alter_kvote_table_puser_id_table.sql
 	php deployment/updates/scripts/2015_10_25_populate_like_table_puser_id_field.php
 	
 #### Known Issues & Limitations ####
@@ -1480,9 +1480,9 @@ None.
 - Added 'Cielo24' module to the admin-console in admin.ini.
 
 #### Deployment Scripts ####
-	php /opt/kaltura/app/deployment/base/scripts/installPlugins.php
-	php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2015_09_20_update_integration_notify_permission_name.php
-	(developer's responsibility) php /opt/kaltura/app/alpha/scripts/utils/addPartnerToCielo24.php /opt/kaltura/app {PID} {cielo24-api-username} {cielo24-api-password} 
+	php /opt/borhan/app/deployment/base/scripts/installPlugins.php
+	php /opt/borhan/app/deployment/updates/scripts/add_permissions/2015_09_20_update_integration_notify_permission_name.php
+	(developer's responsibility) php /opt/borhan/app/alpha/scripts/utils/addPartnerToCielo24.php /opt/borhan/app {PID} {cielo24-api-username} {cielo24-api-password} 
 	
 #### Known Issues & Limitations ####
 
@@ -1543,11 +1543,11 @@ None.
 
 ### Configuration ###
 
-## Changed kaltura.scheduler_status.id from int(11) to bigint(20) ##
+## Changed borhan.scheduler_status.id from int(11) to bigint(20) ##
 
 - Run the following permission script:
 
-  mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 kaltura <  deployment/updates/sql/2015_09_06_alter_scheduler_status_bigint.sql
+  mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 borhan <  deployment/updates/sql/2015_09_06_alter_scheduler_status_bigint.sql
 
 # Jupiter-10.18.0 #
 
@@ -1562,7 +1562,7 @@ None.
 
 #### Deployment Scripts ####
 
-	php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2015_08_16_allow_adding_answer_cue_points_with_widget_ks.php
+	php /opt/borhan/app/deployment/updates/scripts/add_permissions/2015_08_16_allow_adding_answer_cue_points_with_widget_ks.php
 	 
 #### Known Issues & Limitations ####
 
@@ -1576,12 +1576,12 @@ None.
 ### Installation ###
 
 - Run the installPlugins.php script:
-	php /opt/kaltura/app/deployment/base/scripts/installPlugins.php
+	php /opt/borhan/app/deployment/base/scripts/installPlugins.php
 
 ### Configuration ###
 
 - Run the following permission script:
-	php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2015_08_12_add_metadata_profile_get_action_for_partner_-1.php
+	php /opt/borhan/app/deployment/updates/scripts/add_permissions/2015_08_12_add_metadata_profile_get_action_for_partner_-1.php
 
 ## Voicebase plugin ##
 
@@ -1594,9 +1594,9 @@ None.
 - Added 'Voicebase' module to the admin-console in admin.ini.
 
 #### Deployment Scripts ####
-	php /opt/kaltura/app/deployment/base/scripts/installPlugins.php
-	php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2015_08_23_add_integration_notify_permission.php
-	(developer's responsibility) php /opt/kaltura/app/alpha/scripts/utils/addPartnerToVoicebase.php /opt/kaltura/app {PID} {voicebase-api-key} {voicebase-api-password} 
+	php /opt/borhan/app/deployment/base/scripts/installPlugins.php
+	php /opt/borhan/app/deployment/updates/scripts/add_permissions/2015_08_23_add_integration_notify_permission.php
+	(developer's responsibility) php /opt/borhan/app/alpha/scripts/utils/addPartnerToVoicebase.php /opt/borhan/app {PID} {voicebase-api-key} {voicebase-api-password} 
 	
 #### Known Issues & Limitations ####
 
@@ -1650,7 +1650,7 @@ None.
 #### Deployment Scripts ####
 
 Run:
- 	- php /opt/kaltura/app/deployment/base/scripts/installPlugins.php
+ 	- php /opt/borhan/app/deployment/base/scripts/installPlugins.php
 
 #### Known Issues & Limitations ####
 
@@ -1687,7 +1687,7 @@ None.
 
 #### Deployment Scripts ####
 
- 	- (Already executed on production) php /opt/kaltura/app/deployment/updates/scripts/2015_07_20_create_applehttp_to_multicast_delivery_profile.php
+ 	- (Already executed on production) php /opt/borhan/app/deployment/updates/scripts/2015_07_20_create_applehttp_to_multicast_delivery_profile.php
 
 #### Known Issues & Limitations ####
 
@@ -1704,7 +1704,7 @@ None.
 
 #### Deployment Scripts ####
 
- - mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 kaltura < deployment/updates/sql/2015_07_26_alter_edge_server_column_name.sql
+ - mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 borhan < deployment/updates/sql/2015_07_26_alter_edge_server_column_name.sql
 
 #### Known Issues & Limitations ####
 
@@ -1837,7 +1837,7 @@ None.
 ### Configuration ###
 
  - Added new e-mail configuration in /batch/batches/Mailer/emails_en.ini
- - Remark for production configuration: add /alpha/crond/kaltura/monthly_quota_storage_update.sh script to kaltura.daily cron jobs 
+ - Remark for production configuration: add /alpha/crond/borhan/monthly_quota_storage_update.sh script to borhan.daily cron jobs 
  
 ### Deployment Scripts ###
 
@@ -1895,7 +1895,7 @@ filter.createdAtLessThanOrEqual = -39600	; now() - 11 hours
 ### Deployment Scripts ###
 
 - run the following deployment script:  
-		php exec.php /opt/kaltura/app/tests/standAloneClient/entryCustomMetadataChangedHttpNotification.xml  
+		php exec.php /opt/borhan/app/tests/standAloneClient/entryCustomMetadataChangedHttpNotification.xml  
 
 
 ## Application authentication token ##
@@ -1910,22 +1910,22 @@ None.
 #### Deployment Scripts ####
 
  - php deployment/updates/scripts/add_permissions/2015_06_22_app_token_service.php
- - mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 kaltura < deployment/updates/sql/2015_06_22_create_app_token_table.sql
+ - mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 borhan < deployment/updates/sql/2015_06_22_create_app_token_table.sql
 
 #### Known Issues & Limitations ####
 
 None.
 
 
-## Update KMC docs  ##
+## Update BMC docs  ##
 
 -- Issue Type: Doc change
 -- Issue ID: SUP-3117
 
 #### Configuration ####
 
-Need to update the following doc on the SAAS server under location /web/content/docs/kaltura_batch_upload_falcon.zip
-from repository kmc-docs.
+Need to update the following doc on the SAAS server under location /web/content/docs/borhan_batch_upload_falcon.zip
+from repository bmc-docs.
 
 #### Deployment Scripts ####
 
@@ -2000,16 +2000,16 @@ None.
 - run the Following deployemnt scripts:
         
 		Create new user_entry table:
-        mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 kaltura < deployment/updates/sql/2015_15_06_create_user_entry_table.sql
+        mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 borhan < deployment/updates/sql/2015_15_06_create_user_entry_table.sql
         
 
 		Update new services permissions:
-		php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2015_04_11_update_quiz_permissions.php
-		php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2015_05_07_update_userentry_permissions.php
-		php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2015_06_07_update_quiz_analytics_permissions.php
+		php /opt/borhan/app/deployment/updates/scripts/add_permissions/2015_04_11_update_quiz_permissions.php
+		php /opt/borhan/app/deployment/updates/scripts/add_permissions/2015_05_07_update_userentry_permissions.php
+		php /opt/borhan/app/deployment/updates/scripts/add_permissions/2015_06_07_update_quiz_analytics_permissions.php
 
 		Install Plugins:
-		php /opt/kaltura/app/deployment/base/scripts/installPlugins.php
+		php /opt/borhan/app/deployment/base/scripts/installPlugins.php
 
 		
 		
@@ -2041,10 +2041,10 @@ None.
 - run the Following deployemnt scripts:
 
 		Update new servcie permissions: 
-		php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2015_05_28_edge_server_service.php
+		php /opt/borhan/app/deployment/updates/scripts/add_permissions/2015_05_28_edge_server_service.php
 
 		create new edge_Server table:
-		mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 kaltura < deployment/updates/sql/2015_27_05_create_edge_server_table.sql
+		mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 borhan < deployment/updates/sql/2015_27_05_create_edge_server_table.sql
 
 #### Known Issues & Limitations ####
 
@@ -2060,7 +2060,7 @@ None.
 
 #### Deployment Scripts ####
 
-	php /opt/kaltura/app/deployment/base/scripts/installPlugins.php
+	php /opt/borhan/app/deployment/base/scripts/installPlugins.php
 
 - deploy server-saas-config to update batch client.
 
@@ -2109,7 +2109,7 @@ None.
 
 #### Deployment Script ####
 
-- Run php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/tests/standAloneClient/emailDropFolderFailedStatusMessage.xml  
+- Run php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/tests/standAloneClient/emailDropFolderFailedStatusMessage.xml  
 
 ## Server ingestion of chapter cue points without slides ##
 
@@ -2138,7 +2138,7 @@ None.
 
 #### Deployment Script ####
 
-- Run php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/tests/standAloneClient/metadataObjectChanged.xml  
+- Run php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/tests/standAloneClient/metadataObjectChanged.xml  
 
 ## "Entry flagged for review" Email Notification missing on production ##
 
@@ -2147,7 +2147,7 @@ None.
 
 #### Deployment Script ####
 
-- Run php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/tests/standAloneClient/kmcModerationNotificationsTemplates.xml  
+- Run php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/tests/standAloneClient/bmcModerationNotificationsTemplates.xml  
 
 ## uDRM on the fly encryption ##
 
@@ -2179,9 +2179,9 @@ None.
 
 #### Deployment Scripts ####
 
-		- run php /opt/kaltura/app/deployment/updates/scripts/2015_05_17_update_DRM_access_control.php
+		- run php /opt/borhan/app/deployment/updates/scripts/2015_05_17_update_DRM_access_control.php
 		- run php deployment/updates/scripts/add_permissions/2015_05_17_update_drm_license_access_permissions.php
-        - run php /opt/kaltura/app/deployment/base/scripts/installPlugins.php
+        - run php /opt/borhan/app/deployment/base/scripts/installPlugins.php
 
 #### Known Issues & Limitations ####
 
@@ -2196,16 +2196,16 @@ None.
 - Issue ID: PLAT-2850
 
 ### Configuration ###
-- update sphinx kaltura.conf:
+- update sphinx borhan.conf:
 	
-		Add the following to kaltura_cue_point index:
+		Add the following to borhan_cue_point index:
 		- rt_attr_uint = is_public
 		- rt_field = plugins_data
 
 #### Deployment Scripts ####
 
 		- Need to re-build & re-index the cue point sphinx table.
-		- run php /opt/kaltura/app/deployment/updates/scripts/2015_05_11_create_qAndA_default_schema.php
+		- run php /opt/borhan/app/deployment/updates/scripts/2015_05_11_create_qAndA_default_schema.php
 
 #### Known Issues & Limitations ####
 
@@ -2235,7 +2235,7 @@ None.
 ### Deployment ###
 
 - Run the following script:  
-			cd /opt/kaltura/app/tests/standAloneClient  
+			cd /opt/borhan/app/tests/standAloneClient  
 			php exec.php commentAddedEnabledForManualDispatch.xml    
 - Delete older email notification from partner 0.
 
@@ -2269,7 +2269,7 @@ None.
 
 #### Deployment Scripts ####
 
-- Run mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 kaltura < deployment/updates/sql/2014_11_06_metadata_profile_file_sync_version.sql
+- Run mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 borhan < deployment/updates/sql/2014_11_06_metadata_profile_file_sync_version.sql
 
 #### Known Issues & Limitations ####
 
@@ -2289,7 +2289,7 @@ None.
   
 ### Deployment ###
  
- - Run mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 kaltura < deployment/updates/sql/2015_04_28_alter_file_sync_table_custom_data_field.sql
+ - Run mysql -h@db_host@ -u@db_user@ -p@db_pass@ -P3306 borhan < deployment/updates/sql/2015_04_28_alter_file_sync_table_custom_data_field.sql
 	
 		Please verify this column does not exist propir to running.
 
@@ -2317,7 +2317,7 @@ Add the following parameters to the batch.ini DropFolderWatcher worker configura
 ### Deployment ###
  
  - clear the cache
- - run php /opt/kaltura/app/deployment/base/scripts/installPlugins.php
+ - run php /opt/borhan/app/deployment/base/scripts/installPlugins.php
  - Create new folder : @WEB_DIR@/tmp/dropFolderFiles
 
 ## Time Based Playlist Filters ##
@@ -2351,7 +2351,7 @@ Add the following lines from admin.template.ini to admin.ini:
 
     moduls.liveStreamRecordShouldCopyEntitelment.enabled = true
     moduls.liveStreamRecordShouldCopyEntitelment.permissionType = 2
-    moduls.liveStreamRecordShouldCopyEntitelment.label = Kaltura Live Streams - Copy entitelment
+    moduls.liveStreamRecordShouldCopyEntitelment.label = Borhan Live Streams - Copy entitelment
     moduls.liveStreamRecordShouldCopyEntitelment.permissionName = FEATURE_LIVE_STREAM_COPY_ENTITELMENTS
     moduls.liveStreamRecordShouldCopyEntitelment.basePermissionType = 2
     moduls.liveStreamRecordShouldCopyEntitelment.basePermissionName = FEATURE_LIVE_STREAM
@@ -2509,9 +2509,9 @@ None.
 
 #### Configuration ####
 
-**sphinx/kaltura.conf**
+**sphinx/borhan.conf**
 
-Added the following attribute to the kaltura_tag sphinx table. please re-index.
+Added the following attribute to the borhan_tag sphinx table. please re-index.
 
 	rt_attr_string = tag
 
@@ -2554,12 +2554,12 @@ Add `MetadataSphinx` to the end of `Mandatory plugins` section (after `SphinxSea
 
 **sphinx**
 
-Update `configurations/sphinx/kaltura.conf` according to template (a new index `kaltura_metadata` was added).
+Update `configurations/sphinx/borhan.conf` according to template (a new index `borhan_metadata` was added).
 
 
 #### Deployment Scripts ####
 
-		mysql -uroot -p kaltura < deployment/updates/sql/2015_03_18_alter_metadata_profile_field_with_custom_data_field.sql
+		mysql -uroot -p borhan < deployment/updates/sql/2015_03_18_alter_metadata_profile_field_with_custom_data_field.sql
 		php deployment/updates/scripts/add_permissions/2015_03_18_update_metadata_permissions.php
 		php deployment/base/scripts/installPlugins.php
 		php deployment/base/scripts/populateSphinxMetadata.php
@@ -2585,7 +2585,7 @@ None
 
 #### Deployment Scripts ####
 
-	mysql -uroot -p kaltura < deployment/updates/sql/2015_02_23_response_profile_table.sql
+	mysql -uroot -p borhan < deployment/updates/sql/2015_02_23_response_profile_table.sql
 	php deployment/updates/scripts/add_permissions/2015_02_23_response_profile.php  
 
 #### Known Issues & Limitations ####
@@ -2602,8 +2602,8 @@ Deploy an up-to-date version of batch/batches/Mailer/emails_en.ini
 
 #### Deployment Scripts ####
 
-Run on the Cassandra cluster: **live_analytics**/KalturaLiveModel/conf/migrations/2015-03-01-000000-update_dvr_kaltura_live_keyspace.cql
-Deploy KalturaLiveAnalyics.war
+Run on the Cassandra cluster: **live_analytics**/BorhanLiveModel/conf/migrations/2015-03-01-000000-update_dvr_borhan_live_keyspace.cql
+Deploy BorhanLiveAnalyics.war
 
 #### Known Issues & Limitations ####
 
@@ -2630,7 +2630,7 @@ None
 
 ###Installation  
 - Run:  
-php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/tests/standAloneClient/flavorAssetHttpNotifications.xml  
+php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/tests/standAloneClient/flavorAssetHttpNotifications.xml  
 
 #### Known Issues & Limitations ####
 
@@ -2709,11 +2709,11 @@ Add the following lines as new sections:
  - Clear cache: `rm -rf cache/*`.
  - Install plugins: `php deployment/base/scripts/installPlugins.php`.
  - Generate clients: `php generator/generate.php`.
- - Restart batch: `/etc/init.d/kaltura-batch restart`.
+ - Restart batch: `/etc/init.d/borhan-batch restart`.
 
 #### Deployment Scripts ####
 
-		mysql -uroot -p kaltura < deployment/updates/sql/2014_11_20_business_process_server.sql
+		mysql -uroot -p borhan < deployment/updates/sql/2014_11_20_business_process_server.sql
 		php deployment/updates/scripts/add_permissions/2014_11_20_business_process_server_permissions.php
 		php deployment/updates/scripts/add_permissions/2015_01_20_dispatch_integration_job.php
 		php tests/standAloneClient/exec.php tests/standAloneClient/bpmNotificationsTemplates.xml
@@ -2761,7 +2761,7 @@ Add the following lines as new sections:
  - Deploy processes **(replace tokens)**:
 	 - `cd @WEB_DIR@/content/clientlibs/bpmn`
 	 - `ant`
- - Add Activiti server to Kaltura server using the API **(replace tokens)**: `php @APP_DIR@/tests/standAloneClient/exec.php @APP_DIR@/tests/standAloneClient/activitiServer.xml`
+ - Add Activiti server to Borhan server using the API **(replace tokens)**: `php @APP_DIR@/tests/standAloneClient/exec.php @APP_DIR@/tests/standAloneClient/activitiServer.xml`
 
 ##Caption added HTTP Notifications##
 - Issue Type: new feature
@@ -2772,7 +2772,7 @@ None
 
 ###Installation  
 - Run:  
-php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/tests/standAloneClient/captionAssetHttpNotifications.xml  
+php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/tests/standAloneClient/captionAssetHttpNotifications.xml  
 
 #### Known Issues & Limitations ####
 
@@ -2792,9 +2792,9 @@ DropFolderEventNotifications
 ###Installation  
 
 - Run:  
-php /opt/kaltura/app/deployment/base/scripts/installPlugins.php  
+php /opt/borhan/app/deployment/base/scripts/installPlugins.php  
 - Run:  
-php /opt/kaltura/app/tests/standAloneClient/exec.php /opt/kaltura/app/tests/standAloneClient/emailDropFolderFileFailedStatus.xml  
+php /opt/borhan/app/tests/standAloneClient/exec.php /opt/borhan/app/tests/standAloneClient/emailDropFolderFileFailedStatus.xml  
 
 
 ----------
@@ -2837,7 +2837,7 @@ None.
 
 #### Deployment Scripts ####
 
-		php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2015_01_11_add_externalmedia_add_permissions.php
+		php /opt/borhan/app/deployment/updates/scripts/add_permissions/2015_01_11_add_externalmedia_add_permissions.php
 
 #### Known Issues & Limitations ####
 
@@ -2853,7 +2853,7 @@ None.
 
 #### Deployment Scripts ####
 
-		php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2015_01_11_add_base_playback_role_flavorasset_getwebplayablebyentryid_permission.php
+		php /opt/borhan/app/deployment/updates/scripts/add_permissions/2015_01_11_add_base_playback_role_flavorasset_getwebplayablebyentryid_permission.php
 
 #### Known Issues & Limitations ####
 
@@ -2893,7 +2893,7 @@ Add the following plugin to the list of plugins
 
 #### Deployment Scripts ####
 
-		php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2014_11_25_scheduled_task_update.php
+		php /opt/borhan/app/deployment/updates/scripts/add_permissions/2014_11_25_scheduled_task_update.php
 
 #### Known Issues & Limitations ####
 
@@ -2911,7 +2911,7 @@ None.
 
 Add the following line to the end of the settings.uiConfTypes[] list
 
-		settings.uiConfTypes[] = Kaltura_Client_Enum_UiConfObjType::WEBCASTING
+		settings.uiConfTypes[] = Borhan_Client_Enum_UiConfObjType::WEBCASTING
 
 #### Deployment Scripts ####
 
@@ -2965,9 +2965,9 @@ None.
 
 #### Configuration ####
 
-** sphinx/kaltura.conf **
+** sphinx/borhan.conf **
 
-Add the following line to the kaltura_entry class in configurations/sphinx/kaltura.conf (or merged from configurations/sphinx/kaltura.conf.template)
+Add the following line to the borhan_entry class in configurations/sphinx/borhan.conf (or merged from configurations/sphinx/borhan.conf.template)
 
 	rt_attr_uint = source
 
@@ -3141,7 +3141,7 @@ In order to use, requires adding a new flavor_params such as: [Assuming 10025 ==
 	INSERT INTO flavor_params VALUES (581230,0,0,'PPT 2 Image','',NULL,'PPT 2 Image',0,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,0,'jpg','',1,'',0,0,0,0,0,0,0,0,0,NULL,NULL,'a:3:{s:18:\"FlavorVideoBitrate\";i:1;s:19:\"requiredPermissions\";a:0:{}s:9:"sizeWidth";i:940;}',0,NULL,1,0,0,'[[{\"id\":\"document.ppt2Img\",\"extra\":null,\"command\":null}]]',NULL,10025);
 
 Place PowerPointConvertor.exe and PowerPointConvertor.exe.config in the same directory on your windows machine.
-f.i. /opt/kaltura/exe
+f.i. /opt/borhan/exe
 
 Requires adding a new windows worker. Sample configuration - 
 
@@ -3153,14 +3153,14 @@ Requires adding a new windows worker. Sample configuration -
 	maximumExecutionTime = 36000
 	maxJobsEachRun = 1
 	filter.jobSubTypeIn = document.ppt2Img
-	params.ppt2ImgCmd = C:\opt\kaltura\exe\PowerPointConvertor.exe
+	params.ppt2ImgCmd = C:\opt\borhan\exe\PowerPointConvertor.exe
 	baseLocalPath = C:\web\
-	baseTempSharedPath = /opt/kaltura/web/tmp/convert/
+	baseTempSharedPath = /opt/borhan/web/tmp/convert/
 	baseTempLocalPath = W:\tmp\convert\
 	params.localFileRoot = C:/output
 	params.remoteUrlDirectory = /output
 	params.fileCacheExpire = 36000
-	params.localTempPath = C:\opt\kaltura\tmp\convert
+	params.localTempPath = C:\opt\borhan\tmp\convert
 	params.sharedTempPath = W:\tmp\convert\ 
 
 #### Deployment Scripts ####
@@ -3210,20 +3210,20 @@ under 'KAsyncBulkUpload'
 
 None.
 
-##Added user names column to Kaltura_entry table on sphinx##
+##Added user names column to Borhan_entry table on sphinx##
 - Issue Type: Customer request
 - Issue ID: PLAT-1973
 
 #### Configuration ####
 
-Make sure configurations\sphinx\kaltura.conf is updated and the line - 
+Make sure configurations\sphinx\borhan.conf is updated and the line - 
 rt_field = user_names
-is added under kaltura_entry part
+is added under borhan_entry part
 
 #### Deployment Scripts ####
 
 None.
-As it requires adding a sphinx column, kaltura_entry must be re-populated.
+As it requires adding a sphinx column, borhan_entry must be re-populated.
 
 #### Known Issues & Limitations ####
 
@@ -3241,7 +3241,7 @@ None.
 
 #### Deployment Scripts ####
 
-	php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2014_10_19_base_playback_role_add_widevine_Attachment_permissions.php
+	php /opt/borhan/app/deployment/updates/scripts/add_permissions/2014_10_19_base_playback_role_add_widevine_Attachment_permissions.php
 
 #### Known Issues & Limitations ####
 
@@ -3255,7 +3255,7 @@ None.
 
 #### Deployment Scripts ####
 
-	php /opt/kaltura/app/deployment/updates/scripts/2014_06_10_update_remove_user_from_category_notification_template.php
+	php /opt/borhan/app/deployment/updates/scripts/2014_06_10_update_remove_user_from_category_notification_template.php
 
 #### Known Issues & Limitations ####
 
@@ -3464,7 +3464,7 @@ Added php support for live analytics
 #### Prerequisites ####
 
 - Player version: v2.17.rc7 or higher. (http://kgit.html5video.org/tags/v2.17.rc7/mwEmbedLoader.php)
-- KMC version: V5.38
+- BMC version: V5.38
 
 #### Configuration ####
 
@@ -3473,7 +3473,7 @@ Added php support for live analytics
 Should verify the following:
 
 - live analytics version v0.1
-- kmc version v5.38 
+- bmc version v5.38 
 
 **local.ini**
 
@@ -3495,10 +3495,10 @@ Permission script execution:
 #### Apps installation ####
 Install live analytics app by downloading _dist.zip from
 
-	https://github.com/kaltura/LiveAnalytics/releases/tag/0.1
+	https://github.com/borhan/LiveAnalytics/releases/tag/0.1
 and unzipping it into 
 
-	/opt/Kaltura/apps/liveanalytics/v0.1/
+	/opt/Borhan/apps/liveanalytics/v0.1/
 
 (discard "_dist" folder)
 Deploy uiconf: 
@@ -3527,7 +3527,7 @@ reverting the current encoder to the old one
 **Local.ini**
 
 - bin_path_ffmpeg = ffmpeg
-- ;bin_path_ffmpeg = /opt/kaltura/bin/x64/run/run-ffmpeg-0.10.sh
+- ;bin_path_ffmpeg = /opt/borhan/bin/x64/run/run-ffmpeg-0.10.sh
 
 
 #### Deployment Scripts ####
@@ -3548,7 +3548,7 @@ None
 
 #### Deployment Scripts ####
 
-		php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2014_08_21_base_playback_role_add_widevine_permission.php
+		php /opt/borhan/app/deployment/updates/scripts/add_permissions/2014_08_21_base_playback_role_add_widevine_permission.php
 
 #### Known Issues & Limitations ####
 None
@@ -3564,7 +3564,7 @@ None
 
 #### Deployment Scripts ####
 
-		php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2014_08_03_add_base_playback_role_permissions.php
+		php /opt/borhan/app/deployment/updates/scripts/add_permissions/2014_08_03_add_base_playback_role_permissions.php
 
 #### Known Issues & Limitations ####
 None
@@ -3685,7 +3685,7 @@ Record all live assets and manage the recording on the API server side.
 - `base.ini` already changed to support `max_live_recording_duration_hours` of 24 hours.
 
 #### Media-Server version ####
-- New media-server version [3.0.9](https://github.com/kaltura/media-server/releases/download/rel-3.0.9/KalturaWowzaServer-3.0.9.jar "3.0.9") required. 
+- New media-server version [3.0.9](https://github.com/borhan/media-server/releases/download/rel-3.0.9/BorhanWowzaServer-3.0.9.jar "3.0.9") required. 
 
 #### Deployment Scripts ####
 None
@@ -3706,7 +3706,7 @@ None
 +
 +#### Deployment Scripts ####
 +
-+		php /opt/kaltura/app/deployment/updates/scripts/add_permissions/2014_08_03_add_base_playback_role_permissions.php
++		php /opt/borhan/app/deployment/updates/scripts/add_permissions/2014_08_03_add_base_playback_role_permissions.php
 +
 +#### Known Issues & Limitations ####
 +None
@@ -3717,7 +3717,7 @@ None
 
 #### Configuration Files ####
 
-The following rewrite rules should be added to kaltura's apache configuration file:
+The following rewrite rules should be added to borhan's apache configuration file:
 
 In `^p/[-0-9]+/sp/[-0-9]+/` section:
 
@@ -3805,7 +3805,7 @@ In `^s/p/[-0-9]+/serveManifest/` section:
 
 # IX-9.15.0 #
 
-## Disable email notification for new KMC user creation ##
+## Disable email notification for new BMC user creation ##
 
 ## Live streaming provision should exclude cloud transcode where not available ##
 
@@ -3823,7 +3823,7 @@ Update admin.ini:
 
         settings.cookieNameSpace = Zend_Auth_AdminConsole"
 
-- Add the following block right under the "settings.enableKCWVisualEditor" line:
+- Add the following block right under the "settings.enableBCWVisualEditor" line:
 
         ; cookie options
         settings.cookieNameSpace = Zend_Auth_AdminConsole
@@ -3850,7 +3850,7 @@ Update admin.ini:
 # IX-9.13.0 #
 
 ## Live sync points ##
-Enable sending periodic live sync points on Kaltura live stream.
+Enable sending periodic live sync points on Borhan live stream.
 
 *Permissions*
 
@@ -3858,7 +3858,7 @@ Enable sending periodic live sync points on Kaltura live stream.
 
 *Media Server*
 
-- Version 3.0.3 [KalturaWowzaServer.jar](https://github.com/kaltura/media-server/releases/download/rel-3.0.3/KalturaWowzaServer-3.0.3.jar "KalturaWowzaServer.jar")
+- Version 3.0.3 [BorhanWowzaServer.jar](https://github.com/borhan/media-server/releases/download/rel-3.0.3/BorhanWowzaServer-3.0.3.jar "BorhanWowzaServer.jar")
  
 ## Play Ready ##
 - 1. upgrade PR license server to v2.9
@@ -3868,7 +3868,7 @@ Enable sending periodic live sync points on Kaltura live stream.
 - /deployment/updates/sql/2014_03_04_update_drm_device_table.sql
 
 *PR license server update*
-- 1. clone git repository: https://github.com/kaltura/playready-server
+- 1. clone git repository: https://github.com/borhan/playready-server
 - 2. copy dll's from PlayReadyLicenseServer/vdir/bin to the license server under: C:\Program Files\PlayReady Server SDK 2.9\vdir\bin
 - 3.  update web.xml - add <add key="RemoteAddrHeaderSalt" value="@REMOTE_ADDR_HEADER_SALT_LOCAL_INI@" /> under appSettings. Change @REMOTE_ADDR_HEADER_SALT_LOCAL_INI@ to the value of remote_addr_header_salt in local.ini
 - 4. restart IIS
@@ -3889,13 +3889,13 @@ Enable sending periodic live sync points on Kaltura live stream.
 	- $WORKER_ID – set to match existing Testing QA settings 
 	- $BASE_LOACL_PATH – follow other windows workers (aka Webex worker) 
 	- $SHARED_TEMP_PATH – follow other windows workers (aka Webex worker) 
-	- $SMOOTHPROTECT_BIN – full path to the 'smoothprotect.exe', typically '/opt/kaltura/bin/smoothprotect' 
+	- $SMOOTHPROTECT_BIN – full path to the 'smoothprotect.exe', typically '/opt/borhan/bin/smoothprotect' 
 	- $IS_REMOTE_OUTPUT – should match other Windows workers (aka Webex worker) 
 	- $IS_REMOTE_INPUT – should match other Windows workers (aka Webex worker)
 
 *Binaries*
 - Linux
-	- Install ffmpeg binary and ismindex binary from - http://ny-www.kaltura.com/content/shared/bin/ffmpeg-2.1.3-bin.tar.gz
+	- Install ffmpeg binary and ismindex binary from - http://ny-www.borhan.com/content/shared/bin/ffmpeg-2.1.3-bin.tar.gz
 	- Switch the ffmpeg allias to work with the new ffmpeg-2.1.3
 	- The ffmpeg-aux remains unchanged. 
 - Windows
@@ -3904,7 +3904,7 @@ Enable sending periodic live sync points on Kaltura live stream.
 ## H265/FFmpeg 2.2 ##
 
 *Binaries*
-- Install ffmpeg-2.2 from http://ny-www.kaltura.com/content/shared/bin/ffmpeg-2.2-bin.tar.gz
+- Install ffmpeg-2.2 from http://ny-www.borhan.com/content/shared/bin/ffmpeg-2.2-bin.tar.gz
 - Don't assign ffmpeg-2.2 to neither 'ffmpeg' nor to 'ffmpeg-aux'
 
 ## Multicast ##
@@ -3989,7 +3989,7 @@ scriptPath											= ../plugins/tag_search/lib/batch/tag_index/KAsyncTagIndexE
 ## New FFMpeg 2.1.3##
  *Binaries*
   - Linux
- -- -Install the new ffmpeg 2.1.3 as a 'main' ffmpeg - http://ny-www.kaltura.com/content/shared/bin/ffmpeg-2.1.3-bin.tar.gz
+ -- -Install the new ffmpeg 2.1.3 as a 'main' ffmpeg - http://ny-www.borhan.com/content/shared/bin/ffmpeg-2.1.3-bin.tar.gz
  -- -The ffmpeg-aux remains unchanged.
 
 ## Create Draft Entries as Ready ##
@@ -3999,7 +3999,7 @@ Assign a Ready status to draft entries that were created using a conversion prof
 
 	moduls.draftEntryConversionProfileSelection.enabled = true
 	moduls.draftEntryConversionProfileSelection.permissionType = 2
-	moduls.draftEntryConversionProfileSelection.label = Enable KMC transcoding profile selection for draft entries
+	moduls.draftEntryConversionProfileSelection.label = Enable BMC transcoding profile selection for draft entries
 	moduls.draftEntryConversionProfileSelection.permissionName = FEATURE_DRAFT_ENTRY_CONV_PROF_SELECTION
 	moduls.draftEntryConversionProfileSelection.basePermissionType =
 	moduls.draftEntryConversionProfileSelection.basePermissionName =
@@ -4015,11 +4015,11 @@ The monitor's View History permission is lowered from System Admin user to any A
 
 - Update scripts
 	
-	/opt/kaltura/app/deployment/updates/scripts/add_permissions/2014_01_26_add_media_server_partner_level_permission.php
-	/opt/kaltura/app/deployment/updates/scripts/add_permissions/2014_02_25_add_push_publish_permission_to_partner_0.php
-	/opt/kaltura/app/deployment/updates/scripts/add_permissions/2014_01_26_update_live_stream_service_permissions.php
-	/opt/kaltura/app/deployment/updates/scripts/add_permissions/2014_02_25_add_push_publish_permission_to_live_asset_parameters.php
-	/opt/kaltura/app/deployment/updates/scripts/add_permissions/2014_02_25_add_push_publish_permission_to_live_entry_parameters.php
+	/opt/borhan/app/deployment/updates/scripts/add_permissions/2014_01_26_add_media_server_partner_level_permission.php
+	/opt/borhan/app/deployment/updates/scripts/add_permissions/2014_02_25_add_push_publish_permission_to_partner_0.php
+	/opt/borhan/app/deployment/updates/scripts/add_permissions/2014_01_26_update_live_stream_service_permissions.php
+	/opt/borhan/app/deployment/updates/scripts/add_permissions/2014_02_25_add_push_publish_permission_to_live_asset_parameters.php
+	/opt/borhan/app/deployment/updates/scripts/add_permissions/2014_02_25_add_push_publish_permission_to_live_entry_parameters.php
 
 - Update admin.ini
 
@@ -4028,7 +4028,7 @@ The monitor's View History permission is lowered from System Admin user to any A
 	moduls.hybridCdn.label = Hybrid CDN
 	moduls.hybridCdn.permissionName = FEATURE_HYBRID_ECDN
 	moduls.hybridCdn.basePermissionType = 2
-	moduls.hybridCdn.basePermissionName = FEATURE_KALTURA_LIVE_STREAM
+	moduls.hybridCdn.basePermissionName = FEATURE_BORHAN_LIVE_STREAM
 	moduls.hybridCdn.group = GROUP_ENABLE_DISABLE_FEATURES
 	
 	moduls.pushPublish.enabled = true
@@ -4091,7 +4091,7 @@ filter.jobSubTypeIn	= 1,2,99,3,fastStart.FastStart,segmenter.Segmenter,mp4box.Mp
 	• $WORKER_ID – set to match existing Testing QA settings
 	• $BASE_LOACL_PATH – follow other windows workers (aka Webex worker)
 	• $SHARED_TEMP_PATH – follow other windows workers (aka Webex worker)
-	• $SMOOTHPROTECT_BIN – full path to the 'smoothprotect.exe', typically '/opt/kaltura/bin/smoothprotect'
+	• $SMOOTHPROTECT_BIN – full path to the 'smoothprotect.exe', typically '/opt/borhan/bin/smoothprotect'
 	• $IS_REMOTE_OUTPUT – should match other Windows workers (aka Webex worker)
 	• $IS_REMOTE_INPUT – should match other Windows workers (aka Webex worker)
 4. Add 'worker enabler' to template section of your Windows server:  
@@ -4108,7 +4108,7 @@ change @PLAYREADY_LICENSE_SERVER_HOST@ to the relevant host
 
 *Binaries*
 - Linux
-- -Install ismindex  from - http://ny-www.kaltura.com/content/shared/bin/ffmpeg-2.1.3-bin.tar.gz
+- -Install ismindex  from - http://ny-www.borhan.com/content/shared/bin/ffmpeg-2.1.3-bin.tar.gz
 - -The ffmpeg and ffmpeg-aux remains unchanged. The ffmpeg will be switched to the new version on the next deployment.
 - Windows
 - -Install 'SmoothProtect.exe' binary
@@ -4127,8 +4127,8 @@ change @PLAYREADY_LICENSE_SERVER_HOST@ to the relevant host
 *Edit @WOWZA_DIR@/conf/log4j.properties:*
 
  - Change `log4j.rootCategory` = `INFO, stdout, serverAccess, serverError` 
- - Remove `log4j.category.KalturaServer.class`
- - Add `log4j.logger.com.kaltura` = `DEBUG`
+ - Remove `log4j.category.BorhanServer.class`
+ - Add `log4j.logger.com.borhan` = `DEBUG`
  - Change `log4j.appender.serverAccess.layout.ConversionPattern` = `[%d{yyyy-MM-dd HH:mm:ss}][%t][%C:%M] %p - %m - (%F:%L) %n` 
  - Change `log4j.appender.serverError.layout.ConversionPattern` = `[%d{yyyy-MM-dd HH:mm:ss}][%t][%C:%M] %p - %m - (%F:%L) %n` 
 
@@ -4234,7 +4234,7 @@ Demo version only, enables broadcasting a live-channel base on playlist.
 
 
 *Media Server*
-- Update  [KalturaWowzaServer.jar](https://github.com/kaltura/server-bin-linux-64bit/raw/master/wowza/KalturaWowzaServer-2.0.1.jar "KalturaWowzaServer.jar")
+- Update  [BorhanWowzaServer.jar](https://github.com/borhan/server-bin-linux-64bit/raw/master/wowza/BorhanWowzaServer-2.0.1.jar "BorhanWowzaServer.jar")
 
 
 *Configuration*
@@ -4264,7 +4264,7 @@ Demo version only, enables broadcasting a live-channel base on playlist.
 
 *Media Server*
 
-- Redeploy [KalturaWowzaServer.jar](https://github.com/kaltura/server-bin-linux-64bit/raw/master/wowza/KalturaWowzaServer.jar "KalturaWowzaServer.jar") to @WOWZA_DIR@/lib/
+- Redeploy [BorhanWowzaServer.jar](https://github.com/borhan/server-bin-linux-64bit/raw/master/wowza/BorhanWowzaServer.jar "BorhanWowzaServer.jar") to @WOWZA_DIR@/lib/
 
 
 
@@ -4316,11 +4316,11 @@ Add support for intermediate flow to on-prem installations as well.
 
 *API:*
 
-- New field `lastPlayedAt` for `KalturaPlayableEntry`
+- New field `lastPlayedAt` for `BorhanPlayableEntry`
 
 *Sphinx:*
 
-- New date attribute `last_played_at` for `kaltura_entry`
+- New date attribute `last_played_at` for `borhan_entry`
 
 
 **Deployment:**
@@ -4331,7 +4331,7 @@ Add support for intermediate flow to on-prem installations as well.
 
 *Sphinx*
 
-- Update configurations/sphinx/kaltura.conf according to template.
+- Update configurations/sphinx/borhan.conf according to template.
 - Repopulate sphinx entries
 
 
@@ -4349,12 +4349,12 @@ Deployment instructions:
 
 ## HTML5 Studio Deployment ##
 * Located the studio directory: @BASE_DIR@/apps/studio/ (create it if it doesn't exist)
-	* The directory owner should be apache and its group should be kaltura.
+	* The directory owner should be apache and its group should be borhan.
 * Create a sub directory within the studio folder. Name it by the version of the studio (for example: v0.1)
-* Fetch latest studio project files into apps/studio/v0.1 from https://github.com/kaltura/player-studio/releases.
+* Fetch latest studio project files into apps/studio/v0.1 from https://github.com/borhan/player-studio/releases.
 * Open the file studio.ini (within the studio project files) and update "html5_version" to include the rc version.
 * Execute deployment script on studio.ini file (located in studio project root):
-From studio root, run: php /opt/kaltura/app/deployment/uiconf/deploy_v2.php --ini=studio.ini
+From studio root, run: php /opt/borhan/app/deployment/uiconf/deploy_v2.php --ini=studio.ini
 
 ## Fixed a security hole in media.addFromUploaded file ##
 Restricting webcam and uploaded to their designated directories and blocking attempts to access outer directories, with ../../some_sensitive_data_file for example.
@@ -4401,8 +4401,8 @@ Merged into the code changes that were hot-fixed at the beginning of the sprint.
  
 # IX-9.7.0 #
 
-## Kaltura live platform ##
-- Kaltura live stream
+## Borhan live platform ##
+- Borhan live stream
 - Live Transcoding
 - DVR
 - Recording
@@ -4412,7 +4412,7 @@ Merged into the code changes that were hot-fixed at the beginning of the sprint.
 
 - New `liveStream.appendRecording` action
 - New `mediaServer` service.
-- New enum `KalturaConversionProfileType` for `KalturaConversionProfile.type`
+- New enum `BorhanConversionProfileType` for `BorhanConversionProfile.type`
 
 
 

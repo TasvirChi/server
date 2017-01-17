@@ -5,7 +5,7 @@
  */
 class kSphinxSearchManager implements kObjectUpdatedEventConsumer, kObjectAddedEventConsumer, kObjectReadyForIndexEventConsumer, kObjectErasedEventConsumer
 {
-	const SPHINX_INDEX_NAME = 'kaltura';
+	const SPHINX_INDEX_NAME = 'borhan';
 
 	const HAS_VALUE = 'HASVALUE';
 
@@ -156,7 +156,7 @@ class kSphinxSearchManager implements kObjectUpdatedEventConsumer, kObjectAddedE
 	 */
 	public function objectAdded(BaseObject $object, BatchJob $raisedJob = null)
 	{
-		KalturaLog::info("Raising deferred event for object of type: ". get_class($object));
+		BorhanLog::info("Raising deferred event for object of type: ". get_class($object));
 		/** @var IIndexable $object */
 		$object->indexToSearchIndex();
 		return true;
@@ -189,7 +189,7 @@ class kSphinxSearchManager implements kObjectUpdatedEventConsumer, kObjectAddedE
 		$id = $object->getIntId();
 		if(!$id)
 		{
-			KalturaLog::err("Object [" . get_class($object) . "] id [" . $object->getId() . "] could not be saved to sphinx, int_id is empty");
+			BorhanLog::err("Object [" . get_class($object) . "] id [" . $object->getId() . "] could not be saved to sphinx, int_id is empty");
 			return false;
 		}
 		
@@ -242,11 +242,11 @@ class kSphinxSearchManager implements kObjectUpdatedEventConsumer, kObjectAddedE
 		}
 		
 		// TODO - remove after solving the replace bug that removes all fields
-		$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaSearchDataContributor');
+		$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanSearchDataContributor');
 		$sphinxPluginsData = array();
 		foreach($pluginInstances as $pluginName => $pluginInstance)
 		{
-			KalturaLog::debug("Loading $pluginName sphinx texts");
+			BorhanLog::debug("Loading $pluginName sphinx texts");
 			$sphinxPluginData = null;
 			try
 			{
@@ -254,12 +254,12 @@ class kSphinxSearchManager implements kObjectUpdatedEventConsumer, kObjectAddedE
 			}
 			catch(Exception $e)
 			{
-				KalturaLog::err($e->getMessage());
+				BorhanLog::err($e->getMessage());
 				continue;
 			}
 			
 			if($sphinxPluginData){
-				KalturaLog::debug("Sphinx data for $pluginName [" . print_r($sphinxPluginData,true) . "]");
+				BorhanLog::debug("Sphinx data for $pluginName [" . print_r($sphinxPluginData,true) . "]");
 				
 				foreach ($sphinxPluginData as $fieldName => $fieldValue){
 					if (isset($sphinxPluginsData[$fieldName]))
@@ -390,7 +390,7 @@ class kSphinxSearchManager implements kObjectUpdatedEventConsumer, kObjectAddedE
 		$disabledPartnerIds = kConf::get('disable_sphinx_indexing_partners', 'local', array());
 		if (in_array($object->getPartnerId(), $disabledPartnerIds))
 		{
-			KalturaLog::log('skipping sphinx update for partner ' . $object->getPartnerId());
+			BorhanLog::log('skipping sphinx update for partner ' . $object->getPartnerId());
 			return;
 		}
 		
@@ -404,19 +404,19 @@ class kSphinxSearchManager implements kObjectUpdatedEventConsumer, kObjectAddedE
 			$cache = kCacheManager::getSingleLayerCache(kCacheManager::CACHE_TYPE_SPHINX_STICKY_SESSIONS);
 			if ($cache && !$cache->add($lockKey, true, 60))
 			{
-				KalturaLog::log('skipping sql for key ' . $lockKey);
+				BorhanLog::log('skipping sql for key ' . $lockKey);
 				return;
 			}
 		}
 		
-		KalturaLog::debug($sql);
+		BorhanLog::debug($sql);
 		if (is_callable(array($object, "getUpdatedAt")))
 		{
 			$now = time();
 			$objectUpdatedAt = $object->getUpdatedAt(null);
 			if ($objectUpdatedAt < $now)
 			{
-				KalturaLog::log('sphinx update for non-updated object '.($now - $objectUpdatedAt).' '.get_class($object).' '.$object->getId().' '.kCurrentContext::$ks_partner_id.' '.kCurrentContext::$service.' '.kCurrentContext::$action);
+				BorhanLog::log('sphinx update for non-updated object '.($now - $objectUpdatedAt).' '.get_class($object).' '.$object->getId().' '.kCurrentContext::$ks_partner_id.' '.kCurrentContext::$service.' '.kCurrentContext::$action);
 			}
 		}
 		
@@ -441,7 +441,7 @@ class kSphinxSearchManager implements kObjectUpdatedEventConsumer, kObjectAddedE
 			return true;
 			
 		$arr = $sphinxConnection->errorInfo();
-		KalturaLog::err($arr[2]);
+		BorhanLog::err($arr[2]);
 		return false;
 	}
 
@@ -481,7 +481,7 @@ class kSphinxSearchManager implements kObjectUpdatedEventConsumer, kObjectAddedE
 		$index = kSphinxSearchManager::getSphinxIndexName($objectIndexClass::getObjectIndexName());
 		$id = $object->getIntId();
 		
-		KalturaLog::debug('Deleting sphinx document for object [' . get_class($object) . '] [' . $object->getId() . ']');
+		BorhanLog::debug('Deleting sphinx document for object [' . get_class($object) . '] [' . $object->getId() . ']');
 		$sql = "delete from $index where id = $id";
 		
 		return $this->execSphinx($sql, $object);
@@ -497,7 +497,7 @@ class kSphinxSearchManager implements kObjectUpdatedEventConsumer, kObjectAddedE
 	 */
 	public function saveToSphinx(IIndexable $object, $isInsert = false, $force = false)
 	{
-		KalturaLog::debug('Updating sphinx for object [' . get_class($object) . '] [' . $object->getId() . ']');
+		BorhanLog::debug('Updating sphinx for object [' . get_class($object) . '] [' . $object->getId() . ']');
 		$sql = $this->getSphinxSaveSql($object, $isInsert, $force);
 		if(!$sql)
 			return true;

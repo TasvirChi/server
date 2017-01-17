@@ -4,7 +4,7 @@
  * @package infra
  * @subpackage Plugins
  */
-interface IKalturaBulkUploadHandler extends IKalturaBase
+interface IBorhanBulkUploadHandler extends IBorhanBase
 {
 	/**
 	 * @param string $entryId the new created entry

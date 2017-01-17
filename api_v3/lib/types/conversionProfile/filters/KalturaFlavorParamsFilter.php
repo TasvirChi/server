@@ -3,6 +3,6 @@
  * @package api
  * @subpackage filters
  */
-class KalturaFlavorParamsFilter extends KalturaFlavorParamsBaseFilter
+class BorhanFlavorParamsFilter extends BorhanFlavorParamsBaseFilter
 {
 }

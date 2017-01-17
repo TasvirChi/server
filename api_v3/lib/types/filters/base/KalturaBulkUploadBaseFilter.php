@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaBulkUploadBaseFilter extends KalturaFilter
+abstract class BorhanBulkUploadBaseFilter extends BorhanFilter
 {
 	static private $map_between_objects = array
 	(
@@ -52,17 +52,17 @@ abstract class KalturaBulkUploadBaseFilter extends KalturaFilter
 	public $statusIn;
 
 	/**
-	 * @var KalturaBatchJobStatus
+	 * @var BorhanBatchJobStatus
 	 */
 	public $statusEqual;
 
 	/**
-	 * @var KalturaBulkUploadObjectType
+	 * @var BorhanBulkUploadObjectType
 	 */
 	public $bulkUploadObjectTypeEqual;
 
 	/**
-	 * @dynamicType KalturaBulkUploadObjectType
+	 * @dynamicType BorhanBulkUploadObjectType
 	 * @var string
 	 */
 	public $bulkUploadObjectTypeIn;

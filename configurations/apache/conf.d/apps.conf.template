@@ -1,6 +1,6 @@
 
-Alias /kmc "@APP_DIR@/kmc/web"
-<Directory "@APP_DIR@/kmc/web">
+Alias /bmc "@APP_DIR@/bmc/web"
+<Directory "@APP_DIR@/bmc/web">
     DirectoryIndex index.php
     Options Indexes FollowSymLinks Includes
     <IfVersion <= 2.2>

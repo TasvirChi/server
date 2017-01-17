@@ -2,7 +2,7 @@
 /**
  * @package plugins.tagSearch
  */
-class TagSearchPlugin extends KalturaPlugin implements  IKalturaCriteriaFactory, IKalturaSphinxConfiguration, IKalturaEventConsumers, IKalturaServices, IKalturaEnumerator, IKalturaObjectLoader
+class TagSearchPlugin extends BorhanPlugin implements  IBorhanCriteriaFactory, IBorhanSphinxConfiguration, IBorhanEventConsumers, IBorhanServices, IBorhanEnumerator, IBorhanObjectLoader
 {
     const PLUGIN_NAME = "tagSearch";
     
@@ -32,7 +32,7 @@ class TagSearchPlugin extends KalturaPlugin implements  IKalturaCriteriaFactory,
 	{
 	    return array(
 			kSphinxSearchManager::getSphinxIndexName(self::INDEX_NAME) => array (	
-				'path'		=> '/sphinx/kaltura_tag_rt',
+				'path'		=> '/sphinx/borhan_tag_rt',
 				'fields'	=> self::getSphinxSchemaFields(),
 			    'dict'      => 'keywords',
                 'min_prefix_len' => self::MIN_TAG_SEARCH_LENGTH,
@@ -47,7 +47,7 @@ class TagSearchPlugin extends KalturaPlugin implements  IKalturaCriteriaFactory,
 	    return array('kTagFlowManager');
 	}
 	
-	public static function getKalturaCriteria($objectType)
+	public static function getBorhanCriteria($objectType)
 	{
 	    if ($objectType == TagPeer::OM_CLASS)
 			return new SphinxTagCriteria();
@@ -64,7 +64,7 @@ class TagSearchPlugin extends KalturaPlugin implements  IKalturaCriteriaFactory,
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -82,7 +82,7 @@ class TagSearchPlugin extends KalturaPlugin implements  IKalturaCriteriaFactory,
 	 */
 	public static function getBatchJobTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('BatchJobType', $value);
 	}
 	
@@ -91,34 +91,34 @@ class TagSearchPlugin extends KalturaPlugin implements  IKalturaCriteriaFactory,
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
 		if($baseClass == 'kJobData' && $enumValue == self::getBatchJobTypeCoreValue(IndexTagsByPrivacyContextJobType::INDEX_TAGS))
 			return new kIndexTagsByPrivacyContextJobData();
 	
-		if($baseClass == 'KalturaJobData' && $enumValue == self::getApiValue(IndexTagsByPrivacyContextJobType::INDEX_TAGS))
-			return new KalturaIndexTagsByPrivacyContextJobData();
+		if($baseClass == 'BorhanJobData' && $enumValue == self::getApiValue(IndexTagsByPrivacyContextJobType::INDEX_TAGS))
+			return new BorhanIndexTagsByPrivacyContextJobData();
 		
 		return null;
 	}
 	
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
 		if($baseClass == 'kJobData' && $enumValue == self::getBatchJobTypeCoreValue(IndexTagsByPrivacyContextJobType::INDEX_TAGS))
 			return new kIndexTagsByPrivacyContextJobData();
 	
-		if($baseClass == 'KalturaJobData' && $enumValue == self::getApiValue(IndexTagsByPrivacyContextJobType::INDEX_TAGS))
-			return new KalturaIndexTagsByPrivacyContextJobData();
+		if($baseClass == 'BorhanJobData' && $enumValue == self::getApiValue(IndexTagsByPrivacyContextJobType::INDEX_TAGS))
+			return new BorhanIndexTagsByPrivacyContextJobData();
 		
 		return null;
 	}

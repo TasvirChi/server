@@ -3,17 +3,17 @@
  * @package plugins.schedule
  * @subpackage api.objects
  */
-class KalturaScheduleEventResourceArray extends KalturaTypedArray
+class BorhanScheduleEventResourceArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaScheduleEventResourceArray();
+		$newArr = new BorhanScheduleEventResourceArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-			$nObj = new KalturaScheduleEventResource();
+			$nObj = new BorhanScheduleEventResource();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaScheduleEventResourceArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaScheduleEventResource");	
+		parent::__construct("BorhanScheduleEventResource");	
 	}
 }

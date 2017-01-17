@@ -3,7 +3,7 @@
 /**
  * Define client request optional configurations
  */
-class KalturaRequestConfiguration extends KalturaObject
+class BorhanRequestConfiguration extends BorhanObject
 {
 	/**
 	 * Impersonated partner id
@@ -12,7 +12,7 @@ class KalturaRequestConfiguration extends KalturaObject
 	public $partnerId;
 	
 	/**
-	 * Kaltura API session
+	 * Borhan API session
 	 * @alias sessionId
 	 * @var string
 	 */
@@ -20,7 +20,7 @@ class KalturaRequestConfiguration extends KalturaObject
 	
 	/**
 	 * Response profile - this attribute will be automatically unset after every API call.
-	 * @var KalturaBaseResponseProfile
+	 * @var BorhanBaseResponseProfile
 	 * @volatile
 	 */
 	public $responseProfile;

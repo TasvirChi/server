@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaLiveStreamBitrate extends KalturaObject
+class BorhanLiveStreamBitrate extends BorhanObject
 {
 	/**
 	 * @var int
@@ -34,7 +34,7 @@ class KalturaLiveStreamBitrate extends KalturaObject
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaMediaEntry::getMapBetweenObjects()
+	 * @see BorhanMediaEntry::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{

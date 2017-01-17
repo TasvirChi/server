@@ -5,7 +5,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaWebcamTokenResource extends KalturaDataCenterContentResource
+class BorhanWebcamTokenResource extends BorhanDataCenterContentResource
 {
 	/**
 	 * Token that returned from media server such as FMS or red5.
@@ -14,7 +14,7 @@ class KalturaWebcamTokenResource extends KalturaDataCenterContentResource
 	public $token;
 	
 	/* (non-PHPdoc)
-	 * @see KalturaDataCenterContentResource::getDc()
+	 * @see BorhanDataCenterContentResource::getDc()
 	 */
 	public function getDc()
 	{
@@ -33,7 +33,7 @@ class KalturaWebcamTokenResource extends KalturaDataCenterContentResource
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaDataCenterContentResource::validateForUsage()
+	 * @see BorhanDataCenterContentResource::validateForUsage()
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -43,7 +43,7 @@ class KalturaWebcamTokenResource extends KalturaDataCenterContentResource
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaResource::entryHandled()
+	 * @see BorhanResource::entryHandled()
 	 */
 	public function entryHandled(entry $dbEntry)
 	{
@@ -65,7 +65,7 @@ class KalturaWebcamTokenResource extends KalturaDataCenterContentResource
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err("Getting media info: " . $e->getMessage());
+			BorhanLog::err("Getting media info: " . $e->getMessage());
 			$dbMediaInfo = null;
 		}
 		
@@ -84,7 +84,7 @@ class KalturaWebcamTokenResource extends KalturaDataCenterContentResource
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($object_to_fill = null, $props_to_skip = array())
 	{
@@ -107,24 +107,24 @@ class KalturaWebcamTokenResource extends KalturaDataCenterContentResource
 				if($type == 'flv')
 				{
 					$entryFixedFullPath = $entryFullPath . '.fixed.flv';
-			 		KalturaLog::info("Fix webcam full path from [$entryFullPath] to [$entryFixedFullPath]");
+			 		BorhanLog::info("Fix webcam full path from [$entryFullPath] to [$entryFixedFullPath]");
 					myFlvStaticHandler::fixRed5WebcamFlv($entryFullPath, $entryFixedFullPath);
 							
 					$entryNewFullPath = $entryFullPath . '.clipped.flv';
-			 		KalturaLog::info("Clip webcam full path from [$entryFixedFullPath] to [$entryNewFullPath]");
+			 		BorhanLog::info("Clip webcam full path from [$entryFixedFullPath] to [$entryNewFullPath]");
 					myFlvStaticHandler::clipToNewFile($entryFixedFullPath, $entryNewFullPath, 0, 0);
 					$entryFullPath = $entryNewFullPath ;
 							
 					if(!file_exists($entryFullPath))
-						throw new KalturaAPIException(KalturaErrors::RECORDED_WEBCAM_FILE_NOT_FOUND);
+						throw new BorhanAPIException(BorhanErrors::RECORDED_WEBCAM_FILE_NOT_FOUND);
 				}
 							
-				$object_to_fill->setSourceType(KalturaSourceType::WEBCAM);
+				$object_to_fill->setSourceType(BorhanSourceType::WEBCAM);
 				$object_to_fill->setLocalFilePath($entryFullPath);
 				return $object_to_fill;
 			}
 	    }
 		
-		throw new KalturaAPIException(KalturaErrors::RECORDED_WEBCAM_FILE_NOT_FOUND);
+		throw new BorhanAPIException(BorhanErrors::RECORDED_WEBCAM_FILE_NOT_FOUND);
 	}
 }

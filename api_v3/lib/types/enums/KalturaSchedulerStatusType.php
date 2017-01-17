@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaSchedulerStatusType extends KalturaEnum
+class BorhanSchedulerStatusType extends BorhanEnum
 {
 	const RUNNING_BATCHES_COUNT = 1;
 	const RUNNING_BATCHES_CPU = 2;

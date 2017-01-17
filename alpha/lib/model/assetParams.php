@@ -67,7 +67,7 @@ class assetParams extends BaseassetParams implements IBaseObject
 	const SYSTEM_DEFAULT = 1; 
 	
 	const FLAVOR_PARAMS_CREATION_MODE_MANUAL = 1;
-	const FLAVOR_PARAMS_CREATION_MODE_KMC = 2;
+	const FLAVOR_PARAMS_CREATION_MODE_BMC = 2;
 	const FLAVOR_PARAMS_CREATION_MODE_AUTOMATIC = 3;
 	
 	private static $validTags = array(
@@ -186,7 +186,7 @@ class assetParams extends BaseassetParams implements IBaseObject
 	
 	public function getSourceRemoteStorageProfileId()
 	{
-		return $this->getFromCustomData('sourceRemoteStorageProfileId', null, StorageProfile::STORAGE_KALTURA_DC);
+		return $this->getFromCustomData('sourceRemoteStorageProfileId', null, StorageProfile::STORAGE_BORHAN_DC);
 	}
 	
 	public function setRemoteStorageProfileIds($remoteStorageProfileIds)

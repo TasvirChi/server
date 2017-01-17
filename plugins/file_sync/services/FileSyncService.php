@@ -6,7 +6,7 @@
  * @package plugins.fileSync
  * @subpackage api.services
  */
-class FileSyncService extends KalturaBaseService
+class FileSyncService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -15,24 +15,24 @@ class FileSyncService extends KalturaBaseService
 		// since plugin might be using KS impersonation, we need to validate the requesting
 		// partnerId from the KS and not with the $_POST one
 		if(!FileSyncPlugin::isAllowedPartner($this->getPartnerId()))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, FileSyncPlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, FileSyncPlugin::PLUGIN_NAME);
 	}
 	
 	/**
 	 * List file syce objects by filter and pager
 	 *
 	 * @action list
-	 * @param KalturaFileSyncFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaFileSyncListResponse
+	 * @param BorhanFileSyncFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanFileSyncListResponse
 	 */
-	function listAction(KalturaFileSyncFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanFileSyncFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaFileSyncFilter();
+			$filter = new BorhanFileSyncFilter();
 
 		if (!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 			
 		$fileSyncFilter = new FileSyncFilter();
 		
@@ -46,8 +46,8 @@ class FileSyncService extends KalturaBaseService
 		$pager->attachToCriteria($c);
 		$dbList = FileSyncPeer::doSelect($c);
 		
-		$list = KalturaFileSyncArray::fromDbArray($dbList, $this->getResponseProfile());
-		$response = new KalturaFileSyncListResponse();
+		$list = BorhanFileSyncArray::fromDbArray($dbList, $this->getResponseProfile());
+		$response = new BorhanFileSyncListResponse();
 		$response->objects = $list;
 		$response->totalCount = $totalCount;
 		return $response;
@@ -58,23 +58,23 @@ class FileSyncService extends KalturaBaseService
 	 * 
 	 * @action update
 	 * @param int $id
-	 * @param KalturaFileSync $fileSync
-	 * @return KalturaFileSync
+	 * @param BorhanFileSync $fileSync
+	 * @return BorhanFileSync
 	 * 
 	 * @throws FileSyncErrors::FILESYNC_ID_NOT_FOUND
 	 */
-	function updateAction($id, KalturaFileSync $fileSync)
+	function updateAction($id, BorhanFileSync $fileSync)
 	{
 		$dbFileSync = FileSyncPeer::retrieveByPK($id);
 		if (!$dbFileSync)
 		{
-			throw new KalturaAPIException(FileSyncErrors::FILESYNC_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(FileSyncErrors::FILESYNC_ID_NOT_FOUND, $id);
 		}
 
 		$fileSync->toUpdatableObject($dbFileSync);
 		$dbFileSync->save();
 		
-		$fileSync = new KalturaFileSync();
+		$fileSync = new BorhanFileSync();
 		$fileSync->fromObject($dbFileSync, $this->getResponseProfile());
 		return $fileSync;
 	}

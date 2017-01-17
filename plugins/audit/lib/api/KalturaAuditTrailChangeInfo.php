@@ -3,10 +3,10 @@
  * @package plugins.audit
  * @subpackage api.objects
  */
-class KalturaAuditTrailChangeInfo extends KalturaAuditTrailInfo
+class BorhanAuditTrailChangeInfo extends BorhanAuditTrailInfo
 {
 	/**
-	 * @var KalturaAuditTrailChangeItemArray
+	 * @var BorhanAuditTrailChangeItemArray
 	 */
 	public $changedItems;
 
@@ -29,11 +29,11 @@ class KalturaAuditTrailChangeInfo extends KalturaAuditTrailInfo
 	/**
 	 * @param kAuditTrailChangeInfo $auditTrailInfo
 	 */
-	public function doFromObject($auditTrailInfo, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($auditTrailInfo, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($auditTrailInfo, $responseProfile);
 		
 		if($this->shouldGet('changedItems', $responseProfile))
-			$this->changedItems = KalturaAuditTrailChangeItemArray::fromDbArray($auditTrailInfo->getChangedItems());
+			$this->changedItems = BorhanAuditTrailChangeItemArray::fromDbArray($auditTrailInfo->getChangedItems());
 	}
 }

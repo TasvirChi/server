@@ -3,22 +3,22 @@
  * @package api
  * @subpackage filters
  */
-class KalturaMixEntryFilter extends KalturaMixEntryBaseFilter
+class BorhanMixEntryFilter extends BorhanMixEntryBaseFilter
 {
 	public function __construct()
 	{
-		$this->typeIn = KalturaEntryType::MIX;
+		$this->typeIn = BorhanEntryType::MIX;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseEntryFilter::getListResponse()
+	 * @see BorhanBaseEntryFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		list($list, $totalCount) = $this->doGetListResponse($pager);
 		
-	    $newList = KalturaMixEntryArray::fromDbArray($list, $responseProfile);
-		$response = new KalturaBaseEntryListResponse();
+	    $newList = BorhanMixEntryArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanBaseEntryListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $totalCount;
 		

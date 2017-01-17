@@ -6,7 +6,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaAssetDistributionPropertyCondition extends KalturaAssetDistributionCondition
+class BorhanAssetDistributionPropertyCondition extends BorhanAssetDistributionCondition
 {
 	/**
 	 * The property name to look for, this will match to a getter on the asset object.

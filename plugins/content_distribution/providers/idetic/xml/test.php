@@ -1,18 +1,18 @@
 <?php
 
-define('KALTURA_ROOT_PATH', realpath(dirname(__FILE__) . '/../../../../..'));
-require_once(KALTURA_ROOT_PATH . '/infra/KAutoloader.php');
+define('BORHAN_ROOT_PATH', realpath(dirname(__FILE__) . '/../../../../..'));
+require_once(BORHAN_ROOT_PATH . '/infra/KAutoloader.php');
 
-define("KALTURA_API_PATH", KALTURA_ROOT_PATH . "/api_v3");
+define("BORHAN_API_PATH", BORHAN_ROOT_PATH . "/api_v3");
 
-require_once(KALTURA_ROOT_PATH . '/alpha/config/kConf.php');
+require_once(BORHAN_ROOT_PATH . '/alpha/config/kConf.php');
 // Autoloader
-KAutoloader::addClassPath(KAutoloader::buildPath(KALTURA_ROOT_PATH, "vendor", "propel", "*"));
-KAutoloader::addClassPath(KAutoloader::buildPath(KALTURA_API_PATH, "lib", "*"));
-KAutoloader::addClassPath(KAutoloader::buildPath(KALTURA_API_PATH, "services", "*"));
-KAutoloader::addClassPath(KAutoloader::buildPath(KALTURA_ROOT_PATH, "alpha", "plugins", "*")); // needed for testmeDoc
-KAutoloader::addClassPath(KAutoloader::buildPath(KALTURA_ROOT_PATH, "plugins", "*"));
-KAutoloader::addClassPath(KAutoloader::buildPath(KALTURA_ROOT_PATH, "generator")); // needed for testmeDoc
+KAutoloader::addClassPath(KAutoloader::buildPath(BORHAN_ROOT_PATH, "vendor", "propel", "*"));
+KAutoloader::addClassPath(KAutoloader::buildPath(BORHAN_API_PATH, "lib", "*"));
+KAutoloader::addClassPath(KAutoloader::buildPath(BORHAN_API_PATH, "services", "*"));
+KAutoloader::addClassPath(KAutoloader::buildPath(BORHAN_ROOT_PATH, "alpha", "plugins", "*")); // needed for testmeDoc
+KAutoloader::addClassPath(KAutoloader::buildPath(BORHAN_ROOT_PATH, "plugins", "*"));
+KAutoloader::addClassPath(KAutoloader::buildPath(BORHAN_ROOT_PATH, "generator")); // needed for testmeDoc
 KAutoloader::setClassMapFilePath(kConf::get("cache_root_path") . '/plugins/' . basename(__FILE__) . '.cache');
 //KAutoloader::dumpExtra();
 KAutoloader::register();
@@ -21,7 +21,7 @@ KAutoloader::register();
 date_default_timezone_set(kConf::get("date_default_timezone")); // America/New_York
 
 error_reporting(E_ALL);
-KalturaLog::setLogger(new KalturaStdoutLogger());
+BorhanLog::setLogger(new BorhanStdoutLogger());
 
 $dbConf = kConf::getDB();
 DbManager::setConfig($dbConf);
@@ -71,13 +71,13 @@ $add  = '<customData metadataProfileId="1"><metadata><ShortTitle>Tan-Tan test 1 
 $mrss = $allParts[0] . $add . '</item>';
 
 file_put_contents('mrss.xml', $mrss);
-KalturaLog::debug("MRSS [$mrss]");
+BorhanLog::debug("MRSS [$mrss]");
 
-$distributionJobData = new KalturaDistributionSubmitJobData();
-$delData = new KalturaDistributionDeleteJobData();
+$distributionJobData = new BorhanDistributionSubmitJobData();
+$delData = new BorhanDistributionDeleteJobData();
 
 $dbDistributionProfile = DistributionProfilePeer::retrieveByPK(7);
-$distributionProfile = new KalturaIdeticDistributionProfile();
+$distributionProfile = new BorhanIdeticDistributionProfile();
 $distributionProfile->fromObject($dbDistributionProfile);
 $distributionJobData->distributionProfileId = $distributionProfile->id;
 $delData->distributionProfileId = $distributionProfile->id;
@@ -87,7 +87,7 @@ $distributionJobData->distributionProfile = $distributionProfile;
 $delData->distributionProfile = $distributionProfile;
 
 $dbEntryDistribution = EntryDistributionPeer::retrieveByPK(38);
-$entryDistribution = new KalturaEntryDistribution();
+$entryDistribution = new BorhanEntryDistribution();
 $entryDistribution->fromObject($dbEntryDistribution);
 $distributionJobData->entryDistributionId = $entryDistribution->id;
 $distributionJobData->entryDistribution = $entryDistribution;
@@ -98,12 +98,12 @@ $delData->entryDistribution = $entryDistribution;
 //print_r($myp->validateForSubmission($dbEntryDistribution, "submit"));
 //return;
 
-$providerData = new KalturaIdeticDistributionJobProviderData($distributionJobData);
+$providerData = new BorhanIdeticDistributionJobProviderData($distributionJobData);
 $distributionJobData->providerData = $providerData;
 $delData->providerData = $providerData;
 
 file_put_contents('out.xml', $providerData->xml);
-KalturaLog::debug("XML [$providerData->xml]");
+BorhanLog::debug("XML [$providerData->xml]");
 
 return;
 $engine = new IdeticDistributionEngine();
@@ -119,7 +119,7 @@ echo $engine->delete($delData);
 //$xml = new KDOMDocument();
 //if(!$xml->loadXML($mrss))
 //{
-//	KalturaLog::err("MRSS not is not valid XML:\n$mrss\n");
+//	BorhanLog::err("MRSS not is not valid XML:\n$mrss\n");
 //	exit;
 //}
 //
@@ -140,7 +140,7 @@ echo $engine->delete($delData);
 //	{
 //		$varNode->textContent = $distributionJobData->$name;
 //		$varNode->appendChild($xsl->createTextNode($distributionJobData->$name));
-//		KalturaLog::debug("Set variable [$name] to [{$distributionJobData->$name}]");
+//		BorhanLog::debug("Set variable [$name] to [{$distributionJobData->$name}]");
 //	}
 //}
 //
@@ -151,12 +151,12 @@ echo $engine->delete($delData);
 //$xml = $proc->transformToDoc($xml);
 //if(!$xml)
 //{
-//	KalturaLog::err("Transform returned false");
+//	BorhanLog::err("Transform returned false");
 //	exit;
 //}
 //
 //$xml = $xml->saveXML();
 //
 //file_put_contents('out.xml', $xml);
-//KalturaLog::debug("XML [$xml]");
+//BorhanLog::debug("XML [$xml]");
 

@@ -3,7 +3,7 @@
  * Enable transcript assets management for entry objects
  * @package plugins.transcript
  */
-class TranscriptPlugin extends KalturaPlugin implements IKalturaEnumerator, IKalturaObjectLoader, IKalturaPending, IKalturaTypeExtender, IKalturaSearchDataContributor
+class TranscriptPlugin extends BorhanPlugin implements IBorhanEnumerator, IBorhanObjectLoader, IBorhanPending, IBorhanTypeExtender, IBorhanSearchDataContributor
 {
 	const PLUGIN_NAME = 'transcript';
 	const ENTRY_TRANSCRIPT_PREFIX = 'tr_pref';
@@ -12,7 +12,7 @@ class TranscriptPlugin extends KalturaPlugin implements IKalturaEnumerator, IKal
 	const PLUGINS_DATA = 'plugins_data';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -20,7 +20,7 @@ class TranscriptPlugin extends KalturaPlugin implements IKalturaEnumerator, IKal
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -34,7 +34,7 @@ class TranscriptPlugin extends KalturaPlugin implements IKalturaEnumerator, IKal
 	}
 	
     /* (non-PHPdoc)
-     * @see IKalturaTypeExtender::getExtendedTypes()
+     * @see IBorhanTypeExtender::getExtendedTypes()
      */
      public static function getExtendedTypes($baseClass, $enumValue)
      {
@@ -49,18 +49,18 @@ class TranscriptPlugin extends KalturaPlugin implements IKalturaEnumerator, IKal
     }
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if($baseClass == 'KalturaAsset' && $enumValue == self::getAssetTypeCoreValue(TranscriptAssetType::TRANSCRIPT))
-			return new KalturaTranscriptAsset();
+		if($baseClass == 'BorhanAsset' && $enumValue == self::getAssetTypeCoreValue(TranscriptAssetType::TRANSCRIPT))
+			return new BorhanTranscriptAsset();
 	
 		return null;
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
@@ -71,11 +71,11 @@ class TranscriptPlugin extends KalturaPlugin implements IKalturaEnumerator, IKal
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$dependency = new KalturaDependency(AttachmentPlugin::getPluginName());
+		$dependency = new BorhanDependency(AttachmentPlugin::getPluginName());
 		return array($dependency);
 	}
 
@@ -84,7 +84,7 @@ class TranscriptPlugin extends KalturaPlugin implements IKalturaEnumerator, IKal
 	 */
 	public static function getAssetTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('assetType', $value);
 	}
 	
@@ -93,11 +93,11 @@ class TranscriptPlugin extends KalturaPlugin implements IKalturaEnumerator, IKal
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 
 	/* (non-PHPdoc)
- * @see IKalturaSearchDataContributor::getSearchData()
+ * @see IBorhanSearchDataContributor::getSearchData()
  */
 	public static function getSearchData(BaseObject $object)
 	{

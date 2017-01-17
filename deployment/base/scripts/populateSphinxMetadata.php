@@ -31,13 +31,13 @@ while(count($metadatas))
 	foreach($metadatas as $metadata)
 	{
 	    /* @var $metadata Metadata */
-		KalturaLog::log('metadata id ' . $metadata->getId() . ' updated at '. $metadata->getUpdatedAt(null));
+		BorhanLog::log('metadata id ' . $metadata->getId() . ' updated at '. $metadata->getUpdatedAt(null));
 		
 		try {
 			$ret = $sphinx->saveToSphinx($metadata, true);
 		}
 		catch(Exception $e){
-			KalturaLog::err($e->getMessage());
+			BorhanLog::err($e->getMessage());
 			exit -1;
 		}
 	}
@@ -47,5 +47,5 @@ while(count($metadatas))
 	$metadatas = MetadataPeer::doSelect($c, $con);
 }
 
-KalturaLog::log('Done. Curent time: ' . time());
+BorhanLog::log('Done. Curent time: ' . time());
 exit(0);

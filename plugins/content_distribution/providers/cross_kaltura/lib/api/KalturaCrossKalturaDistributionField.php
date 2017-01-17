@@ -1,9 +1,9 @@
 <?php
 /**
- * @package plugins.crossKalturaDistribution
+ * @package plugins.crossBorhanDistribution
  * @subpackage api.enum
  */
-class KalturaCrossKalturaDistributionField extends KalturaStringEnum implements CrossKalturaDistributionField
+class BorhanCrossBorhanDistributionField extends BorhanStringEnum implements CrossBorhanDistributionField
 {
-	// see CrossKalturaDistributionField interface
+	// see CrossBorhanDistributionField interface
 }

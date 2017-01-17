@@ -167,7 +167,7 @@ class thumbnailAction extends sfAction
 
 				if ($partner)
 				{
-					KalturaMonitorClient::initApiMonitor(false, 'extwidget.thumbnail', $partner->getId());
+					BorhanMonitorClient::initApiMonitor(false, 'extwidget.thumbnail', $partner->getId());
 					if ($quality == 0)
 						$quality = $partner->getDefThumbQuality();
 
@@ -207,7 +207,7 @@ class thumbnailAction extends sfAction
 					myFileConverter::convertImage($src_full_path, $thumb_full_path, $width, $height, $type, $bgcolor, true, $quality, $src_x, $src_y, $src_w, $src_h, $density, $stripProfiles, null, $format);
 					kFileUtils::dumpFile($thumb_full_path);
 				} else {
-					KalturaLog::info ( "token_id [$upload_token_id] not found in DC [". kDataCenterMgr::getCurrentDcId ()."]. dump url to romote DC");
+					BorhanLog::info ( "token_id [$upload_token_id] not found in DC [". kDataCenterMgr::getCurrentDcId ()."]. dump url to romote DC");
 					$remoteUrl = kDataCenterMgr::getRemoteDcExternalUrlByDcId ( 1 - kDataCenterMgr::getCurrentDcId () ) .$_SERVER['REQUEST_URI'];
 					kFileUtils::dumpUrl($remoteUrl);
 				}
@@ -253,7 +253,7 @@ class thumbnailAction extends sfAction
 			}
 		}
 
-		KalturaMonitorClient::initApiMonitor(false, 'extwidget.thumbnail', $entry->getPartnerId());
+		BorhanMonitorClient::initApiMonitor(false, 'extwidget.thumbnail', $entry->getPartnerId());
 		
 		if ( $nearest_aspect_ratio )
 		{
@@ -348,10 +348,10 @@ class thumbnailAction extends sfAction
 		$tempThumbPath = null;
 		$entry_status = $entry->getStatus();
 		
-		// both 640x480 and 0x0 requests are probably coming from the kdp
-		// 640x480 - old kdp version requesting thumbnail
-		// 0x0 - new kdp version requesting the thumbnail of an unready entry
-		// we need to distinguish between calls from the kdp and calls from a browser: <img src=...>
+		// both 640x480 and 0x0 requests are probably coming from the bdp
+		// 640x480 - old bdp version requesting thumbnail
+		// 0x0 - new bdp version requesting the thumbnail of an unready entry
+		// we need to distinguish between calls from the bdp and calls from a browser: <img src=...>
 		// that can't handle swf input
 		if (($width == 640 && $height == 480 || $width == 0 && $height == 0) &&
 			($entry_status == entryStatus::PRECONVERT || $entry_status == entryStatus::IMPORT ||
@@ -411,7 +411,7 @@ class thumbnailAction extends sfAction
 			{
 				if($ex->getCode() != kFileSyncException::FILE_DOES_NOT_EXIST_ON_CURRENT_DC)
 				{
-					KalturaLog::err( "Resize image failed");
+					BorhanLog::err( "Resize image failed");
 					KExternalErrors::dieError(KExternalErrors::MISSING_THUMBNAIL_FILESYNC);
 				}
 				
@@ -419,7 +419,7 @@ class thumbnailAction extends sfAction
 				$origFlavorAsset = assetPeer::retrieveOriginalByEntryId($entry_id);
 				if(!$origFlavorAsset)
 				{
-					KalturaLog::err( "No original flavor for entry [$entry_id]");
+					BorhanLog::err( "No original flavor for entry [$entry_id]");
 					KExternalErrors::dieError(KExternalErrors::FLAVOR_NOT_FOUND);
 				}
 
@@ -428,13 +428,13 @@ class thumbnailAction extends sfAction
 				if(!$remoteFileSync)
 				{
 					// file does not exist on any DC - die
-					KalturaLog::log( "Error - no FileSync for entry [$entry_id]");
+					BorhanLog::log( "Error - no FileSync for entry [$entry_id]");
 					KExternalErrors::dieError(KExternalErrors::MISSING_THUMBNAIL_FILESYNC);
 				}
 				
 				if($remoteFileSync->getDc() == kDataCenterMgr::getCurrentDcId())
 				{
-					KalturaLog::err("Trying to redirect to myself - stop here.");
+					BorhanLog::err("Trying to redirect to myself - stop here.");
 					KExternalErrors::dieError(KExternalErrors::MISSING_THUMBNAIL_FILESYNC);
 				}
 				

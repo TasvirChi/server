@@ -3,7 +3,7 @@
  * @package plugins.playReady
  * @subpackage api.objects
  */
-class KalturaPlayReadyPolicy extends KalturaDrmPolicy
+class BorhanPlayReadyPolicy extends BorhanDrmPolicy
 {
     /**
 	 * @var int
@@ -11,7 +11,7 @@ class KalturaPlayReadyPolicy extends KalturaDrmPolicy
 	public $gracePeriod;	
 	
 	/**
-	 * @var KalturaPlayReadyLicenseRemovalPolicy
+	 * @var BorhanPlayReadyLicenseRemovalPolicy
 	 */
 	public $licenseRemovalPolicy;	
 	
@@ -21,12 +21,12 @@ class KalturaPlayReadyPolicy extends KalturaDrmPolicy
 	public $licenseRemovalDuration;	
 	
 	/**
-	 * @var KalturaPlayReadyMinimumLicenseSecurityLevel
+	 * @var BorhanPlayReadyMinimumLicenseSecurityLevel
 	 */
 	public $minSecurityLevel;	
 	
 	/**
-	 * @var KalturaPlayReadyRightArray
+	 * @var BorhanPlayReadyRightArray
 	 */
 	public $rights;	
 	
@@ -60,11 +60,11 @@ class KalturaPlayReadyPolicy extends KalturaDrmPolicy
 		{
 			foreach ($this->rights as $right) 
 			{
-				if($right instanceof KalturaPlayReadyPlayRight)
+				if($right instanceof BorhanPlayReadyPlayRight)
 				{
 					$this->validatePlayRight($right);
 				}
-				else if($right instanceof KalturaPlayReadyCopyRight)
+				else if($right instanceof BorhanPlayReadyCopyRight)
 				{
 					$this->validateCopyRight($right);
 				}
@@ -74,21 +74,21 @@ class KalturaPlayReadyPolicy extends KalturaDrmPolicy
 		parent::validatePolicy();
 	}
 	
-	private function validatePlayRight(KalturaPlayReadyPlayRight $right)
+	private function validatePlayRight(BorhanPlayReadyPlayRight $right)
 	{
 		if(	count($right->analogVideoOutputProtectionList) && 
-			in_array(KalturaPlayReadyAnalogVideoOPId::EXPLICIT_ANALOG_TV, $right->analogVideoOutputProtectionList) && 
-			in_array(KalturaPlayReadyAnalogVideoOPId::BEST_EFFORT_EXPLICIT_ANALOG_TV, $right->analogVideoOutputProtectionList))
+			in_array(BorhanPlayReadyAnalogVideoOPId::EXPLICIT_ANALOG_TV, $right->analogVideoOutputProtectionList) && 
+			in_array(BorhanPlayReadyAnalogVideoOPId::BEST_EFFORT_EXPLICIT_ANALOG_TV, $right->analogVideoOutputProtectionList))
 		{
-			throw new KalturaAPIException(KalturaPlayReadyErrors::ANALOG_OUTPUT_PROTECTION_ID_NOT_ALLOWED, KalturaPlayReadyAnalogVideoOPId::EXPLICIT_ANALOG_TV, KalturaPlayReadyAnalogVideoOPId::BEST_EFFORT_EXPLICIT_ANALOG_TV);
+			throw new BorhanAPIException(BorhanPlayReadyErrors::ANALOG_OUTPUT_PROTECTION_ID_NOT_ALLOWED, BorhanPlayReadyAnalogVideoOPId::EXPLICIT_ANALOG_TV, BorhanPlayReadyAnalogVideoOPId::BEST_EFFORT_EXPLICIT_ANALOG_TV);
 		}
 	}
 	
-	private function validateCopyRight(KalturaPlayReadyCopyRight $right)
+	private function validateCopyRight(BorhanPlayReadyCopyRight $right)
 	{
 		if($right->copyCount > 0 && !count($right->copyEnablers))
 		{
-			throw new KalturaAPIException(KalturaPlayReadyErrors::COPY_ENABLER_TYPE_MISSING);
+			throw new BorhanAPIException(BorhanPlayReadyErrors::COPY_ENABLER_TYPE_MISSING);
 		}
 	}
 	

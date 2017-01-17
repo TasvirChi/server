@@ -1,11 +1,11 @@
 <?php
 /**
- * Used to ingest media that is already ingested to Kaltura system as a different entry in the past, the new created flavor asset will be ready immediately using a file sync of link type that will point to the existing file sync of the existing entry.
+ * Used to ingest media that is already ingested to Borhan system as a different entry in the past, the new created flavor asset will be ready immediately using a file sync of link type that will point to the existing file sync of the existing entry.
  * 
  * @package api
  * @subpackage objects
  */
-class KalturaEntryResource extends KalturaContentResource
+class BorhanEntryResource extends BorhanContentResource
 {
 	/**
 	 * ID of the source entry 
@@ -20,7 +20,7 @@ class KalturaEntryResource extends KalturaContentResource
 	public $flavorParamsId;
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUsage($sourceObject, $propertiesToSkip)
+	 * @see BorhanObject::validateForUsage($sourceObject, $propertiesToSkip)
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -30,9 +30,9 @@ class KalturaEntryResource extends KalturaContentResource
 	
     	$srcEntry = entryPeer::retrieveByPK($this->entryId);
 		if (!$srcEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $this->entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $this->entryId);
 			
-		if($srcEntry->getMediaType() == KalturaMediaType::IMAGE || $srcEntry->getMediaType() == KalturaMediaType::LIVE_STREAM_FLASH)
+		if($srcEntry->getMediaType() == BorhanMediaType::IMAGE || $srcEntry->getMediaType() == BorhanMediaType::LIVE_STREAM_FLASH)
 			return;
 		
 		$srcFlavorAsset = null;
@@ -40,13 +40,13 @@ class KalturaEntryResource extends KalturaContentResource
 		{
 			$srcFlavorAsset = assetPeer::retrieveOriginalByEntryId($this->entryId);
 			if (!$srcFlavorAsset)
-				throw new KalturaAPIException(KalturaErrors::ORIGINAL_FLAVOR_ASSET_IS_MISSING);
+				throw new BorhanAPIException(BorhanErrors::ORIGINAL_FLAVOR_ASSET_IS_MISSING);
 		}
 		else
 		{
 			$srcFlavorAsset = assetPeer::retrieveByEntryIdAndParams($this->entryId, $this->flavorParamsId);
 			if (!$srcFlavorAsset)
-				throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND, $this->assetId);
+				throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND, $this->assetId);
 		}
 		
 		$key = $srcFlavorAsset->getSyncKey(asset::FILE_SYNC_ASSET_SUB_TYPE_ASSET);
@@ -59,11 +59,11 @@ class KalturaEntryResource extends KalturaContentResource
 			if($fileSync->getFileType() != FileSync::FILE_SYNC_FILE_TYPE_LINK)
 				return;
 		}
-		throw new KalturaAPIException(KalturaErrors::FILE_DOESNT_EXIST);
+		throw new BorhanAPIException(BorhanErrors::FILE_DOESNT_EXIST);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaResource::validateEntry()
+	 * @see BorhanResource::validateEntry()
 	 */
 	public function validateEntry(entry $dbEntry)
 	{
@@ -71,13 +71,13 @@ class KalturaEntryResource extends KalturaContentResource
 		
 		$srcEntry = entryPeer::retrieveByPK($this->entryId);
 		if(!$srcEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $this->entryId);
-		if($srcEntry->getMediaType() == KalturaMediaType::IMAGE)
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $this->entryId);
+		if($srcEntry->getMediaType() == BorhanMediaType::IMAGE)
 			return parent::validateEntry($dbEntry);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject ( $object_to_fill = null , $props_to_skip = array() )
 	{
@@ -85,14 +85,14 @@ class KalturaEntryResource extends KalturaContentResource
 		
     	$srcEntry = entryPeer::retrieveByPK($this->entryId);
     	if(!$srcEntry)
-    		throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $this->entryId);
+    		throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $this->entryId);
 
     	if($srcEntry->getType() == entryType::LIVE_STREAM)
     	{
     		/* @var $srcEntry LiveEntry */
     		
     		if(!in_array($srcEntry->getSource(), array(EntrySourceType::LIVE_STREAM, EntrySourceType::LIVE_STREAM_ONTEXTDATA_CAPTIONS)))
-    			throw new KalturaAPIException(KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($this));
+    			throw new BorhanAPIException(BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($this));
     			
     		$mediaServer = $srcEntry->getMediaServer();
     		if($mediaServer && !is_null($mediaServer->getDc()) && $mediaServer->getDc() != kDataCenterMgr::getCurrentDcId())
@@ -104,12 +104,12 @@ class KalturaEntryResource extends KalturaContentResource
 				}
 				else
 				{
-					throw new KalturaAPIException(KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN);
+					throw new BorhanAPIException(BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN);
 				}
     		}
     		
 			if($object_to_fill && !($object_to_fill instanceof kLiveEntryResource))
-				throw new KalturaAPIException(KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($object_to_fill));
+				throw new BorhanAPIException(BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($object_to_fill));
 				
 			$object_to_fill = new kLiveEntryResource();
     		$object_to_fill->setEntry($srcEntry);
@@ -120,7 +120,7 @@ class KalturaEntryResource extends KalturaContentResource
 		if(!$object_to_fill)
 			$object_to_fill = new kFileSyncResource();
 			
-    	if($srcEntry->getMediaType() == KalturaMediaType::IMAGE)
+    	if($srcEntry->getMediaType() == BorhanMediaType::IMAGE)
     	{
 			$object_to_fill->setFileSyncObjectType(FileSyncObjectType::ENTRY);
 			$object_to_fill->setObjectSubType(entry::FILE_SYNC_ENTRY_SUB_TYPE_DATA);
@@ -134,13 +134,13 @@ class KalturaEntryResource extends KalturaContentResource
     	{
 			$srcFlavorAsset = assetPeer::retrieveOriginalByEntryId($this->entryId);
 	    	if(!$srcFlavorAsset)
-	    		throw new KalturaAPIException(KalturaErrors::ORIGINAL_FLAVOR_ASSET_IS_MISSING);
+	    		throw new BorhanAPIException(BorhanErrors::ORIGINAL_FLAVOR_ASSET_IS_MISSING);
     	}
 		else
 		{
 			$srcFlavorAsset = assetPeer::retrieveByEntryIdAndParams($this->entryId, $this->flavorParamsId);
 	    	if(!$srcFlavorAsset)
-	    		throw new KalturaAPIException(KalturaErrors::FLAVOR_PARAMS_ID_NOT_FOUND, $this->flavorParamsId);
+	    		throw new BorhanAPIException(BorhanErrors::FLAVOR_PARAMS_ID_NOT_FOUND, $this->flavorParamsId);
 		}
 		
     		
@@ -153,20 +153,20 @@ class KalturaEntryResource extends KalturaContentResource
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaResource::entryHandled()
+	 * @see BorhanResource::entryHandled()
 	 */
 	public function entryHandled(entry $dbEntry)
 	{
     	$srcEntry = entryPeer::retrieveByPK($this->entryId);
     	if(
-    		$srcEntry->getType() == KalturaEntryType::MEDIA_CLIP 
+    		$srcEntry->getType() == BorhanEntryType::MEDIA_CLIP 
     		&& 
-    		$dbEntry->getType() == KalturaEntryType::MEDIA_CLIP 
+    		$dbEntry->getType() == BorhanEntryType::MEDIA_CLIP 
     		&& 
-    		$dbEntry->getMediaType() == KalturaMediaType::IMAGE
+    		$dbEntry->getMediaType() == BorhanMediaType::IMAGE
     	)
     	{
-    		if($dbEntry->getMediaType() == KalturaMediaType::IMAGE)
+    		if($dbEntry->getMediaType() == BorhanMediaType::IMAGE)
     		{
     			$dbEntry->setDimensions($srcEntry->getWidth(), $srcEntry->getHeight());
     			$dbEntry->setMediaDate($srcEntry->getMediaDate(null));

@@ -3,21 +3,21 @@
  * @package plugins.contentDistribution
  * @subpackage api
  */
-class KalturaDistributionProfileFactory
+class BorhanDistributionProfileFactory
 {	
 	/**
 	 * @param int $providerType
-	 * @return KalturaDistributionProfile
+	 * @return BorhanDistributionProfile
 	 */
-	public static function createKalturaDistributionProfile($providerType)
+	public static function createBorhanDistributionProfile($providerType)
 	{
-		if($providerType == KalturaDistributionProviderType::GENERIC)
-			return new KalturaGenericDistributionProfile();
+		if($providerType == BorhanDistributionProviderType::GENERIC)
+			return new BorhanGenericDistributionProfile();
 			
-		if($providerType == KalturaDistributionProviderType::SYNDICATION)
-			return new KalturaSyndicationDistributionProfile();
+		if($providerType == BorhanDistributionProviderType::SYNDICATION)
+			return new BorhanSyndicationDistributionProfile();
 			
-		$distributionProfile = KalturaPluginManager::loadObject('KalturaDistributionProfile', $providerType);
+		$distributionProfile = BorhanPluginManager::loadObject('BorhanDistributionProfile', $providerType);
 		if($distributionProfile)
 			return $distributionProfile;
 		

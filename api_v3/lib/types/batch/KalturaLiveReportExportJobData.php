@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaLiveReportExportJobData extends KalturaJobData
+class BorhanLiveReportExportJobData extends BorhanJobData
 {
 	/**
 	 * @var time

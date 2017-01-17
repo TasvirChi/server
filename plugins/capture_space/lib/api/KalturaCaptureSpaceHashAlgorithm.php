@@ -3,6 +3,6 @@
  * @package plugins.captureSpace
  * @subpackage api.enums
  */
-class KalturaCaptureSpaceHashAlgorithm extends KalturaStringEnum{
+class BorhanCaptureSpaceHashAlgorithm extends BorhanStringEnum{
 	const MD5 = 'md5';
 }

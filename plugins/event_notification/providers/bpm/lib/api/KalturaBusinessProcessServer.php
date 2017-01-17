@@ -3,7 +3,7 @@
  * @package plugins.businessProcessNotification
  * @subpackage api.objects
  */
-abstract class KalturaBusinessProcessServer extends KalturaObject implements IFilterable
+abstract class BorhanBusinessProcessServer extends BorhanObject implements IFilterable
 {	
 	/**
 	 * Auto generated identifier
@@ -54,7 +54,7 @@ abstract class KalturaBusinessProcessServer extends KalturaObject implements IFi
 	public $description;
 
 	/**
-	 * @var KalturaBusinessProcessServerStatus
+	 * @var BorhanBusinessProcessServerStatus
 	 * @readonly
 	 * @filter eq,not,in,notin
 	 */
@@ -62,7 +62,7 @@ abstract class KalturaBusinessProcessServer extends KalturaObject implements IFi
 
 	/**
 	 * The type of the server, this is auto filled by the derived server object
-	 * @var KalturaBusinessProcessProvider
+	 * @var BorhanBusinessProcessProvider
 	 * @readonly
 	 * @filter eq,in
 	 */
@@ -91,7 +91,7 @@ abstract class KalturaBusinessProcessServer extends KalturaObject implements IFi
 	);
 		 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -115,7 +115,7 @@ abstract class KalturaBusinessProcessServer extends KalturaObject implements IFi
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert()
+	 * @see BorhanObject::validateForInsert()
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{
@@ -125,7 +125,7 @@ abstract class KalturaBusinessProcessServer extends KalturaObject implements IFi
 	}
 		
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUpdate()
+	 * @see BorhanObject::validateForUpdate()
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = array())
 	{
@@ -135,10 +135,10 @@ abstract class KalturaBusinessProcessServer extends KalturaObject implements IFi
 	
 	/**
 	 * @param int $type core enum value of BusinessProcessProvider
-	 * @return KalturaBusinessProcessServer
+	 * @return BorhanBusinessProcessServer
 	 */
 	public static function getInstanceByType($type)
 	{
-		return KalturaPluginManager::loadObject('KalturaBusinessProcessServer', $type);
+		return BorhanPluginManager::loadObject('BorhanBusinessProcessServer', $type);
 	}
 }

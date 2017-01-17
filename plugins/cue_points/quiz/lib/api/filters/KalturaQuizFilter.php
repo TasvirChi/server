@@ -4,7 +4,7 @@
  * @subpackage api.filters
  */
 
-class KalturaQuizFilter extends KalturaRelatedFilter {
+class BorhanQuizFilter extends BorhanRelatedFilter {
 
 	static private $map_between_objects = array
 	(
@@ -32,29 +32,29 @@ class KalturaQuizFilter extends KalturaRelatedFilter {
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::getListResponse()
+	 * @see BorhanRelatedFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null) {
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null) {
 		$entryFilter = new QuizEntryFilter();
-		$entryFilter->setPartnerSearchScope(baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE);
+		$entryFilter->setPartnerSearchScope(baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE);
 		$this->toObject($entryFilter);
 
-		$c = KalturaCriteria::create(entryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(entryPeer::OM_CLASS);
 		if($pager)
 			$pager->attachToCriteria($c);
 
 		$entryFilter->attachToCriteria($c);
 		$list = entryPeer::doSelect($c);
 
-		$response = new KalturaQuizListResponse();
-		$response->objects = KalturaQuizArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanQuizListResponse();
+		$response->objects = BorhanQuizArray::fromDbArray($list, $responseProfile);
 		$response->totalCount = $c->getRecordsCount();
 
 		return $response;
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter() {
 		return new QuizEntryFilter();

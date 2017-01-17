@@ -3,7 +3,7 @@
  * @package plugins.virusScan
  * @subpackage api.objects
  */
-class KalturaVirusFoundAction extends KalturaEnum
+class BorhanVirusFoundAction extends BorhanEnum
 {
 	/**
 	 * no action is taken

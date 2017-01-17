@@ -194,7 +194,7 @@ class KSecureEntryHelper
 		if(count($this->contextResult->getMessages()))
 		{
 			foreach($this->contextResult->getMessages() as $msg)
-				header("X-Kaltura: access-control: $msg");
+				header("X-Borhan: access-control: $msg");
 		}
 
 		if ($this->shouldBlock())
@@ -325,7 +325,7 @@ class KSecureEntryHelper
 				$ks = kSessionUtils::crackKs($this->ksStr);
 				// if entry is "display_in_search=2" validate partner ID from the KS
 				// => meaning it will alwasy pass on partner_id
-				if($this->entry->getDisplayInSearch() != mySearchUtils::DISPLAY_IN_SEARCH_KALTURA_NETWORK)
+				if($this->entry->getDisplayInSearch() != mySearchUtils::DISPLAY_IN_SEARCH_BORHAN_NETWORK)
 				{
 					$valid = $ks->isValidForPartner($this->entry->getPartnerId());
 				}

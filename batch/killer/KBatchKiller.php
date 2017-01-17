@@ -79,7 +79,7 @@ class KBatchKiller
 	protected static function killProcessTree($ppid)
 	{
 		$mypid = getmypid();
-KalturaLog::info(__METHOD__.': Killing parent pid='.$ppid.', mypid='.$mypid);
+BorhanLog::info(__METHOD__.': Killing parent pid='.$ppid.', mypid='.$mypid);
 //		$pids = preg_split('/\s+/', `ps -o pid --no-heading --ppid $ppid`);
 //		$pids = preg_split('/\s+/', `ps -o ppid $ppid | tail -n 1`);
 		$rawpids = preg_split('/\s+/', `ps -o pid,ppid -ax | grep $ppid`);
@@ -99,7 +99,7 @@ KalturaLog::info(__METHOD__.': Killing parent pid='.$ppid.', mypid='.$mypid);
 		/*
 			run through the list, go recursive for every child and kill the process
 		*/
-KalturaLog::info(__METHOD__.': Child pids='.print_r($pids,true));				
+BorhanLog::info(__METHOD__.': Child pids='.print_r($pids,true));				
 		$cnt = count($pids);
 		for ($i=0;$i<$cnt; $i+=2) {
 			$pid = $pids[$i];
@@ -108,11 +108,11 @@ KalturaLog::info(__METHOD__.': Child pids='.print_r($pids,true));
 			}
 			self::killProcessTree($pid);
 			
-KalturaLog::info(__METHOD__.': Killing pid='.$pid);
+BorhanLog::info(__METHOD__.': Killing pid='.$pid);
 			if(function_exists('posix_kill'))
 			{
 				$rv=posix_kill($pid, 9);
-				KalturaLog::info("pid=".$pid.", rv=".$rv);
+				BorhanLog::info("pid=".$pid.", rv=".$rv);
 			}
 			else
 			{
@@ -123,7 +123,7 @@ KalturaLog::info(__METHOD__.': Killing pid='.$pid);
 		if(function_exists('posix_kill'))
 		{
 			$rv=posix_kill($ppid, 9);
-			KalturaLog::info("ppid=".$ppid.", rv=".$rv);
+			BorhanLog::info("ppid=".$ppid.", rv=".$rv);
 		}
 		else
 		{

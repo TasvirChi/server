@@ -22,13 +22,13 @@ class KAsyncNotifier extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::NOTIFICATION;
+		return BorhanBatchJobType::NOTIFICATION;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $job;
 	}
@@ -41,17 +41,17 @@ class KAsyncNotifier extends KJobHandlerWorker
 		if(KBatchBase::$taskConfig->isInitOnly())
 			return $this->init();
 		
-		// of type KalturaBatchGetExclusiveNotificationJobsResponse
+		// of type BorhanBatchGetExclusiveNotificationJobsResponse
 		$notificationResponse = KBatchBase::$kClient->batch->getExclusiveNotificationJobs($this->getExclusiveLockKey(), KBatchBase::$taskConfig->maximumExecutionTime, KBatchBase::$taskConfig->maxJobsEachRun, $this->getFilter());
 		
 		$jobs = $notificationResponse->notifications;
 		$partners = $notificationResponse->partners;
 		
-		KalturaLog::info(count($jobs) . " notification jobs to perform");
+		BorhanLog::info(count($jobs) . " notification jobs to perform");
 		
 		if(! count($jobs))
 		{
-			KalturaLog::info("Queue size: 0 sent to scheduler");
+			BorhanLog::info("Queue size: 0 sent to scheduler");
 			$this->saveSchedulerQueue(self::getType());
 			return;
 		}
@@ -78,7 +78,7 @@ class KAsyncNotifier extends KJobHandlerWorker
 				if(! $partner)
 					continue;
 				
-				KalturaLog::info("Sending multi-notifications to partner [$partner_id]");
+				BorhanLog::info("Sending multi-notifications to partner [$partner_id]");
 				
 				// we assume that the partner wants notificatins or else it would have not appeared in the list	
 				list($params_sent, $res, $http_code) = $this->sendMultiNotifications($partner->notificationUrl, $partner->adminSecret, $multi_notifications_per_partner);
@@ -93,7 +93,7 @@ class KAsyncNotifier extends KJobHandlerWorker
 				if(! $partner)
 					continue;
 				
-				KalturaLog::info("Sending single-notifications to partner [{$partner->id}]");
+				BorhanLog::info("Sending single-notifications to partner [{$partner->id}]");
 				// we assume that the partner wants notificatins or else it would have not appeared in the DB			
 				list($params_sent, $res, $http_code) = $this->sendSingleNotification($partner->notificationUrl, $partner->adminSecret, $not);
 				$this->updateNotificationStatus($not, $http_code, $res);
@@ -107,25 +107,25 @@ class KAsyncNotifier extends KJobHandlerWorker
 		KBatchBase::$kClient->startMultiRequest();
 		foreach($notificationJobs as $job)
 		{
-			KalturaLog::info("Free job[$job->id]");
+			BorhanLog::info("Free job[$job->id]");
 			$this->freeExclusiveJob($job);
 			$this->onFree($job);
 		}
 
 		$freeExclusiveResults = KBatchBase::$kClient->doMultiRequest();
 		$freeExclusiveResults = array_pop($freeExclusiveResults);
-		KalturaLog::info("Queue size: {$freeExclusiveResults->queueSize} sent to scheduler");
+		BorhanLog::info("Queue size: {$freeExclusiveResults->queueSize} sent to scheduler");
 		$this->saveSchedulerQueue(static::getType(), $freeExclusiveResults->queueSize);
 	}
 	
 	/**
 	 * @param string $url
 	 * @param string $signature_key
-	 * @param KalturaBatchJob $not
+	 * @param BorhanBatchJob $not
 	 * @param string $prefix
 	 * @return array 
 	 */
-	private function sendSingleNotification($url, $signature_key, KalturaBatchJob $not, $prefix = null)
+	private function sendSingleNotification($url, $signature_key, BorhanBatchJob $not, $prefix = null)
 	{
 		$start_time = microtime(true);
 		
@@ -144,12 +144,12 @@ class KAsyncNotifier extends KJobHandlerWorker
 			}
 			catch(Exception $ex)
 			{
-				KalturaLog::err('sendSingleNotification failed second try with message: '.$ex->getMessage());
+				BorhanLog::err('sendSingleNotification failed second try with message: '.$ex->getMessage());
 			}
 		}
 		
 		$end_time = microtime(true);
-		KalturaLog::info("partner [{$not->partnerId}] notification [{$not->id}] of type [{$not->jobSubType}] to [{$url}]\nhttp result code [{$http_code}]\n" . print_r($params, true) . "\nresult [{$result}]\nraw_signature [$raw_siganture]\ntook [" . ($end_time - $start_time) . "]");
+		BorhanLog::info("partner [{$not->partnerId}] notification [{$not->id}] of type [{$not->jobSubType}] to [{$url}]\nhttp result code [{$http_code}]\n" . print_r($params, true) . "\nresult [{$result}]\nraw_signature [$raw_siganture]\ntook [" . ($end_time - $start_time) . "]");
 		
 		// see if the hit worked properly
 		// the hit should return a specific string to indicate a success 
@@ -196,12 +196,12 @@ class KAsyncNotifier extends KJobHandlerWorker
 			}
 			catch(Exception $ex)
 			{
-				KalturaLog::err('sendMultiNotifications failed second try with message: '.$ex->getMessage());
+				BorhanLog::err('sendMultiNotifications failed second try with message: '.$ex->getMessage());
 			}
 		}
 		
 		$end_time = microtime(true);
-		KalturaLog::info("partner [{$not->partnerId}] notification [$not_id_str] to [{$url}]\nhttp result code [{$http_code}]\n" . print_r($params, true) . "\nresult [{$result}]\nraw_signature [$raw_siganture]\ntook [" . ($end_time - $start_time) . "]");
+		BorhanLog::info("partner [{$not->partnerId}] notification [$not_id_str] to [{$url}]\nhttp result code [{$http_code}]\n" . print_r($params, true) . "\nresult [{$result}]\nraw_signature [$raw_siganture]\ntook [" . ($end_time - $start_time) . "]");
 		
 		// see if the hit worked properly
 		// the hit should return a specific string to indicate a success 
@@ -224,30 +224,30 @@ class KAsyncNotifier extends KJobHandlerWorker
 	/**
 	 * update the $not->status and $not->numberOfAttempts
 	 * 
-	 * @param KalturaBatchJob $not
+	 * @param BorhanBatchJob $not
 	 * @param unknown_type $http_code
 	 * @param unknown_type $res
 	 */
-	private function updateNotificationStatus(KalturaBatchJob $not, $http_code, $res)
+	private function updateNotificationStatus(BorhanBatchJob $not, $http_code, $res)
 	{
 		$not->data->notificationResult = $res;
 		
 		if($http_code == 200 && $res !== false)
 		{
 			// final state - update on server
-			$not->status = KalturaBatchJobStatus::FINISHED;
+			$not->status = BorhanBatchJobStatus::FINISHED;
 		}
-		else //if ( $res == KalturaNotificationResult::ERROR_RETRY  )
+		else //if ( $res == BorhanNotificationResult::ERROR_RETRY  )
 		{
-			$not->status = KalturaBatchJobStatus::RETRY;
+			$not->status = BorhanBatchJobStatus::RETRY;
 		}
 		
-		$updateData = new KalturaNotificationJobData();
+		$updateData = new BorhanNotificationJobData();
 		//Instead of writing the notification result to th DB, write it to the log only
-		KalturaLog::info("Notification result: [" . $not->data->notificationResult ."]");
+		BorhanLog::info("Notification result: [" . $not->data->notificationResult ."]");
 		//$updateData->notificationResult = $not->data->notificationResult;
 		
-		$updateNot = new KalturaBatchJob();
+		$updateNot = new BorhanBatchJob();
 		$updateNot->status = $not->status;
 		$updateNot->data = $updateData;
 		
@@ -309,7 +309,7 @@ class KAsyncNotifier extends KJobHandlerWorker
 		{
 			return $this->partnerMap[$partnerId];
 		}
-		KalturaLog::err("Cannot find partner for partnerId [$partnerId]");
+		BorhanLog::err("Cannot find partner for partnerId [$partnerId]");
 		return false;
 	}
 }

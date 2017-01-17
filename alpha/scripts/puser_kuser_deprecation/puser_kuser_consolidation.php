@@ -77,7 +77,7 @@ class puserKuserConsolidator
 	 * The log file name (for manual log rotation)
 	 * @var string
 	 */
-	private $logFileName = "c:/opt/kaltura/app/scripts/puser_kuser_deprecation/deprecation.log"; 
+	private $logFileName = "c:/opt/borhan/app/scripts/puser_kuser_deprecation/deprecation.log"; 
 	
 	/**
 	 * 
@@ -720,7 +720,7 @@ class puserKuserConsolidator
 	private function printToLog($message)
 	{
 //		print("In print To Log \n");
-		KalturaLog::debug($message);
+		BorhanLog::debug($message);
 //		$dirname = dirname(__FILE__);
 //		$logFilePath = "{$this->logFileName}.{$this->currentlogNumber}";
 //		print("Log file size: " . filesize($logFilePath) . "\n");
@@ -750,7 +750,7 @@ class puserKuserConsolidator
 			$config = null;
 		}
 		
-		KalturaLog::initLog($config);
+		BorhanLog::initLog($config);
 	}
 }
 

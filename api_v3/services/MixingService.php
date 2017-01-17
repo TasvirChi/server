@@ -1,22 +1,22 @@
 <?php
 
 /**
- * A Mix is an XML unique format invented by Kaltura, it allows the user to create a mix of videos and images, in and out points, transitions, text overlays, soundtrack, effects and much more...
+ * A Mix is an XML unique format invented by Borhan, it allows the user to create a mix of videos and images, in and out points, transitions, text overlays, soundtrack, effects and much more...
  * Mixing service lets you create a new mix, manage its metadata and make basic manipulations.   
  *
  * @service mixing
  * @package api
  * @subpackage services
  */
-class MixingService extends KalturaEntryService
+class MixingService extends BorhanEntryService
 {
 	
-	protected function kalturaNetworkAllowed($actionName)
+	protected function borhanNetworkAllowed($actionName)
 	{
 		if ($actionName === 'get') {
 			return true;
 		}
-		return parent::kalturaNetworkAllowed($actionName);
+		return parent::borhanNetworkAllowed($actionName);
 	}
 	
 	/**
@@ -24,10 +24,10 @@ class MixingService extends KalturaEntryService
 	 * If the dataContent is null, a default timeline will be created.
 	 * 
 	 * @action add
-	 * @param KalturaMixEntry $mixEntry Mix entry metadata
-	 * @return KalturaMixEntry The new mix entry
+	 * @param BorhanMixEntry $mixEntry Mix entry metadata
+	 * @return BorhanMixEntry The new mix entry
 	 */
-	function addAction(KalturaMixEntry $mixEntry)
+	function addAction(BorhanMixEntry $mixEntry)
 	{
 		$mixEntry->validatePropertyMinLength("name", 1);
 		$mixEntry->validatePropertyNotNull("editorType");
@@ -44,7 +44,7 @@ class MixingService extends KalturaEntryService
 		$dbEntry->setKshowId($kshow->getId());
 		$dbEntry->setPartnerId($this->getPartnerId());
 		$dbEntry->setSubpId($this->getPartnerId() * 100);
-		$dbEntry->setStatus(KalturaEntryStatus::READY);
+		$dbEntry->setStatus(BorhanEntryStatus::READY);
 		$dbEntry->setMediaType(entry::ENTRY_MEDIA_TYPE_SHOW); // for backward compatibility
 
 		if (!$dbEntry->getThumbnail())
@@ -87,11 +87,11 @@ class MixingService extends KalturaEntryService
 	 * @action get
 	 * @param string $entryId Mix entry id
 	 * @param int $version Desired version of the data
-	 * @return KalturaMixEntry The requested mix entry
+	 * @return BorhanMixEntry The requested mix entry
 	 */
 	function getAction($entryId, $version = -1)
 	{
-		return $this->getEntry($entryId, $version, KalturaEntryType::MIX);
+		return $this->getEntry($entryId, $version, BorhanEntryType::MIX);
 	}
 	
 	/**
@@ -99,18 +99,18 @@ class MixingService extends KalturaEntryService
 	 * 
 	 * @action update
 	 * @param string $entryId Mix entry id to update
-	 * @param KalturaMixEntry $mixEntry Mix entry metadata to update
-	 * @return KalturaMixEntry The updated mix entry
+	 * @param BorhanMixEntry $mixEntry Mix entry metadata to update
+	 * @return BorhanMixEntry The updated mix entry
 	 * @validateUser entry entryId edit
 	 */
-	function updateAction($entryId, KalturaMixEntry $mixEntry)
+	function updateAction($entryId, BorhanMixEntry $mixEntry)
 	{
 		$mixEntry->type = null; // because it was set in the constructor, but cannot be updated
 		
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 
-		if (!$dbEntry || $dbEntry->getType() != KalturaEntryType::MIX)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+		if (!$dbEntry || $dbEntry->getType() != BorhanEntryType::MIX)
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 
 		
 		$this->checkAndSetValidUserUpdate($mixEntry, $dbEntry);
@@ -134,7 +134,7 @@ class MixingService extends KalturaEntryService
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err($e);
+			BorhanLog::err($e);
 		}
 		
 		myNotificationMgr::createNotification(kNotificationJobData::NOTIFICATION_TYPE_ENTRY_UPDATE, $dbEntry);
@@ -151,7 +151,7 @@ class MixingService extends KalturaEntryService
 	 */
 	function deleteAction($entryId)
 	{
-		$this->deleteEntry($entryId, KalturaEntryType::MIX);
+		$this->deleteEntry($entryId, BorhanEntryType::MIX);
 	}
 	
 	/**
@@ -159,20 +159,20 @@ class MixingService extends KalturaEntryService
 	 * Return parameter is an array of mix entries.
 	 * 
 	 * @action list
-	 * @param KalturaMixEntryFilter $filter Mix entry filter
-	 * @param KalturaFilterPager $pager Pager
-	 * @return KalturaMixListResponse Wrapper for array of media entries and total count
+	 * @param BorhanMixEntryFilter $filter Mix entry filter
+	 * @param BorhanFilterPager $pager Pager
+	 * @return BorhanMixListResponse Wrapper for array of media entries and total count
 	 */
-	function listAction(KalturaMixEntryFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanMixEntryFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 	    if (!$filter)
-			$filter = new KalturaMixEntryFilter();
+			$filter = new BorhanMixEntryFilter();
 			
-		$filter->typeEqual = KalturaEntryType::MIX; 
+		$filter->typeEqual = BorhanEntryType::MIX; 
 	    list($list, $totalCount) = parent::listEntriesByFilter($filter, $pager);
 	    
-	    $newList = KalturaMixEntryArray::fromDbArray($list, $this->getResponseProfile());
-		$response = new KalturaMixListResponse();
+	    $newList = BorhanMixEntryArray::fromDbArray($list, $this->getResponseProfile());
+		$response = new BorhanMixListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $totalCount;
 		return $response;
@@ -182,15 +182,15 @@ class MixingService extends KalturaEntryService
 	 * Count mix entries by filter.
 	 * 
 	 * @action count
-     * @param KalturaMediaEntryFilter $filter Media entry filter
+     * @param BorhanMediaEntryFilter $filter Media entry filter
 	 * @return int
 	 */
-	function countAction(KalturaMediaEntryFilter $filter = null)
+	function countAction(BorhanMediaEntryFilter $filter = null)
 	{
 	    if (!$filter)
-			$filter = new KalturaMediaEntryFilter();
+			$filter = new BorhanMediaEntryFilter();
 			
-		$filter->typeEqual = KalturaEntryType::MIX;
+		$filter->typeEqual = BorhanEntryType::MIX;
 		
 		return parent::countEntriesByFilter($filter);
 	}
@@ -200,34 +200,34 @@ class MixingService extends KalturaEntryService
 	 *
 	 * @action clone
 	 * @param string $entryId Mix entry id to clone
-	 * @return KalturaMixEntry The new mix entry
+	 * @return BorhanMixEntry The new mix entry
 	 */
 	function cloneAction($entryId)
 	{
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 
-		if (!$dbEntry || $dbEntry->getType() != KalturaEntryType::MIX)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+		if (!$dbEntry || $dbEntry->getType() != BorhanEntryType::MIX)
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 			
 		$kshowId = $dbEntry->getKshowId();
 		$kshow = $dbEntry->getKshow();
 		
 		if (!$kshow)
 		{
-			KalturaLog::CRIT("Kshow was not found for mix id [".$entryId."]");
-			throw new KalturaAPIException(KalturaErrors::INTERNAL_SERVERL_ERROR);
+			BorhanLog::CRIT("Kshow was not found for mix id [".$entryId."]");
+			throw new BorhanAPIException(BorhanErrors::INTERNAL_SERVERL_ERROR);
 		}
 		
 		$newKshow = myKshowUtils::shalowCloneById($kshowId, $this->getKuser()->getId());
 	
 		if (!$newKshow)
 		{
-			KalturaLog::ERR("Failed to clone kshow for mix id [".$entryId."]");
-			throw new KalturaAPIException(KalturaErrors::INTERNAL_SERVERL_ERROR);
+			BorhanLog::ERR("Failed to clone kshow for mix id [".$entryId."]");
+			throw new BorhanAPIException(BorhanErrors::INTERNAL_SERVERL_ERROR);
 		}
 		$newEntry = $newKshow->getShowEntry();
 		
-		$newMixEntry = new KalturaMixEntry();
+		$newMixEntry = new BorhanMixEntry();
 		$newMixEntry->fromObject($newEntry, $this->getResponseProfile());
 		
 		myNotificationMgr::createNotification(kNotificationJobData::NOTIFICATION_TYPE_ENTRY_ADD, $newEntry);
@@ -241,25 +241,25 @@ class MixingService extends KalturaEntryService
 	 * @action appendMediaEntry
 	 * @param string $mixEntryId Mix entry to append to its timeline
 	 * @param string $mediaEntryId Media entry to append to the timeline
-	 * @return KalturaMixEntry The mix entry
+	 * @return BorhanMixEntry The mix entry
 	 */
 	function appendMediaEntryAction($mixEntryId, $mediaEntryId)
 	{
 		$dbMixEntry = entryPeer::retrieveByPK($mixEntryId);
 
-		if (!$dbMixEntry || $dbMixEntry->getType() != KalturaEntryType::MIX)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $mixEntryId);
+		if (!$dbMixEntry || $dbMixEntry->getType() != BorhanEntryType::MIX)
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $mixEntryId);
 			
 		$dbMediaEntry = entryPeer::retrieveByPK($mediaEntryId);
 
-		if (!$dbMediaEntry || $dbMediaEntry->getType() != KalturaEntryType::MEDIA_CLIP)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $mediaEntryId);
+		if (!$dbMediaEntry || $dbMediaEntry->getType() != BorhanEntryType::MEDIA_CLIP)
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $mediaEntryId);
 			
 		$kshow = $dbMixEntry->getkshow();		
 		if (!$kshow)
 		{
-			KalturaLog::CRIT("Kshow was not found for mix id [".$mixEntryId."]");
-			throw new KalturaAPIException(KalturaErrors::INTERNAL_SERVERL_ERROR);
+			BorhanLog::CRIT("Kshow was not found for mix id [".$mixEntryId."]");
+			throw new BorhanAPIException(BorhanErrors::INTERNAL_SERVERL_ERROR);
 		}
 		
 		// FIXME: temp hack  - when kshow doesn't have a roughcut, and the media entry is not ready, it cannob be queued for append upon import/conversion completion 
@@ -302,7 +302,7 @@ class MixingService extends KalturaEntryService
 			$kshow->setMetadata($newMetadata, true);
 		}
 		
-		$mixEntry = new KalturaMixEntry();
+		$mixEntry = new BorhanMixEntry();
 		$mixEntry->fromObject($dbMixEntry, $this->getResponseProfile());
 		
 		return $mixEntry;
@@ -313,17 +313,17 @@ class MixingService extends KalturaEntryService
 	 *
 	 * @action getMixesByMediaId
 	 * @param string $mediaEntryId
-	 * @return KalturaMixEntryArray
+	 * @return BorhanMixEntryArray
 	 */
 	public function getMixesByMediaIdAction($mediaEntryId)
 	{
 		$dbMediaEntry = entryPeer::retrieveByPK($mediaEntryId);
 
-		if (!$dbMediaEntry || $dbMediaEntry->getType() != KalturaEntryType::MEDIA_CLIP)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $mediaEntryId);
+		if (!$dbMediaEntry || $dbMediaEntry->getType() != BorhanEntryType::MEDIA_CLIP)
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $mediaEntryId);
 			
 		 $list = roughcutEntry::getAllRoughcuts($mediaEntryId);
-		 $newList = KalturaMixEntryArray::fromDbArray($list, $this->getResponseProfile());
+		 $newList = BorhanMixEntryArray::fromDbArray($list, $this->getResponseProfile());
 		 return $newList;
 	}
 	
@@ -333,14 +333,14 @@ class MixingService extends KalturaEntryService
 	 * @action getReadyMediaEntries
 	 * @param string $mixId
 	 * @param int $version Desired version to get the data from
-	 * @return KalturaMediaEntryArray
+	 * @return BorhanMediaEntryArray
 	 */
 	public function getReadyMediaEntriesAction($mixId, $version = -1)
 	{
 		$dbEntry = entryPeer::retrieveByPK($mixId);
 
-		if (!$dbEntry || $dbEntry->getType() != KalturaEntryType::MIX)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $mixId);
+		if (!$dbEntry || $dbEntry->getType() != BorhanEntryType::MIX)
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $mixId);
 		
 		$dataSyncKey = $dbEntry->getSyncKey(entry::FILE_SYNC_ENTRY_SUB_TYPE_DATA);
 		$mixFileName = kFileSyncUtils::getReadyLocalFilePathForKey($dataSyncKey, false);
@@ -353,13 +353,13 @@ class MixingService extends KalturaEntryService
 		foreach($entryDataFromMix as $data)
 			$ids[] = $data["id"];
 
-		$c = KalturaCriteria::create(entryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(entryPeer::OM_CLASS);
 		$c->addAnd(entryPeer::ID, $ids, Criteria::IN);
 		$c->addAnd(entryPeer::TYPE, entryType::MEDIA_CLIP);					
 		
 		$dbEntries = entryPeer::doSelect($c);
 
-		$mediaEntries = KalturaMediaEntryArray::fromDbArray($dbEntries, $this->getResponseProfile());
+		$mediaEntries = BorhanMediaEntryArray::fromDbArray($dbEntries, $this->getResponseProfile());
 		
 		return $mediaEntries;
 	}
@@ -373,6 +373,6 @@ class MixingService extends KalturaEntryService
 	 */
 	public function anonymousRankAction($entryId, $rank)
 	{
-		return parent::anonymousRankEntry($entryId, KalturaEntryType::MIX, $rank);
+		return parent::anonymousRankEntry($entryId, BorhanEntryType::MIX, $rank);
 	}
 }

@@ -17,7 +17,7 @@ class PartnerController extends Zend_Controller_Action
 	{
 		$request = $this->getRequest();
 		$client = Infra_ClientHelper::getClient();
-		$systemPartnerPlugin = Kaltura_Client_SystemPartner_Plugin::get($client);
+		$systemPartnerPlugin = Borhan_Client_SystemPartner_Plugin::get($client);
 		$form = new Form_PartnerCreate();
 		
 		$partner = Zend_Registry::get('config')->partner;
@@ -28,10 +28,10 @@ class PartnerController extends Zend_Controller_Action
 		$systemPartnerPlugin->systemPartner->getPackagesVertical();
 		$systemPartnerPlugin->systemPartner->getPackagesClassOfService();
 		//Retrieve partner 0 template partners.
-		$partnerFilter = new Kaltura_Client_SystemPartner_Type_SystemPartnerFilter();
-		$partnerFilter->partnerGroupTypeEqual = Kaltura_Client_Enum_PartnerGroupType::TEMPLATE;
+		$partnerFilter = new Borhan_Client_SystemPartner_Type_SystemPartnerFilter();
+		$partnerFilter->partnerGroupTypeEqual = Borhan_Client_Enum_PartnerGroupType::TEMPLATE;
 		$partnerFilter->partnerParentIdEqual = 0;
-		$partnerFilter->statusEqual = Kaltura_Client_Enum_PartnerStatus::ACTIVE;
+		$partnerFilter->statusEqual = Borhan_Client_Enum_PartnerStatus::ACTIVE;
 		$systemPartnerPlugin->systemPartner->listAction($partnerFilter);
 		list($packages, $packagesVertical, $packagesClassOfService, $templatePartners) = $client->doMultiRequest();
 		
@@ -56,22 +56,22 @@ class PartnerController extends Zend_Controller_Action
 		{
 			if ($form->isValid($request->getPost()))
 			{
-				$partner = $form->getObject("Kaltura_Client_Type_Partner", $request->getPost());
+				$partner = $form->getObject("Borhan_Client_Type_Partner", $request->getPost());
 				if(is_array($partner->contentCategories))
 					$partner->contentCategories = implode(',', $partner->contentCategories);
-				/* @var $partner Kaltura_Client_Type_Partner */	
+				/* @var $partner Borhan_Client_Type_Partner */	
 				$partner->adminName = $partner->name;
 				$partner->description = "Admin Console";
-				$partner->type = Kaltura_Client_Enum_PartnerType::ADMIN_CONSOLE;
+				$partner->type = Borhan_Client_Enum_PartnerType::ADMIN_CONSOLE;
 				$templatePartnerId = $form->getValue('partner_template_id');
 				$client->startMultiRequest();
 				$client->partner->register($partner, null, $templatePartnerId);
-				$config = new Kaltura_Client_SystemPartner_Type_SystemPartnerConfiguration();
+				$config = new Borhan_Client_SystemPartner_Type_SystemPartnerConfiguration();
 				$config->partnerPackage = $form->getValue('partner_package');
 				$config->partnerPackageClassOfService = $form->getValue('partner_package_class_of_service');
 				$config->verticalClasiffication = $form->getValue('vertical_clasiffication');
-				$config->storageDeleteFromKaltura = true;
-				$config->storageServePriority = Kaltura_Client_Enum_StorageServePriority::EXTERNAL_FIRST;
+				$config->storageDeleteFromBorhan = true;
+				$config->storageServePriority = Borhan_Client_Enum_StorageServePriority::EXTERNAL_FIRST;
 				$config->language = $form->getValue('partner_language');
 				$systemPartnerPlugin->systemPartner->updateConfiguration('{1:result:id}', $config);
 				
@@ -89,11 +89,11 @@ class PartnerController extends Zend_Controller_Action
 					if (strpos($result[0]['message'], 'already exists in system') !== false)
 						$form->getElement('admin_email')->addError('Email already exists');
 					else
-						throw new Kaltura_Client_Exception($result[0]['message'], $result[0]['code']);
+						throw new Borhan_Client_Exception($result[0]['message'], $result[0]['code']);
 				}
 				else
 				{
-					Kaltura_AdminUserIdentity::refreshCurrentUserAllowedPartners();
+					Borhan_AdminUserIdentity::refreshCurrentUserAllowedPartners();
 					$this->_helper->redirector('list');
 				}
 			}
@@ -119,7 +119,7 @@ class PartnerController extends Zend_Controller_Action
 		
 		$form = new Form_PartnerFilter();
 		$form->setAction($action);
-		$systemPartnerPlugin = Kaltura_Client_SystemPartner_Plugin::get($client);
+		$systemPartnerPlugin = Borhan_Client_SystemPartner_Plugin::get($client);
 		$partnerPackages = $systemPartnerPlugin->systemPartner->getPackages();
 		Form_PackageHelper::addPackagesToForm($form, $partnerPackages, 'partner_package', true, 'All Service Editions');
 		
@@ -146,7 +146,7 @@ class PartnerController extends Zend_Controller_Action
 							
 		
 		// get results and paginate
-		$systemPartnerPlugin = Kaltura_Client_SystemPartner_Plugin::get($client);
+		$systemPartnerPlugin = Borhan_Client_SystemPartner_Plugin::get($client);
 		
 		$paginatorAdapter = new Infra_FilterPaginator($systemPartnerPlugin->systemPartner, "listAction", null, $partnerFilter);
 		$paginator = new Infra_Paginator($paginatorAdapter, $request);
@@ -161,14 +161,14 @@ class PartnerController extends Zend_Controller_Action
 		$this->view->paginator = $paginator;
 		
 		$plugins = array();
-		$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaAdminConsolePages');
+		$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanAdminConsolePages');
 		$partnerActionPluginPages = array();
 		foreach($pluginInstances as $pluginInstance)
 		{
 			$pluginPages = $pluginInstance->getApplicationPages(Infra_AclHelper::getCurrentPermissions());
 			foreach ($pluginPages as $pluginPage)
 			{
-				if ($pluginPage instanceof IKalturaAdminConsolePublisherAction && $pluginPage->accessCheck(Infra_AclHelper::getCurrentPermissions()))
+				if ($pluginPage instanceof IBorhanAdminConsolePublisherAction && $pluginPage->accessCheck(Infra_AclHelper::getCurrentPermissions()))
 				{
 					$partnerActionPluginPages[] = $pluginPage;
 				}
@@ -207,17 +207,17 @@ class PartnerController extends Zend_Controller_Action
 		$status = $this->_getParam('status');
 		$reason = $this->_getParam('reason');
 		$client = Infra_ClientHelper::getClient();
-		$systemPartnerPlugin = Kaltura_Client_SystemPartner_Plugin::get($client);
+		$systemPartnerPlugin = Borhan_Client_SystemPartner_Plugin::get($client);
 		$systemPartnerPlugin->systemPartner->updateStatus($partnerId, $status, $reason);
 		echo $this->_helper->json('ok', false);
 	}
 	
-	public function kmcRedirectAction()
+	public function bmcRedirectAction()
 	{
 		$partnerId = $this->_getParam('partner_id');
 		$userId = $this->_getParam('user_id');
 		$client = Infra_ClientHelper::getClient();
-		$systemPartnerPlugin = Kaltura_Client_SystemPartner_Plugin::get($client);
+		$systemPartnerPlugin = Borhan_Client_SystemPartner_Plugin::get($client);
 		try
 		{
 			$ks = $systemPartnerPlugin->systemPartner->getAdminSession($partnerId, $userId);
@@ -231,14 +231,14 @@ class PartnerController extends Zend_Controller_Action
 
 		$url = null;
 		$settings = Zend_Registry::get('config')->settings;
-		if($settings->kmcUrl)
+		if($settings->bmcUrl)
 		{
-			$url = $settings->kmcUrl;
+			$url = $settings->bmcUrl;
 		}
 		else
 		{
 			$url = Infra_ClientHelper::getServiceUrl();	
-			$url .= '/index.php/kmc/extlogin';
+			$url .= '/index.php/bmc/extlogin';
 		}
 		
 		$url .= '?ks='.$ks.'&partner_id='.$partnerId;
@@ -273,12 +273,12 @@ class PartnerController extends Zend_Controller_Action
 		}
 				
 		
-		$form = KalturaPluginManager::loadObject('Form_Partner_BaseStorageConfiguration', $type, array($partnerId, $type));
+		$form = BorhanPluginManager::loadObject('Form_Partner_BaseStorageConfiguration', $type, array($partnerId, $type));
 		/* @var $form Form_StorageConfiguration */
 		
 		if(!$form || !($form instanceof Form_Partner_BaseStorageConfiguration))
 		{
-			if($type == Kaltura_Client_Enum_StorageProfileProtocol::LOCAL)
+			if($type == Borhan_Client_Enum_StorageProfileProtocol::LOCAL)
 				$form = new Form_Partner_LocalStorageConfiguration();
 			else
 				$form = new Form_Partner_StorageConfiguration();
@@ -290,7 +290,7 @@ class PartnerController extends Zend_Controller_Action
 		
 		$request = $this->getRequest();
 		
-		$pager = new Kaltura_Client_Type_FilterPager();
+		$pager = new Borhan_Client_Type_FilterPager();
 		$pager->pageSize = 500; 
 		if (!$storageId) //new
 		{
@@ -340,15 +340,15 @@ class PartnerController extends Zend_Controller_Action
 			{
 				$this->view->formValid = true;
 				$form->populate($formData);
-				$storageProfileClass = KalturaPluginManager::getObjectClass('Kaltura_Client_Type_StorageProfile', $type);
+				$storageProfileClass = BorhanPluginManager::getObjectClass('Borhan_Client_Type_StorageProfile', $type);
 				
 				if (!$storageProfileClass)
 				{
-					if( $type == Kaltura_Client_Enum_StorageProfileProtocol::S3){
-						$storageProfileClass = 'Kaltura_Client_Type_AmazonS3StorageProfile';
+					if( $type == Borhan_Client_Enum_StorageProfileProtocol::S3){
+						$storageProfileClass = 'Borhan_Client_Type_AmazonS3StorageProfile';
 					}	
 					else{
-						$storageProfileClass = 'Kaltura_Client_Type_StorageProfile';	
+						$storageProfileClass = 'Borhan_Client_Type_StorageProfile';	
 					}
 				}
 				
@@ -367,7 +367,7 @@ class PartnerController extends Zend_Controller_Action
 				if (!$editMode)
 					$storageFromForm->protocol = $type;
 				
-				KalturaLog::log('Storage: ' . print_r($storageFromForm, true));
+				BorhanLog::log('Storage: ' . print_r($storageFromForm, true));
 				
 				Infra_ClientHelper::impersonate($storageFromForm->partnerId);
 				$storageFromForm->partnerId = null;
@@ -396,7 +396,7 @@ class PartnerController extends Zend_Controller_Action
 		$this->_helper->layout->disableLayout();
 		$partnerId = $this->_getParam('partner_id');
 		$client = Infra_ClientHelper::getClient();
-		$systemPartnerPlugin = Kaltura_Client_SystemPartner_Plugin::get($client);
+		$systemPartnerPlugin = Borhan_Client_SystemPartner_Plugin::get($client);
 		
 		$partner = Zend_Registry::get('config')->partner;
 		$allowNonePackage = isset($partner->enableNonePackage) ? $partner->enableNonePackage : false;
@@ -409,12 +409,12 @@ class PartnerController extends Zend_Controller_Action
 		$systemPartnerPlugin->systemPartner->getPlayerDeliveryTypes();
 		list($packages, $packagesVertical, $packagesClassOfService, $playerEmbedCodeTypes, $playerDeliveryTypes) = $client->doMultiRequest();
 
-		$systemDefaults = new Kaltura_Client_Type_PlayerEmbedCodeType();
+		$systemDefaults = new Borhan_Client_Type_PlayerEmbedCodeType();
 		$systemDefaults->id = '';
 		$systemDefaults->label = 'Use System Defaults';
 		$playerEmbedCodeTypes[] = $systemDefaults;
 
-		$systemDefaults = new Kaltura_Client_Type_PlayerDeliveryType();
+		$systemDefaults = new Borhan_Client_Type_PlayerDeliveryType();
 		$systemDefaults->id = '';
 		$systemDefaults->label = 'Use System Defaults';
 		$playerDeliveryTypes[] = $systemDefaults;
@@ -435,7 +435,7 @@ class PartnerController extends Zend_Controller_Action
 			{	
 				$this->view->formValid = true;
 				$form->populate($request->getPost());
-				$config = $form->getObject("Kaltura_Client_SystemPartner_Type_SystemPartnerConfiguration", $request->getPost());
+				$config = $form->getObject("Borhan_Client_SystemPartner_Type_SystemPartnerConfiguration", $request->getPost());
 				$config->extendedFreeTrailExpiryDate = strtotime($this->_getParam('extended_free_trail_expiry_date'));
 				
 				try{
@@ -461,9 +461,9 @@ class PartnerController extends Zend_Controller_Action
 				$extentFreeTrail = $this->_getParam('extended_free_trail');
 				
 				if (isset($extentFreeTrail) && $extentFreeTrail){
-					$status = Kaltura_Client_Enum_PartnerStatus::ACTIVE;
+					$status = Borhan_Client_Enum_PartnerStatus::ACTIVE;
 					$client = Infra_ClientHelper::getClient();
-					$systemPartnerPlugin = Kaltura_Client_SystemPartner_Plugin::get($client);
+					$systemPartnerPlugin = Borhan_Client_SystemPartner_Plugin::get($client);
 					$systemPartnerPlugin->systemPartner->updateStatus($partnerId, $status, "Activated due to trial extension");
 				}
 				
@@ -503,12 +503,12 @@ class PartnerController extends Zend_Controller_Action
 		$partnerId = $this->_getParam('partner_id');
 		$client = Infra_ClientHelper::getClient();
 		$form = new Form_ExtenededFreeTrailHistory();
-		$auditPlugin = Kaltura_Client_Audit_Plugin::get($client);
+		$auditPlugin = Borhan_Client_Audit_Plugin::get($client);
 			
 		$this->view->errMessage = false;
 
 		$client->startMultiRequest();
-		$filter = new Kaltura_Client_Audit_Type_AuditTrailFilter();
+		$filter = new Borhan_Client_Audit_Type_AuditTrailFilter();
 		$filter->objectIdEqual = $partnerId;
 		$filter->auditObjectTypeEqual = "Partner";
 		$auditPlugin->auditTrail->listAction($filter);
@@ -549,7 +549,7 @@ class PartnerController extends Zend_Controller_Action
 	
 	private function getPartnerFilterFromRequest(Zend_Controller_Request_Abstract $request)
 	{
-		$filter = new Kaltura_Client_Type_PartnerFilter();
+		$filter = new Borhan_Client_Type_PartnerFilter();
 		$filterType = $request->getParam('filter_type');
 		$filterInput = $request->getParam('filter_input');
 		$filterIncludActive = $request->getParam('include_active');
@@ -563,11 +563,11 @@ class PartnerController extends Zend_Controller_Action
 		if($filterType == 'byEntryId')
 		{
 		    $client = Infra_ClientHelper::getClient();
-		    $adminConsolePlugin = Kaltura_Client_AdminConsole_Plugin::get($client);
+		    $adminConsolePlugin = Borhan_Client_AdminConsole_Plugin::get($client);
 		
 		    try {
 		        $entry = $adminConsolePlugin->entryAdmin->get($filterInput);
-		        /* @var $entry Kaltura_Client_Type_MediaEntry */
+		        /* @var $entry Borhan_Client_Type_MediaEntry */
 		        $filter->idIn = $entry->partnerId;
 		    }
 		    catch(Exception $ex) {
@@ -578,11 +578,11 @@ class PartnerController extends Zend_Controller_Action
 		if($filterType == 'byUIConfId')
 		{
 		    $client = Infra_ClientHelper::getClient();
-		    $adminConsolePlugin = Kaltura_Client_AdminConsole_Plugin::get($client);
+		    $adminConsolePlugin = Borhan_Client_AdminConsole_Plugin::get($client);
 		
 		    try {
 		        $uiConf = $adminConsolePlugin->uiConfAdmin->get($filterInput);
-		        /* @var $uiConf Kaltura_Client_Type_UIConf  */
+		        /* @var $uiConf Borhan_Client_Type_UIConf  */
 		        $filter->idIn = $uiConf->partnerId;
 		    }
 		    catch(Exception $ex) {
@@ -603,11 +603,11 @@ class PartnerController extends Zend_Controller_Action
 		}
 		$statuses = array();
 		if ($filterIncludActive)
-			$statuses[] = Kaltura_Client_Enum_PartnerStatus::ACTIVE;
+			$statuses[] = Borhan_Client_Enum_PartnerStatus::ACTIVE;
 		if ($filterIncludBlocked)
-			$statuses[] = Kaltura_Client_Enum_PartnerStatus::BLOCKED;
+			$statuses[] = Borhan_Client_Enum_PartnerStatus::BLOCKED;
 		if ($filterIncludRemoved)
-			$statuses[] = Kaltura_Client_Enum_PartnerStatus::FULL_BLOCK;
+			$statuses[] = Borhan_Client_Enum_PartnerStatus::FULL_BLOCK;
 		
 		if ($filterPackage != '')
 			$filter->partnerPackageEqual = $filterPackage;
@@ -616,10 +616,10 @@ class PartnerController extends Zend_Controller_Action
 		if ($statusIn != ''){
 			$filter->statusIn = $statusIn;
 		}else{
-			$filter->statusIn = Kaltura_Client_Enum_PartnerStatus::ACTIVE . ',' . Kaltura_Client_Enum_PartnerStatus::BLOCKED;
+			$filter->statusIn = Borhan_Client_Enum_PartnerStatus::ACTIVE . ',' . Borhan_Client_Enum_PartnerStatus::BLOCKED;
 		}
 		 
-		$filter->orderBy = Kaltura_Client_Enum_PartnerOrderBy::ID_DESC;
+		$filter->orderBy = Borhan_Client_Enum_PartnerOrderBy::ID_DESC;
 		return $filter;
 	}
 
@@ -643,7 +643,7 @@ class PartnerController extends Zend_Controller_Action
 			$partnerId = $request->getParam('filter_input');
 			$newForm->getElement('newPartnerId')->setValue($partnerId);
 		}
-		$filter = new Kaltura_Client_Type_StorageProfileFilter();
+		$filter = new Borhan_Client_Type_StorageProfileFilter();
 		
 		// get results and paginate
 		$paginatorAdapter = new Infra_FilterPaginator($client->storageProfile, "listAction", $partnerId, $filter);
@@ -660,7 +660,7 @@ class PartnerController extends Zend_Controller_Action
 		$this->view->paginator = $paginator;
 	}
 	
-	public function kmcUsersAction()
+	public function bmcUsersAction()
 	{
 		$this->_helper->layout->disableLayout();
 		
@@ -672,10 +672,10 @@ class PartnerController extends Zend_Controller_Action
 		$page = $this->_getParam('page', 1);
 		$pageSize = $this->_getParam('pageSize', 10);
 		
-		$filter = new Kaltura_Client_Type_UserFilter();
+		$filter = new Borhan_Client_Type_UserFilter();
 		$filter->isAdminEqual = true;
 		$filter->partnerIdEqual = $partnerId;
-		$filter->statusEqual = Kaltura_Client_Enum_UserStatus::ACTIVE;
+		$filter->statusEqual = Borhan_Client_Enum_UserStatus::ACTIVE;
 		
 		$client = Infra_ClientHelper::getClient();
 		$paginatorAdapter = new Infra_FilterPaginator($client->user, "listAction", $partnerId, $filter);
@@ -694,7 +694,7 @@ class PartnerController extends Zend_Controller_Action
 		$userId = $this->_getParam('user_id');
 		$partnerId = $this->_getParam('partner_id');
 		$client = Infra_ClientHelper::getClient();			
-		$resetPasswordForm = new Form_Partner_KmcUsersResetPassword();	
+		$resetPasswordForm = new Form_Partner_BmcUsersResetPassword();	
 		if (!$userId || !$partnerId){
 			$this->view->errMessage = "Missing userId/partnerId";
 			$this->view->form = $resetPasswordForm;
@@ -708,7 +708,7 @@ class PartnerController extends Zend_Controller_Action
 			//password was provided
 			if ($resetPasswordForm->isValid($formData))
 			{
-				$systemPartnerPlugin = Kaltura_Client_SystemPartner_Plugin::get($client);
+				$systemPartnerPlugin = Borhan_Client_SystemPartner_Plugin::get($client);
 				try{
 					$systemPartnerPlugin->systemPartner->resetUserPassword($userId, $partnerId, $formData['newPassword']);
 					$resetPasswordForm->setAttrib('class', 'valid');					
@@ -729,7 +729,7 @@ class PartnerController extends Zend_Controller_Action
 	    $partnerId = $this->_getParam('partner_id');
 		$userId = $this->_getParam('user_id');
 		$client = Infra_ClientHelper::getClient();
-		$systemPartnerPlugin = Kaltura_Client_SystemPartner_Plugin::get($client);
+		$systemPartnerPlugin = Borhan_Client_SystemPartner_Plugin::get($client);
 		try
 		{
 			$ks = $systemPartnerPlugin->systemPartner->getAdminSession($partnerId, $userId);

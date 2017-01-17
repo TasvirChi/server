@@ -3,10 +3,10 @@
  * @package api
  * @subpackage filters
  */
-class KalturaBaseSyndicationFeedFilter extends KalturaBaseSyndicationFeedBaseFilter
+class BorhanBaseSyndicationFeedFilter extends BorhanBaseSyndicationFeedBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{

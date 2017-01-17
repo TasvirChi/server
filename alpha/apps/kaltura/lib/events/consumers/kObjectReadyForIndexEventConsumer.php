@@ -2,7 +2,7 @@
 /**
  * Applicative event that raised by the developer when indexed object is ready for indexing in the index server
  */
-interface kObjectReadyForIndexEventConsumer extends KalturaEventConsumer
+interface kObjectReadyForIndexEventConsumer extends BorhanEventConsumer
 {
 	/**
 	 * @param BaseObject $object

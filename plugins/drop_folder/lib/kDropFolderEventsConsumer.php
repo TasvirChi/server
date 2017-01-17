@@ -28,7 +28,7 @@ class kDropFolderEventsConsumer implements kBatchJobStatusEventConsumer, kObject
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err('Failed to process objectChangedEvent for drop folder file ['.$object->getDropFolderId().'] - '.$e->getMessage());
+			BorhanLog::err('Failed to process objectChangedEvent for drop folder file ['.$object->getDropFolderId().'] - '.$e->getMessage());
 		}
 		
 		return true;
@@ -59,7 +59,7 @@ class kDropFolderEventsConsumer implements kBatchJobStatusEventConsumer, kObject
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err('Failed to process shouldConsumeChangedEvent - '.$e->getMessage());
+			BorhanLog::err('Failed to process shouldConsumeChangedEvent - '.$e->getMessage());
 		}
 		
 		return false;
@@ -79,7 +79,7 @@ class kDropFolderEventsConsumer implements kBatchJobStatusEventConsumer, kObject
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err('Failed to process shouldConsumeJobStatusEvent - '.$e->getMessage());
+			BorhanLog::err('Failed to process shouldConsumeJobStatusEvent - '.$e->getMessage());
 		}
 		return false;		
 	}
@@ -104,7 +104,7 @@ class kDropFolderEventsConsumer implements kBatchJobStatusEventConsumer, kObject
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err('Failed to process updatedJob - '.$e->getMessage());
+			BorhanLog::err('Failed to process updatedJob - '.$e->getMessage());
 		}
 		return true;					
 	}
@@ -142,7 +142,7 @@ class kDropFolderEventsConsumer implements kBatchJobStatusEventConsumer, kObject
 						&& $dropFolder->getFileDeletePolicy() == DropFolderFileDeletePolicy::AUTO_DELETE_WHEN_ENTRY_IS_READY )
 				{
 					// Shift the state to PROCESSING until the associated entry will reach the READY (or ERROR_CONVERTING) state
-					KalturaLog::info("Shifting drop folder file id [{$dropFolderFile->getId()}] from status [{$dropFolderFile->getStatus()}] to PROCESSING due to AUTO_DELETE_WHEN_ENTRY_IS_READY policy"); 
+					BorhanLog::info("Shifting drop folder file id [{$dropFolderFile->getId()}] from status [{$dropFolderFile->getStatus()}] to PROCESSING due to AUTO_DELETE_WHEN_ENTRY_IS_READY policy"); 
 					$newStatus = DropFolderFileStatus::PROCESSING;
 				}
 
@@ -173,7 +173,7 @@ class kDropFolderEventsConsumer implements kBatchJobStatusEventConsumer, kObject
 		switch($dbBatchJob->getStatus())
 		{
 			case BatchJob::BATCHJOB_STATUS_RETRY: //TODO: check  error code
-				KalturaLog::info('Batch job status RETRY => set files ['.$data->getDropFolderFileIds().'] to NO_MATCH');
+				BorhanLog::info('Batch job status RETRY => set files ['.$data->getDropFolderFileIds().'] to NO_MATCH');
 				foreach ($dropFolderFiles as $dropFolderFile) 
 				{
 					$dropFolderFile->setStatus(DropFolderFileStatus::NO_MATCH);
@@ -182,7 +182,7 @@ class kDropFolderEventsConsumer implements kBatchJobStatusEventConsumer, kObject
 				break;
 			case BatchJob::BATCHJOB_STATUS_FAILED:
 			case BatchJob::BATCHJOB_STATUS_FATAL:	
-				KalturaLog::info('Batch job FAILED => set files ['.$data->getDropFolderFileIds().'] to ERROR_HANDLING');			
+				BorhanLog::info('Batch job FAILED => set files ['.$data->getDropFolderFileIds().'] to ERROR_HANDLING');			
 				foreach ($dropFolderFiles as $dropFolderFile) 
 				{
 					$this->setFileError($dropFolderFile, DropFolderFileStatus::ERROR_HANDLING, DropFolderFileErrorCode::ERROR_IN_CONTENT_PROCESSOR, DropFolderPlugin::ERROR_IN_CONTENT_PROCESSOR_MESSAGE);
@@ -210,7 +210,7 @@ class kDropFolderEventsConsumer implements kBatchJobStatusEventConsumer, kObject
 			$file = $updatedFile;
 			if(is_null($file->getParsedFlavor()))
 			{
-				KalturaLog::log('Parsed flavor is null, triggering ContentProcessing job for source');
+				BorhanLog::log('Parsed flavor is null, triggering ContentProcessing job for source');
 				$this->triggerContentDropFolderFileProcessing($folder, $file);
 			}
 			else
@@ -220,7 +220,7 @@ class kDropFolderEventsConsumer implements kBatchJobStatusEventConsumer, kObject
 				
 				if($flavorNameValid)
 				{
-					KalturaLog::log('Parsed flavor is set, verifying if all files ready');
+					BorhanLog::log('Parsed flavor is set, verifying if all files ready');
 					$statuses = array(DropFolderFileStatus::PENDING, DropFolderFileStatus::WAITING, DropFolderFileStatus::NO_MATCH);					
 					$relatedFiles = DropFolderFilePeer::retrieveByDropFolderIdStatusesAndSlug($folder->getId(), $statuses, $file->getParsedSlug());				
 					$isReady = $this->isAllContentDropFolderIngestedFilesReady($folder, $relatedFiles, $assetParamsList);
@@ -306,7 +306,7 @@ class kDropFolderEventsConsumer implements kBatchJobStatusEventConsumer, kObject
 				}
 			}
 
-			KalturaLog::info("Entry id [{$entry->getId()}] status [{$entryStatus}], drop folder file id [{$dropFolderFile->getId()}] status [{$dropFolderFile->getStatus()}] => ["
+			BorhanLog::info("Entry id [{$entry->getId()}] status [{$entryStatus}], drop folder file id [{$dropFolderFile->getId()}] status [{$dropFolderFile->getStatus()}] => ["
 								. ($newDropFolderFileStatus ? $newDropFolderFileStatus : "{$dropFolderFile->getStatus()} (unchanged)") . "]");
 
 			if ( $newDropFolderFileStatus )
@@ -325,7 +325,7 @@ class kDropFolderEventsConsumer implements kBatchJobStatusEventConsumer, kObject
 		$existingFlavors = array();		
 		foreach ($relatedFiles as $relatedFile)
 		{
-			KalturaLog::info('flavor ['.$relatedFile->getParsedFlavor().'] file id ['.$relatedFile->getId().']');
+			BorhanLog::info('flavor ['.$relatedFile->getParsedFlavor().'] file id ['.$relatedFile->getId().']');
 			$existingFlavors[$relatedFile->getParsedFlavor()] = $relatedFile->getId();
 		}
 		
@@ -335,7 +335,7 @@ class kDropFolderEventsConsumer implements kBatchJobStatusEventConsumer, kObject
 			{
 				if(!array_key_exists($assetParams->getSystemName(), $existingFlavors))
 				{
-					KalturaLog::info('Flavor ['.$assetParams->getSystemName().'] is required and must be ingested');
+					BorhanLog::info('Flavor ['.$assetParams->getSystemName().'] is required and must be ingested');
 					return false;
 				}			
 			}			
@@ -380,7 +380,7 @@ class kDropFolderEventsConsumer implements kBatchJobStatusEventConsumer, kObject
 			try 
 			{
 				$job = $this->addDropFolderContentProcessorJob($folder, $file, $dropFolderFileIds);
-				KalturaLog::info('DropFolderContent processor job id ['.$job->getId().']');
+				BorhanLog::info('DropFolderContent processor job id ['.$job->getId().']');
 				foreach ($relatedFiles as $relatedFile) 
 				{
 					$relatedFile->setBatchJobId($job->getId());
@@ -389,7 +389,7 @@ class kDropFolderEventsConsumer implements kBatchJobStatusEventConsumer, kObject
 			}
 			catch (Exception $e)
 			{
-				KalturaLog::err('Error when adding DropFolderContentProcessor job - '.$e->getMessage());
+				BorhanLog::err('Error when adding DropFolderContentProcessor job - '.$e->getMessage());
 				foreach ($relatedFiles as $relatedFile) {
 					$this->setFileError($relatedFile, DropFolderFileStatus::ERROR_HANDLING, DropFolderFileErrorCode::ERROR_ADDING_CONTENT_PROCESSOR, 
 								'Failed to add DropFolderContentProcessor job');
@@ -418,14 +418,14 @@ class kDropFolderEventsConsumer implements kBatchJobStatusEventConsumer, kObject
 	{
 		$file->setStatus(DropFolderFileStatus::PROCESSING);
 		$affectedRows = $file->save();
-		KalturaLog::info('Changing file status to Processing, file id ['.$file->getId().'] affected rows ['.$affectedRows.']');
+		BorhanLog::info('Changing file status to Processing, file id ['.$file->getId().'] affected rows ['.$affectedRows.']');
 		if($affectedRows > 0)
 		{
 			foreach ($relatedFiles as $relatedFile) 
 			{
 				if($relatedFile->getId() != $file->getId())
 				{
-					KalturaLog::info('Changing file status to Processing, file id ['.$relatedFile->getId().']');
+					BorhanLog::info('Changing file status to Processing, file id ['.$relatedFile->getId().']');
 					$relatedFile->setStatus(DropFolderFileStatus::PROCESSING);
 					$relatedFile->save();
 				}
@@ -436,7 +436,7 @@ class kDropFolderEventsConsumer implements kBatchJobStatusEventConsumer, kObject
 	
 	private function setFileError(DropFolderFile $file, $status, $errorCode, $errorDescription)
 	{
-		KalturaLog::err('Error with file ['.$file->getId().'] -'.$errorDescription);
+		BorhanLog::err('Error with file ['.$file->getId().'] -'.$errorDescription);
 		
 		$file->setStatus($status);
 		$file->setErrorCode($errorCode);
@@ -488,7 +488,7 @@ class kDropFolderEventsConsumer implements kBatchJobStatusEventConsumer, kObject
 			$parsedSlug   = isset($matches[self::REFERENCE_ID_WILDCARD]) ? $matches[self::REFERENCE_ID_WILDCARD] : null;
 			$parsedFlavor = isset($matches[self::FLAVOR_NAME_WILDCARD])  ? $matches[self::FLAVOR_NAME_WILDCARD]  : null;
 			$parsedUserId = isset($matches[self::USER_ID_WILDCARD])  ? $matches[self::USER_ID_WILDCARD]  : null;
-			KalturaLog::info('Parsed slug ['.$parsedSlug.'], Parsed flavor ['.$parsedFlavor.'], parsed user id ['. $parsedUserId .']');
+			BorhanLog::info('Parsed slug ['.$parsedSlug.'], Parsed flavor ['.$parsedFlavor.'], parsed user id ['. $parsedUserId .']');
 		}
 		if(!$parsedSlug)
 			$matchFound = false;

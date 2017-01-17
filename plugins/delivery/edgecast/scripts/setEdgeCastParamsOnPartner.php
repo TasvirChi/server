@@ -14,12 +14,12 @@ $partnerId = $argv[1];
 $accountNumber = $argv[2];
 $apiToken = $argv[3];
 
-KAutoloader::addClassPath(KAutoloader::buildPath(KALTURA_ROOT_PATH, "vendor", "propel", "*"));
-KAutoloader::addClassPath(KAutoloader::buildPath(KALTURA_ROOT_PATH, "plugins", "edgecast", "*"));
-KAutoloader::setClassMapFilePath(KALTURA_ROOT_PATH.'/cache/scripts/' . basename(__FILE__) . '.cache');
+KAutoloader::addClassPath(KAutoloader::buildPath(BORHAN_ROOT_PATH, "vendor", "propel", "*"));
+KAutoloader::addClassPath(KAutoloader::buildPath(BORHAN_ROOT_PATH, "plugins", "edgecast", "*"));
+KAutoloader::setClassMapFilePath(BORHAN_ROOT_PATH.'/cache/scripts/' . basename(__FILE__) . '.cache');
 KAutoloader::register();
 
-KalturaPluginManager::addPlugin('EdgeCastPlugin');
+BorhanPluginManager::addPlugin('EdgeCastPlugin');
 
 
 $partner = PartnerPeer::retrieveByPK($partnerId);

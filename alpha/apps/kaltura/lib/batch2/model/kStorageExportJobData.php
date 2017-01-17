@@ -24,7 +24,7 @@ class kStorageExportJobData extends kStorageJobData
 				$data = new kAmazonS3StorageExportJobData();
 				break;
 			default:
-				$data = KalturaPluginManager::loadObject('kStorageExportJobData', $protocol);
+				$data = BorhanPluginManager::loadObject('kStorageExportJobData', $protocol);
 				break;
 		}
 		if (!$data)

@@ -3,10 +3,10 @@
  * @package api
  * @subpackage filters
  */
-class KalturaReportFilter extends KalturaReportBaseFilter
+class BorhanReportFilter extends BorhanReportBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{

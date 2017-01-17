@@ -3,13 +3,13 @@
  * @package plugins.businessProcessNotification
  * @subpackage admin
  */
-class Kaltura_View_Helper_EntryBusinessProcess extends Kaltura_View_Helper_PartialViewPlugin
+class Borhan_View_Helper_EntryBusinessProcess extends Borhan_View_Helper_PartialViewPlugin
 {
 	private $entryId;
 	private $partnerId;
 	
 	/* (non-PHPdoc)
-	 * @see Kaltura_View_Helper_PartialViewPlugin::plug()
+	 * @see Borhan_View_Helper_PartialViewPlugin::plug()
 	 */
 	public function plug(Zend_View_Interface $view)
 	{
@@ -20,20 +20,20 @@ class Kaltura_View_Helper_EntryBusinessProcess extends Kaltura_View_Helper_Parti
 	}
 	
 	/* (non-PHPdoc)
-	 * @see Kaltura_View_Helper_PartialViewPlugin::getDataArray()
+	 * @see Borhan_View_Helper_PartialViewPlugin::getDataArray()
 	 */
 	protected function getDataArray()
 	{
 		$client = Infra_ClientHelper::getClient();
-		$eventNotificationPlugin = Kaltura_Client_EventNotification_Plugin::get($client);
-		$businessProcessNotificationPlugin = Kaltura_Client_BusinessProcessNotification_Plugin::get($client);
+		$eventNotificationPlugin = Borhan_Client_EventNotification_Plugin::get($client);
+		$businessProcessNotificationPlugin = Borhan_Client_BusinessProcessNotification_Plugin::get($client);
 		
 		$errDescriptions = array();
 		$businessProcessCases = array();
 		try
 		{
 			Infra_ClientHelper::impersonate($this->partnerId);
-			$objectType = Kaltura_Client_EventNotification_Enum_EventNotificationEventObjectType::ENTRY;
+			$objectType = Borhan_Client_EventNotification_Enum_EventNotificationEventObjectType::ENTRY;
 			$businessProcessCases = $businessProcessNotificationPlugin->businessProcessCase->listAction($objectType, $this->entryId);
 			Infra_ClientHelper::unimpersonate();
 		}
@@ -58,7 +58,7 @@ class Kaltura_View_Helper_EntryBusinessProcess extends Kaltura_View_Helper_Parti
 		$eventNotificationTemplates = array();
 		if(count($templateIds))
 		{
-			$filter = new Kaltura_Client_EventNotification_Type_EventNotificationTemplateFilter();
+			$filter = new Borhan_Client_EventNotification_Type_EventNotificationTemplateFilter();
 			$filter->idIn = implode(',', $templateIds);
 			try
 			{
@@ -82,7 +82,7 @@ class Kaltura_View_Helper_EntryBusinessProcess extends Kaltura_View_Helper_Parti
 	}
 	
 	/* (non-PHPdoc)
-	 * @see Kaltura_View_Helper_PartialViewPlugin::getTemplatePath()
+	 * @see Borhan_View_Helper_PartialViewPlugin::getTemplatePath()
 	 */
 	protected function getTemplatePath()
 	{
@@ -90,7 +90,7 @@ class Kaltura_View_Helper_EntryBusinessProcess extends Kaltura_View_Helper_Parti
 	}
 	
 	/* (non-PHPdoc)
-	 * @see Kaltura_View_Helper_PartialViewPlugin::getPHTML()
+	 * @see Borhan_View_Helper_PartialViewPlugin::getPHTML()
 	 */
 	protected function getPHTML()
 	{

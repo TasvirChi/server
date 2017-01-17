@@ -12,7 +12,7 @@ set_include_path($include_path);
 require_once __DIR__ . '/../../infra/kEnvironment.php';
 
 /**
- * Manages all Kaltura configurations
+ * Manages all Borhan configurations
  * @package server-infra
  * @subpackage Configuration
  */

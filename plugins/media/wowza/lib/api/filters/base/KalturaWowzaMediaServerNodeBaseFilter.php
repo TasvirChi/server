@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaWowzaMediaServerNodeBaseFilter extends KalturaMediaServerNodeFilter
+abstract class BorhanWowzaMediaServerNodeBaseFilter extends BorhanMediaServerNodeFilter
 {
 	static private $map_between_objects = array
 	(

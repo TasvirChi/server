@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaEntryDistribution extends KalturaObject implements IRelatedFilterable
+class BorhanEntryDistribution extends BorhanObject implements IRelatedFilterable
 {
 	/**
 	 * Auto generated unique id
@@ -63,20 +63,20 @@ class KalturaEntryDistribution extends KalturaObject implements IRelatedFilterab
 
 	/**
 	 * @readonly
-	 * @var KalturaEntryDistributionStatus
+	 * @var BorhanEntryDistributionStatus
 	 * @filter eq,in
 	 */
 	public $status;
 
 	/**
 	 * @readonly
-	 * @var KalturaEntryDistributionSunStatus
+	 * @var BorhanEntryDistributionSunStatus
 	 */
 	public $sunStatus;
 
 	/**
 	 * @readonly
-	 * @var KalturaEntryDistributionFlag
+	 * @var BorhanEntryDistributionFlag
 	 * @filter eq,in
 	 */
 	public $dirtyStatus;
@@ -137,12 +137,12 @@ class KalturaEntryDistribution extends KalturaObject implements IRelatedFilterab
 	public $views;
 
 	/**
-	 * @var KalturaDistributionValidationErrorArray
+	 * @var BorhanDistributionValidationErrorArray
 	 */
 	public $validationErrors;
 
 	/**
-	 * @var KalturaBatchJobErrorTypes
+	 * @var BorhanBatchJobErrorTypes
 	 * @readonly
 	 */
 	public $errorType;
@@ -160,37 +160,37 @@ class KalturaEntryDistribution extends KalturaObject implements IRelatedFilterab
 	public $errorDescription;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 * @readonly
 	 */
 	public $hasSubmitResultsLog;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 * @readonly
 	 */
 	public $hasSubmitSentDataLog;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 * @readonly
 	 */
 	public $hasUpdateResultsLog;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 * @readonly
 	 */
 	public $hasUpdateSentDataLog;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 * @readonly
 	 */
 	public $hasDeleteResultsLog;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 * @readonly
 	 */
 	public $hasDeleteSentDataLog;
@@ -236,7 +236,7 @@ class KalturaEntryDistribution extends KalturaObject implements IRelatedFilterab
 		return parent::toObject($dbObject, $skip);
 	}
 	
-	public function doFromObject($sourceObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($sourceObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		if(!$sourceObject)
 			return;
@@ -244,7 +244,7 @@ class KalturaEntryDistribution extends KalturaObject implements IRelatedFilterab
 		parent::doFromObject($sourceObject, $responseProfile);
 		
 		if($this->shouldGet('validationErrors', $responseProfile))
-			$this->validationErrors = KalturaDistributionValidationErrorArray::fromDbArray($sourceObject->getValidationErrors());
+			$this->validationErrors = BorhanDistributionValidationErrorArray::fromDbArray($sourceObject->getValidationErrors());
 			
 		if($this->shouldGet('hasSubmitResultsLog', $responseProfile))
 			$this->hasSubmitResultsLog = (bool)$sourceObject->getSubmitResultsVersion();

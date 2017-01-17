@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaStorageProfileDeliveryStatus extends KalturaEnum implements StorageProfileDeliveryStatus
+class BorhanStorageProfileDeliveryStatus extends BorhanEnum implements StorageProfileDeliveryStatus
 {
 
 }

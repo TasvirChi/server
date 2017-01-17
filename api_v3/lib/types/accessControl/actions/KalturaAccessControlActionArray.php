@@ -2,13 +2,13 @@
 /**
  * @package api
  * @subpackage objects
- * @deprecated use KalturaRuleActionArray
+ * @deprecated use BorhanRuleActionArray
  */
-class KalturaAccessControlActionArray extends KalturaTypedArray
+class BorhanAccessControlActionArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaAccessControlActionArray();
+		$newArr = new BorhanAccessControlActionArray();
 		if ($arr == null)
 			return $newArr;
 
@@ -30,20 +30,20 @@ class KalturaAccessControlActionArray extends KalturaTypedArray
 		switch($dbObject->getType())
 		{
 			case RuleActionType::BLOCK:
-				return new KalturaAccessControlBlockAction();
+				return new BorhanAccessControlBlockAction();
 			case RuleActionType::PREVIEW:
-				return new KalturaAccessControlPreviewAction();
+				return new BorhanAccessControlPreviewAction();
 			case RuleActionType::LIMIT_FLAVORS:
-				return new KalturaAccessControlLimitFlavorsAction();
+				return new BorhanAccessControlLimitFlavorsAction();
 			case RuleActionType::LIMIT_THUMBNAIL_CAPTURE:
-				return new KalturaAccessControlLimitThumbnailCaptureAction();
+				return new BorhanAccessControlLimitThumbnailCaptureAction();
 			default:
-				return KalturaPluginManager::loadObject('KalturaAccessControlAction', $dbObject->getType());
+				return BorhanPluginManager::loadObject('BorhanAccessControlAction', $dbObject->getType());
 		}
 	}
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaAccessControlAction");	
+		parent::__construct("BorhanAccessControlAction");	
 	}
 }

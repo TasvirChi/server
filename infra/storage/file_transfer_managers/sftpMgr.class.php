@@ -413,7 +413,7 @@ class sftpMgr extends kFileTransferMgr
         	
 		$lsDirCmd = "ls $remotePath";
 		$execOutput = $this->execSftpCommand($lsDirCmd);
-		KalturaLog::info("sftp rawlist [$execOutput]");
+		BorhanLog::info("sftp rawlist [$execOutput]");
 		return array_filter(array_map('trim', explode("\n", $execOutput)), 'strlen');
 	}
 	
@@ -481,11 +481,11 @@ class sftpMgr extends kFileTransferMgr
 		$lsdirCmd = "ls -l $remoteFolder/*";
 		$filesInfo = $this->execSftpCommand($lsdirCmd);
 		
-		KalturaLog::info('sftp rawlist ['. print_r($execOutput, true) .']');
+		BorhanLog::info('sftp rawlist ['. print_r($execOutput, true) .']');
 		
 		$escapedRemoteFolder = str_replace('/', '\/', $remoteFolder);
 		// drwxrwxrwx 10 root root 4096 2010-11-24 23:45 file.ext
-		// -rw-r--r--+ 1 mikew Domain Users 7270248766 Feb  9 11:16 Kaltura/LegislativeBriefing2012.mov
+		// -rw-r--r--+ 1 mikew Domain Users 7270248766 Feb  9 11:16 Borhan/LegislativeBriefing2012.mov
 		$regexUnix = "^(?P<permissions>[-drwx]{10})\+?\s+(?P<number>\d{1,2})\s+(?P<owner>[\d\w]+)\s+(?P<group>[\d\w\s]+)\s+(?P<fileSize>\d*)\s+((?P<year1>\w{4})-(?P<month1>\d{2})-(?P<day1>\d{2})\s+(?P<hour1>\d{2}):(?P<minute1>\d{2})|(?P<month2>\w{3})\s+(?P<day2>\d{1,2})\s+((?P<hour2>\d{2}):(?P<minute2>\d{2})|(?P<year2>\d{4})))\s+$escapedRemoteFolder\/(?P<file>.+)\s*$";
 		
 		foreach($filesInfo as $fileInfo)
@@ -493,7 +493,7 @@ class sftpMgr extends kFileTransferMgr
 			$matches = null;
 			if(!preg_match("/$regexUnix/", $fileInfo, $matches))
 			{
-				KalturaLog::err("Unix regex does not match ftp rawlist output [$fileInfo]");
+				BorhanLog::err("Unix regex does not match ftp rawlist output [$fileInfo]");
 				continue;
 			}
 			
@@ -541,12 +541,12 @@ class sftpMgr extends kFileTransferMgr
 		$cliCommand .= " {$this->username}@{$this->host}";
 		
 		$cmd = "(echo '$command' && echo 'quit') | $cliCommand 2>&1";
-		KalturaLog::info("Command [$cmd]");
+		BorhanLog::info("Command [$cmd]");
 		$returnValue = null;
 		
 		exec($cmd, $output, $returnValue);
 		if ($returnValue){ //any non-zero return value is an error
-			KalturaLog::err("An error while running exec - " . print_r($output, true));
+			BorhanLog::err("An error while running exec - " . print_r($output, true));
 			@trigger_error($output[count($output)-2] ."; ". $output[count($output)-1]); //in order to populate the correct error to error_get_last() in kFileTransferMgr
 			return false; 
 		}
@@ -562,7 +562,7 @@ class sftpMgr extends kFileTransferMgr
 	 */
 	private function execCommand($command)
 	{
-		KalturaLog::info($command);
+		BorhanLog::info($command);
 		
 		$stream = ssh2_exec($this->getSsh2Connection(), $command);
 		if(!$stream || !is_resource($stream))

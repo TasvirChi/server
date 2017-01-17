@@ -3,17 +3,17 @@
  * @package api
  * @subpackage filters
  */
-class KalturaAssetParamsFilter extends KalturaAssetParamsBaseFilter
+class BorhanAssetParamsFilter extends BorhanAssetParamsBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
 		return new assetParamsFilter();
 	}
 
-	protected function doGetListResponse(KalturaFilterPager $pager, array $types = null)
+	protected function doGetListResponse(BorhanFilterPager $pager, array $types = null)
 	{
 		$flavorParamsFilter = $this->toObject();
 		
@@ -35,20 +35,20 @@ class KalturaAssetParamsFilter extends KalturaAssetParamsBaseFilter
 		return array($list, $totalCount);
 	}
 
-	public function getTypeListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null, array $types = null)
+	public function getTypeListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null, array $types = null)
 	{
 		list($list, $totalCount) = $this->doGetListResponse($pager, $types);
 		
-		$response = new KalturaFlavorParamsListResponse();
-		$response->objects = KalturaFlavorParamsArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanFlavorParamsListResponse();
+		$response->objects = BorhanFlavorParamsArray::fromDbArray($list, $responseProfile);
 		$response->totalCount = $totalCount;
 		return $response;  
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::getListResponse()
+	 * @see BorhanRelatedFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		return $this->getTypeListResponse($pager, $responseProfile);  
 	}

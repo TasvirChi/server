@@ -7,7 +7,7 @@
 abstract class KObjectFilterEngineBase
 {
 	/**
-	 * @var KalturaClient
+	 * @var BorhanClient
 	 */
 	protected $_client;
 
@@ -21,16 +21,16 @@ abstract class KObjectFilterEngineBase
 	 */
 	private $_pageIndex;
 
-	public function __construct(KalturaClient $client)
+	public function __construct(BorhanClient $client)
 	{
 		$this->_client = $client;
 	}
 
 	/**
-	 * @param KalturaFilter $filter
-	 * @return KalturaObjectListResponse
+	 * @param BorhanFilter $filter
+	 * @return BorhanObjectListResponse
 	 */
-	abstract function query(KalturaFilter $filter);
+	abstract function query(BorhanFilter $filter);
 
 	/**
 	 * @param int $pageIndex
@@ -65,11 +65,11 @@ abstract class KObjectFilterEngineBase
 	}
 
 	/**
-	 * @return KalturaFilterPager
+	 * @return BorhanFilterPager
 	 */
 	public function getPager()
 	{
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageIndex = $this->_pageIndex;
 		$pager->pageSize = $this->_pageSize;
 		return $pager;

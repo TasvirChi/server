@@ -1,5 +1,5 @@
 
-@LOG_DIR@/kaltura_populate.log{
+@LOG_DIR@/borhan_populate.log{
  rotate 5
  daily
  missingok
@@ -8,8 +8,8 @@
  notifempty
  sharedscripts
  postrotate
- service kaltura_populate restart
+ service borhan_populate restart
  endscript
- su root kaltura
+ su root borhan
 }
 

@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaDistributionValidationErrorInvalidData extends KalturaDistributionValidationError
+class BorhanDistributionValidationErrorInvalidData extends BorhanDistributionValidationError
 {
 	/**
 	 * @var string
@@ -11,13 +11,13 @@ class KalturaDistributionValidationErrorInvalidData extends KalturaDistributionV
 	public $fieldName;
 	
 	/**
-	 * @var KalturaDistributionValidationErrorType
+	 * @var BorhanDistributionValidationErrorType
 	 */
 	public $validationErrorType;
 	
 	/**
 	 * Parameter of the validation error
-	 * For example, minimum value for KalturaDistributionValidationErrorType::STRING_TOO_SHORT validation error
+	 * For example, minimum value for BorhanDistributionValidationErrorType::STRING_TOO_SHORT validation error
 	 * @var string
 	 */
 	public $validationErrorParam;

@@ -2,7 +2,7 @@
 /**
  * @package plugins.partnerAggregation
  */
-class PartnerAggregationPlugin extends KalturaPlugin implements IKalturaServices
+class PartnerAggregationPlugin extends BorhanPlugin implements IBorhanServices
 {
 	const PLUGIN_NAME = 'partnerAggregation';
 

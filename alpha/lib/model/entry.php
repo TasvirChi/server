@@ -74,14 +74,14 @@ class entry extends Baseentry implements ISyncableFile, IIndexable, IOwnable, IR
 	const ENTRY_MEDIA_SOURCE_NYPL = 11;
 	const ENTRY_MEDIA_SOURCE_CURRENT = 12;
 	const ENTRY_MEDIA_SOURCE_MEDIA_COMMONS = 13;
-	const ENTRY_MEDIA_SOURCE_KALTURA = 20;
-	const ENTRY_MEDIA_SOURCE_KALTURA_USER_CLIPS = 21;
+	const ENTRY_MEDIA_SOURCE_BORHAN = 20;
+	const ENTRY_MEDIA_SOURCE_BORHAN_USER_CLIPS = 21;
 	const ENTRY_MEDIA_SOURCE_ARCHIVE_ORG = 22;
-	const ENTRY_MEDIA_SOURCE_KALTURA_PARTNER = 23;
+	const ENTRY_MEDIA_SOURCE_BORHAN_PARTNER = 23;
 	const ENTRY_MEDIA_SOURCE_METACAFE = 24;
-	const ENTRY_MEDIA_SOURCE_KALTURA_QA = 25;
-	const ENTRY_MEDIA_SOURCE_KALTURA_KSHOW = 26;
-	const ENTRY_MEDIA_SOURCE_KALTURA_PARTNER_KSHOW = 27;
+	const ENTRY_MEDIA_SOURCE_BORHAN_QA = 25;
+	const ENTRY_MEDIA_SOURCE_BORHAN_KSHOW = 26;
+	const ENTRY_MEDIA_SOURCE_BORHAN_PARTNER_KSHOW = 27;
 	const ENTRY_MEDIA_SOURCE_SEARCH_PROXY = 28;
 	const ENTRY_MEDIA_SOURCE_AKAMAI_LIVE = 29;
 	const ENTRY_MEDIA_SOURCE_MANUAL_LIVE_STREAM = 30;
@@ -318,7 +318,7 @@ class entry extends Baseentry implements ISyncableFile, IIndexable, IOwnable, IR
 				}
 				catch(Exception $e)
 				{
-					KalturaLog::err($e->getMessage());
+					BorhanLog::err($e->getMessage());
 				}
 			}
 		}
@@ -1059,7 +1059,7 @@ class entry extends Baseentry implements ISyncableFile, IIndexable, IOwnable, IR
 
 	public function getThumbnailUrl($version = null, $protocol = null)
 	{
-		if(PermissionPeer::isValidForPartner(PermissionName::FEATURE_DISABLE_KMC_DRILL_DOWN_THUMB_RESIZE, $this->getPartnerId()))
+		if(PermissionPeer::isValidForPartner(PermissionName::FEATURE_DISABLE_BMC_DRILL_DOWN_THUMB_RESIZE, $this->getPartnerId()))
 		{
 			$subType = entry::FILE_SYNC_ENTRY_SUB_TYPE_DATA;
 			if($this->getType() == entryType::MEDIA_CLIP && $this->getMediaType() != entry::ENTRY_MEDIA_TYPE_IMAGE)
@@ -1088,7 +1088,7 @@ class entry extends Baseentry implements ISyncableFile, IIndexable, IOwnable, IR
 					
 					break;
 				
-				case StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_FIRST:
+				case StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_FIRST:
 					$fileSync = kFileSyncUtils::getReadyInternalFileSyncForKey($syncKey);
 					if($fileSync)
 						break;
@@ -1100,7 +1100,7 @@ class entry extends Baseentry implements ISyncableFile, IIndexable, IOwnable, IR
 					$serveRemote = true;
 					break;
 				
-				case StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_ONLY:
+				case StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_ONLY:
 					$fileSync = kFileSyncUtils::getReadyInternalFileSyncForKey($syncKey);
 					if(!$fileSync)
 						return null;
@@ -1233,12 +1233,12 @@ class entry extends Baseentry implements ISyncableFile, IIndexable, IOwnable, IR
 			$dynamicAttributes[$dynAttribName] = $createdAt;
 		}
 
-		$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaDynamicAttributesContributer');
+		$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanDynamicAttributesContributer');
 		foreach($pluginInstances as $pluginName => $pluginInstance) {
 			try {
 				$dynamicAttributes += $pluginInstance->getDynamicAttributes($this);
 			} catch (Exception $e) {
-				KalturaLog::err($e->getMessage());
+				BorhanLog::err($e->getMessage());
 				continue;
 			}
 		}
@@ -1392,14 +1392,14 @@ class entry extends Baseentry implements ISyncableFile, IIndexable, IOwnable, IR
 		return $this->getUpdatedAt( null );
 	}
 
-	public function getFormattedCreatedAt( $format = dateUtils::KALTURA_FORMAT )
+	public function getFormattedCreatedAt( $format = dateUtils::BORHAN_FORMAT )
 	{
-		return dateUtils::formatKalturaDate( $this , 'getCreatedAt' , $format );
+		return dateUtils::formatBorhanDate( $this , 'getCreatedAt' , $format );
 	}
 
-	public function getFormattedUpdatedAt( $format = dateUtils::KALTURA_FORMAT )
+	public function getFormattedUpdatedAt( $format = dateUtils::BORHAN_FORMAT )
 	{
-		return dateUtils::formatKalturaDate( $this , 'getUpdatedAt' , $format );
+		return dateUtils::formatBorhanDate( $this , 'getUpdatedAt' , $format );
 	}
 
 	public function getAppearsIn ( )
@@ -1836,7 +1836,7 @@ class entry extends Baseentry implements ISyncableFile, IIndexable, IOwnable, IR
 	{
 		if(!$this->getParentEntryId())
 		{
-			KalturaLog::info("Attempting to get parent entry of entry " . $this->getId() . " but parent does not exist, returning original entry");
+			BorhanLog::info("Attempting to get parent entry of entry " . $this->getId() . " but parent does not exist, returning original entry");
 			return $this;
 		}
 		
@@ -2364,7 +2364,7 @@ class entry extends Baseentry implements ISyncableFile, IIndexable, IOwnable, IR
 			
 		$partner_id = $this->getPartnerId();
 		
-		// if res == 1 - only for partner , if == 2 - also for kaltura network
+		// if res == 1 - only for partner , if == 2 - also for borhan network
 		return mySearchUtils::addPartner($partner_id, $prepared_text, $displayInSearch, $extra_invisible_data);
 	}
 	
@@ -2922,7 +2922,7 @@ class entry extends Baseentry implements ISyncableFile, IIndexable, IOwnable, IR
 		
 		if ($this->getType() == entryType::MIX)
 		{
-			KalturaLog::err("Entry ID [".$this->getId()."] is of type mix. The batch job for flattening a mix is no longer supported");
+			BorhanLog::err("Entry ID [".$this->getId()."] is of type mix. The batch job for flattening a mix is no longer supported");
 		}
 		else
 		{
@@ -3167,15 +3167,15 @@ public function copyTemplate($copyPartnerId = false, $template)
 			$categoryGroupSize = $partner->getCategoryGroupSize();
 			
 		//get categories for this entry that have small amount of members.
-		$c = KalturaCriteria::create(categoryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(categoryPeer::OM_CLASS);
 		$c->add(categoryPeer::ID, $allCategoriesIds, Criteria::IN);
 		$c->add(categoryPeer::MEMBERS_COUNT, $categoryGroupSize, Criteria::LESS_EQUAL);
 		$c->add(categoryPeer::ENTRIES_COUNT, kConf::get('category_entries_count_limit_to_be_indexed'), Criteria::LESS_EQUAL);
 		$c->dontCount();
 		
-		KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		$categories	= categoryPeer::doSelect($c);
-		KalturaCriterion::restoreTag(KalturaCriterion::TAG_ENTITLEMENT_CATEGORY);
+		BorhanCriterion::restoreTag(BorhanCriterion::TAG_ENTITLEMENT_CATEGORY);
 		
 		//get all memebrs
 		foreach ($categories as $category)
@@ -3277,7 +3277,7 @@ public function copyTemplate($copyPartnerId = false, $template)
 	
 	public function setSource($v)
 	{
-		if($this->getSource() != EntrySourceType::KALTURA_RECORDED_LIVE || $v == EntrySourceType::RECORDED_LIVE)
+		if($this->getSource() != EntrySourceType::BORHAN_RECORDED_LIVE || $v == EntrySourceType::RECORDED_LIVE)
 			parent::setSource($v);
 	}
 	
@@ -3340,7 +3340,7 @@ public function copyTemplate($copyPartnerId = false, $template)
 		// if entry type is audio - serve generic thumb:
 		if ($this->getMediaType () == entry::ENTRY_MEDIA_TYPE_AUDIO) {
 			if ($this->getStatus () == entryStatus::DELETED || $this->getModerationStatus () == moderation::MODERATION_STATUS_BLOCK) {
-				KalturaLog::log ( "rejected audio entry - not serving thumbnail" );
+				BorhanLog::log ( "rejected audio entry - not serving thumbnail" );
 				KExternalErrors::dieError ( KExternalErrors::ENTRY_DELETED_MODERATED );
 			}
 			
@@ -3365,7 +3365,7 @@ public function copyTemplate($copyPartnerId = false, $template)
 					$audioEntryExist = true;
 				}
 				else
-					KalturaLog::err('no local file sync for entry id');
+					BorhanLog::err('no local file sync for entry id');
 			}
 
 			if (!$audioEntryExist)
@@ -3391,13 +3391,13 @@ public function copyTemplate($copyPartnerId = false, $template)
 						list ( $readyFileSync, $isLocal ) = kFileSyncUtils::getReadyFileSyncForKey ( $syncKey, TRUE, FALSE );
 						if ($readyFileSync) {
 							if ($isLocal) {
-								KalturaLog::err ( 'Trying to redirect to myself - stop here.' );
+								BorhanLog::err ( 'Trying to redirect to myself - stop here.' );
 								KExternalErrors::dieError ( KExternalErrors::MISSING_THUMBNAIL_FILESYNC );
 							}
 							//Ready fileSync is on the other DC - dumping
 							kFileUtils::dumpApiRequest ( kDataCenterMgr::getRemoteDcExternalUrlByDcId ( 1 - kDataCenterMgr::getCurrentDcId () ) );
 						}
-						KalturaLog::err ( 'No ready fileSync found on any DC.' );
+						BorhanLog::err ( 'No ready fileSync found on any DC.' );
 						KExternalErrors::dieError ( KExternalErrors::MISSING_THUMBNAIL_FILESYNC );
 					}
 				}

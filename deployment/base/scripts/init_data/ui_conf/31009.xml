@@ -1,8 +1,8 @@
-<layout id="full" skinPath="/content/uiconf/kaltura/kmc/appstudio/kdp3/skin.swf?a=12" isPlaylist="true">
+<layout id="full" skinPath="/content/uiconf/borhan/bmc/appstudio/bdp3/skin.swf?a=12" isPlaylist="true">
 <HBox id="topLevel" width="100%" height="100%">
 <VBox id="player" width="100%" height="100%" styleName="black">
 <Plugin id="playlistAPI" width="0%" height="0%" includeInLayout="false"/>
-<Plugin id="kalturaMix" width="0%" height="0%" includeInLayout="false" loadingPolicy="onDemand"/>
+<Plugin id="borhanMix" width="0%" height="0%" includeInLayout="false" loadingPolicy="onDemand"/>
 <Plugin id="download" width="0%" height="0%" includeInLayout="false"/>
 <Plugin id="statistics" width="0%" height="0%" includeInLayout="false"/>
 <Plugin id="captureThumbnail" width="0%" height="0%" includeInLayout="false"/>
@@ -22,8 +22,8 @@ playScreenOverId="playScreen"
 endScreenId="endScreen" 
 endScreenOverId="endScreen" />
 <Watermark id="watermark" width="100%" height="100%" 
-watermarkPath="http://www.kaltura.com/content/uiconf/kaltura/kmc/appstudio/kdp3/exampleWatermark.png"
-watermarkClickPath="http://www.kaltura.com/" watermarkPosition="topRight"/>
+watermarkPath="http://www.borhan.com/content/uiconf/borhan/bmc/appstudio/bdp3/exampleWatermark.png"
+watermarkClickPath="http://www.borhan.com/" watermarkPosition="topRight"/>
 
 <Plugin id="plymedia" width="100%" height="100%" />
 
@@ -134,8 +134,8 @@ label="" styleName="controllerScreen"/>
 
 
 <FlavorCombo id="flavorComboControllerScreen"width="60" streamerType="{configProxy.flashvars.streamerType}"
-flavorDataProvider="{mediaProxy.kalturaMediaFlavorArray}"
-styleName="_kdp" forceUpperList="true"
+flavorDataProvider="{mediaProxy.borhanMediaFlavorArray}"
+styleName="_bdp" forceUpperList="true"
 preferedFlavorHeight="{mediaProxy.preferedFlavorHeight}" />
 
 
@@ -189,12 +189,12 @@ icon ="generalIcon" />
 </HBox>
 <Spacer width="13" />
 <Button 
-id="kalturaLogo" 
+id="borhanLogo" 
 height="50" 
 width="100"
-kClick="navigate('http://www.kaltura.com')"
+kClick="navigate('http://www.borhan.com')"
 styleName="controllerScreen"
-icon ="kalturaLogo" />
+icon ="borhanLogo" />
 <Spacer width="13" />
 </HBox>
 </VBox>

@@ -25,7 +25,7 @@ class KObjectTaskEngineFactory
 			case ObjectTaskType::MODIFY_ENTRY:
 				return new KObjectTaskModifyEntryEngine();
 			default:
-				return KalturaPluginManager::loadObject('KObjectTaskEntryEngineBase', $type);
+				return BorhanPluginManager::loadObject('KObjectTaskEntryEngineBase', $type);
 		}
 	}
 } 

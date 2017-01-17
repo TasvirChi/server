@@ -12,7 +12,7 @@ class TvinciDistributionFeedHelper
 	const DELETE_XML = "<feed><export><media co_guid=\"COGUID\" entry_id=\"ENTRYID\" action=\"delete\" is_active=\"true\" erase=\"true\"/></export></feed>";
 
 	/**
-	 * var KalturaTvinciDistributionProfile
+	 * var BorhanTvinciDistributionProfile
 	 */
 	protected $distributionProfile;
 
@@ -27,7 +27,7 @@ class TvinciDistributionFeedHelper
 	 */
 	protected $_doc;
 
-	public function __construct(KalturaTvinciDistributionProfile $distributionProfile, BaseEntry $entry)
+	public function __construct(BorhanTvinciDistributionProfile $distributionProfile, BaseEntry $entry)
 	{
 		$this->distributionProfile = $distributionProfile;
 		$this->entry = $entry;
@@ -64,7 +64,7 @@ class TvinciDistributionFeedHelper
 		foreach($this->distributionProfile->tags as $tag)
 		{
 			/**
-			 * @var KalturaTvinciDistributionTag $tag
+			 * @var BorhanTvinciDistributionTag $tag
 			 */
 			$tagXML = $tagsDoc->createElement('tag');
 

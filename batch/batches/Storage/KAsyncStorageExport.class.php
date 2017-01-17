@@ -17,13 +17,13 @@ class KAsyncStorageExport extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::STORAGE_EXPORT;
+		return BorhanBatchJobType::STORAGE_EXPORT;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->export($job, $job->data);
 	}
@@ -56,22 +56,22 @@ class KAsyncStorageExport extends KJobHandlerWorker
 	}
 	
 	/**
-	 * Will take a single KalturaBatchJob and export the given file 
+	 * Will take a single BorhanBatchJob and export the given file 
 	 * 
-	 * @param KalturaBatchJob $job
-	 * @param KalturaStorageExportJobData $data
-	 * @return KalturaBatchJob
+	 * @param BorhanBatchJob $job
+	 * @param BorhanStorageExportJobData $data
+	 * @return BorhanBatchJob
 	 */
-	protected function export(KalturaBatchJob $job, KalturaStorageExportJobData $data)
+	protected function export(BorhanBatchJob $job, BorhanStorageExportJobData $data)
 	{
 		$engine = KExportEngine::getInstance($job->jobSubType, $job->partnerId, $data);
 		if(!$engine)
 		{
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::ENGINE_NOT_FOUND, "Engine not found", KalturaBatchJobStatus::FAILED);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::ENGINE_NOT_FOUND, "Engine not found", BorhanBatchJobStatus::FAILED);
 		}
-		$this->updateJob($job, null, KalturaBatchJobStatus::QUEUED);
+		$this->updateJob($job, null, BorhanBatchJobStatus::QUEUED);
 		$exportResult = $engine->export();
 
-		return $this->closeJob($job, null , null, null, $exportResult ? KalturaBatchJobStatus::FINISHED : KalturaBatchJobStatus::ALMOST_DONE, $data );
+		return $this->closeJob($job, null , null, null, $exportResult ? BorhanBatchJobStatus::FINISHED : BorhanBatchJobStatus::ALMOST_DONE, $data );
 	}
 }

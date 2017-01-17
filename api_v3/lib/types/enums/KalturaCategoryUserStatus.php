@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaCategoryUserStatus extends KalturaEnum implements CategoryKuserStatus
+class BorhanCategoryUserStatus extends BorhanEnum implements CategoryKuserStatus
 {
 
 }

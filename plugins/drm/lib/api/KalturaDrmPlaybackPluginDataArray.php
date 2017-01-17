@@ -3,14 +3,14 @@
  * @package plugins.drm
  * @subpackage api.objects
  */
-class KalturaDrmPlaybackPluginDataArray extends KalturaTypedArray
+class BorhanDrmPlaybackPluginDataArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaDrmPlaybackPluginDataArray();
+		$newArr = new BorhanDrmPlaybackPluginDataArray();
 		foreach ( $arr as $obj )
 		{
-			$nObj = KalturaPluginManager::loadObject('KalturaDrmPlaybackPluginData', get_class($obj));
+			$nObj = BorhanPluginManager::loadObject('BorhanDrmPlaybackPluginData', get_class($obj));
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -21,6 +21,6 @@ class KalturaDrmPlaybackPluginDataArray extends KalturaTypedArray
 	
 	public function __construct( )
 	{
-		return parent::__construct ( 'KalturaDrmPlaybackPluginData' );
+		return parent::__construct ( 'BorhanDrmPlaybackPluginData' );
 	}
 }

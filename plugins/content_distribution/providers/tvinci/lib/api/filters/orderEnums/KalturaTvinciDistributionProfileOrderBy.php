@@ -3,6 +3,6 @@
  * @package plugins.tvinciDistribution
  * @subpackage api.filters.enum
  */
-class KalturaTvinciDistributionProfileOrderBy extends KalturaConfigurableDistributionProfileOrderBy
+class BorhanTvinciDistributionProfileOrderBy extends BorhanConfigurableDistributionProfileOrderBy
 {
 }

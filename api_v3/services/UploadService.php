@@ -7,7 +7,7 @@
  * @subpackage services
  * @deprecated Please use UploadToken service
  */
-class UploadService extends KalturaEntryService
+class UploadService extends BorhanEntryService
 {
 	/**
 	 * 
@@ -33,13 +33,13 @@ class UploadService extends KalturaEntryService
 	 * 
 	 * @action getUploadedFileTokenByFileName
 	 * @param string $fileName
-	 * @return KalturaUploadResponse
+	 * @return BorhanUploadResponse
 	 */
 	function getUploadedFileTokenByFileNameAction($fileName)
 	{
-		KalturaResponseCacher::disableConditionalCache();
+		BorhanResponseCacher::disableConditionalCache();
 		
-		$res = new KalturaUploadResponse();
+		$res = new BorhanUploadResponse();
 		$ksUnique = md5($this->getKs()->toSecureString());
 		
 		$uniqueId = md5($fileName);
@@ -49,7 +49,7 @@ class UploadService extends KalturaEntryService
 		
 		$entryFullPath = myUploadUtils::getUploadPath($token, "", null , strtolower($ext)); // filesync ok
 		if (!file_exists($entryFullPath))
-			throw new KalturaAPIException(KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN);
+			throw new BorhanAPIException(BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN);
 			
 		$res->uploadTokenId = $token;
 		$res->fileSize = kFile::fileSize($entryFullPath);

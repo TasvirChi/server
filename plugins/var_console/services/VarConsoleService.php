@@ -7,7 +7,7 @@
  * @subpackage api.services
  *
  */
-class VarConsoleService extends KalturaBaseService
+class VarConsoleService extends BorhanBaseService
 {
     const MAX_SUB_PUBLISHERS = 2000;
     
@@ -17,7 +17,7 @@ class VarConsoleService extends KalturaBaseService
 		
 		if(!VarConsolePlugin::isAllowedPartner($this->getPartnerId()))
 		{
-		    throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, VarConsolePlugin::PLUGIN_NAME);
+		    throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, VarConsolePlugin::PLUGIN_NAME);
 		}	
     }
     
@@ -25,14 +25,14 @@ class VarConsoleService extends KalturaBaseService
      * Action which checks whther user login 
      * @action checkLoginDataExists
      * @actionAlias user.checkLoginDataExists
-     * @param KalturaUserLoginDataFilter $filter
+     * @param BorhanUserLoginDataFilter $filter
      * @return bool
      */
-    public function checkLoginDataExistsAction (KalturaUserLoginDataFilter $filter)
+    public function checkLoginDataExistsAction (BorhanUserLoginDataFilter $filter)
     {
         if (!$filter)
 	    {
-	        $filter = new KalturaUserLoginDataFilter();
+	        $filter = new BorhanUserLoginDataFilter();
 	        $filter->loginEmailEqual = $this->getPartner()->getAdminEmail();
 	    }
 	    
@@ -54,22 +54,22 @@ class VarConsoleService extends KalturaBaseService
      * Function which calulates partner usage of a group of a VAR's sub-publishers
      * 
      * @action getPartnerUsage
-     * @param KalturaPartnerFilter $partnerFilter
-     * @param KalturaReportInputFilter $usageFilter
-     * @param KalturaFilterPager $pager
-     * @return KalturaPartnerUsageListResponse
-     * @throws KalturaVarConsoleErrors::MAX_SUB_PUBLISHERS_EXCEEDED
+     * @param BorhanPartnerFilter $partnerFilter
+     * @param BorhanReportInputFilter $usageFilter
+     * @param BorhanFilterPager $pager
+     * @return BorhanPartnerUsageListResponse
+     * @throws BorhanVarConsoleErrors::MAX_SUB_PUBLISHERS_EXCEEDED
      */
-    public function getPartnerUsageAction (KalturaPartnerFilter $partnerFilter = null, KalturaReportInputFilter $usageFilter = null, KalturaFilterPager $pager = null)
+    public function getPartnerUsageAction (BorhanPartnerFilter $partnerFilter = null, BorhanReportInputFilter $usageFilter = null, BorhanFilterPager $pager = null)
     {
         if (is_null($partnerFilter))
         {
-            $partnerFilter = new KalturaPartnerFilter();
+            $partnerFilter = new BorhanPartnerFilter();
         }
         
         if (is_null($usageFilter))
         {
-            $usageFilter = new KalturaReportInputFilter();
+            $usageFilter = new BorhanReportInputFilter();
             $usageFilter->fromDate = time() - 60*60*24*30; // last 30 days
 			$usageFilter->toDate = time();
         }
@@ -79,12 +79,12 @@ class VarConsoleService extends KalturaBaseService
             if (!$usageFilter->fromDate)
                 $usageFilter->fromDate = time() - 60*60*24*30;
             if (!$usageFilter->interval)
-                $usageFilter->interval = KalturaReportInterval::MONTHS;
+                $usageFilter->interval = BorhanReportInterval::MONTHS;
         }
         
         if (is_null($pager))
         {
-            $pager = new KalturaFilterPager();
+            $pager = new BorhanFilterPager();
         }
         
         //Create a propel filter for the partner
@@ -98,7 +98,7 @@ class VarConsoleService extends KalturaBaseService
 		$partnersCount = PartnerPeer::doCount($c);
 		if ($partnersCount > self::MAX_SUB_PUBLISHERS)
 		{
-		    throw new KalturaAPIException(KalturaVarConsoleErrors::MAX_SUB_PUBLISHERS_EXCEEDED);
+		    throw new BorhanAPIException(BorhanVarConsoleErrors::MAX_SUB_PUBLISHERS_EXCEEDED);
 		}
 		
 		$partners = PartnerPeer::doSelect($c);
@@ -124,10 +124,10 @@ class VarConsoleService extends KalturaBaseService
 		
 		if ( ! count($partnerIds ) )
 		{
-		    $total = new KalturaVarPartnerUsageTotalItem();
+		    $total = new BorhanVarPartnerUsageTotalItem();
 			// no partners fit the filter - don't fetch data	
 			$totalCount = 0;
-			// the items are set to an empty KalturaSystemPartnerUsageArray
+			// the items are set to an empty BorhanSystemPartnerUsageArray
 		}
 		else
 		{
@@ -143,7 +143,7 @@ class VarConsoleService extends KalturaBaseService
     				
 		    foreach ( $reportData as $line )
 			{
-    			$item = new KalturaVarPartnerUsageItem();
+    			$item = new BorhanVarPartnerUsageItem();
 				$item->fromString( $reportHeader , $line );
     			if ($item)
     			{
@@ -157,7 +157,7 @@ class VarConsoleService extends KalturaBaseService
     				$inputFilter ,
     				implode(",", $partnerIds));
 		
-    		$total = new KalturaVarPartnerUsageTotalItem();
+    		$total = new BorhanVarPartnerUsageTotalItem();
     		$total->fromString($reportHeader, $reportData);
 
 			list ( $peakStoragereportHeader , $peakStoragereportData) = myReportsMgr::getTotal(
@@ -170,7 +170,7 @@ class VarConsoleService extends KalturaBaseService
     			$total->peakStorage = ceil(@$peakStoragereportData[0]);
     		}
 
-		$response = new KalturaPartnerUsageListResponse();
+		$response = new BorhanPartnerUsageListResponse();
 		
 		//Sort according to dateId and partnerId
 		uasort($items, array($this, 'sortByDate'));
@@ -183,10 +183,10 @@ class VarConsoleService extends KalturaBaseService
     
     /**
      * Sorting function - returns array sorted first by dateId and secondly by partnerId
-     * @param KalturaVarPartnerUsageItem $item1
-     * @param KalturaVarPartnerUsageItem $item2
+     * @param BorhanVarPartnerUsageItem $item1
+     * @param BorhanVarPartnerUsageItem $item2
      */
-    private function sortByDate (KalturaVarPartnerUsageItem $item1, KalturaVarPartnerUsageItem $item2)
+    private function sortByDate (BorhanVarPartnerUsageItem $item1, BorhanVarPartnerUsageItem $item2)
     {
         $dateItem1 = strlen($item1->dateId) == 6 ? DateTime::createFromFormat( "Ym" , $item1->dateId)->getTimestamp() : DateTime::createFromFormat( "Ymd" , $item1->dateId)->getTimestamp();
         $dateItem2 = strlen($item2->dateId) == 6 ? DateTime::createFromFormat( "Ym" , $item2->dateId)->getTimestamp() : DateTime::createFromFormat( "Ymd" , $item2->dateId)->getTimestamp();
@@ -216,8 +216,8 @@ class VarConsoleService extends KalturaBaseService
 	 * Function to change a sub-publisher's status
 	 * @action updateStatus
 	 * @param int $id
-	 * @param KalturaPartnerStatus $status
-	 * @throws KalturaErrors::UNKNOWN_PARTNER_ID
+	 * @param BorhanPartnerStatus $status
+	 * @throws BorhanErrors::UNKNOWN_PARTNER_ID
 	 */
 	public function updateStatusAction($id, $status)
 	{
@@ -225,7 +225,7 @@ class VarConsoleService extends KalturaBaseService
         $c->addAnd(PartnerPeer::ID, $id);
         $dbPartner = PartnerPeer::doSelectOne($c);		
 		if (!$dbPartner)
-			throw new KalturaAPIException(KalturaErrors::UNKNOWN_PARTNER_ID, $id);
+			throw new BorhanAPIException(BorhanErrors::UNKNOWN_PARTNER_ID, $id);
 			
 		$dbPartner->setStatus($status);
 		$dbPartner->save();

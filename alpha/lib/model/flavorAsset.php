@@ -11,8 +11,8 @@
 class flavorAsset extends exportableAsset
 {
 
-	const KALTURA_TOKEN_MARKER = '{kt}';
-	const KALTURA_TOKEN_PARAM_NAME = '/kt/';
+	const BORHAN_TOKEN_MARKER = '{kt}';
+	const BORHAN_TOKEN_PARAM_NAME = '/kt/';
 	const CUSTOM_DATA_FIELD_LANGUAGE = "language";
 	const CUSTOM_DATA_FIELD_LABEL = "label";
 	
@@ -147,7 +147,7 @@ class flavorAsset extends exportableAsset
 			$entry = $this->getentry();
 	    	if (!$entry)
 	    	{
-	        	KalturaLog::err('Cannot get entry object for flavor asset id ['.$this->getId().']');
+	        	BorhanLog::err('Cannot get entry object for flavor asset id ['.$this->getId().']');
 	    	}
 	    	elseif ($entry->getStatus() != entryStatus::DELETED)
 	    	{
@@ -173,7 +173,7 @@ class flavorAsset extends exportableAsset
 	{
 		$languageCode = $this->getFromCustomData(self::CUSTOM_DATA_FIELD_LANGUAGE);
 		$obj = languageCodeManager::getObjectFromTwoCode($languageCode);
-		return !is_null($obj) ? $obj[languageCodeManager::KALTURA_NAME] : $languageCode;
+		return !is_null($obj) ? $obj[languageCodeManager::BORHAN_NAME] : $languageCode;
 	}
 	public function setLanguage($v)
 	{
@@ -194,7 +194,7 @@ class flavorAsset extends exportableAsset
 			$obj = new flavorAsset();
 		else
 		{
-			$obj = KalturaPluginManager::loadObject('flavorAsset', $type);
+			$obj = BorhanPluginManager::loadObject('flavorAsset', $type);
 			if(!$obj)
 				$obj = new flavorAsset();
 		}
@@ -250,7 +250,7 @@ class flavorAsset extends exportableAsset
 			$url .= "/storageId/" . $storageProfileId;
 
 		if($addKtToken)
-			$url .= self::KALTURA_TOKEN_PARAM_NAME . self::KALTURA_TOKEN_MARKER;
+			$url .= self::BORHAN_TOKEN_PARAM_NAME . self::BORHAN_TOKEN_MARKER;
 
 		if ($this->getFileExt())
 			$url .= "/a." . $this->getFileExt();
@@ -258,7 +258,7 @@ class flavorAsset extends exportableAsset
 		$url .= "?clientTag=$clientTag";
 
 		if($addKtToken)
-			$url = self::calculateKalturaToken($url);
+			$url = self::calculateBorhanToken($url);
 
 		return $url;
 	}
@@ -270,10 +270,10 @@ class flavorAsset extends exportableAsset
 		return $size;
 	}
 	
-	static protected function calculateKalturaToken($url)
+	static protected function calculateBorhanToken($url)
 	{
 		$token = sha1(kConf::get('url_token_secret') . $url);
-		return str_replace(self::KALTURA_TOKEN_MARKER, $token, $url);
+		return str_replace(self::BORHAN_TOKEN_MARKER, $token, $url);
 	}
 
 	protected function getSyncKeysForExporting()

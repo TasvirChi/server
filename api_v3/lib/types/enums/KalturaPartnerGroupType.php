@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaPartnerGroupType extends KalturaEnum implements PartnerGroupType
+class BorhanPartnerGroupType extends BorhanEnum implements PartnerGroupType
 {
 	// see interface PartnerGroupType interface
 }

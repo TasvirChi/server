@@ -5,7 +5,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaRemoteStorageResource extends KalturaUrlResource
+class BorhanRemoteStorageResource extends BorhanUrlResource
 {
 	/**
 	 * ID of storage profile to be associated with the created file sync, used for file serving URL composing. 
@@ -16,7 +16,7 @@ class KalturaRemoteStorageResource extends KalturaUrlResource
 	private static $map_between_objects = array('storageProfileId');
 	
 	/* (non-PHPdoc)
-	 * @see KalturaUrlResource::getMapBetweenObjects()
+	 * @see BorhanUrlResource::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -24,7 +24,7 @@ class KalturaRemoteStorageResource extends KalturaUrlResource
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUsage($sourceObject, $propertiesToSkip)
+	 * @see BorhanObject::validateForUsage($sourceObject, $propertiesToSkip)
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -34,11 +34,11 @@ class KalturaRemoteStorageResource extends KalturaUrlResource
 		
 		$storageProfile = StorageProfilePeer::retrieveByPK($this->storageProfileId);
 		if(!$storageProfile)
-			throw new KalturaAPIException(KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND, $this->storageProfileId);
+			throw new BorhanAPIException(BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND, $this->storageProfileId);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaUrlResource::toObject()
+	 * @see BorhanUrlResource::toObject()
 	 */
 	public function toObject($object_to_fill = null, $props_to_skip = array())
 	{

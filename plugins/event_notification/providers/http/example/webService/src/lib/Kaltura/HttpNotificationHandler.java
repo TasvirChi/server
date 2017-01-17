@@ -1,17 +1,17 @@
-package lib.Kaltura;
+package lib.Borhan;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.Kaltura.notification.Processor;
-import lib.Kaltura.notification.handlers.SyncSampleHandler;
-import lib.Kaltura.output.Console;
-import lib.Kaltura.output.OutputInterface;
-import lib.Kaltura.output.StandaradOutput;
+import lib.Borhan.notification.Processor;
+import lib.Borhan.notification.handlers.SyncSampleHandler;
+import lib.Borhan.output.Console;
+import lib.Borhan.output.OutputInterface;
+import lib.Borhan.output.StandaradOutput;
 
-import com.kaltura.client.types.KalturaHttpNotification;
+import com.borhan.client.types.BorhanHttpNotification;
 
 /**
  *  This class is a sample class for notification handling
@@ -40,7 +40,7 @@ public class HttpNotificationHandler {
 	 * Single event handling
 	 * @param httpNotification
 	 */
-	public void handle(KalturaHttpNotification httpNotification) {
+	public void handle(BorhanHttpNotification httpNotification) {
 		startHandling();
 		try {
 			

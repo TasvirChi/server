@@ -3,10 +3,10 @@
  * @package api
  * @subpackage filters
  */
-class KalturaDeliveryProfileFilter extends KalturaDeliveryProfileBaseFilter
+class BorhanDeliveryProfileFilter extends BorhanDeliveryProfileBaseFilter
 {
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $isLive;
 	
@@ -21,7 +21,7 @@ class KalturaDeliveryProfileFilter extends KalturaDeliveryProfileBaseFilter
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{

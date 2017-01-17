@@ -3,7 +3,7 @@
 /**
  * Auto-generated enum class
 */
-class KalturaPlayableEntryCompareAttribute extends KalturaBaseEntryCompareAttribute
+class BorhanPlayableEntryCompareAttribute extends BorhanBaseEntryCompareAttribute
 {
 	const VIEWS = "views";
 	const MS_DURATION = "msDuration";

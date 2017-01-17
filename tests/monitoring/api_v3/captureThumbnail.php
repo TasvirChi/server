@@ -2,7 +2,7 @@
 $config = array();
 $client = null;
 $serviceUrl = null;
-/* @var $client KalturaClient */
+/* @var $client BorhanClient */
 require_once __DIR__  . '/common.php';
 
 $options = getopt('', array(
@@ -13,16 +13,16 @@ $options = getopt('', array(
 ));
 
 $start = microtime(true);
-$monitorResult = new KalturaMonitorResult();
+$monitorResult = new BorhanMonitorResult();
 $apiCall = null;
 try
 {
 	$apiCall = 'session.start';
-	$ks = $client->session->start($config['monitor-partner']['adminSecret'], 'monitor-user', KalturaSessionType::ADMIN, $config['monitor-partner']['id']);
+	$ks = $client->session->start($config['monitor-partner']['adminSecret'], 'monitor-user', BorhanSessionType::ADMIN, $config['monitor-partner']['id']);
 	$client->setKs($ks);
 	
 	$entry = null;
-	/* @var $entry KalturaMediaEntry */
+	/* @var $entry BorhanMediaEntry */
 	if(isset($options['entry-id']))
 	{
 		$apiCall = 'media.get';
@@ -32,70 +32,70 @@ try
 	{
 		$apiCall = 'baseEntry.listByReferenceId';
 		$baseEntryList = $client->baseEntry->listByReferenceId($options['entry-reference-id']);
-		/* @var $baseEntryList KalturaBaseEntryListResponse */
+		/* @var $baseEntryList BorhanBaseEntryListResponse */
 		if(!count($baseEntryList->objects))
 			throw new Exception("Entry with reference id [" . $options['entry-reference-id'] . "] not found");
 			
 		$entry = reset($baseEntryList->objects);
 	}
 	
-	if($entry->status != KalturaEntryStatus::READY)
+	if($entry->status != BorhanEntryStatus::READY)
 		throw new Exception("Entry id [$entry->id] is not ready for thumbnail capturing");
 	
-	$thumbParams = new KalturaThumbParams();
+	$thumbParams = new BorhanThumbParams();
 	$thumbParams->videoOffset = 3;
 	
 	$apiCall = 'thumbAsset.generate';
 	$thumbAsset = $client->thumbAsset->generate($entry->id, $thumbParams);
-	/* @var $thumbAsset KalturaThumbAsset */
+	/* @var $thumbAsset BorhanThumbAsset */
 	if(!$thumbAsset)
 		throw new Exception("thumbnail asset not created");
 	
 	$monitorResult->executionTime = microtime(true) - $start;
 	$monitorResult->value = $monitorResult->executionTime;
 	
-	if($thumbAsset->status == KalturaThumbAssetStatus::READY || $thumbAsset->status == KalturaThumbAssetStatus::EXPORTING)
+	if($thumbAsset->status == BorhanThumbAssetStatus::READY || $thumbAsset->status == BorhanThumbAssetStatus::EXPORTING)
 	{
 		$monitorResult->description = "capture time: $monitorResult->executionTime seconds";
 	}
-	elseif($thumbAsset->status == KalturaThumbAssetStatus::ERROR)
+	elseif($thumbAsset->status == BorhanThumbAssetStatus::ERROR)
 	{
-		$error = new KalturaMonitorError();
+		$error = new BorhanMonitorError();
 		$error->description = "captura failed, asset id, $thumbAsset->id: $thumbAsset->description";
-		$error->level = KalturaMonitorError::CRIT;
+		$error->level = BorhanMonitorError::CRIT;
 		
 		$monitorResult->description = "captura failed, asset id, $thumbAsset->id";
 	}
 	else
 	{
-		$error = new KalturaMonitorError();
+		$error = new BorhanMonitorError();
 		$error->description = "unexpected thumbnail status, $thumbAsset->status, asset id, $thumbAsset->id: $thumbAsset->description";
-		$error->level = KalturaMonitorError::CRIT;
+		$error->level = BorhanMonitorError::CRIT;
 		
 		$monitorResult->errors[] = $error;
 		$monitorResult->description = "unexpected thumbnail status, $thumbAsset->status, asset id, $thumbAsset->id: $thumbAsset->description";
 	}
 }
-catch(KalturaException $e)
+catch(BorhanException $e)
 {
 	$monitorResult->executionTime = microtime(true) - $start;
 	
-	$error = new KalturaMonitorError();
+	$error = new BorhanMonitorError();
 	$error->code = $e->getCode();
 	$error->description = $e->getMessage();
-	$error->level = KalturaMonitorError::ERR;
+	$error->level = BorhanMonitorError::ERR;
 	
 	$monitorResult->errors[] = $error;
 	$monitorResult->description = "Exception: " . get_class($e) . ", API: $apiCall, Code: " . $e->getCode() . ", Message: " . $e->getMessage();
 }
-catch(KalturaClientException $ce)
+catch(BorhanClientException $ce)
 {
 	$monitorResult->executionTime = microtime(true) - $start;
 	
-	$error = new KalturaMonitorError();
+	$error = new BorhanMonitorError();
 	$error->code = $ce->getCode();
 	$error->description = $ce->getMessage();
-	$error->level = KalturaMonitorError::CRIT;
+	$error->level = BorhanMonitorError::CRIT;
 	
 	$monitorResult->errors[] = $error;
 	$monitorResult->description = "Exception: " . get_class($ce) . ", API: $apiCall, Code: " . $ce->getCode() . ", Message: " . $ce->getMessage();
@@ -104,10 +104,10 @@ catch(Exception $ex)
 {
 	$monitorResult->executionTime = microtime(true) - $start;
 	
-	$error = new KalturaMonitorError();
+	$error = new BorhanMonitorError();
 	$error->code = $ex->getCode();
 	$error->description = $ex->getMessage();
-	$error->level = KalturaMonitorError::ERR;
+	$error->level = BorhanMonitorError::ERR;
 	
 	$monitorResult->errors[] = $error;
 	$monitorResult->description = $ex->getMessage();

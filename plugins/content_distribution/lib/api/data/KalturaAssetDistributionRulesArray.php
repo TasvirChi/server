@@ -6,17 +6,17 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaAssetDistributionRulesArray extends KalturaTypedArray
+class BorhanAssetDistributionRulesArray extends BorhanTypedArray
 {
-	public static function fromDbArray(array $arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaAssetDistributionRulesArray();
+		$newArr = new BorhanAssetDistributionRulesArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-			$nObj = new KalturaAssetDistributionRule();
+			$nObj = new BorhanAssetDistributionRule();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -26,6 +26,6 @@ class KalturaAssetDistributionRulesArray extends KalturaTypedArray
 
 	public function __construct()
 	{
-		parent::__construct("KalturaAssetDistributionRule");
+		parent::__construct("BorhanAssetDistributionRule");
 	}
 }

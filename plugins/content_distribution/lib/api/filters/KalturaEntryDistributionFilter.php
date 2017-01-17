@@ -3,10 +3,10 @@
  * @package plugins.contentDistribution
  * @subpackage api.filters
  */
-class KalturaEntryDistributionFilter extends KalturaEntryDistributionBaseFilter
+class BorhanEntryDistributionFilter extends BorhanEntryDistributionBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -14,9 +14,9 @@ class KalturaEntryDistributionFilter extends KalturaEntryDistributionBaseFilter
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::getListResponse()
+	 * @see BorhanRelatedFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$c = new Criteria();
 		$entryDistributionFilter = $this->toObject();
@@ -27,8 +27,8 @@ class KalturaEntryDistributionFilter extends KalturaEntryDistributionBaseFilter
 		$pager->attachToCriteria ( $c );
 		$list = EntryDistributionPeer::doSelect($c);
 		
-		$response = new KalturaEntryDistributionListResponse();
-		$response->objects = KalturaEntryDistributionArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanEntryDistributionListResponse();
+		$response->objects = BorhanEntryDistributionArray::fromDbArray($list, $responseProfile);
 		$response->totalCount = $count;
 	
 		return $response;

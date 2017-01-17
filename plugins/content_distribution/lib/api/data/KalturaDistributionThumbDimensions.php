@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaDistributionThumbDimensions extends KalturaObject
+class BorhanDistributionThumbDimensions extends BorhanObject
 {
 	/**
 	 * @var int

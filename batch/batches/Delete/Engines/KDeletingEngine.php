@@ -6,12 +6,12 @@
 abstract class KDeletingEngine
 {
 	/**
-	 * @var KalturaClient
+	 * @var BorhanClient
 	 */
 	protected $client;
 	
 	/**
-	 * @var KalturaFilterPager
+	 * @var BorhanFilterPager
 	 */
 	protected $pager;
 	
@@ -28,41 +28,41 @@ abstract class KDeletingEngine
 	private $batchPartnerId;
 	
 	/**
-	 * @param int $objectType of enum KalturaDeleteObjectType
+	 * @param int $objectType of enum BorhanDeleteObjectType
 	 * @return KDeletingEngine
 	 */
 	public static function getInstance($objectType)
 	{
 		switch($objectType)
 		{
-			case KalturaDeleteObjectType::CATEGORY_ENTRY:
+			case BorhanDeleteObjectType::CATEGORY_ENTRY:
 				return new KDeletingCategoryEntryEngine();
 				
-			case KalturaDeleteObjectType::CATEGORY_USER:
+			case BorhanDeleteObjectType::CATEGORY_USER:
 				return new KDeletingCategoryUserEngine();
 
-			case KalturaDeleteObjectType::GROUP_USER:
+			case BorhanDeleteObjectType::GROUP_USER:
 				return new KDeletingGroupUserEngine();
 
-			case KalturaDeleteObjectType::CATEGORY_ENTRY_AGGREGATION:
+			case BorhanDeleteObjectType::CATEGORY_ENTRY_AGGREGATION:
  				return new KDeletingAggregationChannelEngine();
 			
 			default:
-				return KalturaPluginManager::loadObject('KDeletingEngine', $objectType);
+				return BorhanPluginManager::loadObject('KDeletingEngine', $objectType);
 		}
 	}
 	
 	/**
 	 * @param int $partnerId
-	 * @param KalturaDeleteJobData $jobData
-  	 * @param KalturaClient $client
+	 * @param BorhanDeleteJobData $jobData
+  	 * @param BorhanClient $client
   	 */
 	public function configure($partnerId, $jobData)
 	{
 		$this->partnerId = $partnerId;
 		$this->batchPartnerId = KBatchBase::$taskConfig->getPartnerId();
 
-		$this->pager = new KalturaFilterPager();
+		$this->pager = new BorhanFilterPager();
 		$this->pager->pageSize = 100;
 		
 		if(KBatchBase::$taskConfig->params && KBatchBase::$taskConfig->params->pageSize)
@@ -71,11 +71,11 @@ abstract class KDeletingEngine
 
 	
 	/**
-	 * @param KalturaFilter $filter The filter should return the list of objects that need to be reindexed
+	 * @param BorhanFilter $filter The filter should return the list of objects that need to be reindexed
 	 * @param bool $shouldUpdate Indicates that the object columns and attributes values should be recalculated before reindexed
 	 * @return int the number of indexed objects
 	 */
-	public function run(KalturaFilter $filter)
+	public function run(BorhanFilter $filter)
 	{
 		KBatchBase::impersonate($this->partnerId);
 		$ret = $this->delete($filter);
@@ -85,8 +85,8 @@ abstract class KDeletingEngine
 	}
 	
 	/**
-	 * @param KalturaFilter $filter The filter should return the list of objects that need to be deleted
+	 * @param BorhanFilter $filter The filter should return the list of objects that need to be deleted
 	 * @return int the number of deleted objects
 	 */
-	abstract protected function delete(KalturaFilter $filter);
+	abstract protected function delete(BorhanFilter $filter);
 }

@@ -7,11 +7,11 @@ class KOperationManager
 {
 	/**
 	 * @param int $type
-	 * @param KalturaConvartableJobData $data
-	 * @param KalturaBatchJob $job
+	 * @param BorhanConvartableJobData $data
+	 * @param BorhanBatchJob $job
 	 * @return KOperationEngine
 	 */
-	public static function getEngine($type, KalturaConvartableJobData $data, KalturaBatchJob $job)
+	public static function getEngine($type, BorhanConvartableJobData $data, BorhanBatchJob $job)
 	{
 		$engine = self::createNewEngine($type, $data);
 		if(!$engine)
@@ -23,10 +23,10 @@ class KOperationManager
 	
 	/**
 	 * @param int $type
-	 * @param KalturaConvartableJobData $data
+	 * @param BorhanConvartableJobData $data
 	 * @return KOperationEngine
 	 */
-	protected static function createNewEngine($type, KalturaConvartableJobData $data)
+	protected static function createNewEngine($type, BorhanConvartableJobData $data)
 	{
 		// TODO - remove after old version deprecated
 		/*
@@ -39,44 +39,44 @@ class KOperationManager
 		
 		switch($type)
 		{ 
-			case KalturaConversionEngineType::MENCODER:
+			case BorhanConversionEngineType::MENCODER:
 				return new KOperationEngineMencoder(KBatchBase::$taskConfig->params->mencderCmd, $data->destFileSyncLocalPath);
 				
-			case KalturaConversionEngineType::ON2:
+			case BorhanConversionEngineType::ON2:
 				return new KOperationEngineFlix(KBatchBase::$taskConfig->params->on2Cmd, $data->destFileSyncLocalPath);
 				
-			case KalturaConversionEngineType::FFMPEG:
+			case BorhanConversionEngineType::FFMPEG:
 				return new KOperationEngineFfmpeg(KBatchBase::$taskConfig->params->ffmpegCmd, $data->destFileSyncLocalPath);
 				
-			case KalturaConversionEngineType::FFMPEG_AUX:
+			case BorhanConversionEngineType::FFMPEG_AUX:
 				return new KOperationEngineFfmpegAux(KBatchBase::$taskConfig->params->ffmpegAuxCmd, $data->destFileSyncLocalPath);
 				
-			case KalturaConversionEngineType::FFMPEG_VP8:
+			case BorhanConversionEngineType::FFMPEG_VP8:
 				return new KOperationEngineFfmpegVp8(KBatchBase::$taskConfig->params->ffmpegVp8Cmd, $data->destFileSyncLocalPath);
 				
-			case KalturaConversionEngineType::ENCODING_COM :
+			case BorhanConversionEngineType::ENCODING_COM :
 				return new KOperationEngineEncodingCom(
 					KBatchBase::$taskConfig->params->EncodingComUserId, 
 					KBatchBase::$taskConfig->params->EncodingComUserKey, 
 					KBatchBase::$taskConfig->params->EncodingComUrl);
 		}
 		
-		if($data instanceof KalturaConvertCollectionJobData)
+		if($data instanceof BorhanConvertCollectionJobData)
 		{
 			$engine = self::getCollectionEngine($type, $data);
 			if($engine)
 				return $engine;
 		}
-		$engine = KalturaPluginManager::loadObject('KOperationEngine', $type, array('params' => KBatchBase::$taskConfig->params, 'outFilePath' => $data->destFileSyncLocalPath));
+		$engine = BorhanPluginManager::loadObject('KOperationEngine', $type, array('params' => KBatchBase::$taskConfig->params, 'outFilePath' => $data->destFileSyncLocalPath));
 		
 		return $engine;
 	}
 	
-	protected static function getCollectionEngine($type, KalturaConvertCollectionJobData $data)
+	protected static function getCollectionEngine($type, BorhanConvertCollectionJobData $data)
 	{
 		switch($type)
 		{
-			case KalturaConversionEngineType::EXPRESSION_ENCODER3:
+			case BorhanConversionEngineType::EXPRESSION_ENCODER3:
 				return new KOperationEngineExpressionEncoder3(KBatchBase::$taskConfig->params->expEncoderCmd, $data->destFileName, $data->destDirLocalPath);
 		}
 		

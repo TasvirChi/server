@@ -14,7 +14,7 @@ jQuery(function() {
 });
 </script>
 
-<div class="mykaltura_viewAll mykaltura_media" style="width: 80%;">
+<div class="myborhan_viewAll myborhan_media" style="width: 80%;">
 	<div>
 		
 	</div>

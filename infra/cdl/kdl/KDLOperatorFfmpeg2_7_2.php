@@ -29,7 +29,7 @@ class KDLOperatorFfmpeg2_7_2 extends KDLOperatorFfmpeg2_2 {
 			$str.= " -encryption_key ".KDLFlavor::ENCRYPTION_KEY_PLACEHOLDER;
 			$str.= " -encryption_kid ".KDLFlavor::ENCRYPTION_KEY_ID_PLACEHOLDER." -y ";
 			$cmdStr = str_replace(" -y ", $str, $cmdStr);
-			KalturaLog::log("On Encryption: $cmdStr");
+			BorhanLog::log("On Encryption: $cmdStr");
 		}
 		return $cmdStr;
 	}

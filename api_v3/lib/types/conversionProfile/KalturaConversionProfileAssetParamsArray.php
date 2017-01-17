@@ -3,17 +3,17 @@
  * @package api
  * @subpackage objects
  */
-class KalturaConversionProfileAssetParamsArray extends KalturaTypedArray
+class BorhanConversionProfileAssetParamsArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaConversionProfileAssetParamsArray();
+		$newArr = new BorhanConversionProfileAssetParamsArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-    		$nObj = new KalturaConversionProfileAssetParams();
+    		$nObj = new BorhanConversionProfileAssetParams();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaConversionProfileAssetParamsArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaConversionProfileAssetParams");	
+		parent::__construct("BorhanConversionProfileAssetParams");	
 	}
 }

@@ -4,12 +4,12 @@
  * @package infra
  * @subpackage Plugins
  */
-interface IKalturaRequire extends IKalturaBase
+interface IBorhanRequire extends IBorhanBase
 {
 	/**
-	 * Returns string(s) of Kaltura Plugins which the plugin requires
+	 * Returns string(s) of Borhan Plugins which the plugin requires
 	 * 
-	 * @return array<String> The Kaltura dependency object
+	 * @return array<String> The Borhan dependency object
 	 */
 	public static function requires();
 }

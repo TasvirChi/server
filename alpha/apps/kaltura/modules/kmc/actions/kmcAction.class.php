@@ -1,9 +1,9 @@
 <?php
 /**
  * @package    Core
- * @subpackage KMC
+ * @subpackage BMC
  */
-class kmcAction extends kalturaAction
+class bmcAction extends borhanAction
 {
 	const BASE64_ENCODE_CHARS_REGEX = "/^[a-zA-Z0-9\/\+\=]+$/";
 	
@@ -12,12 +12,12 @@ class kmcAction extends kalturaAction
 		// Prevent the page fron being embeded in an iframe
 		header( 'X-Frame-Options: DENY' );
 
-		// Check if user already logged in and redirect to kmc2
-		if( $this->getRequest()->getCookie('kmcks') ) {
-			$this->redirect('kmc/kmc2');
+		// Check if user already logged in and redirect to bmc2
+		if( $this->getRequest()->getCookie('bmcks') ) {
+			$this->redirect('bmc/bmc2');
 		}
 
-		if ((infraRequestUtils::getProtocol() != infraRequestUtils::PROTOCOL_HTTPS) && kConf::get('kmc_secured_login'))
+		if ((infraRequestUtils::getProtocol() != infraRequestUtils::PROTOCOL_HTTPS) && kConf::get('bmc_secured_login'))
 		{
 			$url = 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 			header('Location:' . $url);
@@ -26,11 +26,11 @@ class kmcAction extends kalturaAction
 
 		$this->www_host = kConf::get('www_host');
 		$https_enabled = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? true : false;
-		$this->securedLogin = (kConf::get('kmc_secured_login') || $https_enabled) ? true : false;
+		$this->securedLogin = (kConf::get('bmc_secured_login') || $https_enabled) ? true : false;
 
 		$swfUrl = ($this->securedLogin) ? 'https://' : 'http://';
 		$swfUrl .= $this->www_host . myContentStorage::getFSFlashRootPath ();
-		$swfUrl .= '/kmc/login/' . kConf::get('kmc_login_version') . '/login.swf';
+		$swfUrl .= '/bmc/login/' . kConf::get('bmc_login_version') . '/login.swf';
 		$this->swfUrl = $swfUrl;
 
 		$this->partner_id = $this->getRequestParameter( "partner_id" );
@@ -38,7 +38,7 @@ class kmcAction extends kalturaAction
 		if ( $this->partner_id ) {
 			$partner = PartnerPeer::retrieveByPK($this->partner_id);
 			if( $partner ){
-				$this->logoUrl = kmcUtils::getWhitelabelData( $partner, 'logo_url' );
+				$this->logoUrl = bmcUtils::getWhitelabelData( $partner, 'logo_url' );
 			}
 		}
 		

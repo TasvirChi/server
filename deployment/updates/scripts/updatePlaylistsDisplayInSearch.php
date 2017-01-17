@@ -40,5 +40,5 @@ $mysqlQuery = "SELECT CONCAT('UPDATE entry SET display_in_search = ', appear_in_
 $mysqlExec = "mysql --skip-column-names -h$host -u$username -p$password $database";
 $exec = "echo \"$mysqlQuery\" | $mysqlExec | $mysqlExec";
 
-KalturaLog::debug("Executing: $exec");
+BorhanLog::debug("Executing: $exec");
 passthru($exec);

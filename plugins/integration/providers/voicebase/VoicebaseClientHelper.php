@@ -75,7 +75,7 @@ class VoicebaseClientHelper
 	
 	private function sendAPICall($url, $options = null, $noDecoding = false)
 	{
-		KalturaLog::debug("sending API call - $url");
+		BorhanLog::debug("sending API call - $url");
 
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -87,7 +87,7 @@ class VoicebaseClientHelper
 
 		if(($errString = curl_error($ch)) !== '' || ($errNum = curl_errno($ch)) !== 0)
 		{
-			KalturaLog::err('problem with curl - ' . $errString . ' error num - ' . $errNum);
+			BorhanLog::err('problem with curl - ' . $errString . ' error num - ' . $errNum);
 			curl_close($ch);
 			throw new Exception("curl error with url " . $url);
 		}
@@ -103,7 +103,7 @@ class VoicebaseClientHelper
 			}
 			
 		}
-		KalturaLog::debug('result is - ' . var_dump($result));
+		BorhanLog::debug('result is - ' . var_dump($result));
 		curl_close($ch);
 		return $result;
 	}

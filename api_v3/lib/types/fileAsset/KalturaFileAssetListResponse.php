@@ -3,10 +3,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaFileAssetListResponse extends KalturaListResponse
+class BorhanFileAssetListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaFileAssetArray
+	 * @var BorhanFileAssetArray
 	 * @readonly
 	 */
 	public $objects;

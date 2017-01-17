@@ -1,25 +1,25 @@
 #!/bin/bash
 
 #
-# batchMgr      This shell script takes care of starting and stopping a Kaltura Batch Service
+# batchMgr      This shell script takes care of starting and stopping a Borhan Batch Service
 #
 # chkconfig: 2345 13 87
-# description: Kaltura Batch
+# description: Borhan Batch
 
 ### BEGIN INIT INFO
-# Provides:          kaltura-batch
+# Provides:          borhan-batch
 # Required-Start:    $local_fs $remote_fs $network
 # Required-Stop:     $local_fs $remote_fs $network
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # X-Interactive:     true
-# Short-Description: Start/stop Kaltura batch server
-# Description:       Control the Kaltura batch server.
+# Short-Description: Start/stop Borhan batch server
+# Description:       Control the Borhan batch server.
 ### END INIT INFO
 
 
 # Source function library.
-. /etc/kaltura.d/system.ini
+. /etc/borhan.d/system.ini
 
 # Define variables
 BATCHDIR=$APP_DIR/batch
@@ -88,8 +88,8 @@ start_scheduler() {
     cd $BATCHDIR
     echo -n "."
     mkdir -p $BASE_DIR/var/run
-    chown $OS_KALTURA_USER:$OS_KALTURA_USER $BASE_DIR/var/run
-    su $OS_KALTURA_USER -c "nohup $PHP_BIN $BATCHEXE $PHP_BIN $CONFIG_FILE >> $LOG_DIR/kaltura_batch.log 2>&1 &"
+    chown $OS_BORHAN_USER:$OS_BORHAN_USER $BASE_DIR/var/run
+    su $OS_BORHAN_USER -c "nohup $PHP_BIN $BATCHEXE $PHP_BIN $CONFIG_FILE >> $LOG_DIR/borhan_batch.log 2>&1 &"
     echo -n "."
     if [ "$?" -eq 0 ]; then
         echo ". "

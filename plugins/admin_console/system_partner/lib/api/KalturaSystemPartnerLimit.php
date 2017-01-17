@@ -3,10 +3,10 @@
  * @package plugins.systemPartner
  * @subpackage api.objects
  */
-class KalturaSystemPartnerLimit extends KalturaObject
+class BorhanSystemPartnerLimit extends BorhanObject
 {
 	/**
-	 * @var KalturaSystemPartnerLimitType
+	 * @var BorhanSystemPartnerLimitType
 	 */
 	public $type;
 	
@@ -16,30 +16,30 @@ class KalturaSystemPartnerLimit extends KalturaObject
 	public $max;
 	
 	/**
-	 * @param KalturaSystemPartnerLimitType $type
+	 * @param BorhanSystemPartnerLimitType $type
 	 * @param Partner $partner
-	 * @return KalturaSystemPartnerLimit
+	 * @return BorhanSystemPartnerLimit
 	 */
 	public static function fromPartner($type, Partner $partner)
 	{
-		$limit = new KalturaSystemPartnerLimit();
+		$limit = new BorhanSystemPartnerLimit();
 		$limit->type = $type;
 		
 		switch($type)
 		{
-			case KalturaSystemPartnerLimitType::ACCESS_CONTROLS:
+			case BorhanSystemPartnerLimitType::ACCESS_CONTROLS:
 				$limit->max = $partner->getAccessControls();
 				break;
 				
-			case KalturaSystemPartnerLimitType::LIVE_STREAM_INPUTS:
+			case BorhanSystemPartnerLimitType::LIVE_STREAM_INPUTS:
 				$limit->max = $partner->getMaxLiveStreamInputs();
 				break;
 				
-			case KalturaSystemPartnerLimitType::LIVE_STREAM_OUTPUTS:
+			case BorhanSystemPartnerLimitType::LIVE_STREAM_OUTPUTS:
 				$limit->max = $partner->getMaxLiveStreamOutputs();
 				break;
 
-			case KalturaSystemPartnerLimitType::USER_LOGIN_ATTEMPTS:
+			case BorhanSystemPartnerLimitType::USER_LOGIN_ATTEMPTS:
 				$limit->max = $partner->getMaxLoginAttempts();
 				break;
 		}
@@ -51,19 +51,19 @@ class KalturaSystemPartnerLimit extends KalturaObject
 	{
 		switch($this->type)
 		{
-			case KalturaSystemPartnerLimitType::ACCESS_CONTROLS:
+			case BorhanSystemPartnerLimitType::ACCESS_CONTROLS:
 				$this->validatePropertyMinValue('max', 1, true);
 				break;
 				
-			case KalturaSystemPartnerLimitType::LIVE_STREAM_INPUTS:
+			case BorhanSystemPartnerLimitType::LIVE_STREAM_INPUTS:
 				$this->validatePropertyMinValue('max', 1, true);
 				break;
 				
-			case KalturaSystemPartnerLimitType::LIVE_STREAM_OUTPUTS:
+			case BorhanSystemPartnerLimitType::LIVE_STREAM_OUTPUTS:
 				$this->validatePropertyMinValue('max', 1, true);
 				break;
 				
-			case KalturaSystemPartnerLimitType::USER_LOGIN_ATTEMPTS:
+			case BorhanSystemPartnerLimitType::USER_LOGIN_ATTEMPTS:
 				$this->validatePropertyMinValue('max', 0, true);
 				break;
 		}
@@ -79,19 +79,19 @@ class KalturaSystemPartnerLimit extends KalturaObject
 			
 		switch($this->type)
 		{
-			case KalturaSystemPartnerLimitType::ACCESS_CONTROLS:
+			case BorhanSystemPartnerLimitType::ACCESS_CONTROLS:
 				$partner->setAccessControls($this->max);
 				break;
 				
-			case KalturaSystemPartnerLimitType::LIVE_STREAM_INPUTS:
+			case BorhanSystemPartnerLimitType::LIVE_STREAM_INPUTS:
 				$partner->setMaxLiveStreamInputs($this->max);
 				break;
 				
-			case KalturaSystemPartnerLimitType::LIVE_STREAM_OUTPUTS:
+			case BorhanSystemPartnerLimitType::LIVE_STREAM_OUTPUTS:
 				$partner->setMaxLiveStreamOutputs($this->max);
 				break;
 				
-			case KalturaSystemPartnerLimitType::USER_LOGIN_ATTEMPTS:
+			case BorhanSystemPartnerLimitType::USER_LOGIN_ATTEMPTS:
 				$partner->setMaxLoginAttempts($this->max);
 				break;
 		}

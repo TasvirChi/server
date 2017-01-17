@@ -3,8 +3,8 @@
   <featuresData>
     <feature k_fullName="TopTitleScreen" k_value="false"/>
     <feature k_fullName="watermark" k_value="true"/>
-    <feature k_fullName="watermark.watermarkPath" k_value="http://www.kaltura.com/content/uiconf/kaltura/kmc/appstudio/kdp3/exampleWatermark.png"/>
-    <feature k_fullName="watermark.watermarkClickPath" k_value="http://www.kaltura.com/"/>
+    <feature k_fullName="watermark.watermarkPath" k_value="http://www.borhan.com/content/uiconf/borhan/bmc/appstudio/bdp3/exampleWatermark.png"/>
+    <feature k_fullName="watermark.watermarkClickPath" k_value="http://www.borhan.com/"/>
     <feature k_fullName="watermark.watermarkPosition" k_value="bottomLeft"/>
     <feature k_fullName="watermark.padding" k_value="5"/>
     <feature k_fullName="timerControllerScreen1" k_value="true"/>
@@ -58,18 +58,18 @@
     <feature k_fullName="nextBtn.ControllerScreen" k_value="true"/>
     <feature k_fullName="nextBtn.Display" k_value="falconButtonIconControllerArea"/>
     <feature k_fullName="nextBtn.Label" k_value="Next"/>
-    <feature k_fullName="kalturaShareBtn" k_value="true"/>
-    <feature k_fullName="kalturaShareBtn.showOnVideoControllers" k_value="true"/>
-    <feature k_fullName="kalturaShareBtn.showOnVideoControllers.StartScreen" k_value="true"/>
-    <feature k_fullName="kalturaShareBtn.showOnVideoControllers.PlayScreen" k_value="false"/>
-    <feature k_fullName="kalturaShareBtn.showOnVideoControllers.PauseScreen" k_value="true"/>
-    <feature k_fullName="kalturaShareBtn.showOnVideoControllers.EndScreen" k_value="true"/>
-    <feature k_fullName="kalturaShareBtn.ControllerScreen" k_value="true"/>
-    <feature k_fullName="kalturaShareBtn.Display" k_value="falconButtonIconControllerArea"/>
-    <feature k_fullName="kalturaShareBtn.Label" k_value="Share"/>
-    <feature k_fullName="kalturaShareBtn.uiconfId" k_value="8700151"/>
-    <feature k_fullName="kalturaShareBtn.via" k_value=""/>
-    <feature k_fullName="kalturaShareBtn.pubid" k_value=""/>
+    <feature k_fullName="borhanShareBtn" k_value="true"/>
+    <feature k_fullName="borhanShareBtn.showOnVideoControllers" k_value="true"/>
+    <feature k_fullName="borhanShareBtn.showOnVideoControllers.StartScreen" k_value="true"/>
+    <feature k_fullName="borhanShareBtn.showOnVideoControllers.PlayScreen" k_value="false"/>
+    <feature k_fullName="borhanShareBtn.showOnVideoControllers.PauseScreen" k_value="true"/>
+    <feature k_fullName="borhanShareBtn.showOnVideoControllers.EndScreen" k_value="true"/>
+    <feature k_fullName="borhanShareBtn.ControllerScreen" k_value="true"/>
+    <feature k_fullName="borhanShareBtn.Display" k_value="falconButtonIconControllerArea"/>
+    <feature k_fullName="borhanShareBtn.Label" k_value="Share"/>
+    <feature k_fullName="borhanShareBtn.uiconfId" k_value="8700151"/>
+    <feature k_fullName="borhanShareBtn.via" k_value=""/>
+    <feature k_fullName="borhanShareBtn.pubid" k_value=""/>
     <feature k_fullName="downloadBtn" k_value="false"/>
     <feature k_fullName="downloadBtn.StartScreen" k_value="true"/>
     <feature k_fullName="downloadBtn.PlayScreen" k_value="true"/>
@@ -290,7 +290,7 @@
   </screenAssets>
   <visual>
     <theme id="dark" name="Dark">
-      <themeSkinPath>/content/uiconf/kaltura/kmc/appstudio/kdp3/falcon/skin/v3.6.5/KDP_Blue.swf</themeSkinPath>
+      <themeSkinPath>/content/uiconf/borhan/bmc/appstudio/bdp3/falcon/skin/v3.6.5/BDP_Blue.swf</themeSkinPath>
       <color1>2147483647</color1>
       <color2>2147483647</color2>
       <color3>2147483647</color3>
@@ -306,13 +306,13 @@
   </playerProperties>
   <uiVars>
     <var key="kpl0EntryId" value="1_5764hefj"/>
-    <var key="playlistAPI.kpl0Url" value="http%3A%2F%2Fwww.kaltura.com%2Findex.php%2Fpartnerservices2%2Fexecuteplaylist%3Fplaylist_id%3D1_5764hefj%26partner_id%3D99%26subp_id%3D9900%26format%3D8%26ks%3D%7Bks%7D"/>
+    <var key="playlistAPI.kpl0Url" value="http%3A%2F%2Fwww.borhan.com%2Findex.php%2Fpartnerservices2%2Fexecuteplaylist%3Fplaylist_id%3D1_5764hefj%26partner_id%3D99%26subp_id%3D9900%26format%3D8%26ks%3D%7Bks%7D"/>
     <var key="playlistAPI.kpl0Name" value="Sample Videos"/>
     <var key="kpl1EntryId" value="q0rb2v97fk"/>
-    <var key="playlistAPI.kpl1Url" value="http%3A%2F%2Fwww.kaltura.com%2Findex.php%2Fpartnerservices2%2Fexecuteplaylist%3Fplaylist_id%3Dq0rb2v97fk%26partner_id%3D99%26subp_id%3D9900%26format%3D8%26ks%3D%7Bks%7D"/>
+    <var key="playlistAPI.kpl1Url" value="http%3A%2F%2Fwww.borhan.com%2Findex.php%2Fpartnerservices2%2Fexecuteplaylist%3Fplaylist_id%3Dq0rb2v97fk%26partner_id%3D99%26subp_id%3D9900%26format%3D8%26ks%3D%7Bks%7D"/>
     <var key="playlistAPI.kpl1Name" value="Most popular videos"/>
     <var key="kpl2EntryId" value="gxan7pfi74"/>
-    <var key="playlistAPI.kpl2Url" value="http%3A%2F%2Fwww.kaltura.com%2Findex.php%2Fpartnerservices2%2Fexecuteplaylist%3Fplaylist_id%3Dgxan7pfi74%26partner_id%3D99%26subp_id%3D9900%26format%3D8%26ks%3D%7Bks%7D"/>
+    <var key="playlistAPI.kpl2Url" value="http%3A%2F%2Fwww.borhan.com%2Findex.php%2Fpartnerservices2%2Fexecuteplaylist%3Fplaylist_id%3Dgxan7pfi74%26partner_id%3D99%26subp_id%3D9900%26format%3D8%26ks%3D%7Bks%7D"/>
     <var key="playlistAPI.kpl2Name" value="Most recent videos"/>
     <var key="video.keepAspectRatio" value="true"/>
     <var key="playlistAPI.autoContinue" value="false"/>

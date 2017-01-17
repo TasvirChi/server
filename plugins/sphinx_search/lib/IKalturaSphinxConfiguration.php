@@ -4,7 +4,7 @@
  * @package plugins.sphinxSearch
  * @subpackage lib
  */
-interface IKalturaSphinxConfiguration extends IKalturaBase
+interface IBorhanSphinxConfiguration extends IBorhanBase
 {	
 	/**
 	 * @return array of sphinx index schema to expand

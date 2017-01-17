@@ -67,7 +67,7 @@ abstract class baseObjectFilter extends myBaseObject
 	 const LIKE_BOTH = 2;
 	 */
 
-	const MATCH_KALTURA_NETWORK_AND_PRIVATE = "-1"; 
+	const MATCH_BORHAN_NETWORK_AND_PRIVATE = "-1"; 
 		
 	protected $partner_search_scope = null;
 		 
@@ -347,7 +347,7 @@ abstract class baseObjectFilter extends myBaseObject
 
 
 	/**
-	 * Will be used for the KCW's search - this is slightly different  
+	 * Will be used for the BCW's search - this is slightly different  
 	 *
 	 * @param Criteria $criteria
 	 * @param array $keys_to_search
@@ -375,15 +375,15 @@ abstract class baseObjectFilter extends myBaseObject
 		$against_str  = self::formatMySqlAgainst ( $keys_to_search , $operator , "," , self::MATCH_AND );
 
 		// depending on the partner_search_scope - alter the against_str 
-		if ( self::MATCH_KALTURA_NETWORK_AND_PRIVATE == $this->partner_search_scope )
+		if ( self::MATCH_BORHAN_NETWORK_AND_PRIVATE == $this->partner_search_scope )
 		{
 			// add nothing the the match
 		}
 		elseif ( $this->partner_search_scope == null  )
 		{
-			// the kaltura_netrowk keyword is mandatory !
+			// the borhan_netrowk keyword is mandatory !
 			// - find all the NOT partner only
-			//$against_str = "+" . mySearchUtils::getKalturaNetworkKeyword() . " " . $against_str;
+			//$against_str = "+" . mySearchUtils::getBorhanNetworkKeyword() . " " . $against_str;
 			$against_str = "-" . mySearchUtils::getPartnerOnlyKeyword() . " " . "-" . mySearchUtils::getPartnerNoneKeyword() . " " . $against_str;
 		}
 		else
@@ -565,7 +565,7 @@ abstract class baseObjectFilter extends myBaseObject
 	public final function attachToCriteria ( Criteria $criteria )
 	{
 		// later will call all filters attachToFinalCriteria before the doSelect
-		if($criteria instanceof KalturaCriteria)
+		if($criteria instanceof BorhanCriteria)
 			return $criteria->attachFilter($this);
 			
 		return $this->attachToFinalCriteria($criteria);
@@ -582,7 +582,7 @@ abstract class baseObjectFilter extends myBaseObject
 		{
 			$pos = strpos ( $field , baseObjectFilter::FILTER_PREFIX );
 
-//			KalturaLog::debug( "field [$field] prefix [" . baseObjectFilter::FILTER_PREFIX . "] name[$name]" );
+//			BorhanLog::debug( "field [$field] prefix [" . baseObjectFilter::FILTER_PREFIX . "] name[$name]" );
 
 			if ( $pos === 0 )
 			{
@@ -995,7 +995,7 @@ abstract class baseObjectFilter extends myBaseObject
 	}
 
 	/* (non-PHPdoc)
-	 * @see apps/kaltura/lib/myBaseObject#fillObjectFromXml()
+	 * @see apps/borhan/lib/myBaseObject#fillObjectFromXml()
 	 */
 	public function fillObjectFromXml ( SimpleXMLElement $simple_xml_node , $prefix_to_add , $exclude_params=null )
 	{
@@ -1011,7 +1011,7 @@ abstract class baseObjectFilter extends myBaseObject
 			if(isset($attr['type']) && class_exists($attr['type']) && is_subclass_of((string)$attr['type'], 'AdvancedSearchFilterItem'))
 			{
 				$type = (string) $attr['type'];
-				KalturaLog::debug("Advanced Search type[$type] and value[" . $simple_xml_node->advancedSearch->asXML() . "]");
+				BorhanLog::debug("Advanced Search type[$type] and value[" . $simple_xml_node->advancedSearch->asXML() . "]");
 				$this->advancedSearch = new $type();
 				$this->advancedSearch->fillObjectFromXml($simple_xml_node->advancedSearch);
 			}

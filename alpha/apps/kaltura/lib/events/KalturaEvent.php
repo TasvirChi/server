@@ -3,7 +3,7 @@
  * @package Core
  * @subpackage events
  */
-abstract class KalturaEvent
+abstract class BorhanEvent
 {
 	/**
 	 * @return string - name of consumer interface
@@ -12,10 +12,10 @@ abstract class KalturaEvent
 	
 	/**
 	 * Executes the consumer
-	 * @param KalturaEventConsumer $consumer
+	 * @param BorhanEventConsumer $consumer
 	 * @return bool true if should continue to the next consumer
 	 */
-	protected abstract function doConsume(KalturaEventConsumer $consumer);
+	protected abstract function doConsume(BorhanEventConsumer $consumer);
 
 	/**
 	 * @param kGenericEventConsumer $consumer
@@ -26,18 +26,18 @@ abstract class KalturaEvent
 		if(!$consumer->shouldConsumeEvent($this))
 			return true;
 
-		KalturaLog::debug('consumer [' . get_class($consumer) . '] started handling [' . get_class($this) . ']');
+		BorhanLog::debug('consumer [' . get_class($consumer) . '] started handling [' . get_class($this) . ']');
 		$result = $consumer->consumeEvent($this);
-		KalturaLog::debug('consumer [' . get_class($consumer) . '] finished handling [' . get_class($this) . ']');
+		BorhanLog::debug('consumer [' . get_class($consumer) . '] finished handling [' . get_class($this) . ']');
 		return $result;
 	}
 	
 	/**
 	 * Validate the consumer type and executes it
-	 * @param KalturaEventConsumer $consumer
+	 * @param BorhanEventConsumer $consumer
 	 * @return bool true if should continue to the next consumer
 	 */
-	public final function consume(KalturaEventConsumer $consumer)
+	public final function consume(BorhanEventConsumer $consumer)
 	{
 		$consumerType = $this->getConsumerInterface();	
 		if($consumer instanceof $consumerType)

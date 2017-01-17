@@ -16,12 +16,12 @@ class KWebexDropFolderEngine extends KDropFolderEngine
 	 */
 	protected $webexClient;
 	
-	public function watchFolder (KalturaDropFolder $dropFolder)
+	public function watchFolder (BorhanDropFolder $dropFolder)
 	{
-		/* @var $dropFolder KalturaWebexDropFolder */
+		/* @var $dropFolder BorhanWebexDropFolder */
 		$this->dropFolder = $dropFolder;
 		$this->webexClient = $this->initWebexClient();
-		KalturaLog::info('Watching folder ['.$this->dropFolder->id.']');
+		BorhanLog::info('Watching folder ['.$this->dropFolder->id.']');
 		
 		$startTime = null;
 		$endTime = null;
@@ -31,11 +31,11 @@ class KWebexDropFolderEngine extends KDropFolderEngine
 			$endTime = (date('m/j/Y H:i:s', time()+86400));
 		}
 		$physicalFiles = $this->listRecordings($startTime, $endTime);
-		KalturaLog::info('Recordings fetched: '.print_r($physicalFiles, true) );
+		BorhanLog::info('Recordings fetched: '.print_r($physicalFiles, true) );
 		
 		if (!count($physicalFiles))
 		{
-			KalturaLog::info('No new files to handle at this time');			
+			BorhanLog::info('No new files to handle at this time');			
 			return;
 		}
 		
@@ -46,7 +46,7 @@ class KWebexDropFolderEngine extends KDropFolderEngine
 			/* @var $physicalFile WebexXmlEpRecordingType */
 			if (in_array($physicalFile->getFormat(),self::$unsupported_file_formats))
 			{
-				KalturaLog::info('Recording with id [' . $physicalFile->getRecordingID() . '] format [' . $physicalFile->getFormat() . '] is incompatible with the Kaltura conversion processes. Ignoring.');
+				BorhanLog::info('Recording with id [' . $physicalFile->getRecordingID() . '] format [' . $physicalFile->getFormat() . '] is incompatible with the Borhan conversion processes. Ignoring.');
 				continue;
 			}
 			
@@ -55,39 +55,39 @@ class KWebexDropFolderEngine extends KDropFolderEngine
 			{
 				$this->handleFileAdded ($physicalFile);
 				$maxTime = max(strtotime($physicalFile->getCreateTime()), $maxTime);
-				KalturaLog::info("maxTime updated: $maxTime");
+				BorhanLog::info("maxTime updated: $maxTime");
 			}
 		}
 		
 		if ($this->dropFolder->incremental && $maxTime > $this->dropFolder->lastFileTimestamp)
 		{
-			$updateDropFolder = new KalturaDropFolder();
+			$updateDropFolder = new BorhanDropFolder();
 			$updateDropFolder->lastFileTimestamp = $maxTime;
 			$this->dropFolderPlugin->dropFolder->update($this->dropFolder->id, $updateDropFolder);
 		}
 		
-		if ($this->dropFolder->fileDeletePolicy != KalturaDropFolderFileDeletePolicy::MANUAL_DELETE)
+		if ($this->dropFolder->fileDeletePolicy != BorhanDropFolderFileDeletePolicy::MANUAL_DELETE)
 		{
 			$this->purgeFiles ($dropFolderFilesMap);
 		}
 		
 	}
 	
-	public function processFolder (KalturaBatchJob $job, KalturaDropFolderContentProcessorJobData $data)
+	public function processFolder (BorhanBatchJob $job, BorhanDropFolderContentProcessorJobData $data)
 	{
 		KBatchBase::impersonate ($job->partnerId);
 		
-		/* @var $data KalturaWebexDropFolderContentProcessorJobData */
+		/* @var $data BorhanWebexDropFolderContentProcessorJobData */
 		$dropFolder = $this->dropFolderPlugin->dropFolder->get ($data->dropFolderId);
 		//In the case of the webex drop folder engine, the only possible contentMatch policy is ADD_AS_NEW.
 		//Any other policy should cause an error.
 		switch ($data->contentMatchPolicy)
 		{
-			case KalturaDropFolderContentFileHandlerMatchPolicy::ADD_AS_NEW:
+			case BorhanDropFolderContentFileHandlerMatchPolicy::ADD_AS_NEW:
 				$this->addAsNewContent($job, $data, $dropFolder);
 				break;
 			default:
-				throw new kApplicativeException(KalturaDropFolderErrorCode::DROP_FOLDER_APP_ERROR, 'Content match policy not allowed for Webex drop folders');
+				throw new kApplicativeException(BorhanDropFolderErrorCode::DROP_FOLDER_APP_ERROR, 'Content match policy not allowed for Webex drop folders');
 				break;
 		}
 		
@@ -96,7 +96,7 @@ class KWebexDropFolderEngine extends KDropFolderEngine
 	
 	protected function listRecordings ($startTime = null, $endTime = null)
 	{
-		KalturaLog::info("Fetching list of recordings from Webex, startTime [$startTime], endTime [$endTime]");
+		BorhanLog::info("Fetching list of recordings from Webex, startTime [$startTime], endTime [$endTime]");
 		$fileList = array();
 		$startFrom = 1;
 		try{
@@ -129,7 +129,7 @@ class KWebexDropFolderEngine extends KDropFolderEngine
 		}
 		catch (Exception $e)
 		{
-			KalturaLog::err("Error occured: " . print_r($e, true));
+			BorhanLog::err("Error occured: " . print_r($e, true));
 			if ($e->getCode() != 15 && $e->getMessage() != 'Status: FAILURE, Reason: Sorry, no record found')
 			{
 				throw $e;
@@ -159,22 +159,22 @@ class KWebexDropFolderEngine extends KDropFolderEngine
 	{
 		$createTimeEnd = strtotime ("now") - ($this->dropFolder->autoFileDeleteDays*86400);
 		$fileList = $this->listRecordings(self::ZERO_DATE, date('m/j/Y H:i:s',$createTimeEnd));
-		KalturaLog::info("Files to delete: " . count($fileList));
+		BorhanLog::info("Files to delete: " . count($fileList));
 		
 		foreach ($fileList as $file)
 		{
 			$physicalFileName = $file->getName() . '_' . $file->getRecordingID();
 			if (!array_key_exists($physicalFileName, $dropFolderFilesMap))
 			{
-				KalturaLog::info("File with name $physicalFileName not handled yet. Ignoring");
+				BorhanLog::info("File with name $physicalFileName not handled yet. Ignoring");
 				continue;
 			}
 			
 			$dropFolderFile = $dropFolderFilesMap[$physicalFileName];
-			/* @var $dropFolderFile KalturaWebexDropFolderFile */
-			if (!in_array($dropFolderFile->status, array(KalturaDropFolderFileStatus::HANDLED, KalturaDropFolderFileStatus::DELETED)))
+			/* @var $dropFolderFile BorhanWebexDropFolderFile */
+			if (!in_array($dropFolderFile->status, array(BorhanDropFolderFileStatus::HANDLED, BorhanDropFolderFileStatus::DELETED)))
 			{
-				KalturaLog::info("File with name $physicalFileName not in final status. Ignoring");
+				BorhanLog::info("File with name $physicalFileName not in final status. Ignoring");
 				continue;
 			}
 			
@@ -185,12 +185,12 @@ class KWebexDropFolderEngine extends KDropFolderEngine
 			
 			try {
 				$response = $this->webexClient->send($deleteRecordingRequest);
-				KalturaLog::info("File [$physicalFileName] successfully purged. Purging drop folder file");
-				$this->dropFolderFileService->updateStatus($dropFolderFile->id, KalturaDropFolderFileStatus::PURGED);
+				BorhanLog::info("File [$physicalFileName] successfully purged. Purging drop folder file");
+				$this->dropFolderFileService->updateStatus($dropFolderFile->id, BorhanDropFolderFileStatus::PURGED);
 			}
 			catch (Exception $e)
 			{
-				KalturaLog::err('Error occured: ' . print_r($e, true));
+				BorhanLog::err('Error occured: ' . print_r($e, true));
 			}
 		}
 	}
@@ -200,7 +200,7 @@ class KWebexDropFolderEngine extends KDropFolderEngine
 	{
 		try 
 		{
-			$newDropFolderFile = new KalturaWebexDropFolderFile();
+			$newDropFolderFile = new BorhanWebexDropFolderFile();
 	    	$newDropFolderFile->dropFolderId = $this->dropFolder->id;
 	    	$newDropFolderFile->fileName = $webexFile->getName() . '_' . $webexFile->getRecordingID();
 	    	$newDropFolderFile->fileSize = $webexFile->getSize() * 1024*1024;
@@ -210,28 +210,28 @@ class KWebexDropFolderEngine extends KDropFolderEngine
 			$newDropFolderFile->recordingId = $webexFile->getRecordingID();
 			$newDropFolderFile->webexHostId = $webexFile->getHostWebExID();
 			$newDropFolderFile->contentUrl = $webexFile->getFileURL();
-			KalturaLog::debug('content url '. $newDropFolderFile->contentUrl . ' file url: ' .$webexFile->getFileURL() );
+			BorhanLog::debug('content url '. $newDropFolderFile->contentUrl . ' file url: ' .$webexFile->getFileURL() );
 			//No such thing as an 'uploading' webex drop folder file - if the file is detected, it is ready for upload. Immediately update status to 'pending'
 			KBatchBase::$kClient->startMultiRequest();
 			$dropFolderFile = $this->dropFolderFileService->add($newDropFolderFile);
-			$this->dropFolderFileService->updateStatus($dropFolderFile->id, KalturaDropFolderFileStatus::PENDING);
+			$this->dropFolderFileService->updateStatus($dropFolderFile->id, BorhanDropFolderFileStatus::PENDING);
 			$result = KBatchBase::$kClient->doMultiRequest();
 			
 			return $result[1];
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err('Cannot add new drop folder file with name ['.$webexFile->getName() . '_' . $webexFile->getRecordingID().'] - '.$e->getMessage());
+			BorhanLog::err('Cannot add new drop folder file with name ['.$webexFile->getName() . '_' . $webexFile->getRecordingID().'] - '.$e->getMessage());
 			return null;
 		}
 	}
 
-	protected function addAsNewContent (KalturaBatchJob $job, KalturaWebexDropFolderContentProcessorJobData $data, KalturaWebexDropFolder $folder)
+	protected function addAsNewContent (BorhanBatchJob $job, BorhanWebexDropFolderContentProcessorJobData $data, BorhanWebexDropFolder $folder)
 	{
-		/* @var $data KalturaWebexDropFolderContentProcessorJobData */
+		/* @var $data BorhanWebexDropFolderContentProcessorJobData */
 		$resource = $this->getIngestionResource($job, $data);
-		$newEntry = new KalturaMediaEntry();
-		$newEntry->mediaType = KalturaMediaType::VIDEO;
+		$newEntry = new BorhanMediaEntry();
+		$newEntry->mediaType = BorhanMediaType::VIDEO;
 		$newEntry->conversionProfileId = $data->conversionProfileId;
 		$newEntry->name = $data->parsedSlug;
 		$newEntry->description = $data->description;
@@ -244,7 +244,7 @@ class KWebexDropFolderEngine extends KDropFolderEngine
 		KBatchBase::$kClient->baseEntry->addContent($addedEntry->id, $resource);
 		$result = KBatchBase::$kClient->doMultiRequest();
 		
-		if ($result [1] && $result[1] instanceof KalturaBaseEntry)
+		if ($result [1] && $result[1] instanceof BorhanBaseEntry)
 		{
 			$entry = $result [1];
 			$this->createCategoryAssociations ($folder, $entry->userId, $entry->id);
@@ -252,20 +252,20 @@ class KWebexDropFolderEngine extends KDropFolderEngine
 	}
 
 	
-	protected function retrieveUserFromWebexHostId (KalturaWebexDropFolderContentProcessorJobData $data, KalturaWebexDropFolder $folder)
+	protected function retrieveUserFromWebexHostId (BorhanWebexDropFolderContentProcessorJobData $data, BorhanWebexDropFolder $folder)
 	{
 		if ($folder->metadataProfileId && $folder->webexHostIdMetadataFieldName && $data->webexHostId)
 		{
-			$filter = new KalturaUserFilter();
-			$filter->advancedSearch = new KalturaMetadataSearchItem();
+			$filter = new BorhanUserFilter();
+			$filter->advancedSearch = new BorhanMetadataSearchItem();
 			$filter->advancedSearch->metadataProfileId = $folder->metadataProfileId;
-			$webexHostIdSearchCondition = new KalturaSearchCondition();
+			$webexHostIdSearchCondition = new BorhanSearchCondition();
 			$webexHostIdSearchCondition->field = $folder->webexHostIdMetadataFieldName;
 			$webexHostIdSearchCondition->value = $data->webexHostId;
 			$filter->advancedSearch->items = array($webexHostIdSearchCondition);
 			try
 			{
-				$result = KBatchBase::$kClient->user->listAction ($filter, new KalturaFilterPager());
+				$result = KBatchBase::$kClient->user->listAction ($filter, new BorhanFilterPager());
 				
 				if ($result->totalCount)
 				{
@@ -275,7 +275,7 @@ class KWebexDropFolderEngine extends KDropFolderEngine
 			}
 			catch (Exception $e)
 			{
-				KalturaLog::err('Error encountered. Code: ['. $e->getCode() . '] Message: [' . $e->getMessage() . ']');
+				BorhanLog::err('Error encountered. Code: ['. $e->getCode() . '] Message: [' . $e->getMessage() . ']');
 			}
 
 		}

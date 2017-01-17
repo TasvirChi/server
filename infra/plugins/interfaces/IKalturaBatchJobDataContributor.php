@@ -4,7 +4,7 @@
  * @package infra
  * @subpackage Plugins
  */
-interface IKalturaBatchJobDataContributor extends IKalturaBase
+interface IBorhanBatchJobDataContributor extends IBorhanBase
 {
 	/**
 	 * Contribute to convert job data 

@@ -5,7 +5,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaSshUrlResource extends KalturaUrlResource
+class BorhanSshUrlResource extends BorhanUrlResource
 {
 	
 	/**
@@ -29,7 +29,7 @@ class KalturaSshUrlResource extends KalturaUrlResource
 	private static $map_between_objects = array('privateKey', 'publicKey', 'keyPassphrase');
 	
 	/* (non-PHPdoc)
-	 * @see KalturaUrlResource::getMapBetweenObjects()
+	 * @see BorhanUrlResource::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -37,16 +37,16 @@ class KalturaSshUrlResource extends KalturaUrlResource
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaContentResource::validateAsset()
+	 * @see BorhanContentResource::validateAsset()
 	 */
 	public function validateAsset(asset $dbAsset)
 	{
 		if(!($dbAsset instanceof flavorAsset))
-			throw new KalturaAPIException(KalturaErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($this));
+			throw new BorhanAPIException(BorhanErrors::RESOURCE_TYPE_NOT_SUPPORTED, get_class($this));
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaUrlResource::toObject()
+	 * @see BorhanUrlResource::toObject()
 	 */
 	public function toObject($object_to_fill = null, $props_to_skip = array())
 	{

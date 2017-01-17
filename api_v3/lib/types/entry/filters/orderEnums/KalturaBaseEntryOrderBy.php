@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters.enum
  */
-class KalturaBaseEntryOrderBy extends KalturaStringEnum
+class BorhanBaseEntryOrderBy extends BorhanStringEnum
 {
 	const NAME_ASC = "+name";
 	const NAME_DESC = "-name";

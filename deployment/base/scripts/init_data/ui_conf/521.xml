@@ -2,15 +2,15 @@
 <layouts>
 	<!-- Player Only -->
 	<layout layoutId="playerOnly"
-		skinPath="/content/uiconf/kaltura/wordpress/kdp_1.1.11/skin_kdp_wordpress_dark.swf">
+		skinPath="/content/uiconf/borhan/wordpress/bdp_1.1.11/skin_bdp_wordpress_dark.swf">
 		<VBox height="100%" styleName="mlayout" width="100%">
 			<HBox height="30" styleName="TopTitle" width="100%">
 				<Label height="22" id="movieName"
-					label="{myKplayer.kalturaShow.kshowName,myKplayer.kalturaEntry.entryName,''}"
+					label="{myKplayer.borhanShow.kshowName,myKplayer.borhanEntry.entryName,''}"
 					styleName="movieName" width="100%" />
-				<Button height="20" id="kalturaLogo"
-					k_click="navigate:http://corp.kaltura.com/wordpress_video_plugin?general&amp;campaign=wordpress_plugin"
-					styleName="kalturaLogo" width="40" />
+				<Button height="20" id="borhanLogo"
+					k_click="navigate:http://corp.borhan.com/wordpress_video_plugin?general&amp;campaign=wordpress_plugin"
+					styleName="borhanLogo" width="40" />
 			</HBox>
 			<HBox height="100%" styleName="playerContainer" width="100%">
 				<Canvas height="100%" id="marginLeft" styleName="playerMarginLeft"
@@ -149,15 +149,15 @@
 	</layout>
 	<!--  Full -->
 	<layout layoutId="full"
-		skinPath="/content/uiconf/kaltura/wordpress/kdp_1.1.11/skin_kdp_wordpress_dark.swf">
+		skinPath="/content/uiconf/borhan/wordpress/bdp_1.1.11/skin_bdp_wordpress_dark.swf">
 		<VBox height="100%" styleName="mlayout" width="100%">
 			<HBox height="30" styleName="TopTitle" width="100%">
 				<Label height="22" id="movieName"
-					label="{myKplayer.kalturaShow.kshowName,myKplayer.kalturaEntry.entryName,''}"
+					label="{myKplayer.borhanShow.kshowName,myKplayer.borhanEntry.entryName,''}"
 					styleName="movieName" width="100%" />
-				<Button height="20" id="kalturaLogo"
-					k_click="navigate:http://corp.kaltura.com/wordpress_video_plugin?general&amp;campaign=wordpress_plugin"
-					styleName="kalturaLogo" width="40" />
+				<Button height="20" id="borhanLogo"
+					k_click="navigate:http://corp.borhan.com/wordpress_video_plugin?general&amp;campaign=wordpress_plugin"
+					styleName="borhanLogo" width="40" />
 			</HBox>
 			<HBox height="100%" styleName="playerContainer" width="100%">
 				<Canvas height="100%" id="marginLeft" styleName="playerMarginLeft"
@@ -321,15 +321,15 @@
 	</layout>
 	<!--  Add Only -->
 	<layout layoutId="addOnly"
-		skinPath="/content/uiconf/kaltura/wordpress/kdp_1.1.11/skin_kdp_wordpress_dark.swf">
+		skinPath="/content/uiconf/borhan/wordpress/bdp_1.1.11/skin_bdp_wordpress_dark.swf">
 		<VBox height="100%" styleName="mlayout" width="100%">
 			<HBox height="30" styleName="TopTitle" width="100%">
 				<Label height="22" id="movieName"
-					label="{myKplayer.kalturaShow.kshowName,myKplayer.kalturaEntry.entryName,''}"
+					label="{myKplayer.borhanShow.kshowName,myKplayer.borhanEntry.entryName,''}"
 					styleName="movieName" width="100%" />
-				<Button height="20" id="kalturaLogo"
-					k_click="navigate:http://corp.kaltura.com/wordpress_video_plugin?general&amp;campaign=wordpress_plugin"
-					styleName="kalturaLogo" width="40" />
+				<Button height="20" id="borhanLogo"
+					k_click="navigate:http://corp.borhan.com/wordpress_video_plugin?general&amp;campaign=wordpress_plugin"
+					styleName="borhanLogo" width="40" />
 			</HBox>
 			<HBox height="100%" styleName="playerContainer" width="100%">
 				<Canvas height="100%" id="marginLeft" styleName="playerMarginLeft"
@@ -481,13 +481,13 @@
 	</layout>
 	<!-- Tiny Player -->
 	<layout layoutId="tinyPlayer"
-		skinPath="/content/uiconf/kaltura/wordpress/kdp_1.1.11/skin_kdp_wordpress_dark.swf">
+		skinPath="/content/uiconf/borhan/wordpress/bdp_1.1.11/skin_bdp_wordpress_dark.swf">
 		<VBox height="100%" styleName="mlayout" width="100%">
 			<HBox height="30" styleName="TopTitle" width="100%">
 				<Spacer width="100%" />
-				<Button height="20" id="kalturaLogo"
-					k_click="navigate:http://corp.kaltura.com/wordpress_video_plugin?general&amp;campaign=wordpress_plugin"
-					styleName="kalturaLogo" width="40" />
+				<Button height="20" id="borhanLogo"
+					k_click="navigate:http://corp.borhan.com/wordpress_video_plugin?general&amp;campaign=wordpress_plugin"
+					styleName="borhanLogo" width="40" />
 			</HBox>
 			<HBox height="100%" styleName="playerContainer" width="100%">
 				<Canvas height="100%" id="marginLeft" styleName="playerMarginLeft"

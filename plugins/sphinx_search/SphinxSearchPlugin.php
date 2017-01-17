@@ -2,7 +2,7 @@
 /**
  * @package plugins.sphinxSearch
  */
-class SphinxSearchPlugin extends KalturaPlugin implements IKalturaEventConsumers, IKalturaCriteriaFactory
+class SphinxSearchPlugin extends BorhanPlugin implements IBorhanEventConsumers, IBorhanCriteriaFactory
 {
 	const PLUGIN_NAME = 'sphinxSearch';
 	const SPHINX_SEARCH_MANAGER = 'kSphinxSearchManager';
@@ -23,12 +23,12 @@ class SphinxSearchPlugin extends KalturaPlugin implements IKalturaEventConsumers
 	}
 	
 	/**
-	 * Creates a new KalturaCriteria for the given object name
+	 * Creates a new BorhanCriteria for the given object name
 	 * 
 	 * @param string $objectType object type to create Criteria for.
-	 * @return KalturaCriteria derived object
+	 * @return BorhanCriteria derived object
 	 */
-	public static function getKalturaCriteria($objectType)
+	public static function getBorhanCriteria($objectType)
 	{
 		if ($objectType == "entry")
 			return new SphinxEntryCriteria();

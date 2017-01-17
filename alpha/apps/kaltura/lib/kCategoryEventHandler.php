@@ -27,12 +27,12 @@ class kCategoryEventHandler implements kObjectDeletedEventConsumer, kObjectCreat
 		$currentAggregationCategories = explode (',', $object->getAggregationCategories());
 		
 		$aggregationCategoriesToAdd = array_diff($currentAggregationCategories, $oldAggregationCategories);
-		KalturaLog::info ("Copying entries from category ID [" . $object->getId() . "] to aggregation channels: " . print_r($aggregationCategoriesToAdd, true));
+		BorhanLog::info ("Copying entries from category ID [" . $object->getId() . "] to aggregation channels: " . print_r($aggregationCategoriesToAdd, true));
 		$this->addToAggregationCategories($object, $aggregationCategoriesToAdd);
 		
 		$aggregationCategoriesToRemove = array_diff ($oldAggregationCategories, $currentAggregationCategories);
 		
-		KalturaLog::info ("Removing entries from category ID [" . $object->getId() . "] to aggregation channels: " . print_r($aggregationCategoriesToRemove, true));
+		BorhanLog::info ("Removing entries from category ID [" . $object->getId() . "] to aggregation channels: " . print_r($aggregationCategoriesToRemove, true));
 		$this->deleteFromAggregationChannels ($object, $aggregationCategoriesToRemove);
 		
 	}
@@ -102,7 +102,7 @@ class kCategoryEventHandler implements kObjectDeletedEventConsumer, kObjectCreat
 	{
 		if (!$object->getAggregationCategories())
 		{
-			KalturaLog::info ("Category [" . $object->getId() . "] has no aggregation channels" );
+			BorhanLog::info ("Category [" . $object->getId() . "] has no aggregation channels" );
 			return true;
 		}
 		
@@ -132,13 +132,13 @@ class kCategoryEventHandler implements kObjectDeletedEventConsumer, kObjectCreat
 		$category = categoryPeer::retrieveByPK($object->getCategoryId());
 		if (!$category)
 		{
-			KalturaLog::info("category [" . $object->getCategoryId() . "] does not exist in the system.");
+			BorhanLog::info("category [" . $object->getCategoryId() . "] does not exist in the system.");
 			return;
 		}
 		
 		if (!$category->getAggregationCategories())
 		{
-			KalturaLog::info("No aggregation categories found for category [" . $category->getId() . "]");
+			BorhanLog::info("No aggregation categories found for category [" . $category->getId() . "]");
 			return;
 		}
 		
@@ -203,7 +203,7 @@ class kCategoryEventHandler implements kObjectDeletedEventConsumer, kObjectCreat
 	{
 		if (!$object->getAggregationCategories())
 		{
-			KalturaLog::info ("Category [" . $object->getId() . "] has no aggregation channels" );
+			BorhanLog::info ("Category [" . $object->getId() . "] has no aggregation channels" );
 			return true;
 		}
 		
@@ -215,19 +215,19 @@ class kCategoryEventHandler implements kObjectDeletedEventConsumer, kObjectCreat
 		$category = categoryPeer::retrieveByPK($object->getCategoryId());
 		if (!$category)
 		{
-			KalturaLog::info("category [" . $object->getCategoryId() . "] does not exist in the system.");
+			BorhanLog::info("category [" . $object->getCategoryId() . "] does not exist in the system.");
 			return true;
 		}
 		
 		if (!$category->getAggregationCategories())
 		{
-			KalturaLog::info("No aggregation categories found for category [" . $category->getId() . "]");
+			BorhanLog::info("No aggregation categories found for category [" . $category->getId() . "]");
 			return true;
 		}
 		//If this categoryEntry was deleted because its category was deleted, this will be handled later on.
 		if ($category->getStatus() == CategoryStatus::DELETED || $category->getStatus() == CategoryStatus::PURGED)
 		{
-			KalturaLog::info("Category ID [" . $category->getId() . "] is deleted, its deleted entries will be handled separately");
+			BorhanLog::info("Category ID [" . $category->getId() . "] is deleted, its deleted entries will be handled separately");
 			return true;
 		}
 		
@@ -251,7 +251,7 @@ class kCategoryEventHandler implements kObjectDeletedEventConsumer, kObjectCreat
 			
 			if (!count ($aggregationCategories))
 			{
-				KalturaLog::info("No need to delete any aggregation category associations.");
+				BorhanLog::info("No need to delete any aggregation category associations.");
 				return true;
 			}
 		}
@@ -262,7 +262,7 @@ class kCategoryEventHandler implements kObjectDeletedEventConsumer, kObjectCreat
 			foreach ($aggregationCategoryEntries as $aggregationCategoryEntry)
 			{
 				/* @var $aggregationCategoryEntry categoryEntry */
-				KalturaLog::info("Delete aggregation category entry- entry ID [" . $aggregationCategoryEntry->getEntryId() . "], category ID [" . $aggregationCategoryEntry->getCategoryId() . "]");
+				BorhanLog::info("Delete aggregation category entry- entry ID [" . $aggregationCategoryEntry->getEntryId() . "], category ID [" . $aggregationCategoryEntry->getCategoryId() . "]");
 				$aggregationCategoryEntry->setStatus(CategoryEntryStatus::DELETED);
 				$aggregationCategoryEntry->save();
 			}

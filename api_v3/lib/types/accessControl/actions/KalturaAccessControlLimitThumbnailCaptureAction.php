@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaAccessControlLimitThumbnailCaptureAction extends KalturaRuleAction
+class BorhanAccessControlLimitThumbnailCaptureAction extends BorhanRuleAction
 {
 	/**
 	 * Init object type
@@ -14,7 +14,7 @@ class KalturaAccessControlLimitThumbnailCaptureAction extends KalturaRuleAction
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

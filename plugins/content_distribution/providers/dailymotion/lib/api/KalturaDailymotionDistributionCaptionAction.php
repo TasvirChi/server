@@ -3,7 +3,7 @@
  * @package plugins.dailymotionDistribution
  * @subpackage lib
  */
-class KalturaDailymotionDistributionCaptionAction extends KalturaEnum
+class BorhanDailymotionDistributionCaptionAction extends BorhanEnum
 {
 	const UPDATE_ACTION = 1;
 	const SUBMIT_ACTION = 2;

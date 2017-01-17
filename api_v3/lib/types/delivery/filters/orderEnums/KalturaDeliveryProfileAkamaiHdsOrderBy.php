@@ -3,6 +3,6 @@
  * @package api
  * @subpackage filters.enum
  */
-class KalturaDeliveryProfileAkamaiHdsOrderBy extends KalturaDeliveryProfileOrderBy
+class BorhanDeliveryProfileAkamaiHdsOrderBy extends BorhanDeliveryProfileOrderBy
 {
 }

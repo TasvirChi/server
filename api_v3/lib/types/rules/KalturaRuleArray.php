@@ -3,18 +3,18 @@
  * @package api
  * @subpackage objects
  */
-class KalturaRuleArray extends KalturaTypedArray
+class BorhanRuleArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		KalturaLog::debug(print_r($arr, true));
-		$newArr = new KalturaRuleArray();
+		BorhanLog::debug(print_r($arr, true));
+		$newArr = new BorhanRuleArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-    		$nObj = new KalturaRule();
+    		$nObj = new BorhanRule();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -24,6 +24,6 @@ class KalturaRuleArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaRule");	
+		parent::__construct("BorhanRule");	
 	}
 }

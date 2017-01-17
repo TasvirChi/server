@@ -16,7 +16,7 @@ class KSchedularTaskConfig extends Zend_Config_Ini
 		
 		if($this->filter)
 		{
-			$filter = new KalturaBatchJobFilter();
+			$filter = new BorhanBatchJobFilter();
 			foreach($this->filter as $attr => $value)
 				$filter->$attr = $value;
 				
@@ -158,7 +158,7 @@ class KSchedularTaskConfig extends Zend_Config_Ini
 			if($socket)
 				return $socket;
 			
-			KalturaLog::err("Open socket failed: $errstr");
+			BorhanLog::err("Open socket failed: $errstr");
 		}
 		
 		return $this->dwhPath;

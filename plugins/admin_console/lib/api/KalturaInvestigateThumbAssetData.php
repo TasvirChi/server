@@ -3,28 +3,28 @@
  * @package plugins.adminConsole
  * @subpackage api.objects
  */
-class KalturaInvestigateThumbAssetData extends KalturaObject
+class BorhanInvestigateThumbAssetData extends BorhanObject
 {
 	/**
-	 * @var KalturaThumbAsset
+	 * @var BorhanThumbAsset
 	 * @readonly
 	 */
 	public $thumbAsset;
 
 	/**
-	 * @var KalturaFileSyncListResponse
+	 * @var BorhanFileSyncListResponse
 	 * @readonly
 	 */
 	public $fileSyncs;
 
 	/**
-	 * @var KalturaThumbParams
+	 * @var BorhanThumbParams
 	 * @readonly
 	 */
 	public $thumbParams;
 
 	/**
-	 * @var KalturaThumbParamsOutputListResponse
+	 * @var BorhanThumbParamsOutputListResponse
 	 * @readonly
 	 */
 	public $thumbParamsOutputs;

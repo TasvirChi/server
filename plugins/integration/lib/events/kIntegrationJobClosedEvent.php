@@ -3,7 +3,7 @@
  * @package plugins.integration
  * @subpackage lib.events
  */
-class kIntegrationJobClosedEvent extends KalturaEvent implements IKalturaObjectRelatedEvent, IKalturaBatchJobRelatedEvent, IKalturaContinualEvent
+class kIntegrationJobClosedEvent extends BorhanEvent implements IBorhanObjectRelatedEvent, IBorhanBatchJobRelatedEvent, IBorhanContinualEvent
 {
 	const EVENT_CONSUMER = 'kIntegrationJobClosedEventConsumer';
 
@@ -19,11 +19,11 @@ class kIntegrationJobClosedEvent extends KalturaEvent implements IKalturaObjectR
 	{
 		$this->batchJob = $batchJob;
 		
-		KalturaLog::debug("Event [" . get_class($this) . "] batch-job id [" . $batchJob->getId() . "] status [" . $batchJob->getStatus() . "]");
+		BorhanLog::debug("Event [" . get_class($this) . "] batch-job id [" . $batchJob->getId() . "] status [" . $batchJob->getStatus() . "]");
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaEvent::getConsumerInterface()
+	 * @see BorhanEvent::getConsumerInterface()
 	 */
 	public function getConsumerInterface()
 	{
@@ -31,16 +31,16 @@ class kIntegrationJobClosedEvent extends KalturaEvent implements IKalturaObjectR
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaEvent::doConsume()
+	 * @see BorhanEvent::doConsume()
 	 */
-	protected function doConsume(KalturaEventConsumer $consumer)
+	protected function doConsume(BorhanEventConsumer $consumer)
 	{
 		if(!$consumer->shouldConsumeIntegrationCloseEvent($this->object, $this->modifiedColumns))
 			return true;
 			
-		KalturaLog::debug('consumer [' . get_class($consumer) . '] started handling [' . get_class($this) . '] batch-job id [' . $this->batchJob->getId() . '] status [' . $this->batchJob->getStatus() . ']');
+		BorhanLog::debug('consumer [' . get_class($consumer) . '] started handling [' . get_class($this) . '] batch-job id [' . $this->batchJob->getId() . '] status [' . $this->batchJob->getStatus() . ']');
 		$result = $consumer->integrationJobClosed($this->batchJob);
-		KalturaLog::debug('consumer [' . get_class($consumer) . '] finished handling [' . get_class($this) . '] batch-job id [' . $this->batchJob->getId() . '] status [' . $this->batchJob->getStatus() . ']');
+		BorhanLog::debug('consumer [' . get_class($consumer) . '] finished handling [' . get_class($this) . '] batch-job id [' . $this->batchJob->getId() . '] status [' . $this->batchJob->getStatus() . ']');
 		return $result;
 	}
 
@@ -53,7 +53,7 @@ class kIntegrationJobClosedEvent extends KalturaEvent implements IKalturaObjectR
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectRelatedEvent::getObject()
+	 * @see IBorhanObjectRelatedEvent::getObject()
 	 */
 	public function getObject()
 	{
@@ -61,7 +61,7 @@ class kIntegrationJobClosedEvent extends KalturaEvent implements IKalturaObjectR
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaEvent::getScope()
+	 * @see BorhanEvent::getScope()
 	 */
 	public function getScope()
 	{

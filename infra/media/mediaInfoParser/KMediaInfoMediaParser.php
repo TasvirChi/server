@@ -23,7 +23,7 @@ class KMediaInfoMediaParser extends KBaseMediaParser
 	}
 	
 	/**
-	 * @return KalturaMediaInfo
+	 * @return BorhanMediaInfo
 	 */
 	public function getMediaInfo()
 	{
@@ -38,7 +38,7 @@ class KMediaInfoMediaParser extends KBaseMediaParser
 		}
 		catch(Exception $ex)
 		{
-			KalturaLog::log(print_r($ex,1));
+			BorhanLog::log(print_r($ex,1));
 		}
 				
 		$output = $this->getRawMediaInfo();
@@ -46,7 +46,7 @@ class KMediaInfoMediaParser extends KBaseMediaParser
 
 		if(!isset($kMi)) {
 			$compareStr = self::compareFields($kMi, $ffMi);
-			KalturaLog::log("compareFields(".(isset($compareStr)?$compareStr:"IDENTICAL")."), file($this->filePath)");
+			BorhanLog::log("compareFields(".(isset($compareStr)?$compareStr:"IDENTICAL")."), file($this->filePath)");
 			return $ffMi;
 		}
 			/*
@@ -116,7 +116,7 @@ class KMediaInfoMediaParser extends KBaseMediaParser
 			 */
 			if(!self::isAudioSet($kMi) && !self::isVideoSet($kMi) && $kMi->containerFormat!="arf"){
 				$compareStr = self::compareFields($kMi, $ffMi);
-				KalturaLog::log("compareFields(".(isset($compareStr)?$compareStr:"IDENTICAL")."), file($this->filePath)");
+				BorhanLog::log("compareFields(".(isset($compareStr)?$compareStr:"IDENTICAL")."), file($this->filePath)");
 				return $ffMi;
 			}
 			
@@ -153,7 +153,7 @@ class KMediaInfoMediaParser extends KBaseMediaParser
 			$kMi->contentStreams = $ffMi->contentStreams;
 		}	
 		$compareStr = self::compareFields($kMi, $ffMi);
-		KalturaLog::log("compareFields(".(isset($compareStr)?$compareStr:"IDENTICAL")."), file($this->filePath)");
+		BorhanLog::log("compareFields(".(isset($compareStr)?$compareStr:"IDENTICAL")."), file($this->filePath)");
 		return $kMi;
 	}
 	
@@ -166,7 +166,7 @@ class KMediaInfoMediaParser extends KBaseMediaParser
 	{
 		$output = kXml::stripXMLInvalidChars($output);
 		$tokenizer = new KStringTokenizer ( $output, "\t\n" );
-		$mediaInfo = new KalturaMediaInfo();
+		$mediaInfo = new BorhanMediaInfo();
 		$mediaInfo->rawData = $output;
 		
 		$fieldCnt = 0;
@@ -181,7 +181,7 @@ class KMediaInfoMediaParser extends KBaseMediaParser
 			{
 				if(isset($streamMediaInfo))
 					$mediaInfo->streamArray[$section][]=$streamMediaInfo;
-				$streamMediaInfo = new KalturaMediaInfo();
+				$streamMediaInfo = new BorhanMediaInfo();
 				$sectionID = strchr($tok,"#");
 				if($sectionID) {
 					$sectionID = trim($sectionID,"#"); 
@@ -223,7 +223,7 @@ class KMediaInfoMediaParser extends KBaseMediaParser
 				return $mediaInfo;
 			}
 			else {
-				$m = new KalturaMediaInfo();
+				$m = new BorhanMediaInfo();
 				$m->rawData = $mediaInfo->rawData;
 				$m->fileSize = $mediaInfo->fileSize;
 				$m->containerFormat = "arf";
@@ -243,7 +243,7 @@ class KMediaInfoMediaParser extends KBaseMediaParser
 	 * @param string $section
 	 * @param string $tok
 	 */
-	private static function loadStreamMedia(KalturaMediaInfo $mediaInfo, $section, $tok) 
+	private static function loadStreamMedia(BorhanMediaInfo $mediaInfo, $section, $tok) 
 	{
 		$key = trim(substr($tok, 0, strpos($tok, ":")));
 		$val = trim(substr(strstr($tok, ":"), 1));
@@ -266,7 +266,7 @@ class KMediaInfoMediaParser extends KBaseMediaParser
 	 * @param string $key
 	 * @param string $val
 	 */
-	private static function loadAudioSet(KalturaMediaInfo $mediaInfo, $key, $val) 
+	private static function loadAudioSet(BorhanMediaInfo $mediaInfo, $key, $val) 
 	{
 		switch($key) 
 		{
@@ -305,7 +305,7 @@ class KMediaInfoMediaParser extends KBaseMediaParser
 	 * @param string $key
 	 * @param string $val
 	 */
-	private static function loadVideoSet(KalturaMediaInfo $mediaInfo, $key, $val) 
+	private static function loadVideoSet(BorhanMediaInfo $mediaInfo, $key, $val) 
 	{
 		switch($key) 
 		{
@@ -386,7 +386,7 @@ class KMediaInfoMediaParser extends KBaseMediaParser
 	 * @param $key
 	 * @param $val
 	 */
-	private static function loadContainerSet(KalturaMediaInfo $mediaInfo, $key, $val) 
+	private static function loadContainerSet(BorhanMediaInfo $mediaInfo, $key, $val) 
 	{
 		switch($key) 
 		{

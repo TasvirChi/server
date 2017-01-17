@@ -3,7 +3,7 @@
  * @package plugins.scheduleDropFolder
  * @subpackage lib
  */
-class DropFolderScheduleType implements IKalturaPluginEnum, BulkUploadType
+class DropFolderScheduleType implements IBorhanPluginEnum, BulkUploadType
 {
 	const DROP_FOLDER_ICAL = 'DROP_FOLDER_ICAL';
 	

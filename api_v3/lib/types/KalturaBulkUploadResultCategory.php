@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaBulkUploadResultCategory extends KalturaBulkUploadResult
+class BorhanBulkUploadResultCategory extends BorhanBulkUploadResult
 {
     /**
      * @var string

@@ -93,9 +93,9 @@ function cUrl($url, $localFilePath, &$headers, $followLocation = true)
 	return $errCode;
 }
 
-require_once realpath(__DIR__ . '/../../') . '/lib/KalturaClient.php';
+require_once realpath(__DIR__ . '/../../') . '/lib/BorhanClient.php';
 
-class SanityTestLogger implements IKalturaLogger
+class SanityTestLogger implements IBorhanLogger
 {
 	function log($msg)
 	{
@@ -103,9 +103,9 @@ class SanityTestLogger implements IKalturaLogger
 	}
 }
 
-$clientConfig = new KalturaConfiguration();
+$clientConfig = new BorhanConfiguration();
 $clientConfig->setLogger(new SanityTestLogger());
 foreach($config['client'] as $field => $value)
 	$clientConfig->$field = $value;
 
-$client = new KalturaClient($clientConfig);
+$client = new BorhanClient($clientConfig);

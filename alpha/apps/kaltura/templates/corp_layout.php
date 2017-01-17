@@ -16,7 +16,7 @@ if (!isset($activeTab))
 	<div id="wrap">
 		<div id="header">
 			<div class="leftSide"></div>
-			<a href="<?php echo url_for('/corp'); ?>" class="logo" title="Kaltura &ndash; Creating Together"></a>
+			<a href="<?php echo url_for('/corp'); ?>" class="logo" title="Borhan &ndash; Creating Together"></a>
 			<ul class="userMenu">	
 				<li class="last"><a href='<?php echo url_for('/corp/contact'); ?>'>Contact</a></li>
 				<?php
@@ -45,7 +45,7 @@ if (!isset($activeTab))
 </div>
 <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=searchbox_014173296589949272966%3Auncsmpomy4e&lang=en"></script>
 <!-- Google CSE Search Box Ends -->
-			<div class="search"><input type="text" id="navBarSearchInput" value="Search Kaltura" /><div id="navBarSearcGo"></div></div>
+			<div class="search"><input type="text" id="navBarSearchInput" value="Search Borhan" /><div id="navBarSearcGo"></div></div>
 			<ul class="navMenu <?php if ($activeTab == "home") echo "corpHome"; ?>">
 				<?php
 					$tabs = array("solutions_overview" => "Solutions",
@@ -78,7 +78,7 @@ if (!isset($activeTab))
 	<div id="footer" class="clearfix">
 		<div class="content">
 			<p>
-				Copyright © 2008 Kaltura Inc. 
+				Copyright © 2008 Borhan Inc. 
 				<br/>
 				All Rights Reserved. Designated trademarks and brands are the property of their respective owners.
 				<br/>
@@ -95,8 +95,8 @@ if (!isset($activeTab))
 		</div>
 		<ul>
 			<li><a href="<?php echo url_for('/corp/news'); ?>">News</a></li>
-			<li><a href='http://kaltura.com/blog/'>Blog</a></li>
-			<li><a href='http://www.kaltura.com/wiki/index.php/'>Developers Wiki</a></li>
+			<li><a href='http://borhan.com/blog/'>Blog</a></li>
+			<li><a href='http://www.borhan.com/wiki/index.php/'>Developers Wiki</a></li>
 			<li><a href="<?php echo url_for('/corp/contact'); ?>">Contact Us</a></li>	
 		</ul>
 	</div><!-- end footer-->

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-abstract class KalturaLiveEntry extends KalturaMediaEntry
+abstract class BorhanLiveEntry extends BorhanMediaEntry
 {
 	/**
 	 * The message to be presented when the stream is offline
@@ -14,13 +14,13 @@ abstract class KalturaLiveEntry extends KalturaMediaEntry
 	
 	/**
 	 * Recording Status Enabled/Disabled
-	 * @var KalturaRecordStatus
+	 * @var BorhanRecordStatus
 	 */
 	public $recordStatus;
 	
 	/**
 	 * DVR Status Enabled/Disabled
-	 * @var KalturaDVRStatus
+	 * @var BorhanDVRStatus
 	 */
 	public $dvrStatus;
 	
@@ -38,7 +38,7 @@ abstract class KalturaLiveEntry extends KalturaMediaEntry
 
 	/**
 	 * Array of key value protocol->live stream url objects
-	 * @var KalturaLiveStreamConfigurationArray
+	 * @var BorhanLiveStreamConfigurationArray
 	 */
 	public $liveStreamConfigurations;
 	
@@ -53,7 +53,7 @@ abstract class KalturaLiveEntry extends KalturaMediaEntry
 	/**
 	 * Flag denoting whether entry should be published by the media server
 	 * 
-	 * @var KalturaLivePublishStatus
+	 * @var BorhanLivePublishStatus
 	 * @requiresPermission all
 	 */
 	public $pushPublishEnabled;
@@ -61,7 +61,7 @@ abstract class KalturaLiveEntry extends KalturaMediaEntry
 	/**
 	 * Array of publish configurations
 	 * 
-	 * @var KalturaLiveStreamPushPublishConfigurationArray
+	 * @var BorhanLiveStreamPushPublishConfigurationArray
 	 * @requiresPermission all
 	 */
 	public $publishConfigurations;
@@ -89,15 +89,15 @@ abstract class KalturaLiveEntry extends KalturaMediaEntry
 	public $currentBroadcastStartTime;
 
 	/**
-	 * @var KalturaLiveEntryRecordingOptions
+	 * @var BorhanLiveEntryRecordingOptions
 	 */
 	public $recordingOptions;
 
 	/**
 	 * the status of the entry of type EntryServerNodeStatus
-	 * @var KalturaEntryServerNodeStatus
+	 * @var BorhanEntryServerNodeStatus
 	 * @readonly
-	 * @deprecated use KalturaLiveStreamService.isLive instead
+	 * @deprecated use BorhanLiveStreamService.isLive instead
 	 */
 	public $liveStatus;
 
@@ -120,7 +120,7 @@ abstract class KalturaLiveEntry extends KalturaMediaEntry
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaMediaEntry::getMapBetweenObjects()
+	 * @see BorhanMediaEntry::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -131,11 +131,11 @@ abstract class KalturaLiveEntry extends KalturaMediaEntry
 	{
 		if(is_null($this->recordStatus))
 		{
-			$this->recordStatus = KalturaRecordStatus::DISABLED;
+			$this->recordStatus = BorhanRecordStatus::DISABLED;
 			if(PermissionPeer::isValidForPartner(PermissionName::FEATURE_LIVE_STREAM_RECORD, kCurrentContext::getCurrentPartnerId()) ||
-				PermissionPeer::isValidForPartner(PermissionName::FEATURE_LIVE_STREAM_KALTURA_RECORDING, kCurrentContext::getCurrentPartnerId()) )
+				PermissionPeer::isValidForPartner(PermissionName::FEATURE_LIVE_STREAM_BORHAN_RECORDING, kCurrentContext::getCurrentPartnerId()) )
 			{
-				$this->recordStatus = KalturaRecordStatus::APPENDED;
+				$this->recordStatus = BorhanRecordStatus::APPENDED;
 			}
 		}
 			
@@ -145,7 +145,7 @@ abstract class KalturaLiveEntry extends KalturaMediaEntry
 		{
 			if (is_null($this->recordingOptions))
 			{
-				$this->recordingOptions = new KalturaLiveEntryRecordingOptions();
+				$this->recordingOptions = new BorhanLiveEntryRecordingOptions();
 			}
 			$this->recordingOptions->shouldCopyEntitlement = true;
 		}
@@ -153,9 +153,9 @@ abstract class KalturaLiveEntry extends KalturaMediaEntry
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaMediaEntry::fromObject()
+	 * @see BorhanMediaEntry::fromObject()
 	 */
-	public function doFromObject($dbObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($dbObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		if(!($dbObject instanceof LiveEntry))
 			return;
@@ -164,7 +164,7 @@ abstract class KalturaLiveEntry extends KalturaMediaEntry
 
 		if($this->shouldGet('recordingOptions', $responseProfile) && !is_null($dbObject->getRecordingOptions()))
 		{
-			$this->recordingOptions = new KalturaLiveEntryRecordingOptions();
+			$this->recordingOptions = new BorhanLiveEntryRecordingOptions();
 			$this->recordingOptions->fromObject($dbObject->getRecordingOptions());
 		}
 	}
@@ -175,12 +175,12 @@ abstract class KalturaLiveEntry extends KalturaMediaEntry
 		{
 			$conversionProfile = conversionProfile2Peer::retrieveByPK($this->conversionProfileId);
 			if(!$conversionProfile || $conversionProfile->getType() != ConversionProfileType::LIVE_STREAM)
-				throw new KalturaAPIException(KalturaErrors::CONVERSION_PROFILE_ID_NOT_FOUND, $this->conversionProfileId);
+				throw new BorhanAPIException(BorhanErrors::CONVERSION_PROFILE_ID_NOT_FOUND, $this->conversionProfileId);
 		}
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUpdate($source_object)
+	 * @see BorhanObject::validateForUpdate($source_object)
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = array())
 	{
@@ -210,13 +210,13 @@ abstract class KalturaLiveEntry extends KalturaMediaEntry
 	{
 		$resolvedAttrName = $this->getObjectPropertyName($attr);
 		if(!$resolvedAttrName)
-			throw new KalturaAPIException(KalturaErrors::PROPERTY_IS_NOT_DEFINED, $attr, get_class($this));
+			throw new BorhanAPIException(BorhanErrors::PROPERTY_IS_NOT_DEFINED, $attr, get_class($this));
 		
 		/* @var $sourceObject LiveEntry */
 		$getter = "get" . ucfirst($resolvedAttrName);
-		if($sourceObject->$getter() !== $this->$attr && $sourceObject->getLiveStatus() !== KalturaEntryServerNodeStatus::STOPPED)
+		if($sourceObject->$getter() !== $this->$attr && $sourceObject->getLiveStatus() !== BorhanEntryServerNodeStatus::STOPPED)
 		{
-			throw new KalturaAPIException(KalturaErrors::CANNOT_UPDATE_FIELDS_WHILE_ENTRY_BROADCASTING, $attr);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_UPDATE_FIELDS_WHILE_ENTRY_BROADCASTING, $attr);
 		}
 	}
 	
@@ -224,7 +224,7 @@ abstract class KalturaLiveEntry extends KalturaMediaEntry
 	{
 		$resolvedAttrName = $this->getObjectPropertyName($attr);
 		if(!$resolvedAttrName)
-			throw new KalturaAPIException(KalturaErrors::PROPERTY_IS_NOT_DEFINED, $attr, get_class($this));
+			throw new BorhanAPIException(BorhanErrors::PROPERTY_IS_NOT_DEFINED, $attr, get_class($this));
 		
 		/* @var $sourceObject LiveEntry */
 		$getter = "get" . ucfirst($resolvedAttrName);
@@ -240,16 +240,16 @@ abstract class KalturaLiveEntry extends KalturaMediaEntry
 		$recordedEntry = $sourceObject->getRecordedEntryId() ? entryPeer::retrieveByPK($sourceObject->getRecordedEntryId()) : null;
 		if($recordedEntry)
 		{
-			$validUpdateStatuses = array(KalturaEntryStatus::READY, KalturaEntryStatus::ERROR_CONVERTING, KalturaEntryStatus::ERROR_IMPORTING);
+			$validUpdateStatuses = array(BorhanEntryStatus::READY, BorhanEntryStatus::ERROR_CONVERTING, BorhanEntryStatus::ERROR_IMPORTING);
 			if( !in_array($recordedEntry->getStatus(), $validUpdateStatuses) )
-				throw new KalturaAPIException(KalturaErrors::CANNOT_UPDATE_FIELDS_RECORDED_ENTRY_STILL_NOT_READY, $attr);
+				throw new BorhanAPIException(BorhanErrors::CANNOT_UPDATE_FIELDS_RECORDED_ENTRY_STILL_NOT_READY, $attr);
 			
 			$noneReadyAssets = assetPeer::retrieveByEntryId($recordedEntry->getId(),
-					array(KalturaAssetType::FLAVOR),
-					array(KalturaFlavorAssetStatus::CONVERTING, KalturaFlavorAssetStatus::QUEUED, KalturaFlavorAssetStatus::WAIT_FOR_CONVERT, KalturaFlavorAssetStatus::VALIDATING));
+					array(BorhanAssetType::FLAVOR),
+					array(BorhanFlavorAssetStatus::CONVERTING, BorhanFlavorAssetStatus::QUEUED, BorhanFlavorAssetStatus::WAIT_FOR_CONVERT, BorhanFlavorAssetStatus::VALIDATING));
 			
 			if(count($noneReadyAssets))
-				throw new KalturaAPIException(KalturaErrors::CANNOT_UPDATE_FIELDS_RECORDED_ENTRY_STILL_NOT_READY, $attr);
+				throw new BorhanAPIException(BorhanErrors::CANNOT_UPDATE_FIELDS_RECORDED_ENTRY_STILL_NOT_READY, $attr);
 		}
 	}
 	
@@ -268,8 +268,8 @@ abstract class KalturaLiveEntry extends KalturaMediaEntry
 		
 		if($hasObjectChanged)
 		{
-			if( $sourceObject->getLiveStatus() !== KalturaEntryServerNodeStatus::STOPPED)
-				throw new KalturaAPIException(KalturaErrors::CANNOT_UPDATE_FIELDS_WHILE_ENTRY_BROADCASTING, "recordingOptions");
+			if( $sourceObject->getLiveStatus() !== BorhanEntryServerNodeStatus::STOPPED)
+				throw new BorhanAPIException(BorhanErrors::CANNOT_UPDATE_FIELDS_WHILE_ENTRY_BROADCASTING, "recordingOptions");
 			
 			$this->validateRecordingDone($sourceObject, "recordingOptions");
 		}

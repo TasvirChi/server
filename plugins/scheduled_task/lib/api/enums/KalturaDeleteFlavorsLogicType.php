@@ -5,6 +5,6 @@
  * @subpackage api.enum
  * @see DeleteFlavorsDeleteType
  */
-class KalturaDeleteFlavorsLogicType extends KalturaEnum implements DeleteFlavorsLogicType
+class BorhanDeleteFlavorsLogicType extends BorhanEnum implements DeleteFlavorsLogicType
 {
 }

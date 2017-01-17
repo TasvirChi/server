@@ -32,10 +32,10 @@ class kRendererDieError implements kRendererBase
 	
 	public function output()
 	{
-		header('X-Kaltura:error- ' . $this->code);
-		header("X-Kaltura-App: exiting on error {$this->code} - {$this->message}");
+		header('X-Borhan:error- ' . $this->code);
+		header("X-Borhan-App: exiting on error {$this->code} - {$this->message}");
 		
-		if (class_exists('KalturaLog') && isset($GLOBALS["start"])) 
-			KalturaLog::debug("Dispatch took - " . (microtime(true) - $GLOBALS["start"]) . " seconds, memory: ".memory_get_peak_usage(true));
+		if (class_exists('BorhanLog') && isset($GLOBALS["start"])) 
+			BorhanLog::debug("Dispatch took - " . (microtime(true) - $GLOBALS["start"]) . " seconds, memory: ".memory_get_peak_usage(true));
 	}
 }

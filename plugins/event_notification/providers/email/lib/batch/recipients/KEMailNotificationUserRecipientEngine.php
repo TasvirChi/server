@@ -12,7 +12,7 @@ class KEmailNotificationUserRecipientEngine extends  KEmailNotificationRecipient
 	 */
 	function getRecipients(array $contentParameters) {
 	    
-               $pager = new KalturaFilterPager();
+               $pager = new BorhanFilterPager();
                $pager->pageSize = 500;
 		//list users
 		$userList = KBatchBase::$kClient->user->listAction($this->recipientJobData->filter, $pager);
@@ -20,7 +20,7 @@ class KEmailNotificationUserRecipientEngine extends  KEmailNotificationRecipient
 		$recipients = array();
 		foreach ($userList->objects as $user)
 		{
-			/* @var $user KalturaUser */
+			/* @var $user BorhanUser */
 			$recipients[$user->email] = $user->firstName. ' ' . $user->lastName;
 		}
 		

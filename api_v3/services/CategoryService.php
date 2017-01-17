@@ -5,7 +5,7 @@
  *
  * @service category
  */
-class CategoryService extends KalturaBaseService
+class CategoryService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -21,17 +21,17 @@ class CategoryService extends KalturaBaseService
 	 * Add new Category
 	 * 
 	 * @action add
-	 * @param KalturaCategory $category
-	 * @return KalturaCategory
+	 * @param BorhanCategory $category
+	 * @return BorhanCategory
 	 */
-	function addAction(KalturaCategory $category)
+	function addAction(BorhanCategory $category)
 	{	
 		if($category->owner == '')
 			$category->owner = null;
 			
 		if ($category->parentId != null && //batch to index categories or to move categories might miss this category to be moved or index
 			$this->getPartner()->getFeaturesStatusByType(IndexObjectType::LOCK_CATEGORY))
-			throw new KalturaAPIException(KalturaErrors::CATEGORIES_LOCKED);
+			throw new BorhanAPIException(BorhanErrors::CATEGORIES_LOCKED);
 			
 		if($category->privacyContext != null && 
 		   $category->privacyContext != '')
@@ -42,8 +42,8 @@ class CategoryService extends KalturaBaseService
 		  	{
 		  		if(!preg_match('/^[a-zA-Z\d]+$/', $privacyContext) || strlen($privacyContext) < 4)
 		  		{
-		  			KalturaLog::err('Invalid privacy context: ' . print_r($privacyContext, true));
-		   			throw new KalturaAPIException(KalturaErrors::PRIVACY_CONTEXT_INVALID_STRING, $privacyContext);
+		  			BorhanLog::err('Invalid privacy context: ' . print_r($privacyContext, true));
+		   			throw new BorhanAPIException(BorhanErrors::PRIVACY_CONTEXT_INVALID_STRING, $privacyContext);
 		  		}
 		  	}
 	   	}
@@ -63,7 +63,7 @@ class CategoryService extends KalturaBaseService
 				throw $ex;
 		}
 		
-		$category = new KalturaCategory();
+		$category = new BorhanCategory();
 		$category->fromObject($categoryDb, $this->getResponseProfile());
 		
 		return $category;
@@ -74,15 +74,15 @@ class CategoryService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param int $id
-	 * @return KalturaCategory
+	 * @return BorhanCategory
 	 */
 	function getAction($id)
 	{
 		$categoryDb = categoryPeer::retrieveByPK($id);
 		if (!$categoryDb)
-			throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $id);
 		
-		$category = new KalturaCategory();
+		$category = new BorhanCategory();
 		$category->fromObject($categoryDb, $this->getResponseProfile());
 		return $category;
 	}
@@ -92,17 +92,17 @@ class CategoryService extends KalturaBaseService
 	 * 
 	 * @action update
 	 * @param int $id
-	 * @param KalturaCategory $category
-	 * @return KalturaCategory
+	 * @param BorhanCategory $category
+	 * @return BorhanCategory
 	 */
-	function updateAction($id, KalturaCategory $category)
+	function updateAction($id, BorhanCategory $category)
 	{		
 		if($category->owner == '')
 			$category->owner = null;
 			
 		$categoryDb = categoryPeer::retrieveByPK($id);
 		if (!$categoryDb)
-			throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $id );
+			throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $id );
 		
 		if ($category->privacyContext != null && $category->privacyContext != '') 
 		{
@@ -112,8 +112,8 @@ class CategoryService extends KalturaBaseService
 			{
 				if (! preg_match ( '/^[a-zA-Z\d]+$/', $privacyContext ) || strlen ( $privacyContext ) < 4) 
 				{
-					KalturaLog::err ( 'Invalid privacy context: ' . print_r ( $privacyContext, true ) );
-					throw new KalturaAPIException ( KalturaErrors::PRIVACY_CONTEXT_INVALID_STRING, $privacyContext );
+					BorhanLog::err ( 'Invalid privacy context: ' . print_r ( $privacyContext, true ) );
+					throw new BorhanAPIException ( BorhanErrors::PRIVACY_CONTEXT_INVALID_STRING, $privacyContext );
 				}
 			}
 		}
@@ -123,13 +123,13 @@ class CategoryService extends KalturaBaseService
 		//batch to index categories or to move categories might miss this category to be moved or index
 		if (($category->parentId != null && $category->parentId !=  $categoryDb->getParentId()) && 
 			$this->getPartner()->getFeaturesStatusByType(IndexObjectType::LOCK_CATEGORY))
-			throw new KalturaAPIException(KalturaErrors::CATEGORIES_LOCKED);
+			throw new BorhanAPIException(BorhanErrors::CATEGORIES_LOCKED);
 
 		if (kEntitlementUtils::getEntitlementEnforcement())
 		{
 			$currentKuserCategoryKuser = categoryKuserPeer::retrievePermittedKuserInCategory($categoryDb->getId(), kCurrentContext::getCurrentKsKuserId(), array(PermissionName::CATEGORY_EDIT));
 			if(!$currentKuserCategoryKuser || $currentKuserCategoryKuser->getPermissionLevel() != CategoryKuserPermissionLevel::MANAGER)
-				throw new KalturaAPIException(KalturaErrors::NOT_ENTITLED_TO_UPDATE_CATEGORY);
+				throw new BorhanAPIException(BorhanErrors::NOT_ENTITLED_TO_UPDATE_CATEGORY);
 		}
 		try
 		{		
@@ -144,7 +144,7 @@ class CategoryService extends KalturaBaseService
 				throw $ex;
 		}
 		
-		$category = new KalturaCategory();
+		$category = new BorhanCategory();
 		$category->fromObject($categoryDb, $this->getResponseProfile());
 		return $category;
 	}
@@ -154,22 +154,22 @@ class CategoryService extends KalturaBaseService
 	 *
 	 * @action delete
 	 * @param int $id
-	 * @param KalturaNullableBoolean $moveEntriesToParentCategory
+	 * @param BorhanNullableBoolean $moveEntriesToParentCategory
 	 */
-	function deleteAction($id, $moveEntriesToParentCategory = KalturaNullableBoolean::TRUE_VALUE)
+	function deleteAction($id, $moveEntriesToParentCategory = BorhanNullableBoolean::TRUE_VALUE)
 	{
 		if ($this->getPartner()->getFeaturesStatusByType(IndexObjectType::LOCK_CATEGORY))
-			throw new KalturaAPIException(KalturaErrors::CATEGORIES_LOCKED);
+			throw new BorhanAPIException(BorhanErrors::CATEGORIES_LOCKED);
 
 		$categoryDb = categoryPeer::retrieveByPK($id);
 		if (!$categoryDb)
-			throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $id);
 
 		if (kEntitlementUtils::getEntitlementEnforcement())
 		{
 			$currentKuserCategoryKuser = categoryKuserPeer::retrievePermittedKuserInCategory($categoryDb->getId(), kCurrentContext::getCurrentKsKuserId());
 			if(!$currentKuserCategoryKuser || $currentKuserCategoryKuser->getPermissionLevel() != CategoryKuserPermissionLevel::MANAGER)
-				throw new KalturaAPIException(KalturaErrors::NOT_ENTITLED_TO_UPDATE_CATEGORY);
+				throw new BorhanAPIException(BorhanErrors::NOT_ENTITLED_TO_UPDATE_CATEGORY);
 		}
 
 		$this->getPartner()->addFeaturesStatus(IndexObjectType::LOCK_CATEGORY);
@@ -195,24 +195,24 @@ class CategoryService extends KalturaBaseService
 	 * List all categories
 	 * 
 	 * @action list
-	 * @param KalturaCategoryFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaCategoryListResponse
+	 * @param BorhanCategoryFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanCategoryListResponse
 	 */
-	function listAction(KalturaCategoryFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanCategoryFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if ($filter === null)
-			$filter = new KalturaCategoryFilter();
+			$filter = new BorhanCategoryFilter();
 	
 		if ($pager == null)
 		{
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 			//before falcon we didn't have a pager for action category->list,
 			//and since we added a pager - and remove the limit for partners categories,
 			//for backward compatibility this will be the page size. 
 			$pager->pageIndex = 1;
 			$pager->pageSize = Partner::MAX_NUMBER_OF_CATEGORIES;
-			KalturaCriteria::setMaxRecords(Partner::MAX_NUMBER_OF_CATEGORIES);
+			BorhanCriteria::setMaxRecords(Partner::MAX_NUMBER_OF_CATEGORIES);
 			baseObjectFilter::setMaxInValues(Partner::MAX_NUMBER_OF_CATEGORIES);
 		}
 		
@@ -230,11 +230,11 @@ class CategoryService extends KalturaBaseService
 	function indexAction($id, $shouldUpdate = true)
 	{
 		if(kEntitlementUtils::getEntitlementEnforcement())
-			throw new KalturaAPIException(KalturaErrors::CANNOT_INDEX_OBJECT_WHEN_ENTITLEMENT_IS_ENABLE);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_INDEX_OBJECT_WHEN_ENTITLEMENT_IS_ENABLE);
 			
 		$categoryDb = categoryPeer::retrieveByPK($id);
 		if (!$categoryDb)
-			throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $id);
 			
 		if (!$shouldUpdate)
 		{
@@ -265,18 +265,18 @@ class CategoryService extends KalturaBaseService
 		return $categoryDb->getId();
 	}
 	
-	private function handleCoreException(kCoreException $ex, category $categoryDb, KalturaCategory $category)
+	private function handleCoreException(kCoreException $ex, category $categoryDb, BorhanCategory $category)
 	{
 		switch($ex->getCode())
 		{
 			case kCoreException::DUPLICATE_CATEGORY:
-				throw new KalturaAPIException(KalturaErrors::DUPLICATE_CATEGORY, $categoryDb->getFullName());
+				throw new BorhanAPIException(BorhanErrors::DUPLICATE_CATEGORY, $categoryDb->getFullName());
 				
 			case kCoreException::PARENT_ID_IS_CHILD:
-				throw new KalturaAPIException(KalturaErrors::PARENT_CATEGORY_IS_CHILD, $category->parentId, $categoryDb->getId());
+				throw new BorhanAPIException(BorhanErrors::PARENT_CATEGORY_IS_CHILD, $category->parentId, $categoryDb->getId());
 				
 			case kCoreException::DISABLE_CATEGORY_LIMIT_MULTI_PRIVACY_CONTEXT_FORBIDDEN:
-				throw new KalturaAPIException(KalturaErrors::CANNOT_SET_MULTI_PRIVACY_CONTEXT);
+				throw new BorhanAPIException(BorhanErrors::CANNOT_SET_MULTI_PRIVACY_CONTEXT);
 				
 			default:
 				throw $ex;
@@ -289,15 +289,15 @@ class CategoryService extends KalturaBaseService
 	 * @action move
 	 * @param string $categoryIds
 	 * @param int $targetCategoryParentId
-	 * @return KalturaCategoryListResponse
+	 * @return BorhanCategoryListResponse
 	 */
 	function moveAction($categoryIds, $targetCategoryParentId)
 	{
 		if(kEntitlementUtils::getEntitlementEnforcement())
-			throw new KalturaAPIException(KalturaErrors::CANNOT_MOVE_CATEGORIES_FROM_DIFFERENT_PARENT_CATEGORY);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_MOVE_CATEGORIES_FROM_DIFFERENT_PARENT_CATEGORY);
 		
 		if ($this->getPartner()->getFeaturesStatusByType(IndexObjectType::LOCK_CATEGORY))
-			throw new KalturaAPIException(KalturaErrors::CATEGORIES_LOCKED);
+			throw new BorhanAPIException(BorhanErrors::CATEGORIES_LOCKED);
 		
 		$categories = explode(',', $categoryIds);
 		$dbCategories = array();
@@ -310,13 +310,13 @@ class CategoryService extends KalturaBaseService
 				
 			$dbCategory = categoryPeer::retrieveByPK($categoryId);
 			if (!$dbCategory)
-				throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $categoryId);
+				throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $categoryId);
 			
 			if($parentId == category::CATEGORY_ID_THAT_DOES_NOT_EXIST)
 				$parentId = $dbCategory->getParentId();
 				
 			if($parentId != $dbCategory->getParentId())
-				throw new KalturaAPIException(KalturaErrors::CANNOT_MOVE_CATEGORIES_FROM_DIFFERENT_PARENT_CATEGORY);
+				throw new BorhanAPIException(BorhanErrors::CANNOT_MOVE_CATEGORIES_FROM_DIFFERENT_PARENT_CATEGORY);
 				
 			$dbCategories[] = $dbCategory;
 		}
@@ -326,7 +326,7 @@ class CategoryService extends KalturaBaseService
 		{
 			$dbTargetCategory = categoryPeer::retrieveByPK($targetCategoryParentId);
 			if (!$dbTargetCategory)
-				throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $targetCategoryParentId);
+				throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $targetCategoryParentId);
 		}		
 		
 		foreach ($dbCategories as $dbCategory)

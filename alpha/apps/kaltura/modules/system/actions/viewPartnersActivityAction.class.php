@@ -4,14 +4,14 @@
  * @subpackage system
  * @deprecated
  */
-require_once ( __DIR__ . "/kalturaSystemAction.class.php" );
+require_once ( __DIR__ . "/borhanSystemAction.class.php" );
 
 /**
  * @package    Core
  * @subpackage system
  * @deprecated
  */
-class viewPartnersActivityAction extends kalturaSystemAction
+class viewPartnersActivityAction extends borhanSystemAction
 {
 	public function execute()
 	{
@@ -32,20 +32,20 @@ class viewPartnersActivityAction extends kalturaSystemAction
 		
 		$fields_names = array();
 		
-		if ($activity_type == PartnerActivity::PARTNER_ACTIVITY_KDP)
+		if ($activity_type == PartnerActivity::PARTNER_ACTIVITY_BDP)
 		{
-			$activity = PartnerActivity::PARTNER_ACTIVITY_KDP;
+			$activity = PartnerActivity::PARTNER_ACTIVITY_BDP;
 			$activity_desc = "Plays is number of plays, views is number of views";
 			$activity_desc = "";
 			
 			$fields_names[1] = "Plays";
 			$fields_names[2] = "Views";
 			
-			$fields_query[1] = "SUM((SUB_ACTIVITY=".PartnerActivity::PARTNER_SUB_ACTIVITY_KDP_PLAYS.")*AMOUNT)";
-			$fields_query[2] = "SUM((SUB_ACTIVITY=".PartnerActivity::PARTNER_SUB_ACTIVITY_KDP_VIEWS.")*AMOUNT)";
+			$fields_query[1] = "SUM((SUB_ACTIVITY=".PartnerActivity::PARTNER_SUB_ACTIVITY_BDP_PLAYS.")*AMOUNT)";
+			$fields_query[2] = "SUM((SUB_ACTIVITY=".PartnerActivity::PARTNER_SUB_ACTIVITY_BDP_VIEWS.")*AMOUNT)";
 			
-			$fields_map[PartnerActivity::PARTNER_SUB_ACTIVITY_KDP_PLAYS] = 1;
-			$fields_map[PartnerActivity::PARTNER_SUB_ACTIVITY_KDP_VIEWS] = 2;
+			$fields_map[PartnerActivity::PARTNER_SUB_ACTIVITY_BDP_PLAYS] = 1;
+			$fields_map[PartnerActivity::PARTNER_SUB_ACTIVITY_BDP_VIEWS] = 2;
 		}
 		else if ($activity_type == PartnerActivity::PARTNER_ACTIVITY_STORAGE)
 		{
@@ -94,7 +94,7 @@ class viewPartnersActivityAction extends kalturaSystemAction
 		{
 			echo "<form>\n";
 			echo "<input name='activity_type' type='radio' value='".PartnerActivity::PARTNER_ACTIVITY_TRAFFIC."' ".($activity_type == PartnerActivity::PARTNER_ACTIVITY_TRAFFIC ? "checked" : "").">Traffic&nbsp;";
-			echo "<input name='activity_type' type='radio' value='".PartnerActivity::PARTNER_ACTIVITY_KDP."' ".($activity_type == PartnerActivity::PARTNER_ACTIVITY_KDP ? "checked" : "").">Player&nbsp;";
+			echo "<input name='activity_type' type='radio' value='".PartnerActivity::PARTNER_ACTIVITY_BDP."' ".($activity_type == PartnerActivity::PARTNER_ACTIVITY_BDP ? "checked" : "").">Player&nbsp;";
 			echo "<input name='activity_type' type='radio' value='".PartnerActivity::PARTNER_ACTIVITY_STORAGE."' ".($activity_type == PartnerActivity::PARTNER_ACTIVITY_STORAGE ? "checked" : "").">Storage&nbsp;";
 			echo "Date (YY-MM or ALL): <input name='date' value='$date'>&nbsp\n";
 			echo "<input name='excel' type='checkbox'> Excel&nbsp\n";

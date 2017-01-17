@@ -33,10 +33,10 @@ abstract class DeliveryProfileLive extends DeliveryProfile {
 			return false;
 		if (!function_exists('curl_init'))
 		{
-			KalturaLog::err('Unable to use util when php curl is not enabled');
+			BorhanLog::err('Unable to use util when php curl is not enabled');
 			return false;
 		}
-		KalturaLog::log("Checking URL [$url] with range [$range]");
+		BorhanLog::log("Checking URL [$url] with range [$range]");
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
@@ -120,7 +120,7 @@ abstract class DeliveryProfileLive extends DeliveryProfile {
 			$serverNode = ServerNodePeer::retrieveActiveMediaServerNode(null, $liveEntryServerNode->getServerNodeId());
 			if($serverNode)
 			{
-				KalturaLog::debug("mediaServer->getDc [" . $serverNode->getDc() . "] == kDataCenterMgr::getCurrentDcId [" . kDataCenterMgr::getCurrentDcId() . "]");
+				BorhanLog::debug("mediaServer->getDc [" . $serverNode->getDc() . "] == kDataCenterMgr::getCurrentDcId [" . kDataCenterMgr::getCurrentDcId() . "]");
 				if($serverNode->getDc() == kDataCenterMgr::getCurrentDcId())
 				{
 					$this->liveStreamConfig->setUrl($this->getHttpUrl($serverNode));
@@ -177,7 +177,7 @@ abstract class DeliveryProfileLive extends DeliveryProfile {
 			}
 		}
 		
-		KalturaLog::debug("Could not locate custom live stream configuration from manual liveStream entry [{$entry->getId()}]");
+		BorhanLog::debug("Could not locate custom live stream configuration from manual liveStream entry [{$entry->getId()}]");
 	}
 	
 	public function isLive ($url) {
@@ -281,7 +281,7 @@ abstract class DeliveryProfileLive extends DeliveryProfile {
 		
 		$baseUrl = $playbackHost.$appNameAndPrefix;
 		
-		KalturaLog::debug("Live Stream base url [$baseUrl]");
+		BorhanLog::debug("Live Stream base url [$baseUrl]");
 		return $baseUrl;
 	}
 	
@@ -321,7 +321,7 @@ abstract class DeliveryProfileLive extends DeliveryProfile {
 		$secureToken = $this->generateLiveSecuredPackagerToken($livePackagerUrl);
 		$livePackagerUrl .= "t/$secureToken/"; 
 		
-		KalturaLog::debug("Live Packager base stream Url [$livePackagerUrl]");
+		BorhanLog::debug("Live Packager base stream Url [$livePackagerUrl]");
 		return $livePackagerUrl;
 	}
 	
@@ -339,7 +339,7 @@ abstract class DeliveryProfileLive extends DeliveryProfile {
 			}
 			else
 			{ 
-				KalturaLog::debug("Failed to parse domain from original url, signed domain will not be modified");
+				BorhanLog::debug("Failed to parse domain from original url, signed domain will not be modified");
 			}
 		}
 		

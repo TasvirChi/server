@@ -3,7 +3,7 @@
  * @package plugins.emailNotification
  * @subpackage api.objects
  */
-class KalturaEmailNotificationDispatchJobData extends KalturaEventNotificationDispatchJobData
+class BorhanEmailNotificationDispatchJobData extends BorhanEventNotificationDispatchJobData
 {
 	
 	/**
@@ -20,32 +20,32 @@ class KalturaEmailNotificationDispatchJobData extends KalturaEventNotificationDi
 	
 	/**
 	 * Email recipient emails and names, key is mail address and value is the name
-	 * @var KalturaEmailNotificationRecipientJobData
+	 * @var BorhanEmailNotificationRecipientJobData
 	 */
 	public $to;
 	
 	/**
 	 * Email cc emails and names, key is mail address and value is the name
-	 * @var KalturaEmailNotificationRecipientJobData
+	 * @var BorhanEmailNotificationRecipientJobData
 	 */
 	public $cc;
 	
 	/**
 	 * Email bcc emails and names, key is mail address and value is the name
-	 * @var KalturaEmailNotificationRecipientJobData
+	 * @var BorhanEmailNotificationRecipientJobData
 	 */
 	public $bcc;
 	
 	/**
 	 * Email addresses that a replies should be sent to, key is mail address and value is the name
 	 * 
-	 * @var KalturaEmailNotificationRecipientJobData
+	 * @var BorhanEmailNotificationRecipientJobData
 	 */
 	public $replyTo;
 	
 	/**
 	 * Define the email priority
-	 * @var KalturaEmailNotificationTemplatePriority
+	 * @var BorhanEmailNotificationTemplatePriority
 	 */
 	public $priority;
 	
@@ -75,7 +75,7 @@ class KalturaEmailNotificationDispatchJobData extends KalturaEventNotificationDi
 	/**
 	 * Adds a e-mail custom header
 	 * 
-	 * @var KalturaKeyValueArray
+	 * @var BorhanKeyValueArray
 	 */
 	public $customHeaders;
 	
@@ -100,17 +100,17 @@ class KalturaEmailNotificationDispatchJobData extends KalturaEventNotificationDi
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject()
+	 * @see BorhanObject::fromObject()
 	 */
-	public function doFromObject($dbObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($dbObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		/* @var $dbObject kEmailNotificationDispatchJobData */
 		parent::doFromObject($dbObject, $responseProfile);
 		
-		$this->to = KalturaEmailNotificationRecipientJobData::getDataInstance($dbObject->getTo());
-		$this->cc = KalturaEmailNotificationRecipientJobData::getDataInstance($dbObject->getCc());
-		$this->bcc = KalturaEmailNotificationRecipientJobData::getDataInstance($dbObject->getBcc());
-		$this->replyTo = KalturaEmailNotificationRecipientJobData::getDataInstance($dbObject->getReplyTo());
-		$this->customHeaders = KalturaKeyValueArray::fromKeyValueArray($dbObject->getCustomHeaders());
+		$this->to = BorhanEmailNotificationRecipientJobData::getDataInstance($dbObject->getTo());
+		$this->cc = BorhanEmailNotificationRecipientJobData::getDataInstance($dbObject->getCc());
+		$this->bcc = BorhanEmailNotificationRecipientJobData::getDataInstance($dbObject->getBcc());
+		$this->replyTo = BorhanEmailNotificationRecipientJobData::getDataInstance($dbObject->getReplyTo());
+		$this->customHeaders = BorhanKeyValueArray::fromKeyValueArray($dbObject->getCustomHeaders());
 	}
 }

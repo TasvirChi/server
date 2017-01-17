@@ -6,7 +6,7 @@
  * @property int fromPartnerId
  * @property int toPartnerId
  */
-class KalturaCopyPartnerJobData extends KalturaJobData
+class BorhanCopyPartnerJobData extends BorhanJobData
 {
 	/**
 	 * Id of the partner to copy from
@@ -27,7 +27,7 @@ class KalturaCopyPartnerJobData extends KalturaJobData
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	*/
 	public function getMapBetweenObjects()
 	{
@@ -36,7 +36,7 @@ class KalturaCopyPartnerJobData extends KalturaJobData
 	
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbData = null, $props_to_skip = array()) 
 	{

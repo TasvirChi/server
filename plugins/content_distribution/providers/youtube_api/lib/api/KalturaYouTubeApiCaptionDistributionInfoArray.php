@@ -3,17 +3,17 @@
  * @package plugins.youtubeApiDistribution
  * @subpackage api.objects
  */
-class KalturaYouTubeApiCaptionDistributionInfoArray extends KalturaTypedArray
+class BorhanYouTubeApiCaptionDistributionInfoArray extends BorhanTypedArray
 {
-	public static function fromDbArray(array $arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaYouTubeApiCaptionDistributionInfoArray();
+		$newArr = new BorhanYouTubeApiCaptionDistributionInfoArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-			$nObj = new KalturaYouTubeApiCaptionDistributionInfo();
+			$nObj = new BorhanYouTubeApiCaptionDistributionInfo();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaYouTubeApiCaptionDistributionInfoArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaYouTubeApiCaptionDistributionInfo");	
+		parent::__construct("BorhanYouTubeApiCaptionDistributionInfo");	
 	}
 }

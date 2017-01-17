@@ -59,12 +59,12 @@ class collectstatsAction extends defPartnerservices2Action
 			$entry = entryPeer::retrieveByPK( $obj_id );
 			if ( $command == "view" )
 			{
-				PartnerActivity::incrementActivity($partner_id, PartnerActivity::PARTNER_ACTIVITY_KDP, PartnerActivity::PARTNER_SUB_ACTIVITY_KDP_VIEWS);
+				PartnerActivity::incrementActivity($partner_id, PartnerActivity::PARTNER_ACTIVITY_BDP, PartnerActivity::PARTNER_SUB_ACTIVITY_BDP_VIEWS);
 				myStatisticsMgr::incEntryViews( $entry );
 			}
 			elseif ( $command == "play" )
 			{
-				PartnerActivity::incrementActivity($partner_id, PartnerActivity::PARTNER_ACTIVITY_KDP, PartnerActivity::PARTNER_SUB_ACTIVITY_KDP_PLAYS);
+				PartnerActivity::incrementActivity($partner_id, PartnerActivity::PARTNER_ACTIVITY_BDP, PartnerActivity::PARTNER_SUB_ACTIVITY_BDP_PLAYS);
 				myStatisticsMgr::incEntryPlays( $entry );
 			}
 		}
@@ -73,12 +73,12 @@ class collectstatsAction extends defPartnerservices2Action
 			$kshow = kshowPeer::retrieveByPK( $obj_id );
 			if ( $command == "view" )
 			{
-				PartnerActivity::incrementActivity($partner_id, PartnerActivity::PARTNER_ACTIVITY_KDP, PartnerActivity::PARTNER_SUB_ACTIVITY_KDP_VIEWS);
+				PartnerActivity::incrementActivity($partner_id, PartnerActivity::PARTNER_ACTIVITY_BDP, PartnerActivity::PARTNER_SUB_ACTIVITY_BDP_VIEWS);
 				myStatisticsMgr::incKshowViews( $kshow );
 			}
 			elseif ( $command == "play" )
 			{
-				PartnerActivity::incrementActivity($partner_id, PartnerActivity::PARTNER_ACTIVITY_KDP, PartnerActivity::PARTNER_SUB_ACTIVITY_KDP_PLAYS);
+				PartnerActivity::incrementActivity($partner_id, PartnerActivity::PARTNER_ACTIVITY_BDP, PartnerActivity::PARTNER_SUB_ACTIVITY_BDP_PLAYS);
 				myStatisticsMgr::incKshowPlays( $kshow );
 			}
 		}	

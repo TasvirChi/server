@@ -3,11 +3,11 @@
  * @package api
  * @subpackage objects
  */
-class KalturaGoogleVideoSyndicationFeed extends KalturaBaseSyndicationFeed
+class BorhanGoogleVideoSyndicationFeed extends BorhanBaseSyndicationFeed
 {
         /**
          *
-         * @var KalturaGoogleSyndicationFeedAdultValues
+         * @var BorhanGoogleSyndicationFeedAdultValues
          */
         public $adultContent;
 	
@@ -23,6 +23,6 @@ class KalturaGoogleVideoSyndicationFeed extends KalturaBaseSyndicationFeed
         
         function __construct()
 	{
-		$this->type = KalturaSyndicationFeedType::GOOGLE_VIDEO;
+		$this->type = BorhanSyndicationFeedType::GOOGLE_VIDEO;
 	}
 }

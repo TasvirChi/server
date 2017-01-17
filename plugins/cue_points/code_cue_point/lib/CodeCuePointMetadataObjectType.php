@@ -3,7 +3,7 @@
  * @package plugins.codeCuePoint
  * @subpackage lib.enum
  */
-class CodeCuePointMetadataObjectType implements IKalturaPluginEnum, MetadataObjectType
+class CodeCuePointMetadataObjectType implements IBorhanPluginEnum, MetadataObjectType
 {
 	const CODE_CUE_POINT = 'CodeCuePoint';
 	

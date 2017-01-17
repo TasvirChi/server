@@ -3,17 +3,17 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaDistributionThumbDimensionsArray extends KalturaTypedArray
+class BorhanDistributionThumbDimensionsArray extends BorhanTypedArray
 {
-	public static function fromDbArray(array $arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaDistributionThumbDimensionsArray();
+		$newArr = new BorhanDistributionThumbDimensionsArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-    		$nObj = new KalturaDistributionThumbDimensions();
+    		$nObj = new BorhanDistributionThumbDimensions();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaDistributionThumbDimensionsArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaDistributionThumbDimensions");	
+		parent::__construct("BorhanDistributionThumbDimensions");	
 	}
 }

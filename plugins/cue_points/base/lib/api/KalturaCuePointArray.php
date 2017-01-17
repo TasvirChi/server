@@ -3,17 +3,17 @@
  * @package plugins.cuePoint
  * @subpackage api.objects
  */
-class KalturaCuePointArray extends KalturaTypedArray
+class BorhanCuePointArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaCuePointArray();
+		$newArr = new BorhanCuePointArray();
 		if ($arr == null)
 			return $newArr;
 		
 		foreach ($arr as $obj)
 		{
-    		$nObj = KalturaCuePoint::getInstance($obj, $responseProfile);
+    		$nObj = BorhanCuePoint::getInstance($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
 		
@@ -22,6 +22,6 @@ class KalturaCuePointArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaCuePoint");	
+		parent::__construct("BorhanCuePoint");	
 	}
 }

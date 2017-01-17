@@ -48,12 +48,12 @@ abstract class KOperationEngine
 	protected $mediaInfoEnabled = false;
 	
 	/**
-	 * @var KalturaConvartableJobData
+	 * @var BorhanConvartableJobData
 	 */
 	protected $data = null;
 
 	/**
-	 * @var KalturaBatchJob
+	 * @var BorhanBatchJob
 	 */
 	protected $job = null;
 	
@@ -64,13 +64,13 @@ abstract class KOperationEngine
 	
 	abstract protected function getCmdLine();
 
-	public function configure(KalturaConvartableJobData $data, KalturaBatchJob $job)
+	public function configure(BorhanConvartableJobData $data, BorhanBatchJob $job)
 	{
 		$this->data = $data;
 		$this->job = $job;
 		$this->setMediaInfoEnabled(KBatchBase::$taskConfig->params->mediaInfoEnabled);
 
-		KalturaLog::info("taskConfig-->".print_r(KBatchBase::$taskConfig,true)."\ndata->".print_r($data,true));
+		BorhanLog::info("taskConfig-->".print_r(KBatchBase::$taskConfig,true)."\ndata->".print_r($data,true));
 	}
 
 	public function operate(kOperator $operator = null, $inFilePath, $configFilePath = null)
@@ -97,7 +97,7 @@ abstract class KOperationEngine
 		$cmd = $this->getCmdLine();
 		
 		$this->addToLogFile("Executed by [" . get_class($this) . "] on input file [$this->inFilePath]");
-		$this->addToLogFile($cmd, KalturaLog::INFO);
+		$this->addToLogFile($cmd, BorhanLog::INFO);
 		$this->logMediaInfo($this->inFilePath);
 				
 	
@@ -107,7 +107,7 @@ abstract class KOperationEngine
 	
 		$duration = ( $end - $start );
 						 
-		$this->addToLogFile(get_class($this) . ": [$return_value] took [$duration] seconds", KalturaLog::INFO);
+		$this->addToLogFile(get_class($this) . ": [$return_value] took [$duration] seconds", BorhanLog::INFO);
 		$this->addToLogFile($output);
 		$this->operationComplete($return_value, $output);
 			/*
@@ -206,9 +206,9 @@ abstract class KOperationEngine
 	/**
 	 * @param string $str
 	 */
-	protected function addToLogFile($str, $priority = KalturaLog::DEBUG)
+	protected function addToLogFile($str, $priority = BorhanLog::DEBUG)
 	{
-		KalturaLog::log($str, $priority);
+		BorhanLog::log($str, $priority);
 		file_put_contents($this->logFilePath, $str, FILE_APPEND);
 	}
 	
@@ -236,12 +236,12 @@ abstract class KOperationEngine
 			throw new KOperationEngineException("Illegal input file was supplied.");
 		
 		$command = "file '{$this->inFilePath}'";
-		KalturaLog::debug("Executing: $command");
+		BorhanLog::debug("Executing: $command");
 		exec($command, $output, $returnValue);
 		if($returnValue == 0 && preg_match("/^[^:]+: ([^,]+),/", reset($output), $matches))
 		{
 			$type = $matches[1];
-			KalturaLog::info("file [{$this->inFilePath}] type [$type]");
+			BorhanLog::info("file [{$this->inFilePath}] type [$type]");
 			return $type;
 		}
 		return null;

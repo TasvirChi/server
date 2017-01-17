@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaDeliveryProfileGenericAppleHttp extends KalturaDeliveryProfile {
+class BorhanDeliveryProfileGenericAppleHttp extends BorhanDeliveryProfile {
 	
 	/**
 	 * @var string
@@ -19,7 +19,7 @@ class KalturaDeliveryProfileGenericAppleHttp extends KalturaDeliveryProfile {
 	/**
 	 * Enable to make playManifest redirect to the domain of the delivery profile
 	 *
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $manifestRedirect;
 	

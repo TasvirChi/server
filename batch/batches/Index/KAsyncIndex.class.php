@@ -18,13 +18,13 @@ class KAsyncIndex extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::INDEX;
+		return BorhanBatchJobType::INDEX;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->indexObjects($job, $job->data);
 	}
@@ -32,13 +32,13 @@ class KAsyncIndex extends KJobHandlerWorker
 	/**
 	 * Will take a single filter and call each item to be indexed 
 	 */
-	private function indexObjects(KalturaBatchJob $job, KalturaIndexJobData $data)
+	private function indexObjects(BorhanBatchJob $job, BorhanIndexJobData $data)
 	{
 		$engine = KIndexingEngine::getInstance($job->jobSubType);
 		$engine->configure($job->partnerId);
 	
 		$filter = clone $data->filter;
-		$advancedFilter = new KalturaIndexAdvancedFilter();
+		$advancedFilter = new BorhanIndexAdvancedFilter();
 
 		$this->initAdvancedFilter($advancedFilter,$data);
 
@@ -54,14 +54,14 @@ class KAsyncIndex extends KJobHandlerWorker
 			
 			$data->lastIndexId = $lastIndexId;
 			$data->lastIndexDepth = $lastIndexDepth;
-			$this->updateJob($job, "Indexed $indexedObjectsCount objects", KalturaBatchJobStatus::PROCESSING, $data);
+			$this->updateJob($job, "Indexed $indexedObjectsCount objects", BorhanBatchJobStatus::PROCESSING, $data);
 			
 			$advancedFilter->indexIdGreaterThan = $lastIndexId;
 			$advancedFilter->depthGreaterThanEqual = $lastIndexDepth;
 			$filter->advancedSearch = $advancedFilter;
 		}
 		
-		return $this->closeJob($job, null, null, "Index objects finished", KalturaBatchJobStatus::FINISHED);
+		return $this->closeJob($job, null, null, "Index objects finished", BorhanBatchJobStatus::FINISHED);
 	}
 
 	private function initAdvancedFilter(&$advancedFilter , &$data)

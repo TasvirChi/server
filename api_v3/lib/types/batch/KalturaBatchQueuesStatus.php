@@ -3,10 +3,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaBatchQueuesStatus extends KalturaObject 
+class BorhanBatchQueuesStatus extends BorhanObject 
 {
 	/**
-	 * @var KalturaBatchJobType
+	 * @var BorhanBatchJobType
 	 */
 	public $jobType;
 	

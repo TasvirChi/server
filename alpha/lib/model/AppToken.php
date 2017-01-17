@@ -25,7 +25,7 @@ class AppToken extends BaseAppToken
 			$existingObject = AppTokenPeer::retrieveByPkNoFilter($id);
 			
 			if ($existingObject)
-				KalturaLog::log("ID [$id] already exists");
+				BorhanLog::log("ID [$id] already exists");
 			else
 				return $id;
 		}

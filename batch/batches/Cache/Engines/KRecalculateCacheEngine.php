@@ -6,24 +6,24 @@
 abstract class KRecalculateCacheEngine
 {
 	/**
-	 * @param int $objectType of enum KalturaRecalculateCacheType
+	 * @param int $objectType of enum BorhanRecalculateCacheType
 	 * @return KRecalculateCacheEngine
 	 */
 	public static function getInstance($objectType)
 	{
 		switch($objectType)
 		{
-			case KalturaRecalculateCacheType::RESPONSE_PROFILE:
+			case BorhanRecalculateCacheType::RESPONSE_PROFILE:
 				return new KRecalculateResponseProfileCacheEngine();
 				
 			default:
-				return KalturaPluginManager::loadObject('KRecalculateCacheEngine', $objectType);
+				return BorhanPluginManager::loadObject('KRecalculateCacheEngine', $objectType);
 		}
 	}
 	
 	/**
-	 * @param KalturaRecalculateCacheJobData $data
+	 * @param BorhanRecalculateCacheJobData $data
 	 * @return int cached objects count
 	 */
-	abstract public function recalculate(KalturaRecalculateCacheJobData $data);
+	abstract public function recalculate(BorhanRecalculateCacheJobData $data);
 }

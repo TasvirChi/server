@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaFtpDropFolderBaseFilter extends KalturaRemoteDropFolderFilter
+abstract class BorhanFtpDropFolderBaseFilter extends BorhanRemoteDropFolderFilter
 {
 	static private $map_between_objects = array
 	(

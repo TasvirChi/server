@@ -3,10 +3,10 @@
  * @package plugins.systemPartner
  * @subpackage api.objects
  */
-class KalturaSystemPartnerUsageListResponse extends KalturaListResponse
+class BorhanSystemPartnerUsageListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaSystemPartnerUsageArray
+	 * @var BorhanSystemPartnerUsageArray
 	 */
 	public $objects;
 }

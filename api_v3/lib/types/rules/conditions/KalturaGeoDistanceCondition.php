@@ -3,12 +3,12 @@
  * @package api
  * @subpackage objects
  */
-class KalturaGeoDistanceCondition extends KalturaMatchCondition
+class BorhanGeoDistanceCondition extends BorhanMatchCondition
 {
 	/**
 	 * The ip geo coder engine to be used
 	 * 
-	 * @var KalturaGeoCoderType
+	 * @var BorhanGeoCoderType
 	 */
 	public $geoCoderType;
 
@@ -31,7 +31,7 @@ class KalturaGeoDistanceCondition extends KalturaMatchCondition
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

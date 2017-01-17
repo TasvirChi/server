@@ -340,7 +340,7 @@ abstract class BasePermissionToPermissionItemPeer {
 		
 		$queryResult = PermissionToPermissionItemPeer::populateObjects(BasePeer::doSelect($criteriaForSelect, $con));
 		
-		if($criteriaForSelect instanceof KalturaCriteria)
+		if($criteriaForSelect instanceof BorhanCriteria)
 			$criteriaForSelect->applyResultsSort($queryResult);
 		
 		if ($cacheKey !== null)
@@ -436,7 +436,7 @@ abstract class BasePermissionToPermissionItemPeer {
 		PermissionToPermissionItemPeer::getCriteriaFilter()->applyFilter($criteria);
 	}
 	
-	public static function addPartnerToCriteria($partnerId, $privatePartnerData = false, $partnerGroup = null, $kalturaNetwork = null)
+	public static function addPartnerToCriteria($partnerId, $privatePartnerData = false, $partnerGroup = null, $borhanNetwork = null)
 	{
 	}
 	
@@ -820,7 +820,7 @@ abstract class BasePermissionToPermissionItemPeer {
 		}
 		$stmt->closeCursor();
 		
-		if($criteria instanceof KalturaCriteria)
+		if($criteria instanceof BorhanCriteria)
 			$criteria->applyResultsSort($results);
 		
 		return $results;
@@ -891,7 +891,7 @@ abstract class BasePermissionToPermissionItemPeer {
 		}
 		$stmt->closeCursor();
 		
-		if($criteria instanceof KalturaCriteria)
+		if($criteria instanceof BorhanCriteria)
 			$criteria->applyResultsSort($results);
 		
 		return $results;

@@ -6,12 +6,12 @@
 abstract class KCopyingEngine
 {
 	/**
-	 * @var KalturaClient
+	 * @var BorhanClient
 	 */
 	protected $client;
 	
 	/**
-	 * @var KalturaFilterPager
+	 * @var BorhanFilterPager
 	 */
 	protected $pager;
 	
@@ -38,27 +38,27 @@ abstract class KCopyingEngine
 	private $batchPartnerId;
 	
 	/**
-	 * @param int $objectType of enum KalturaCopyObjectType
+	 * @param int $objectType of enum BorhanCopyObjectType
 	 * @return KCopyingEngine
 	 */
 	public static function getInstance($objectType)
 	{
 		switch($objectType)
 		{
-			case KalturaCopyObjectType::CATEGORY_USER:
+			case BorhanCopyObjectType::CATEGORY_USER:
 				return new KCopyingCategoryUserEngine();
 				
-			case KalturaCopyObjectType::CATEGORY_ENTRY:
+			case BorhanCopyObjectType::CATEGORY_ENTRY:
  				return new KCopyingCategoryEntryEngine();
 				
 			default:
-				return KalturaPluginManager::loadObject('KCopyingEngine', $objectType);
+				return BorhanPluginManager::loadObject('KCopyingEngine', $objectType);
 		}
 	}
 	
 	/**
 	 * @param int $partnerId
-	 * @param KalturaClient $client
+	 * @param BorhanClient $client
 	 * @param KSchedularTaskConfig $taskConfig
 	 */
 	public function configure($partnerId)
@@ -66,7 +66,7 @@ abstract class KCopyingEngine
 		$this->partnerId = $partnerId;
 		$this->batchPartnerId = KBatchBase::$taskConfig->getPartnerId();
 
-		$this->pager = new KalturaFilterPager();
+		$this->pager = new BorhanFilterPager();
 		$this->pager->pageSize = 100;
 		
 		if(KBatchBase::$taskConfig->params->pageSize)
@@ -75,11 +75,11 @@ abstract class KCopyingEngine
 	
 	
 	/**
-	 * @param KalturaFilter $filter The filter should return the list of objects that need to be copied
-	 * @param KalturaObjectBase $templateObject Template object to overwrite attributes on the copied object
+	 * @param BorhanFilter $filter The filter should return the list of objects that need to be copied
+	 * @param BorhanObjectBase $templateObject Template object to overwrite attributes on the copied object
 	 * @return int the number of copied objects
 	 */
-	public function run(KalturaFilter $filter, KalturaObjectBase $templateObject)
+	public function run(BorhanFilter $filter, BorhanObjectBase $templateObject)
 	{
 		KBatchBase::impersonate($this->partnerId);
 		$ret = $this->copy($filter, $templateObject);
@@ -89,19 +89,19 @@ abstract class KCopyingEngine
 	}
 	
 	/**
-	 * @param KalturaFilter $filter The filter should return the list of objects that need to be copied
-	 * @param KalturaObjectBase $templateObject Template object to overwrite attributes on the copied object
+	 * @param BorhanFilter $filter The filter should return the list of objects that need to be copied
+	 * @param BorhanObjectBase $templateObject Template object to overwrite attributes on the copied object
 	 * @return int the number of copied objects
 	 */
-	abstract protected function copy(KalturaFilter $filter, KalturaObjectBase $templateObject);
+	abstract protected function copy(BorhanFilter $filter, BorhanObjectBase $templateObject);
 	
 	/**
 	 * Creates a new object instance, based on source object and copied attribute from the template object
-	 * @param KalturaObjectBase $sourceObject
-	 * @param KalturaObjectBase $templateObject
-	 * @return KalturaObjectBase
+	 * @param BorhanObjectBase $sourceObject
+	 * @param BorhanObjectBase $templateObject
+	 * @return BorhanObjectBase
 	 */
-	abstract protected function getNewObject(KalturaObjectBase $sourceObject, KalturaObjectBase $templateObject);
+	abstract protected function getNewObject(BorhanObjectBase $sourceObject, BorhanObjectBase $templateObject);
 	
 	/**
 	 * @return int $lastCopyId

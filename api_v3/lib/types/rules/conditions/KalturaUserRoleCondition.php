@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaUserRoleCondition extends KalturaCondition
+class BorhanUserRoleCondition extends BorhanCondition
 {
 	/**
 	 * Comma separated list of role ids
@@ -31,7 +31,7 @@ class KalturaUserRoleCondition extends KalturaCondition
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

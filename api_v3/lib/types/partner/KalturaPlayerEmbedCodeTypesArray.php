@@ -3,19 +3,19 @@
  * @package api
  * @subpackage objects
  */
-class KalturaPlayerEmbedCodeTypesArray extends KalturaTypedArray
+class BorhanPlayerEmbedCodeTypesArray extends BorhanTypedArray
 {
 	public function __construct()
 	{
-		return parent::__construct("KalturaPlayerEmbedCodeType");
+		return parent::__construct("BorhanPlayerEmbedCodeType");
 	}
 	
-	public static function fromDbArray(array $arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$ret = new KalturaPlayerEmbedCodeTypesArray();
+		$ret = new BorhanPlayerEmbedCodeTypesArray();
 		foreach($arr as $id => $item)
 		{
-			$obj = new KalturaPlayerEmbedCodeType();
+			$obj = new BorhanPlayerEmbedCodeType();
 			$obj->id = $id;
 			$obj->fromArray($item);
 			$ret[] = $obj;

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaLiveStatsEventType extends KalturaEnum
+class BorhanLiveStatsEventType extends BorhanEnum
 {
 	const LIVE = 1;
 	const DVR = 2;

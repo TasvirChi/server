@@ -17,13 +17,13 @@ class KAsyncTransformMetadata extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::METADATA_TRANSFORM;
+		return BorhanBatchJobType::METADATA_TRANSFORM;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->upgrade($job, $job->data);
 	}
@@ -53,24 +53,24 @@ class KAsyncTransformMetadata extends KJobHandlerWorker
 		self::$kClient->startMultiRequest();
 		foreach($results as $index => $result){
         	if(is_array($result) && isset($result['code']) && isset($result['message'])){
-              	KalturaLog::err('error in object id['.$transformObjectIds[$index] .'] with code: '. $result['code']."\n".$result['message']." going to invalidate it");
+              	BorhanLog::err('error in object id['.$transformObjectIds[$index] .'] with code: '. $result['code']."\n".$result['message']." going to invalidate it");
               	self::$kClient->metadata->invalidate($transformObjectIds[$index]);
         	}
         }
         $resultsOfInvalidating = self::$kClient->doMultiRequest();	
 		foreach($resultsOfInvalidating as $index => $resultOfInvalidating){
         	if(is_array($resultOfInvalidating) && isset($resultOfInvalidating['code']) && isset($resultOfInvalidating['message'])){
-              	KalturaLog::err('error while invalidating object id['.$transformObjectIds[$index] .'] with code: '. $resultOfInvalidating['code']."\n".$resultOfInvalidating['message']);        	
+              	BorhanLog::err('error while invalidating object id['.$transformObjectIds[$index] .'] with code: '. $resultOfInvalidating['code']."\n".$resultOfInvalidating['message']);        	
         	}
         }	
 	}
 	
-	private function upgrade(KalturaBatchJob $job, KalturaTransformMetadataJobData $data)
+	private function upgrade(BorhanBatchJob $job, BorhanTransformMetadataJobData $data)
 	{
 		if(self::$taskConfig->params->multiRequestSize)
 			$this->multiRequestSize = self::$taskConfig->params->multiRequestSize;
 		
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageSize = 40;
 		if(self::$taskConfig->params && self::$taskConfig->params->maxObjectsEachRun)
 			$pager->pageSize = self::$taskConfig->params->maxObjectsEachRun;
@@ -86,11 +86,11 @@ class KAsyncTransformMetadata extends KJobHandlerWorker
 		{
 			if(!$transformList->lowerVersionCount) // if no metadata objects of lower version exist
 			{
-				$this->closeJob($job, null, null, 'All metadata transformed', KalturaBatchJobStatus::FINISHED);
+				$this->closeJob($job, null, null, 'All metadata transformed', BorhanBatchJobStatus::FINISHED);
 				return $job;
 			}
 			
-			$this->closeJob($job, null, null, "Waiting for metadata objects [$transformList->lowerVersionCount] of lower versions", KalturaBatchJobStatus::RETRY);
+			$this->closeJob($job, null, null, "Waiting for metadata objects [$transformList->lowerVersionCount] of lower versions", BorhanBatchJobStatus::RETRY);
 			return $job;
 		}
 		
@@ -103,7 +103,7 @@ class KAsyncTransformMetadata extends KJobHandlerWorker
 		$transformObjectIds = array();
 		foreach($transformList->objects as $object)
 		{
-			/* @var $object KalturaMetadata */
+			/* @var $object BorhanMetadata */
 			$xml = kXsd::transformXmlData($object->xml, $data->destXsdPath, $data->srcXslPath);
 			if($xml)
 			{
@@ -128,7 +128,7 @@ class KAsyncTransformMetadata extends KJobHandlerWorker
 		$results = self::$kClient->doMultiRequest();
 		$this->invalidateFailedMetadatas($results, $transformObjectIds);
 		
-		$this->closeJob($job, null, null, "Metadata objects [" . count($transformList->objects) . "] transformed", KalturaBatchJobStatus::RETRY);
+		$this->closeJob($job, null, null, "Metadata objects [" . count($transformList->objects) . "] transformed", BorhanBatchJobStatus::RETRY);
 		
 		return $job;
 	}

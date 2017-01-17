@@ -4,12 +4,12 @@
  * Enable indexing and searching of metadata objects in sphinx
  * @package plugins.metadataSphinx
  */
-class MetadataSphinxPlugin extends KalturaPlugin implements IKalturaCriteriaFactory
+class MetadataSphinxPlugin extends BorhanPlugin implements IBorhanCriteriaFactory
 {
 	const PLUGIN_NAME = 'metadataSphinx';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -17,9 +17,9 @@ class MetadataSphinxPlugin extends KalturaPlugin implements IKalturaCriteriaFact
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaCriteriaFactory::getKalturaCriteria()
+	 * @see IBorhanCriteriaFactory::getBorhanCriteria()
 	 */
-	public static function getKalturaCriteria($objectType)
+	public static function getBorhanCriteria($objectType)
 	{
 		if ($objectType == "Metadata")
 			return new SphinxMetadataCriteria();

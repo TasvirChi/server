@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaConversionProfile extends KalturaObject implements IRelatedFilterable 
+class BorhanConversionProfile extends BorhanObject implements IRelatedFilterable 
 {
 	/**
 	 * The id of the Conversion Profile
@@ -21,13 +21,13 @@ class KalturaConversionProfile extends KalturaObject implements IRelatedFilterab
 	public $partnerId;
 	
 	/**
-	 * @var KalturaConversionProfileStatus
+	 * @var BorhanConversionProfileStatus
 	 * @filter eq,in
 	 */
 	public $status;
 	
 	/**
-	 * @var KalturaConversionProfileType
+	 * @var BorhanConversionProfileType
 	 * @insertonly
 	 * @filter eq,in
 	 */
@@ -91,7 +91,7 @@ class KalturaConversionProfile extends KalturaObject implements IRelatedFilterab
 	/**
 	 * Indicates that this conversion profile is system default
 	 *  
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $isDefault;
 	
@@ -106,7 +106,7 @@ class KalturaConversionProfile extends KalturaObject implements IRelatedFilterab
 	/**
 	 * Cropping dimensions
 	 * 
-	 * @var KalturaCropDimensions
+	 * @var BorhanCropDimensions
 	 * @deprecated
 	 */
 	public $cropDimensions;
@@ -144,14 +144,14 @@ class KalturaConversionProfile extends KalturaObject implements IRelatedFilterab
 	/**
 	 * Media parser type to be used for extract media
 	 *  
-	 * @var KalturaMediaParserType
+	 * @var BorhanMediaParserType
 	 */
 	public $mediaParserType;
 	
 	/**
 	 * Should calculate file conversion complexity
 	 *
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $calculateComplexity;
 	
@@ -190,7 +190,7 @@ class KalturaConversionProfile extends KalturaObject implements IRelatedFilterab
 		return array_merge ( parent::getMapBetweenObjects() , self::$map_between_objects );
 	}
 	
-	public function doFromObject($sourceObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($sourceObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($sourceObject, $responseProfile);
 		
@@ -199,7 +199,7 @@ class KalturaConversionProfile extends KalturaObject implements IRelatedFilterab
 		
 		if($this->shouldGet('cropDimensions', $responseProfile))
 		{
-			$this->cropDimensions = new KalturaCropDimensions();
+			$this->cropDimensions = new BorhanCropDimensions();
 			$this->cropDimensions->fromObject($sourceObject);
 		}
 	}
@@ -229,7 +229,7 @@ class KalturaConversionProfile extends KalturaObject implements IRelatedFilterab
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUpdate()
+	 * @see BorhanObject::validateForUpdate()
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = array())
 	{
@@ -237,11 +237,11 @@ class KalturaConversionProfile extends KalturaObject implements IRelatedFilterab
 	
 		if($this->systemName)
 		{
-			$c = KalturaCriteria::create(conversionProfile2Peer::OM_CLASS);
+			$c = BorhanCriteria::create(conversionProfile2Peer::OM_CLASS);
 			$c->add(conversionProfile2Peer::ID, $sourceObject->getId(), Criteria::NOT_EQUAL);
 			$c->add(conversionProfile2Peer::SYSTEM_NAME, $this->systemName);
 			if(conversionProfile2Peer::doCount($c))
-				throw new KalturaAPIException(KalturaErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
+				throw new BorhanAPIException(BorhanErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
 		}
 		
 		$this->validateFlavorParamsIds();
@@ -252,7 +252,7 @@ class KalturaConversionProfile extends KalturaObject implements IRelatedFilterab
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert()
+	 * @see BorhanObject::validateForInsert()
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{
@@ -262,10 +262,10 @@ class KalturaConversionProfile extends KalturaObject implements IRelatedFilterab
 		
 		if($this->systemName)
 		{
-			$c = KalturaCriteria::create(conversionProfile2Peer::OM_CLASS);
+			$c = BorhanCriteria::create(conversionProfile2Peer::OM_CLASS);
 			$c->add(conversionProfile2Peer::SYSTEM_NAME, $this->systemName);
 			if(conversionProfile2Peer::doCount($c))
-				throw new KalturaAPIException(KalturaErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
+				throw new BorhanAPIException(BorhanErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
 		}
 		
 		return parent::validateForInsert($propertiesToSkip);
@@ -273,12 +273,12 @@ class KalturaConversionProfile extends KalturaObject implements IRelatedFilterab
 	
 	public function validateDefaultEntry()
 	{
-		if(is_null($this->defaultEntryId) || $this->defaultEntryId instanceof KalturaNullField)
+		if(is_null($this->defaultEntryId) || $this->defaultEntryId instanceof BorhanNullField)
 			return;
 			
 		$entry = entryPeer::retrieveByPK($this->defaultEntryId);
 		if(!$entry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $this->defaultEntryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $this->defaultEntryId);
 	}
 	
 	public function validateFlavorParamsIds()
@@ -298,7 +298,7 @@ class KalturaConversionProfile extends KalturaObject implements IRelatedFilterab
 			if($flavorParamsItem->hasTag(flavorParams::TAG_SOURCE))
 			{
 				if($sourceFound)
-					throw new KalturaAPIException(KalturaErrors::FLAVOR_PARAMS_SOURCE_DUPLICATE);
+					throw new BorhanAPIException(BorhanErrors::FLAVOR_PARAMS_SOURCE_DUPLICATE);
 					
 				$sourceFound = true;
 			}
@@ -309,10 +309,10 @@ class KalturaConversionProfile extends KalturaObject implements IRelatedFilterab
 		foreach($flavorParamsIds as $id)
 		{
 			if(!isset($indexedFlavorParams[$id]))
-				throw new KalturaAPIException(KalturaErrors::FLAVOR_PARAMS_ID_NOT_FOUND, $id);
+				throw new BorhanAPIException(BorhanErrors::FLAVOR_PARAMS_ID_NOT_FOUND, $id);
 				
 			if(in_array($id, $foundFlavorParams))
-				throw new KalturaAPIException(KalturaErrors::FLAVOR_PARAMS_DUPLICATE, $id);
+				throw new BorhanAPIException(BorhanErrors::FLAVOR_PARAMS_DUPLICATE, $id);
 				
 			$foundFlavorParams[] = $id;
 		}

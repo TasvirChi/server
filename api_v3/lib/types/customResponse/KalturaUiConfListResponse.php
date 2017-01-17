@@ -3,10 +3,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaUiConfListResponse extends KalturaListResponse
+class BorhanUiConfListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaUiConfArray
+	 * @var BorhanUiConfArray
 	 * @readonly
 	 */
 	public $objects;

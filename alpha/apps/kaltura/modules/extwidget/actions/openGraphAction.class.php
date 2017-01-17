@@ -12,7 +12,7 @@ class openGraphAction extends sfAction
 		$widget = widgetPeer::retrieveByPK($widgetId);
 		if(!$widget)
 		{
-			KalturaLog::err("Widget id [$widgetId] not found");
+			BorhanLog::err("Widget id [$widgetId] not found");
 			die();
 		}
 		
@@ -20,7 +20,7 @@ class openGraphAction extends sfAction
 		$entryId = $widget->getEntryId();
 		if(!$entry)
 		{
-			KalturaLog::err("Entry id [$entryId] not found");
+			BorhanLog::err("Entry id [$entryId] not found");
 			die();
 		}
 		
@@ -28,7 +28,7 @@ class openGraphAction extends sfAction
 		$uiConfId = $widget->getUiConfId();
 		if(!$uiConf)
 		{
-			KalturaLog::err("UI Conf id [$uiConfId] not found");
+			BorhanLog::err("UI Conf id [$uiConfId] not found");
 			die();
 		}
 
@@ -60,7 +60,7 @@ class openGraphAction extends sfAction
 		$this->uiConf = $uiConf;
 
 		// Build SWF Path
-		$swfPath = "/index.php/kwidget/wid/" . $widgetId . "/uiconf_id/" . $uiConfId . "/entry_id/" . $entryId;
+		$swfPath = "/index.php/bwidget/wid/" . $widgetId . "/uiconf_id/" . $uiConfId . "/entry_id/" . $entryId;
 		// Set SWF URLs
 		$this->swfUrl = 'http://' . $embed_host . $swfPath;
 		$this->swfSecureUrl = 'https://' . $embed_host_https . $swfPath;		

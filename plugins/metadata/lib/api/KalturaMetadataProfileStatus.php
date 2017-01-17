@@ -3,7 +3,7 @@
  * @package plugins.metadata
  * @subpackage api.enum
  */
-class KalturaMetadataProfileStatus extends KalturaEnum 
+class BorhanMetadataProfileStatus extends BorhanEnum 
 {
 	const ACTIVE = 1;
 	const DEPRECATED = 2;

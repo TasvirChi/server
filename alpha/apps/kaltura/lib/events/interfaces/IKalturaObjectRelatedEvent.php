@@ -5,7 +5,7 @@
  * @package Core
  * @subpackage events
  */
-interface IKalturaObjectRelatedEvent 
+interface IBorhanObjectRelatedEvent 
 {
 	/**
 	 * Function returns the object in the context of which the event occured.

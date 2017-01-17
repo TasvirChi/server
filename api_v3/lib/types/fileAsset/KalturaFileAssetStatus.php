@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaFileAssetStatus extends KalturaDynamicEnum implements FileAssetStatus
+class BorhanFileAssetStatus extends BorhanDynamicEnum implements FileAssetStatus
 {
 	public static function getEnumClass()
 	{

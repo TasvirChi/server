@@ -3,6 +3,6 @@
  * @package api
  * @subpackage filters
  */
-class KalturaLiveParamsFilter extends KalturaLiveParamsBaseFilter
+class BorhanLiveParamsFilter extends BorhanLiveParamsBaseFilter
 {
 }

@@ -9,7 +9,7 @@ class myPhotobucketServices extends myBaseMediaSource implements IMediaSource
 	protected $source_name = "PhotoBucket";
 //	protected $auth_method = self::AUTH_METHOD_NONE;
 	protected $search_in_user = false; 
-	protected $logo = "http://www.kaltura.com/images/wizard/logo_phototbucket.png";
+	protected $logo = "http://www.borhan.com/images/wizard/logo_phototbucket.png";
 	protected $id = entry::ENTRY_MEDIA_SOURCE_PHOTOBUCKET;
 		
 	private static $NEED_MEDIA_INFO = "0";

@@ -9,6 +9,6 @@ interface syndicationFeedType extends BaseEnum
 	const YAHOO = 2;
 	const ITUNES = 3;
 	const TUBE_MOGUL = 4;
-	const KALTURA = 5;
-	const KALTURA_XSLT = 6;
+	const BORHAN = 5;
+	const BORHAN_XSLT = 6;
 }

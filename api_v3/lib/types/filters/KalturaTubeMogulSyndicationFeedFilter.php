@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters
  */
-class KalturaTubeMogulSyndicationFeedFilter extends KalturaBaseSyndicationFeedFilter
+class BorhanTubeMogulSyndicationFeedFilter extends BorhanBaseSyndicationFeedFilter
 {
 	static private $map_between_objects = array
 	(

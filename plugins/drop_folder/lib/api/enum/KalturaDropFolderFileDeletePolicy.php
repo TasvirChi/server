@@ -3,7 +3,7 @@
  * @package plugins.dropFolder
  * @subpackage api.enum
  */
-class KalturaDropFolderFileDeletePolicy extends KalturaEnum implements DropFolderFileDeletePolicy
+class BorhanDropFolderFileDeletePolicy extends BorhanEnum implements DropFolderFileDeletePolicy
 {
 	// see DropFolderFileStatus interface
 }

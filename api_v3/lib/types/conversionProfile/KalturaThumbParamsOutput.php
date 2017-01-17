@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaThumbParamsOutput extends KalturaThumbParams
+class BorhanThumbParamsOutput extends BorhanThumbParams
 {
 	/**
 	 * @var int
@@ -74,7 +74,7 @@ class KalturaThumbParamsOutput extends KalturaThumbParams
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($object = null, $skip = array())
 	{

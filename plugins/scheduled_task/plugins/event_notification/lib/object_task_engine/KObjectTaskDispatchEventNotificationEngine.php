@@ -7,21 +7,21 @@
 class KObjectTaskDispatchEventNotificationEngine extends KObjectTaskEntryEngineBase
 {
 	/**
-	 * @param KalturaBaseEntry $object
+	 * @param BorhanBaseEntry $object
 	 */
 	function processObject($object)
 	{
-		/** @var KalturaDispatchEventNotificationObjectTask $objectTask */
+		/** @var BorhanDispatchEventNotificationObjectTask $objectTask */
 		$objectTask = $this->getObjectTask();
 		if (is_null($objectTask))
 			return;
 
 		$client = $this->getClient();
 		$templateId = $objectTask->eventNotificationTemplateId;
-		$eventNotificationPlugin = KalturaEventNotificationClientPlugin::get($client);
-		$scope = new KalturaEventNotificationScope();
+		$eventNotificationPlugin = BorhanEventNotificationClientPlugin::get($client);
+		$scope = new BorhanEventNotificationScope();
 		$scope->objectId =$object->id;
-		$scope->scopeObjectType = KalturaEventNotificationEventObjectType::ENTRY;
+		$scope->scopeObjectType = BorhanEventNotificationEventObjectType::ENTRY;
 		$this->impersonate($object->partnerId);
 		try
 		{

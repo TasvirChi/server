@@ -47,7 +47,7 @@ class KSchedulerConfig extends Zend_Config_Ini
 		$this->configTimestamp = $this->calculateFileTimestamp();
 
 		$configFileName = $this->configFileName;
-		KalturaLog::log("loading configuration $configFileName at ".$this->configTimestamp);
+		BorhanLog::log("loading configuration $configFileName at ".$this->configTimestamp);
 
 		if(is_dir($this->configFileName))
 		{

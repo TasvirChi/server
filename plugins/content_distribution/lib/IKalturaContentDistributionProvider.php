@@ -4,7 +4,7 @@
  * @package plugins.contentDistribution
  * @subpackage lib
  */
-interface IKalturaContentDistributionProvider extends IKalturaBase
+interface IBorhanContentDistributionProvider extends IBorhanBase
 {
 	/**
 	 * Returns the singelton instance of the plugin distribution provider.
@@ -14,11 +14,11 @@ interface IKalturaContentDistributionProvider extends IKalturaBase
 	public static function getProvider();
 	
 	/**
-	 * Returns an instance of a Kaltura API distribution provider that represents the singleton instance of the plugin distribution provider.
+	 * Returns an instance of a Borhan API distribution provider that represents the singleton instance of the plugin distribution provider.
 	 * 
-	 * @return KalturaDistributionProvider
+	 * @return BorhanDistributionProvider
 	 */
-	public static function getKalturaProvider();
+	public static function getBorhanProvider();
 	
 	/**
 	 * Appends nodes and attributes associated with a specific distribution provider and entry to an MRSS.

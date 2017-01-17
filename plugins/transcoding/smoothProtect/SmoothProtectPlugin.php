@@ -2,7 +2,7 @@
 /**
  * @package plugins.smoothProtect
  */
-class SmoothProtectPlugin extends KalturaPlugin implements IKalturaObjectLoader, IKalturaEnumerator, IKalturaPending, IKalturaBatchJobDataContributor
+class SmoothProtectPlugin extends BorhanPlugin implements IBorhanObjectLoader, IBorhanEnumerator, IBorhanPending, IBorhanBatchJobDataContributor
 {
 	const PLUGIN_NAME = 'smoothProtect';
 	const PARAMS_STUB = '__params__';
@@ -13,12 +13,12 @@ class SmoothProtectPlugin extends KalturaPlugin implements IKalturaObjectLoader,
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPending::dependsOn()
+	 * @see IBorhanPending::dependsOn()
 	 */
 	public static function dependsOn()
 	{
-		$playReadyDependency = new KalturaDependency(PlayReadyPlugin::getPluginName());
-		$ismIndexDependency = new KalturaDependency(IsmIndexPlugin::getPluginName());
+		$playReadyDependency = new BorhanDependency(PlayReadyPlugin::getPluginName());
+		$ismIndexDependency = new BorhanDependency(IsmIndexPlugin::getPluginName());
 		
 		return array($playReadyDependency, $ismIndexDependency);
 	}
@@ -31,7 +31,7 @@ class SmoothProtectPlugin extends KalturaPlugin implements IKalturaObjectLoader,
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if($baseClass == 'KOperationEngine' && $enumValue == KalturaConversionEngineType::SMOOTHPROTECT)
+		if($baseClass == 'KOperationEngine' && $enumValue == BorhanConversionEngineType::SMOOTHPROTECT)
 		{
 			if(!isset($constructorArgs['params']) || !isset($constructorArgs['outFilePath']))
 				return null;
@@ -83,7 +83,7 @@ class SmoothProtectPlugin extends KalturaPlugin implements IKalturaObjectLoader,
 	 */
 	public static function getConversionEngineCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('conversionEngineType', $value);
 	}
 	
@@ -92,7 +92,7 @@ class SmoothProtectPlugin extends KalturaPlugin implements IKalturaObjectLoader,
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	public static function contributeToConvertJobData ($jobType, $jobSubType, kConvertJobData $jobData)

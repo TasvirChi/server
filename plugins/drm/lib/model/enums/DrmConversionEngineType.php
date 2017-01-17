@@ -3,7 +3,7 @@
  * @package plugins.drm
  * @subpackage model.enum
  */
-class DrmConversionEngineType implements IKalturaPluginEnum, conversionEngineType
+class DrmConversionEngineType implements IBorhanPluginEnum, conversionEngineType
 {
 	const CENC = 'cEnc';
 	

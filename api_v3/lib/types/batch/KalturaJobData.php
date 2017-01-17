@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaJobData extends KalturaObject
+class BorhanJobData extends BorhanObject
 {
 	public function __construct($subType = null)
 	{

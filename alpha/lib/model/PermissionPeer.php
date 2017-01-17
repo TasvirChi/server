@@ -62,7 +62,7 @@ class PermissionPeer extends BasePermissionPeer
 		$existingPermission = PermissionPeer::doSelectOne($c);
 		if (!$existingPermission) {
 			$permission->save();
-			KalturaLog::log('Adding permission ['.$permission->getName().'] to partner ['.$partnerId.'].');
+			BorhanLog::log('Adding permission ['.$permission->getName().'] to partner ['.$partnerId.'].');
 			return $permission;
 		}
 		else {
@@ -90,7 +90,7 @@ class PermissionPeer extends BasePermissionPeer
 		if (!$existingPermission) {
 			throw new kPermissionException('Permission ['.$permissionName.'] does not exist for partner ['.$partnerId.']', kPermissionException::PERMISSION_NOT_FOUND);
 		}
-		KalturaLog::log('Removing permission ['.$permissionName.'] from partner ['.$partnerId.'].');
+		BorhanLog::log('Removing permission ['.$permissionName.'] from partner ['.$partnerId.'].');
 		$existingPermission->setStatus(PermissionStatus::DELETED);
 	}
 	

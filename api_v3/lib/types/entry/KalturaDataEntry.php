@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaDataEntry extends KalturaBaseEntry
+class BorhanDataEntry extends BorhanBaseEntry
 {
 	/**
 	 * The data of the entry
@@ -26,7 +26,7 @@ class KalturaDataEntry extends KalturaBaseEntry
 	
 	public function __construct()
 	{
-		$this->type = KalturaEntryType::DATA;
+		$this->type = BorhanEntryType::DATA;
 	}
 	
 	public function getMapBetweenObjects()
@@ -49,7 +49,7 @@ class KalturaDataEntry extends KalturaBaseEntry
 		return parent::toObject($dbDataEntry, $propsToSkip);
 	}
 	
-	public function doFromObject($dbDataEntry, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($dbDataEntry, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($dbDataEntry, $responseProfile);
 		//$retrieveDataContentByGet = $dbDataEntry->getFromCustomData('retrieveDataContentByGet');

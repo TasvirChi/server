@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaLiveChannelSegment extends KalturaObject implements IRelatedFilterable
+class BorhanLiveChannelSegment extends BorhanObject implements IRelatedFilterable
 {
 	/**
 	 * Unique identifier
@@ -61,12 +61,12 @@ class KalturaLiveChannelSegment extends KalturaObject implements IRelatedFiltera
 	/**
 	 * Segment could be associated with the main stream, as additional stream or as overlay
 	 * 
-	 * @var KalturaLiveChannelSegmentType
+	 * @var BorhanLiveChannelSegmentType
 	 */
 	public $type;
 	
 	/**
-	 * @var KalturaLiveChannelSegmentStatus
+	 * @var BorhanLiveChannelSegmentStatus
 	 * @readonly
 	 * @filter eq,in
 	 */
@@ -90,7 +90,7 @@ class KalturaLiveChannelSegment extends KalturaObject implements IRelatedFiltera
 	/**
 	 * Segment start time trigger type
 	 * 
-	 * @var KalturaLiveChannelSegmentTriggerType
+	 * @var BorhanLiveChannelSegmentTriggerType
 	 */
 	public $triggerType;
 	
@@ -136,7 +136,7 @@ class KalturaLiveChannelSegment extends KalturaObject implements IRelatedFiltera
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -144,7 +144,7 @@ class KalturaLiveChannelSegment extends KalturaObject implements IRelatedFiltera
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($liveChannelSegment = null, $propsToSkip = array())
 	{

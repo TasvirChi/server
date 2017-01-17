@@ -12,13 +12,13 @@ class KAsyncStorageDelete extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::STORAGE_DELETE;
+		return BorhanBatchJobType::STORAGE_DELETE;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->delete($job, $job->data);
 	}
@@ -40,20 +40,20 @@ class KAsyncStorageDelete extends KJobHandlerWorker
 	}
 	
 	/**
-	 * Will take a single KalturaBatchJob and delete the given file 
+	 * Will take a single BorhanBatchJob and delete the given file 
 	 * 
-	 * @param KalturaBatchJob $job
-	 * @param KalturaStorageDeleteJobData $data
-	 * @return KalturaBatchJob
+	 * @param BorhanBatchJob $job
+	 * @param BorhanStorageDeleteJobData $data
+	 * @return BorhanBatchJob
 	 */
-	private function delete(KalturaBatchJob $job, KalturaStorageDeleteJobData $data)
+	private function delete(BorhanBatchJob $job, BorhanStorageDeleteJobData $data)
 	{
         $exportEngine = KExportEngine::getInstance($job->jobSubType, $job->partnerId, $data);
-		$this->updateJob($job, "Deleting {$data->destFileSyncStoredPath} from remote storage", KalturaBatchJobStatus::QUEUED);
+		$this->updateJob($job, "Deleting {$data->destFileSyncStoredPath} from remote storage", BorhanBatchJobStatus::QUEUED);
         
         $exportEngine->delete();
 		
-		return $this->closeJob($job, null, null, null, KalturaBatchJobStatus::FINISHED);
+		return $this->closeJob($job, null, null, null, BorhanBatchJobStatus::FINISHED);
 	}
 	
 }

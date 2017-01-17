@@ -20,17 +20,17 @@ class kAssetDistributionPropertyCondition extends kAssetDistributionCondition
 		
 		if (!is_callable($customPropGetterCallback)) 
 		{
-			KalturaLog::info("asset (id = {$asset->getId()}) required property not found: Prop Name = $propName, Prop Value = $propValue");
+			BorhanLog::info("asset (id = {$asset->getId()}) required property not found: Prop Name = $propName, Prop Value = $propValue");
 			return false;
 		}			
 		
 		if ($propValue != call_user_func($customPropGetterCallback))
 		{		
-			KalturaLog::info("asset (id = {$asset->getId()}) does not match distribution property condition: Prop Name = $propName, Prop Value = $propValue");
+			BorhanLog::info("asset (id = {$asset->getId()}) does not match distribution property condition: Prop Name = $propName, Prop Value = $propValue");
 			return false;	
 		}
 		
-		KalturaLog::info("asset (id = {$asset->getId()}) MATCHES distribution property condition: Prop Name = $propName, Prop Value = $propValue");
+		BorhanLog::info("asset (id = {$asset->getId()}) MATCHES distribution property condition: Prop Name = $propName, Prop Value = $propValue");
 			
 		return true; 
 	}

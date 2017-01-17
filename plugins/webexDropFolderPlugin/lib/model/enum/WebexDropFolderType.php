@@ -3,12 +3,12 @@
  * @package plugins.webexDropFolder
  *  @subpackage model.enum
  */
-class WebexDropFolderType implements IKalturaPluginEnum, DropFolderType
+class WebexDropFolderType implements IBorhanPluginEnum, DropFolderType
 {
 	const WEBEX = 'WEBEX';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPluginEnum::getAdditionalValues()
+	 * @see IBorhanPluginEnum::getAdditionalValues()
 	 */
 	public static function getAdditionalValues() {
 		return array('WEBEX' => self::WEBEX);
@@ -16,7 +16,7 @@ class WebexDropFolderType implements IKalturaPluginEnum, DropFolderType
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPluginEnum::getAdditionalDescriptions()
+	 * @see IBorhanPluginEnum::getAdditionalDescriptions()
 	 */
 	public static function getAdditionalDescriptions() {
 		return array();

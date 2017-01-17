@@ -49,7 +49,7 @@ abstract class myBaseObject implements Iterator
 			}
 			catch ( Exception $ex )
 			{
-				KalturaLog::err($ex);
+				BorhanLog::err($ex);
 			}
 			
 			return null;

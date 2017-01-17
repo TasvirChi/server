@@ -69,7 +69,7 @@ class UserRolePeer extends BaseUserRolePeer
 		{
 			$id = apc_fetch($cacheKey); // try to fetch from cache
 			if ($id) {
-				KalturaLog::debug("UserRole str_id [$strId] mapped to id [$id] - fetched from cache");
+				BorhanLog::debug("UserRole str_id [$strId] mapped to id [$id] - fetched from cache");
 				return $id;
 			}
 		}
@@ -88,13 +88,13 @@ class UserRolePeer extends BaseUserRolePeer
 			{
 				$success = apc_store($cacheKey, $id, kConf::get('apc_cache_ttl'));
 				if ($success) {
-					KalturaLog::debug("UserRole str_id [$strId] mapped to id [$id] - stored in cache");
+					BorhanLog::debug("UserRole str_id [$strId] mapped to id [$id] - stored in cache");
 				}
 			}
 		}
 		
 		if (!$id) {
-			KalturaLog::log("UserRole with str_id [$strId] not found in DB!");
+			BorhanLog::log("UserRole with str_id [$strId] not found in DB!");
 		}
 		return $id;		
 	}

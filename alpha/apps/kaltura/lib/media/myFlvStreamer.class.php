@@ -143,7 +143,7 @@ class myFlvStreamer
 		}
 		catch ( Exception $ex )
 		{
-			KalturaLog::log ( "Cannot find XML file at [" . $contentRoot.$filePath . "],  timeline:$timeline, streamNum:$streamNum"  );
+			BorhanLog::log ( "Cannot find XML file at [" . $contentRoot.$filePath . "],  timeline:$timeline, streamNum:$streamNum"  );
 			return null;
 		}
 
@@ -180,7 +180,7 @@ class myFlvStreamer
 				$end_byte_play = $stream_info->getAttribute ( "end_byte_play" );
 				if ( $file_name == NULL || ($start_byte == NULL || $end_byte == NULL) && ($start_byte_play == NULL || $end_byte_play == NULL))
 				{
-					KalturaLog::log ("qqq INVALID ENTRY $file_name");
+					BorhanLog::log ("qqq INVALID ENTRY $file_name");
 					echo "qqq INVALID ENTRY $file_name";
 					return; //TODO handle invalid entries???
 				}
@@ -334,7 +334,7 @@ class myFlvStreamer
 						$end_byte = $asset['end_byte_play'];
 					}
 
-					KalturaLog::log( "myFlvStreamer:: ($i) using $file_name ($start_byte - $end_byte)" );
+					BorhanLog::log( "myFlvStreamer:: ($i) using $file_name ($start_byte - $end_byte)" );
 
 				}
 				else
@@ -348,7 +348,7 @@ class myFlvStreamer
 					continue;
 				$first_frame = true;
 				
-				KalturaLog::log("playing file [$file_name] from [$start_byte] to [$end_byte]");
+				BorhanLog::log("playing file [$file_name] from [$start_byte] to [$end_byte]");
 				// if should echo - don't optimize (we need the actual data
 				// if should not echo - use optimization
 				$flv_wrapper = new myFlvHandler ( $file_name );
@@ -358,7 +358,7 @@ class myFlvStreamer
 
 				if ($flv_tag_prev == NULL) continue;
 
-				KalturaLog::log("file [$file_name]: flv_tag_prev is not null");
+				BorhanLog::log("file [$file_name]: flv_tag_prev is not null");
 				$videoTimeline = ($timeline == "video");
 
 				while ($flv_tag_prev[myFlvHandler::TAG_FIELD_POS] < $end_byte)
@@ -658,7 +658,7 @@ self::log ( __METHOD__ , "in loop" , $asset_id );
 			$flavor_asset_play = assetPeer::retrieveBestPlayByEntryId($entry->getId());
 			if(!$flavor_asset_play)
 			{
-				KalturaLog::log(__METHOD__.' '.__LINE__.' no play flavor asset for entry '.$entry->getId());
+				BorhanLog::log(__METHOD__.' '.__LINE__.' no play flavor asset for entry '.$entry->getId());
 			}
 			else
 			{
@@ -670,7 +670,7 @@ self::log ( __METHOD__ , "in loop" , $asset_id );
 			$flavor_asset_edit = assetPeer::retrieveBestEditByEntryId($entry->getId());
 			if(!$flavor_asset_edit)
 			{
-				KalturaLog::log(__METHOD__.' '.__LINE__.' no edit flavor asset for entry '.$entry->getId());
+				BorhanLog::log(__METHOD__.' '.__LINE__.' no edit flavor asset for entry '.$entry->getId());
 			}
 			else
 			{
@@ -680,7 +680,7 @@ self::log ( __METHOD__ , "in loop" , $asset_id );
 			
 			if(!$flv_file_name_edit && !$file_name)
 			{
-				KalturaLog::log(__METHOD__.' '.__LINE__.' no edit & play flavor assets for entry '.$entry->getId());
+				BorhanLog::log(__METHOD__.' '.__LINE__.' no edit & play flavor assets for entry '.$entry->getId());
 				continue;
 			}
 
@@ -743,7 +743,7 @@ self::log ( __METHOD__ , "before findBytesFromTimestamps" , $flv_file_name );
 								$result = myFlvStaticHandler::findBytesFromTimestamps( $flv_file_name , $start_time_play , $end_time ,
 									$calculated_start_byte_play , $calculated_end_byte_play , $calculated_total_bytes_play, $lastTimestamp, $timeline != "video" , 1 );
 
-								KalturaLog::log(__METHOD__.' '.__LINE__." play $result = findBytesFromTimestamps($flv_file_name , $start_time_play , $end_time , $calculated_start_byte_play , $calculated_end_byte_play , $calculated_total_bytes_play, $lastTimestamp, $timeline)");
+								BorhanLog::log(__METHOD__.' '.__LINE__." play $result = findBytesFromTimestamps($flv_file_name , $start_time_play , $end_time , $calculated_start_byte_play , $calculated_end_byte_play , $calculated_total_bytes_play, $lastTimestamp, $timeline)");
 									
 								if( $result )
 								{
@@ -753,7 +753,7 @@ self::log ( __METHOD__ , "before findBytesFromTimestamps" , $flv_file_name );
 										// 	edit - more keyfrmaes !
 										$result = myFlvStaticHandler::findBytesFromTimestamps ( $flv_file_name_edit , $start_time , $start_time_play ,
 											$calculated_start_byte , $calculated_end_byte, $calculated_total_bytes, $lastTimestamp, $timeline != "video" , 2 );
-										KalturaLog::log(__METHOD__.' '.__LINE__." edit $result = findBytesFromTimestamps($flv_file_name , $start_time_play , $end_time , $calculated_start_byte_play , $calculated_end_byte_play , $calculated_total_bytes_play, $lastTimestamp, $timeline)");
+										BorhanLog::log(__METHOD__.' '.__LINE__." edit $result = findBytesFromTimestamps($flv_file_name , $start_time_play , $end_time , $calculated_start_byte_play , $calculated_end_byte_play , $calculated_total_bytes_play, $lastTimestamp, $timeline)");
 									}
 								}
 							}
@@ -763,7 +763,7 @@ self::log ( __METHOD__ , "before findBytesFromTimestamps" , $flv_file_name );
 								// either because NOT video or because the edit flavor does not exist
 								$result = myFlvStaticHandler::findBytesFromTimestamps ( $flv_file_name , $start_time , $end_time ,
 									$calculated_start_byte , $calculated_end_byte, $calculated_total_bytes, $lastTimestamp, $timeline != "video" , 0 );
-								KalturaLog::log(__METHOD__.' '.__LINE__." only play $result = findBytesFromTimestamps($flv_file_name , $start_time_play , $end_time , $calculated_start_byte_play , $calculated_end_byte_play , $calculated_total_bytes_play, $lastTimestamp, $timeline)");
+								BorhanLog::log(__METHOD__.' '.__LINE__." only play $result = findBytesFromTimestamps($flv_file_name , $start_time_play , $end_time , $calculated_start_byte_play , $calculated_end_byte_play , $calculated_total_bytes_play, $lastTimestamp, $timeline)");
 							}
 self::log ( __METHOD__ , "after findBytesFromTimestamps" , $flv_file_name );							
 						}
@@ -869,6 +869,6 @@ self::log ( __METHOD__ , "after findBytesFromTimestamps" , $flv_file_name );
 		else
 			$mem_usage = ""; 
 		$s = strftime( "%d/%m %H:%M:%S." , time() ) . $milliseconds . " " . $mem_usage . " " . $s ;	
-		KalturaLog::log ( $s ); 
+		BorhanLog::log ( $s ); 
 	}
 }

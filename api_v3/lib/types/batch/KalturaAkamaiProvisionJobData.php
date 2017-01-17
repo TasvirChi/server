@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaAkamaiProvisionJobData extends KalturaProvisionJobData
+class BorhanAkamaiProvisionJobData extends BorhanProvisionJobData
 {
 	/**
 	 * @var string

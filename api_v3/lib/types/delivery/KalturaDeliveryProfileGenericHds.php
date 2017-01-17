@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaDeliveryProfileGenericHds extends KalturaDeliveryProfile {
+class BorhanDeliveryProfileGenericHds extends BorhanDeliveryProfile {
 	
 	/**
 	 * @var string

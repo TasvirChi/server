@@ -2,7 +2,7 @@
 /**
  * @package plugins.msnDistribution
  */
-class MsnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaEnumerator, IKalturaPending, IKalturaObjectLoader, IKalturaContentDistributionProvider
+class MsnDistributionPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanEnumerator, IBorhanPending, IBorhanObjectLoader, IBorhanContentDistributionProvider
 {
 	const PLUGIN_NAME = 'msnDistribution';
 	const CONTENT_DSTRIBUTION_VERSION_MAJOR = 2;
@@ -16,12 +16,12 @@ class MsnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	
 	public static function dependsOn()
 	{
-		$contentDistributionVersion = new KalturaVersion(
+		$contentDistributionVersion = new BorhanVersion(
 			self::CONTENT_DSTRIBUTION_VERSION_MAJOR,
 			self::CONTENT_DSTRIBUTION_VERSION_MINOR,
 			self::CONTENT_DSTRIBUTION_VERSION_BUILD);
 			
-		$dependency = new KalturaDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
+		$dependency = new BorhanDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
 		return array($dependency);
 	}
 	
@@ -57,7 +57,7 @@ class MsnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::MSN)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::MSN)
 		{
 			if($baseClass == 'IDistributionEngineCloseDelete')
 				return new MsnDistributionEngine();
@@ -80,14 +80,14 @@ class MsnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 			if($baseClass == 'IDistributionEngineUpdate')
 				return new MsnDistributionEngine();
 		
-			if($baseClass == 'KalturaDistributionProfile')
-				return new KalturaMsnDistributionProfile();
+			if($baseClass == 'BorhanDistributionProfile')
+				return new BorhanMsnDistributionProfile();
 		
-			if($baseClass == 'KalturaDistributionJobProviderData')
-				return new KalturaMsnDistributionJobProviderData();
+			if($baseClass == 'BorhanDistributionJobProviderData')
+				return new BorhanMsnDistributionJobProviderData();
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::MSN)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::MSN)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 			{
@@ -100,9 +100,9 @@ class MsnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 		if (!class_exists('kCurrentContext') || kCurrentContext::$ps_vesion != 'ps3')
 			return null;
 
-		if($baseClass == 'KalturaDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(MsnDistributionProviderType::MSN))
+		if($baseClass == 'BorhanDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(MsnDistributionProviderType::MSN))
 		{
-			$reflect = new ReflectionClass('KalturaMsnDistributionJobProviderData');
+			$reflect = new ReflectionClass('BorhanMsnDistributionJobProviderData');
 			return $reflect->newInstanceArgs($constructorArgs);
 		}
 	
@@ -112,8 +112,8 @@ class MsnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 			return $reflect->newInstanceArgs($constructorArgs);
 		}
 	
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(MsnDistributionProviderType::MSN))
-			return new KalturaMsnDistributionProfile();
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(MsnDistributionProviderType::MSN))
+			return new BorhanMsnDistributionProfile();
 			
 		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(MsnDistributionProviderType::MSN))
 			return new MsnDistributionProfile();
@@ -129,7 +129,7 @@ class MsnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	public static function getObjectClass($baseClass, $enumValue)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::MSN)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::MSN)
 		{
 			if($baseClass == 'IDistributionEngineCloseDelete')
 				return 'MsnDistributionEngine';
@@ -152,34 +152,34 @@ class MsnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 			if($baseClass == 'IDistributionEngineUpdate')
 				return 'MsnDistributionEngine';
 		
-			if($baseClass == 'KalturaDistributionProfile')
-				return 'KalturaMsnDistributionProfile';
+			if($baseClass == 'BorhanDistributionProfile')
+				return 'BorhanMsnDistributionProfile';
 		
-			if($baseClass == 'KalturaDistributionJobProviderData')
-				return 'KalturaMsnDistributionJobProviderData';
+			if($baseClass == 'BorhanDistributionJobProviderData')
+				return 'BorhanMsnDistributionJobProviderData';
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::MSN)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::MSN)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 				return 'Form_MsnProfileConfiguration';
 				
-			if($baseClass == 'Kaltura_Client_ContentDistribution_Type_DistributionProfile')
-				return 'Kaltura_Client_MsnDistribution_Type_MsnDistributionProfile';
+			if($baseClass == 'Borhan_Client_ContentDistribution_Type_DistributionProfile')
+				return 'Borhan_Client_MsnDistribution_Type_MsnDistributionProfile';
 		}
 		
 		// content distribution does not work in partner services 2 context because it uses dynamic enums
 		if (!class_exists('kCurrentContext') || kCurrentContext::$ps_vesion != 'ps3')
 			return null;
 
-		if($baseClass == 'KalturaDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(MsnDistributionProviderType::MSN))
-			return 'KalturaMsnDistributionJobProviderData';
+		if($baseClass == 'BorhanDistributionJobProviderData' && $enumValue == self::getDistributionProviderTypeCoreValue(MsnDistributionProviderType::MSN))
+			return 'BorhanMsnDistributionJobProviderData';
 	
 		if($baseClass == 'kDistributionJobProviderData' && $enumValue == self::getApiValue(MsnDistributionProviderType::MSN))
 			return 'kMsnDistributionJobProviderData';
 	
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(MsnDistributionProviderType::MSN))
-			return 'KalturaMsnDistributionProfile';
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(MsnDistributionProviderType::MSN))
+			return 'BorhanMsnDistributionProfile';
 			
 		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(MsnDistributionProviderType::MSN))
 			return 'MsnDistributionProfile';
@@ -200,11 +200,11 @@ class MsnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	/**
 	 * Return an API distribution provider instance
 	 * 
-	 * @return KalturaDistributionProvider
+	 * @return BorhanDistributionProvider
 	 */
-	public static function getKalturaProvider()
+	public static function getBorhanProvider()
 	{
-		$distributionProvider = new KalturaMsnDistributionProvider();
+		$distributionProvider = new BorhanMsnDistributionProvider();
 		$distributionProvider->fromObject(self::getProvider());
 		return $distributionProvider;
 	}
@@ -220,10 +220,10 @@ class MsnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	    // append Msn specific report statistics
 	    $distributionProfile = DistributionProfilePeer::retrieveByPK($entryDistribution->getDistributionProfileId());
 	    if (!$distributionProfile)
-	    	return KalturaLog::err('Distribution profile #'.$entryDistribution->getDistributionProfileId() .' not found');
+	    	return BorhanLog::err('Distribution profile #'.$entryDistribution->getDistributionProfileId() .' not found');
 
     	if (!$distributionProfile instanceof MsnDistributionProfile)
-    		return KalturaLog::crit('Distribution profile #'.$entryDistribution->getDistributionProfileId() .' is not instanceof MsnDistributionProfile');
+    		return BorhanLog::crit('Distribution profile #'.$entryDistribution->getDistributionProfileId() .' is not instanceof MsnDistributionProfile');
     		
 		$mrss->addChild('csid', $distributionProfile->getCsId());
 		$mrss->addChild('source', $distributionProfile->getSource());
@@ -239,7 +239,7 @@ class MsnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	 */
 	public static function getDistributionProviderTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('DistributionProviderType', $value);
 	}
 	
@@ -248,6 +248,6 @@ class MsnDistributionPlugin extends KalturaPlugin implements IKalturaPermissions
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 }

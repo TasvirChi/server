@@ -3,7 +3,7 @@
  * @package plugins.schedule
  * @subpackage api.filters.enum
  */
-class KalturaScheduleEventOrderBy extends KalturaStringEnum
+class BorhanScheduleEventOrderBy extends BorhanStringEnum
 {
 	const START_DATE_ASC = "+startDate";
 	const START_DATE_DESC = "-startDate";

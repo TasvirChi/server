@@ -3,7 +3,7 @@
  * @package Core
  * @subpackage model.filters
  */
-class KalturaCriteria extends Criteria implements IKalturaDbQuery
+class BorhanCriteria extends Criteria implements IBorhanDbQuery
 {
 	const IN_LIKE = 'IN_LIKE';
 	const IN_LIKE_ORDER ='IN_LIKE_ORDER';
@@ -117,7 +117,7 @@ class KalturaCriteria extends Criteria implements IKalturaDbQuery
 		$advancedSearch = $filter->getAdvancedSearch();
 		if(is_object($advancedSearch))
 		{
-			KalturaLog::debug('Apply advanced filter [' . get_class($advancedSearch) . ']');
+			BorhanLog::debug('Apply advanced filter [' . get_class($advancedSearch) . ']');
 			if($advancedSearch instanceof AdvancedSearchFilterItem)
 				$advancedSearch->apply($filter, $this);
 				
@@ -138,10 +138,10 @@ class KalturaCriteria extends Criteria implements IKalturaDbQuery
 	}
 	
 	/**
-	 * Creates a new KalturaCriteria for the given object name
+	 * Creates a new BorhanCriteria for the given object name
 	 * 
 	 * @param string $objectType object type to create Criteria for.
-	 * @return KalturaCriteria derived object
+	 * @return BorhanCriteria derived object
 	 */
 	public static function create($objectType)
 	{
@@ -153,10 +153,10 @@ class KalturaCriteria extends Criteria implements IKalturaDbQuery
 			$pluginClassName = apc_fetch($cacheKey);
 		}
 		
-		$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaCriteriaFactory', $pluginClassName);
+		$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanCriteriaFactory', $pluginClassName);
 		foreach($pluginInstances as $pluginInstance)
 		{
-			$criteria = $pluginInstance->getKalturaCriteria($objectType);
+			$criteria = $pluginInstance->getBorhanCriteria($objectType);
 			if($criteria)
 			{
 				if (!$pluginClassName && $cacheKey)
@@ -167,7 +167,7 @@ class KalturaCriteria extends Criteria implements IKalturaDbQuery
 			}
 		}
 			
-		return new KalturaCriteria();
+		return new BorhanCriteria();
 	}
 	
 	/**
@@ -246,7 +246,7 @@ class KalturaCriteria extends Criteria implements IKalturaDbQuery
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaDbQuery::addColumnWhere()
+	 * @see IBorhanDbQuery::addColumnWhere()
 	 */
 	public function addColumnWhere($column, $value, $comparison)
 	{
@@ -254,7 +254,7 @@ class KalturaCriteria extends Criteria implements IKalturaDbQuery
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaDbQuery::addOrderBy()
+	 * @see IBorhanDbQuery::addOrderBy()
 	 */
 	public function addOrderBy($column, $orderByType = Criteria::ASC)
 	{
@@ -306,7 +306,7 @@ class KalturaCriteria extends Criteria implements IKalturaDbQuery
 				return md5(substr($str, 0, strlen($str) - 2)) . '\\\*';
 
 			$md5Str = md5($str);
-			KalturaLog::debug('md5(' . $str . ')' . ' = ' . $md5Str );
+			BorhanLog::debug('md5(' . $str . ')' . ' = ' . $md5Str );
 
 			return $md5Str;
 		}

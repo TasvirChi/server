@@ -52,7 +52,7 @@ class KOperationEnginePdfCreator extends KOperationEngineDocument
 		// bypassing PDF Creator for source PDF files
 		$inputExtension = strtolower(pathinfo($inFilePath, PATHINFO_EXTENSION));
 		if (($inputExtension == 'pdf') && (!$this->data->flavorParamsOutput->readonly)) {
-			KalturaLog::notice('Bypassing PDF Creator for source PDF files');
+			BorhanLog::notice('Bypassing PDF Creator for source PDF files');
 			if (!@copy($inFilePath, $this->outFilePath)) {
 				$error = '';
 				if (function_exists('error_get_last')) {
@@ -75,7 +75,7 @@ class KOperationEnginePdfCreator extends KOperationEngineDocument
 			$uniqueName = true;
 		}
 		else {
-			KalturaLog::notice('Could not rename input file ['.$inFilePath.'] with a unique name ['.$tmpUniqInFilePath.']');
+			BorhanLog::notice('Could not rename input file ['.$inFilePath.'] with a unique name ['.$tmpUniqInFilePath.']');
 			$realInFilePath = realpath($inFilePath);
 		}
 		
@@ -89,7 +89,7 @@ class KOperationEnginePdfCreator extends KOperationEngineDocument
 		if ($uniqueName && in_array ( $ext, $newOfficeExtensions ) && $filePrefix == self::OLD_OFFICE_SIGNATURE) {
 			$RealInFilePathWithoutX = substr ( $realInFilePath, 0, - 1 );
 			if (rename ( $realInFilePath, $RealInFilePathWithoutX )){
-				KalturaLog::notice("renamed file [$realInFilePath] to [$RealInFilePathWithoutX]");
+				BorhanLog::notice("renamed file [$realInFilePath] to [$RealInFilePathWithoutX]");
 				$realInFilePath = $RealInFilePathWithoutX;
 			}
 		}
@@ -144,7 +144,7 @@ class KOperationEnginePdfCreator extends KOperationEngineDocument
 			$data = file_get_contents($killPopupsPath);
 			$data = trim($data);
 			if(!empty($data)){
-				KalturaLog::notice("Convert popups warnings - " . $data);
+				BorhanLog::notice("Convert popups warnings - " . $data);
 				if(is_null($this->message))
 					$this->message = $data;
 				else 
@@ -157,7 +157,7 @@ class KOperationEnginePdfCreator extends KOperationEngineDocument
 			throw new kTemporaryException('Temp PDF Creator file not found ['.$tmpFile.'] output file ['.$this->outFilePath.'] 
 					Convert Engine message [' . $this->message . ']');
 		}else{
-			KalturaLog::notice('document temp  found ['.$tmpFile.'] output file ['.$this->outFilePath.']'); 
+			BorhanLog::notice('document temp  found ['.$tmpFile.'] output file ['.$this->outFilePath.']'); 
 		}
 		
 		$this->validateOutput($inFilePath, realpath($tmpFile));

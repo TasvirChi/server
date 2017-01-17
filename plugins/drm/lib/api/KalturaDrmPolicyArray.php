@@ -3,14 +3,14 @@
  * @package plugins.drm
  * @subpackage api.objects
  */
-class KalturaDrmPolicyArray extends KalturaTypedArray
+class BorhanDrmPolicyArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaDrmPolicyArray();
+		$newArr = new BorhanDrmPolicyArray();
 		foreach ( $arr as $obj )
 		{
-		    $nObj = KalturaDrmPolicy::getInstanceByType($obj->getProvider());
+		    $nObj = BorhanDrmPolicy::getInstanceByType($obj->getProvider());
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -21,6 +21,6 @@ class KalturaDrmPolicyArray extends KalturaTypedArray
 	
 	public function __construct( )
 	{
-		return parent::__construct ( 'KalturaDrmPolicy' );
+		return parent::__construct ( 'BorhanDrmPolicy' );
 	}
 }

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaStorageProfile extends KalturaObject implements IFilterable
+class BorhanStorageProfile extends BorhanObject implements IFilterable
 {
 	/**
 	 * @var int
@@ -50,13 +50,13 @@ class KalturaStorageProfile extends KalturaObject implements IFilterable
 	public $desciption;
 	
 	/**
-	 * @var KalturaStorageProfileStatus
+	 * @var BorhanStorageProfileStatus
 	 * @filter eq,in
 	 */
 	public $status;
 	
 	/**
-	 * @var KalturaStorageProfileProtocol
+	 * @var BorhanStorageProfileProtocol
 	 * @filter eq,in
 	 */
 	public $protocol;
@@ -112,7 +112,7 @@ class KalturaStorageProfile extends KalturaObject implements IFilterable
 	public $pathManagerClass;
 	
 	/**
-	 * @var KalturaKeyValueArray
+	 * @var BorhanKeyValueArray
 	 */
 	public $pathManagerParams;
 	
@@ -132,13 +132,13 @@ class KalturaStorageProfile extends KalturaObject implements IFilterable
 	
 	/**
 	 * 
-	 * @var KalturaStorageProfileDeliveryStatus
+	 * @var BorhanStorageProfileDeliveryStatus
 	 */
 	public $deliveryStatus;
 	
 	/**
 	 * 
-	 * @var KalturaStorageProfileReadyBehavior
+	 * @var BorhanStorageProfileReadyBehavior
 	 */
 	public $readyBehavior;
 	
@@ -157,13 +157,13 @@ class KalturaStorageProfile extends KalturaObject implements IFilterable
 	/**
 	 * Holds storage profile export rules
 	 * 
-	 * @var KalturaRuleArray
+	 * @var BorhanRuleArray
 	 */
 	public $rules;
 	
 	/**
 	 * Delivery profile ids
-	 * @var KalturaKeyValueArray
+	 * @var BorhanKeyValueArray
 	 */
 	public $deliveryProfileIds;
 	
@@ -224,7 +224,7 @@ class KalturaStorageProfile extends KalturaObject implements IFilterable
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -232,7 +232,7 @@ class KalturaStorageProfile extends KalturaObject implements IFilterable
 	}	
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toInsertableObject()
+	 * @see BorhanObject::toInsertableObject()
 	 */
 	public function toInsertableObject ( $object_to_fill = null , $props_to_skip = array() )
 	{
@@ -243,7 +243,7 @@ class KalturaStorageProfile extends KalturaObject implements IFilterable
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUpdate()
+	 * @see BorhanObject::validateForUpdate()
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = array())
 	{
@@ -251,18 +251,18 @@ class KalturaStorageProfile extends KalturaObject implements IFilterable
 	
 		if($this->systemName)
 		{
-			$c = KalturaCriteria::create(StorageProfilePeer::OM_CLASS);
+			$c = BorhanCriteria::create(StorageProfilePeer::OM_CLASS);
 			$c->add(StorageProfilePeer::ID, $sourceObject->getId(), Criteria::NOT_EQUAL);
 			$c->add(StorageProfilePeer::SYSTEM_NAME, $this->systemName);
 			if(StorageProfilePeer::doCount($c))
-				throw new KalturaAPIException(KalturaErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
+				throw new BorhanAPIException(BorhanErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
 		}
 		
 		return parent::validateForUpdate($sourceObject, $propertiesToSkip);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert()
+	 * @see BorhanObject::validateForInsert()
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{
@@ -270,10 +270,10 @@ class KalturaStorageProfile extends KalturaObject implements IFilterable
 		
 		if($this->systemName)
 		{
-			$c = KalturaCriteria::create(StorageProfilePeer::OM_CLASS);
+			$c = BorhanCriteria::create(StorageProfilePeer::OM_CLASS);
 			$c->add(StorageProfilePeer::SYSTEM_NAME, $this->systemName);
 			if(StorageProfilePeer::doCount($c))
-				throw new KalturaAPIException(KalturaErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
+				throw new BorhanAPIException(BorhanErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
 		}
 		
 		return parent::validateForInsert($propertiesToSkip);
@@ -292,7 +292,7 @@ class KalturaStorageProfile extends KalturaObject implements IFilterable
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject ( $object_to_fill = null , $props_to_skip = array() )
 	{
@@ -327,16 +327,16 @@ class KalturaStorageProfile extends KalturaObject implements IFilterable
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject()
+	 * @see BorhanObject::fromObject()
 	 */
-	public function doFromObject($source_object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($source_object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 	    parent::doFromObject($source_object, $responseProfile);
 	    
 		if($this->shouldGet('pathManagerParams', $responseProfile))
-			$this->pathManagerParams = KalturaKeyValueArray::fromKeyValueArray($source_object->getPathManagerParams());
+			$this->pathManagerParams = BorhanKeyValueArray::fromKeyValueArray($source_object->getPathManagerParams());
 		if($this->shouldGet('deliveryProfileIds', $responseProfile))
-			$this->deliveryProfileIds = KalturaKeyValueArray::fromKeyValueArray($source_object->getDeliveryProfileIds());
+			$this->deliveryProfileIds = BorhanKeyValueArray::fromKeyValueArray($source_object->getDeliveryProfileIds());
 	}
 	
 	/* (non-PHPdoc)
@@ -356,10 +356,10 @@ class KalturaStorageProfile extends KalturaObject implements IFilterable
 	}
     
     /**
-     * Function returns KalturaStorageProfile sub-type according to protocol
+     * Function returns BorhanStorageProfile sub-type according to protocol
      * @var string $protocol
      * 
-     * @return KalturaStorageProfile
+     * @return BorhanStorageProfile
      */
     public static function getInstanceByType ($protocol)
     {
@@ -368,20 +368,20 @@ class KalturaStorageProfile extends KalturaObject implements IFilterable
             case StorageProfileProtocol::FTP:
             case StorageProfileProtocol::SFTP:
             case StorageProfileProtocol::SCP:
-            case StorageProfileProtocol::KALTURA_DC:
+            case StorageProfileProtocol::BORHAN_DC:
             case StorageProfileProtocol::LOCAL:
-                $obj = new KalturaStorageProfile();                
+                $obj = new BorhanStorageProfile();                
                 break;
             case StorageProfileProtocol::S3:
-                $obj = new KalturaAmazonS3StorageProfile();
+                $obj = new BorhanAmazonS3StorageProfile();
                 break;
             default:
-                $obj = KalturaPluginManager::loadObject('KalturaStorageProfile', $protocol);
+                $obj = BorhanPluginManager::loadObject('BorhanStorageProfile', $protocol);
                 break;
         }
         
         if (!$obj)
-            $obj = new KalturaStorageProfile();
+            $obj = new BorhanStorageProfile();
         
         return $obj;
     }

@@ -3,7 +3,7 @@
  * @package    Core
  * @subpackage kEditorServices
  */
-class getRelatedKshowsAction extends kalturaAction
+class getRelatedKshowsAction extends borhanAction
 {
 	public function execute ( )
 	{ 		

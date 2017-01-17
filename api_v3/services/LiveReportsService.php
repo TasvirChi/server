@@ -6,24 +6,24 @@
  * @package api
  * @subpackage services
  */
-class LiveReportsService extends KalturaBaseService
+class LiveReportsService extends BorhanBaseService
 {
 	
 	/**
 	 * @action getEvents
-	 * @param KalturaLiveReportType $reportType
-	 * @param KalturaLiveReportInputFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaReportGraphArray
+	 * @param BorhanLiveReportType $reportType
+	 * @param BorhanLiveReportInputFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanReportGraphArray
 	 */
 	public function getEventsAction($reportType,
-			KalturaLiveReportInputFilter $filter = null,
-			KalturaFilterPager $pager = null)
+			BorhanLiveReportInputFilter $filter = null,
+			BorhanFilterPager $pager = null)
 	{
 		if(is_null($filter))
-			$filter = new KalturaLiveReportInputFilter();
+			$filter = new BorhanLiveReportInputFilter();
 		if(is_null($pager))
-			$pager = new KalturaFilterPager;
+			$pager = new BorhanFilterPager;
 		
 		$client = new WSLiveReportsClient();
 		$wsFilter = $filter->getWSObject();
@@ -44,26 +44,26 @@ class LiveReportsService extends KalturaBaseService
 			$resultsArray[$parts[0]] = $parts[1] . $additionalValue;
 		}
 		
-		$kResult = KalturaReportGraphArray::fromReportDataArray(array("audience" => $resultsArray));
+		$kResult = BorhanReportGraphArray::fromReportDataArray(array("audience" => $resultsArray));
 		
 		return $kResult;
 	}
 	
 	/**
 	 * @action getReport
-	 * @param KalturaLiveReportType $reportType
-	 * @param KalturaLiveReportInputFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaLiveStatsListResponse
+	 * @param BorhanLiveReportType $reportType
+	 * @param BorhanLiveReportInputFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanLiveStatsListResponse
 	 */
 	public function getReportAction($reportType, 
-			KalturaLiveReportInputFilter $filter = null,
-			KalturaFilterPager $pager = null)
+			BorhanLiveReportInputFilter $filter = null,
+			BorhanFilterPager $pager = null)
 	{
 		if(is_null($filter))
-			$filter = new KalturaLiveReportInputFilter();
+			$filter = new BorhanLiveReportInputFilter();
 		if(is_null($pager))
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 		
 		$client = new WSLiveReportsClient();
 		$wsFilter = $filter->getWSObject();
@@ -72,18 +72,18 @@ class LiveReportsService extends KalturaBaseService
 		$wsPager = new WSLiveReportInputPager($pager->pageSize, $pager->pageIndex);
 		
 		switch($reportType) {
-			case KalturaLiveReportType::ENTRY_GEO_TIME_LINE:
-			case KalturaLiveReportType::ENTRY_SYNDICATION_TOTAL:
+			case BorhanLiveReportType::ENTRY_GEO_TIME_LINE:
+			case BorhanLiveReportType::ENTRY_SYNDICATION_TOTAL:
 				return $this->requestClient($client, $reportType, $wsFilter, $wsPager);
 				
-			case KalturaLiveReportType::PARTNER_TOTAL:
+			case BorhanLiveReportType::PARTNER_TOTAL:
 				if($filter->live && empty($wsFilter->entryIds)) {
 					$entryIds = $this->getAllLiveEntriesLiveNow();
 					if(empty($entryIds)) {
-						$response = new KalturaLiveStatsListResponse();
+						$response = new BorhanLiveStatsListResponse();
 						$response->totalCount = 1;
 						$response->objects = array();
-						$response->objects[] = new KalturaLiveStats();
+						$response->objects[] = new BorhanLiveStats();
 						return $response;
 					}
 					
@@ -91,17 +91,17 @@ class LiveReportsService extends KalturaBaseService
 				}
 				return $this->requestClient($client, $reportType, $wsFilter, $wsPager);
 				
-			case KalturaLiveReportType::ENTRY_TOTAL:
+			case BorhanLiveReportType::ENTRY_TOTAL:
 				$totalCount = null;
 				if(!$filter->live && empty($wsFilter->entryIds)) {
 					list($entryIds, $totalCount) = $this->getLiveEntries($client, kCurrentContext::getCurrentPartnerId(), $pager);
 					if(empty($entryIds))
-						return new KalturaLiveStatsListResponse();
+						return new BorhanLiveStatsListResponse();
 
 					$wsFilter->entryIds = implode(",", $entryIds);
 				}
 				
-				/** @var KalturaLiveStatsListResponse */
+				/** @var BorhanLiveStatsListResponse */
 				$result = $this->requestClient($client, $reportType, $wsFilter, $wsPager);
 				if($totalCount)
 					$result->totalCount = $totalCount;
@@ -116,11 +116,11 @@ class LiveReportsService extends KalturaBaseService
 	
 	/**
 	 * @action exportToCsv
-	 * @param KalturaLiveReportExportType $reportType 
-	 * @param KalturaLiveReportExportParams $params
-	 * @return KalturaLiveReportExportResponse
+	 * @param BorhanLiveReportExportType $reportType 
+	 * @param BorhanLiveReportExportParams $params
+	 * @return BorhanLiveReportExportResponse
 	 */
-	public function exportToCsvAction($reportType, KalturaLiveReportExportParams $params)
+	public function exportToCsvAction($reportType, BorhanLiveReportExportParams $params)
 	{
 		if(!$params->recpientEmail) {
 			$kuser = kCurrentContext::getCurrentKsKuser();
@@ -138,13 +138,13 @@ class LiveReportsService extends KalturaBaseService
 			$entryIds = explode(",", $params->entryIds);
 			$entries = entryPeer::retrieveByPKs($entryIds);
 			if(count($entryIds) != count($entries))
-				throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $params->entryIds);
+				throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $params->entryIds);
 		}
 		
 		
 		$dbBatchJob = kJobsManager::addExportLiveReportJob($reportType, $params);
 		
-		$res = new KalturaLiveReportExportResponse();
+		$res = new BorhanLiveReportExportResponse();
 		$res->referenceJobId = $dbBatchJob->getId();
 		$res->reportEmail = $params->recpientEmail;
 		
@@ -170,7 +170,7 @@ class LiveReportsService extends KalturaBaseService
 			KExternalErrors::dieError(KExternalErrors::ACCESS_CONTROL_RESTRICTED);
 	
 		if(!preg_match($fileNameRegex, $id, $matches)) {
-			throw new KalturaAPIException(KalturaErrors::REPORT_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::REPORT_NOT_FOUND, $id);
 		}
 		
 		// Check if the request should be handled by the other DC
@@ -196,11 +196,11 @@ class LiveReportsService extends KalturaBaseService
 	 */
 	protected function getAllLiveEntriesLiveNow() {
 		// Partner ID condition is embeded in the default criteria.
-		$baseCriteria = KalturaCriteria::create(entryPeer::OM_CLASS);
+		$baseCriteria = BorhanCriteria::create(entryPeer::OM_CLASS);
 		$filter = new entryFilter();
-		$filter->setTypeEquel(KalturaEntryType::LIVE_STREAM);
+		$filter->setTypeEquel(BorhanEntryType::LIVE_STREAM);
 		$filter->setIsLive(true);
-		$filter->setPartnerSearchScope(baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE);
+		$filter->setPartnerSearchScope(baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE);
 		$filter->attachToCriteria($baseCriteria);
 		
 		$entries = entryPeer::doSelect($baseCriteria);
@@ -214,7 +214,7 @@ class LiveReportsService extends KalturaBaseService
 	/**
 	 * Returns all live entries that were live in the past X hours
 	 */
-	protected function getLiveEntries(WSLiveReportsClient $client, $partnerId, KalturaFilterPager $pager) {
+	protected function getLiveEntries(WSLiveReportsClient $client, $partnerId, BorhanFilterPager $pager) {
 		// Get live entries list
 		/** @var WSLiveEntriesListResponse */
 		$response = $client->getLiveEntries($partnerId);
@@ -230,11 +230,11 @@ class LiveReportsService extends KalturaBaseService
 		}
 
 		// Order entries by first broadcast
-		$baseCriteria = KalturaCriteria::create(entryPeer::OM_CLASS);
+		$baseCriteria = BorhanCriteria::create(entryPeer::OM_CLASS);
 		$filter = new entryFilter();
-		$filter->setTypeEquel(KalturaEntryType::LIVE_STREAM);
+		$filter->setTypeEquel(BorhanEntryType::LIVE_STREAM);
 		$filter->setIdIn($entryIds);
-		$filter->setPartnerSearchScope(baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE);
+		$filter->setPartnerSearchScope(baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE);
 		$baseCriteria->addAscendingOrderByColumn(entryPeer::NAME);
 		$filter->attachToCriteria($baseCriteria);
 		$pager->attachToCriteria($baseCriteria);
@@ -251,7 +251,7 @@ class LiveReportsService extends KalturaBaseService
 	protected function requestClient(WSLiveReportsClient $client, $reportType, $wsFilter, $wsPager) {
 		/** @var WSLiveStatsListResponse */
 		$result = $client->getReport($reportType, $wsFilter, $wsPager);
-		$kResult = $result->toKalturaObject();
+		$kResult = $result->toBorhanObject();
 		return $kResult;
 	}
 

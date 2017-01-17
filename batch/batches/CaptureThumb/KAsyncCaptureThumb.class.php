@@ -24,13 +24,13 @@ class KAsyncCaptureThumb extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::CAPTURE_THUMB;
+		return BorhanBatchJobType::CAPTURE_THUMB;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->captureThumb($job, $job->data);
 	}
@@ -43,7 +43,7 @@ class KAsyncCaptureThumb extends KJobHandlerWorker
 		return 1;
 	}
 	
-	private function captureThumb(KalturaBatchJob $job, KalturaCaptureThumbJobData $data)
+	private function captureThumb(BorhanBatchJob $job, BorhanCaptureThumbJobData $data)
 	{
 		$thumbParamsOutput = self::$kClient->thumbParamsOutput->get($data->thumbParamsOutputId);
 		
@@ -52,16 +52,16 @@ class KAsyncCaptureThumb extends KJobHandlerWorker
 			$mediaFile = trim($data->srcFileSyncLocalPath);
 			
 			if(!file_exists($mediaFile))
-				return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, "Source file $mediaFile does not exist", KalturaBatchJobStatus::RETRY);
+				return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, "Source file $mediaFile does not exist", BorhanBatchJobStatus::RETRY);
 			
 			if(!is_file($mediaFile))
-				return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, "Source file $mediaFile is not a file", KalturaBatchJobStatus::FAILED);
+				return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, "Source file $mediaFile is not a file", BorhanBatchJobStatus::FAILED);
 				
-			$this->updateJob($job,"Capturing thumbnail on $mediaFile", KalturaBatchJobStatus::QUEUED);
+			$this->updateJob($job,"Capturing thumbnail on $mediaFile", BorhanBatchJobStatus::QUEUED);
 		}
 		catch(Exception $ex)
 		{
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::RUNTIME, $ex->getCode(), "Error: " . $ex->getMessage(), KalturaBatchJobStatus::FAILED);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::RUNTIME, $ex->getCode(), "Error: " . $ex->getMessage(), BorhanBatchJobStatus::FAILED);
 		}
 		
 		try
@@ -74,19 +74,19 @@ class KAsyncCaptureThumb extends KJobHandlerWorker
 			{
 				if(! file_exists($rootPath))
 				{
-					KalturaLog::info("Creating temp thumbnail directory [$rootPath]");
+					BorhanLog::info("Creating temp thumbnail directory [$rootPath]");
 					mkdir($rootPath);
 				}
 				else
 				{
 					// already exists but not a directory
-					KalturaLog::err("Cannot create temp thumbnail directory [$rootPath] due to an error. Please fix and restart");
+					BorhanLog::err("Cannot create temp thumbnail directory [$rootPath] due to an error. Please fix and restart");
 					die();
 				}
 			}
 				
 			$capturePath = $mediaFile;
-			if($data->srcAssetType == KalturaAssetType::FLAVOR)
+			if($data->srcAssetType == BorhanAssetType::FLAVOR)
 			{
 				// creates the path
 				$uniqid = uniqid('thumb_');
@@ -96,7 +96,7 @@ class KAsyncCaptureThumb extends KJobHandlerWorker
 				$mediaInfoHeight = null;
 				$mediaInfoDar = null;
 				$mediaInfoVidDur = null;
-				$mediaInfoFilter = new KalturaMediaInfoFilter();
+				$mediaInfoFilter = new BorhanMediaInfoFilter();
 				$mediaInfoFilter->flavorAssetIdEqual = $data->srcAssetId;
 				$this->impersonate($job->partnerId);
 				$mediaInfoList = self::$kClient->mediaInfo->listAction($mediaInfoFilter);
@@ -104,7 +104,7 @@ class KAsyncCaptureThumb extends KJobHandlerWorker
 				if(count($mediaInfoList->objects))
 				{
 					$mediaInfo = reset($mediaInfoList->objects);
-					/* @var $mediaInfo KalturaMediaInfo */
+					/* @var $mediaInfo BorhanMediaInfo */
 					$mediaInfoWidth = $mediaInfo->videoWidth;
 					$mediaInfoHeight = $mediaInfo->videoHeight;
 					$mediaInfoDar = $mediaInfo->videoDar;
@@ -121,9 +121,9 @@ class KAsyncCaptureThumb extends KJobHandlerWorker
 				$thumbMaker = new KFFMpegThumbnailMaker($mediaFile, $capturePath, self::$taskConfig->params->FFMpegCmd);
 				$created = $thumbMaker->createThumnail($thumbParamsOutput->videoOffset, $mediaInfoWidth, $mediaInfoHeight, null ,null, $mediaInfoDar, $mediaInfoVidDur);
 				if(!$created || !file_exists($capturePath))
-					return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::THUMBNAIL_NOT_CREATED, "Thumbnail not created", KalturaBatchJobStatus::FAILED);
+					return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::THUMBNAIL_NOT_CREATED, "Thumbnail not created", BorhanBatchJobStatus::FAILED);
 				
-				$this->updateJob($job, "Thumbnail captured [$capturePath]", KalturaBatchJobStatus::PROCESSING);
+				$this->updateJob($job, "Thumbnail captured [$capturePath]", BorhanBatchJobStatus::PROCESSING);
 			}
 			
 			$uniqid = uniqid('thumb_');
@@ -146,33 +146,33 @@ class KAsyncCaptureThumb extends KJobHandlerWorker
 			$cropper = new KImageMagickCropper($capturePath, $thumbPath, self::$taskConfig->params->ImageMagickCmd, true);
 			$cropped = $cropper->crop($quality, $cropType, $width, $height, $cropX, $cropY, $cropWidth, $cropHeight, $scaleWidth, $scaleHeight, $bgcolor, $density, $rotate);
 			if(!$cropped || !file_exists($thumbPath))
-				return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::THUMBNAIL_NOT_CREATED, "Thumbnail not cropped", KalturaBatchJobStatus::FAILED);
+				return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::THUMBNAIL_NOT_CREATED, "Thumbnail not cropped", BorhanBatchJobStatus::FAILED);
 				
 			$data->thumbPath = $thumbPath;
 			$job = $this->moveFile($job, $data);
 				
 			if($this->checkFileExists($job->data->thumbPath))
 			{
-				$updateData = new KalturaCaptureThumbJobData();
+				$updateData = new BorhanCaptureThumbJobData();
 				$updateData->thumbPath = $data->thumbPath;
-				return $this->closeJob($job, null, null, null, KalturaBatchJobStatus::FINISHED, $updateData);
+				return $this->closeJob($job, null, null, null, BorhanBatchJobStatus::FINISHED, $updateData);
 			}
 			
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, 'File not moved correctly', KalturaBatchJobStatus::FAILED, $data);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, 'File not moved correctly', BorhanBatchJobStatus::FAILED, $data);
 		}
 		catch(Exception $ex)
 		{
 			$this->unimpersonate();
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::RUNTIME, $ex->getCode(), "Error: " . $ex->getMessage(), KalturaBatchJobStatus::FAILED);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::RUNTIME, $ex->getCode(), "Error: " . $ex->getMessage(), BorhanBatchJobStatus::FAILED);
 		}
 	}
 	
 	/**
-	 * @param KalturaBatchJob $job
-	 * @param KalturaCaptureThumbJobData $data
-	 * @return KalturaBatchJob
+	 * @param BorhanBatchJob $job
+	 * @param BorhanCaptureThumbJobData $data
+	 * @return BorhanBatchJob
 	 */
-	private function moveFile(KalturaBatchJob $job, KalturaCaptureThumbJobData $data)
+	private function moveFile(BorhanBatchJob $job, BorhanCaptureThumbJobData $data)
 	{
 		// creates a temp file path
 		$rootPath = self::$taskConfig->params->sharedTempPath;
@@ -180,7 +180,7 @@ class KAsyncCaptureThumb extends KJobHandlerWorker
 		{
 			if(! file_exists($rootPath))
 			{
-				KalturaLog::info("Creating temp thumbnail directory [$rootPath]");
+				BorhanLog::info("Creating temp thumbnail directory [$rootPath]");
 				mkdir($rootPath);
 			}
 			else

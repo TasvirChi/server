@@ -6,7 +6,7 @@
  * @package plugins.metadata
  * @subpackage api.services
  */
-class MetadataService extends KalturaBaseService
+class MetadataService extends BorhanBaseService
 {
 
 	public function initService($serviceId, $serviceName, $actionName)
@@ -18,11 +18,11 @@ class MetadataService extends KalturaBaseService
 			$this->applyPartnerFilterForClass('Metadata');
 		
 		if(!MetadataPlugin::isAllowedPartner($this->getPartnerId()))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, MetadataPlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, MetadataPlugin::PLUGIN_NAME);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseService::partnerGroup()
+	 * @see BorhanBaseService::partnerGroup()
 	 */
 	protected function partnerGroup($peer = null)
 	{
@@ -36,7 +36,7 @@ class MetadataService extends KalturaBaseService
 	    return $this->partnerGroup;
 	}
 	
-	protected function kalturaNetworkAllowed($actionName)
+	protected function borhanNetworkAllowed($actionName)
 	{
 		if ($actionName == 'list')
 		{
@@ -44,18 +44,18 @@ class MetadataService extends KalturaBaseService
 			return true;
 		}
 			
-		return parent::kalturaNetworkAllowed($actionName);
+		return parent::borhanNetworkAllowed($actionName);
 	}
 
 	/**
-	 * Allows you to add a metadata object and metadata content associated with Kaltura object
+	 * Allows you to add a metadata object and metadata content associated with Borhan object
 	 * 
 	 * @action add
 	 * @param int $metadataProfileId
-	 * @param KalturaMetadataObjectType $objectType
+	 * @param BorhanMetadataObjectType $objectType
 	 * @param string $objectId
 	 * @param string $xmlData XML metadata
-	 * @return KalturaMetadata
+	 * @return BorhanMetadata
 	 * @throws MetadataErrors::METADATA_PROFILE_NOT_FOUND
 	 * @throws MetadataErrors::INCOMPATIBLE_METADATA_PROFILE_OBJECT_TYPE
 	 * @throws MetadataErrors::METADATA_ALREADY_EXISTS
@@ -65,12 +65,12 @@ class MetadataService extends KalturaBaseService
 	{
 	    $metadataProfile = MetadataProfilePeer::retrieveByPK($metadataProfileId);
 		if(!$metadataProfile)
-		    throw new KalturaAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $metadataProfileId);
+		    throw new BorhanAPIException(MetadataErrors::METADATA_PROFILE_NOT_FOUND, $metadataProfileId);
 		    
 		if($metadataProfile->getObjectType() != kPluginableEnumsManager::apiToCore('MetadataObjectType', $objectType))
-		    throw new KalturaAPIException(MetadataErrors::INCOMPATIBLE_METADATA_PROFILE_OBJECT_TYPE, $metadataProfile->getObjectType() , $objectType);
+		    throw new BorhanAPIException(MetadataErrors::INCOMPATIBLE_METADATA_PROFILE_OBJECT_TYPE, $metadataProfile->getObjectType() , $objectType);
 		
-		if($objectType == KalturaMetadataObjectType::USER)
+		if($objectType == BorhanMetadataObjectType::USER)
 		{
 			$kuser = kuserPeer::createKuserForPartner($this->getPartnerId(), $objectId);
 			if($kuser)				
@@ -85,14 +85,14 @@ class MetadataService extends KalturaBaseService
 			if ($peer) {
 				$entry = $peer->getEntry($objectId);
 				if (!$entry || $entry->getId() != $limitEntry) {
-					throw new KalturaAPIException(MetadataErrors::METADATA_NO_PERMISSION_ON_ENTRY, $objectId);
+					throw new BorhanAPIException(MetadataErrors::METADATA_NO_PERMISSION_ON_ENTRY, $objectId);
 				}
 			}
 		}
 
 		$check = MetadataPeer::retrieveByObject($metadataProfileId, $objectType, $objectId);
 		if($check)
-			throw new KalturaAPIException(MetadataErrors::METADATA_ALREADY_EXISTS, $check->getId());
+			throw new BorhanAPIException(MetadataErrors::METADATA_ALREADY_EXISTS, $check->getId());
 			
 		// if a metadata xslt is defined on the metadata profile - transform the given metadata
 		$xmlDataTransformed = $this->transformMetadata($metadataProfileId, $xmlData);
@@ -101,7 +101,7 @@ class MetadataService extends KalturaBaseService
 		
 		$errorMessage = '';
 		if(!kMetadataManager::validateMetadata($metadataProfileId, $xmlData, $errorMessage))
-			throw new KalturaAPIException(MetadataErrors::INVALID_METADATA_DATA, $errorMessage);
+			throw new BorhanAPIException(MetadataErrors::INVALID_METADATA_DATA, $errorMessage);
 		
 		$dbMetadata = $this->addMetadata($metadataProfileId, $objectType, $objectId);
 		
@@ -111,7 +111,7 @@ class MetadataService extends KalturaBaseService
 		$this->deleteOldVersions($dbMetadata);
 		kEventsManager::raiseEvent(new kObjectDataChangedEvent($dbMetadata));
 				
-		$metadata = new KalturaMetadata();
+		$metadata = new BorhanMetadata();
 		$metadata->fromObject($dbMetadata, $this->getResponseProfile());
 		
 		return $metadata;
@@ -119,10 +119,10 @@ class MetadataService extends KalturaBaseService
 
 	
 	/**
-	 * Adds a metadata object associated with Kaltura object
+	 * Adds a metadata object associated with Borhan object
 	 * 
 	 * @param int $metadataProfileId
-	 * @param KalturaMetadataObjectType $objectType
+	 * @param BorhanMetadataObjectType $objectType
 	 * @param string $objectId
 	 * @return Metadata
 	 * @throws MetadataErrors::METADATA_ALREADY_EXISTS
@@ -136,14 +136,14 @@ class MetadataService extends KalturaBaseService
 		
 		$check = MetadataPeer::retrieveByObject($metadataProfileId, $objectType, $objectId);
 		if($check)
-			throw new KalturaAPIException(MetadataErrors::METADATA_ALREADY_EXISTS, $check->getId());
+			throw new BorhanAPIException(MetadataErrors::METADATA_ALREADY_EXISTS, $check->getId());
 			
 		$dbMetadataProfile = MetadataProfilePeer::retrieveByPK($metadataProfileId);
 		if(!$dbMetadataProfile)
-			throw new KalturaAPIException(MetadataErrors::INVALID_METADATA_PROFILE, $metadataProfileId);
+			throw new BorhanAPIException(MetadataErrors::INVALID_METADATA_PROFILE, $metadataProfileId);
 			
 		if($dbMetadataProfile->getObjectType() != $objectType)
-			throw new KalturaAPIException(MetadataErrors::INVALID_METADATA_PROFILE_TYPE, $dbMetadataProfile->getObjectType());
+			throw new BorhanAPIException(MetadataErrors::INVALID_METADATA_PROFILE_TYPE, $dbMetadataProfile->getObjectType());
 		
 		$dbMetadata = new Metadata();
 		
@@ -152,16 +152,16 @@ class MetadataService extends KalturaBaseService
 		$dbMetadata->setMetadataProfileVersion($dbMetadataProfile->getVersion());
 		$dbMetadata->setObjectType($objectType);
 		$dbMetadata->setObjectId($objectId);
-		$dbMetadata->setStatus(KalturaMetadataStatus::VALID);
+		$dbMetadata->setStatus(BorhanMetadataStatus::VALID);
 		$dbMetadata->setLikeNew(true);
 
 		// dynamic objects are metadata only, skip validating object id
-		if ($objectType != KalturaMetadataObjectType::DYNAMIC_OBJECT)
+		if ($objectType != BorhanMetadataObjectType::DYNAMIC_OBJECT)
 		{
 			// validate object exists
 			$object = kMetadataManager::getObjectFromPeer($dbMetadata);
 			if (!$object)
-				throw new KalturaAPIException(MetadataErrors::INVALID_METADATA_OBJECT, $objectId);
+				throw new BorhanAPIException(MetadataErrors::INVALID_METADATA_OBJECT, $objectId);
 		}
 
 		$dbMetadata->save();
@@ -172,14 +172,14 @@ class MetadataService extends KalturaBaseService
 	}
 
 	/**
-	 * Allows you to add a metadata object and metadata file associated with Kaltura object
+	 * Allows you to add a metadata object and metadata file associated with Borhan object
 	 * 
 	 * @action addFromFile
 	 * @param int $metadataProfileId
-	 * @param KalturaMetadataObjectType $objectType
+	 * @param BorhanMetadataObjectType $objectType
 	 * @param string $objectId
 	 * @param file $xmlFile XML metadata
-	 * @return KalturaMetadata
+	 * @return BorhanMetadata
 	 * @throws MetadataErrors::METADATA_ALREADY_EXISTS
 	 * @throws MetadataErrors::METADATA_FILE_NOT_FOUND
 	 * @throws MetadataErrors::INVALID_METADATA_DATA
@@ -188,7 +188,7 @@ class MetadataService extends KalturaBaseService
 	{
 		$filePath = $xmlFile['tmp_name'];
 		if(!file_exists($filePath))
-			throw new KalturaAPIException(MetadataErrors::METADATA_FILE_NOT_FOUND, $xmlFile['name']);
+			throw new BorhanAPIException(MetadataErrors::METADATA_FILE_NOT_FOUND, $xmlFile['name']);
 		
 		$xmlData = file_get_contents($filePath);
 		@unlink($filePath);
@@ -202,11 +202,11 @@ class MetadataService extends KalturaBaseService
 
 	 * @action addFromUrl
 	 * @param int $metadataProfileId
-	 * @param KalturaMetadataObjectType $objectType
+	 * @param BorhanMetadataObjectType $objectType
 	 * @param string $objectId
 	 * @param string $url XML metadata remote url
 
-	 * @return KalturaMetadata
+	 * @return BorhanMetadata
 	 */
 	function addFromUrlAction($metadataProfileId, $objectType, $objectId, $url)
 	{
@@ -221,10 +221,10 @@ class MetadataService extends KalturaBaseService
 	 * 
 	 * @action addFromBulk
 	 * @param int $metadataProfileId
-	 * @param KalturaMetadataObjectType $objectType
+	 * @param BorhanMetadataObjectType $objectType
 	 * @param string $objectId
 	 * @param string $url XML metadata remote url
-	 * @return KalturaMetadata
+	 * @return BorhanMetadata
 	 */
 	function addFromBulkAction($metadataProfileId, $objectType, $objectId, $url)
 	{
@@ -237,7 +237,7 @@ class MetadataService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param int $id 
-	 * @return KalturaMetadata
+	 * @return BorhanMetadata
 	 * @throws MetadataErrors::METADATA_NOT_FOUND
 	 */		
 	function getAction($id)
@@ -245,9 +245,9 @@ class MetadataService extends KalturaBaseService
 		$dbMetadata = MetadataPeer::retrieveByPK( $id );
 		
 		if(!$dbMetadata)
-			throw new KalturaAPIException(MetadataErrors::METADATA_NOT_FOUND, $id);
+			throw new BorhanAPIException(MetadataErrors::METADATA_NOT_FOUND, $id);
 			
-		$metadata = new KalturaMetadata();
+		$metadata = new BorhanMetadata();
 		$metadata->fromObject($dbMetadata, $this->getResponseProfile());
 		
 		return $metadata;
@@ -260,7 +260,7 @@ class MetadataService extends KalturaBaseService
 	 * @param int $id 
 	 * @param string $xmlData XML metadata
 	 * @param int $version Enable update only if the metadata object version did not change by other process
-	 * @return KalturaMetadata
+	 * @return BorhanMetadata
 	 * @throws MetadataErrors::METADATA_NOT_FOUND
 	 * @throws MetadataErrors::INVALID_METADATA_DATA
 	 * @throws MetadataErrors::INVALID_METADATA_VERSION
@@ -275,14 +275,14 @@ class MetadataService extends KalturaBaseService
 	{
 		$dbMetadata = MetadataPeer::retrieveByPK($id);
 		if(!$dbMetadata)
-			throw new KalturaAPIException(MetadataErrors::METADATA_NOT_FOUND, $id);
+			throw new BorhanAPIException(MetadataErrors::METADATA_NOT_FOUND, $id);
 			
 		if($version && $dbMetadata->getVersion() != $version)
-			throw new KalturaAPIException(MetadataErrors::INVALID_METADATA_VERSION, $dbMetadata->getVersion());
+			throw new BorhanAPIException(MetadataErrors::INVALID_METADATA_VERSION, $dbMetadata->getVersion());
 		
 		$dbMetadataProfile = MetadataProfilePeer::retrieveByPK($dbMetadata->getMetadataProfileId());
 		if(!$dbMetadataProfile)
-			throw new KalturaAPIException(MetadataErrors::INVALID_METADATA_PROFILE, $dbMetadata->getMetadataProfileId());
+			throw new BorhanAPIException(MetadataErrors::INVALID_METADATA_PROFILE, $dbMetadata->getMetadataProfileId());
 		
 		$previousVersion = null;
 		if($dbMetadata->getStatus() == Metadata::STATUS_VALID)
@@ -300,16 +300,16 @@ class MetadataService extends KalturaBaseService
 			{
 				// if metadata profile is transforming, and metadata profile version is not the latest, try to validate againts previous version
 				if($dbMetadataProfile->getStatus() != MetadataProfile::STATUS_TRANSFORMING || $dbMetadata->getMetadataProfileVersion() >= $dbMetadataProfile->getVersion())
-					throw new KalturaAPIException(MetadataErrors::INVALID_METADATA_DATA, $errorMessage);
+					throw new BorhanAPIException(MetadataErrors::INVALID_METADATA_DATA, $errorMessage);
 					
 				// validates against previous version
 				$errorMessagePrevVersion = '';
 				if(!kMetadataManager::validateMetadata($dbMetadata->getMetadataProfileId(), $xmlData, $errorMessagePrevVersion, true))
 				{
-					KalturaLog::err("Failed to validate metadata object [$id] against metadata profile previous version [" . $dbMetadata->getMetadataProfileVersion() . "] error: $errorMessagePrevVersion");
+					BorhanLog::err("Failed to validate metadata object [$id] against metadata profile previous version [" . $dbMetadata->getMetadataProfileVersion() . "] error: $errorMessagePrevVersion");
 
 					// throw the error with the original error message
-					throw new KalturaAPIException(MetadataErrors::INVALID_METADATA_DATA, $errorMessage);
+					throw new BorhanAPIException(MetadataErrors::INVALID_METADATA_DATA, $errorMessage);
 				}
 			}
 			else
@@ -328,13 +328,13 @@ class MetadataService extends KalturaBaseService
 			}
 			else 
 			{
-				KalturaLog::info("XML data MD5 matches current filesync content MD5. Update is not necessary.");
+				BorhanLog::info("XML data MD5 matches current filesync content MD5. Update is not necessary.");
 				//adding this save() in order to save the metadata profile version field in case there are no diffrences
 				$dbMetadata->save();
 			}
 		}
 		
-		$metadata = new KalturaMetadata();
+		$metadata = new BorhanMetadata();
 		$metadata->fromObject($dbMetadata, $this->getResponseProfile());
 			
 		return $metadata;
@@ -347,7 +347,7 @@ class MetadataService extends KalturaBaseService
 	 * @action updateFromFile
 	 * @param int $id 
 	 * @param file $xmlFile XML metadata
-	 * @return KalturaMetadata
+	 * @return BorhanMetadata
 	 * @throws MetadataErrors::METADATA_NOT_FOUND
 	 * @throws MetadataErrors::METADATA_FILE_NOT_FOUND
 	 * @throws MetadataErrors::INVALID_METADATA_DATA
@@ -356,7 +356,7 @@ class MetadataService extends KalturaBaseService
 	{
 		$filePath = $xmlFile['tmp_name'];
 		if(!file_exists($filePath))
-			throw new KalturaAPIException(MetadataErrors::METADATA_FILE_NOT_FOUND, $xmlFile['name']);
+			throw new BorhanAPIException(MetadataErrors::METADATA_FILE_NOT_FOUND, $xmlFile['name']);
 		
 		$xmlData = file_get_contents($filePath);
 		@unlink($filePath);
@@ -367,17 +367,17 @@ class MetadataService extends KalturaBaseService
 	 * List metadata objects by filter and pager
 	 * 
 	 * @action list
-	 * @param KalturaMetadataFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaMetadataListResponse
+	 * @param BorhanMetadataFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanMetadataListResponse
 	 */
-	function listAction(KalturaMetadataFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanMetadataFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaMetadataFilter;
+			$filter = new BorhanMetadataFilter;
 			
 		if (! $pager)
-			$pager = new KalturaFilterPager ();
+			$pager = new BorhanFilterPager ();
 			
 		$applyPartnerFilter = true;
 		if ($filter->metadataObjectTypeEqual == MetadataObjectType::ENTRY)
@@ -395,15 +395,15 @@ class MetadataService extends KalturaBaseService
 			if (!$entryIds && kConf::hasParam('metadata_list_without_object_filtering_partners') && 
 				!in_array(kCurrentContext::getCurrentPartnerId(), kConf::get('metadata_list_without_object_filtering_partners')) &&
 				kCurrentContext::$ks_partner_id != Partner::BATCH_PARTNER_ID)
-				throw new KalturaAPIException(MetadataErrors::MUST_FILTER_ON_OBJECT_ID);
+				throw new BorhanAPIException(MetadataErrors::MUST_FILTER_ON_OBJECT_ID);
 			
 			if($entryIds)
 			{
-				$entryIds = entryPeer::filterEntriesByPartnerOrKalturaNetwork($entryIds, kCurrentContext::getCurrentPartnerId());
+				$entryIds = entryPeer::filterEntriesByPartnerOrBorhanNetwork($entryIds, kCurrentContext::getCurrentPartnerId());
 				if(!count($entryIds))
 				{
-					$response = new KalturaMetadataListResponse();
-					$response->objects = new KalturaMetadataArray();
+					$response = new BorhanMetadataListResponse();
+					$response->objects = new BorhanMetadataArray();
 					$response->totalCount = 0;
 					return $response;
 				}
@@ -433,7 +433,7 @@ class MetadataService extends KalturaBaseService
 		$c->add(MetadataPeer::OBJECT_TYPE, $metadata->getObjectType());
 		$c->add(MetadataPeer::METADATA_PROFILE_ID, $metadata->getMetadataProfileId());
 		$c->add(MetadataPeer::METADATA_PROFILE_VERSION, $metadata->getMetadataProfileVersion(), Criteria::LESS_THAN);
-		$c->add(MetadataPeer::STATUS, KalturaMetadataStatus::DELETED, Criteria::NOT_EQUAL);
+		$c->add(MetadataPeer::STATUS, BorhanMetadataStatus::DELETED, Criteria::NOT_EQUAL);
 		
 		MetadataPeer::setUseCriteriaFilter(false);
 		$metadatas = MetadataPeer::doSelect($c);
@@ -443,7 +443,7 @@ class MetadataService extends KalturaBaseService
 			kEventsManager::raiseEvent(new kObjectDeletedEvent($metadata));
 		
 		$update = new Criteria();
-		$update->add(MetadataPeer::STATUS, KalturaMetadataStatus::DELETED);
+		$update->add(MetadataPeer::STATUS, BorhanMetadataStatus::DELETED);
 			
 		$con = Propel::getConnection(MetadataPeer::DATABASE_NAME);
 		$count = BasePeer::doUpdate($c, $update, $con);
@@ -464,9 +464,9 @@ class MetadataService extends KalturaBaseService
 		$dbMetadata = MetadataPeer::retrieveByPK($id);
 		
 		if(!$dbMetadata)
-			throw new KalturaAPIException(MetadataErrors::METADATA_NOT_FOUND, $id);
+			throw new BorhanAPIException(MetadataErrors::METADATA_NOT_FOUND, $id);
 		
-		$dbMetadata->setStatus(KalturaMetadataStatus::DELETED);
+		$dbMetadata->setStatus(BorhanMetadataStatus::DELETED);
 		$dbMetadata->save();
 	}
 
@@ -485,12 +485,12 @@ class MetadataService extends KalturaBaseService
 	{
 		$dbMetadata = MetadataPeer::retrieveByPK($id);
 		if(!$dbMetadata)
-			throw new KalturaAPIException(MetadataErrors::METADATA_NOT_FOUND, $id);
+			throw new BorhanAPIException(MetadataErrors::METADATA_NOT_FOUND, $id);
 
 		if($version && $dbMetadata->getVersion() != $version)
-			throw new KalturaAPIException(MetadataErrors::INVALID_METADATA_VERSION, $dbMetadata->getVersion());
+			throw new BorhanAPIException(MetadataErrors::INVALID_METADATA_VERSION, $dbMetadata->getVersion());
 
-		$dbMetadata->setStatus(KalturaMetadataStatus::INVALID);
+		$dbMetadata->setStatus(BorhanMetadataStatus::INVALID);
 		$dbMetadata->save();
 	}
 
@@ -505,11 +505,11 @@ class MetadataService extends KalturaBaseService
 	function indexAction($id, $shouldUpdate)
 	{
 		if(kEntitlementUtils::getEntitlementEnforcement())
-			throw new KalturaAPIException(KalturaErrors::CANNOT_INDEX_OBJECT_WHEN_ENTITLEMENT_IS_ENABLE);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_INDEX_OBJECT_WHEN_ENTITLEMENT_IS_ENABLE);
 
 		$dbMetadata = MetadataPeer::retrieveByPK($id);
 		if(!$dbMetadata)
-			throw new KalturaAPIException(MetadataErrors::METADATA_NOT_FOUND, $id);
+			throw new BorhanAPIException(MetadataErrors::METADATA_NOT_FOUND, $id);
 
 		$dbMetadata->indexToSearchIndex();
 		$relatedObject = kMetadataManager::getObjectFromPeer($dbMetadata);
@@ -528,14 +528,14 @@ class MetadataService extends KalturaBaseService
 	 * @return file
 	 *  
 	 * @throws MetadataErrors::METADATA_NOT_FOUND
-	 * @throws KalturaErrors::FILE_DOESNT_EXIST
+	 * @throws BorhanErrors::FILE_DOESNT_EXIST
 	 */
 	public function serveAction($id)
 	{
 		$dbMetadata = MetadataPeer::retrieveByPK( $id );
 		
 		if(!$dbMetadata)
-			throw new KalturaAPIException(MetadataErrors::METADATA_NOT_FOUND, $id);
+			throw new BorhanAPIException(MetadataErrors::METADATA_NOT_FOUND, $id);
 		
 		$fileName = $dbMetadata->getObjectId() . '.xml';
 		$fileSubType = Metadata::FILE_SYNC_METADATA_DATA;
@@ -549,7 +549,7 @@ class MetadataService extends KalturaBaseService
         $result = null;
 	    $metadataProfile = MetadataProfilePeer::retrieveByPK($metadataProfileId); 
 	    if (!$metadataProfile) {
-	        KalturaLog::err('Cannot find metadata profile id ['.$metadataProfileId.']');
+	        BorhanLog::err('Cannot find metadata profile id ['.$metadataProfileId.']');
 	        return null;
 	    }
 	    
@@ -562,7 +562,7 @@ class MetadataService extends KalturaBaseService
 	    	return null;
 	    
         $xsltParams = array(
-        	XsltParameterName::KALTURA_CURRENT_TIMESTAMP => time(),
+        	XsltParameterName::BORHAN_CURRENT_TIMESTAMP => time(),
         );
         
         $xsltErrors = array();
@@ -570,13 +570,13 @@ class MetadataService extends KalturaBaseService
         
         if (!empty($xsltErrors))
         {
-        	throw new KalturaAPIException(MetadataErrors::XSLT_VALIDATION_ERROR, implode(',', $xsltErrors));
+        	throw new BorhanAPIException(MetadataErrors::XSLT_VALIDATION_ERROR, implode(',', $xsltErrors));
         }
         
         if ($xmlDataTransformed)
             return $xmlDataTransformed;
         
-        KalturaLog::err('Failed XML [$xmlData] transformation for metadata with XSL [$xsltString]');
+        BorhanLog::err('Failed XML [$xmlData] transformation for metadata with XSL [$xsltString]');
 	    return null;
 	}
 	
@@ -586,7 +586,7 @@ class MetadataService extends KalturaBaseService
 	 * 
 	 * @param int $id
 	 * @param file $xslFile
-	 * @return KalturaMetadata
+	 * @return BorhanMetadata
 	 * @throws MetadataErrors::XSLT_VALIDATION_ERROR
 	 * @throws MetadataErrors::METADATA_FILE_NOT_FOUND
 	 * @throws MetadataErrors::METADATA_NOT_FOUND
@@ -595,7 +595,7 @@ class MetadataService extends KalturaBaseService
 	{
 		$xslFilePath = $xslFile['tmp_name'];
 		if(!file_exists($xslFilePath))
-			throw new KalturaAPIException(MetadataErrors::METADATA_FILE_NOT_FOUND, $xslFile['name']);
+			throw new BorhanAPIException(MetadataErrors::METADATA_FILE_NOT_FOUND, $xslFile['name']);
 
 		$xslData = file_get_contents($xslFilePath);
 		@unlink($xslFilePath);
@@ -607,7 +607,7 @@ class MetadataService extends KalturaBaseService
 	{
 		$dbMetadataObject = MetadataPeer::retrieveByPK($id);
 		if (!$dbMetadataObject)
-			throw new KalturaAPIException(MetadataErrors::METADATA_NOT_FOUND);
+			throw new BorhanAPIException(MetadataErrors::METADATA_NOT_FOUND);
 
 		$dbMetadataObjectFileSyncKey = $dbMetadataObject->getSyncKey(Metadata::FILE_SYNC_METADATA_DATA);
 
@@ -616,7 +616,7 @@ class MetadataService extends KalturaBaseService
 
 		if ( count($xsltErrors))
 		{
-			throw new KalturaAPIException(MetadataErrors::XSLT_VALIDATION_ERROR, implode(',', $xsltErrors));
+			throw new BorhanAPIException(MetadataErrors::XSLT_VALIDATION_ERROR, implode(',', $xsltErrors));
 		}
 
 		return $this->updateImpl($id, $transformMetadataObjectData);

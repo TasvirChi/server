@@ -6,7 +6,7 @@
  * @package plugins.unicornDistribution
  * @subpackage api.services
  */
-class UnicornService extends KalturaBaseService
+class UnicornService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -14,7 +14,7 @@ class UnicornService extends KalturaBaseService
 		$this->applyPartnerFilterForClass('BatchJob');
 		
 		if(!ContentDistributionPlugin::isAllowedPartner($this->getPartnerId()))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, ContentDistributionPlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, ContentDistributionPlugin::PLUGIN_NAME);
 	}
 	
 	/**
@@ -39,29 +39,29 @@ class UnicornService extends KalturaBaseService
 		if(!$batchJob)
 		{
 			$invalid = true;
-			KalturaLog::err("Job [$id] not found");
+			BorhanLog::err("Job [$id] not found");
 		}
 		elseif(!in_array($batchJob->getJobType(), $validJobTypes))
 		{
 			$invalid = true;
-			KalturaLog::err("Job [$id] wrong type [" . $batchJob->getJobType() . "] expected [" . implode(', ', $validJobTypes) . "]");
+			BorhanLog::err("Job [$id] wrong type [" . $batchJob->getJobType() . "] expected [" . implode(', ', $validJobTypes) . "]");
 		}
 		elseif($batchJob->getJobSubType() != UnicornDistributionProvider::get()->getType())
 		{
 			$invalid = true;
-			KalturaLog::err("Job [$id] wrong sub-type [" . $batchJob->getJobSubType() . "] expected [" . UnicornDistributionProvider::get()->getType() . "]");
+			BorhanLog::err("Job [$id] wrong sub-type [" . $batchJob->getJobSubType() . "] expected [" . UnicornDistributionProvider::get()->getType() . "]");
 		}
-		elseif($batchJob->getStatus() != KalturaBatchJobStatus::ALMOST_DONE)
+		elseif($batchJob->getStatus() != BorhanBatchJobStatus::ALMOST_DONE)
 		{
 			$invalid = true;
-			KalturaLog::err("Job [$id] wrong status [" . $batchJob->getStatus() . "] expected [" . KalturaBatchJobStatus::ALMOST_DONE . "]");
+			BorhanLog::err("Job [$id] wrong status [" . $batchJob->getStatus() . "] expected [" . BorhanBatchJobStatus::ALMOST_DONE . "]");
 		}
 		if($invalid)
 		{
-			throw new KalturaAPIException(KalturaErrors::INVALID_BATCHJOB_ID, $id);
+			throw new BorhanAPIException(BorhanErrors::INVALID_BATCHJOB_ID, $id);
 		}
 			
-		kJobsManager::updateBatchJob($batchJob, KalturaBatchJobStatus::FINISHED);
+		kJobsManager::updateBatchJob($batchJob, BorhanBatchJobStatus::FINISHED);
 		
 		$data = $batchJob->getData();
 		/* @var $data kDistributionJobData */
@@ -110,7 +110,7 @@ class UnicornService extends KalturaBaseService
 		
 		$url = "$domainGuid/$applicationGuid/$mediaItemGuid/content.m3u8";
 		
-		$entry->setSource(KalturaSourceType::URL);
+		$entry->setSource(BorhanSourceType::URL);
 		$entry->save();
 		
 		$isNewAsset = false;

@@ -3,6 +3,6 @@
  * @package api
  * @subpackage filters
  */
-class KalturaDeliveryProfileLiveAppleHttpFilter extends KalturaDeliveryProfileLiveAppleHttpBaseFilter
+class BorhanDeliveryProfileLiveAppleHttpFilter extends BorhanDeliveryProfileLiveAppleHttpBaseFilter
 {
 }

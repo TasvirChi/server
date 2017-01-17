@@ -18,7 +18,7 @@ class FiltersGenerator extends ClientGeneratorFromPhp
 		
 	}
 	
-	protected function writeBeforeService(KalturaServiceActionItem $serviceReflector)
+	protected function writeBeforeService(BorhanServiceActionItem $serviceReflector)
 	{
 		
 	}
@@ -28,7 +28,7 @@ class FiltersGenerator extends ClientGeneratorFromPhp
 		
 	}
 	
-	protected function writeAfterService(KalturaServiceActionItem $serviceReflector)
+	protected function writeAfterService(BorhanServiceActionItem $serviceReflector)
 	{
 		
 	}
@@ -43,7 +43,7 @@ class FiltersGenerator extends ClientGeneratorFromPhp
 		
 	}
 
-	protected function writeType(KalturaTypeReflector $type)
+	protected function writeType(BorhanTypeReflector $type)
 	{
 		if ($type->isFilterable())
 		{
@@ -53,7 +53,7 @@ class FiltersGenerator extends ClientGeneratorFromPhp
 		}
 	}
 	
-	private function writeFilterForType(KalturaTypeReflector $type)
+	private function writeFilterForType(BorhanTypeReflector $type)
 	{
 		$map = KAutoloader::getClassMap();
 		if(!isset($map[$type->getType()]))
@@ -65,7 +65,7 @@ class FiltersGenerator extends ClientGeneratorFromPhp
 		$filterPath = dirname($map[$type->getType()]) . "/filters/$filterClassName.php";
 		if(file_exists($filterPath))
 		{
-			KalturaLog::notice("Filter already exists [$filterPath]");
+			BorhanLog::notice("Filter already exists [$filterPath]");
 			return;
 		}
 		$this->_txt = "";
@@ -79,7 +79,7 @@ class FiltersGenerator extends ClientGeneratorFromPhp
 				break;			
 		}
 		
-		$partnetClassName = ($parentType ? $parentType->getType() . "Filter" : "KalturaFilter");
+		$partnetClassName = ($parentType ? $parentType->getType() . "Filter" : "BorhanFilter");
 		
 		$subpackage = ($type->getPackage() == 'api' ? '' : 'api.') . 'filters';
 		$this->appendLine("<?php");
@@ -94,7 +94,7 @@ class FiltersGenerator extends ClientGeneratorFromPhp
 		$this->writeToFile($filterPath, $this->_txt);
 	}
 	
-	private function writeBaseFilterForType(KalturaTypeReflector $type)
+	private function writeBaseFilterForType(BorhanTypeReflector $type)
 	{
 		$map = KAutoloader::getClassMap();
 		if(!isset($map[$type->getType()]))
@@ -114,7 +114,7 @@ class FiltersGenerator extends ClientGeneratorFromPhp
 				break;			
 		}
 		
-		$partnetClassName = ($parentType ? $parentType->getType() . "Filter" : ($type->isRelatedFilterable() ? "KalturaRelatedFilter" : "KalturaFilter"));
+		$partnetClassName = ($parentType ? $parentType->getType() . "Filter" : ($type->isRelatedFilterable() ? "BorhanRelatedFilter" : "BorhanFilter"));
 		
 		$subpackage = ($type->getPackage() == 'api' ? '' : 'api.') . 'filters.base';
 		$this->appendLine("<?php");
@@ -174,7 +174,7 @@ class FiltersGenerator extends ClientGeneratorFromPhp
 		$this->appendLine("	(");
 		foreach($type->getCurrentProperties() as $prop)
 		{
-			/* @var $prop KalturaPropertyInfo */
+			/* @var $prop BorhanPropertyInfo */
 			$filters = $prop->getFilters();
 			foreach($filters as $filter)
 			{
@@ -225,7 +225,7 @@ class FiltersGenerator extends ClientGeneratorFromPhp
 					$filterProp = $this->formatFilterPropertyName($filter, $prop->getName());
 					$filterPropType = $prop->getType();
 					if($filterPropType == 'bool' || $filter == baseObjectFilter::IS_EMPTY)
-						$filterPropType = 'KalturaNullableBoolean';
+						$filterPropType = 'BorhanNullableBoolean';
 
 					if ($prop->isTime())
 						$filterPropType = 'time';
@@ -288,7 +288,7 @@ class FiltersGenerator extends ClientGeneratorFromPhp
 		$this->writeToFile($filterPath, $this->_txt);
 	}
 	
-	private function writeOrderByEnumForType(KalturaTypeReflector $type)
+	private function writeOrderByEnumForType(BorhanTypeReflector $type)
 	{
 		$map = KAutoloader::getClassMap();
 		if(!isset($map[$type->getType()]))
@@ -304,7 +304,7 @@ class FiltersGenerator extends ClientGeneratorFromPhp
 				break;			
 		}
 		
-		$partnetClassName = ($parentType ? $parentType->getType() . "OrderBy" : "KalturaStringEnum");
+		$partnetClassName = ($parentType ? $parentType->getType() . "OrderBy" : "BorhanStringEnum");
 		
 		$enumName = $type->getType() . "OrderBy";
 		$enumPath = dirname($map[$type->getType()]) . "/filters/orderEnums/$enumName.php";

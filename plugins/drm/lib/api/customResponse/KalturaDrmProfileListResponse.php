@@ -3,10 +3,10 @@
  * @package plugins.drm
  * @subpackage api.objects
  */
-class KalturaDrmProfileListResponse extends KalturaListResponse
+class BorhanDrmProfileListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaDrmProfileArray
+	 * @var BorhanDrmProfileArray
 	 * @readonly
 	 */
 	public $objects;

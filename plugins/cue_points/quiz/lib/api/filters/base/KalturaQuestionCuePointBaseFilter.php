@@ -4,7 +4,7 @@
  * @subpackage api.filters.base
  * @abstract
  */
-abstract class KalturaQuestionCuePointBaseFilter extends KalturaCuePointFilter
+abstract class BorhanQuestionCuePointBaseFilter extends BorhanCuePointFilter
 {
 	static private $map_between_objects = array
 	(

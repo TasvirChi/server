@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaConversionProfileStatus extends KalturaDynamicEnum implements ConversionProfileStatus
+class BorhanConversionProfileStatus extends BorhanDynamicEnum implements ConversionProfileStatus
 {
 	public static function getEnumClass()
 	{

@@ -3,18 +3,18 @@
  * @package plugins.businessProcessNotification
  * @subpackage api.objects
  */
-class KalturaBusinessProcessCaseArray extends KalturaTypedArray
+class BorhanBusinessProcessCaseArray extends BorhanTypedArray
 {
 	public static function fromDbArray($arr)
 	{
-		$newArr = new KalturaBusinessProcessCaseArray();
+		$newArr = new BorhanBusinessProcessCaseArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
 			/* @var $obj kBusinessProcessCase */
-    		$nObj = new KalturaBusinessProcessCase();
+    		$nObj = new BorhanBusinessProcessCase();
 			$nObj->fromObject($obj);
 			$newArr[] = $nObj;
 		}
@@ -24,6 +24,6 @@ class KalturaBusinessProcessCaseArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaBusinessProcessCase");	
+		parent::__construct("BorhanBusinessProcessCase");	
 	}
 }

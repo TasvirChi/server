@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__).'/../config/kConf.php');
 
-define('KALTURA_LOG', 		'ps2_dev');
+define('BORHAN_LOG', 		'ps2_dev');
 define('SF_ENVIRONMENT',	'dev');
 define('SF_DEBUG',			true);
 

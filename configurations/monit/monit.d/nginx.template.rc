@@ -1,18 +1,18 @@
 check process nginx
     with pidfile "/var/run/nginx.pid"
-    start program = "/sbin/service kaltura-nginx start" with timeout 60 seconds
-    stop program = "/sbin/service kaltura-nginx stop"
+    start program = "/sbin/service borhan-nginx start" with timeout 60 seconds
+    stop program = "/sbin/service borhan-nginx stop"
 
     if failed host localhost port @VOD_PACKAGER_PORT@ protocol http then restart
 
-    group kaltura
+    group borhan
     depends on nginxbin, nginx.conf
 
 check file nginx.conf
     with path "/etc/nginx/nginx.conf"
-    # Reload Nginx if the kaltura.conf file was changed
+    # Reload Nginx if the borhan.conf file was changed
     if changed checksum
-        then exec "/etc/init.d/kaltura-nginx restart"
+        then exec "/etc/init.d/borhan-nginx restart"
     if does not exist then alert
    
 check file nginxbin

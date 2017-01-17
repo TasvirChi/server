@@ -6,23 +6,23 @@
  * @package api
  * @subpackage services
  */
-class BaseEntryService extends KalturaEntryService
+class BaseEntryService extends BorhanEntryService
 {
     /* (non-PHPdoc)
-     * @see KalturaEntryService::initService()
+     * @see BorhanEntryService::initService()
      */
     public function initService($serviceId, $serviceName, $actionName)
     {
         parent::initService($serviceId, $serviceName, $actionName);
         $partner = PartnerPeer::retrieveByPK($this->getPartnerId());
-        if ($actionName == "anonymousRank" && $partner->getEnabledService(KalturaPermissionName::FEATURE_LIKE))
+        if ($actionName == "anonymousRank" && $partner->getEnabledService(BorhanPermissionName::FEATURE_LIKE))
         {
-            throw new KalturaAPIException(KalturaErrors::ACTION_FORBIDDEN, "anonymousRank");
+            throw new BorhanAPIException(BorhanErrors::ACTION_FORBIDDEN, "anonymousRank");
         }
     }
     
 	/* (non-PHPdoc)
-	 * @see KalturaBaseService::globalPartnerAllowed()
+	 * @see BorhanBaseService::globalPartnerAllowed()
 	 */
 	protected function globalPartnerAllowed($actionName)
 	{
@@ -36,9 +36,9 @@ class BaseEntryService extends KalturaEntryService
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseService::kalturaNetworkAllowed()
+	 * @see BorhanBaseService::borhanNetworkAllowed()
 	 */
-	protected function kalturaNetworkAllowed($actionName)
+	protected function borhanNetworkAllowed($actionName)
 	{
 		if ($actionName === 'get') {
 			return true;
@@ -50,11 +50,11 @@ class BaseEntryService extends KalturaEntryService
 			return true;
 		}
 
-		return parent::kalturaNetworkAllowed($actionName);
+		return parent::borhanNetworkAllowed($actionName);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseService::partnerRequired()
+	 * @see BorhanBaseService::partnerRequired()
 	 */
 	protected function partnerRequired($actionName)
 	{
@@ -68,14 +68,14 @@ class BaseEntryService extends KalturaEntryService
      * Generic add entry, should be used when the uploaded entry type is not known.
      *
      * @action add
-     * @param KalturaBaseEntry $entry
-     * @param KalturaEntryType $type
-     * @return KalturaBaseEntry
-     * @throws KalturaErrors::ENTRY_TYPE_NOT_SUPPORTED
+     * @param BorhanBaseEntry $entry
+     * @param BorhanEntryType $type
+     * @return BorhanBaseEntry
+     * @throws BorhanErrors::ENTRY_TYPE_NOT_SUPPORTED
      */
-    function addAction(KalturaBaseEntry $entry, $type = -1)
+    function addAction(BorhanBaseEntry $entry, $type = -1)
     {
-    	if($type && $type != KalturaEntryType::AUTOMATIC)
+    	if($type && $type != BorhanEntryType::AUTOMATIC)
     		$entry->type = $type;
     	
     	$dbEntry = parent::add($entry, $entry->conversionProfileId);
@@ -102,22 +102,22 @@ class BaseEntryService extends KalturaEntryService
      *
      * @action addContent
 	 * @param string $entryId
-     * @param KalturaResource $resource
-     * @return KalturaBaseEntry
-     * @throws KalturaErrors::ENTRY_TYPE_NOT_SUPPORTED
+     * @param BorhanResource $resource
+     * @return BorhanBaseEntry
+     * @throws BorhanErrors::ENTRY_TYPE_NOT_SUPPORTED
      * @validateUser entry entryId edit
      */
-    function addContentAction($entryId, KalturaResource $resource)
+    function addContentAction($entryId, BorhanResource $resource)
     {
     	$dbEntry = entryPeer::retrieveByPK($entryId);
 
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
     	
 		
 		
 		$kResource = $resource->toObject();
-    	if($dbEntry->getType() == KalturaEntryType::AUTOMATIC || is_null($dbEntry->getType()))
+    	if($dbEntry->getType() == BorhanEntryType::AUTOMATIC || is_null($dbEntry->getType()))
     		$this->setEntryTypeByResource($dbEntry, $kResource);
 		$dbEntry->save();
 		
@@ -164,7 +164,7 @@ class BaseEntryService extends KalturaEntryService
     			break;
     			
     		default:
-    			throw new KalturaAPIException(KalturaErrors::ENTRY_TYPE_NOT_SUPPORTED, $dbEntry->getType());
+    			throw new BorhanAPIException(BorhanErrors::ENTRY_TYPE_NOT_SUPPORTED, $dbEntry->getType());
     	}
     		
     	$service->attachResource($resource, $dbEntry, $asset);
@@ -241,12 +241,12 @@ class BaseEntryService extends KalturaEntryService
      * Generic add entry using an uploaded file, should be used when the uploaded entry type is not known.
      *
      * @action addFromUploadedFile
-     * @param KalturaBaseEntry $entry
+     * @param BorhanBaseEntry $entry
      * @param string $uploadTokenId
-     * @param KalturaEntryType $type
-     * @return KalturaBaseEntry
+     * @param BorhanEntryType $type
+     * @return BorhanBaseEntry
      */
-    function addFromUploadedFileAction(KalturaBaseEntry $entry, $uploadTokenId, $type = -1)
+    function addFromUploadedFileAction(BorhanBaseEntry $entry, $uploadTokenId, $type = -1)
     {
 		try
 	    {
@@ -256,7 +256,7 @@ class BaseEntryService extends KalturaEntryService
 	    catch(kCoreException $ex)
 	    {
 	    	if ($ex->getCode() == kUploadTokenException::UPLOAD_TOKEN_INVALID_STATUS);
-	    		throw new KalturaAPIException(KalturaErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY);
+	    		throw new BorhanAPIException(BorhanErrors::UPLOAD_TOKEN_INVALID_STATUS_FOR_ADD_ENTRY);
 	    		
     		throw $ex;
 	    }
@@ -273,7 +273,7 @@ class BaseEntryService extends KalturaEntryService
 			}
 			else
 			{
-				throw new KalturaAPIException(KalturaErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN);
+				throw new BorhanAPIException(BorhanErrors::UPLOADED_FILE_NOT_FOUND_BY_TOKEN);
 			}
 			*/
 		}
@@ -304,7 +304,7 @@ class BaseEntryService extends KalturaEntryService
 	    myEntryUtils::setEntryTypeAndMediaTypeFromFile($dbEntry, $entryFullPath);
 	    $dbEntry->setDefaultModerationStatus();
 		
-		// hack due to KCW of version  from KMC
+		// hack due to BCW of version  from BMC
 		if (! is_null ( parent::getConversionQualityFromRequest () ))
 			$dbEntry->setConversionQuality ( parent::getConversionQualityFromRequest () );
 		
@@ -315,7 +315,7 @@ class BaseEntryService extends KalturaEntryService
 	    
 	    // setup the needed params for my insert entry helper
 	    $paramsArray = array (
-		    "entry_media_source" => KalturaSourceType::FILE,
+		    "entry_media_source" => BorhanSourceType::FILE,
 		    "entry_media_type" => $dbEntry->getMediaType(),
 		    "entry_full_path" => $entryFullPath,
 		    "entry_license" => $dbEntry->getLicenseType(),
@@ -344,7 +344,7 @@ class BaseEntryService extends KalturaEntryService
 	 * @action get
 	 * @param string $entryId Entry id
 	 * @param int $version Desired version of the data
-	 * @return KalturaBaseEntry The requested entry
+	 * @return BorhanBaseEntry The requested entry
 	 */
     function getAction($entryId, $version = -1)
     {
@@ -356,9 +356,9 @@ class BaseEntryService extends KalturaEntryService
      *
      * @action getRemotePaths
      * @param string $entryId
-     * @return KalturaRemotePathListResponse
-     * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-     * @throws KalturaErrors::ENTRY_NOT_READY
+     * @return BorhanRemotePathListResponse
+     * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+     * @throws BorhanErrors::ENTRY_NOT_READY
      */
     public function getRemotePathsAction($entryId)
     {
@@ -370,18 +370,18 @@ class BaseEntryService extends KalturaEntryService
 	 *
 	 * @action update
 	 * @param string $entryId Entry id to update
-	 * @param KalturaBaseEntry $baseEntry Base entry metadata to update
-	 * @param KalturaResource $resource Resource to be used to replace entry content
-	 * @return KalturaBaseEntry The updated entry
+	 * @param BorhanBaseEntry $baseEntry Base entry metadata to update
+	 * @param BorhanResource $resource Resource to be used to replace entry content
+	 * @return BorhanBaseEntry The updated entry
 	 *
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 * @validateUser entry entryId edit
 	 */
-	function updateAction($entryId, KalturaBaseEntry $baseEntry)
+	function updateAction($entryId, BorhanBaseEntry $baseEntry)
 	{
     	$dbEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 	
 		$baseEntry = $this->updateEntry($entryId, $baseEntry);
     	return $baseEntry;
@@ -392,28 +392,28 @@ class BaseEntryService extends KalturaEntryService
 	 *
 	 * @action updateContent
 	 * @param string $entryId Entry id to update
-	 * @param KalturaResource $resource Resource to be used to replace entry content
+	 * @param BorhanResource $resource Resource to be used to replace entry content
 	 * @param int $conversionProfileId The conversion profile id to be used on the entry
-	 * @param KalturaEntryReplacementOptions $advancedOptions Additional update content options
-	 * @return KalturaBaseEntry The updated entry
+	 * @param BorhanEntryReplacementOptions $advancedOptions Additional update content options
+	 * @return BorhanBaseEntry The updated entry
 	 *
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 * @validateUser entry entryId edit
 	 */
-	function updateContentAction($entryId, KalturaResource $resource, $conversionProfileId = null, $advancedOptions = null)
+	function updateContentAction($entryId, BorhanResource $resource, $conversionProfileId = null, $advancedOptions = null)
 	{
     	$dbEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 	
-	 	if($dbEntry->getType() == KalturaEntryType::AUTOMATIC || is_null($dbEntry->getType()))
+	 	if($dbEntry->getType() == BorhanEntryType::AUTOMATIC || is_null($dbEntry->getType()))
         {
         	$kResource = $resource->toObject();
         	$this->setEntryTypeByResource($dbEntry, $kResource);
         	$dbEntry->save();
         }
 		
-		$baseEntry = new KalturaBaseEntry();
+		$baseEntry = new BorhanBaseEntry();
 		$baseEntry->fromObject($dbEntry, $this->getResponseProfile());
 		
 		switch($dbEntry->getType())
@@ -430,18 +430,18 @@ class BaseEntryService extends KalturaEntryService
 			case entryType::LIVE_STREAM:
     		default:
     			// TODO load from plugin manager other entry services such as document
-    			throw new KalturaAPIException(KalturaErrors::ENTRY_TYPE_NOT_SUPPORTED, $baseEntry->type);
+    			throw new BorhanAPIException(BorhanErrors::ENTRY_TYPE_NOT_SUPPORTED, $baseEntry->type);
     	}
     	
     	return $baseEntry;
 	}
 	
 	/**
-	 * Get an array of KalturaBaseEntry objects by a comma-separated list of ids.
+	 * Get an array of BorhanBaseEntry objects by a comma-separated list of ids.
 	 *
 	 * @action getByIds
 	 * @param string $entryIds Comma separated string of entry ids
-	 * @return KalturaBaseEntryArray Array of base entry ids
+	 * @return BorhanBaseEntryArray Array of base entry ids
 	 */
 	function getByIdsAction($entryIds)
 	{
@@ -461,7 +461,7 @@ class BaseEntryService extends KalturaEntryService
 			
 	 	foreach($list as $dbEntry)
 	 	{
-	 		$entry = KalturaEntryFactory::getInstanceByType($dbEntry->getType(), $isAdmin);
+	 		$entry = BorhanEntryFactory::getInstanceByType($dbEntry->getType(), $isAdmin);
 		    $entry->fromObject($dbEntry, $this->getResponseProfile());
 		    $newList[] = $entry;
 	 	}
@@ -485,27 +485,27 @@ class BaseEntryService extends KalturaEntryService
 	 * List base entries by filter with paging support.
 	 *
 	 * @action list
-     * @param KalturaBaseEntryFilter $filter Entry filter
-	 * @param KalturaFilterPager $pager Pager
-	 * @return KalturaBaseEntryListResponse Wrapper for array of base entries and total count
+     * @param BorhanBaseEntryFilter $filter Entry filter
+	 * @param BorhanFilterPager $pager Pager
+	 * @return BorhanBaseEntryListResponse Wrapper for array of base entries and total count
 	 */
-	function listAction(KalturaBaseEntryFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanBaseEntryFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if(!$filter)
 		{
-			$filter = new KalturaBaseEntryFilter();
+			$filter = new BorhanBaseEntryFilter();
 		}
 			
 		if(!$pager)
 		{
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 		}
 
 		$result = $filter->getListResponse($pager, $this->getResponseProfile());
 		
 		if ($result->totalCount == 1 && 
 			count($result->objects) == 1 && 
-			$result->objects[0]->status != KalturaEntryStatus::READY)
+			$result->objects[0]->status != BorhanEntryStatus::READY)
 		{
 			// the purpose of this is to solve a case in which a player attempts to play a non-ready entry, 
 			// and the request becomes cached for a long time, preventing playback even after the entry
@@ -513,9 +513,9 @@ class BaseEntryService extends KalturaEntryService
 			kApiCache::setExpiry(60);
 		}
 		
-		// NOTE: The following is a hack in order to make sure all responses are of type KalturaBaseEntryListResponse.
+		// NOTE: The following is a hack in order to make sure all responses are of type BorhanBaseEntryListResponse.
 		//       The reason is that baseentry::list() is not being extended by derived classes.
-		$response = new KalturaBaseEntryListResponse();
+		$response = new BorhanBaseEntryListResponse();
 		$response->objects = $result->objects;
 		$response->totalCount = $result->totalCount;
 		return $response;
@@ -526,42 +526,42 @@ class BaseEntryService extends KalturaEntryService
 	 *
 	 * @action listByReferenceId
 	 * @param string $refId Entry Reference ID
-	 * @param KalturaFilterPager $pager Pager
-	 * @throws KalturaErrors::MISSING_MANDATORY_PARAMETER
-	 * @return KalturaBaseEntryListResponse Wrapper for array of base entries and total count
+	 * @param BorhanFilterPager $pager Pager
+	 * @throws BorhanErrors::MISSING_MANDATORY_PARAMETER
+	 * @return BorhanBaseEntryListResponse Wrapper for array of base entries and total count
 	 */
-	function listByReferenceId($refId, KalturaFilterPager $pager = null)
+	function listByReferenceId($refId, BorhanFilterPager $pager = null)
 	{
 		if (!$refId)
 		{
 			//if refId wasn't provided return an error of missing parameter
-			throw new KalturaAPIException(KalturaErrors::MISSING_MANDATORY_PARAMETER, $refId);
+			throw new BorhanAPIException(BorhanErrors::MISSING_MANDATORY_PARAMETER, $refId);
 		}
 				
 		if (!$pager){
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 		}
 		$entryFilter = new entryFilter();
-		$entryFilter->setPartnerSearchScope(baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE);
+		$entryFilter->setPartnerSearchScope(baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE);
 		//setting reference ID
 		$entryFilter->set('_eq_reference_id', $refId);
-		$c = KalturaCriteria::create(entryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(entryPeer::OM_CLASS);
 		$pager->attachToCriteria($c);
 		$entryFilter->attachToCriteria($c);
 		$c->add(entryPeer::DISPLAY_IN_SEARCH, mySearchUtils::DISPLAY_IN_SEARCH_SYSTEM, Criteria::NOT_EQUAL);
 				
-		KalturaCriterion::disableTag(KalturaCriterion::TAG_WIDGET_SESSION);
+		BorhanCriterion::disableTag(BorhanCriterion::TAG_WIDGET_SESSION);
 
 		if (kEntitlementUtils::getEntitlementEnforcement() && !kCurrentContext::$is_admin_session && entryPeer::getUserContentOnly())
 			entryPeer::setFilterResults(true);
 
 		$list = entryPeer::doSelect($c);
-		KalturaCriterion::restoreTag(KalturaCriterion::TAG_WIDGET_SESSION);
+		BorhanCriterion::restoreTag(BorhanCriterion::TAG_WIDGET_SESSION);
 		
 		$totalCount = $c->getRecordsCount();
 				
-	    $newList = KalturaBaseEntryArray::fromDbArray($list, $this->getResponseProfile());
-		$response = new KalturaBaseEntryListResponse();
+	    $newList = BorhanBaseEntryArray::fromDbArray($list, $this->getResponseProfile());
+		$response = new BorhanBaseEntryListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $totalCount;
 		return $response;
@@ -571,16 +571,16 @@ class BaseEntryService extends KalturaEntryService
 	 * Count base entries by filter.
 	 *
 	 * @action count
-     * @param KalturaBaseEntryFilter $filter Entry filter
+     * @param BorhanBaseEntryFilter $filter Entry filter
 	 * @return int
 	 */
-	function countAction(KalturaBaseEntryFilter $filter = null)
+	function countAction(BorhanBaseEntryFilter $filter = null)
 	{
 	    return parent::countEntriesByFilter($filter);
 	}
 	
 	/**
-	 * Upload a file to Kaltura, that can be used to create an entry.
+	 * Upload a file to Borhan, that can be used to create an entry.
 	 *
 	 * @action upload
 	 * @param file $fileData The file data
@@ -608,10 +608,10 @@ class BaseEntryService extends KalturaEntryService
 	 * @action updateThumbnailJpeg
 	 * @param string $entryId Media entry id
 	 * @param file $fileData Jpeg file data
-	 * @return KalturaBaseEntry The media entry
+	 * @return BorhanBaseEntry The media entry
 	 *
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::PERMISSION_DENIED_TO_UPDATE_ENTRY
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::PERMISSION_DENIED_TO_UPDATE_ENTRY
 	 */
 	function updateThumbnailJpegAction($entryId, $fileData)
 	{
@@ -624,10 +624,10 @@ class BaseEntryService extends KalturaEntryService
 	 * @action updateThumbnailFromUrl
 	 * @param string $entryId Media entry id
 	 * @param string $url file url
-	 * @return KalturaBaseEntry The media entry
+	 * @return BorhanBaseEntry The media entry
 	 *
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::PERMISSION_DENIED_TO_UPDATE_ENTRY
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::PERMISSION_DENIED_TO_UPDATE_ENTRY
 	 */
 	function updateThumbnailFromUrlAction($entryId, $url)
 	{
@@ -641,10 +641,10 @@ class BaseEntryService extends KalturaEntryService
 	 * @param string $entryId Media entry id
 	 * @param string $sourceEntryId Media entry id
 	 * @param int $timeOffset Time offset (in seconds)
-	 * @return KalturaBaseEntry The media entry
+	 * @return BorhanBaseEntry The media entry
 	 *
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::PERMISSION_DENIED_TO_UPDATE_ENTRY
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::PERMISSION_DENIED_TO_UPDATE_ENTRY
 	 */
 	function updateThumbnailFromSourceEntryAction($entryId, $sourceEntryId, $timeOffset)
 	{
@@ -656,13 +656,13 @@ class BaseEntryService extends KalturaEntryService
 	 *
 	 * @action flag
 	 * @param string $entryId
-	 * @param KalturaModerationFlag $moderationFlag
+	 * @param BorhanModerationFlag $moderationFlag
 	 *
- 	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+ 	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
-	public function flagAction(KalturaModerationFlag $moderationFlag)
+	public function flagAction(BorhanModerationFlag $moderationFlag)
 	{
-		KalturaResponseCacher::disableCache();
+		BorhanResponseCacher::disableCache();
 		return parent::flagEntry($moderationFlag);
 	}
 	
@@ -672,7 +672,7 @@ class BaseEntryService extends KalturaEntryService
 	 * @action reject
 	 * @param string $entryId
 	 *
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
 	public function rejectAction($entryId)
 	{
@@ -685,7 +685,7 @@ class BaseEntryService extends KalturaEntryService
 	 * @action approve
 	 * @param string $entryId
 	 *
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
 	public function approveAction($entryId)
 	{
@@ -697,11 +697,11 @@ class BaseEntryService extends KalturaEntryService
 	 *
 	 * @action listFlags
 	 * @param string $entryId
-	 * @param KalturaFilterPager $pager
+	 * @param BorhanFilterPager $pager
 	 *
-	 * @return KalturaModerationFlagListResponse
+	 * @return BorhanModerationFlagListResponse
 	 */
-	public function listFlags($entryId, KalturaFilterPager $pager = null)
+	public function listFlags($entryId, BorhanFilterPager $pager = null)
 	{
 		return parent::listFlagsForEntry($entryId, $pager);
 	}
@@ -715,7 +715,7 @@ class BaseEntryService extends KalturaEntryService
 	 */
 	public function anonymousRankAction($entryId, $rank)
 	{
-		KalturaResponseCacher::disableCache();
+		BorhanResponseCacher::disableCache();
 		return parent::anonymousRankEntry($entryId, null, $rank);
 	}
 	
@@ -723,14 +723,14 @@ class BaseEntryService extends KalturaEntryService
 	 * This action delivers entry-related data, based on the user's context: access control, restriction, playback format and storage information.
 	 * @action getContextData
 	 * @param string $entryId
-	 * @param KalturaEntryContextDataParams $contextDataParams
-	 * @return KalturaEntryContextDataResult
+	 * @param BorhanEntryContextDataParams $contextDataParams
+	 * @return BorhanEntryContextDataResult
 	 */
-	public function getContextData($entryId, KalturaEntryContextDataParams $contextDataParams)
+	public function getContextData($entryId, BorhanEntryContextDataParams $contextDataParams)
 	{
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 		
 		if ($dbEntry->getStatus() != entryStatus::READY)
 		{
@@ -745,7 +745,7 @@ class BaseEntryService extends KalturaEntryService
 		{
 			$asset = assetPeer::retrieveById($contextDataParams->flavorAssetId);
 			if(!$asset)
-				throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND, $contextDataParams->flavorAssetId);
+				throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND, $contextDataParams->flavorAssetId);
 		}
 			
 		$contextDataHelper = new kContextDataHelper($dbEntry, $this->getPartner(), $asset);
@@ -758,11 +758,11 @@ class BaseEntryService extends KalturaEntryService
 		
 		$contextDataHelper->buildContextDataResult($accessControlScope, $contextDataParams->flavorTags, $contextDataParams->streamerType, $contextDataParams->mediaProtocol);
 		if($contextDataHelper->getDisableCache())
-			KalturaResponseCacher::disableCache();
+			BorhanResponseCacher::disableCache();
 			
-		$result = new KalturaEntryContextDataResult();
+		$result = new BorhanEntryContextDataResult();
 		$result->fromObject($contextDataHelper->getContextDataResult());
-		$result->flavorAssets = KalturaFlavorAssetArray::fromDbArray($contextDataHelper->getAllowedFlavorAssets());
+		$result->flavorAssets = BorhanFlavorAssetArray::fromDbArray($contextDataHelper->getAllowedFlavorAssets());
 		$result->msDuration = $contextDataHelper->getMsDuration();
 		$result->streamerType = $contextDataHelper->getStreamerType();
 		$result->mediaProtocol = $contextDataHelper->getMediaProtocol();
@@ -774,7 +774,7 @@ class BaseEntryService extends KalturaEntryService
 		{
 			$dbEntry = $dbEntry->getParentEntry();
 			if(!$dbEntry)
-				throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $parentEntryId);
+				throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $parentEntryId);
 		}
 		
 		$result->isScheduledNow = $dbEntry->isScheduledNow($contextDataParams->time);
@@ -786,14 +786,14 @@ class BaseEntryService extends KalturaEntryService
 			}
 		}
 
-        $result->pluginData = new KalturaPluginDataArray();
-        $pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaEntryContextDataContributor');
+        $result->pluginData = new BorhanPluginDataArray();
+        $pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanEntryContextDataContributor');
         foreach ($pluginInstances as $pluginInstance)
         {
             $pluginDataCore = $pluginInstance->contributeToEntryContextDataResult($dbEntry, $accessControlScope, $contextDataHelper);
 	        if (!is_null($pluginDataCore))
 	        {
-		        $pluginDataApi = KalturaPluginManager::loadObject('KalturaPluginData', $pluginInstance->getPluginName());
+		        $pluginDataApi = BorhanPluginManager::loadObject('BorhanPluginData', $pluginInstance->getPluginName());
 		        $pluginDataApi->fromObject($pluginDataCore);
 		        $result->pluginData[get_class($pluginDataApi)] = $pluginDataApi;
 	        }
@@ -807,29 +807,29 @@ class BaseEntryService extends KalturaEntryService
 	 * Action for manually exporting an entry
 	 * @param string $entryId
 	 * @param int $storageProfileId
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
-	 * @throws KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND
-	 * @return KalturaBaseEntry The exported entry
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND
+	 * @return BorhanBaseEntry The exported entry
 	 */
 	public function exportAction ( $entryId , $storageProfileId )
 	{
 	    $dbEntry = entryPeer::retrieveByPK($entryId);
 	    if (!$dbEntry)
 	    {
-	        throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+	        throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 	    }
 	    
 	    $dbStorageProfile = StorageProfilePeer::retrieveByPK($storageProfileId);
 	    if (!$dbStorageProfile)
 	    {
-	        throw new KalturaAPIException(KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND, $storageProfileId);
+	        throw new BorhanAPIException(BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND, $storageProfileId);
 	    }
 	    
 	    $scope = $dbStorageProfile->getScope();
 	    $scope->setEntryId($entryId);
 	    if(!$dbStorageProfile->fulfillsRules($scope))
 	    {
-	    	throw new KalturaAPIException(KalturaErrors::STORAGE_PROFILE_RULES_NOT_FULFILLED, $storageProfileId);
+	    	throw new BorhanAPIException(BorhanErrors::STORAGE_PROFILE_RULES_NOT_FULFILLED, $storageProfileId);
 	    }
 
 	    try
@@ -840,14 +840,14 @@ class BaseEntryService extends KalturaEntryService
 	    {
 	    	if ($e->getCode()==kCoreException::PROFILE_STATUS_DISABLED)
 	    	{
- 	    		throw new KalturaAPIException(APIErrors::PROFILE_STATUS_DISABLED,$entryId);
+ 	    		throw new BorhanAPIException(APIErrors::PROFILE_STATUS_DISABLED,$entryId);
 	    	}
 	    }
 	     
 	    
 	    //TODO: implement export errors
 	    
-		$entry = KalturaEntryFactory::getInstanceByType($dbEntry->getType());
+		$entry = BorhanEntryFactory::getInstanceByType($dbEntry->getType());
 		$entry->fromObject($dbEntry, $this->getResponseProfile());
 	    return $entry;
 	    
@@ -864,11 +864,11 @@ class BaseEntryService extends KalturaEntryService
 	function indexAction($id, $shouldUpdate = true)
 	{
 		if(kEntitlementUtils::getEntitlementEnforcement())
-			throw new KalturaAPIException(KalturaErrors::CANNOT_INDEX_OBJECT_WHEN_ENTITLEMENT_IS_ENABLE);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_INDEX_OBJECT_WHEN_ENTITLEMENT_IS_ENABLE);
 			
 		$entryDb = entryPeer::retrieveByPK($id);
 		if (!$entryDb)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $id);
 
 		if (!$shouldUpdate)
 		{
@@ -885,10 +885,10 @@ class BaseEntryService extends KalturaEntryService
 	 * 
 	 * @action clone
 	 * @param string $entryId Id of entry to clone
-	 * @param KalturaBaseEntryCloneOptionsArray $cloneOptions
-	 * @param KalturaBaseEntry $updateEntry [optional] Attributes from these entry will be updated into the cloned entry
-	 * @return KalturaBaseEntry The cloned entry
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @param BorhanBaseEntryCloneOptionsArray $cloneOptions
+	 * @param BorhanBaseEntry $updateEntry [optional] Attributes from these entry will be updated into the cloned entry
+	 * @return BorhanBaseEntry The cloned entry
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
 	public function cloneAction( $entryId, $cloneOptions=null)
 	{
@@ -900,7 +900,7 @@ class BaseEntryService extends KalturaEntryService
 		$coreEntry = entryPeer::retrieveByPK( $entryId );
 		if ( ! $coreEntry )
 		{
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 		}
 //		$coreClonedOptionsArray = array();
 //		foreach ($cloneOptions as $item)
@@ -919,15 +919,15 @@ class BaseEntryService extends KalturaEntryService
 	 * This action delivers all data relevant for player
 	 * @action getPlaybackContext
 	 * @param string $entryId
-	 * @param KalturaPlaybackContextOptions $contextDataParams
-	 * @return KalturaPlaybackContext
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @param BorhanPlaybackContextOptions $contextDataParams
+	 * @return BorhanPlaybackContext
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
-	function getPlaybackContextAction($entryId, KalturaPlaybackContextOptions $contextDataParams)
+	function getPlaybackContextAction($entryId, BorhanPlaybackContextOptions $contextDataParams)
 	{
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 
 		if ($dbEntry->getStatus() != entryStatus::READY)
 		{
@@ -942,7 +942,7 @@ class BaseEntryService extends KalturaEntryService
 		{
 			$dbEntry = $dbEntry->getParentEntry();
 			if(!$dbEntry)
-				throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $parentEntryId);
+				throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $parentEntryId);
 		}
 
 		$asset = null;
@@ -950,7 +950,7 @@ class BaseEntryService extends KalturaEntryService
 		{
 			$asset = assetPeer::retrieveById($contextDataParams->flavorAssetId);
 			if (!$asset)
-				throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND, $contextDataParams->flavorAssetId);
+				throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND, $contextDataParams->flavorAssetId);
 		}
 
 		$contextDataHelper = new kContextDataHelper($dbEntry, $this->getPartner(), $asset);
@@ -963,7 +963,7 @@ class BaseEntryService extends KalturaEntryService
 
 		$contextDataHelper->buildContextDataResult($accessControlScope, $contextDataParams->flavorTags, $contextDataParams->streamerType, $contextDataParams->mediaProtocol, true);
 		if ($contextDataHelper->getDisableCache())
-			KalturaResponseCacher::disableCache();
+			BorhanResponseCacher::disableCache();
 
 		$isScheduledNow = $dbEntry->isScheduledNow($contextDataParams->time);
 		if (!($isScheduledNow) && $this->getKs() ){
@@ -978,9 +978,9 @@ class BaseEntryService extends KalturaEntryService
 		$playbackContextDataHelper->setIsScheduledNow($isScheduledNow);
 		$playbackContextDataHelper->constructPlaybackContextResult($contextDataHelper, $dbEntry);
 
-		$result = new KalturaPlaybackContext();
+		$result = new BorhanPlaybackContext();
 		$result->fromObject($playbackContextDataHelper->getPlaybackContext());
-		$result->actions = KalturaRuleActionArray::fromDbArray($contextDataHelper->getContextDataResult()->getActions());
+		$result->actions = BorhanRuleActionArray::fromDbArray($contextDataHelper->getContextDataResult()->getActions());
 
 		return $result;
 	}

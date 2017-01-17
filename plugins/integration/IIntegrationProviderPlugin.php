@@ -5,7 +5,7 @@
 interface IIntegrationProviderPlugin
 {
 	/**
-	 * @return KalturaVersion
+	 * @return BorhanVersion
 	 */
 	public static function getRequiredIntegrationPluginVersion();
 	

@@ -3,15 +3,15 @@
  * @package plugins.dropFolder
  * @subpackage api.filters
  */
-class KalturaDropFolderFilter extends KalturaDropFolderBaseFilter
+class BorhanDropFolderFilter extends BorhanDropFolderBaseFilter
 {
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $currentDc;
 
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -19,7 +19,7 @@ class KalturaDropFolderFilter extends KalturaDropFolderBaseFilter
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::toObject()
+	 * @see BorhanFilter::toObject()
 	 */
 	public function toObject ( $object_to_fill = null, $props_to_skip = array() )
 	{

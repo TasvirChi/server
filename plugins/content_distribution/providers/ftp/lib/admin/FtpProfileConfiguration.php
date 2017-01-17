@@ -20,7 +20,7 @@ class Form_FtpProfileConfiguration extends Form_ConfigurableProfileConfiguration
 	
 	public function getObject($objectType, array $properties, $add_underscore = true, $include_empty_fields = false)
 	{
-		/* @var $object Kaltura_Client_FtpDistribution_Type_FtpDistributionProfile */
+		/* @var $object Borhan_Client_FtpDistribution_Type_FtpDistributionProfile */
 		$object = parent::getObject($objectType, $properties, $add_underscore, true);
         $upload = new Zend_File_Transfer_Adapter_Http();
         $files = $upload->getFileInfo();
@@ -66,10 +66,10 @@ class Form_FtpProfileConfiguration extends Form_ConfigurableProfileConfiguration
 			
 			if ($updateField) 
 			{
-				$fieldConfig = new Kaltura_Client_ContentDistribution_Type_DistributionFieldConfig();
+				$fieldConfig = new Borhan_Client_ContentDistribution_Type_DistributionFieldConfig();
 				$fieldConfig->fieldName = md5($updateField); // needs to have a value for the field to get saved
 				$fieldConfig->updateOnChange = true;
-				$string = new Kaltura_Client_Type_String();
+				$string = new Borhan_Client_Type_String();
 				$string->value = $updateField;
 				$fieldConfig->updateParams = array($string);
 				$fieldConfigArray[] = $fieldConfig;
@@ -89,7 +89,7 @@ class Form_FtpProfileConfiguration extends Form_ConfigurableProfileConfiguration
 	
 	public function populateFromObject($object, $add_underscore = true)
 	{
-        /* @var Kaltura_Client_FtpDistribution_Type_FtpDistributionProfile $object */
+        /* @var Borhan_Client_FtpDistribution_Type_FtpDistributionProfile $object */
 		parent::populateFromObject($object, $add_underscore);
 		$this->addItemXpathsToExtend($object->itemXpathsToExtend);
 		
@@ -134,10 +134,10 @@ class Form_FtpProfileConfiguration extends Form_ConfigurableProfileConfiguration
 			'label'			=> 'Protocol:',
 			'filters'		=> array('StringTrim'),
 			'multiOptions' 		=> array(
-				Kaltura_Client_ContentDistribution_Enum_DistributionProtocol::FTP => 'FTP',
-				Kaltura_Client_ContentDistribution_Enum_DistributionProtocol::SFTP => 'SFTP',
-				Kaltura_Client_ContentDistribution_Enum_DistributionProtocol::ASPERA => 'ASPERA',
-				Kaltura_Client_ContentDistribution_Enum_DistributionProtocol::HTTPS => 'HTTPS',
+				Borhan_Client_ContentDistribution_Enum_DistributionProtocol::FTP => 'FTP',
+				Borhan_Client_ContentDistribution_Enum_DistributionProtocol::SFTP => 'SFTP',
+				Borhan_Client_ContentDistribution_Enum_DistributionProtocol::ASPERA => 'ASPERA',
+				Borhan_Client_ContentDistribution_Enum_DistributionProtocol::HTTPS => 'HTTPS',
 			),
 //			'required'		=> true,
 		));
@@ -375,7 +375,7 @@ class Form_FtpProfileConfiguration extends Form_ConfigurableProfileConfiguration
 			
 		$this->metadataProfileFields = array();
 		$client = Infra_ClientHelper::getClient();
-		$metadataPlugin = Kaltura_Client_Metadata_Plugin::get($client);
+		$metadataPlugin = Borhan_Client_Metadata_Plugin::get($client);
 		
 		Infra_ClientHelper::impersonate($this->partnerId);
 		

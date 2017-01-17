@@ -9,7 +9,7 @@ class kDropFolderFeedXmlFileHandler extends kDropFolderXmlFileHandler
 	{
 		if (!($file instanceof FeedDropFolderFile))
 		{
-			KalturaLog::err("Drop folder file does not match folder type");
+			BorhanLog::err("Drop folder file does not match folder type");
 			return;
 		}
 		
@@ -43,16 +43,16 @@ class kDropFolderFeedXmlFileHandler extends kDropFolderXmlFileHandler
 			$objectType = DropFolderXmlBulkUploadPlugin::getBatchJobObjectTypeCoreValue(DropFolderBatchJobObjectType::DROP_FOLDER_FILE);
 			$partner = PartnerPeer::retrieveByPK($folder->getPartnerId());
 			
-			$data = KalturaPluginManager::loadObject('kBulkUploadJobData', $coreBulkUploadType);
+			$data = BorhanPluginManager::loadObject('kBulkUploadJobData', $coreBulkUploadType);
 			/* @var $data kBulkUploadJobData */
 			$data->setUploadedBy(kDropFolderXmlEventsConsumer::UPLOADED_BY);
 			
-			KalturaLog::info("Feed XML path: " . $leadDropFolderFile->getFeedXmlPath());
+			BorhanLog::info("Feed XML path: " . $leadDropFolderFile->getFeedXmlPath());
 			$data->setFilePath($leadDropFolderFile->getFeedXmlPath());
 			$data->setFileName(basename($data->getFilePath()) . '.xml');
 						
 			$objectData = new kBulkUploadEntryData();
-			KalturaLog::info('Conversion profile id: '.$folder->getConversionProfileId());
+			BorhanLog::info('Conversion profile id: '.$folder->getConversionProfileId());
 			$objectData->setConversionProfileId($folder->getConversionProfileId());
 			$data->setObjectData($objectData);
 	
@@ -63,7 +63,7 @@ class kDropFolderFeedXmlFileHandler extends kDropFolderXmlFileHandler
 		}
 		catch (Exception $e)
 		{
-			KalturaLog::err("Error adding BulkUpload job -".$e->getMessage());
+			BorhanLog::err("Error adding BulkUpload job -".$e->getMessage());
 			throw new Exception(DropFolderXmlBulkUploadPlugin::ERROR_ADDING_BULK_UPLOAD_MESSAGE, DropFolderXmlBulkUploadPlugin::getErrorCodeCoreValue(DropFolderXmlBulkUploadErrorCode::ERROR_ADDING_BULK_UPLOAD));
 		}
 	}

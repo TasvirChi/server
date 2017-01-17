@@ -22,7 +22,7 @@ class KGenericScheduler
 	 */
 	private $keepRunning = true;
 
-	private $logDir = "opt/kaltura/log";
+	private $logDir = "opt/borhan/log";
 	private $phpPath = null;
 	private $statusInterval;
 	private $schedulerStatusInterval;
@@ -91,12 +91,12 @@ class KGenericScheduler
 			$pid = $this->schedulerConfig->getPidFileDir() . '/batch.pid';
 			if(file_exists($pid))
 			{
-				KalturaLog::err("Scheduler already running - pid[" . file_get_contents($pid) . "]");
+				BorhanLog::err("Scheduler already running - pid[" . file_get_contents($pid) . "]");
 				exit(1);
 			}
 			file_put_contents($pid, getmypid());
 
-			KalturaLog::info(file_get_contents('VERSION.txt'));
+			BorhanLog::info(file_get_contents('VERSION.txt'));
 			
 			$this->loadRunningTasks();
 		}
@@ -112,7 +112,7 @@ class KGenericScheduler
 		KScheduleHelperManager::clearFilters();
 		$this->queueSizes = array();
 
-		KalturaLog::info("Loading configuration file at: " . date('Y-m-d H:i'));
+		BorhanLog::info("Loading configuration file at: " . date('Y-m-d H:i'));
 
 		$configItems = $this->createConfigItem($this->schedulerConfig->toArray());
 		$taskConfigs = $this->schedulerConfig->getTaskConfigList();
@@ -134,14 +134,14 @@ class KGenericScheduler
 
 			if(isset($taskConfigsValidations[$taskConfig->id]))
 			{
-				KalturaLog::err("Duplicated worker id [$taskConfig->id] in worker names [$taskConfig->name] and [" . $taskConfigsValidations[$taskConfig->id] . "]");
+				BorhanLog::err("Duplicated worker id [$taskConfig->id] in worker names [$taskConfig->name] and [" . $taskConfigsValidations[$taskConfig->id] . "]");
 				$this->keepRunning = false;
 				return;
 			}
 
 			if(in_array($taskConfig->name, $taskConfigsValidations))
 			{
-				KalturaLog::err("Duplicated worker name [$taskConfig->name] in worker ids [$taskConfig->id] and [" . array_search($taskConfig->name, $taskConfigsValidations) . "]");
+				BorhanLog::err("Duplicated worker name [$taskConfig->name] in worker ids [$taskConfig->id] and [" . array_search($taskConfig->name, $taskConfigsValidations) . "]");
 				$this->keepRunning = false;
 				return;
 			}
@@ -169,7 +169,7 @@ class KGenericScheduler
 		$tmpConfig = clone $taskConfig;
 		$tmpConfig->setInitOnly(true);
 	
-		KalturaLog::info('Initilizing ' . $tmpConfig->name);
+		BorhanLog::info('Initilizing ' . $tmpConfig->name);
 		$tasksetPath = $this->schedulerConfig->getTasksetPath();
 		$proc = new KProcessWrapper($tmpConfig, $taskIndex);
 		$proc->init($this->logDir, $this->phpPath, $tasksetPath);
@@ -195,7 +195,7 @@ class KGenericScheduler
 			$this->loop();
 		}
 
-		KalturaLog::debug("Ended after [" . (time() - $startTime) . "] seconds");
+		BorhanLog::debug("Ended after [" . (time() - $startTime) . "] seconds");
 	}
 
 	public function loop()
@@ -210,7 +210,7 @@ class KGenericScheduler
 			$fullCycle = true;
 
 			$this->nextStatusTime = time() + $this->statusInterval;
-			KalturaLog::debug("Next Status Time: " . date('H:i:s', $this->nextStatusTime));
+			BorhanLog::debug("Next Status Time: " . date('H:i:s', $this->nextStatusTime));
 		}
 
 		if($this->nextSchedulerStatusTime < time())
@@ -218,7 +218,7 @@ class KGenericScheduler
 			$sendSchedulerStatus = true;
 
 			$this->nextSchedulerStatusTime = time() + $this->schedulerStatusInterval;
-			KalturaLog::debug("Next Scheduler Status Time: " . date('H:i:s', $this->nextSchedulerStatusTime));
+			BorhanLog::debug("Next Scheduler Status Time: " . date('H:i:s', $this->nextSchedulerStatusTime));
 		}
 
 		$indexedTaskConfigs = $this->handleConfigurations($fullCycle, $sendSchedulerStatus);
@@ -299,8 +299,8 @@ class KGenericScheduler
 		
 			$runningTasksCount = $this->numberOfRunningTasks($taskConfig->name);
 			if($fullCycle) {
-				$statuses[] = $this->createStatus($taskConfig, KalturaSchedulerStatusType::RUNNING_BATCHES_COUNT, $runningTasksCount);
-				$statuses[] = $this->createStatus($taskConfig, KalturaSchedulerStatusType::RUNNING_BATCHES_IS_RUNNING, 1);
+				$statuses[] = $this->createStatus($taskConfig, BorhanSchedulerStatusType::RUNNING_BATCHES_COUNT, $runningTasksCount);
+				$statuses[] = $this->createStatus($taskConfig, BorhanSchedulerStatusType::RUNNING_BATCHES_IS_RUNNING, 1);
 			}
 		
 			if($this->shouldExecute($taskConfig))
@@ -308,7 +308,7 @@ class KGenericScheduler
 		}
 		
 		if($sendSchedulerStatus)
-			$statuses[] = $this->createSchedulerStatus(KalturaSchedulerStatusType::RUNNING_BATCHES_IS_RUNNING, 1);
+			$statuses[] = $this->createSchedulerStatus(BorhanSchedulerStatusType::RUNNING_BATCHES_IS_RUNNING, 1);
 		
 		if(count($statuses))
 			KScheduleHelperManager::saveStatuses($statuses);
@@ -332,7 +332,7 @@ class KGenericScheduler
 
 		if ($this->shouldPrintWorkerLog($taskConfig->id))
 		{
-			KalturaLog::debug("Worker [{$taskConfig->name}] id [{$taskConfig->id}] running batches [$runningBatches] max instances [{$taskConfig->maxInstances}]");
+			BorhanLog::debug("Worker [{$taskConfig->name}] id [{$taskConfig->id}] running batches [$runningBatches] max instances [{$taskConfig->maxInstances}]");
 			$this->lastWorkerLog[$taskConfig->id] = time();
 		}
 		if($runningBatches >= $taskConfig->maxInstances)
@@ -382,7 +382,7 @@ class KGenericScheduler
 		
 		$this->lastRunTime[$taskConfig->name] = time();
 		
-		KalturaLog::info("Executing $taskConfig->name [$taskIndex]");
+		BorhanLog::info("Executing $taskConfig->name [$taskIndex]");
 		$tasksetPath = $this->schedulerConfig->getTasksetPath();
 		$taskConf = clone $taskConfig;
 		if(array_key_exists($taskConfig->id, $this->queueSizes))
@@ -402,7 +402,7 @@ class KGenericScheduler
 	 * @param int $workerConfiguredId
 	 * @param string $workerName
 	 * @param string $parentVariable
-	 * @return array<KalturaSchedulerConfig>
+	 * @return array<BorhanSchedulerConfig>
 	 */
 	public function createConfigItem(array $data, $workerConfiguredId = null, $workerName = null, $parentVariable = null)
 	{
@@ -421,7 +421,7 @@ class KGenericScheduler
 				continue;
 			}
 
-			$configItem = new KalturaSchedulerConfig();
+			$configItem = new BorhanSchedulerConfig();
 			$configItem->schedulerConfiguredId = $this->schedulerConfig->getId();
 			$configItem->schedulerName = $this->schedulerConfig->getName();
 
@@ -449,13 +449,13 @@ class KGenericScheduler
 	 * @param KSchedularTaskConfig $taskConfig
 	 * @param int $type
 	 * @param int $value
-	 * @return KalturaSchedulerStatus
+	 * @return BorhanSchedulerStatus
 	 */
 	private function createStatus(KSchedularTaskConfig $taskConfig, $type, $value)
 	{
 		$clazz = $taskConfig->type;
 
-		$status = new KalturaSchedulerStatus();
+		$status = new BorhanSchedulerStatus();
 		$status->schedulerConfiguredId = $this->schedulerConfig->getId();
 		$status->workerConfiguredId = $taskConfig->id;
 		$status->type = $type;
@@ -468,11 +468,11 @@ class KGenericScheduler
 	/**
 	 * @param int $type
 	 * @param int $value
-	 * @return KalturaSchedulerStatus
+	 * @return BorhanSchedulerStatus
 	 */
 	private function createSchedulerStatus($type, $value)
 	{
-		$status = new KalturaSchedulerStatus();
+		$status = new BorhanSchedulerStatus();
 		$status->schedulerConfiguredId = $this->schedulerConfig->getId();
 		$status->type = $type;
 		$status->value = $value;
@@ -575,30 +575,30 @@ class KGenericScheduler
 		if(!$commands || !is_array($commands) || !count($commands))
 			return;
 
-//		KalturaLog::info(count($commands) . " commands found");
+//		BorhanLog::info(count($commands) . " commands found");
 
 		$command_results = array();
 		foreach($commands as $command)
 		{
-			if($command instanceof KalturaBatchQueuesStatus)
+			if($command instanceof BorhanBatchQueuesStatus)
 			{
 				$this->handleQueueStatus($command->workerId, $command->size);
 			}
-			elseif($command instanceof KalturaControlPanelCommand)
+			elseif($command instanceof BorhanControlPanelCommand)
 			{
 				$command_results[] = $this->handleCommand($command);
 			}
 			else
 			{
-				KalturaLog::err("command of type " . get_class($command) . " could not be handled");
-				$command_results[] = KalturaControlPanelCommandStatus::FAILED;
+				BorhanLog::err("command of type " . get_class($command) . " could not be handled");
+				$command_results[] = BorhanControlPanelCommandStatus::FAILED;
 			}
 		}
 
 		$cnt = count($command_results);
 		if($cnt)
 		{
-			KalturaLog::info("Sending $cnt command results to the server");
+			BorhanLog::info("Sending $cnt command results to the server");
 			KScheduleHelperManager::saveCommandsResults($command_results);
 		}
 	}
@@ -623,38 +623,38 @@ class KGenericScheduler
 				self::onQueueEvent($taskConfig, $size);
 
 				if($size)
-					KalturaLog::info("Worker $taskConfig->name, queue size: $size");
+					BorhanLog::info("Worker $taskConfig->name, queue size: $size");
 			}
 
 			return;
 		}
-		KalturaLog::err("Worker id not found [$workerId]");
+		BorhanLog::err("Worker id not found [$workerId]");
 	}
 
 	/***
 	 * handleCommand
-	 * @param KalturaControlPanelCommand $command
-	 * @return KalturaControlPanelCommand
+	 * @param BorhanControlPanelCommand $command
+	 * @return BorhanControlPanelCommand
 	 */
-	private function handleCommand(KalturaControlPanelCommand $command)
+	private function handleCommand(BorhanControlPanelCommand $command)
 	{
-		KalturaLog::info("Handling command id " . $command->id);
+		BorhanLog::info("Handling command id " . $command->id);
 
 		$description = null;
 		$success = false;
 
 		switch($command->type)
 		{
-			case KalturaControlPanelCommandType::KILL:
+			case BorhanControlPanelCommandType::KILL:
 
-				if(intval($command->targetType) != KalturaControlPanelCommandTargetType::SCHEDULER)
+				if(intval($command->targetType) != BorhanControlPanelCommandTargetType::SCHEDULER)
 				{
-					KalturaLog::info("Scheduler stopping...");
+					BorhanLog::info("Scheduler stopping...");
 					$this->keepRunning = false;
 					$success = true;
 				}
 
-				if(intval($command->targetType) != KalturaControlPanelCommandTargetType::BATCH)
+				if(intval($command->targetType) != BorhanControlPanelCommandTargetType::BATCH)
 				{
 					$description = 'Target type not supported for kill command';
 					$success = $this->killBatch($command->workerName, $command->batchIndex, $description);
@@ -668,13 +668,13 @@ class KGenericScheduler
 
 		if($success)
 		{
-			$command->status = KalturaControlPanelCommandStatus::DONE;
+			$command->status = BorhanControlPanelCommandStatus::DONE;
 			$this->sendStatusNow();
 		}
 		else
 		{
-			KalturaLog::err("Error handling commnad id $command->id: $description");
-			$command->status = KalturaControlPanelCommandStatus::FAILED;
+			BorhanLog::err("Error handling commnad id $command->id: $description");
+			$command->status = BorhanControlPanelCommandStatus::FAILED;
 			$command->errorDescription = $description;
 		}
 
@@ -703,7 +703,7 @@ class KGenericScheduler
 
 		self::onRunningInstancesEvent($taskConfig, count($this->runningTasks[$name]));
 
-		KalturaLog::info("$name [$batchIndex] killed");
+		BorhanLog::info("$name [$batchIndex] killed");
 
 		return true;
 	}

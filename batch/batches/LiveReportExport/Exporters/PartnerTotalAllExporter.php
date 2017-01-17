@@ -2,22 +2,22 @@
 
 class PartnerTotalAllExporter extends LiveReportExporter {
 
-	public function __construct(KalturaLiveReportExportJobData $data) {
+	public function __construct(BorhanLiveReportExportJobData $data) {
 		parent::__construct($data, "all-entries-%s-%s.csv", LiveReportConstants::SECONDS_36_HOURS);
 	}
 	
-	public function init(KalturaLiveReportExportJobData $jobData) {
+	public function init(BorhanLiveReportExportJobData $jobData) {
 		
-		$filter = new KalturaLiveReportInputFilter();
+		$filter = new BorhanLiveReportInputFilter();
 		$filter->live =  false;
 		$filter->toTime = $jobData->timeReference;
 		$filter->fromTime = $jobData->timeReference - LiveReportConstants::SECONDS_36_HOURS;
 		
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageIndex = 0;
 		$pager->pageSize = LiveReportConstants::MAX_ENTRIES;
 		
-		$entryIds = LiveReportQueryHelper::retrieveFromReport(KalturaLiveReportType::ENTRY_TOTAL, $filter, $pager, null, "entryId");
+		$entryIds = LiveReportQueryHelper::retrieveFromReport(BorhanLiveReportType::ENTRY_TOTAL, $filter, $pager, null, "entryId");
 		$this->params[LiveReportConstants::ENTRY_IDS] = implode(",", $entryIds);
 	}
 	

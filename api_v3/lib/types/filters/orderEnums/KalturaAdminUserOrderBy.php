@@ -3,6 +3,6 @@
  * @package api
  * @subpackage filters.enum
  */
-class KalturaAdminUserOrderBy extends KalturaUserOrderBy
+class BorhanAdminUserOrderBy extends BorhanUserOrderBy
 {
 }

@@ -3,6 +3,6 @@
  * @package plugins.contentDistribution
  * @subpackage api.filters.enum
  */
-class KalturaDistributionProviderOrderBy extends KalturaStringEnum
+class BorhanDistributionProviderOrderBy extends BorhanStringEnum
 {
 }

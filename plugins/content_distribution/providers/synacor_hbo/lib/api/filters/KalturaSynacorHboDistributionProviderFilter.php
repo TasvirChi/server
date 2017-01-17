@@ -3,6 +3,6 @@
  * @package plugins.synacorHboDistribution
  * @subpackage api.filters
  */
-class KalturaSynacorHboDistributionProviderFilter extends KalturaSynacorHboDistributionProviderBaseFilter
+class BorhanSynacorHboDistributionProviderFilter extends BorhanSynacorHboDistributionProviderBaseFilter
 {
 }

@@ -20,20 +20,20 @@ class OldLogRecordsFilter {
 	}
 }
 
-KAutoloader::addClassPath(KAutoloader::buildPath(KALTURA_ROOT_PATH, "vendor", "propel", "*"));
-KAutoloader::addClassPath(KAutoloader::buildPath(KALTURA_ROOT_PATH, "plugins", "*"));
+KAutoloader::addClassPath(KAutoloader::buildPath(BORHAN_ROOT_PATH, "vendor", "propel", "*"));
+KAutoloader::addClassPath(KAutoloader::buildPath(BORHAN_ROOT_PATH, "plugins", "*"));
 KAutoloader::setClassMapFilePath(kConf::get("cache_root_path") . '/sphinx/' . basename(__FILE__) . '.cache');
 KAutoloader::register();
 
 $skipExecutedUpdates = false;
 error_reporting(E_ALL);
-KalturaLog::setLogger(new KalturaStdoutLogger());
+BorhanLog::setLogger(new BorhanStdoutLogger());
 
 $hostname = (isset($_SERVER["HOSTNAME"]) ? $_SERVER["HOSTNAME"] : gethostname());
 $configFile = ROOT_DIR . "/configurations/sphinx/populate/$hostname.ini";
 if(!file_exists($configFile))
 {
-	KalturaLog::err("Configuration file [$configFile] not found.");
+	BorhanLog::err("Configuration file [$configFile] not found.");
 	exit(-1);
 }
 $config = parse_ini_file($configFile);
@@ -42,13 +42,13 @@ $sphinxPort = (isset($config['sphinxPort']) ? $config['sphinxPort'] : 9312);
 $systemSettings = kConf::getMap('system');
 if(!$systemSettings || !$systemSettings['LOG_DIR'])
 {
-	KalturaLog::err("LOG_DIR not found in system configuration.");
+	BorhanLog::err("LOG_DIR not found in system configuration.");
 	exit(-1);
 }
 $pid = $systemSettings['LOG_DIR'] . '/populate.pid';
 if(file_exists($pid))
 {
-	KalturaLog::err("Scheduler already running - pid[" . file_get_contents($pid) . "]");
+	BorhanLog::err("Scheduler already running - pid[" . file_get_contents($pid) . "]");
 	exit(1);
 }
 file_put_contents($pid, getmypid());
@@ -89,7 +89,7 @@ while(true)
 	}
 	catch(Exception $e)
 	{
-		KalturaLog::err($e->getMessage());
+		BorhanLog::err($e->getMessage());
 		sleep(5);
 		continue;
 	}
@@ -115,13 +115,13 @@ while(true)
 		}
 		
 		$handledRecords[$dc][] = $sphinxLogId;
-		KalturaLog::log("Sphinx log id $sphinxLogId dc [$dc] executed server id [$executedServerId] Memory: [" . memory_get_usage() . "]");
+		BorhanLog::log("Sphinx log id $sphinxLogId dc [$dc] executed server id [$executedServerId] Memory: [" . memory_get_usage() . "]");
 
 		try
 		{
 			if ($skipExecutedUpdates && $executedServerId == $serverLastLog->getId())
                        {
-                               KalturaLog::log ("Sphinx server is initiated and the command already ran synchronously on this machine. Skipping");
+                               BorhanLog::log ("Sphinx server is initiated and the command already ran synchronously on this machine. Skipping");
                        }
                        else
                        {
@@ -146,7 +146,7 @@ while(true)
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err($e->getMessage());
+			BorhanLog::err($e->getMessage());
 		}
 	}
 	
@@ -160,4 +160,4 @@ while(true)
 	SphinxLogPeer::clearInstancePool();
 }
 
-KalturaLog::log('Done');
+BorhanLog::log('Done');

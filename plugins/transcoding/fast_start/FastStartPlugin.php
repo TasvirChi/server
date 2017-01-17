@@ -2,7 +2,7 @@
 /**
  * @package plugins.fastStart
  */
-class FastStartPlugin extends KalturaPlugin implements IKalturaObjectLoader, IKalturaEnumerator
+class FastStartPlugin extends BorhanPlugin implements IBorhanObjectLoader, IBorhanEnumerator
 {
 	const PLUGIN_NAME = 'fastStart';
 	
@@ -19,7 +19,7 @@ class FastStartPlugin extends KalturaPlugin implements IKalturaObjectLoader, IKa
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if($baseClass == 'KOperationEngine' && $enumValue == KalturaConversionEngineType::FAST_START)
+		if($baseClass == 'KOperationEngine' && $enumValue == BorhanConversionEngineType::FAST_START)
 		{
 			if(!isset($constructorArgs['params']) || !isset($constructorArgs['outFilePath']))
 				return null;
@@ -71,7 +71,7 @@ class FastStartPlugin extends KalturaPlugin implements IKalturaObjectLoader, IKa
 	 */
 	public static function getConversionEngineCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('conversionEngineType', $value);
 	}
 	
@@ -80,6 +80,6 @@ class FastStartPlugin extends KalturaPlugin implements IKalturaObjectLoader, IKa
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 }

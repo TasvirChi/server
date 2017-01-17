@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters
  */
-class KalturaReportInputBaseFilter extends KalturaObject 
+class BorhanReportInputBaseFilter extends BorhanObject 
 {
 	/**
 	 * Start date as Unix timestamp (In seconds)
@@ -66,7 +66,7 @@ class KalturaReportInputBaseFilter extends KalturaObject
 	
 	/**
 	 * @param reportsInputFilter $reportInputFilter
-	 * @return KalturaReportInputBaseFilter
+	 * @return BorhanReportInputBaseFilter
 	 */
 	public function fromReportsInputFilter (  $reportInputFilter )
 	{

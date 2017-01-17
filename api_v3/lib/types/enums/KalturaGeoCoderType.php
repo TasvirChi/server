@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaGeoCoderType extends KalturaDynamicEnum implements geoCoderType
+class BorhanGeoCoderType extends BorhanDynamicEnum implements geoCoderType
 {
 	public static function getEnumClass()
 	{

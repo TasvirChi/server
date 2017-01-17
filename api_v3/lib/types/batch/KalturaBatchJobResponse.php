@@ -3,12 +3,12 @@
  * @package api
  * @subpackage objects
  */
-class KalturaBatchJobResponse extends KalturaObject 
+class BorhanBatchJobResponse extends BorhanObject 
 {
 	/**
 	 * The main batch job
 	 * 
-	 * @var KalturaBatchJob
+	 * @var BorhanBatchJob
 	 */
 	public $batchJob;
 	
@@ -16,7 +16,7 @@ class KalturaBatchJobResponse extends KalturaObject
 	/**
 	 * All batch jobs that reference the main job as root
 	 * 
-	 * @var KalturaBatchJobArray
+	 * @var BorhanBatchJobArray
 	 */
 	public $childBatchJobs;
 }

@@ -2,7 +2,7 @@
 /**
  * @package plugins.eventNotification
  */
-class EventNotificationPlugin extends KalturaPlugin implements IKalturaVersion, IKalturaPermissions, IKalturaEventConsumers, IKalturaServices, IKalturaAdminConsolePages, IKalturaEnumerator, IKalturaObjectLoader
+class EventNotificationPlugin extends BorhanPlugin implements IBorhanVersion, IBorhanPermissions, IBorhanEventConsumers, IBorhanServices, IBorhanAdminConsolePages, IBorhanEnumerator, IBorhanObjectLoader
 {
 	const PLUGIN_NAME = 'eventNotification';
 	const PLUGIN_VERSION_MAJOR = 1;
@@ -13,7 +13,7 @@ class EventNotificationPlugin extends KalturaPlugin implements IKalturaVersion, 
 	const EVENT_NOTIFICATION_OBJECT_COPIED_HANDLER = 'kEventNotificationObjectCopiedHandler';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPluginName()
 	 */
 	public static function getPluginName()
 	{
@@ -21,11 +21,11 @@ class EventNotificationPlugin extends KalturaPlugin implements IKalturaVersion, 
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaVersion::getVersion()
+	 * @see IBorhanVersion::getVersion()
 	 */
 	public static function getVersion()
 	{
-		return new KalturaVersion(
+		return new BorhanVersion(
 			self::PLUGIN_VERSION_MAJOR,
 			self::PLUGIN_VERSION_MINOR,
 			self::PLUGIN_VERSION_BUILD
@@ -33,7 +33,7 @@ class EventNotificationPlugin extends KalturaPlugin implements IKalturaVersion, 
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPermissions::isAllowedPartner()
+	 * @see IBorhanPermissions::isAllowedPartner()
 	 */
 	public static function isAllowedPartner($partnerId)
 	{
@@ -48,7 +48,7 @@ class EventNotificationPlugin extends KalturaPlugin implements IKalturaVersion, 
 	}
 			
 	/* (non-PHPdoc)
-	 * @see IKalturaEnumerator::getEnums()
+	 * @see IBorhanEnumerator::getEnums()
 	 */
 	public static function getEnums($baseEnumName = null)
 	{
@@ -68,7 +68,7 @@ class EventNotificationPlugin extends KalturaPlugin implements IKalturaVersion, 
 	}
 			
 	/* (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	 */
 	public static function getEventConsumers()
 	{
@@ -76,7 +76,7 @@ class EventNotificationPlugin extends KalturaPlugin implements IKalturaVersion, 
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaAdminConsolePages::getApplicationPages()
+	 * @see IBorhanAdminConsolePages::getApplicationPages()
 	 */
 	public static function getApplicationPages() 
 	{
@@ -88,7 +88,7 @@ class EventNotificationPlugin extends KalturaPlugin implements IKalturaVersion, 
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaServices::getServicesMap()
+	 * @see IBorhanServices::getServicesMap()
 	 */
 	public static function getServicesMap() 
 	{
@@ -98,32 +98,32 @@ class EventNotificationPlugin extends KalturaPlugin implements IKalturaVersion, 
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::loadObject()
+	 * @see IBorhanObjectLoader::loadObject()
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if($baseClass == 'KalturaJobData' && $enumValue == self::getApiValue(EventNotificationBatchType::EVENT_NOTIFICATION_HANDLER) && isset($constructorArgs['coreJobSubType']))
-			return KalturaPluginManager::loadObject('KalturaEventNotificationDispatchJobData', $constructorArgs['coreJobSubType']);
+		if($baseClass == 'BorhanJobData' && $enumValue == self::getApiValue(EventNotificationBatchType::EVENT_NOTIFICATION_HANDLER) && isset($constructorArgs['coreJobSubType']))
+			return BorhanPluginManager::loadObject('BorhanEventNotificationDispatchJobData', $constructorArgs['coreJobSubType']);
 	
-		if($baseClass == 'KalturaCondition')
+		if($baseClass == 'BorhanCondition')
 		{
 			if($enumValue == EventNotificationPlugin::getConditionTypeCoreValue(EventNotificationConditionType::EVENT_NOTIFICATION_FIELD))
-				return new KalturaEventFieldCondition();
+				return new BorhanEventFieldCondition();
 				
 			if($enumValue == EventNotificationPlugin::getConditionTypeCoreValue(EventNotificationConditionType::EVENT_NOTIFICATION_OBJECT_CHANGED))
-				return new KalturaEventObjectChangedCondition();
+				return new BorhanEventObjectChangedCondition();
 		}
 		
 		return null;
 	}
 		
 	/* (non-PHPdoc)
-	 * @see IKalturaObjectLoader::getObjectClass()
+	 * @see IBorhanObjectLoader::getObjectClass()
 	 */
 	public static function getObjectClass($baseClass, $enumValue)
 	{
-		if($baseClass == 'KalturaJobData' && $enumValue == self::getApiValue(EventNotificationBatchType::EVENT_NOTIFICATION_HANDLER))
-			return 'KalturaEventNotificationDispatchJobData';
+		if($baseClass == 'BorhanJobData' && $enumValue == self::getApiValue(EventNotificationBatchType::EVENT_NOTIFICATION_HANDLER))
+			return 'BorhanEventNotificationDispatchJobData';
 			
 		if($baseClass == 'EventNotificationEventObjectType')
 		{
@@ -238,7 +238,7 @@ class EventNotificationPlugin extends KalturaPlugin implements IKalturaVersion, 
 	 */
 	public static function getBatchJobTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('BatchJobType', $value);
 	}
 	
@@ -247,7 +247,7 @@ class EventNotificationPlugin extends KalturaPlugin implements IKalturaVersion, 
 	 */
 	public static function getConditionTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('ConditionType', $value);
 	}
 	
@@ -256,6 +256,6 @@ class EventNotificationPlugin extends KalturaPlugin implements IKalturaVersion, 
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 }

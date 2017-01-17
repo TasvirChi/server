@@ -4,14 +4,14 @@
  * @subpackage system
  * @deprecated
  */
-require_once ( __DIR__ . "/kalturaSystemAction.class.php" );
+require_once ( __DIR__ . "/borhanSystemAction.class.php" );
 
 /**
  * @package    Core
  * @subpackage system
  * @deprecated
  */
-class viewPartnersAAction extends kalturaSystemAction
+class viewPartnersAAction extends borhanSystemAction
 {
 	const MAX_PAGE_SIZE = 20000;
 	
@@ -47,14 +47,14 @@ class viewPartnersAAction extends kalturaSystemAction
 		(
 			"all" => "1=1",
 			"paying" => "dim_partner.partner_package>1",
-			"kaltura_signup" => "dim_partner.partner_type_id=1 AND dim_partner.partner_package=1",
+			"borhan_signup" => "dim_partner.partner_type_id=1 AND dim_partner.partner_package=1",
 			"other" => "dim_partner.partner_type_id=1 AND dim_partner.partner_package=2",
 			"wiki" => "dim_partner.partner_type_id=1 AND dim_partner.partner_package=100",
 			"wordpress" => "dim_partner.partner_type_id=1 AND dim_partner.partner_package=101",
 			"drupal" => "dim_partner.partner_type_id=1 AND dim_partner.partner_package=102",
 			"mind_touch" => "dim_partner.partner_type_id=1 AND dim_partner.partner_package=103",
 			"moodle" => "dim_partner.partner_type_id=1 AND dim_partner.partner_package=104",
-			"kaltura_ce" => "dim_partner.partner_type_id=1 AND dim_partner.partner_package=105",
+			"borhan_ce" => "dim_partner.partner_type_id=1 AND dim_partner.partner_package=105",
 		);
 		
 

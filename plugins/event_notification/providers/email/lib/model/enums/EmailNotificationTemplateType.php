@@ -3,12 +3,12 @@
  * @package plugins.emailNotification
  * @subpackage model.enum
  */
-class EmailNotificationTemplateType implements IKalturaPluginEnum, EventNotificationTemplateType
+class EmailNotificationTemplateType implements IBorhanPluginEnum, EventNotificationTemplateType
 {
 	const EMAIL = 'Email';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPluginEnum::getAdditionalValues()
+	 * @see IBorhanPluginEnum::getAdditionalValues()
 	 */
 	public static function getAdditionalValues()
 	{
@@ -18,7 +18,7 @@ class EmailNotificationTemplateType implements IKalturaPluginEnum, EventNotifica
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPluginEnum::getAdditionalDescriptions()
+	 * @see IBorhanPluginEnum::getAdditionalDescriptions()
 	 */
 	public static function getAdditionalDescriptions() 
 	{

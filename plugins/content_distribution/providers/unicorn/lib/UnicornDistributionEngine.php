@@ -10,13 +10,13 @@ class UnicornDistributionEngine extends DistributionEngine implements IDistribut
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineSubmit::submit()
 	 */
-	public function submit(KalturaDistributionSubmitJobData $data)
+	public function submit(BorhanDistributionSubmitJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaUnicornDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaUnicornDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanUnicornDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanUnicornDistributionProfile");
 		
-		if(!$data->providerData || !($data->providerData instanceof KalturaUnicornDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaUnicornDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanUnicornDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanUnicornDistributionJobProviderData");
 		
 		$this->handleSubmit($data, $data->distributionProfile, $data->providerData);
 		
@@ -26,13 +26,13 @@ class UnicornDistributionEngine extends DistributionEngine implements IDistribut
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineUpdate::update()
 	 */
-	public function update(KalturaDistributionUpdateJobData $data)
+	public function update(BorhanDistributionUpdateJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaUnicornDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaUnicornDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanUnicornDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanUnicornDistributionProfile");
 		
-		if(!$data->providerData || !($data->providerData instanceof KalturaUnicornDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaUnicornDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanUnicornDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanUnicornDistributionJobProviderData");
 		
 		return $this->handleSubmit($data, $data->distributionProfile, $data->providerData);
 	}
@@ -40,13 +40,13 @@ class UnicornDistributionEngine extends DistributionEngine implements IDistribut
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineDelete::delete()
 	 */
-	public function delete(KalturaDistributionDeleteJobData $data)
+	public function delete(BorhanDistributionDeleteJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaUnicornDistributionProfile))
-			KalturaLog::err("Distribution profile must be of type KalturaUnicornDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanUnicornDistributionProfile))
+			BorhanLog::err("Distribution profile must be of type BorhanUnicornDistributionProfile");
 		
-		if(!$data->providerData || !($data->providerData instanceof KalturaUnicornDistributionJobProviderData))
-			KalturaLog::err("Provider data must be of type KalturaUnicornDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanUnicornDistributionJobProviderData))
+			BorhanLog::err("Provider data must be of type BorhanUnicornDistributionJobProviderData");
 		
 		$this->handleDelete($data, $data->distributionProfile, $data->providerData);
 		
@@ -56,7 +56,7 @@ class UnicornDistributionEngine extends DistributionEngine implements IDistribut
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseSubmit::closeSubmit()
 	 */
-	public function closeSubmit(KalturaDistributionSubmitJobData $data)
+	public function closeSubmit(BorhanDistributionSubmitJobData $data)
 	{
 		// will be closed by the callback notification
 		return false;
@@ -65,7 +65,7 @@ class UnicornDistributionEngine extends DistributionEngine implements IDistribut
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseUpdate::closeUpdate()
 	 */
-	public function closeUpdate(KalturaDistributionUpdateJobData $data)
+	public function closeUpdate(BorhanDistributionUpdateJobData $data)
 	{
 		// will be closed by the callback notification
 		return false;
@@ -74,13 +74,13 @@ class UnicornDistributionEngine extends DistributionEngine implements IDistribut
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseDelete::closeDelete()
 	 */
-	public function closeDelete(KalturaDistributionDeleteJobData $data)
+	public function closeDelete(BorhanDistributionDeleteJobData $data)
 	{
 		// will be closed by the callback notification
 		return false;
 	}
 	
-	protected function getNotificationUrl(KalturaUnicornDistributionJobProviderData $providerData)
+	protected function getNotificationUrl(BorhanUnicornDistributionJobProviderData $providerData)
 	{
 		$job = KJobHandlerWorker::getCurrentJob();
 		$serviceUrl = trim($providerData->notificationBaseUrl, '/');
@@ -91,16 +91,16 @@ class UnicornDistributionEngine extends DistributionEngine implements IDistribut
 	 * @param int $partnerId
 	 * @param string $entryId
 	 * @param string $assetIds comma seperated
-	 * @return array<KalturaCaptionAsset>
+	 * @return array<BorhanCaptionAsset>
 	 */
 	protected function getCaptionAssets($partnerId, $entryId, $assetIds)
 	{
 		KBatchBase::impersonate($partnerId);
-		$filter = new KalturaCaptionAssetFilter();
+		$filter = new BorhanCaptionAssetFilter();
 		$filter->entryIdEqual = $entryId;
 		$filter->idIn = $assetIds;
 		
-		$captionPlugin = KalturaCaptionClientPlugin::get(KBatchBase::$kClient);
+		$captionPlugin = BorhanCaptionClientPlugin::get(KBatchBase::$kClient);
 		$assetsList = $captionPlugin->captionAsset->listAction($filter);
 		KBatchBase::unimpersonate();
 		
@@ -108,15 +108,15 @@ class UnicornDistributionEngine extends DistributionEngine implements IDistribut
 	}
 	
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaUnicornDistributionProfile $distributionProfile
-	 * @param KalturaUnicornDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanUnicornDistributionProfile $distributionProfile
+	 * @param BorhanUnicornDistributionJobProviderData $providerData
 	 * @return string
 	 */
-	protected function buildXml(KalturaDistributionJobData $data, KalturaUnicornDistributionProfile $distributionProfile, KalturaUnicornDistributionJobProviderData $providerData)
+	protected function buildXml(BorhanDistributionJobData $data, BorhanUnicornDistributionProfile $distributionProfile, BorhanUnicornDistributionJobProviderData $providerData)
 	{
 		$entryDistribution = $data->entryDistribution;
-		/* @var $entryDistribution KalturaEntryDistribution */
+		/* @var $entryDistribution BorhanEntryDistribution */
 		
 		$flavorAssetIds = explode(',', $entryDistribution->flavorAssetIds);
 		$flavorAssetId = reset($flavorAssetIds);
@@ -144,7 +144,7 @@ class UnicornDistributionEngine extends DistributionEngine implements IDistribut
 			$captions = $this->getCaptionAssets($entryDistribution->partnerId, $entryDistribution->entryId, $entryDistribution->assetIds);
 			foreach($captions as $caption)
 			{
-				/* @var $caption KalturaCaptionAsset */
+				/* @var $caption BorhanCaptionAsset */
 				$captionXml = $captionsXml->addChild('Caption');
 				$captionXml->addChild('ForeignKey', $caption->id);
 				
@@ -162,7 +162,7 @@ class UnicornDistributionEngine extends DistributionEngine implements IDistribut
 		$publicationRuleXml->addChild('ChannelGUID', $distributionProfile->channelGuid);
 		$publicationRuleXml->addChild('StartDate', date($format, $data->entryDistribution->sunrise));
 		
-		if($data instanceof KalturaDistributionDeleteJobData)
+		if($data instanceof BorhanDistributionDeleteJobData)
 		{
 			$publicationRuleXml->addChild('EndDate', date($format, time()));
 		}
@@ -182,18 +182,18 @@ class UnicornDistributionEngine extends DistributionEngine implements IDistribut
 	}
 	
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaUnicornDistributionProfile $distributionProfile
-	 * @param KalturaUnicornDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanUnicornDistributionProfile $distributionProfile
+	 * @param BorhanUnicornDistributionJobProviderData $providerData
 	 */
-	protected function handleSubmit(KalturaDistributionJobData $data, KalturaUnicornDistributionProfile $distributionProfile, KalturaUnicornDistributionJobProviderData $providerData)
+	protected function handleSubmit(BorhanDistributionJobData $data, BorhanUnicornDistributionProfile $distributionProfile, BorhanUnicornDistributionJobProviderData $providerData)
 	{
 		$xml = $this->buildXml($data, $distributionProfile, $providerData);
 		$data->sentData = $xml;
 		$remoteId = $this->send($distributionProfile, $xml);
 		if($remoteId)
 		{
-			KalturaLog::info("Remote ID [$remoteId]");
+			BorhanLog::info("Remote ID [$remoteId]");
 			$data->remoteId = $remoteId;
 		}
 		
@@ -201,11 +201,11 @@ class UnicornDistributionEngine extends DistributionEngine implements IDistribut
 	}
 	
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaUnicornDistributionProfile $distributionProfile
-	 * @param KalturaUnicornDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanUnicornDistributionProfile $distributionProfile
+	 * @param BorhanUnicornDistributionJobProviderData $providerData
 	 */
-	protected function handleDelete(KalturaDistributionJobData $data, KalturaUnicornDistributionProfile $distributionProfile, KalturaUnicornDistributionJobProviderData $providerData)
+	protected function handleDelete(BorhanDistributionJobData $data, BorhanUnicornDistributionProfile $distributionProfile, BorhanUnicornDistributionJobProviderData $providerData)
 	{
 		$xml = $this->buildXml($data, $distributionProfile, $providerData);
 		$data->sentData = $xml;
@@ -213,11 +213,11 @@ class UnicornDistributionEngine extends DistributionEngine implements IDistribut
 	}
 	
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaUnicornDistributionProfile $distributionProfile
-	 * @param KalturaUnicornDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanUnicornDistributionProfile $distributionProfile
+	 * @param BorhanUnicornDistributionJobProviderData $providerData
 	 */
-	protected function send(KalturaUnicornDistributionProfile $distributionProfile, $xml)
+	protected function send(BorhanUnicornDistributionProfile $distributionProfile, $xml)
 	{
 		$ch = curl_init($distributionProfile->apiHostUrl);
 		curl_setopt($ch, CURLOPT_POST, true);
@@ -233,10 +233,10 @@ class UnicornDistributionEngine extends DistributionEngine implements IDistribut
 			$curlError = curl_error($ch);
 			$curlErrorNumber = curl_errno($ch);
 			curl_close($ch);
-			throw new KalturaDispatcherException("HTTP request failed: $curlError", $curlErrorNumber);
+			throw new BorhanDispatcherException("HTTP request failed: $curlError", $curlErrorNumber);
 		}
 		curl_close($ch);
-		KalturaLog::info("Response [$response]");
+		BorhanLog::info("Response [$response]");
 	
 		$matches = null;
 		if(preg_match_all('/HTTP\/?[\d.]{0,3} ([\d]{3}) ([^\n\r]+)/', $response, $matches))
@@ -265,6 +265,6 @@ class UnicornDistributionEngine extends DistributionEngine implements IDistribut
 			}
 		}
 
-		throw new KalturaDistributionException("Unexpected HTTP response");
+		throw new BorhanDistributionException("Unexpected HTTP response");
 	}
 }

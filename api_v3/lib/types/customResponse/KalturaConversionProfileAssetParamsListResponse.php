@@ -3,10 +3,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaConversionProfileAssetParamsListResponse extends KalturaListResponse
+class BorhanConversionProfileAssetParamsListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaConversionProfileAssetParamsArray
+	 * @var BorhanConversionProfileAssetParamsArray
 	 * @readonly
 	 */
 	public $objects;

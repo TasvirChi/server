@@ -6,7 +6,7 @@
  * @package api
  * @subpackage services
  */
-abstract class KalturaAssetService extends KalturaBaseService
+abstract class BorhanAssetService extends BorhanBaseService
 {
 	/**
 	 * @var array of all entry types that extend from media
@@ -14,12 +14,12 @@ abstract class KalturaAssetService extends KalturaBaseService
 	
 	protected function getEnabledMediaTypes()
 	{
-		$mediaTypes = KalturaPluginManager::getExtendedTypes(entryPeer::OM_CLASS, KalturaEntryType::MEDIA_CLIP);
+		$mediaTypes = BorhanPluginManager::getExtendedTypes(entryPeer::OM_CLASS, BorhanEntryType::MEDIA_CLIP);
 		return $mediaTypes;
 	}
 		
 	/* (non-PHPdoc)
-	 * @see KalturaBaseService::setPartnerFilters()
+	 * @see BorhanBaseService::setPartnerFilters()
 	 */
 	protected function setPartnerFilters($partnerId)
 	{
@@ -38,7 +38,7 @@ abstract class KalturaAssetService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param string $id
-	 * @return KalturaAsset
+	 * @return BorhanAsset
 	 */
 	abstract public function getAction($id);
 	
@@ -47,7 +47,7 @@ abstract class KalturaAssetService extends KalturaBaseService
 	* @param string $fileName
 	* @param bool $forceProxy
 	* @param int $version
-	* @throws KalturaErrors::FILE_DOESNT_EXIST
+	* @throws BorhanErrors::FILE_DOESNT_EXIST
 	*/
 	protected function serveAsset(asset $asset, $fileName, $forceProxy = false, $version = null)
 	{
@@ -63,7 +63,7 @@ abstract class KalturaAssetService extends KalturaBaseService
 				$serveRemote = true;
 				$fileSync = kFileSyncUtils::getReadyExternalFileSyncForKey($syncKey);
 				if(!$fileSync || $fileSync->getStatus() != FileSync::FILE_SYNC_STATUS_READY)
-					throw new KalturaAPIException(KalturaErrors::FILE_DOESNT_EXIST);
+					throw new BorhanAPIException(BorhanErrors::FILE_DOESNT_EXIST);
 				
 				break;
 			
@@ -74,22 +74,22 @@ abstract class KalturaAssetService extends KalturaBaseService
 				
 				break;
 			
-			case StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_FIRST:
+			case StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_FIRST:
 				$fileSync = kFileSyncUtils::getReadyInternalFileSyncForKey($syncKey);
 				if($fileSync)
 					break;
 					
 				$fileSync = kFileSyncUtils::getReadyExternalFileSyncForKey($syncKey);
 				if(!$fileSync || $fileSync->getStatus() != FileSync::FILE_SYNC_STATUS_READY)
-					throw new KalturaAPIException(KalturaErrors::FILE_DOESNT_EXIST);
+					throw new BorhanAPIException(BorhanErrors::FILE_DOESNT_EXIST);
 				
 				$serveRemote = true;
 				break;
 			
-			case StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_ONLY:
+			case StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_ONLY:
 				$fileSync = kFileSyncUtils::getReadyInternalFileSyncForKey($syncKey);
 				if(!$fileSync)
-					throw new KalturaAPIException(KalturaErrors::FILE_DOESNT_EXIST);
+					throw new BorhanAPIException(BorhanErrors::FILE_DOESNT_EXIST);
 				
 				break;
 		}
@@ -107,30 +107,30 @@ abstract class KalturaAssetService extends KalturaBaseService
 	 * Action for manually exporting an asset
 	 * @param string $assetId
 	 * @param int $storageProfileId
-	 * @throws KalturaErrors::INVALID_FLAVOR_ASSET_ID
-	 * @throws KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND
-	 * @throws KalturaErrors::INTERNAL_SERVERL_ERROR
-	 * @return KalturaFlavorAsset The exported asset
+	 * @throws BorhanErrors::INVALID_FLAVOR_ASSET_ID
+	 * @throws BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND
+	 * @throws BorhanErrors::INTERNAL_SERVERL_ERROR
+	 * @return BorhanFlavorAsset The exported asset
 	 */
 	protected function exportAction ( $assetId , $storageProfileId )
 	{	    
 	    $dbAsset = assetPeer::retrieveById($assetId);
 	    if (!$dbAsset)
 	    {
-	        throw new KalturaAPIException(KalturaErrors::INVALID_FLAVOR_ASSET_ID, $assetId);
+	        throw new BorhanAPIException(BorhanErrors::INVALID_FLAVOR_ASSET_ID, $assetId);
 	    }
 	    
 	    $dbStorageProfile = StorageProfilePeer::retrieveByPK($storageProfileId);	    
 	    if (!$dbStorageProfile)
 	    {
-	        throw new KalturaAPIException(KalturaErrors::STORAGE_PROFILE_ID_NOT_FOUND, $storageProfileId);
+	        throw new BorhanAPIException(BorhanErrors::STORAGE_PROFILE_ID_NOT_FOUND, $storageProfileId);
 	    }
 	    
 	   	$scope = $dbStorageProfile->getScope();
 	    $scope->setEntryId($dbAsset->getEntryId());
 	    if(!$dbStorageProfile->fulfillsRules($scope))
 	    {
-	    	throw new KalturaAPIException(KalturaErrors::STORAGE_PROFILE_RULES_NOT_FULFILLED, $storageProfileId);
+	    	throw new BorhanAPIException(BorhanErrors::STORAGE_PROFILE_RULES_NOT_FULFILLED, $storageProfileId);
 	    }
 	    
 	    $exported = kStorageExporter::exportFlavorAsset($dbAsset, $dbStorageProfile);
@@ -138,7 +138,7 @@ abstract class KalturaAssetService extends KalturaBaseService
 	    if ($exported !== true)
 	    {
 	        //TODO: implement export errors
-	        throw new KalturaAPIException(KalturaErrors::INTERNAL_SERVERL_ERROR);
+	        throw new BorhanAPIException(BorhanErrors::INTERNAL_SERVERL_ERROR);
 	    }
 	    
 	    return $this->getAction($assetId);
@@ -152,7 +152,7 @@ abstract class KalturaAssetService extends KalturaBaseService
 			if(!$entry)
 			{
 				//we will throw asset not found, as the user is not entitled, and should not know that the entry exists.
-				throw new KalturaAPIException(KalturaErrors::ASSET_ID_NOT_FOUND, $assetId);
+				throw new BorhanAPIException(BorhanErrors::ASSET_ID_NOT_FOUND, $assetId);
 			}	
 		}		
 	}

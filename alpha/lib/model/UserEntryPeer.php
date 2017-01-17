@@ -27,7 +27,7 @@ class UserEntryPeer extends BaseUserEntryPeer {
 	    if(self::$s_criteria_filter == null)
 	        self::$s_criteria_filter = new criteriaFilter();
 	    
-	    $c = KalturaCriteria::create(UserEntryPeer::OM_CLASS);
+	    $c = BorhanCriteria::create(UserEntryPeer::OM_CLASS);
 	    // when session is not admin, allow access to user's userEntries only
 	    if (kCurrentContext::$ks && !kCurrentContext::$is_admin_session) {
     	    $c->addAnd(UserEntryPeer::KUSER_ID, kCurrentContext::getCurrentKsKuserId());
@@ -44,7 +44,7 @@ class UserEntryPeer extends BaseUserEntryPeer {
 			$userEntryType = $row[$typeField];
 			if(isset(self::$class_types_cache[$userEntryType]))
 				return self::$class_types_cache[$userEntryType];
-			$extendedCls = KalturaPluginManager::getObjectClass(parent::OM_CLASS, $userEntryType);
+			$extendedCls = BorhanPluginManager::getObjectClass(parent::OM_CLASS, $userEntryType);
 			if($extendedCls)
 			{
 				self::$class_types_cache[$userEntryType] = $extendedCls;

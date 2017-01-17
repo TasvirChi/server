@@ -199,7 +199,7 @@ class myFileConverter
 		$exec_cmd = $cmd . $position_str . " -noautorotate -i " . "\"$source_file\"" . " -an -y -r 1 " . $dimensions .
 			" " . " -vframes $frame_count -f \"" . $target_type . "\" " . $position_str_suffix . "\"$target_file\"" . " 2>&1";
 		
-		KalturaLog::log("ffmpeg cmd [$exec_cmd]");
+		BorhanLog::log("ffmpeg cmd [$exec_cmd]");
 		$output = array ();
 		$return_value = "";
 
@@ -211,12 +211,12 @@ class myFileConverter
 				&& strpos($outLine,"first frame is no keyframe")===false)
 					continue;
 
-				KalturaLog::log("FFMpeg response - \n".print_r(implode($output),1));
-				KalturaLog::log("The ffmpeg responded with 'first-frame-not-a-keyframe'. The fast-seek mode failed to properly get the right frame. Switching to the 'slow-mode' that is limited to th3 first 30sec only ".print_r(implode($output),1));
+				BorhanLog::log("FFMpeg response - \n".print_r(implode($output),1));
+				BorhanLog::log("The ffmpeg responded with 'first-frame-not-a-keyframe'. The fast-seek mode failed to properly get the right frame. Switching to the 'slow-mode' that is limited to th3 first 30sec only ".print_r(implode($output),1));
 					// '-noautorotate' to adjust to ffm2.7.2 that automatically normalizes rotated sources
 				$exec_cmd = kConf::get ( "bin_path_ffmpeg" ) . " -noautorotate -i \"$source_file\"". $position_str  . " -an -y -r 1 " . $dimensions .
 					" " . " -vframes $frame_count -f \"" . $target_type . "\" " . "\"$target_file\"" . " 2>&1";
-				KalturaLog::log("fmpeg cmd [$exec_cmd]");
+				BorhanLog::log("fmpeg cmd [$exec_cmd]");
 				$output = array ();
 				$return_value = "";
 
@@ -274,21 +274,21 @@ class myFileConverter
 	
 	static public function createImageByFile($source_file)
 	{
-		global $global_kaltura_memory_limit;
-		if ( ! isset ( $global_kaltura_memory_limit ) )
+		global $global_borhan_memory_limit;
+		if ( ! isset ( $global_borhan_memory_limit ) )
 		{
 			ini_set("memory_limit","256M");
 		}
 		
 		if(!file_exists($source_file))
 		{
-			KalturaLog::log( "file not found [$source_file]" ) ;
+			BorhanLog::log( "file not found [$source_file]" ) ;
 			return null;	
 		}
 		
 		if(!is_file($source_file))
 		{
-			KalturaLog::log( "path is not file [$source_file]" ) ;
+			BorhanLog::log( "path is not file [$source_file]" ) ;
 			return null;	
 		}
 		
@@ -341,13 +341,13 @@ class myFileConverter
 	{
 		if ( ! file_exists( $source_file ) )
 		{
-			KalturaLog::log ( __CLASS__ . " File not found [$source_file]" );
+			BorhanLog::log ( __CLASS__ . " File not found [$source_file]" );
 			return;
 		}
 
 		if ( is_dir( $source_file ))
 		{
-			KalturaLog::log ( __CLASS__ . " Cannot create image from directory [$source_file]" );
+			BorhanLog::log ( __CLASS__ . " Cannot create image from directory [$source_file]" );
 			return;
 		}
 		//$text_output_file = self::createLogFileName ($source_file );
@@ -355,7 +355,7 @@ class myFileConverter
 		list($sourcewidth, $sourceheight, $type, $attr, $srcIm) = self::createImageByFile($source_file);
 		if (!$srcIm || !$sourcewidth || !$sourceheight)
 		{
-			KalturaLog::log ( __CLASS__ . " bad image / dimensions [$source_file]" );
+			BorhanLog::log ( __CLASS__ . " bad image / dimensions [$source_file]" );
 			return;
 		}
 
@@ -437,7 +437,7 @@ class myFileConverter
 		// check if the source file is not an image file
 		if (!file_exists($source_file) || filesize($source_file) === 0 || getimagesize($source_file) === false)
 		{
-        	KalturaLog::log("convertImage - failed to get image size [$source_file] while creating [$target_file]");
+        	BorhanLog::log("convertImage - failed to get image size [$source_file] while creating [$target_file]");
         		return null;
 		}
 		

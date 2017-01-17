@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaSourceFileSyncDescriptor extends KalturaFileSyncDescriptor
+class BorhanSourceFileSyncDescriptor extends BorhanFileSyncDescriptor
 {
 	/**
 	 * The translated path as used by the scheduler

@@ -32,8 +32,8 @@ class BatchController extends Zend_Controller_Action
 			return;
 			
 		$client = Infra_ClientHelper::getClient();
-		$adminConsolePlugin = Kaltura_Client_AdminConsole_Plugin::get($client);
-		$systemPartnerPlugin = Kaltura_Client_SystemPartner_Plugin::get($client);
+		$adminConsolePlugin = Borhan_Client_AdminConsole_Plugin::get($client);
+		$systemPartnerPlugin = Borhan_Client_SystemPartner_Plugin::get($client);
 		
 		if(!$client)
 		{
@@ -96,31 +96,31 @@ class BatchController extends Zend_Controller_Action
 	public function inProgressTasksAction()
 	{
 		$inProgressStatuses = array(
-			Kaltura_Client_Enum_BatchJobStatus::ALMOST_DONE,
-			Kaltura_Client_Enum_BatchJobStatus::MOVEFILE,
-			Kaltura_Client_Enum_BatchJobStatus::PROCESSED,
-			Kaltura_Client_Enum_BatchJobStatus::PROCESSING,
-			Kaltura_Client_Enum_BatchJobStatus::QUEUED,
+			Borhan_Client_Enum_BatchJobStatus::ALMOST_DONE,
+			Borhan_Client_Enum_BatchJobStatus::MOVEFILE,
+			Borhan_Client_Enum_BatchJobStatus::PROCESSED,
+			Borhan_Client_Enum_BatchJobStatus::PROCESSING,
+			Borhan_Client_Enum_BatchJobStatus::QUEUED,
 		);
 		$inQueueStatuses = array(
-			Kaltura_Client_Enum_BatchJobStatus::PENDING,
-			Kaltura_Client_Enum_BatchJobStatus::RETRY,
+			Borhan_Client_Enum_BatchJobStatus::PENDING,
+			Borhan_Client_Enum_BatchJobStatus::RETRY,
 		);
 		$defaultJobTypes = array(
-			Kaltura_Client_Enum_BatchJobType::CONVERT,
-			Kaltura_Client_Enum_BatchJobType::IMPORT,
-			Kaltura_Client_Enum_BatchJobType::BULKUPLOAD,
-			Kaltura_Client_Enum_BatchJobType::CONVERT_PROFILE,
-			Kaltura_Client_Enum_BatchJobType::POSTCONVERT,
-			Kaltura_Client_Enum_BatchJobType::EXTRACT_MEDIA,
+			Borhan_Client_Enum_BatchJobType::CONVERT,
+			Borhan_Client_Enum_BatchJobType::IMPORT,
+			Borhan_Client_Enum_BatchJobType::BULKUPLOAD,
+			Borhan_Client_Enum_BatchJobType::CONVERT_PROFILE,
+			Borhan_Client_Enum_BatchJobType::POSTCONVERT,
+			Borhan_Client_Enum_BatchJobType::EXTRACT_MEDIA,
 		);
 		
-		$oClass = new ReflectionClass('Kaltura_Client_Enum_ConversionEngineType');
+		$oClass = new ReflectionClass('Borhan_Client_Enum_ConversionEngineType');
 		$convertSubTypes = $oClass->getConstants();
 		
-		$oClass = new ReflectionClass('Kaltura_Client_Enum_BatchJobType');
+		$oClass = new ReflectionClass('Borhan_Client_Enum_BatchJobType');
 		$jobTypes = array_flip($oClass->getConstants());
-		$jobTypes[Kaltura_Client_Enum_BatchJobType::CONVERT] = $convertSubTypes;
+		$jobTypes[Borhan_Client_Enum_BatchJobType::CONVERT] = $convertSubTypes;
 		
 		$request = $this->getRequest();
 		$action = $this->view->url(array('controller' => 'batch', 'action' => 'in-progress-tasks'), null, true);
@@ -153,7 +153,7 @@ class BatchController extends Zend_Controller_Action
 		
 		
 		$filter = new Infra_BatchJobFilter();
-		$filter->orderBy = Kaltura_Client_Enum_BatchJobOrderBy::CREATED_AT_DESC;
+		$filter->orderBy = Borhan_Client_Enum_BatchJobOrderBy::CREATED_AT_DESC;
 	
 		if($request->getParam('createdAtFrom', false))
 		{
@@ -243,24 +243,24 @@ class BatchController extends Zend_Controller_Action
 	public function failedTasksAction()
 	{
 		$defaultJobTypes = array(
-			Kaltura_Client_Enum_BatchJobType::CONVERT,
-			Kaltura_Client_Enum_BatchJobType::IMPORT,
-			Kaltura_Client_Enum_BatchJobType::BULKUPLOAD,
+			Borhan_Client_Enum_BatchJobType::CONVERT,
+			Borhan_Client_Enum_BatchJobType::IMPORT,
+			Borhan_Client_Enum_BatchJobType::BULKUPLOAD,
 		);
 		
-		$oClass = new ReflectionClass('Kaltura_Client_Enum_ConversionEngineType');
+		$oClass = new ReflectionClass('Borhan_Client_Enum_ConversionEngineType');
 		$convertSubTypes = $oClass->getConstants();
 		
-		$oClass = new ReflectionClass('Kaltura_Client_Enum_BatchJobType');
+		$oClass = new ReflectionClass('Borhan_Client_Enum_BatchJobType');
 		$jobTypes = array_flip($oClass->getConstants());
-		$jobTypes[Kaltura_Client_Enum_BatchJobType::CONVERT] = $convertSubTypes;
+		$jobTypes[Borhan_Client_Enum_BatchJobType::CONVERT] = $convertSubTypes;
 		
-		$oClass = new ReflectionClass('Kaltura_Client_Enum_BatchJobErrorTypes');
+		$oClass = new ReflectionClass('Borhan_Client_Enum_BatchJobErrorTypes');
 		$errorTypes = $oClass->getConstants();
 		
-		$oClass = new ReflectionClass('Kaltura_Client_Enum_BatchJobStatus');
+		$oClass = new ReflectionClass('Borhan_Client_Enum_BatchJobStatus');
 		$statuses = array_flip($oClass->getConstants());
-		$statuses[Kaltura_Client_Enum_BatchJobStatus::FAILED] = $errorTypes;
+		$statuses[Borhan_Client_Enum_BatchJobStatus::FAILED] = $errorTypes;
 		
 		$request = $this->getRequest();
 		
@@ -313,7 +313,7 @@ class BatchController extends Zend_Controller_Action
         $submitAction->setValue('');
 		
 		$filter = new Infra_BatchJobFilter();
-		$filter->orderBy = Kaltura_Client_Enum_BatchJobOrderBy::CREATED_AT_DESC;
+		$filter->orderBy = Borhan_Client_Enum_BatchJobOrderBy::CREATED_AT_DESC;
 	
 		if($request->getParam('createdAtFrom', false))
 		{
@@ -382,9 +382,9 @@ class BatchController extends Zend_Controller_Action
 		if(!count($inFailedStatuses))
 		{
 			$inFailedStatuses = array(
-				Kaltura_Client_Enum_BatchJobStatus::FAILED,
-				Kaltura_Client_Enum_BatchJobStatus::ABORTED,
-				Kaltura_Client_Enum_BatchJobStatus::FATAL,
+				Borhan_Client_Enum_BatchJobStatus::FAILED,
+				Borhan_Client_Enum_BatchJobStatus::ABORTED,
+				Borhan_Client_Enum_BatchJobStatus::FATAL,
 			);
 		}
 		
@@ -516,16 +516,16 @@ class BatchController extends Zend_Controller_Action
 			}
 		}
 	
-		$filter = new Kaltura_Client_Type_ControlPanelCommandFilter();
+		$filter = new Borhan_Client_Type_ControlPanelCommandFilter();
 		$filter->createdByIdEqual = $adminId;
-		$filter->statusIn = Kaltura_Client_Enum_ControlPanelCommandStatus::HANDLED . ',' . Kaltura_Client_Enum_ControlPanelCommandStatus::PENDING;
+		$filter->statusIn = Borhan_Client_Enum_ControlPanelCommandStatus::HANDLED . ',' . Borhan_Client_Enum_ControlPanelCommandStatus::PENDING;
 		
 		$this->view->disabledWorkers = array();
 		try{
 			$commandsList = $client->batchcontrol->listCommands($filter);
 			
 			foreach($commandsList->objects as $command)
-				if($command->type != Kaltura_Client_Enum_ControlPanelCommandType::CONFIG)
+				if($command->type != Borhan_Client_Enum_ControlPanelCommandType::CONFIG)
 					$this->view->disabledWorkers[$command->workerId] = $command;
 		}
 		catch(Exception $e){
@@ -536,7 +536,7 @@ class BatchController extends Zend_Controller_Action
 		$settings = Zend_Registry::get('config')->settings;
 		$controlCommandsTimeFrame = $settings->controlCommandsTimeFrame * 60;
 		
-		$filter = new Kaltura_Client_Type_ControlPanelCommandFilter();
+		$filter = new Borhan_Client_Type_ControlPanelCommandFilter();
 		$filter->createdByIdEqual = $adminId;
 		$filter->createdAtGreaterThanOrEqual = (time() - $controlCommandsTimeFrame) ;
 		
@@ -606,15 +606,15 @@ class BatchController extends Zend_Controller_Action
 	/**
 	 * @param string $entryId
 	 * @param array $errors
-	 * @return Kaltura_Client_Enum_InvestigateEntryData
+	 * @return Borhan_Client_Enum_InvestigateEntryData
 	 */
 	public function getEntryInvestigationData($entryId, &$errors)
 	{
-		$investigateData = new Kaltura_Client_AdminConsole_Type_InvestigateEntryData();
+		$investigateData = new Borhan_Client_AdminConsole_Type_InvestigateEntryData();
 	
 		$client = Infra_ClientHelper::getClient();
-		$adminConsolePlugin = Kaltura_Client_AdminConsole_Plugin::get($client);
-		$fileSyncConsolePlugin = Kaltura_Client_FileSync_Plugin::get($client);
+		$adminConsolePlugin = Borhan_Client_AdminConsole_Plugin::get($client);
+		$fileSyncConsolePlugin = Borhan_Client_FileSync_Plugin::get($client);
 		
 		if(!$client)
 		{
@@ -642,7 +642,7 @@ class BatchController extends Zend_Controller_Action
 		
 		$filter = new Infra_BatchJobFilter();
 		$filter->entryIdEqual = $entryId;
-		$pager = new Kaltura_Client_Type_FilterPager();
+		$pager = new Borhan_Client_Type_FilterPager();
 		$pager->pageSize = self::BATCH_JOBS_PAGER_SIZE;
 		try{
 			$jobsList = $client->jobs->listBatchJobs($filter,$pager);
@@ -652,15 +652,15 @@ class BatchController extends Zend_Controller_Action
 			$errors[] = 'Jobs not found: ' . $e->getMessage();
 		}
 		
-		if($entry->status == Kaltura_Client_Enum_EntryStatus::DELETED)
+		if($entry->status == Borhan_Client_Enum_EntryStatus::DELETED)
 		{
 			$investigateData->fileSyncs = array();
 			$investigateData->flavorAssets = array();
 			return $investigateData;
 		}
 		
-		$filter = new Kaltura_Client_FileSync_Type_FileSyncFilter();
-		$filter->objectTypeEqual = Kaltura_Client_Enum_FileSyncObjectType::ENTRY;
+		$filter = new Borhan_Client_FileSync_Type_FileSyncFilter();
+		$filter->objectTypeEqual = Borhan_Client_Enum_FileSyncObjectType::ENTRY;
 		$filter->objectIdEqual = $entryId;
 		try{
 			$filesList = $fileSyncConsolePlugin->fileSync->listAction($filter);
@@ -735,7 +735,7 @@ class BatchController extends Zend_Controller_Action
 		
 		$flavors = null;
 		try{
-			$filter = new Kaltura_Client_Type_AssetFilter();
+			$filter = new Borhan_Client_Type_AssetFilter();
 			$filter->entryIdEqual = $entryId;
 			$flavorsList = $client->flavorAsset->listAction($filter);
 			$flavors = $flavorsList->objects;
@@ -746,7 +746,7 @@ class BatchController extends Zend_Controller_Action
 		
 		$thumbs = null;
 		try{
-			$filter = new Kaltura_Client_Type_AssetFilter();
+			$filter = new Borhan_Client_Type_AssetFilter();
 			$filter->entryIdEqual = $entryId;
 			$thumbsList = $client->thumbAsset->listAction($filter);
 			$thumbs = $thumbsList->objects;
@@ -762,7 +762,7 @@ class BatchController extends Zend_Controller_Action
 		{
 			foreach($flavors as $flavor)
 			{
-				$flavorData = new Kaltura_Client_AdminConsole_Type_InvestigateFlavorAssetData();
+				$flavorData = new Borhan_Client_AdminConsole_Type_InvestigateFlavorAssetData();
 				$flavorData->flavorAsset = $flavor;
 				$flavorData->flavorParams = null;
 				$flavorData->flavorParamsOutputs = array();
@@ -772,8 +772,8 @@ class BatchController extends Zend_Controller_Action
 				if(isset($flavorParams[$flavor->flavorParamsId]))
 					$flavorData->flavorParams = $flavorParams[$flavor->flavorParamsId];
 			
-				$filter = new Kaltura_Client_FileSync_Type_FileSyncFilter();
-				$filter->objectTypeEqual = Kaltura_Client_Enum_FileSyncObjectType::FLAVOR_ASSET;
+				$filter = new Borhan_Client_FileSync_Type_FileSyncFilter();
+				$filter->objectTypeEqual = Borhan_Client_Enum_FileSyncObjectType::FLAVOR_ASSET;
 				$filter->objectIdEqual = $flavor->id;
 				try{
 					$filesList = $fileSyncConsolePlugin->fileSync->listAction($filter);
@@ -783,7 +783,7 @@ class BatchController extends Zend_Controller_Action
 					$errors[] = "Flavor [$flavor->id] files not found: " . $e->getMessage();
 				}
 			
-				$filter = new Kaltura_Client_Type_FlavorParamsOutputFilter();
+				$filter = new Borhan_Client_Type_FlavorParamsOutputFilter();
 				$filter->flavorAssetIdEqual = $flavor->id;
 				try{
 					$flavorParamsOutputsList = $client->flavorParamsOutput->listAction($filter);
@@ -793,7 +793,7 @@ class BatchController extends Zend_Controller_Action
 					$errors[] = "Flavor [$flavor->id] flavor params outputs not found: " . $e->getMessage();
 				}
 				
-				$filter = new Kaltura_Client_Type_MediaInfoFilter();
+				$filter = new Borhan_Client_Type_MediaInfoFilter();
 				$filter->flavorAssetIdEqual = $flavor->id;
 				try{
 					$mediaInfosList = $client->mediaInfo->listAction($filter);
@@ -812,7 +812,7 @@ class BatchController extends Zend_Controller_Action
 		{
 			foreach($thumbs as $thumb)
 			{
-				$thumbData = new Kaltura_Client_AdminConsole_Type_InvestigateThumbAssetData();
+				$thumbData = new Borhan_Client_AdminConsole_Type_InvestigateThumbAssetData();
 				$thumbData->thumbAsset = $thumb;
 				$thumbData->thumbParams = null;
 				$thumbData->thumbParamsOutputs = array();
@@ -821,8 +821,8 @@ class BatchController extends Zend_Controller_Action
 				if(isset($thumbParams[$thumb->thumbParamsId]))
 					$thumbData->thumbParams = $thumbParams[$thumb->thumbParamsId];
 			
-				$filter = new Kaltura_Client_FileSync_Type_FileSyncFilter();
-				$filter->objectTypeEqual = Kaltura_Client_Enum_FileSyncObjectType::FLAVOR_ASSET;
+				$filter = new Borhan_Client_FileSync_Type_FileSyncFilter();
+				$filter->objectTypeEqual = Borhan_Client_Enum_FileSyncObjectType::FLAVOR_ASSET;
 				$filter->objectIdEqual = $thumb->id;
 				try{
 					$filesList = $fileSyncConsolePlugin->fileSync->listAction($filter);
@@ -832,7 +832,7 @@ class BatchController extends Zend_Controller_Action
 					$errors[] = "Thumb [$thumb->id] files not found: " . $e->getMessage();
 				}
 			
-				$filter = new Kaltura_Client_Type_ThumbParamsOutputFilter();
+				$filter = new Borhan_Client_Type_ThumbParamsOutputFilter();
 				$filter->thumbAssetIdEqual = $thumb->id;
 				try{
 					$thumbParamsOutputsList = $client->thumbParamsOutput->listAction($filter);
@@ -895,7 +895,7 @@ class BatchController extends Zend_Controller_Action
 			$this->view->errors[] = 'init client failed';
 			return;
 		}
-		$adminConsolePlugin = Kaltura_Client_AdminConsole_Plugin::get($client);
+		$adminConsolePlugin = Borhan_Client_AdminConsole_Plugin::get($client);
 		
 		if (($request->getParam('searchType') == 'by-flavor-asset-id'))
 		{
@@ -991,7 +991,7 @@ class BatchController extends Zend_Controller_Action
 		if(!$this->view || !$this->view->investigateData)
 			return;
 			
-		$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaApplicationPartialView');
+		$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanApplicationPartialView');
 		foreach($pluginInstances as $pluginInstance)
 		{
 			$entryInvestigatePlugins = $pluginInstance->getApplicationPartialViews('batch', 'entryInvestigation');
@@ -1000,7 +1000,7 @@ class BatchController extends Zend_Controller_Action
 			
 			foreach($entryInvestigatePlugins as $plugin)
 			{
-				/* @var $plugin Kaltura_View_Helper_PartialViewPlugin */
+				/* @var $plugin Borhan_View_Helper_PartialViewPlugin */
 	    		$plugin->plug($this->view);
 			}
 		}

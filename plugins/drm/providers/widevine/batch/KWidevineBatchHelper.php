@@ -54,11 +54,11 @@ class KWidevineBatchHelper
 							$widevineExe, $wvRegServerHost, $iv, $key, $assetName, $inputFiles, $destinationFile, $gop, $portal = null)
 	{
 		if(!$portal)
-			$portal = WidevinePlugin::KALTURA_PROVIDER;
+			$portal = WidevinePlugin::BORHAN_PROVIDER;
 		
 		$cmd = $widevineExe.' -a '.$assetName.' -u '.$wvRegServerHost.' -p '.$portal.' -o '.$portal.' -t '.$inputFiles.' -d '.$destinationFile.' -g '.$gop.' 2>&1';
 		
-		KalturaLog::info("Encrypt package command: ".$cmd);
+		BorhanLog::info("Encrypt package command: ".$cmd);
 		
 		//$cmd = $cmd.' -v '.$iv.' -k '.$key;
 		return $cmd;
@@ -82,8 +82,8 @@ class KWidevineBatchHelper
 	* Send register asset request to Widevine license server
 	* If asset name is not passed call getAsset first to get asset by id
 	* 
-	* https://register.uat.widevine.com/registerasset/kaltura?asset=test1155&owner=kaltura&provider=name:kaltura,policy:default&replace=1
-	* https://register.uat.widevine.com/getasset/kaltura?asset=test537&owner=kaltura&provider=kaltura
+	* https://register.uat.widevine.com/registerasset/borhan?asset=test1155&owner=borhan&provider=name:borhan,policy:default&replace=1
+	* https://register.uat.widevine.com/getasset/borhan?asset=test537&owner=borhan&provider=borhan
 	*/
 	public static function sendRegisterAssetRequest(
 							$wvRegServerHost, $assetName = null, $assetId = null, $portal = null, 
@@ -92,7 +92,7 @@ class KWidevineBatchHelper
 		$params = array();
 		
 		if(!$portal)
-			$portal = WidevinePlugin::KALTURA_PROVIDER;
+			$portal = WidevinePlugin::BORHAN_PROVIDER;
 			
 		if($licenseStartDate)
 			$licenseStartDate = self::convertLicenseStartDate($licenseStartDate);
@@ -171,7 +171,7 @@ class KWidevineBatchHelper
 	{
 		$cmd =  "$ffmpegCmd -i $inputFile -i $inputFile -map 0:v -map 1:a -c copy -shortest -y -f mp4 -threads 1 $fixedInputFile 2>&1";
 		
-		KalturaLog::info("Executing command to fix asset : ".$cmd);
+		BorhanLog::info("Executing command to fix asset : ".$cmd);
 		
 		return $cmd;
 	}
@@ -184,7 +184,7 @@ class KWidevineBatchHelper
 			$params[self::PROVIDER] = self::providerRequestEncode($providerParams);
 		$url .= http_build_query($params, '', '&');
 		
-		KalturaLog::info("Request URL: ".$url);
+		BorhanLog::info("Request URL: ".$url);
 				
 		$ch = curl_init();		
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -199,7 +199,7 @@ class KWidevineBatchHelper
 	/**
 	 * Decode Get asset or register asset response
 	 * 
-	 * Get: status=1:asset=test1155:assetid=1611336952:owner=kaltura:provider=name:kaltura,lstart:1980-01-01 00:00:01,lend:2033-05-18 00:00:00,
+	 * Get: status=1:asset=test1155:assetid=1611336952:owner=borhan:provider=name:borhan,lstart:1980-01-01 00:00:01,lend:2033-05-18 00:00:00,
 	 * 		policy:default:region=EV:access=1:dcp=0:cci=0:sid=:sysid=447:lstart=1980-01-01 00:00:01:lend=2033-05-18 00:00:00:policy=:polexist=1:type=vod:start=0:max=0:total=0:end:1;
 	 * Register: status=1:asset=test1155:id=1611336952
 	 * 
@@ -261,7 +261,7 @@ class KWidevineBatchHelper
 	
 	/**
 	 * Build provider request params according to the required format
-	 * format: provider=name:kaltura,licstart:1980-01-01 00:00:01,licend:2033-05-18 00:00:00,policy:default;
+	 * format: provider=name:borhan,licstart:1980-01-01 00:00:01,licend:2033-05-18 00:00:00,policy:default;
 	 * 
 	 * @param array $providerParams
 	 */

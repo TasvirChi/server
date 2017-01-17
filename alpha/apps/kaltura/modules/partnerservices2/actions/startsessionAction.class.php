@@ -10,7 +10,7 @@ class startsessionAction extends defPartnerservices2Action
 		return
 			array (
 				"display_name" => "startSession",
-				"desc" => "Starts new kaltura session." ,
+				"desc" => "Starts new borhan session." ,
 				"in" => array (
 					"mandatory" => array (
 						"secret" 		=> array ("type" => "string", "desc" => ""),

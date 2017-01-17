@@ -3,27 +3,27 @@
  * @package api
  * @subpackage objects
  */
-class KalturaPlaybackContext extends KalturaObject{
+class BorhanPlaybackContext extends BorhanObject{
 
 	/**
-	 * @var KalturaPlaybackSourceArray
+	 * @var BorhanPlaybackSourceArray
 	 */
 	public $sources;
     
 	/**
-	 * @var KalturaFlavorAssetArray
+	 * @var BorhanFlavorAssetArray
 	 */
 	public $flavorAssets;
 
 	/**
 	 * Array of actions as received from the rules that invalidated
-	 * @var KalturaRuleActionArray
+	 * @var BorhanRuleActionArray
 	 */
 	public $actions;
 
 	/**
 	 * Array of actions as received from the rules that invalidated
-	 * @var KalturaAccessControlMessageArray
+	 * @var BorhanAccessControlMessageArray
 	 */
 	public $messages;
 
@@ -35,7 +35,7 @@ class KalturaPlaybackContext extends KalturaObject{
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{

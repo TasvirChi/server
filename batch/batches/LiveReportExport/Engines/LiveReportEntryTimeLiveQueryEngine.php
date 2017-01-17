@@ -34,8 +34,8 @@ class LiveReportAudienceEngine extends LiveReportEngine {
 	protected function executeAudienceQuery($fp, $fromTime, $toTime, $args, $showDvr) {
 		$this->checkParams($args, array(LiveReportConstants::ENTRY_IDS));
 
-		$reportType = KalturaLiveReportType::ENTRY_TIME_LINE;
-		$filter = new KalturaLiveReportInputFilter();
+		$reportType = BorhanLiveReportType::ENTRY_TIME_LINE;
+		$filter = new BorhanLiveReportInputFilter();
 		$filter->toTime = $toTime;
 		$filter->fromTime = $fromTime;
 		$filter->entryIds = $args[LiveReportConstants::ENTRY_IDS];

@@ -224,7 +224,7 @@ class DoubleClickFeed
 			if ($cuePoint->getAdType() != AdType::VIDEO)
 				continue;
 				
-			$tags = explode(',', $cuePoint->getTags()); // KMC saves cue points provider as a tag
+			$tags = explode(',', $cuePoint->getTags()); // BMC saves cue points provider as a tag
 			foreach($tags as &$tempTag)
 				$tempTag = trim($tempTag);
 				

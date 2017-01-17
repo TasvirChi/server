@@ -3,12 +3,12 @@
  * @package plugins.cuePoint
  * @subpackage model.enum
  */
-class CuePointObjectFeatureType implements IKalturaPluginEnum, ObjectFeatureType
+class CuePointObjectFeatureType implements IBorhanPluginEnum, ObjectFeatureType
 {
 	const CUE_POINT = 'CuePoint';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPluginEnum::getAdditionalValues()
+	 * @see IBorhanPluginEnum::getAdditionalValues()
 	 */
 	public static function getAdditionalValues() 
 	{
@@ -20,7 +20,7 @@ class CuePointObjectFeatureType implements IKalturaPluginEnum, ObjectFeatureType
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPluginEnum::getAdditionalDescriptions()
+	 * @see IBorhanPluginEnum::getAdditionalDescriptions()
 	 */
 	public static function getAdditionalDescriptions() {
 		return array();

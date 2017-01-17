@@ -22,7 +22,7 @@ class kuser extends Basekuser implements IIndexable, IRelatedObject
 	
 	const MINIMUM_ID_TO_DISPLAY = 8999;
 		
-	const KUSER_KALTURA = 0;
+	const KUSER_BORHAN = 0;
 	
 	const KUSER_ID_THAT_DOES_NOT_EXIST = 0;
 	
@@ -162,7 +162,7 @@ class kuser extends Basekuser implements IIndexable, IRelatedObject
 		}
 		
 		if ($this->isColumnModified(kuserPeer::EMAIL) && $this->getIsAccountOwner() && isset($this->oldColumnsValues[kuserPeer::EMAIL]) && !is_null($this->oldColumnsValues[kuserPeer::EMAIL])) {
-			myPartnerUtils::emailChangedEmail($this->getPartnerId(), $this->oldColumnsValues[kuserPeer::EMAIL], $this->getEmail(), $this->getPartner()->getName() , PartnerPeer::KALTURAS_PARTNER_EMAIL_CHANGE );
+			myPartnerUtils::emailChangedEmail($this->getPartnerId(), $this->oldColumnsValues[kuserPeer::EMAIL], $this->getEmail(), $this->getPartner()->getName() , PartnerPeer::BORHANS_PARTNER_EMAIL_CHANGE );
 		}
 
 		if ($this->getIsAccountOwner() && ( $this->isColumnModified(kuserPeer::EMAIL) || $this->isColumnModified(kuserPeer::FIRST_NAME) || $this->isColumnModified(kuserPeer::LAST_NAME) ))
@@ -350,14 +350,14 @@ class kuser extends Basekuser implements IIndexable, IRelatedObject
 		return $this->getUpdatedAt( null );
 	}
 	
-	public function getFormattedCreatedAt( $format = dateUtils::KALTURA_FORMAT )
+	public function getFormattedCreatedAt( $format = dateUtils::BORHAN_FORMAT )
 	{
-		return dateUtils::formatKalturaDate( $this , 'getCreatedAt' , $format );
+		return dateUtils::formatBorhanDate( $this , 'getCreatedAt' , $format );
 	}
 
-	public function getFormattedUpdatedAt( $format = dateUtils::KALTURA_FORMAT )
+	public function getFormattedUpdatedAt( $format = dateUtils::BORHAN_FORMAT )
 	{
-		return dateUtils::formatKalturaDate( $this , 'getUpdatedAt' , $format );
+		return dateUtils::formatBorhanDate( $this , 'getUpdatedAt' , $format );
 	}
 	
 	public function getHomepageURL()
@@ -532,7 +532,7 @@ class kuser extends Basekuser implements IIndexable, IRelatedObject
 		else
 		{
 			// This should never happen
-			return "<a href='" . $host . "'>Kaltura</a>";
+			return "<a href='" . $host . "'>Borhan</a>";
 		}
 	}
 	
@@ -680,7 +680,7 @@ class kuser extends Basekuser implements IIndexable, IRelatedObject
 		if (!$this->getFirstName() && parent::getFullName())
 		{
 			// full_name is deprecated - this is for backward compatibiliy and for migration
-			KalturaLog::alert('Field [full_name] on object [kuser] is deprecated but still being read');
+			BorhanLog::alert('Field [full_name] on object [kuser] is deprecated but still being read');
 			return parent::getFullName();
 		}
 		return trim($this->getFirstName().' '.$this->getLastName());
@@ -900,35 +900,35 @@ class kuser extends Basekuser implements IIndexable, IRelatedObject
 	public function setSalt($v)
 	{
 		// salt column is deprecated
-		KalturaLog::alert('Field [salt] on object [kuser] is deprecated');
+		BorhanLog::alert('Field [salt] on object [kuser] is deprecated');
 		throw new Exception('Field [salt] on object [kuser] is deprecated');
 	}
 	
 	public function setSha1Password($v)
 	{
 		// sha1_password column is deprecated
-		KalturaLog::alert('Field [sha1_password] on object [kuser] is deprecated - trace: ');
+		BorhanLog::alert('Field [sha1_password] on object [kuser] is deprecated - trace: ');
 		throw new Exception('Field [sha1_password] on object [kuser] is deprecated');
 	}
 	
 	public function getSalt()
 	{
 		// salt column is deprecated
-		KalturaLog::alert('Field [salt] on object [kuser] is deprecated - getSalt should be removed from schema after migration');
+		BorhanLog::alert('Field [salt] on object [kuser] is deprecated - getSalt should be removed from schema after migration');
 		return parent::getSalt();
 	}
 	
 	public function getSha1Password()
 	{
 		// sha1_password column is deprecated
-		KalturaLog::alert('Field [sha1_password] on object [kuser] is deprecated - getSha1Password should be removed from schema after migration');
+		BorhanLog::alert('Field [sha1_password] on object [kuser] is deprecated - getSha1Password should be removed from schema after migration');
 		return parent::getSha1Password();
 	}
 	
 	public function setFullName($v)
 	{
 		// full_name column is deprecated
-		KalturaLog::alert('Field [full_name] on object [kuser] is deprecated');
+		BorhanLog::alert('Field [full_name] on object [kuser] is deprecated');
 		list($firstName, $lastName) = kString::nameSplit($v);
 		$this->setFirstName($firstName);
 		$this->setLastName($lastName);

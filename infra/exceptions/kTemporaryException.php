@@ -14,7 +14,7 @@ class kTemporaryException extends kException
 	protected $resetJobExecutionAttempts = false;
 	
 	/**
-	 * @var KalturaJobData
+	 * @var BorhanJobData
 	 */
 	protected $data = null;
 
@@ -49,9 +49,9 @@ class kTemporaryException extends kException
 	}
 
 	/**
-	 * @param KalturaJobData $data
+	 * @param BorhanJobData $data
 	 */
-	public function setData(KalturaJobData $data)
+	public function setData(BorhanJobData $data)
 	{
 		$this->data = $data;
 	}

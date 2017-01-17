@@ -3,6 +3,6 @@
  * @package api
  * @subpackage objects
  */
-class KalturaPluginData extends KalturaObject{
+class BorhanPluginData extends BorhanObject{
 
 }

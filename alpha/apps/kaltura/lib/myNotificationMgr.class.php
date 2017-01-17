@@ -114,7 +114,7 @@ $debug .= "property: $not_property = [$value]\n";
 			}
 			else
 			{
-				KalturaLog::log ( "Cannot create notification [$notification_type] [$object_data] [$partner_id]" );
+				BorhanLog::log ( "Cannot create notification [$notification_type] [$object_data] [$partner_id]" );
 				return false;
 			}
 		}
@@ -165,7 +165,7 @@ $debug .= "property: $not_property = [$value]\n";
 //				
 //			if ( $object_data instanceof entry )
 //			{
-//				if (defined("KALTURA_API_V3"))
+//				if (defined("BORHAN_API_V3"))
 //					$puser_id = $object_data->getKuser()->getPuserId();
 //				else
 //					$puser_id = PuserKuserPeer::getByKuserId( $object_data->getKuserId() , 1 );
@@ -221,13 +221,13 @@ $debug .= "property: $not_property = [$value]\n";
 					else
 					{
 						$puser_id = null;
-						KalturaLog::log ( __CLASS__.'::'.__METHOD__.' [line: '.__LINE__.'] could not find kuser ['.$object_data->getKuserId().'] from object ['.$object_data->getId().']');
+						BorhanLog::log ( __CLASS__.'::'.__METHOD__.' [line: '.__LINE__.'] could not find kuser ['.$object_data->getKuserId().'] from object ['.$object_data->getId().']');
 					}
 				}
 				else
 				{
 					$puser_id = PuserKuserPeer::getByKuserId( $object_data->getKuserId() , 1 );
-					// in flatten (or maybe other old batches), KALTURA_API_V3 is not defined, but entry user could have
+					// in flatten (or maybe other old batches), BORHAN_API_V3 is not defined, but entry user could have
 					// been created through api v3, in that case there will not be a record in puser_kuser table
 					if(is_null($puser_id))
 					{
@@ -244,7 +244,7 @@ $debug .= "property: $not_property = [$value]\n";
 					}
 					if(is_null($puser_id))
 					{
-						KalturaLog::log ( __CLASS__.'::'.__METHOD__.' [line: '.__LINE__.'] could not get puser_id out of api_v3 context puserId from entry:['.$object_data->getPuserId().'] kuser ID:['.$object_data->getKuserId().'] entry:['.$object_data->getId().']');
+						BorhanLog::log ( __CLASS__.'::'.__METHOD__.' [line: '.__LINE__.'] could not get puser_id out of api_v3 context puserId from entry:['.$object_data->getPuserId().'] kuser ID:['.$object_data->getKuserId().'] entry:['.$object_data->getId().']');
 					}
 				}
 			}
@@ -370,7 +370,7 @@ $debug .= "property: $not_property = [$value]\n";
 		}
 		catch(Exception $ex)
 		{
-			KalturaLog::log('could not crack KS ['.kCurrentContext::$ks.'] for adding to notification param');
+			BorhanLog::log('could not crack KS ['.kCurrentContext::$ks.'] for adding to notification param');
 		}
 		
 		return serialize( $params );

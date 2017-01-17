@@ -3,7 +3,7 @@
  * @package api
  * @subpackage errors
  */
-class KalturaAPIException extends Exception 
+class BorhanAPIException extends Exception 
 {
 	protected $code;
 	protected $args = array ();

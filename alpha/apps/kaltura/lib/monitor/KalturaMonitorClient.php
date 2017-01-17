@@ -3,7 +3,7 @@
  * @package infra
  * @subpackage monitor
  */
-class KalturaMonitorClient
+class BorhanMonitorClient
 {
 	const MAX_PACKET_SIZE = 1400;
 	
@@ -65,8 +65,8 @@ class KalturaMonitorClient
 			if(self::$stream)
 				return true;
 
-			if(class_exists('KalturaLog'))
-				KalturaLog::err("Open socket failed: $errstr");
+			if(class_exists('BorhanLog'))
+				BorhanLog::err("Open socket failed: $errstr");
 		}
 
 		self::$stream = fopen($uri, 'a');

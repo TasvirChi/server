@@ -48,7 +48,7 @@ class kDeliveryProfileCondition extends kCondition
 			$profileIds[] = $profileId->getValue();
 		}
 
-		KalturaLog::debug("Delivery profile ids [".print_r($profileIds, true)."]");
+		BorhanLog::debug("Delivery profile ids [".print_r($profileIds, true)."]");
 		$requestOrigin = @$_SERVER['HTTP_X_FORWARDED_HOST'];
 		if(!$requestOrigin)
 			$requestOrigin = @$_SERVER['HTTP_HOST'];

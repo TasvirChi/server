@@ -2,14 +2,14 @@
 /**
  * @package api
  * @subpackage objects
- * @deprecated use KalturaRule instead
+ * @deprecated use BorhanRule instead
  */
-class KalturaIpAddressRestriction extends KalturaBaseRestriction 
+class BorhanIpAddressRestriction extends BorhanBaseRestriction 
 {
 	/**
 	 * Ip address restriction type (Allow or deny)
 	 * 
-	 * @var KalturaIpAddressRestrictionType
+	 * @var BorhanIpAddressRestrictionType
 	 */
 	public $ipAddressRestrictionType; 
 	
@@ -32,9 +32,9 @@ class KalturaIpAddressRestriction extends KalturaBaseRestriction
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseRestriction::toRule()
+	 * @see BorhanBaseRestriction::toRule()
 	 */
-	public function toRule(KalturaRestrictionArray $restrictions)
+	public function toRule(BorhanRestrictionArray $restrictions)
 	{
 		return $this->toObject(new kAccessControlIpAddressRestriction());
 	}

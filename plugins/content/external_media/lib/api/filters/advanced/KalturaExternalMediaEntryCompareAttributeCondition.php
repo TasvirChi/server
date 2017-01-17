@@ -3,12 +3,12 @@
 /**
  * Auto-generated class.
  * 
- * Used to search KalturaExternalMediaEntry attributes. Use KalturaExternalMediaEntryCompareAttribute enum to provide attribute name.
+ * Used to search BorhanExternalMediaEntry attributes. Use BorhanExternalMediaEntryCompareAttribute enum to provide attribute name.
 */
-class KalturaExternalMediaEntryCompareAttributeCondition extends KalturaSearchComparableAttributeCondition
+class BorhanExternalMediaEntryCompareAttributeCondition extends BorhanSearchComparableAttributeCondition
 {
 	/**
-	 * @var KalturaExternalMediaEntryCompareAttribute
+	 * @var BorhanExternalMediaEntryCompareAttribute
 	 */
 	public $attribute;
 

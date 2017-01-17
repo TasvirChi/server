@@ -4,7 +4,7 @@
  * @package api
  * @subpackage model.enum
  */
-class KalturaLiveReportType extends KalturaStringEnum implements BaseEnum
+class BorhanLiveReportType extends BorhanStringEnum implements BaseEnum
 {				
 	const PARTNER_TOTAL = 'PARTNER_TOTAL';
 	const ENTRY_TOTAL = 'ENTRY_TOTAL';
@@ -13,7 +13,7 @@ class KalturaLiveReportType extends KalturaStringEnum implements BaseEnum
 	const ENTRY_SYNDICATION_TOTAL = 'ENTRY_SYNDICATION_TOTAL';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaDynamicEnum::getEnumClass()
+	 * @see IBorhanDynamicEnum::getEnumClass()
 	 */
 	public static function getEnumClass() {
 		return 'LiveReportType';

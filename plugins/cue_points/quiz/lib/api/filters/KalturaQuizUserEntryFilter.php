@@ -3,6 +3,6 @@
  * @package api
  * @subpackage filters
  */
-class KalturaQuizUserEntryFilter extends KalturaQuizUserEntryBaseFilter
+class BorhanQuizUserEntryFilter extends BorhanQuizUserEntryBaseFilter
 {
 }

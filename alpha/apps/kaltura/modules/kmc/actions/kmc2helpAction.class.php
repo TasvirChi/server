@@ -1,9 +1,9 @@
 <?php
 /**
  * @package    Core
- * @subpackage KMC
+ * @subpackage BMC
  */
-class kmc2helpAction extends kalturaAction
+class bmc2helpAction extends borhanAction
 {
 	public function execute ( ) 
 	{

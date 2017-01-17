@@ -6,7 +6,7 @@
  * @package plugins.scheduleBulkUpload
  * @subpackage services
  */
-class ScheduleBulkService extends KalturaBaseService
+class ScheduleBulkService extends BorhanBaseService
 {
 	/**
 	 * Add new bulk upload batch job
@@ -14,16 +14,16 @@ class ScheduleBulkService extends KalturaBaseService
 	 * @action addScheduleEvents
 	 * @actionAlias schedule_scheduleEvent.addFromBulkUpload
 	 * @param file $fileData
-	 * @param KalturaBulkUploadICalJobData $bulkUploadData
-	 * @return KalturaBulkUpload
+	 * @param BorhanBulkUploadICalJobData $bulkUploadData
+	 * @return BorhanBulkUpload
 	 */
-	function addScheduleEventsAction($fileData, KalturaBulkUploadICalJobData $bulkUploadData = null)
+	function addScheduleEventsAction($fileData, BorhanBulkUploadICalJobData $bulkUploadData = null)
 	{	    
 		$bulkUploadCoreType = BulkUploadSchedulePlugin::getBulkUploadTypeCoreValue(BulkUploadScheduleType::ICAL);
 		$bulkUploadObjectCoreType = BulkUploadSchedulePlugin::getBulkUploadObjectTypeCoreValue(BulkUploadObjectScheduleType::SCHEDULE_EVENT);
 		
 		if(!$bulkUploadData)
-	    	$bulkUploadData = KalturaPluginManager::loadObject('KalturaBulkUploadJobData', $bulkUploadCoreType);
+	    	$bulkUploadData = BorhanPluginManager::loadObject('BorhanBulkUploadJobData', $bulkUploadCoreType);
 		
 		if(!$bulkUploadData->fileName)
 			$bulkUploadData->fileName = $fileData["name"];
@@ -40,7 +40,7 @@ class ScheduleBulkService extends KalturaBaseService
 		if(!$dbJobLog)
 			return null;
 			
-		$bulkUpload = new KalturaBulkUpload();
+		$bulkUpload = new BorhanBulkUpload();
 		$bulkUpload->fromObject($dbJobLog, $this->getResponseProfile());
 		
 		return $bulkUpload;
@@ -52,14 +52,14 @@ class ScheduleBulkService extends KalturaBaseService
 	 * @action addScheduleResources
 	 * @actionAlias schedule_scheduleResource.addFromBulkUpload
 	 * @param file $fileData
-	 * @param KalturaBulkUploadCsvJobData $bulkUploadData
-	 * @return KalturaBulkUpload
+	 * @param BorhanBulkUploadCsvJobData $bulkUploadData
+	 * @return BorhanBulkUpload
 	 */
-	function addScheduleResourcesAction($fileData, KalturaBulkUploadCsvJobData $bulkUploadData = null)
+	function addScheduleResourcesAction($fileData, BorhanBulkUploadCsvJobData $bulkUploadData = null)
 	{	    
 	    if (!$bulkUploadData)
 	    {
-	       $bulkUploadData = KalturaPluginManager::loadObject('KalturaBulkUploadJobData', null);
+	       $bulkUploadData = BorhanPluginManager::loadObject('BorhanBulkUploadJobData', null);
 	    }
 	    
 		$bulkUploadObjectCoreType = BulkUploadSchedulePlugin::getBulkUploadObjectTypeCoreValue(BulkUploadObjectScheduleType::SCHEDULE_RESOURCE);
@@ -81,7 +81,7 @@ class ScheduleBulkService extends KalturaBaseService
 		if(!$dbJobLog)
 			return null;
 			
-		$bulkUpload = new KalturaBulkUpload();
+		$bulkUpload = new BorhanBulkUpload();
 		$bulkUpload->fromObject($dbJobLog, $this->getResponseProfile());
 		
 		return $bulkUpload;

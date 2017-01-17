@@ -16,7 +16,7 @@ class KDLOperatorSegmenter extends KDLOperatorBase {
     public function GenerateCommandLine(KDLFlavor $design, KDLFlavor $target, $extra=null)
 	{
 	//segmenter 0_3eq4pxgw_0_j5b7ubqa_1.mpeg 2 zzz/segment zzz/playlist.m3u8 ./
-	// out_dummyk:/opt/kaltura/tmp/convert/convert_0_6olnx72l_4a32a//out_dummy-1.ts
+	// out_dummyk:/opt/borhan/tmp/convert/convert_0_6olnx72l_4a32a//out_dummy-1.ts
 	
 		/*
 		 * The segment duration can be evaluated from the 'segmentDuration' field in the operator->extra

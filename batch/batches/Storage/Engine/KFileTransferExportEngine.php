@@ -29,7 +29,7 @@ class KFileTransferExportEngine extends KExportEngine
 		$engineOptions = isset(KBatchBase::$taskConfig->engineOptions) ? KBatchBase::$taskConfig->engineOptions->toArray() : array();
 		$engineOptions['passiveMode'] = $this->data->ftpPassiveMode;
 		$engineOptions['createLink'] = $this->data->createLink;
-		if($this->data instanceof KalturaAmazonS3StorageExportJobData)
+		if($this->data instanceof BorhanAmazonS3StorageExportJobData)
 		{
 			$engineOptions['filesAcl'] = $this->data->filesPermissionInS3;
 			$engineOptions['s3Region'] = $this->data->s3Region;
@@ -44,7 +44,7 @@ class KFileTransferExportEngine extends KExportEngine
 		try
 		{
 			$keyPairLogin = false;
-			if($this->protocol == KalturaStorageProfileProtocol::SFTP) {
+			if($this->protocol == BorhanStorageProfileProtocol::SFTP) {
 				$keyPairLogin = ($this->data->serverPrivateKey || $this->data->serverPublicKey);
 			}
 			
@@ -95,7 +95,7 @@ class KFileTransferExportEngine extends KExportEngine
 		catch(kFileTransferMgrException $e)
 		{
 			if($e->getCode() == kFileTransferMgrException::remoteFileExists)
-				throw new kApplicativeException(KalturaBatchJobAppErrors::FILE_ALREADY_EXISTS, $e->getMessage());
+				throw new kApplicativeException(BorhanBatchJobAppErrors::FILE_ALREADY_EXISTS, $e->getMessage());
 			
 			throw new Exception($e->getMessage(), $e->getCode());
 		}

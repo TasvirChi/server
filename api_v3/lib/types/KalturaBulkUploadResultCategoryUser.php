@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaBulkUploadResultCategoryUser extends KalturaBulkUploadResult
+class BorhanBulkUploadResultCategoryUser extends BorhanBulkUploadResult
 {
    /**
     * @var int
@@ -51,7 +51,7 @@ class KalturaBulkUploadResultCategoryUser extends KalturaBulkUploadResult
 	}
 	
     /* (non-PHPdoc)
-     * @see KalturaBulkUploadResult::toInsertableObject()
+     * @see BorhanBulkUploadResult::toInsertableObject()
      */
     public function toInsertableObject ( $object_to_fill = null , $props_to_skip = array() )
 	{
@@ -59,17 +59,17 @@ class KalturaBulkUploadResultCategoryUser extends KalturaBulkUploadResult
 	}
 	
     /* (non-PHPdoc)
-     * @see KalturaObject::toObject()
+     * @see BorhanObject::toObject()
      */
     public function toObject($object_to_fill = null, $props_to_skip = array())
 	{
 	    //No need to add objectId to result with status ERROR
-	    if ($this->status != KalturaBulkUploadResultStatus::ERROR)
+	    if ($this->status != BorhanBulkUploadResultStatus::ERROR)
 	    {
 		    $kuser = kuserPeer::getKuserByPartnerAndUid($this->partnerId, $this->userId);
 		    if (!$kuser)
 		    {
-		        throw new KalturaAPIException(KalturaErrors::INVALID_USER_ID);
+		        throw new BorhanAPIException(BorhanErrors::INVALID_USER_ID);
 		    }
 		    $categoryKuser = categoryKuserPeer::retrieveByCategoryIdAndKuserId($this->categoryId, $kuser->getId());
 		    if ($categoryKuser)

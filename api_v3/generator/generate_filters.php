@@ -4,11 +4,11 @@ ini_set( "memory_limit","512M" );
 
 chdir(__DIR__);
 
-//bootstrap connects the generator to the rest of Kaltura system
+//bootstrap connects the generator to the rest of Borhan system
 require_once(__DIR__ . "/bootstrap.php");
 
-KalturaLog::info("Generating API filters");
+BorhanLog::info("Generating API filters");
 $xmlGenerator = new FiltersGenerator();
 $xmlGenerator->generate();
 
-KalturaLog::info("Filters generated");
+BorhanLog::info("Filters generated");

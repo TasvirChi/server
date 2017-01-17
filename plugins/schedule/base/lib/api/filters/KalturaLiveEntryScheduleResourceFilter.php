@@ -3,10 +3,10 @@
  * @package plugins.schedule
  * @subpackage api.filters
  */
-class KalturaLiveEntryScheduleResourceFilter extends KalturaLiveEntryScheduleResourceBaseFilter
+class BorhanLiveEntryScheduleResourceFilter extends BorhanLiveEntryScheduleResourceBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaScheduleResourceFilter::getListResponseType()
+	 * @see BorhanScheduleResourceFilter::getListResponseType()
 	 */
 	protected function getListResponseType()
 	{

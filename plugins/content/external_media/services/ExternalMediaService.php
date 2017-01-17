@@ -6,24 +6,24 @@
  * @package plugins.externalMedia
  * @subpackage api.services
  */
-class ExternalMediaService extends KalturaEntryService
+class ExternalMediaService extends BorhanEntryService
 {
-	protected function kalturaNetworkAllowed($actionName)
+	protected function borhanNetworkAllowed($actionName)
 	{
 		if($actionName === 'get')
 			return true;
 		
-		return parent::kalturaNetworkAllowed($actionName);
+		return parent::borhanNetworkAllowed($actionName);
 	}
 	
 	/**
 	 * Add external media entry
 	 *
 	 * @action add
-	 * @param KalturaExternalMediaEntry $entry
-	 * @return KalturaExternalMediaEntry
+	 * @param BorhanExternalMediaEntry $entry
+	 * @return BorhanExternalMediaEntry
 	 */
-	function addAction(KalturaExternalMediaEntry $entry)
+	function addAction(BorhanExternalMediaEntry $entry)
 	{
 		$dbEntry = parent::add($entry, $entry->conversionProfileId);
 		$dbEntry->setStatus(entryStatus::READY);
@@ -44,9 +44,9 @@ class ExternalMediaService extends KalturaEntryService
 	 * 
 	 * @action get
 	 * @param string $id External media entry id
-	 * @return KalturaExternalMediaEntry The requested external media entry
+	 * @return BorhanExternalMediaEntry The requested external media entry
 	 * 
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
 	function getAction($id)
 	{
@@ -58,12 +58,12 @@ class ExternalMediaService extends KalturaEntryService
 	 * 
 	 * @action update
 	 * @param string $id External media entry id to update
-	 * @param KalturaExternalMediaEntry $entry External media entry object to update
-	 * @return KalturaExternalMediaEntry The updated external media entry
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @param BorhanExternalMediaEntry $entry External media entry object to update
+	 * @return BorhanExternalMediaEntry The updated external media entry
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 * @validateUser entry id edit
 	 */
-	function updateAction($id, KalturaExternalMediaEntry $entry)
+	function updateAction($id, BorhanExternalMediaEntry $entry)
 	{
 		return $this->updateEntry($id, $entry, ExternalMediaPlugin::getEntryTypeCoreValue(ExternalMediaEntryType::EXTERNAL_MEDIA));
 	}
@@ -74,7 +74,7 @@ class ExternalMediaService extends KalturaEntryService
 	 * @action delete
 	 * @param string $id External media entry id to delete
 	 * 
-	 * @throws KalturaErrors::ENTRY_ID_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 * @validateUser entry id edit
 	 */
 	function deleteAction($id)
@@ -86,19 +86,19 @@ class ExternalMediaService extends KalturaEntryService
 	 * List media entries by filter with paging support.
 	 * 
 	 * @action list
-	 * @param KalturaExternalMediaEntryFilter $filter External media entry filter
-	 * @param KalturaFilterPager $pager Pager
-	 * @return KalturaExternalMediaEntryListResponse Wrapper for array of media entries and total count
+	 * @param BorhanExternalMediaEntryFilter $filter External media entry filter
+	 * @param BorhanFilterPager $pager Pager
+	 * @return BorhanExternalMediaEntryListResponse Wrapper for array of media entries and total count
 	 */
-	function listAction(KalturaExternalMediaEntryFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanExternalMediaEntryFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if(!$filter)
-			$filter = new KalturaExternalMediaEntryFilter();
+			$filter = new BorhanExternalMediaEntryFilter();
 		
 		list($list, $totalCount) = parent::listEntriesByFilter($filter, $pager);
 		
-		$response = new KalturaExternalMediaEntryListResponse();
-		$response->objects = KalturaExternalMediaEntryArray::fromDbArray($list, $this->getResponseProfile());
+		$response = new BorhanExternalMediaEntryListResponse();
+		$response->objects = BorhanExternalMediaEntryArray::fromDbArray($list, $this->getResponseProfile());
 		$response->totalCount = $totalCount;
 		return $response;
 	}
@@ -107,13 +107,13 @@ class ExternalMediaService extends KalturaEntryService
 	 * Count media entries by filter.
 	 * 
 	 * @action count
-	 * @param KalturaExternalMediaEntryFilter $filter External media entry filter
+	 * @param BorhanExternalMediaEntryFilter $filter External media entry filter
 	 * @return int
 	 */
-	function countAction(KalturaExternalMediaEntryFilter $filter = null)
+	function countAction(BorhanExternalMediaEntryFilter $filter = null)
 	{
 		if(!$filter)
-			$filter = new KalturaExternalMediaEntryFilter();
+			$filter = new BorhanExternalMediaEntryFilter();
 		
 		return parent::countEntriesByFilter($filter);
 	}

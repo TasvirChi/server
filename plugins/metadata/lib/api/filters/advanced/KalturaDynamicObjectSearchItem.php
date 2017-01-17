@@ -4,7 +4,7 @@
  * @package plugins.metadata
  * @subpackage api.filters
  */
-class KalturaDynamicObjectSearchItem extends KalturaSearchOperator
+class BorhanDynamicObjectSearchItem extends BorhanSearchOperator
 {
 	/**
 	 * @var string

@@ -9,10 +9,10 @@ function getEventType ( $consts_map , $t )
 
 
 
-require_once ( SF_ROOT_DIR . "/../api_v3/lib/types/KalturaEnum.php");
-require_once ( SF_ROOT_DIR . "/../api_v3/lib/types/enums/KalturaStatsEventType.php");
-// build the map for the KalturaStatsEventType
-$ref = new ReflectionClass('KalturaStatsEventType');
+require_once ( SF_ROOT_DIR . "/../api_v3/lib/types/BorhanEnum.php");
+require_once ( SF_ROOT_DIR . "/../api_v3/lib/types/enums/BorhanStatsEventType.php");
+// build the map for the BorhanStatsEventType
+$ref = new ReflectionClass('BorhanStatsEventType');
 
 $consts = $ref->getConstants();
 
@@ -22,7 +22,7 @@ foreach ( $consts as $c => $val )
 	$consts_map[$val] = $c;
 }
 
-if ( $type == "kdp" )
+if ( $type == "bdp" )
 {
 $header = array ( "client version" , "event id" , "datetime" , "session id" , "partner id" , "entry id" ,
 	"uv" , "widget id" , "uiconf id" , "uid" , "current point" , "duration" , "user ip" , "process duration" ,
@@ -82,13 +82,13 @@ $header = array (
 	"exception"
 	);	
 }
-elseif ( $type == "kmc" ) 
+elseif ( $type == "bmc" ) 
 {
 $header = array (
 	"apiClientVersion", 
-	"kmcEventType" ,
+	"bmcEventType" ,
 	"server time" ,
-	"kmcEventActionPath",
+	"bmcEventActionPath",
 	"eventTimestamp",
 	"partnerId",
 	"userId",
@@ -128,7 +128,7 @@ foreach ( $lines as $line )
 	$i =1;
 	echo "<tr>";
 	$line_arr = explode ( "," , $line );
-	if ( $type == "kdp" )
+	if ( $type == "bdp" )
 	{
 		foreach ( $line_arr as $td )
 		{
@@ -162,10 +162,10 @@ foreach ( $lines as $line )
 </textarea>
 <br/>
 Event types: 
-KDP: <input type='radio' name='type' value='kdp' <?php if ( $type == "kdp" ) echo "checked='checked'" ?>>
+BDP: <input type='radio' name='type' value='bdp' <?php if ( $type == "bdp" ) echo "checked='checked'" ?>>
 BATCH: <input type='radio' name='type' value='batch' <?php if ( $type == "batch" ) echo "checked='checked'" ?>>
 API: <input type='radio' name='type' value='api' <?php if ( $type == "api" ) echo "checked='checked'" ?>>
-KMC: <input type='radio' name='type' value='kmc' <?php if ( $type == "kmc" ) echo "checked='checked'" ?>>
+BMC: <input type='radio' name='type' value='bmc' <?php if ( $type == "bmc" ) echo "checked='checked'" ?>>
 <br/>
 
 Line separator: 

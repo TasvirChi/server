@@ -3,14 +3,14 @@
  * @package api
  * @subpackage objects
  */
-class KalturaControlPanelCommandArray extends KalturaTypedArray
+class BorhanControlPanelCommandArray extends BorhanTypedArray
 {
-	public static function fromDbArray(array $arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaControlPanelCommandArray();
+		$newArr = new BorhanControlPanelCommandArray();
 		foreach ( $arr as $obj )
 		{
-			$nObj = new KalturaControlPanelCommand();
+			$nObj = new BorhanControlPanelCommand();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -20,6 +20,6 @@ class KalturaControlPanelCommandArray extends KalturaTypedArray
 	
 	public function __construct( )
 	{
-		return parent::__construct ( "KalturaControlPanelCommand" );
+		return parent::__construct ( "BorhanControlPanelCommand" );
 	}
 }

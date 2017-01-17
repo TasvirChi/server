@@ -3,15 +3,15 @@
  * @package api
  * @subpackage filters
  */
-class KalturaSearchOperator extends KalturaSearchItem
+class BorhanSearchOperator extends BorhanSearchItem
 {
 	/**
-	 * @var KalturaSearchOperatorType
+	 * @var BorhanSearchOperatorType
 	 */
 	public $type;
 	
 	/**
-	 * @var KalturaSearchItemArray
+	 * @var BorhanSearchItemArray
 	 */
 	public $items;
 

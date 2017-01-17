@@ -69,8 +69,8 @@ class kEventObjectChangedCondition extends kCondition
 		
 		$foundColumns = array_intersect($modifiedColumns, $trigerColumns);
 		
-		KalturaLog::debug("Triger columns [" . print_r($trigerColumns, true) . "]");
-		KalturaLog::debug("Found columns [" . print_r($foundColumns, true) . "]");
+		BorhanLog::debug("Triger columns [" . print_r($trigerColumns, true) . "]");
+		BorhanLog::debug("Found columns [" . print_r($foundColumns, true) . "]");
 		
 		return count($foundColumns) > 0;
 	}

@@ -24,7 +24,7 @@ class TagPeer extends BaseTagPeer
 		if(self::$s_criteria_filter == null)
 			self::$s_criteria_filter = new criteriaFilter();
 		
-		$c = KalturaCriteria::create(self::OM_CLASS);
+		$c = BorhanCriteria::create(self::OM_CLASS);
 		
 		if (kEntitlementUtils::getEntitlementEnforcement())
 		{
@@ -44,7 +44,7 @@ class TagPeer extends BaseTagPeer
 	{
 		$c = clone $criteria;
 		
-		if($c instanceof KalturaCriteria)
+		if($c instanceof BorhanCriteria)
 		{
 			$c->applyFilters();
 			$criteria->setRecordsCount($c->getRecordsCount());

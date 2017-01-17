@@ -3,10 +3,10 @@ $service_url = requestUtils::getRequestHost();
 $protocol = requestUtils::getRequestProtocol();
 $host = str_replace ( "$protocol://" , "" , $service_url );
 $cdn_host = str_replace ( "http://" , "" , myPartnerUtils::getCdnHost($partner_id) );
-$kmc_content_version = 'v1.1.8';
-$kmc_account_version = 'v1.1.6';
-$kmc_appstudio_version = 'v1.2.0';
-$kmc_rna_version = 'v1.0.3';
+$bmc_content_version = 'v1.1.8';
+$bmc_account_version = 'v1.1.6';
+$bmc_appstudio_version = 'v1.2.0';
+$bmc_rna_version = 'v1.0.3';
 
 $flash_dir = $service_url . myContentStorage::getFSFlashRootPath ();
 
@@ -20,8 +20,8 @@ var flashVars = {
 		'uid' : "<?php echo $uid ?>" ,
 		'partner_id' : "<?php echo $partner_id ?>",
 		'srvurl' : 'api_v3/index.php',
-		'innerKdpVersion' : 'v2.5.2.30876',
-		'kdpUrl' : "<?php echo $flash_dir ?>/kdp/v2.5.2.30792/kdp.swf",
+		'innerBdpVersion' : 'v2.5.2.30876',
+		'bdpUrl' : "<?php echo $flash_dir ?>/bdp/v2.5.2.30792/bdp.swf",
 	    'uiconfId' : '48500' ,
 		'subp_id' : '<?php echo $subp_id ?>' ,
 		'ks' : '<?php echo $ks ?>' ,
@@ -37,9 +37,9 @@ var flashVars = {
 		bgcolor: "#1B1E1F",				
 		quality: "high",
 //		wmode: "opaque" ,
-		movie: "<?php echo $flash_dir ?>/kmc/analytics//ReportsAndAnalytics.swf"
+		movie: "<?php echo $flash_dir ?>/bmc/analytics//ReportsAndAnalytics.swf"
 	};
-	swfobject.embedSWF("<?php echo $flash_dir ?>/kmc/analytics/<?php echo $kmc_rna_version ?>/ReportsAndAnalytics.swf", 
+	swfobject.embedSWF("<?php echo $flash_dir ?>/bmc/analytics/<?php echo $bmc_rna_version ?>/ReportsAndAnalytics.swf", 
 		"kcms", "100%", "100%", "9.0.0", false, flashVars , params);	
 		
 function content_resize(){

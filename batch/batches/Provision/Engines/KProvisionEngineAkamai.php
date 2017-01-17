@@ -21,14 +21,14 @@ class KProvisionEngineAkamai extends KProvisionEngine
 	}
 	
 	/**
-	 * @param KalturaProvisionJobData $data
+	 * @param BorhanProvisionJobData $data
 	 */
-	protected function __construct(KalturaProvisionJobData $data = null)
+	protected function __construct(BorhanProvisionJobData $data = null)
 	{
 		$username = null;
 		$password = null;
 		
-		if (!is_null($data) && $data instanceof KalturaAkamaiProvisionJobData)
+		if (!is_null($data) && $data instanceof BorhanAkamaiProvisionJobData)
 		{
 			//all fields are set and are not empty string
 			if ($data->wsdlUsername && $data->wsdlPassword && $data->cpcode && $data->emailId && $data->primaryContact)
@@ -44,21 +44,21 @@ class KProvisionEngineAkamai extends KProvisionEngine
 			$password = KBatchBase::$taskConfig->params->wsdlPassword;
 		}
 		
-		KalturaLog::debug("Connecting to Akamai(username: $username, password: $password)");
+		BorhanLog::debug("Connecting to Akamai(username: $username, password: $password)");
 		$this->streamClient = new AkamaiStreamsClient($username, $password);
 	}
 	
 	/* (non-PHPdoc)
 	 * @see batches/Provision/Engines/KProvisionEngine#provide()
 	 */
-	public function provide( KalturaBatchJob $job, KalturaProvisionJobData $data )
+	public function provide( BorhanBatchJob $job, BorhanProvisionJobData $data )
 	{
 		$cpcode = null;
 		$emailId = null;
 		$primaryContact = null;
 		$secondaryContact = null;
 		
-		if ($data instanceof KalturaAkamaiProvisionJobData)
+		if ($data instanceof BorhanAkamaiProvisionJobData)
 		{
 			if ($data->wsdlUsername && $data->wsdlPassword)
 			{
@@ -84,20 +84,20 @@ class KProvisionEngineAkamai extends KProvisionEngine
 		$endDate = $data->endDate;
 		$dynamic = true;
 		
-		KalturaLog::debug("provideEntry(encoderIP: $encoderIP, backupEncoderIP: $backupEncoderIP, encoderPassword: $encoderPassword, endDate: $endDate)");
+		BorhanLog::debug("provideEntry(encoderIP: $encoderIP, backupEncoderIP: $backupEncoderIP, encoderPassword: $encoderPassword, endDate: $endDate)");
 		$flashLiveStreamInfo = $this->streamClient->provisionFlashLiveDynamicStream($cpcode, $name, $encoderIP, $backupEncoderIP, $encoderPassword, $emailId, $primaryContact, $secondaryContact, $endDate, $dynamic);
 		
 		if(!$flashLiveStreamInfo)
 		{
-			return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, "Error: " . $this->streamClient->getError());
+			return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, "Error: " . $this->streamClient->getError());
 		}
 		
 		foreach($flashLiveStreamInfo as $field => $value)
-			KalturaLog::info("Returned $field => $value");
+			BorhanLog::info("Returned $field => $value");
 				
 		if(isset($flashLiveStreamInfo['faultcode']))
 		{
-			return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, "Error: " . $flashLiveStreamInfo['faultstring']);
+			return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, "Error: " . $flashLiveStreamInfo['faultstring']);
 		}
 		
 		$arr = null;
@@ -120,69 +120,69 @@ class KProvisionEngineAkamai extends KProvisionEngine
 		}
 		
 		
-		return new KProvisionEngineResult(KalturaBatchJobStatus::FINISHED, 'Succesfully provisioned entry', $data);
+		return new KProvisionEngineResult(BorhanBatchJobStatus::FINISHED, 'Succesfully provisioned entry', $data);
 	}
 	
 	/* (non-PHPdoc)
 	 * @see batches/Provision/Engines/KProvisionEngine#delete()
 	 */
-	public function delete( KalturaBatchJob $job, KalturaProvisionJobData $data )
+	public function delete( BorhanBatchJob $job, BorhanProvisionJobData $data )
 	{
 		$returnVal = $this->streamClient->deleteStream($data->streamID, true);
 		
 		if(!$returnVal)
 		{
-			return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, "Error: " . $this->streamClient->getError());
+			return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, "Error: " . $this->streamClient->getError());
 		}
 		
 		if(is_array($returnVal))
 		{
 			foreach($returnVal as $field => $value)
-				KalturaLog::info("Returned $field => $value");
+				BorhanLog::info("Returned $field => $value");
 		}
 		else
 		{
-			KalturaLog::info("Returned: $returnVal");
+			BorhanLog::info("Returned: $returnVal");
 		}
 				
 		if(isset($returnVal['faultcode']))
 		{
-			return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, "Error: " . $returnVal['faultstring']);
+			return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, "Error: " . $returnVal['faultstring']);
 		}
 		
 		$data->returnVal = $returnVal;
-		return new KProvisionEngineResult(KalturaBatchJobStatus::FINISHED, 'Succesfully deleted entry', $data);
+		return new KProvisionEngineResult(BorhanBatchJobStatus::FINISHED, 'Succesfully deleted entry', $data);
 	}
 	
 	
 	/* (non-PHPdoc)
 	 * @see KProvisionEngine::checkProvisionedStream()
 	 */
-	public function checkProvisionedStream(KalturaBatchJob $job, KalturaProvisionJobData $data) 
+	public function checkProvisionedStream(BorhanBatchJob $job, BorhanProvisionJobData $data) 
 	{
 		$data = $job->data;
-		/* @var $data KalturaAkamaiUniversalProvisionJobData */
+		/* @var $data BorhanAkamaiUniversalProvisionJobData */
 		$primaryEntryPoint = parse_url($data->primaryBroadcastingUrl, PHP_URL_HOST);
 		$backupEntryPoint = parse_url($data->secondaryBroadcastingUrl, PHP_URL_HOST);
 		if (!$primaryEntryPoint || !$backupEntryPoint)
 		{
-			return new KProvisionEngineResult(KalturaBatchJobStatus::FAILED, "Missing one or both entry points");
+			return new KProvisionEngineResult(BorhanBatchJobStatus::FAILED, "Missing one or both entry points");
 		}
 		
 		$pingTimeout = KBatchBase::$taskConfig->params->pingTimeout;
 		@exec("ping -w $pingTimeout $primaryEntryPoint", $output, $return);
 		if ($return)
 		{
-			return new KProvisionEngineResult(KalturaBatchJobStatus::ALMOST_DONE, "No reponse from primary entry point - retry in 5 mins");
+			return new KProvisionEngineResult(BorhanBatchJobStatus::ALMOST_DONE, "No reponse from primary entry point - retry in 5 mins");
 		}
 		
 		@exec("ping -w $pingTimeout $backupEntryPoint", $output, $return);
 		if ($return)
 		{
-			return new KProvisionEngineResult(KalturaBatchJobStatus::ALMOST_DONE, "No reponse from backup entry point - retry in 5 mins");
+			return new KProvisionEngineResult(BorhanBatchJobStatus::ALMOST_DONE, "No reponse from backup entry point - retry in 5 mins");
 		}
 		
-		return new KProvisionEngineResult(KalturaBatchJobStatus::FINISHED, "Stream is Provisioned");
+		return new KProvisionEngineResult(BorhanBatchJobStatus::FINISHED, "Stream is Provisioned");
 		
 	}
 

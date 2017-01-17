@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaCaptureThumbJobData extends KalturaJobData
+class BorhanCaptureThumbJobData extends BorhanJobData
 {
 	/**
 	 * @var string
@@ -37,7 +37,7 @@ class KalturaCaptureThumbJobData extends KalturaJobData
 	public $srcAssetId;
 	
 	/**
-	 * @var KalturaAssetType
+	 * @var BorhanAssetType
 	 */
 	public $srcAssetType;
 	

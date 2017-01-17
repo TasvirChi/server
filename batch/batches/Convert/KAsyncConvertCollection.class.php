@@ -23,10 +23,10 @@ class KAsyncConvertCollection extends KAsyncConvert
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::CONVERT_COLLECTION;
+		return BorhanBatchJobType::CONVERT_COLLECTION;
 	}
 	
-	protected function convertImpl(KalturaBatchJob $job, KalturaConvartableJobData $data)
+	protected function convertImpl(BorhanBatchJob $job, BorhanConvartableJobData $data)
 	{
 		return $this->convertCollection($job, $data);
 	}
@@ -45,7 +45,7 @@ class KAsyncConvertCollection extends KAsyncConvert
 		return $filesExist;
 	}
 	
-	private function convertCollection(KalturaBatchJob $job, KalturaConvertCollectionJobData $data)
+	private function convertCollection(BorhanBatchJob $job, BorhanConvertCollectionJobData $data)
 	{
 		foreach ($data->srcFileSyncs as $srcFileSyncDescriptor) 
 		{				
@@ -57,22 +57,22 @@ class KAsyncConvertCollection extends KAsyncConvert
 				$err = null;
 				if(!$this->distributedFileManager->getLocalPath($srcFileSyncDescriptor->actualFileSyncLocalPath, $srcFileSyncDescriptor->fileSyncRemoteUrl, $err))
 				{
-					return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::REMOTE_FILE_NOT_FOUND, $err, KalturaBatchJobStatus::RETRY);
+					return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::REMOTE_FILE_NOT_FOUND, $err, BorhanBatchJobStatus::RETRY);
 				}
 			}
 			
 			if(file_exists($srcFileSyncDescriptor->actualFileSyncLocalPath))
 			{
-				KalturaLog::info("Source file exists [$srcFileSyncDescriptor->actualFileSyncLocalPath]");
+				BorhanLog::info("Source file exists [$srcFileSyncDescriptor->actualFileSyncLocalPath]");
 			}
 			else
 			{
-				return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, "Source file not found [$srcFileSyncDescriptor->actualFileSyncLocalPath]", KalturaBatchJobStatus::RETRY);
+				return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, "Source file not found [$srcFileSyncDescriptor->actualFileSyncLocalPath]", BorhanBatchJobStatus::RETRY);
 			}
 			
 			if(!is_file($srcFileSyncDescriptor->actualFileSyncLocalPath))
 			{
-				return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, "Source file [$srcFileSyncDescriptor->actualFileSyncLocalPath] is not a file", KalturaBatchJobStatus::FAILED);
+				return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, "Source file [$srcFileSyncDescriptor->actualFileSyncLocalPath] is not a file", BorhanBatchJobStatus::FAILED);
 			}
 		}
 		
@@ -87,23 +87,23 @@ class KAsyncConvertCollection extends KAsyncConvert
 			$err = null;
 			if(!$this->distributedFileManager->getLocalPath($data->inputXmlLocalPath, $data->inputXmlRemoteUrl, $err))
 			{
-				return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::REMOTE_FILE_NOT_FOUND, $err, KalturaBatchJobStatus::RETRY);
+				return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::REMOTE_FILE_NOT_FOUND, $err, BorhanBatchJobStatus::RETRY);
 			}
 		}
 
 		
 		if(file_exists($data->inputXmlLocalPath))
 		{
-			KalturaLog::info("XML Configuration file exists [$data->inputXmlLocalPath]");
+			BorhanLog::info("XML Configuration file exists [$data->inputXmlLocalPath]");
 		}
 		else
 		{
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, null, "XML Configuration file not found [$data->inputXmlLocalPath]", KalturaBatchJobStatus::RETRY);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, null, "XML Configuration file not found [$data->inputXmlLocalPath]", BorhanBatchJobStatus::RETRY);
 		}
 		
 		if(!is_file($data->inputXmlLocalPath))
 		{
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, "XML Configuration file [$data->inputXmlLocalPath] is not a file", KalturaBatchJobStatus::FAILED);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, "XML Configuration file [$data->inputXmlLocalPath] is not a file", BorhanBatchJobStatus::FAILED);
 		}
 		
 		$logFilePath = $data->destDirLocalPath . DIRECTORY_SEPARATOR . $data->destFileName . '.log';
@@ -113,7 +113,7 @@ class KAsyncConvertCollection extends KAsyncConvert
 		$this->startMonitor($monitorFiles);
 	
 		$operator = $this->getOperator($data);
-		KalturaLog::debug("getOperator(".print_r($data,true).") => operator(".print_r($operator,true).")");
+		BorhanLog::debug("getOperator(".print_r($data,true).") => operator(".print_r($operator,true).")");
 		$log = null;
 		try
 		{
@@ -130,7 +130,7 @@ class KAsyncConvertCollection extends KAsyncConvert
 			$log = $this->operationEngine->getLogData();
 			
 			$err = "engine [" . get_class($this->operationEngine) . "] convert failed: " . $e->getMessage();
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::CONVERSION_FAILED, $err, KalturaBatchJobStatus::FAILED);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::CONVERSION_FAILED, $err, BorhanBatchJobStatus::FAILED);
 		}
 		$this->stopMonitor();
 	
@@ -141,13 +141,13 @@ class KAsyncConvertCollection extends KAsyncConvert
 				if($flavor->videoBitrate == $bitrate)
 					$data->flavors[$index]->destFileSyncLocalPath = $flavorPath;
 		}
-		KalturaLog::debug ( "Flavors data: " . print_r($data->flavors, true));
+		BorhanLog::debug ( "Flavors data: " . print_r($data->flavors, true));
 			
-		$job = $this->updateJob($job, "engine [" . get_class($this->operationEngine) . "] convert successfully", KalturaBatchJobStatus::MOVEFILE, $data);
+		$job = $this->updateJob($job, "engine [" . get_class($this->operationEngine) . "] convert successfully", BorhanBatchJobStatus::MOVEFILE, $data);
 		return $this->moveFiles($job, $job->data);
 	}
 	
-	private function moveFiles(KalturaBatchJob $job, KalturaConvertCollectionJobData $data)
+	private function moveFiles(BorhanBatchJob $job, BorhanConvertCollectionJobData $data)
 	{
 		clearstatcache();
 		$files2move = array();
@@ -169,7 +169,7 @@ class KAsyncConvertCollection extends KAsyncConvert
 			$sharedPath = $this->translateLocalPath2Shared($destPath);
 			$fileSize = kFile::fileSize($srcPath);
 			
-			KalturaLog::debug("add to move list file[$srcPath] to[$destPath] size[$fileSize] shared path[$sharedPath]");
+			BorhanLog::debug("add to move list file[$srcPath] to[$destPath] size[$fileSize] shared path[$sharedPath]");
 			$files2move[] = array(
 				'from' => $srcPath,
 				'to' => $destPath,
@@ -192,7 +192,7 @@ class KAsyncConvertCollection extends KAsyncConvert
 			if(self::$taskConfig->params->isRemoteOutput)
 				$flavor->destFileSyncRemoteUrl = $this->distributedFileManager->getRemoteUrl($sharedPath);
 						
-			KalturaLog::debug("add to move list file[$srcPath] to[$destPath] size[$fileSize] shared path[$sharedPath]");
+			BorhanLog::debug("add to move list file[$srcPath] to[$destPath] size[$fileSize] shared path[$sharedPath]");
 			$files2move[] = array(
 				'from' => $srcPath,
 				'to' => $destPath,
@@ -207,20 +207,20 @@ class KAsyncConvertCollection extends KAsyncConvert
 			$destPath = $file2move['to'];
 			$fileSize = $file2move['size'];
 			
-			KalturaLog::debug("moving file[$srcPath] to[$destPath] size[$fileSize]");
+			BorhanLog::debug("moving file[$srcPath] to[$destPath] size[$fileSize]");
 			
 			if(file_exists($destPath))
 			{
-				KalturaLog::debug("delete existing file[$destPath]");
+				BorhanLog::debug("delete existing file[$destPath]");
 				unlink($destPath);
 			}
 				
-			KalturaLog::debug("rename($srcPath, $destPath)");
+			BorhanLog::debug("rename($srcPath, $destPath)");
 			rename($srcPath, $destPath);
 		
 			if(!file_exists($destPath) || kFile::fileSize($destPath) != $fileSize)
 			{
-				KalturaLog::err("Error: moving file [$srcPath] failed");
+				BorhanLog::err("Error: moving file [$srcPath] failed");
 				die();
 			}
 			$this->setFilePermissions($destPath);
@@ -230,23 +230,23 @@ class KAsyncConvertCollection extends KAsyncConvert
 		if(self::$taskConfig->params->isRemoteOutput) // for remote conversion
 		{
 			$data->destDirRemoteUrl = $this->distributedFileManager->getRemoteUrl($data->destDirLocalPath);
-			$job->status = KalturaBatchJobStatus::ALMOST_DONE;
+			$job->status = BorhanBatchJobStatus::ALMOST_DONE;
 			$job->message = "Files ready for download";
 		}
 		elseif($this->checkFilesArrayExist($files2move))
 		{
-			$job->status = KalturaBatchJobStatus::FINISHED;
+			$job->status = BorhanBatchJobStatus::FINISHED;
 			$job->message = "Files moved to shared";
 		}
 		else
 		{
-			$job->status = KalturaBatchJobStatus::RETRY;
+			$job->status = BorhanBatchJobStatus::RETRY;
 			$job->message = "Files not moved correctly";
 		}
 		return $this->closeJob($job, null, null, $job->message, $job->status, $data);
 	}
 	
-	protected function updateExclusiveJob($jobId, KalturaBatchJob $job)
+	protected function updateExclusiveJob($jobId, BorhanBatchJob $job)
 	{
 		$flavors = null;
 		if((isset($job->data->flavors)))

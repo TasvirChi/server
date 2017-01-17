@@ -5,7 +5,7 @@
  * @package plugins.quiz
  * @subpackage api.objects
  */
-class KalturaOptionalAnswer extends KalturaObject {
+class BorhanOptionalAnswer extends BorhanObject {
 
 	/**
 	 * @var string
@@ -23,7 +23,7 @@ class KalturaOptionalAnswer extends KalturaObject {
 	public $weight = 1.0;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $isCorrect;
 
@@ -41,7 +41,7 @@ class KalturaOptionalAnswer extends KalturaObject {
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($dbObject = null, $propsToSkip = array())
 	{

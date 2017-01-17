@@ -1,6 +1,6 @@
 <?php
 
-require_once KALTURA_ROOT_PATH . '/vendor/htmlpurifier/library/HTMLPurifier.auto.php';
+require_once BORHAN_ROOT_PATH . '/vendor/htmlpurifier/library/HTMLPurifier.auto.php';
 
 /**
  * @package infra
@@ -14,7 +14,7 @@ class kHtmlPurifier
 
 	public static function purify( $className, $propertyName, $value )
 	{
-		if ( ! is_string($value)								// Skip objects like KalturaNullField, for example
+		if ( ! is_string($value)								// Skip objects like BorhanNullField, for example
 			|| self::isMarkupAllowed($className, $propertyName)	// Skip fields that are allowed to contain HTML/XML tags
 		)
 		{
@@ -36,18 +36,18 @@ class kHtmlPurifier
 					. "\nMODIFIED VALUE: [" . $modifiedValue . "]"
 				;
 
-			KalturaLog::err( $msg );
+			BorhanLog::err( $msg );
 
 			if (kCurrentContext::$HTMLPurifierBehaviour == HTMLPurifierBehaviourType::NOTIFY)
 			{
 //			$this->notifyAboutHtmlPurification($className, $propertyName, $value);
-				KalturaLog::debug("should send notification");
+				BorhanLog::debug("should send notification");
 				return $value;
 			}
 			// If we reach here kCurrentContext::$HTMLPurifierBehaviour must be BLOCK
 
 
-			throw new KalturaAPIException(KalturaErrors::UNSAFE_HTML_TAGS, $className, $propertyName);
+			throw new BorhanAPIException(BorhanErrors::UNSAFE_HTML_TAGS, $className, $propertyName);
 		} 
 
 		return $value;

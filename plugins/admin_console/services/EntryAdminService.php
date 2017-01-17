@@ -6,7 +6,7 @@
  * @package plugins.adminConsole
  * @subpackage api.services
  */
-class EntryAdminService extends KalturaBaseService
+class EntryAdminService extends BorhanBaseService
 {
 	const GET_TRACKS_LIMIT = 30;
 	
@@ -27,7 +27,7 @@ class EntryAdminService extends KalturaBaseService
 		parent::initService($serviceId, $serviceName, $actionName);
 
 		if(!AdminConsolePlugin::isAllowedPartner($this->getPartnerId()))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, AdminConsolePlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, AdminConsolePlugin::PLUGIN_NAME);
 	}
 
 	/**
@@ -36,22 +36,22 @@ class EntryAdminService extends KalturaBaseService
 	 * @action get
 	 * @param string $entryId Entry id
 	 * @param int $version Desired version of the data
-	 * @return KalturaBaseEntry The requested entry
+	 * @return BorhanBaseEntry The requested entry
 	 */
 	function getAction($entryId, $version = -1)
 	{
 		$dbEntries = entryPeer::retrieveByPKsNoFilter(array($entryId));
 		if (!count($dbEntries))
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 		
 		$dbEntry = reset($dbEntries);
 		if (!$dbEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 
 		if ($version !== -1)
 			$dbEntry->setDesiredVersion($version);
 			
-	    $entry = KalturaEntryFactory::getInstanceByType($dbEntry->getType(), true);
+	    $entry = BorhanEntryFactory::getInstanceByType($dbEntry->getType(), true);
 	    
 		$entry->fromObject($dbEntry, $this->getResponseProfile());
 
@@ -64,13 +64,13 @@ class EntryAdminService extends KalturaBaseService
 	 * @action getByFlavorId
 	 * @param string $flavorId
 	 * @param int $version Desired version of the data
-	 * @return KalturaBaseEntry The requested entry
+	 * @return BorhanBaseEntry The requested entry
 	 */
 	public function getByFlavorIdAction($flavorId, $version = -1)
 	{
 		$flavorAssetDb = assetPeer::retrieveById($flavorId);
 		if (!$flavorAssetDb)
-			throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND, $flavorId);
+			throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND, $flavorId);
 			
 		return $this->getAction($flavorAssetDb->getEntryId(), $version);
 	}
@@ -80,7 +80,7 @@ class EntryAdminService extends KalturaBaseService
 	 * 
 	 * @action getTracks
 	 * @param string $entryId Entry id
-	 * @return KalturaTrackEntryListResponse
+	 * @return BorhanTrackEntryListResponse
 	 */
 	function getTracksAction($entryId)
 	{
@@ -91,8 +91,8 @@ class EntryAdminService extends KalturaBaseService
 		
 		$dbList = TrackEntryPeer::doSelect($c);
 		
-		$list = KalturaTrackEntryArray::fromDbArray($dbList, $this->getResponseProfile());
-		$response = new KalturaTrackEntryListResponse();
+		$list = BorhanTrackEntryArray::fromDbArray($dbList, $this->getResponseProfile());
+		$response = new BorhanTrackEntryListResponse();
 		$response->objects = $list;
 		$response->totalCount = count($dbList);
 		return $response;
@@ -103,13 +103,13 @@ class EntryAdminService extends KalturaBaseService
 	 *
 	 * @action restoreDeletedEntry
 	 * @param string $entryId
-	 * @return KalturaBaseEntry The restored entry
+	 * @return BorhanBaseEntry The restored entry
 	 */
 	public function restoreDeletedEntryAction($entryId)
 	{
 		$deletedEntry = entryPeer::retrieveByPKNoFilter($entryId);
 		if (!$deletedEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_ID_NOT_FOUND, $entryId);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
 
 		$fileSyncKeys = array();
 		foreach (self::$fileSyncKeysToRestore as $key) {
@@ -136,7 +136,7 @@ class EntryAdminService extends KalturaBaseService
 		FileSyncPeer::setUseCriteriaFilter(true);
 
 		if (!$this->validateEntryForRestoreDelete($deletedEntry, $fileSyncs, $deletedAssets))
-			throw new KalturaAPIException(KalturaAdminConsoleErrors::ENTRY_ASSETS_WRONG_STATUS_FOR_RESTORE, $entryId);
+			throw new BorhanAPIException(BorhanAdminConsoleErrors::ENTRY_ASSETS_WRONG_STATUS_FOR_RESTORE, $entryId);
 
 		$this->restoreFileSyncs($fileSyncs);
 
@@ -156,7 +156,7 @@ class EntryAdminService extends KalturaBaseService
 		kEventsManager::flushEvents();
 		kMemoryManager::clearMemory();
 
-		$entry = KalturaEntryFactory::getInstanceByType($deletedEntry->getType(), true);
+		$entry = BorhanEntryFactory::getInstanceByType($deletedEntry->getType(), true);
 		$entry->fromObject($deletedEntry, $this->getResponseProfile());
 		return $entry;
 	}

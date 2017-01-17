@@ -3,7 +3,7 @@
  * @package plugins.thumbCuePoint
  * @subpackage api.objects
  */
-class KalturaThumbCuePoint extends KalturaCuePoint
+class BorhanThumbCuePoint extends BorhanCuePoint
 {
 	/**
 	 * @var string
@@ -25,7 +25,7 @@ class KalturaThumbCuePoint extends KalturaCuePoint
 	/**
 	 * The sub type of the ThumbCuePoint
 	 * 
-	 * @var KalturaThumbCuePointSubType
+	 * @var BorhanThumbCuePointSubType
 	 * @filter eq,in
 	 */
 	public $subType;
@@ -44,7 +44,7 @@ class KalturaThumbCuePoint extends KalturaCuePoint
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaCuePoint::getMapBetweenObjects()
+	 * @see BorhanCuePoint::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -52,7 +52,7 @@ class KalturaThumbCuePoint extends KalturaCuePoint
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toInsertableObject()
+	 * @see BorhanObject::toInsertableObject()
 	 */
 	public function toInsertableObject($object_to_fill = null, $props_to_skip = array())
 	{
@@ -63,7 +63,7 @@ class KalturaThumbCuePoint extends KalturaCuePoint
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaCuePoint::validateForInsert()
+	 * @see BorhanCuePoint::validateForInsert()
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{	
@@ -78,9 +78,9 @@ class KalturaThumbCuePoint extends KalturaCuePoint
 		$timedThumb = assetPeer::retrieveById($this->assetId);
 		
 		if(!$timedThumb)
-			throw new KalturaAPIException(KalturaErrors::ASSET_ID_NOT_FOUND, $this->assetId);
+			throw new BorhanAPIException(BorhanErrors::ASSET_ID_NOT_FOUND, $this->assetId);
 		
 		if($timedThumb->getType() != ThumbCuePointPlugin::getAssetTypeCoreValue(timedThumbAssetType::TIMED_THUMB_ASSET))
-			throw new KalturaAPIException(KalturaErrors::THUMB_ASSET_ID_IS_NOT_TIMED_THUMB_TYPE, $this->assetId);
+			throw new BorhanAPIException(BorhanErrors::THUMB_ASSET_ID_IS_NOT_TIMED_THUMB_TYPE, $this->assetId);
 	}
 }

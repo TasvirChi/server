@@ -59,7 +59,7 @@ class executeplaylistAction extends defPartnerservices2Action
 
 	protected function partnerGroup2() {return  kCurrentContext::$ks_partner_id . ',0';}
 	
-	protected function kalturaNetwork2() {return null;}
+	protected function borhanNetwork2() {return null;}
 	
 	public function executeImpl ( $partner_id , $subp_id , $puser_id , $partner_prefix , $puser_kuser , $create_cachekey=false)
 	{

@@ -7,7 +7,7 @@ class KAsyncWidevineRepositorySync extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::WIDEVINE_REPOSITORY_SYNC;
+		return BorhanBatchJobType::WIDEVINE_REPOSITORY_SYNC;
 	}
 	
 	/* (non-PHPdoc)
@@ -21,34 +21,34 @@ class KAsyncWidevineRepositorySync extends KJobHandlerWorker
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->syncRepository($job, $job->data);			
 	}
 
-	protected function syncRepository(KalturaBatchJob $job, KalturaWidevineRepositorySyncJobData $data)
+	protected function syncRepository(BorhanBatchJob $job, BorhanWidevineRepositorySyncJobData $data)
 	{
-		$job = $this->updateJob($job, "Start synchronization of Widevine repository", KalturaBatchJobStatus::QUEUED);
+		$job = $this->updateJob($job, "Start synchronization of Widevine repository", BorhanBatchJobStatus::QUEUED);
 				
 		switch ($data->syncMode)
 		{
-			case KalturaWidevineRepositorySyncMode::MODIFY:
+			case BorhanWidevineRepositorySyncMode::MODIFY:
 				$this->sendModifyRequest($job, $data);
 				break;
 			default:
 				throw new kApplicativeException(null, "Unknown sync mode [".$data->syncMode. "]");
 		}
 
-		return $this->closeJob($job, null, null, "Sync request sent successfully", KalturaBatchJobStatus::FINISHED, $data);
+		return $this->closeJob($job, null, null, "Sync request sent successfully", BorhanBatchJobStatus::FINISHED, $data);
 	}		
 
 	/**
 	 * Send asset notify request to VOD Dealer to update widevine assets
 	 * 
-	 * @param KalturaBatchJob $job
-	 * @param KalturaWidevineRepositorySyncJobData $data
+	 * @param BorhanBatchJob $job
+	 * @param BorhanWidevineRepositorySyncJobData $data
 	 */
-	private function sendModifyRequest(KalturaBatchJob $job, KalturaWidevineRepositorySyncJobData $data)
+	private function sendModifyRequest(BorhanBatchJob $job, BorhanWidevineRepositorySyncJobData $data)
 	{
 		$dataWrap = new WidevineRepositorySyncJobDataWrap($data);		
 		$widevineAssets = $dataWrap->getWidevineAssetIds();
@@ -57,8 +57,8 @@ class KAsyncWidevineRepositorySync extends KJobHandlerWorker
 
 		$this->impersonate($job->partnerId);
 
-		$drmPlugin = KalturaDrmClientPlugin::get(KBatchBase::$kClient);
-		$profile = $drmPlugin->drmProfile->getByProvider(KalturaDrmProviderType::WIDEVINE);
+		$drmPlugin = BorhanDrmClientPlugin::get(KBatchBase::$kClient);
+		$profile = $drmPlugin->drmProfile->getByProvider(BorhanDrmProviderType::WIDEVINE);
 
 		foreach ($widevineAssets as $assetId) 
 		{
@@ -81,7 +81,7 @@ class KAsyncWidevineRepositorySync extends KJobHandlerWorker
 	 */
 	private function updateWidevineAsset($assetId, $licenseStartDate, $licenseEndDate, $profile)
 	{
-		KalturaLog::debug("Update asset [".$assetId."] license start date [".$licenseStartDate.'] license end date ['.$licenseEndDate.']');
+		BorhanLog::debug("Update asset [".$assetId."] license start date [".$licenseStartDate.'] license end date ['.$licenseEndDate.']');
 		
 		$errorMessage = '';
 		
@@ -102,32 +102,32 @@ class KAsyncWidevineRepositorySync extends KJobHandlerWorker
 			KBatchBase::unimpersonate();
 			
 			$logMessage = 'Asset update failed, asset id: '.$assetId.' error: '.$errorMessage;
-			KalturaLog::err($logMessage);
+			BorhanLog::err($logMessage);
 			throw new kApplicativeException(null, $logMessage);
 		}			
 	}
 	
 	/**
-	 * Update flavorAsset in Kaltura after the distribution dates apllied to Wideivne asset
+	 * Update flavorAsset in Borhan after the distribution dates apllied to Wideivne asset
 	 * 
-	 * @param KalturaBatchJob $job
+	 * @param BorhanBatchJob $job
 	 * @param WidevineRepositorySyncJobDataWrap $dataWrap
 	 */
-	private function updateFlavorAssets(KalturaBatchJob $job, WidevineRepositorySyncJobDataWrap $dataWrap)
+	private function updateFlavorAssets(BorhanBatchJob $job, WidevineRepositorySyncJobDataWrap $dataWrap)
 	{	
 		$startDate = $dataWrap->getLicenseStartDate();
 		$endDate = $dataWrap->getLicenseEndDate();	
 		
-		$filter = new KalturaAssetFilter();
+		$filter = new BorhanAssetFilter();
 		$filter->entryIdEqual = $job->entryId;
 		$filter->tagsLike = 'widevine';
-		$flavorAssetsList = self::$kClient->flavorAsset->listAction($filter, new KalturaFilterPager());
+		$flavorAssetsList = self::$kClient->flavorAsset->listAction($filter, new BorhanFilterPager());
 		
 		foreach ($flavorAssetsList->objects as $flavorAsset) 
 		{
-			if($flavorAsset instanceof KalturaWidevineFlavorAsset && $dataWrap->hasAssetId($flavorAsset->widevineAssetId))
+			if($flavorAsset instanceof BorhanWidevineFlavorAsset && $dataWrap->hasAssetId($flavorAsset->widevineAssetId))
 			{
-				$updatedFlavorAsset = new KalturaWidevineFlavorAsset();
+				$updatedFlavorAsset = new BorhanWidevineFlavorAsset();
 				$updatedFlavorAsset->widevineDistributionStartDate = $startDate;
 				$updatedFlavorAsset->widevineDistributionEndDate = $endDate;
 				self::$kClient->flavorAsset->update($flavorAsset->id, $updatedFlavorAsset);

@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution 
  * @subpackage admin
  */
-class DistributionProfileListAction extends KalturaApplicationPlugin implements IKalturaAdminConsolePublisherAction
+class DistributionProfileListAction extends BorhanApplicationPlugin implements IBorhanAdminConsolePublisherAction
 {
 	public function __construct()
 	{
@@ -22,12 +22,12 @@ class DistributionProfileListAction extends KalturaApplicationPlugin implements 
 	
 	public function getRequiredPermissions()
 	{
-		return array(Kaltura_Client_Enum_PermissionName::SYSTEM_ADMIN_CONTENT_DISTRIBUTION_BASE);
+		return array(Borhan_Client_Enum_PermissionName::SYSTEM_ADMIN_CONTENT_DISTRIBUTION_BASE);
 	}
 	
 	private function getPartnerFilterFromRequest(Zend_Controller_Request_Abstract $request)
 	{
-		$filter = new Kaltura_Client_Type_PartnerFilter();
+		$filter = new Borhan_Client_Type_PartnerFilter();
 		
 		$filterInput = $request->getParam('filter_input');
 		if(!strlen($filterInput))
@@ -66,7 +66,7 @@ class DistributionProfileListAction extends KalturaApplicationPlugin implements 
 		$partnerFilter = $this->getPartnerFilterFromRequest($request);
 		
 		$client = Infra_ClientHelper::getClient();
-		$contentDistributionPlugin = Kaltura_Client_ContentDistribution_Plugin::get($client);
+		$contentDistributionPlugin = Borhan_Client_ContentDistribution_Plugin::get($client);
 		
 		// get results and paginate
 		$paginatorAdapter = new Infra_FilterPaginator($contentDistributionPlugin->distributionProfile, "listByPartner", null, $partnerFilter);
@@ -75,18 +75,18 @@ class DistributionProfileListAction extends KalturaApplicationPlugin implements 
 		$paginator->setItemCountPerPage($pageSize);
 		
 		$providers = array(
-			Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::GENERIC => 'Generic',
-			Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::SYNDICATION => 'Syndication'
+			Borhan_Client_ContentDistribution_Enum_DistributionProviderType::GENERIC => 'Generic',
+			Borhan_Client_ContentDistribution_Enum_DistributionProviderType::SYNDICATION => 'Syndication'
 		);
 		$genericProviders = array();
 		$client = Infra_ClientHelper::getClient();
-		$contentDistributionClientPlugin = Kaltura_Client_ContentDistribution_Plugin::get($client);
+		$contentDistributionClientPlugin = Borhan_Client_ContentDistribution_Plugin::get($client);
 		$providersList = $contentDistributionClientPlugin->distributionProvider->listAction();
 		if($providersList)
 		{
 			foreach($providersList->objects as $provider)
 			{
-				if($provider->type == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::GENERIC)
+				if($provider->type == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::GENERIC)
 					$genericProviders[$provider->id] = $provider->name;
 				else
 					$providers[$provider->type] = $provider->name;

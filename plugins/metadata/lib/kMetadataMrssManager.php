@@ -3,7 +3,7 @@
  * @package plugins.metadata
  * @subpackage lib
  */
-class kMetadataMrssManager implements IKalturaMrssContributor
+class kMetadataMrssManager implements IBorhanMrssContributor
 {
 	/**
 	 * @var kMetadataMrssManager
@@ -26,7 +26,7 @@ class kMetadataMrssManager implements IKalturaMrssContributor
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaMrssContributor::contributeToSchema()
+	 * @see IBorhanMrssContributor::contributeToSchema()
 	 */
 	public function contribute(BaseObject $object, SimpleXMLElement $mrss, kMrssParameters $mrssParams = null)
 	{
@@ -47,7 +47,7 @@ class kMetadataMrssManager implements IKalturaMrssContributor
 		$key = $metadata->getSyncKey(Metadata::FILE_SYNC_METADATA_DATA);
 		$xml = kFileSyncUtils::file_get_contents($key, true, false);
 		if (is_null($xml)){
-			KalturaLog::alert("ready file sync was not found for key[$key]");
+			BorhanLog::alert("ready file sync was not found for key[$key]");
 			return;
 		}
 		$metadataXml = new SimpleXMLElement($xml);
@@ -89,14 +89,14 @@ class kMetadataMrssManager implements IKalturaMrssContributor
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaBase::getInstance()
+	 * @see IBorhanBase::getInstance()
 	 */
 	public function getInstance($interface)
 	{
 		if($this instanceof $interface)
 			return $this;
 			
-		$plugin = KalturaPluginManager::getPluginInstance(MetadataPlugin::getPluginName());		
+		$plugin = BorhanPluginManager::getPluginInstance(MetadataPlugin::getPluginName());		
 		if($plugin)
 			return $plugin->getInstance($interface);
 		
@@ -104,7 +104,7 @@ class kMetadataMrssManager implements IKalturaMrssContributor
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaMrssContributor::returnObjectFeatureType()
+	 * @see IBorhanMrssContributor::returnObjectFeatureType()
 	 */
 	public function getObjectFeatureType() 
 	{

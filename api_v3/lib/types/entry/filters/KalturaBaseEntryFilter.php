@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters
  */
-class KalturaBaseEntryFilter extends KalturaBaseEntryBaseFilter
+class BorhanBaseEntryFilter extends BorhanBaseEntryBaseFilter
 {
 	static private $map_between_objects = array
 	(
@@ -39,7 +39,7 @@ class KalturaBaseEntryFilter extends KalturaBaseEntryBaseFilter
 	public $freeText;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $isRoot;
 	
@@ -61,7 +61,7 @@ class KalturaBaseEntryFilter extends KalturaBaseEntryBaseFilter
 	public $redirectFromEntryId;
 
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -78,7 +78,7 @@ class KalturaBaseEntryFilter extends KalturaBaseEntryBaseFilter
 			$this->statusNotEqual === null &&
 			$this->statusNotIn === null)
 		{
-			$this->statusEqual = KalturaEntryStatus::READY;
+			$this->statusEqual = BorhanEntryStatus::READY;
 		}
 	}
 	
@@ -93,8 +93,8 @@ class KalturaBaseEntryFilter extends KalturaBaseEntryBaseFilter
 			$this->moderationStatusNotIn === null)
 		{
 			$moderationStatusesNotIn = array(
-				KalturaEntryModerationStatus::PENDING_MODERATION, 
-				KalturaEntryModerationStatus::REJECTED);
+				BorhanEntryModerationStatus::PENDING_MODERATION, 
+				BorhanEntryModerationStatus::REJECTED);
 			$this->moderationStatusNotIn = implode(",", $moderationStatusesNotIn); 
 		}
 	}
@@ -145,15 +145,15 @@ class KalturaBaseEntryFilter extends KalturaBaseEntryBaseFilter
 	}
 	
 	/**
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaCriteria
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanCriteria
 	 */
-	public function prepareEntriesCriteriaFilter(KalturaFilterPager $pager = null)
+	public function prepareEntriesCriteriaFilter(BorhanFilterPager $pager = null)
 	{
 		// because by default we will display only READY entries, and when deleted status is requested, we don't want this to disturb
 		entryPeer::allowDeletedInCriteriaFilter(); 
 		
-		$c = KalturaCriteria::create(entryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(entryPeer::OM_CLASS);
 	
 		if( $this->idEqual == null && $this->redirectFromEntryId == null )
 		{
@@ -166,7 +166,7 @@ class KalturaBaseEntryFilter extends KalturaBaseEntryBaseFilter
 		$this->fixFilterUserId($this);
 		
 		$entryFilter = new entryFilter();
-		$entryFilter->setPartnerSearchScope(baseObjectFilter::MATCH_KALTURA_NETWORK_AND_PRIVATE);
+		$entryFilter->setPartnerSearchScope(baseObjectFilter::MATCH_BORHAN_NETWORK_AND_PRIVATE);
 		
 		$this->toObject($entryFilter);
 		
@@ -178,7 +178,7 @@ class KalturaBaseEntryFilter extends KalturaBaseEntryBaseFilter
 		return $c;
 	}
 	
-	protected function doGetListResponse(KalturaFilterPager $pager)
+	protected function doGetListResponse(BorhanFilterPager $pager)
 	{
 		myDbHelper::$use_alternative_con = myDbHelper::DB_HELPER_CONN_PROPEL3;
 
@@ -199,13 +199,13 @@ class KalturaBaseEntryFilter extends KalturaBaseEntryBaseFilter
 			if (kEntitlementUtils::getEntitlementEnforcement() && !kCurrentContext::$is_admin_session && entryPeer::getUserContentOnly())
 					entryPeer::setFilterResults(true);
 
-			KalturaCriterion::disableTag(KalturaCriterion::TAG_WIDGET_SESSION);
+			BorhanCriterion::disableTag(BorhanCriterion::TAG_WIDGET_SESSION);
 		}
 		$list = entryPeer::doSelect($c);
 		$totalCount = $c->getRecordsCount();
 		
 		if ($disableWidgetSessionFilters)
-			KalturaCriterion::restoreTag(KalturaCriterion::TAG_WIDGET_SESSION);
+			BorhanCriterion::restoreTag(BorhanCriterion::TAG_WIDGET_SESSION);
 
 		myDbHelper::$use_alternative_con = null;
 			
@@ -213,14 +213,14 @@ class KalturaBaseEntryFilter extends KalturaBaseEntryBaseFilter
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getListResponse()
+	 * @see BorhanFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		list($list, $totalCount) = $this->doGetListResponse($pager);
 		
-	    $newList = KalturaBaseEntryArray::fromDbArray($list, $responseProfile);
-		$response = new KalturaBaseEntryListResponse();
+	    $newList = BorhanBaseEntryArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanBaseEntryListResponse();
 		$response->objects = $newList;
 		$response->totalCount = $totalCount;
 		
@@ -228,7 +228,7 @@ class KalturaBaseEntryFilter extends KalturaBaseEntryBaseFilter
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::validateForResponseProfile()
+	 * @see BorhanRelatedFilter::validateForResponseProfile()
 	 */
 	public function validateForResponseProfile()
 	{		
@@ -236,11 +236,11 @@ class KalturaBaseEntryFilter extends KalturaBaseEntryBaseFilter
 		{
 			if(PermissionPeer::isValidForPartner(PermissionName::FEATURE_ENABLE_RESPONSE_PROFILE_USER_CACHE, kCurrentContext::getCurrentPartnerId()))
 			{
-				KalturaResponseProfileCacher::useUserCache();
+				BorhanResponseProfileCacher::useUserCache();
 				return;
 			}
 			
-			throw new KalturaAPIException(KalturaErrors::CANNOT_LIST_RELATED_ENTITLED_WHEN_ENTITLEMENT_IS_ENABLE, get_class($this));
+			throw new BorhanAPIException(BorhanErrors::CANNOT_LIST_RELATED_ENTITLED_WHEN_ENTITLEMENT_IS_ENABLE, get_class($this));
 		}
 		
 		if(		!kCurrentContext::$is_admin_session
@@ -258,11 +258,11 @@ class KalturaBaseEntryFilter extends KalturaBaseEntryBaseFilter
 			
 			if(PermissionPeer::isValidForPartner(PermissionName::FEATURE_ENABLE_RESPONSE_PROFILE_USER_CACHE, kCurrentContext::getCurrentPartnerId()))
 			{
-				KalturaResponseProfileCacher::useUserCache();
+				BorhanResponseProfileCacher::useUserCache();
 				return;
 			}
 			
-			throw new KalturaAPIException(KalturaErrors::USER_KS_CANNOT_LIST_RELATED_ENTRIES, get_class($this));
+			throw new BorhanAPIException(BorhanErrors::USER_KS_CANNOT_LIST_RELATED_ENTRIES, get_class($this));
 		}
 	}
 }

@@ -3,24 +3,24 @@
  * @package api
  * @subpackage objects.factory
  */
-class KalturaAssetParamsFactory
+class BorhanAssetParamsFactory
 {
 	static function getAssetParamsOutputInstance($type)
 	{
 		switch ($type) 
 		{
-			case KalturaAssetType::FLAVOR:
-				return new KalturaFlavorParamsOutput();
+			case BorhanAssetType::FLAVOR:
+				return new BorhanFlavorParamsOutput();
 				
-			case KalturaAssetType::THUMBNAIL:
-				return new KalturaThumbParamsOutput();
+			case BorhanAssetType::THUMBNAIL:
+				return new BorhanThumbParamsOutput();
 				
 			default:
-				$obj = KalturaPluginManager::loadObject('KalturaAssetParamsOutput', $type);
+				$obj = BorhanPluginManager::loadObject('BorhanAssetParamsOutput', $type);
 				if($obj)
 					return $obj;
 					
-				return new KalturaFlavorParamsOutput();
+				return new BorhanFlavorParamsOutput();
 		}
 	}
 	
@@ -28,18 +28,18 @@ class KalturaAssetParamsFactory
 	{
 		switch ($type) 
 		{
-			case KalturaAssetType::FLAVOR:
-				return new KalturaFlavorParams();
+			case BorhanAssetType::FLAVOR:
+				return new BorhanFlavorParams();
 				
-			case KalturaAssetType::THUMBNAIL:
-				return new KalturaThumbParams();
+			case BorhanAssetType::THUMBNAIL:
+				return new BorhanThumbParams();
 				
 			default:
-				$obj = KalturaPluginManager::loadObject('KalturaAssetParams', $type);
+				$obj = BorhanPluginManager::loadObject('BorhanAssetParams', $type);
 				if($obj)
 					return $obj;
 					
-				return new KalturaFlavorParams();
+				return new BorhanFlavorParams();
 		}
 	}
 }

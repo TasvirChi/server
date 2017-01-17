@@ -13,7 +13,7 @@
 	public function __construct($key)
 	{
 		if (self::$exists)
-			KalturaLog::crit('Unexpected - query cache key already exists');
+			BorhanLog::crit('Unexpected - query cache key already exists');
 		self::$exists = true;
 		$this->key = $key; 
 	}
@@ -204,7 +204,7 @@ class kQueryCache
 			
 			if ($criterion->getComparison() == Criteria::IN && !$criterion->getValue())
 			{
-				KalturaLog::debug("kQueryCache: criteria has empty IN, returning empty result set, peer=$peerClassName");
+				BorhanLog::debug("kQueryCache: criteria has empty IN, returning empty result set, peer=$peerClassName");
 				return array();
 			}
 		}
@@ -235,11 +235,11 @@ class kQueryCache
 		
 		$queryStart = microtime(true);
 		$cacheResult = self::$s_memcacheKeys->multiGet($keysToGet);
-		KalturaLog::debug("kQueryCache: keys query took " . (microtime(true) - $queryStart) . " seconds");
+		BorhanLog::debug("kQueryCache: keys query took " . (microtime(true) - $queryStart) . " seconds");
 		
 		if ($cacheResult === false)
 		{
-			KalturaLog::log("kQueryCache: failed to query keys memcache, not using query cache");
+			BorhanLog::log("kQueryCache: failed to query keys memcache, not using query cache");
 			return null;
 		}
 
@@ -261,7 +261,7 @@ class kQueryCache
 		if (array_key_exists(self::DONT_CACHE_KEY, $cacheResult) && 
 			$cacheResult[self::DONT_CACHE_KEY])
 		{
-			KalturaLog::log("kQueryCache: dontCache key is set -> not caching the result");
+			BorhanLog::log("kQueryCache: dontCache key is set -> not caching the result");
 			$cacheQuery = false;
 		}
 		unset($cacheResult[self::DONT_CACHE_KEY]);
@@ -281,7 +281,7 @@ class kQueryCache
 		if (!is_null($maxInvalidationTime) && 
 			$currentTime < $maxInvalidationTime + $queryMasterThreshold)
 		{
-			KalturaLog::debug("kQueryCache: changed recently -> query master, peer=$peerClassName, invkey=$maxInvalidationKey querytime=$currentTime invtime=$maxInvalidationTime threshold=$queryMasterThreshold");
+			BorhanLog::debug("kQueryCache: changed recently -> query master, peer=$peerClassName, invkey=$maxInvalidationKey querytime=$currentTime invtime=$maxInvalidationTime threshold=$queryMasterThreshold");
 			$queryDB = self::QUERY_DB_MASTER;
 			if ($currentTime < $maxInvalidationTime + self::CLOCK_SYNC_TIME_MARGIN_SEC)
 			{
@@ -293,7 +293,7 @@ class kQueryCache
 			!is_null($maxInvalidationTime) && 
 			$currentTime < $maxInvalidationTime + $maxSlaveLag)
 		{
-			KalturaLog::debug("kQueryCache: using an out of date slave -> not caching the result, peer=$peerClassName, invkey=$maxInvalidationKey querytime=$currentTime invtime=$maxInvalidationTime slavelag=$maxSlaveLag");
+			BorhanLog::debug("kQueryCache: using an out of date slave -> not caching the result, peer=$peerClassName, invkey=$maxInvalidationKey querytime=$currentTime invtime=$maxInvalidationTime slavelag=$maxSlaveLag");
 			$cacheQuery = false;
 		}
 					
@@ -312,11 +312,11 @@ class kQueryCache
 		// check whether we have a valid cached query
 		$queryStart = microtime(true);
 		$queryResult = self::$s_memcacheQueries->get($origCacheKey);
-		KalturaLog::debug("kQueryCache: query took " . (microtime(true) - $queryStart) . " seconds");
+		BorhanLog::debug("kQueryCache: query took " . (microtime(true) - $queryStart) . " seconds");
 		
 		if (!$queryResult)
 		{	
-			KalturaLog::debug("kQueryCache: cache miss, peer=$peerClassName, key=$origCacheKey");
+			BorhanLog::debug("kQueryCache: cache miss, peer=$peerClassName, key=$origCacheKey");
 			return null;
 		}
 		
@@ -325,7 +325,7 @@ class kQueryCache
 		if (!is_null($maxInvalidationTime) && 
 			$queryTime < $maxInvalidationTime + self::CLOCK_SYNC_TIME_MARGIN_SEC)
 		{
-			KalturaLog::debug("kQueryCache: cached query invalid, peer=$peerClassName, key=$origCacheKey, invkey=$maxInvalidationKey querytime=$queryTime debugInfo=$debugInfo invtime=$maxInvalidationTime");
+			BorhanLog::debug("kQueryCache: cached query invalid, peer=$peerClassName, key=$origCacheKey, invkey=$maxInvalidationKey querytime=$queryTime debugInfo=$debugInfo invtime=$maxInvalidationTime");
 			return null;
 		}
 		
@@ -337,7 +337,7 @@ class kQueryCache
 		}
 		$existingInvKeys = implode(',', $existingInvKeys);
 		
-		KalturaLog::debug("kQueryCache: returning from memcache, peer=$peerClassName, key=$origCacheKey queryTime=$queryTime debugInfo=$debugInfo invkeys=[$existingInvKeys]");
+		BorhanLog::debug("kQueryCache: returning from memcache, peer=$peerClassName, key=$origCacheKey queryTime=$queryTime debugInfo=$debugInfo invkeys=[$existingInvKeys]");
 		return $queryResult;
 	}
 	
@@ -355,7 +355,7 @@ class kQueryCache
 		
 		$queryTime = time();
 		$key = $cacheKey->getKey();
-		KalturaLog::debug("kQueryCache: Updating memcache, key=$key queryTime=$queryTime");
+		BorhanLog::debug("kQueryCache: Updating memcache, key=$key queryTime=$queryTime");
 		self::$s_memcacheQueries->set($key, array($queryResult, $queryTime, $debugInfo), self::CACHED_QUERIES_EXPIRY_SEC);
 	}
 	
@@ -382,11 +382,11 @@ class kQueryCache
 		foreach ($invalidationKeys as $invalidationKey)
 		{
 			$invalidationKey = self::CACHE_PREFIX_INVALIDATION_KEY . str_replace(' ', '_', $invalidationKey);
-			KalturaLog::debug("kQueryCache: updating invalidation key, invkey=$invalidationKey");
+			BorhanLog::debug("kQueryCache: updating invalidation key, invkey=$invalidationKey");
 			if (!self::$s_memcacheKeys->set($invalidationKey, $currentTime, 
 				self::CACHED_QUERIES_EXPIRY_SEC + self::INVALIDATION_KEYS_EXPIRY_MARGIN))
 			{
-				KalturaLog::err("kQueryCache: failed to update invalidation key");
+				BorhanLog::err("kQueryCache: failed to update invalidation key");
 			}
 		}
 	}

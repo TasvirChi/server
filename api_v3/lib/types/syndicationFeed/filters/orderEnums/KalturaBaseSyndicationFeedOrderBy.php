@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters.enum
  */
-class KalturaBaseSyndicationFeedOrderBy extends KalturaStringEnum
+class BorhanBaseSyndicationFeedOrderBy extends BorhanStringEnum
 {
 	const PLAYLIST_ID_ASC = "+playlistId";
 	const PLAYLIST_ID_DESC = "-playlistId";

@@ -3,7 +3,7 @@
  * @package infra
  * @subpackage Plugins
  */
-abstract class KalturaApplicationPlugin
+abstract class BorhanApplicationPlugin
 {
 	/**
 	 * @var string - keep null for top level

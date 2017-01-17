@@ -1,8 +1,8 @@
 <?php
 $serverRoot = realpath(__DIR__ . '/../../../../../');
 
-require_once($serverRoot . '/tests/lib/KalturaClient.php');
-require_once($serverRoot . '/tests/lib/KalturaPlugins/KalturaHttpNotificationClientPlugin.php');
+require_once($serverRoot . '/tests/lib/BorhanClient.php');
+require_once($serverRoot . '/tests/lib/BorhanPlugins/BorhanHttpNotificationClientPlugin.php');
 
 if(!isset($_GET['type']))
 {

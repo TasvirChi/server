@@ -30,22 +30,22 @@ $variables = array();
 
 $xmlFormat = '<xml>
 	<request service="serviceName" action="actionName" plugin="pluginName">
-		<itemName1 objectType="KalturaObjectClass1">
+		<itemName1 objectType="BorhanObjectClass1">
 			<attr1>value1</attr1>
 			<attr2>value2</attr2>
 		</itemName1>
-		<itemName2 objectType="KalturaObjectClass2">
+		<itemName2 objectType="BorhanObjectClass2">
 			<attr1>value1</attr1>
 			<attr2>value2</attr2>
 		</itemName2>
 	</request>
 	<multirequest>
 		<request service="serviceName" action="actionName" plugin="pluginName">
-			<itemName1 objectType="KalturaObjectClass1">
+			<itemName1 objectType="BorhanObjectClass1">
 				<attr1>value1</attr1>
 				<attr2>value2</attr2>
 			</itemName1>
-			<itemName2 objectType="KalturaObjectClass2">
+			<itemName2 objectType="BorhanObjectClass2">
 				<attr1>value1</attr1>
 				<attr2>value2</attr2>
 			</itemName2>
@@ -77,7 +77,7 @@ function parseInputObject(SimpleXMLElement $input = null)
 		return null;
 		
 	if(isset($input['null']) && $input['null'])
-		return KalturaClient::getKalturaNullValue();
+		return BorhanClient::getBorhanNullValue();
 	
 	$type = 'string';
 	if(isset($input['objectType']))
@@ -184,7 +184,7 @@ function generateSession($adminSecretForSigning, $userId, $type, $partnerId, $ex
 	return $encoded_str;
 }
 
-function executeRequest(KalturaClient $client, SimpleXMLElement $request)
+function executeRequest(BorhanClient $client, SimpleXMLElement $request)
 {
 	$arguments = array();
 	$inputs = $request->children();
@@ -198,8 +198,8 @@ function executeRequest(KalturaClient $client, SimpleXMLElement $request)
 
 	if(isset($pluginName) && $pluginName != '') //get plugin service
 	{
-		$pluginClass = "Kaltura{$pluginName}ClientPlugin";
-		require_once realpath(__DIR__ . '/../') . "/lib/KalturaPlugins/$pluginClass.php";
+		$pluginClass = "Borhan{$pluginName}ClientPlugin";
+		require_once realpath(__DIR__ . '/../') . "/lib/BorhanPlugins/$pluginClass.php";
 
 		$plugin = call_user_func(array($pluginClass, 'get'), $client);
 		if(!property_exists($plugin, $serviceName))
@@ -260,9 +260,9 @@ function askForUserParameter($message)
 	return trim(fgets(STDIN));
 }
 
-require_once realpath(__DIR__ . '/../') . '/lib/KalturaClient.php';
+require_once realpath(__DIR__ . '/../') . '/lib/BorhanClient.php';
 
-class KalturaStandAloneTestLogger implements IKalturaLogger
+class BorhanStandAloneTestLogger implements IBorhanLogger
 {
 	function log($msg)
 	{
@@ -270,9 +270,9 @@ class KalturaStandAloneTestLogger implements IKalturaLogger
 	}
 }
 
-$config = new KalturaConfiguration();
-$config->setLogger(new KalturaStandAloneTestLogger());
-$client = new KalturaClient($config);
+$config = new BorhanConfiguration();
+$config->setLogger(new BorhanStandAloneTestLogger());
+$client = new BorhanClient($config);
 if(isset($inXml->variables))
 {
 	$variablesXml = $inXml->variables->children();
@@ -294,7 +294,7 @@ if(isset($inXml->config))
 	}
 }
 
-$client = new KalturaClient($config);
+$client = new BorhanClient($config);
 if(isset($inXml->session))
 {
 	$partnerId = parseInputObject($inXml->session->partnerId);
@@ -348,7 +348,7 @@ foreach($inXml->children() as $element)
 			if (!(bool)(string)$element['continueOnError'] && $client->isError($response))
 			{
 				echo "Executing failed for request #".($index+1)." with error [" . $response['message'] . "]\n";
-				throw new KalturaException($response["message"], $response["code"],$response['args']);
+				throw new BorhanException($response["message"], $response["code"],$response['args']);
 			}
 
 			$results[] = $response;

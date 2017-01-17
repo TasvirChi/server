@@ -7,7 +7,7 @@ class kPatchSwf
 {
 	const SWF_TAG_DefineBinaryData = 87;
 	
-	const KALTURA_EMBED_SIGNATURE = "KALTURA_EMBEDDED_DATA";
+	const BORHAN_EMBED_SIGNATURE = "BORHAN_EMBEDDED_DATA";
 	
 	static $TAG_NAMES = array(
 		0 => "End",
@@ -78,7 +78,7 @@ class kPatchSwf
 	private $swfdata;
 	private $pos;
 	
-	public function __construct($swf, $signature = self::KALTURA_EMBED_SIGNATURE)
+	public function __construct($swf, $signature = self::BORHAN_EMBED_SIGNATURE)
 	{
 		$this->header = substr($swf, 0, 8);
 		$zdata = substr($swf, 8, strlen($swf) - 8);

@@ -8,10 +8,10 @@
 abstract class KJobConversionEngine extends KConversionEngine
 {
 	/**
-	 * @param KalturaConvertJobData $data
+	 * @param BorhanConvertJobData $data
 	 * @return array<KConversioEngineResult>
 	 */
-	protected function getExecutionCommandAndConversionString ( KalturaConvertJobData $data )
+	protected function getExecutionCommandAndConversionString ( BorhanConvertJobData $data )
 	{
 		$tempPath = dirname($data->destFileSyncLocalPath);
 		$this->logFilePath = $data->logFileSyncLocalPath;
@@ -69,22 +69,22 @@ abstract class KJobConversionEngine extends KConversionEngine
 		return $conversion_engine_result_list;			
 	}	
 	
-	public function simulate ( KalturaConvartableJobData $data )
+	public function simulate ( BorhanConvartableJobData $data )
 	{
 		return  $this->simulatejob ( $data );
 	}	
 	
-	private function simulatejob ( KalturaConvertJobData $data )
+	private function simulatejob ( BorhanConvertJobData $data )
 	{
 		return  $this->getExecutionCommandAndConversionString ( $data );
 	}
 	
-	public function convert ( KalturaConvartableJobData &$data )
+	public function convert ( BorhanConvartableJobData &$data )
 	{
 		return  $this->convertJob ( $data );
 	}
 	
-	public function convertJob ( KalturaConvertJobData &$data )
+	public function convertJob ( BorhanConvertJobData &$data )
 	{
 
 		$error_message = "";  
@@ -92,7 +92,7 @@ abstract class KJobConversionEngine extends KConversionEngine
 		if ( ! file_exists ( $actualFileSyncLocalPath ) )
 		{
 			$error_message = "File [{$actualFileSyncLocalPath}] does not exist";
-			KalturaLog::err(  $error_message );
+			BorhanLog::err(  $error_message );
 			return array ( false , $error_message );
 		}
 
@@ -122,7 +122,7 @@ abstract class KJobConversionEngine extends KConversionEngine
 			$this->addToLogFile ( $log_file , $execution_command_str ) ;
 			$this->addToLogFile ( $log_file , $conversion_str ) ;
 				
-			KalturaLog::info ( $execution_command_str );
+			BorhanLog::info ( $execution_command_str );
 	
 			$start = microtime(true);
 			// TODO add BatchEvent - before conversion + conversion engine 
@@ -133,7 +133,7 @@ abstract class KJobConversionEngine extends KConversionEngine
 			// 	TODO - find some place in the DB for the duration
 			$duration += ( $end - $start );
 						 
-			KalturaLog::info ( $this->getName() . ": [$return_value] took [$duration] seconds" );
+			BorhanLog::info ( $this->getName() . ": [$return_value] took [$duration] seconds" );
 			
 			$this->addToLogFile ( $log_file , $output ) ;
 			

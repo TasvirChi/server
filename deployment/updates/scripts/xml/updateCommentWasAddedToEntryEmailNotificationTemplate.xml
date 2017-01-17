@@ -14,106 +14,106 @@
         <multirequest>
                 <!-- Entry was added to channel -->
                 <request service="eventNotificationTemplate" action="listTemplates" plugin="eventNotification">
-                        <filter objectType="KalturaEventNotificationTemplateFilter">
+                        <filter objectType="BorhanEventNotificationTemplateFilter">
                                 <partnerId>0</partnerId>
                                 <systemNameEqual>Comment_Was_Added_To_Entry</systemNameEqual>
                         </filter>
-                        <pager objectType="KalturaFilterPager">
+                        <pager objectType="BorhanFilterPager">
                                 <pageSize>1</pageSize>
                         </pager>
                 </request>
                 <request service="eventNotificationTemplate" action="update" plugin="eventNotification" partnerId="0">
                 	<id>{1:result:objects:0:id}</id>
-                   	<template objectType="KalturaEmailNotificationTemplate">
+                   	<template objectType="BorhanEmailNotificationTemplate">
                                 <body>A new comment was added to your video {entry_name}.Comment: {comment_text}. You can access the video page here: [AppEntryUrl]{entry_id}</body>
                                 <contentParameters objectType="array">
- 					<item objectType="KalturaEventNotificationParameter">
+ 					<item objectType="BorhanEventNotificationParameter">
  						<key>from_email</key>
- 						<value objectType="KalturaEvalStringField">
+ 						<value objectType="BorhanEvalStringField">
  							<code>kConf::get("partner_notification_email")</code>
  						</value>
  					</item>
- 					<item objectType="KalturaEventNotificationParameter">
+ 					<item objectType="BorhanEventNotificationParameter">
  						<key>from_name</key>
- 						<value objectType="KalturaEvalStringField">
+ 						<value objectType="BorhanEvalStringField">
  							<code>kConf::get("partner_notification_name")</code>
  						</value>
  					</item>
- 					<item objectType="KalturaEventNotificationParameter">
+ 					<item objectType="BorhanEventNotificationParameter">
  						<key>entry_id</key>
- 						<value objectType="KalturaEvalStringField">
+ 						<value objectType="BorhanEvalStringField">
  							<code>$scope->getObject()->getEntryId()</code>
  						</value>
  					</item>
- 					<item objectType="KalturaEventNotificationParameter">
+ 					<item objectType="BorhanEventNotificationParameter">
  						<key>entry_name</key>
- 						<value objectType="KalturaEvalStringField">
+ 						<value objectType="BorhanEvalStringField">
  							<code>!is_null(entryPeer::retrieveByPk($scope->getObject()->getEntryId())) ? entryPeer::retrieveByPk($scope->getObject()->getEntryId())->getName() : ''</code>
  						</value>
  					</item>
-+					<item objectType="KalturaEventNotificationParameter">
++					<item objectType="BorhanEventNotificationParameter">
 +						<key>comment_text</key>
-+						<value objectType="KalturaEvalStringField">
++						<value objectType="BorhanEvalStringField">
 +							<code>$scope->getObject()->getText()</code>
 +						</value>
 +					</item>
-+					<item objectType="KalturaEventNotificationParameter">
++					<item objectType="BorhanEventNotificationParameter">
 +						<key>comment_id</key>
-+						<value objectType="KalturaEvalStringField">
++						<value objectType="BorhanEvalStringField">
 +							<code>$scope->getObject()->getId()</code>
 +						</value>
 +					</item>
-+					<item objectType="KalturaEventNotificationParameter">
++					<item objectType="BorhanEventNotificationParameter">
 +						<key>comment_parent_id</key>
-+						<value objectType="KalturaEvalStringField">
++						<value objectType="BorhanEvalStringField">
 +							<code>$scope->getObject()->getParentId()</code>
 +						</value>
 +					</item>
-+					<item objectType="KalturaEventNotificationParameter">
++					<item objectType="BorhanEventNotificationParameter">
 +						<key>comment_system_name</key>
-+						<value objectType="KalturaEvalStringField">
++						<value objectType="BorhanEvalStringField">
 +							<code>$scope->getObject()->getSystemName()</code>
 +						</value>
 +					</item>
-+					<item objectType="KalturaEventNotificationParameter">
++					<item objectType="BorhanEventNotificationParameter">
 +						<key>comment_user_id</key>
-+						<value objectType="KalturaEvalStringField">
++						<value objectType="BorhanEvalStringField">
 +							<code>$scope->getObject()->getPuserId()</code>
 +						</value>
 +					</item>
-+					<item objectType="KalturaEventNotificationParameter">
++					<item objectType="BorhanEventNotificationParameter">
 +						<key>comment_created_at</key>
-+						<value objectType="KalturaEvalStringField">
++						<value objectType="BorhanEvalStringField">
 +							<code>$scope->getObject()->getCreatedAt()</code>
 +						</value>
 +					</item>
-+					<item objectType="KalturaEventNotificationParameter">
++					<item objectType="BorhanEventNotificationParameter">
 +						<key>comment_updated_at</key>
-+						<value objectType="KalturaEvalStringField">
++						<value objectType="BorhanEvalStringField">
 +							<code>$scope->getObject()->getUpdatedAt()</code>
 +						</value>
 +					</item>
-+					<item objectType="KalturaEventNotificationParameter">
++					<item objectType="BorhanEventNotificationParameter">
 +						<key>comment_partner_data</key>
-+						<value objectType="KalturaEvalStringField">
++						<value objectType="BorhanEvalStringField">
 +							<code>$scope->getObject()->getPartnerData()</code>
 +						</value>
 +					</item>
-+					<item objectType="KalturaEventNotificationParameter">
++					<item objectType="BorhanEventNotificationParameter">
 +						<key>comment_start_time</key>
-+						<value objectType="KalturaEvalStringField">
++						<value objectType="BorhanEvalStringField">
 +							<code>$scope->getObject()->getStartTime()</code>
 +						</value>
 +					</item>
-+					<item objectType="KalturaEventNotificationParameter">
++					<item objectType="BorhanEventNotificationParameter">
 +						<key>comment_end_time</key>
-+						<value objectType="KalturaEvalStringField">
++						<value objectType="BorhanEvalStringField">
 +							<code>$scope->getObject()->getEndTime()</code>
 +						</value>
 +					</item>
-+					<item objectType="KalturaEventNotificationParameter">
++					<item objectType="BorhanEventNotificationParameter">
 +						<key>comment_duration</key>
-+						<value objectType="KalturaEvalStringField">
++						<value objectType="BorhanEvalStringField">
 +							<code>$scope->getObject()->getDuration()</code>
 +						</value>
 +					</item>

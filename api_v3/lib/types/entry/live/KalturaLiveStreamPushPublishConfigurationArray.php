@@ -4,22 +4,22 @@
  * @subpackage objects
  *
  */
-class KalturaLiveStreamPushPublishConfigurationArray extends KalturaTypedArray
+class BorhanLiveStreamPushPublishConfigurationArray extends BorhanTypedArray
 {
 	/**
 	 * Returns API array object from regular array of database objects.
 	 * @param array $dbArray
-	 * @return KalturaLiveStreamPushPublishConfiguration
+	 * @return BorhanLiveStreamPushPublishConfiguration
 	 */
-	public static function fromDbArray(array $dbArray = null, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray(array $dbArray = null, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$array = new KalturaLiveStreamConfigurationArray();
+		$array = new BorhanLiveStreamConfigurationArray();
 		if($dbArray && is_array($dbArray))
 		{
 			foreach($dbArray as $object)
 			{
 				/* @var $object kLiveStreamPushPublishConfiguration */
-				$configObject = KalturaLiveStreamPushPublishConfiguration::getInstance(get_class($object));
+				$configObject = BorhanLiveStreamPushPublishConfiguration::getInstance(get_class($object));
 				$configObject->fromObject($object, $responseProfile);;
 				$array[] = $configObject;
 			}
@@ -29,11 +29,11 @@ class KalturaLiveStreamPushPublishConfigurationArray extends KalturaTypedArray
 	
 	public function __construct()
 	{
-		return parent::__construct("KalturaLiveStreamPushPublishConfiguration");
+		return parent::__construct("BorhanLiveStreamPushPublishConfiguration");
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaTypedArray::toObjectsArray()
+	 * @see BorhanTypedArray::toObjectsArray()
 	 */
 	public function toObjectsArray()
 	{

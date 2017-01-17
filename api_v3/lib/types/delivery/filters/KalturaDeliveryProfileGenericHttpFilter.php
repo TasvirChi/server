@@ -3,6 +3,6 @@
  * @package api
  * @subpackage filters
  */
-class KalturaDeliveryProfileGenericHttpFilter extends KalturaDeliveryProfileGenericHttpBaseFilter
+class BorhanDeliveryProfileGenericHttpFilter extends BorhanDeliveryProfileGenericHttpBaseFilter
 {
 }

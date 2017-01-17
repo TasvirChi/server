@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaDistributionRemoteMediaFile extends KalturaObject
+class BorhanDistributionRemoteMediaFile extends BorhanObject
 {
 	/**
 	 * @var string

@@ -32,7 +32,7 @@ class kPathManager
 //			$line = $trace['line'];
 //			$class = $trace['class'];
 //			$function = $trace['function'];
-//			KalturaLog::debug("#$i Called from function [$class::$function] file[$file] line[$line]");
+//			BorhanLog::debug("#$i Called from function [$class::$function] file[$file] line[$line]");
 //		}
 			
 		list($root, $path) = $object->generateFilePathArr($subType, $version);
@@ -41,7 +41,7 @@ class kPathManager
 		
 		if(!kConf::hasParam('volumes'))
 		{
-			KalturaLog::debug("Path [{$root}{$path}]");
+			BorhanLog::debug("Path [{$root}{$path}]");
 			return array($root, $path);
 		}
 		
@@ -54,7 +54,7 @@ class kPathManager
 		self::$sessionCache[$path] = $newPath;
 		$path = $newPath;
 		
-		KalturaLog::debug("Path [{$root}{$path}]");
+		BorhanLog::debug("Path [{$root}{$path}]");
 		return array($root, $path);
 	}
 	
@@ -68,7 +68,7 @@ class kPathManager
 	 */
 	public static function getFilePathArr(FileSyncKey $key, $storageProfileId = null)
 	{
-		KalturaLog::log(__METHOD__." - key [$key], storageProfileId [$storageProfileId]");
+		BorhanLog::log(__METHOD__." - key [$key], storageProfileId [$storageProfileId]");
 		
 		$storageProfile = self::getStorageProfile($storageProfileId);
 		if(is_null($storageProfile))

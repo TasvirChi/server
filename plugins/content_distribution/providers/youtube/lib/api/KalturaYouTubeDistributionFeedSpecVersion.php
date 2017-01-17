@@ -3,6 +3,6 @@
  * @package plugins.youTubeDistribution
  * @subpackage api.enum
  */
-class KalturaYouTubeDistributionFeedSpecVersion extends KalturaStringEnum implements YouTubeDistributionFeedSpecVersion
+class BorhanYouTubeDistributionFeedSpecVersion extends BorhanStringEnum implements YouTubeDistributionFeedSpecVersion
 {
 }

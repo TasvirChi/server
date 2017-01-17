@@ -48,7 +48,7 @@ function retrieveSubject( $type, $id )
 
 function returnUserLink( $username )
 {
-	return "<a href='/index.php/mykaltura/viewprofile?screenname=".$username."'>".$username."</a>";
+	return "<a href='/index.php/myborhan/viewprofile?screenname=".$username."'>".$username."</a>";
 }
 
 function returnKshowLink( $kshow_id )

@@ -3,14 +3,14 @@
  * @package api
  * @subpackage filters
  */
-abstract class KalturaRelatedFilter extends KalturaFilter
+abstract class BorhanRelatedFilter extends BorhanFilter
 {
 	/**
-	 * @param KalturaFilterPager $pager
-	 * @param KalturaDetachedResponseProfile $responseProfile
-	 * @return KalturaListResponse
+	 * @param BorhanFilterPager $pager
+	 * @param BorhanDetachedResponseProfile $responseProfile
+	 * @return BorhanListResponse
 	 */
-	abstract public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null);
+	abstract public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null);
 	
 	public function validateForResponseProfile()
 	{

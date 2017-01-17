@@ -9,7 +9,7 @@ class myArchiveOrgServices extends myBaseMediaSource implements IMediaSource
 	protected $source_name = "Archive.org";
 	protected $auth_method = array ( self::AUTH_METHOD_PUBLIC );
 	protected $search_in_user = false; 
-	protected $logo = "http://www.kaltura.com/images/wizard/logo_archiveorg.png";
+	protected $logo = "http://www.borhan.com/images/wizard/logo_archiveorg.png";
 	protected $id = entry::ENTRY_MEDIA_SOURCE_ARCHIVE_ORG;
 	
 	private static $domain = "http://www.archive.org";

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaStorageDeleteJobData extends KalturaStorageJobData
+class BorhanStorageDeleteJobData extends BorhanStorageJobData
 {
 	private static $map_between_objects = array
 	(
@@ -30,14 +30,14 @@ class KalturaStorageDeleteJobData extends KalturaStorageJobData
 	public function toSubType($subType)
 	{
 		switch ($subType) {
-			case KalturaStorageProfileProtocol::SFTP:
-            case KalturaStorageProfileProtocol::FTP:
-            case KalturaStorageProfileProtocol::SCP:
-            case KalturaStorageProfileProtocol::S3:
-            case KalturaStorageProfileProtocol::KALTURA_DC:
+			case BorhanStorageProfileProtocol::SFTP:
+            case BorhanStorageProfileProtocol::FTP:
+            case BorhanStorageProfileProtocol::SCP:
+            case BorhanStorageProfileProtocol::S3:
+            case BorhanStorageProfileProtocol::BORHAN_DC:
                 return $subType;	
 			default:
-				return kPluginableEnumsManager::apiToCore('KalturaStorageProfileProtocol', $subType);
+				return kPluginableEnumsManager::apiToCore('BorhanStorageProfileProtocol', $subType);
 		}
 	}
 	
@@ -52,7 +52,7 @@ class KalturaStorageDeleteJobData extends KalturaStorageJobData
             case StorageProfileProtocol::FTP:
             case StorageProfileProtocol::SCP:
             case StorageProfileProtocol::S3:
-            case StorageProfileProtocol::KALTURA_DC:
+            case StorageProfileProtocol::BORHAN_DC:
                 return $subType;    
             default:
                 return kPluginableEnumsManager::coreToApi('StorageProfileProtocol', $subType);

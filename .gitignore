@@ -1,4 +1,4 @@
-admin_console/lib/Kaltura/Client
+admin_console/lib/Borhan/Client
 admin_console/lib/tests
 alpha/web/api_v3
 api_v3/web/testme
@@ -6,12 +6,12 @@ api_v3/web/testmeDoc
 cache/
 clients/
 batch/client/
-var_console/lib/Kaltura/Client
-configurations/apache/kaltura.conf
-configurations/apache/conf.d/enabled.kaltura.conf
+var_console/lib/Borhan/Client
+configurations/apache/borhan.conf
+configurations/apache/conf.d/enabled.borhan.conf
 configurations/apache/conf.d/enabled.admin.conf
-configurations/sphinx/kaltura.conf
-configurations/sphinx/kaltura.ssl.conf
+configurations/sphinx/borhan.conf
+configurations/sphinx/borhan.ssl.conf
 configurations/admin.ini
 configurations/batch/
 configurations/batch.ini
@@ -29,7 +29,7 @@ configurations/monit/mysqld.rc
 configurations/monit/sphinx.populate.rc
 configurations/monit/sphinx.rc
 configurations/monit/monit.rc
-configurations/php/kaltura.ini
+configurations/php/borhan.ini
 configurations/plugins.ini
 configurations/system.ini
 configurations/broadcast.ini
@@ -50,4 +50,4 @@ plugins/.settings/*
 alpha/.settings/
 .idea
 .DS_Store
-admin_console/lib/Kaltura/Client/
+admin_console/lib/Borhan/Client/

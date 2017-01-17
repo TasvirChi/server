@@ -3,10 +3,10 @@
  * @package plugins.annotation
  * @subpackage api.objects
  */
-class KalturaAnnotationListResponse extends KalturaListResponse
+class BorhanAnnotationListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaAnnotationArray
+	 * @var BorhanAnnotationArray
 	 * @readonly
 	 */
 	public $objects;

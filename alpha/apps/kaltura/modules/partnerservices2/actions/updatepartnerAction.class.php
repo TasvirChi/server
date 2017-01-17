@@ -60,7 +60,7 @@ class updatepartnerAction extends defPartnerservices2Action
 			if ( $partner && $target_partner )
 			{
 				if ( @$fields_modified["adminEmail"] && $target_partner->getAdminEmail() != $fields_modified["adminEmail"]) {
-					myPartnerUtils::emailChangedEmail($partner_id, $target_partner->getAdminEmail(), $fields_modified["adminEmail"], $target_partner->getName(), PartnerPeer::KALTURAS_PARTNER_EMAIL_CHANGE);
+					myPartnerUtils::emailChangedEmail($partner_id, $target_partner->getAdminEmail(), $fields_modified["adminEmail"], $target_partner->getName(), PartnerPeer::BORHANS_PARTNER_EMAIL_CHANGE);
 				}
 				$partner->setType ( $target_partner->getType() );
 				baseObjectUtils::fillObjectFromObject( $updateable_fields , $partner , $target_partner , 

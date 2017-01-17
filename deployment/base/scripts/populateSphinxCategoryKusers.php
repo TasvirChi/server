@@ -30,13 +30,13 @@ while(count($categoryKusers))
 	foreach($categoryKusers as $categoryKuser)
 	{
 	    /* @var $categoryKuser categoryKuser */
-		KalturaLog::log('$categoryKuser id ' . $categoryKuser->getId() . ' updated at '. $categoryKuser->getUpdatedAt(null));
+		BorhanLog::log('$categoryKuser id ' . $categoryKuser->getId() . ' updated at '. $categoryKuser->getUpdatedAt(null));
 		
 		try {
 			$ret = $sphinx->saveToSphinx($categoryKuser, true);
 		}
 		catch(Exception $e){
-			KalturaLog::err($e->getMessage());
+			BorhanLog::err($e->getMessage());
 			exit -1;
 		}
 	}
@@ -46,5 +46,5 @@ while(count($categoryKusers))
 	$categoryKusers = categoryKuserPeer::doSelect($c, $con);
 }
 
-KalturaLog::log('Done. Current time: ' . time());
+BorhanLog::log('Done. Current time: ' . time());
 exit(0);

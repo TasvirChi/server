@@ -23,34 +23,34 @@ class KAsyncConvertProfileCloser extends KJobCloserWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::CONVERT_PROFILE;
+		return BorhanBatchJobType::CONVERT_PROFILE;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->checkTimeout($job);
 	}
 
-	private function checkTimeout(KalturaBatchJob $job)
+	private function checkTimeout(BorhanBatchJob $job)
 	{
 		
 		if($job->queueTime && ($job->queueTime + self::$taskConfig->params->maxTimeBeforeFail) < time())
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::CLOSER_TIMEOUT, 'Timed out', KalturaBatchJobStatus::FAILED);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::CLOSER_TIMEOUT, 'Timed out', BorhanBatchJobStatus::FAILED);
 		else if ($this->checkConvertDone($job))
 		{
-			return $this->closeJob($job, null, null, null, KalturaBatchJobStatus::FINISHED);
+			return $this->closeJob($job, null, null, null, BorhanBatchJobStatus::FINISHED);
 		}
 			
-		return $this->closeJob($job, null, null, null, KalturaBatchJobStatus::ALMOST_DONE);
+		return $this->closeJob($job, null, null, null, BorhanBatchJobStatus::ALMOST_DONE);
 	}
 	
-	private function checkConvertDone(KalturaBatchJob $job)
+	private function checkConvertDone(BorhanBatchJob $job)
 	{
 		/**
-		 * @var KalturaConvertProfileJobData $data
+		 * @var BorhanConvertProfileJobData $data
 		 */
 		return self::$kClient->batch->checkEntryIsDone($job->id);
 	}

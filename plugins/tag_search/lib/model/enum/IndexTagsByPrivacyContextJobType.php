@@ -3,12 +3,12 @@
  * @package plugins.tag_search
  *  @subpackage model.enum
  */
-class IndexTagsByPrivacyContextJobType implements IKalturaPluginEnum, BatchJobType
+class IndexTagsByPrivacyContextJobType implements IBorhanPluginEnum, BatchJobType
 {
 	const INDEX_TAGS = 'IndexTagsByPrivacyContext';
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaPluginEnum::getAdditionalValues()
+	 * @see IBorhanPluginEnum::getAdditionalValues()
 	 */
 	public static function getAdditionalValues() {
 		return array(
@@ -18,7 +18,7 @@ class IndexTagsByPrivacyContextJobType implements IKalturaPluginEnum, BatchJobTy
 	}
 
 	/* (non-PHPdoc)
-	 * @see IKalturaPluginEnum::getAdditionalDescriptions()
+	 * @see IBorhanPluginEnum::getAdditionalDescriptions()
 	 */
 	public static function getAdditionalDescriptions() {
 		return array();

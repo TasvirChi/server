@@ -10,10 +10,10 @@ class KAsyncTagResolve extends KPeriodicWorker
 	 */
 	public function run($jobs = null) 
 	{
-		$tagPlugin = KalturaTagSearchClientPlugin::get(self::$kClient);
+		$tagPlugin = BorhanTagSearchClientPlugin::get(self::$kClient);
 		$deletedTags = $tagPlugin->tag->deletePending();
 		
-		KalturaLog::info("Finished resolving tags: $deletedTags tags removed from DB");
+		BorhanLog::info("Finished resolving tags: $deletedTags tags removed from DB");
 	}
 	
 	/**
@@ -22,7 +22,7 @@ class KAsyncTagResolve extends KPeriodicWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::TAG_RESOLVE;
+		return BorhanBatchJobType::TAG_RESOLVE;
 	}
 
 	

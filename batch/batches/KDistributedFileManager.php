@@ -25,7 +25,7 @@ class KDistributedFileManager
 	
 	public function getLocalPath($localPath, $remotePath, &$errDescription)
 	{
-		KalturaLog::info("Translating remote path [$remotePath] to local path [$localPath]");
+		BorhanLog::info("Translating remote path [$remotePath] to local path [$localPath]");
 				
 		if(file_exists($localPath))
 		{
@@ -42,9 +42,9 @@ class KDistributedFileManager
 		$res = $this->fetchFile($remotePath, $localPath, $errDescription);
 		if(!$res) {
 			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-				KalturaLog::warning("Going to flush DNS: ");
+				BorhanLog::warning("Going to flush DNS: ");
 				$output = system( "ipconfig /flushdns" , $rc);
-				KalturaLog::warning($output);
+				BorhanLog::warning($output);
 			}
 		}
 		
@@ -57,7 +57,7 @@ class KDistributedFileManager
 	 */
 	public function getRemoteUrl($localPath)
 	{
-		KalturaLog::debug("str_replace($this->localRoot, $this->remoteRoot, $localPath)");	
+		BorhanLog::debug("str_replace($this->localRoot, $this->remoteRoot, $localPath)");	
 		return str_replace($this->localRoot, $this->remoteRoot, $localPath);
 	}
 
@@ -100,14 +100,14 @@ class KDistributedFileManager
 			{
 				unlink($localPath);
         		$cmd = "curl -s $remotePath -o $localPath";
-				KalturaLog::debug($cmd);
+				BorhanLog::debug($cmd);
         		exec($cmd);
 			}
 			else
 			{			
 				$curlWrapper = new KCurlWrapper();
 				$res = $curlWrapper->exec($remotePath, $localPath);
-				KalturaLog::debug("Curl results: $res");
+				BorhanLog::debug("Curl results: $res");
 			
 				if(!$res || $curlWrapper->getError())
 				{

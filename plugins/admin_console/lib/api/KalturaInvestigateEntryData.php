@@ -3,40 +3,40 @@
  * @package plugins.adminConsole
  * @subpackage api.objects
  */
-class KalturaInvestigateEntryData extends KalturaObject
+class BorhanInvestigateEntryData extends BorhanObject
 {
 	/**
-	 * @var KalturaBaseEntry
+	 * @var BorhanBaseEntry
 	 * @readonly
 	 */
 	public $entry;
 
 	/**
-	 * @var KalturaFileSyncListResponse
+	 * @var BorhanFileSyncListResponse
 	 * @readonly
 	 */
 	public $fileSyncs;
 
 	/**
-	 * @var KalturaBatchJobListResponse
+	 * @var BorhanBatchJobListResponse
 	 * @readonly
 	 */
 	public $jobs;
 	
 	/**
-	 * @var KalturaInvestigateFlavorAssetDataArray
+	 * @var BorhanInvestigateFlavorAssetDataArray
 	 * @readonly
 	 */
 	public $flavorAssets;
 	
 	/**
-	 * @var KalturaInvestigateThumbAssetDataArray
+	 * @var BorhanInvestigateThumbAssetDataArray
 	 * @readonly
 	 */
 	public $thumbAssets;
 	
 	/**
-	 * @var KalturaTrackEntryArray
+	 * @var BorhanTrackEntryArray
 	 * @readonly
 	 */
 	public $tracks;

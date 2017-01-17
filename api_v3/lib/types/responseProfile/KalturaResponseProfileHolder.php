@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaResponseProfileHolder extends KalturaBaseResponseProfile
+class BorhanResponseProfileHolder extends BorhanBaseResponseProfile
 {
 	/**
 	 * Auto generated numeric identifier
@@ -25,7 +25,7 @@ class KalturaResponseProfileHolder extends KalturaBaseResponseProfile
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -33,18 +33,18 @@ class KalturaResponseProfileHolder extends KalturaBaseResponseProfile
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUsage($sourceObject, $propertiesToSkip)
+	 * @see BorhanObject::validateForUsage($sourceObject, $propertiesToSkip)
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
 		if($this->isNull('id') && $this->isNull('systemName'))
-    		throw new KalturaAPIException(KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, $this->getFormattedPropertyNameWithClassName('id') . ' and ' . $this->getFormattedPropertyNameWithClassName('systemName'));
+    		throw new BorhanAPIException(BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, $this->getFormattedPropertyNameWithClassName('id') . ' and ' . $this->getFormattedPropertyNameWithClassName('systemName'));
     		
 		parent::validateForUsage($sourceObject, $propertiesToSkip);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject
+	 * @see BorhanObject::toObject
 	 */
 	public function toObject($object = null, $propertiesToSkip = array())
 	{

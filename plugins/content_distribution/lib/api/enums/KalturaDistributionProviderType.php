@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.enum
  */
-class KalturaDistributionProviderType extends KalturaDynamicEnum implements DistributionProviderType
+class BorhanDistributionProviderType extends BorhanDynamicEnum implements DistributionProviderType
 {
 	public static function getEnumClass()
 	{

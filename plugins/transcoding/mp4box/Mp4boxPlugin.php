@@ -2,7 +2,7 @@
 /**
  * @package plugins.mp4box
  */
-class Mp4boxPlugin extends KalturaPlugin implements IKalturaObjectLoader, IKalturaEnumerator
+class Mp4boxPlugin extends BorhanPlugin implements IBorhanObjectLoader, IBorhanEnumerator
 {
 	const PLUGIN_NAME = 'mp4box';
 	
@@ -19,7 +19,7 @@ class Mp4boxPlugin extends KalturaPlugin implements IKalturaObjectLoader, IKaltu
 	 */
 	public static function loadObject($baseClass, $enumValue, array $constructorArgs = null)
 	{
-		if($baseClass == 'KOperationEngine' && $enumValue == KalturaConversionEngineType::MP4BOX)
+		if($baseClass == 'KOperationEngine' && $enumValue == BorhanConversionEngineType::MP4BOX)
 		{
 			if(!isset($constructorArgs['params']) || !isset($constructorArgs['outFilePath']))
 				return null;
@@ -71,7 +71,7 @@ class Mp4boxPlugin extends KalturaPlugin implements IKalturaObjectLoader, IKaltu
 	 */
 	public static function getConversionEngineCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('conversionEngineType', $value);
 	}
 	
@@ -80,6 +80,6 @@ class Mp4boxPlugin extends KalturaPlugin implements IKalturaObjectLoader, IKaltu
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 }

@@ -3,7 +3,7 @@
  * @package plugins.doubleClickDistribution
  * @subpackage lib
  */
-class DoubleClickDistributionProviderType implements IKalturaPluginEnum, DistributionProviderType
+class DoubleClickDistributionProviderType implements IBorhanPluginEnum, DistributionProviderType
 {
 	const DOUBLECLICK = 'DOUBLECLICK';
 	

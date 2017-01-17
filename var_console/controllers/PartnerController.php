@@ -31,14 +31,14 @@ class PartnerController extends Zend_Controller_Action
 		{
 			if ($form->isValid($request->getPost()))
 			{
-				$partner = $form->getObject("Kaltura_Client_Type_Partner", $request->getPost());
+				$partner = $form->getObject("Borhan_Client_Type_Partner", $request->getPost());
 				$templatePartnerId = $form->getValue("copyPartner");
-				/* @var $partner Kaltura_Client_Type_Partner */
+				/* @var $partner Borhan_Client_Type_Partner */
 				if(is_array($partner->contentCategories))
 					$partner->contentCategories = implode(',', $partner->contentCategories);
 					
 				$partner->description = "Multi-publishers console";
-				$partner->type = Kaltura_Client_Enum_PartnerType::ADMIN_CONSOLE;
+				$partner->type = Borhan_Client_Enum_PartnerType::ADMIN_CONSOLE;
 				
 				try 
 				{
@@ -68,17 +68,17 @@ class PartnerController extends Zend_Controller_Action
 			}
 		}
 		
-		$varConsoleFilter = new Kaltura_Client_VarConsole_Type_VarConsolePartnerFilter();
-		$varConsoleFilter->groupTypeEq = Kaltura_Client_Enum_PartnerGroupType::TEMPLATE;
-		$varConsoleFilter->statusEqual = Kaltura_Client_Enum_PartnerStatus::ACTIVE;
-		$pager = new Kaltura_Client_Type_FilterPager();
+		$varConsoleFilter = new Borhan_Client_VarConsole_Type_VarConsolePartnerFilter();
+		$varConsoleFilter->groupTypeEq = Borhan_Client_Enum_PartnerGroupType::TEMPLATE;
+		$varConsoleFilter->statusEqual = Borhan_Client_Enum_PartnerStatus::ACTIVE;
+		$pager = new Borhan_Client_Type_FilterPager();
 		$templatePartnerList = $client->partner->listAction($varConsoleFilter, $pager);
 		
 		$providers = array();
 		$providers[0] = $this->view->translate('partner-create default copy partner');
 		foreach ($templatePartnerList->objects as $templatePartner)
 		{
-		    /* @var $templatePartner Kaltura_Client_Type_Partner */
+		    /* @var $templatePartner Borhan_Client_Type_Partner */
 		    $providers[$templatePartner->id] = $templatePartner->name;
 		}
 		
@@ -87,12 +87,12 @@ class PartnerController extends Zend_Controller_Action
 		//If available sub-publisher quota was reached, submit button should be disabled.
 		//Exclude publisher iteself, template sub-publisher and deleted sub-publisher
 		$currentPartner = $client->partner->getInfo();
-		$filter = new Kaltura_Client_VarConsole_Type_VarConsolePartnerFilter();
+		$filter = new Borhan_Client_VarConsole_Type_VarConsolePartnerFilter();
 		$filter->idNotIn = $currentPartner->id;
-		$filter->statusIn = implode(",", array (Kaltura_Client_Enum_PartnerStatus::ACTIVE, Kaltura_Client_Enum_PartnerStatus::BLOCKED));
-		$filter->groupTypeEq = Kaltura_Client_Enum_PartnerGroupType::PUBLISHER;
+		$filter->statusIn = implode(",", array (Borhan_Client_Enum_PartnerStatus::ACTIVE, Borhan_Client_Enum_PartnerStatus::BLOCKED));
+		$filter->groupTypeEq = Borhan_Client_Enum_PartnerGroupType::PUBLISHER;
 		$subPublisherCount = $client->partner->count($filter);
-		/* @var $currentPartner Kaltura_Client_Type_Partner */
+		/* @var $currentPartner Borhan_Client_Type_Partner */
 		if ($currentPartner->publishersQuota - $subPublisherCount <= 0)
 		{
     		$submitBtn = $form->getElement('submit');
@@ -145,7 +145,7 @@ class PartnerController extends Zend_Controller_Action
     
     private function getPartnerFilterFromRequest(Zend_Controller_Request_Abstract $request)
 	{
-		$filter = new Kaltura_Client_Type_PartnerFilter();
+		$filter = new Borhan_Client_Type_PartnerFilter();
 		$filterType = $request->getParam('filter_type');
 		$filterInput = $request->getParam('filter_input');
 		$filterIncludActive = $request->getParam('include_active');
@@ -165,20 +165,20 @@ class PartnerController extends Zend_Controller_Action
 		}
 		$statuses = array();
 		if ($filterIncludActive)
-			$statuses[] = Kaltura_Client_Enum_PartnerStatus::ACTIVE;
+			$statuses[] = Borhan_Client_Enum_PartnerStatus::ACTIVE;
 		if ($filterIncludBlocked)
-			$statuses[] = Kaltura_Client_Enum_PartnerStatus::BLOCKED;
+			$statuses[] = Borhan_Client_Enum_PartnerStatus::BLOCKED;
 		if ($filterIncludRemoved)
-			$statuses[] = Kaltura_Client_Enum_PartnerStatus::FULL_BLOCK;
+			$statuses[] = Borhan_Client_Enum_PartnerStatus::FULL_BLOCK;
 		
 		$statusIn = implode(',', $statuses);
 		if ($statusIn != ''){
 			$filter->statusIn = $statusIn;
 		}else{
-			$filter->statusIn = Kaltura_Client_Enum_PartnerStatus::ACTIVE . ',' . Kaltura_Client_Enum_PartnerStatus::BLOCKED;
+			$filter->statusIn = Borhan_Client_Enum_PartnerStatus::ACTIVE . ',' . Borhan_Client_Enum_PartnerStatus::BLOCKED;
 		}
 		 
-		$filter->orderBy = Kaltura_Client_Enum_PartnerOrderBy::ID_DESC;
+		$filter->orderBy = Borhan_Client_Enum_PartnerOrderBy::ID_DESC;
 		return $filter;
 	}
 	
@@ -188,12 +188,12 @@ class PartnerController extends Zend_Controller_Action
 		$partnerId = $this->_getParam('partner_id');
 		$status = $this->_getParam('status');
 		$client = Infra_ClientHelper::getClient();
-		$varConsolePlugin = Kaltura_Client_VarConsole_Plugin::get($client);
+		$varConsolePlugin = Borhan_Client_VarConsole_Plugin::get($client);
 		$varConsolePlugin->varConsole->updateStatus($partnerId, $status);
 		echo $this->_helper->json('ok', false);
 	}
 	
-    public function kmcRedirectAction()
+    public function bmcRedirectAction()
 	{
 		$partnerId = $this->_getParam('partner_id');
 		$userId = $this->_getParam('user_id');
@@ -207,24 +207,24 @@ class PartnerController extends Zend_Controller_Action
 		if (!$userId)
 		{
 		    $impersonatedPartner = $client->partner->get($partnerId); 
-		    /* @var $impersonatedPartner Kaltura_Client_Type_Partner */
+		    /* @var $impersonatedPartner Borhan_Client_Type_Partner */
 		}
 		
-		/* @var $currentPartner Kaltura_Client_Type_Partner */
-		$client->session->impersonate('{1:result:adminSecret}', $partnerId, $userId ? $userId : '{2:result:adminUserId}', Kaltura_Client_Enum_SessionType::ADMIN, '{1:result:id}', null, "disableentitlement");
+		/* @var $currentPartner Borhan_Client_Type_Partner */
+		$client->session->impersonate('{1:result:adminSecret}', $partnerId, $userId ? $userId : '{2:result:adminUserId}', Borhan_Client_Enum_SessionType::ADMIN, '{1:result:id}', null, "disableentitlement");
 		
 		$result = $client->doMultiRequest();
 		
 		$url = null;
 		$settings = Zend_Registry::get('config')->settings;
-		if($settings->kmcUrl)
+		if($settings->bmcUrl)
 		{
-			$url = $settings->kmcUrl;
+			$url = $settings->bmcUrl;
 		}
 		else
 		{
 			$url = Infra_ClientHelper::getServiceUrl();	
-			$url .= '/index.php/kmc/extlogin';
+			$url .= '/index.php/bmc/extlogin';
 		}
 		// The KS is always the last item received in the multi-request
 		$ks = $result[count($result)-1];
@@ -242,7 +242,7 @@ class PartnerController extends Zend_Controller_Action
 		$password = Infra_AuthHelper::getAuthInstance()->getIdentity()->getPassword();
 		$timezoneOffset = Infra_AuthHelper::getAuthInstance()->getIdentity()->getTimezoneOffset();
 		
-	    $adapter = new Kaltura_VarAuthAdapter();
+	    $adapter = new Borhan_VarAuthAdapter();
 	    $adapter->setCredentials($email, $password);
 	    $adapter->setPartnerId($authorizedPartnerId);
 	    $adapter->setTimezoneOffset($timezoneOffset);
@@ -275,11 +275,11 @@ class PartnerController extends Zend_Controller_Action
 		
 		
 		// get results and paginate
-		//$systemPartnerPlugin = Kaltura_Client_SystemPartner_Plugin::get($client);
-		$filter = new Kaltura_Client_VarConsole_Type_VarConsolePartnerFilter();
+		//$systemPartnerPlugin = Borhan_Client_SystemPartner_Plugin::get($client);
+		$filter = new Borhan_Client_VarConsole_Type_VarConsolePartnerFilter();
 		if (isset($settings->requiredPermissions) && $settings->requiredPermissions)
 		    $filter->partnerPermissionsExist = $settings->requiredPermissions;
-		$filter->groupTypeIn = Kaltura_Client_Enum_PartnerGroupType::GROUP . "," . Kaltura_Client_Enum_PartnerGroupType::VAR_GROUP;
+		$filter->groupTypeIn = Borhan_Client_Enum_PartnerGroupType::GROUP . "," . Borhan_Client_Enum_PartnerGroupType::VAR_GROUP;
 		$paginatorAdapter = new Infra_FilterPaginator($client->partner, "listPartnersForUser", null, $filter);
 		$paginator = new Infra_Paginator($paginatorAdapter, $request);
 		if ($paginator->getItemsCount() == 1)
@@ -295,7 +295,7 @@ class PartnerController extends Zend_Controller_Action
 		$this->view->paginator = $paginator;
 	}
 	
-    public function kmcUsersAction()
+    public function bmcUsersAction()
 	{
 		$this->_helper->layout->disableLayout();
 		
@@ -307,10 +307,10 @@ class PartnerController extends Zend_Controller_Action
 		$page = $this->_getParam('page', 1);
 		$pageSize = $this->_getParam('pageSize', 10);
 		
-		$filter = new Kaltura_Client_Type_UserFilter();
+		$filter = new Borhan_Client_Type_UserFilter();
 		$filter->isAdminEqual = true;
 		$filter->partnerIdEqual = $partnerId;
-		$filter->statusEqual = Kaltura_Client_Enum_UserStatus::ACTIVE;
+		$filter->statusEqual = Borhan_Client_Enum_UserStatus::ACTIVE;
 		
 		$client = Infra_ClientHelper::getClient();
 		$paginatorAdapter = new Infra_FilterPaginator($client->user, "listAction", $partnerId, $filter);

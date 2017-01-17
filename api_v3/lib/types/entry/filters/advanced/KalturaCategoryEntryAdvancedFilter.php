@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters
  */
-class KalturaCategoryEntryAdvancedFilter extends KalturaSearchItem
+class BorhanCategoryEntryAdvancedFilter extends BorhanSearchItem
 {
 	/**
 	 * @var string
@@ -16,7 +16,7 @@ class KalturaCategoryEntryAdvancedFilter extends KalturaSearchItem
 	public $categoryEntryStatusIn;
 	
 	/**
-	 * @var KalturaCategoryEntryAdvancedOrderBy
+	 * @var BorhanCategoryEntryAdvancedOrderBy
 	 */
 	public $orderBy;
 	
@@ -47,7 +47,7 @@ class KalturaCategoryEntryAdvancedFilter extends KalturaSearchItem
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUsage($sourceObject, $propertiesToSkip)
+	 * @see BorhanObject::validateForUsage($sourceObject, $propertiesToSkip)
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -64,12 +64,12 @@ class KalturaCategoryEntryAdvancedFilter extends KalturaSearchItem
 		}
 		else if ( !$categoriesMatchOrIsNull && !$categoryIdEqualIsNull )
 		{
-			throw new KalturaAPIException( KalturaErrors::PROPERTY_VALIDATION_ALL_MUST_BE_NULL_BUT_ONE, "categoriesMatchOr / categoryIdEqual" );
+			throw new BorhanAPIException( BorhanErrors::PROPERTY_VALIDATION_ALL_MUST_BE_NULL_BUT_ONE, "categoriesMatchOr / categoryIdEqual" );
 		}
 		else if ( !$orderByIsNull && !$categoriesMatchOrIsNull )
 		{
 			// categoriesMatchOr may yield a hierarchy of category entries, thus may not be used in conjunction with orderBy
-			throw new KalturaAPIException( KalturaErrors::PROPERTY_VALIDATION_ALL_MUST_BE_NULL_BUT_ONE, "categoriesMatchOr / orderBy" );
+			throw new BorhanAPIException( BorhanErrors::PROPERTY_VALIDATION_ALL_MUST_BE_NULL_BUT_ONE, "categoriesMatchOr / orderBy" );
 		}
 	}
 }

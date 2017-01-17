@@ -3,7 +3,7 @@
  * @package plugins.kontiki
  * @subpackage api.object
  */
- class KalturaKontikiStorageExportJobData extends KalturaStorageExportJobData
+ class BorhanKontikiStorageExportJobData extends BorhanStorageExportJobData
  {
 	/**
 	 * Holds the id of the exported asset
@@ -31,7 +31,7 @@
     );
 	
     /* (non-PHPdoc)
-     * @see KalturaObject::getMapBetweenObjects()
+     * @see BorhanObject::getMapBetweenObjects()
      */
     public function getMapBetweenObjects ( )
     {

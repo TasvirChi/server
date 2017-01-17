@@ -1,11 +1,11 @@
 <?php
 /**
- * The KalturaFilterPager object enables paging management to be applied upon service list actions. 
+ * The BorhanFilterPager object enables paging management to be applied upon service list actions. 
  * 
  * @package api
  * @subpackage filters
  */
-class KalturaFilterPager extends KalturaObject
+class BorhanFilterPager extends BorhanObject
 {
 	const MIN_PAGE_INDEX = 1;
 	
@@ -29,7 +29,7 @@ class KalturaFilterPager extends KalturaObject
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{

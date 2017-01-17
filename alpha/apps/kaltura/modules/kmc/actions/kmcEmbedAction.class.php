@@ -1,9 +1,9 @@
 <?php
 /**
  * @package    Core
- * @subpackage KMC
+ * @subpackage BMC
  */
-class kmcEmbedAction extends kalturaAction
+class bmcEmbedAction extends borhanAction
 {
 	public function execute ( ) 
 	{
@@ -42,9 +42,9 @@ class kmcEmbedAction extends kalturaAction
 		while ( $embed_code != "" );
 /*
  * 
- <object height="330" width="640" type="application/x-shockwave-flash" data="http://localhost/kwidget/wid/_1/ui_conf_id/190" id="kaltura_playlist" style="visibility: visible;">		
+ <object height="330" width="640" type="application/x-shockwave-flash" data="http://localhost/bwidget/wid/_1/ui_conf_id/190" id="borhan_playlist" style="visibility: visible;">		
 <param name="allowscriptaccess" value="always"/><param name="allownetworking" value="all"/><param name="bgcolor" value="#000000"/><param name="wmode" value="opaque"/><param name="allowfullscreen" value="true"/>
-<param name="movie" value="http://localhost/kwidget/wid/_1/ui_conf_id/190"/>
+<param name="movie" value="http://localhost/bwidget/wid/_1/ui_conf_id/190"/>
 <param name="flashvars" 
 value="autoPlay=false&layoutId=playlistLight&uid=0&partner_id=1&subp_id=100&
 k_pl_autoContinue=true&k_pl_autoInsertMedia=true&

@@ -12,7 +12,7 @@
 	</session>
 	<multirequest>
 		<request service="eventNotificationTemplate" action="add" plugin="eventNotification" partnerId="0">
-			<template objectType="KalturaHttpNotificationTemplate">
+			<template objectType="BorhanHttpNotificationTemplate">
 				<name>Entry custom metadata changed</name>
 				<systemName>HTTP_ENTRY_CUSTOM_METADATA_CHANGED</systemName>
 				<description>HTTP notification template to be sent when an entry's custom metadata by any metadata profile changed</description>
@@ -20,25 +20,25 @@
 				<eventType>6</eventType> <!-- EventNotificationEventType::OBJECT_DATA_CHANGED -->
 				<eventObjectType>metadataEventNotifications.Metadata</eventObjectType> <!-- EventNotificationEventObjectType::METADATA -->
 				<eventConditions objectType="array">
-					<item objectType="KalturaFieldMatchCondition">
+					<item objectType="BorhanFieldMatchCondition">
 						<description>Object type is entry</description>
-						<field objectType="KalturaEvalStringField">
+						<field objectType="BorhanEvalStringField">
 							<code>$scope->getObject()->getObjectType()</code>
 						</field>
 						<values objectType="array">
-							<item objectType="KalturaStringValue">
+							<item objectType="BorhanStringValue">
 								<value>1</value>
 							</item>
 						</values>
 					</item>
 				</eventConditions>
 				<contentParameters objectType="array" />
-				<data objectType="KalturaHttpNotificationObjectData">
-					<apiObjectType>KalturaBaseEntry</apiObjectType>
+				<data objectType="BorhanHttpNotificationObjectData">
+					<apiObjectType>BorhanBaseEntry</apiObjectType>
 					<code>(($scope->getObject()->getObjectType() == 1) ? entryPeer::retrieveByPk($scope->getObject()->getObjectId()): null)</code>
 				</data>
 				
-				<method>2</method> <!-- KalturaHttpNotificationMethod::POST -->
+				<method>2</method> <!-- BorhanHttpNotificationMethod::POST -->
 			</template>
 		</request>
 		<request service="eventNotificationTemplate" action="updateStatus" plugin="eventNotification" partnerId="0">

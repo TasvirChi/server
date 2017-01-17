@@ -4,7 +4,7 @@
  * @subpackage api.objects
  * @abstract
  */
-abstract class KalturaEntryScheduleEvent extends KalturaScheduleEvent
+abstract class BorhanEntryScheduleEvent extends BorhanScheduleEvent
 {
 	/**
 	 * Entry to be used as template during content ingestion
@@ -38,7 +38,7 @@ abstract class KalturaEntryScheduleEvent extends KalturaScheduleEvent
 	 );
 		 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{

@@ -6,7 +6,7 @@
  * @subpackage objects
  * @abstract
  */
-abstract class KalturaResource extends KalturaObject 
+abstract class BorhanResource extends BorhanObject 
 {
 	public function validateEntry(entry $dbEntry)
 	{

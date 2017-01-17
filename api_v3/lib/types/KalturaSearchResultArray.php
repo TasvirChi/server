@@ -4,14 +4,14 @@
  * @subpackage objects
  * @deprecated
  */
-class KalturaSearchResultArray extends KalturaTypedArray
+class BorhanSearchResultArray extends BorhanTypedArray
 {
-	public static function fromSearchResultArray ( $arr , KalturaSearch $search )
+	public static function fromSearchResultArray ( $arr , BorhanSearch $search )
 	{
-		$newArr = new KalturaSearchResultArray();
+		$newArr = new BorhanSearchResultArray();
 		foreach ( $arr as $obj )
 		{
-			$nObj = new KalturaSearchResult();
+			$nObj = new BorhanSearchResult();
 			$nObj->fromSearchResult( $obj , $search );
 			$newArr[] = $nObj;
 		}
@@ -21,7 +21,7 @@ class KalturaSearchResultArray extends KalturaTypedArray
 	
 	public function __construct( )
 	{
-		return parent::__construct ( "KalturaSearchResult" );
+		return parent::__construct ( "BorhanSearchResult" );
 	}
 }
 ?>

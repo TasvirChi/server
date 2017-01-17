@@ -64,16 +64,16 @@ class KOperationEngineExpressionEncoder3 extends KOperationEngine
 	protected function parseCreatedFiles()
 	{
 		$xmlPath = $this->outDir . DIRECTORY_SEPARATOR . $this->destFileName . '.ism';
-		KalturaLog::info("Parse created files from ism[$xmlPath]");
+		BorhanLog::info("Parse created files from ism[$xmlPath]");
 		
 		// in case of wma
 		if(!file_exists($xmlPath))
 		{
-			KalturaLog::info("ism file[$xmlPath] doesn't exist");
+			BorhanLog::info("ism file[$xmlPath] doesn't exist");
 			$wmaPath = $this->outDir . DIRECTORY_SEPARATOR . $this->destFileName . '.wma';
 			if(file_exists($wmaPath))
 			{
-				KalturaLog::info("wma file[$wmaPath] found");
+				BorhanLog::info("wma file[$wmaPath] found");
 				$this->outFilesPath[0] = $wmaPath;
 			}
 			
@@ -83,7 +83,7 @@ class KOperationEngineExpressionEncoder3 extends KOperationEngine
 		$xml = file_get_contents($xmlPath);
 		$xml = mb_convert_encoding($xml, 'ASCII', 'UTF-16');
 		
-		KalturaLog::debug("ism content:\n$xml");
+		BorhanLog::debug("ism content:\n$xml");
 		
 		$arr = null;
 		if(preg_match('/(<smil[\s\w\W]+<\/smil>)/', $xml, $arr))
@@ -99,7 +99,7 @@ class KOperationEngineExpressionEncoder3 extends KOperationEngine
 			$src = $this->outDir . DIRECTORY_SEPARATOR . $videoEntity->getAttribute("src");
 			$bitrate = $videoEntity->getAttribute("systemBitrate") / 1000;
 			
-			KalturaLog::info("Media found in ism bitrate[$bitrate] source[$src]");
+			BorhanLog::info("Media found in ism bitrate[$bitrate] source[$src]");
 			$this->outFilesPath[$bitrate] = $src;
 		}
 	}

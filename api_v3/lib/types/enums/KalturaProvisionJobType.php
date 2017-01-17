@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaProvisionJobType extends KalturaEnum
+class BorhanProvisionJobType extends BorhanEnum
 {
 	const PROVIDE = 1;
 	const DELETE = 2;

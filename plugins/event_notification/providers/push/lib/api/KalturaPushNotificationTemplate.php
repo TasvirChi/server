@@ -3,22 +3,22 @@
  * @package plugins.pushNotification
  * @subpackage api.objects
 */
-class KalturaPushNotificationTemplate extends KalturaEventNotificationTemplate
+class BorhanPushNotificationTemplate extends BorhanEventNotificationTemplate
 {
     /**
-     * Kaltura API object type
+     * Borhan API object type
      * @var string
      */
     public $apiObjectType;
     
     /**
-     * Kaltura Object format
-     * @var KalturaResponseType
+     * Borhan Object format
+     * @var BorhanResponseType
      */    
     public $objectFormat;
     
     /**
-     * Kaltura response-profile id
+     * Borhan response-profile id
      * @var int
      */    
     public $responseProfileId;
@@ -32,7 +32,7 @@ class KalturaPushNotificationTemplate extends KalturaEventNotificationTemplate
     }
     
     /* (non-PHPdoc)
-     * @see KalturaObject::getMapBetweenObjects()
+     * @see BorhanObject::getMapBetweenObjects()
      */
     public function getMapBetweenObjects()
     {
@@ -40,7 +40,7 @@ class KalturaPushNotificationTemplate extends KalturaEventNotificationTemplate
     }    
 
     /* (non-PHPdoc)
-     * @see KalturaObject::validateForUpdate()
+     * @see BorhanObject::validateForUpdate()
      */
     public function validateForUpdate($sourceObject, $propertiesToSkip = array())
     {
@@ -49,7 +49,7 @@ class KalturaPushNotificationTemplate extends KalturaEventNotificationTemplate
     }
     
     /* (non-PHPdoc)
-     * @see KalturaObject::toObject()
+     * @see BorhanObject::toObject()
      */
     public function toObject($dbObject = null, $propertiesToSkip = array())
     {

@@ -3,7 +3,7 @@
  * @package plugins.dropFolderXmlBulkUpload
  * @subpackage lib
  */
-class DropFolderXmlSchemaType implements IKalturaPluginEnum, SchemaType
+class DropFolderXmlSchemaType implements IBorhanPluginEnum, SchemaType
 {
 	const DROP_FOLDER_XML = 'dropFolderXml';
 	

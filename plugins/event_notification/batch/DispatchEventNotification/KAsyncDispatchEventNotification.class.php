@@ -10,41 +10,41 @@ class KAsyncDispatchEventNotification extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::EVENT_NOTIFICATION_HANDLER;
+		return BorhanBatchJobType::EVENT_NOTIFICATION_HANDLER;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->dispatch($job, $job->data);
 	}
 	
-	protected function dispatch(KalturaBatchJob $job, KalturaEventNotificationDispatchJobData $data)
+	protected function dispatch(BorhanBatchJob $job, BorhanEventNotificationDispatchJobData $data)
 	{
-		$this->updateJob($job, "Dispatch template [$data->templateId]", KalturaBatchJobStatus::QUEUED);
+		$this->updateJob($job, "Dispatch template [$data->templateId]", BorhanBatchJobStatus::QUEUED);
 		
-		$eventNotificationPlugin = KalturaEventNotificationClientPlugin::get(self::$kClient);
+		$eventNotificationPlugin = BorhanEventNotificationClientPlugin::get(self::$kClient);
 		$eventNotificationTemplate = $eventNotificationPlugin->eventNotificationTemplate->get($data->templateId);
 		
 		$engine = $this->getEngine($job->jobSubType);
 		if(!$engine)
-			return $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::ENGINE_NOT_FOUND, "Engine not found", KalturaBatchJobStatus::FAILED);
+			return $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::ENGINE_NOT_FOUND, "Engine not found", BorhanBatchJobStatus::FAILED);
 		
 		$this->impersonate($job->partnerId);
 		$engine->dispatch($eventNotificationTemplate, $data);
 		$this->unimpersonate();
 		
-		return $this->closeJob($job, null, null, "Dispatched", KalturaBatchJobStatus::FINISHED, $data);
+		return $this->closeJob($job, null, null, "Dispatched", BorhanBatchJobStatus::FINISHED, $data);
 	}
 
 	/**
-	 * @param KalturaEventNotificationTemplateType $type
+	 * @param BorhanEventNotificationTemplateType $type
 	 * @return KDispatchEventNotificationEngine
 	 */
 	protected function getEngine($type)
 	{
-		return KalturaPluginManager::loadObject('KDispatchEventNotificationEngine', $type);
+		return BorhanPluginManager::loadObject('KDispatchEventNotificationEngine', $type);
 	}
 }

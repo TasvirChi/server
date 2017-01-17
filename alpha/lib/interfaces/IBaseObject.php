@@ -6,7 +6,7 @@
 interface IBaseObject extends Persistent
 {
 	/**
-	 * Is the id as used and known by Kaltura
+	 * Is the id as used and known by Borhan
 	 * @return string
 	 */
 	public function getId();

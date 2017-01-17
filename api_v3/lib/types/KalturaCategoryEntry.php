@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaCategoryEntry extends KalturaObject implements IRelatedFilterable 
+class BorhanCategoryEntry extends BorhanObject implements IRelatedFilterable 
 {
 	/**
 	 * 
@@ -41,7 +41,7 @@ class KalturaCategoryEntry extends KalturaObject implements IRelatedFilterable
 	/**
 	 * 
 	 * CategroyEntry status
-	 * @var KalturaCategoryEntryStatus
+	 * @var BorhanCategoryEntryStatus
 	 * @readonly
 	 * @filter eq,in
 	 */
@@ -67,7 +67,7 @@ class KalturaCategoryEntry extends KalturaObject implements IRelatedFilterable
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -85,7 +85,7 @@ class KalturaCategoryEntry extends KalturaObject implements IRelatedFilterable
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert($propertiesToSkip)
+	 * @see BorhanObject::validateForInsert($propertiesToSkip)
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{

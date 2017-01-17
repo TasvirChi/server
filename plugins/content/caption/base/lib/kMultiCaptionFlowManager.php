@@ -27,7 +27,7 @@ class kMultiCaptionFlowManager implements kBatchJobStatusEventConsumer
 		}
 		catch(Exception $e)
 		{
-			KalturaLog::err('Failed to process updatedJob - '.$e->getMessage());
+			BorhanLog::err('Failed to process updatedJob - '.$e->getMessage());
 		}
 		return true;					
 	}

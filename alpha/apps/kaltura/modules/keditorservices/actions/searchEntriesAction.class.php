@@ -7,14 +7,14 @@
 //define('MODULES' , SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.DIRECTORY_SEPARATOR."modules".DIRECTORY_SEPARATOR);
 //require_once(MODULES.'search/actions/entryFilter.class.php');
 //require_once(MODULES.'search/actions/AJAX_getEntriesAction.class.php');
-//search/actions/entryFilter.class.phprequire_once ( "../apps/kaltura/modules/search/actions/entryFilter.class.php");
+//search/actions/entryFilter.class.phprequire_once ( "../apps/borhan/modules/search/actions/entryFilter.class.php");
 
 
 /**
  * @package    Core
  * @subpackage kEditorServices
  */
-class searchEntriesAction extends kalturaAction
+class searchEntriesAction extends borhanAction
 {
 	public function execute ( )
 	{

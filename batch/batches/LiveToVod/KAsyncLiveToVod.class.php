@@ -19,7 +19,7 @@ class KAsyncLiveToVod extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::LIVE_TO_VOD;
+		return BorhanBatchJobType::LIVE_TO_VOD;
 	}
 	/**
 	 * (non-PHPdoc)
@@ -27,13 +27,13 @@ class KAsyncLiveToVod extends KJobHandlerWorker
 	 */
 	protected function getJobType()
 	{
-		return KalturaBatchJobType::LIVE_TO_VOD;
+		return BorhanBatchJobType::LIVE_TO_VOD;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->copyCuePoint($job, $job->data);
 	}
@@ -41,7 +41,7 @@ class KAsyncLiveToVod extends KJobHandlerWorker
 	/**
 	 * Will take a data and copy cue points
 	 */
-	private function copyCuePoint(KalturaBatchJob $job, KalturaLiveToVodJobData $data)
+	private function copyCuePoint(BorhanBatchJob $job, BorhanLiveToVodJobData $data)
 	{
 		$amfArray = json_decode($data->amfArray);
 		$currentSegmentStartTime = self::getSegmentStartTime($amfArray);
@@ -50,9 +50,9 @@ class KAsyncLiveToVod extends KJobHandlerWorker
 
 		$totalCount = self::getCuePointCount($data->liveEntryId, $currentSegmentEndTime, $data->lastCuePointSyncTime);
 		if ($totalCount == 0)
-			return $this->closeJob($job, null, null, "No cue point to copy", KalturaBatchJobStatus::FINISHED);
+			return $this->closeJob($job, null, null, "No cue point to copy", BorhanBatchJobStatus::FINISHED);
 		else
-			KalturaLog::info("Total count of cue-point to copy: " .$totalCount);
+			BorhanLog::info("Total count of cue-point to copy: " .$totalCount);
 		
 		do
 		{
@@ -70,21 +70,21 @@ class KAsyncLiveToVod extends KJobHandlerWorker
 				if ($copiedCuePointId)
 					$copiedCuePointIds[] = $copiedCuePointId;
 				else
-					KalturaLog::info("Not copying cue point [$liveCuePoint->id]");
+					BorhanLog::info("Not copying cue point [$liveCuePoint->id]");
 			}
 			$response = KBatchBase::$kClient->doMultiRequest();
 			self::checkForErrorInMultiRequestResponse($response);
 			KBatchBase::unimpersonate();
 			
 			//start post-process for all copied cue-point
-			KalturaLog::info("Copied [".count($copiedCuePointIds)."] cue-points");
+			BorhanLog::info("Copied [".count($copiedCuePointIds)."] cue-points");
 			self::postProcessCuePoints($copiedCuePointIds);
 
 			//decrease the totalCount (as the number of cue point return from server)
 			$totalCount -= count($liveCuePointsToCopy);
 		} while ($totalCount);
 
-		return $this->closeJob($job, null, null, "Copy all cue points finished", KalturaBatchJobStatus::FINISHED);
+		return $this->closeJob($job, null, null, "Copy all cue points finished", BorhanBatchJobStatus::FINISHED);
 	}
 
 
@@ -92,20 +92,20 @@ class KAsyncLiveToVod extends KJobHandlerWorker
 	{
 		foreach ($response as $item)
 			if (KBatchBase::$kClient->isError($item))  //throwExceptionIfError
-				KalturaLog::alert("Error in copy");
+				BorhanLog::alert("Error in copy");
 	}
 
 	private static function postProcessCuePoints($copiedCuePointIds)
 	{
 		KBatchBase::$kClient->startMultiRequest();
 		foreach ($copiedCuePointIds as $copiedLiveCuePointId)
-			KBatchBase::$kClient->cuePoint->updateStatus($copiedLiveCuePointId, KalturaCuePointStatus::HANDLED);
+			KBatchBase::$kClient->cuePoint->updateStatus($copiedLiveCuePointId, BorhanCuePointStatus::HANDLED);
 		KBatchBase::$kClient->doMultiRequest();
 	}
 
 	private static function getCuePointFilter($entryId, $currentSegmentEndTime, $lastCuePointSyncTime = null)
 	{
-		$filter = new KalturaCuePointFilter();
+		$filter = new BorhanCuePointFilter();
 		$filter->entryIdEqual = $entryId;
 		$filter->statusIn = CuePointStatus::READY;
 		$filter->cuePointTypeIn = 'codeCuePoint.Code,thumbCuePoint.Thumb,annotation.Annotation';
@@ -124,7 +124,7 @@ class KAsyncLiveToVod extends KJobHandlerWorker
 	private static function getCuePointListForEntry($entryId, $currentSegmentEndTime, $lastCuePointSyncTime)
 	{
 		$filter = self::getCuePointFilter($entryId, $currentSegmentEndTime, $lastCuePointSyncTime);
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageSize = self::MAX_CUE_POINTS_TO_COPY_TO_VOD;
 		$result = KBatchBase::$kClient->cuePoint->listAction($filter, $pager);
 		return $result->objects;
@@ -134,7 +134,7 @@ class KAsyncLiveToVod extends KJobHandlerWorker
 	{
 		if (count($amfArray) == 0)
 		{
-			KalturaLog::warning("getSegmentStartTime got an empty AMFs array - returning 0 as segment start time");
+			BorhanLog::warning("getSegmentStartTime got an empty AMFs array - returning 0 as segment start time");
 			return 0;
 		}
 		return ($amfArray[0]->ts - $amfArray[0]->pts) / 1000;
@@ -156,14 +156,14 @@ class KAsyncLiveToVod extends KJobHandlerWorker
 		$minDistanceAmf = self::getClosestAMF($timestamp, $amfArray);
 		$ret = 0;
 		if (is_null($minDistanceAmf))
-			KalturaLog::debug('minDistanceAmf is null - returning 0');
+			BorhanLog::debug('minDistanceAmf is null - returning 0');
 		elseif ($minDistanceAmf->ts > $timestamp)
 			$ret = $minDistanceAmf->pts - ($minDistanceAmf->ts - $timestamp);
 		else
 			$ret = $minDistanceAmf->pts + ($timestamp - $minDistanceAmf->ts);
 		// make sure we don't get a negative time
 		$ret = max($ret,0);
-		KalturaLog::debug('AMFs array is:' . print_r($amfArray, true) . 'getOffsetForTimestamp returning ' . $ret);
+		BorhanLog::debug('AMFs array is:' . print_r($amfArray, true) . 'getOffsetForTimestamp returning ' . $ret);
 		return $ret;
 	}
 
@@ -194,7 +194,7 @@ class KAsyncLiveToVod extends KJobHandlerWorker
 			else
 				$ret = $amfArray[$hi];
 		}
-		KalturaLog::debug('getClosestAMF returning ' . print_r($ret, true));
+		BorhanLog::debug('getClosestAMF returning ' . print_r($ret, true));
 		return $ret;
 	}
 
@@ -202,11 +202,11 @@ class KAsyncLiveToVod extends KJobHandlerWorker
 	private static function cuePointFactory($cuePointType) {
 		switch($cuePointType) {
 			case "codeCuePoint.Code":
-				return new KalturaCodeCuePoint();
+				return new BorhanCodeCuePoint();
 			case "thumbCuePoint.Thumb":
-				return new KalturaThumbCuePoint();
+				return new BorhanThumbCuePoint();
 			case "annotation.Annotation":
-				return new KalturaAnnotation();
+				return new BorhanAnnotation();
 			default:
 				return null;
 		}

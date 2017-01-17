@@ -4,10 +4,10 @@
  * @package plugins.contentDistribution
  * @subpackage api.objects
  */
-class KalturaAssetDistributionRule extends KalturaObject
+class BorhanAssetDistributionRule extends BorhanObject
 {
 	/**
-	 * The validation error description that will be set on the "data" property on KalturaDistributionValidationErrorMissingAsset if rule was not fulfilled
+	 * The validation error description that will be set on the "data" property on BorhanDistributionValidationErrorMissingAsset if rule was not fulfilled
 	 *
 	 * @var string
 	 */
@@ -16,7 +16,7 @@ class KalturaAssetDistributionRule extends KalturaObject
 	/**
 	 * An array of asset distribution conditions
 	 *
-	 * @var KalturaAssetDistributionConditionsArray
+	 * @var BorhanAssetDistributionConditionsArray
 	 */
 	public $assetDistributionConditions;
 	

@@ -52,7 +52,7 @@ if ($oldParameterItemsCfg) {
 	}
 }
 
-KalturaLog::log('Done');
+BorhanLog::log('Done');
 
 // ------------------------------------------------------
 

@@ -3,7 +3,7 @@
  * This class will render the results of the webservices accroding to the required response type.
  *
  */
-class kalturaWebserviceRenderer
+class borhanWebserviceRenderer
 {
 	const RESPONSE_TYPE_JSON = 1;
 	const RESPONSE_TYPE_XML = 2;
@@ -97,8 +97,8 @@ class kalturaWebserviceRenderer
 		elseif( $this->response_type == self::RESPONSE_TYPE_MRSS )
 		{
 			$content_type = "text/xml; charset=utf-8";
-			//$response =  kalturaRssRenderer::renderMrssFeed( objectWrapperBase::toArrayImpl ( $response_params  ) );
-			$mrss_renderer = new kalturaRssRenderer ( kalturaRssRenderer::TYPE_YAHOO ); 
+			//$response =  borhanRssRenderer::renderMrssFeed( objectWrapperBase::toArrayImpl ( $response_params  ) );
+			$mrss_renderer = new borhanRssRenderer ( borhanRssRenderer::TYPE_YAHOO ); 
 			$response =  $mrss_renderer->renderMrssFeed( $response_params  );
 		}
 		else

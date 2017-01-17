@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaConversionProfileBaseFilter extends KalturaRelatedFilter
+abstract class BorhanConversionProfileBaseFilter extends BorhanRelatedFilter
 {
 	static private $map_between_objects = array
 	(
@@ -50,23 +50,23 @@ abstract class KalturaConversionProfileBaseFilter extends KalturaRelatedFilter
 	public $idIn;
 
 	/**
-	 * @var KalturaConversionProfileStatus
+	 * @var BorhanConversionProfileStatus
 	 */
 	public $statusEqual;
 
 	/**
-	 * @dynamicType KalturaConversionProfileStatus
+	 * @dynamicType BorhanConversionProfileStatus
 	 * @var string
 	 */
 	public $statusIn;
 
 	/**
-	 * @var KalturaConversionProfileType
+	 * @var BorhanConversionProfileType
 	 */
 	public $typeEqual;
 
 	/**
-	 * @dynamicType KalturaConversionProfileType
+	 * @dynamicType BorhanConversionProfileType
 	 * @var string
 	 */
 	public $typeIn;

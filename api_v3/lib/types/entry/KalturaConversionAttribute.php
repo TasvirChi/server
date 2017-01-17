@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaConversionAttribute extends KalturaObject
+class BorhanConversionAttribute extends BorhanObject
 {
 	/**
 	 * The id of the flavor params, set to null for source flavor

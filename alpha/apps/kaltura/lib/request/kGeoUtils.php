@@ -19,8 +19,8 @@ class kGeoUtils
 		$distance = rad2deg($distance);
 		$km = $distance * 60 * 1.1515 * 1.609344;
 
-		if (class_exists('KalturaLog'))
-			KalturaLog::info("distance ($latitude1,$longitude1) to ($latitude2,$longitude2) is $km , should be less than $radius");
+		if (class_exists('BorhanLog'))
+			BorhanLog::info("distance ($latitude1,$longitude1) to ($latitude2,$longitude2) is $km , should be less than $radius");
 
 		return $km <= $radius;
 	}

@@ -21,7 +21,7 @@ class serviceDescriber
 					)
 				),
 			"out" => array (
-				"ks" => "Kaltura Session - a token used as an input for the rest of the services" ,
+				"ks" => "Borhan Session - a token used as an input for the rest of the services" ,
 				),
 			"errors" => array (
 			) 
@@ -53,7 +53,7 @@ class serviceDescriber
 					)
 				),
 			"out" => array (
-				"ks" => array("type" => "string", "desc" => "Kaltura Session - a token used as an input for the rest of the services") ,
+				"ks" => array("type" => "string", "desc" => "Borhan Session - a token used as an input for the rest of the services") ,
 				),
 			"errors" => array (
 			) 

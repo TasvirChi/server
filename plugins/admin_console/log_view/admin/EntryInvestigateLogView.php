@@ -3,17 +3,17 @@
  * @package plugins.logView
  * @subpackage admin
  */
-class Kaltura_View_Helper_EntryInvestigateLogView extends Kaltura_View_Helper_PartialViewPlugin
+class Borhan_View_Helper_EntryInvestigateLogView extends Borhan_View_Helper_PartialViewPlugin
 {
 	/* (non-PHPdoc)
-	 * @see Kaltura_View_Helper_PartialViewPlugin::getDataArray()
+	 * @see Borhan_View_Helper_PartialViewPlugin::getDataArray()
 	 */
 	protected function getDataArray()
 	{
 	}
 	
 	/* (non-PHPdoc)
-	 * @see Kaltura_View_Helper_PartialViewPlugin::getTemplatePath()
+	 * @see Borhan_View_Helper_PartialViewPlugin::getTemplatePath()
 	 */
 	protected function getTemplatePath()
 	{
@@ -21,7 +21,7 @@ class Kaltura_View_Helper_EntryInvestigateLogView extends Kaltura_View_Helper_Pa
 	}
 	
 	/* (non-PHPdoc)
-	 * @see Kaltura_View_Helper_PartialViewPlugin::getPHTML()
+	 * @see Borhan_View_Helper_PartialViewPlugin::getPHTML()
 	 */
 	protected function getPHTML()
 	{

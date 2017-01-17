@@ -3,10 +3,10 @@
  * @package api
  * @subpackage filters
  */
-class KalturaResponseProfileFilter extends KalturaResponseProfileBaseFilter
+class BorhanResponseProfileFilter extends BorhanResponseProfileBaseFilter
 {
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{

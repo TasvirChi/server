@@ -4,7 +4,7 @@
  *
  * @package Scheduler
  */
-abstract class KBatchBase implements IKalturaLogger
+abstract class KBatchBase implements IBorhanLogger
 {
 	const PRIVILEGE_BATCH_JOB_TYPE = "jobtype";
 	
@@ -24,12 +24,12 @@ abstract class KBatchBase implements IKalturaLogger
 	private $start;
 
 	/**
-	 * @var KalturaClient
+	 * @var BorhanClient
 	 */
 	public static $kClient = null;
 
 	/**
-	 * @var KalturaConfiguration
+	 * @var BorhanConfiguration
 	 */
 	public static $kClientConfig = null;
 	
@@ -68,11 +68,11 @@ abstract class KBatchBase implements IKalturaLogger
 			case E_NOTICE:
 			case E_STRICT:
 			case E_USER_NOTICE:
-				KalturaLog::log(sprintf($errorFormat, $errFile, $errLine, $errStr), KalturaLog::NOTICE);
+				BorhanLog::log(sprintf($errorFormat, $errFile, $errLine, $errStr), BorhanLog::NOTICE);
 				break;
 			case E_USER_WARNING:
 			case E_WARNING:
-				KalturaLog::log(sprintf($errorFormat, $errFile, $errLine, $errStr), KalturaLog::WARN);
+				BorhanLog::log(sprintf($errorFormat, $errFile, $errLine, $errStr), BorhanLog::WARN);
 				break;
 		}
 	}
@@ -80,8 +80,8 @@ abstract class KBatchBase implements IKalturaLogger
 	public function done()
 	{
 		$done = "Done after [" . (microtime ( true ) - $this->start ) . "] seconds";
-		KalturaLog::info($done);
-		KalturaLog::stderr($done, KalturaLog::INFO);
+		BorhanLog::info($done);
+		BorhanLog::stderr($done, BorhanLog::INFO);
 	}
 
 	/**
@@ -102,7 +102,7 @@ abstract class KBatchBase implements IKalturaLogger
 	}
 
 	/**
-	 * @return KalturaClient
+	 * @return BorhanClient
 	 */
 	protected function getClient()
 	{
@@ -234,23 +234,23 @@ abstract class KBatchBase implements IKalturaLogger
 		date_default_timezone_set(self::$taskConfig->getTimezone());
 
 		// clear seperator between executions
-		KalturaLog::debug('___________________________________________________________________________________');
-		KalturaLog::stderr('___________________________________________________________________________________', KalturaLog::DEBUG);
-		KalturaLog::info(file_get_contents(dirname( __FILE__ ) . "/../VERSION.txt"));
+		BorhanLog::debug('___________________________________________________________________________________');
+		BorhanLog::stderr('___________________________________________________________________________________', BorhanLog::DEBUG);
+		BorhanLog::info(file_get_contents(dirname( __FILE__ ) . "/../VERSION.txt"));
 
 		if(! (self::$taskConfig instanceof KSchedularTaskConfig))
 		{
-			KalturaLog::err('config is not a KSchedularTaskConfig');
+			BorhanLog::err('config is not a KSchedularTaskConfig');
 			die;
 		}
 
-		KalturaLog::debug("set_time_limit({".self::$taskConfig->maximumExecutionTime."})");
+		BorhanLog::debug("set_time_limit({".self::$taskConfig->maximumExecutionTime."})");
 		set_time_limit(self::$taskConfig->maximumExecutionTime);
 
 
-		KalturaLog::info('Batch index [' . $this->getIndex() . '] session key [' . $this->sessionKey . ']');
+		BorhanLog::info('Batch index [' . $this->getIndex() . '] session key [' . $this->sessionKey . ']');
 
-		self::$kClientConfig = new KalturaConfiguration();
+		self::$kClientConfig = new BorhanConfiguration();
 		self::$kClientConfig->setLogger($this);
 		self::$kClientConfig->serviceUrl = self::$taskConfig->getServiceUrl();
 		self::$kClientConfig->curlTimeout = self::$taskConfig->getCurlTimeout();
@@ -261,13 +261,13 @@ abstract class KBatchBase implements IKalturaLogger
 				self::$kClientConfig->$attr = $value;
 		}
 
-		self::$kClient = new KalturaClient(self::$kClientConfig);
+		self::$kClient = new BorhanClient(self::$kClientConfig);
 		self::$kClient->setPartnerId(self::$taskConfig->getPartnerId());
 
 		self::$clientTag = 'batch: ' . self::$taskConfig->getSchedulerName() . ' ' . get_class($this) . " index: {$this->getIndex()} sessionId: " . UniqueId::get();
 		self::$kClient->setClientTag(self::$clientTag);
 		
-		//$ks = self::$kClient->session->start($secret, "user-2", KalturaSessionType::ADMIN);
+		//$ks = self::$kClient->session->start($secret, "user-2", BorhanSessionType::ADMIN);
 		$ks = $this->createKS();
 		self::$kClient->setKs($ks);
 
@@ -305,7 +305,7 @@ abstract class KBatchBase implements IKalturaLogger
 	private function createKS()
 	{
 		$partnerId = self::$taskConfig->getPartnerId();
-		$sessionType = KalturaSessionType::ADMIN;
+		$sessionType = BorhanSessionType::ADMIN;
 		$puserId = 'batchUser';
 		$privileges = implode(',', $this->getPrivileges());
 		$adminSecret = self::$taskConfig->getSecret();
@@ -413,7 +413,7 @@ abstract class KBatchBase implements IKalturaLogger
 			if(self::$taskConfig->getDirectoryChmod())
 				$chmod = octdec(self::$taskConfig->getDirectoryChmod());
 				
-			KalturaLog::debug("chmod($filePath, $chmod)");
+			BorhanLog::debug("chmod($filePath, $chmod)");
 			@chmod($filePath, $chmod);
 			$dir = dir($filePath);
 			while (false !== ($file = $dir->read()))
@@ -429,7 +429,7 @@ abstract class KBatchBase implements IKalturaLogger
 			if(self::$taskConfig->getChmod())
 				$chmod = octdec(self::$taskConfig->getChmod());
 		
-			KalturaLog::debug("chmod($filePath, $chmod)");
+			BorhanLog::debug("chmod($filePath, $chmod)");
 			@chmod($filePath, $chmod);
 		}
 	}
@@ -445,7 +445,7 @@ abstract class KBatchBase implements IKalturaLogger
 		
 		if($this->isUnitTest)
 		{
-			KalturaLog::debug("Is in unit test");
+			BorhanLog::debug("Is in unit test");
 			return true;
 		}
 
@@ -454,7 +454,7 @@ abstract class KBatchBase implements IKalturaLogger
 			// - the response from the client (to check the client size beaviour)
 		if(is_null($directorySync))
 			$directorySync = is_dir($file);
-		KalturaLog::info("Check File Exists[$file] size[$size] isDir[$directorySync]");
+		BorhanLog::info("Check File Exists[$file] size[$size] isDir[$directorySync]");
 		if(is_null($size))
 		{
 			clearstatcache();
@@ -464,7 +464,7 @@ abstract class KBatchBase implements IKalturaLogger
 				$size = kFile::fileSize($file);
 			if($size === false)
 			{
-				KalturaLog::debug("Size not found on file [$file]");
+				BorhanLog::debug("Size not found on file [$file]");
 				return false;
 			}
 		}
@@ -487,7 +487,7 @@ abstract class KBatchBase implements IKalturaLogger
 			$retries --;
 		}
 
-		KalturaLog::log("Passed max retries");
+		BorhanLog::log("Passed max retries");
 		return false;
 	}
 
@@ -518,13 +518,13 @@ abstract class KBatchBase implements IKalturaLogger
 		{
 			if(! file_exists($path))
 			{
-				KalturaLog::info("Creating temp directory [$path]");
+				BorhanLog::info("Creating temp directory [$path]");
 				mkdir($path, $rights, true);
 			}
 			else
 			{
 				// already exists but not a directory
-				KalturaLog::err("Cannot create temp directory [$path] due to an error. Please fix and restart");
+				BorhanLog::err("Cannot create temp directory [$path] due to an error. Please fix and restart");
 				return null;
 			}
 		}
@@ -551,7 +551,7 @@ abstract class KBatchBase implements IKalturaLogger
 			Do not run killer process w/out set config->maxIdle
 			*/
 		if($killConfig->maxIdleTime<=0 || is_null($killConfig->maxIdleTime) ) {
-			KalturaLog::info(__METHOD__.': The MaxIdleTime is not set properly. The Killer job will not run');
+			BorhanLog::info(__METHOD__.': The MaxIdleTime is not set properly. The Killer job will not run');
 			return;
 		}
 		$killConfig->files = $files;
@@ -575,8 +575,8 @@ abstract class KBatchBase implements IKalturaLogger
 		$descriptorspec = array(); // stdin is a pipe that the child will read from
 		$other_options = array('suppress_errors' => FALSE, 'bypass_shell' => FALSE);
 
-		KalturaLog::log("Now executing [$cmdLine]");
-		KalturaLog::debug('Starting monitor');
+		BorhanLog::log("Now executing [$cmdLine]");
+		BorhanLog::debug('Starting monitor');
 		$this->monitorHandle = proc_open($cmdLine, $descriptorspec, $pipes, null, null, $other_options);
 	}
 
@@ -585,7 +585,7 @@ abstract class KBatchBase implements IKalturaLogger
 		if(!$this->monitorHandle || !is_resource($this->monitorHandle))
 			return;
 
-		KalturaLog::debug('Stoping monitor');
+		BorhanLog::debug('Stoping monitor');
 
 		$status = proc_get_status($this->monitorHandle);
 		if($status['running'] == true)
@@ -626,7 +626,7 @@ abstract class KBatchBase implements IKalturaLogger
 			if (file_exists($fileName))
 				return true;
 
-			KalturaLog::log("File $fileName does not exist, try $retry, waiting $interval seconds");
+			BorhanLog::log("File $fileName does not exist, try $retry, waiting $interval seconds");
 			sleep($interval);
 		}
 		return false;
@@ -634,6 +634,6 @@ abstract class KBatchBase implements IKalturaLogger
 
 	function log($message)
 	{
-		KalturaLog::log($message);
+		BorhanLog::log($message);
 	}
 }

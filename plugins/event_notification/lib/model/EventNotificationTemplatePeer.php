@@ -45,7 +45,7 @@ class EventNotificationTemplatePeer extends BaseEventNotificationTemplatePeer
 			if (isset ( self::$class_types_cache [$type] ))
 				return self::$class_types_cache [$type];
 			
-			$extendedCls = KalturaPluginManager::getObjectClass ( 'EventNotificationTemplate', $type );
+			$extendedCls = BorhanPluginManager::getObjectClass ( 'EventNotificationTemplate', $type );
 			if ($extendedCls)
 			{
 				self::$class_types_cache [$type] = $extendedCls;

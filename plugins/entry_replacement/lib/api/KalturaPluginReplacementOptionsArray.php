@@ -3,10 +3,10 @@
  * @package plugins
  * @subpackage api
  */
-class KalturaPluginReplacementOptionsArray extends KalturaTypedArray
+class BorhanPluginReplacementOptionsArray extends BorhanTypedArray
 {
 	public function __construct( )
 	{
-		return parent::__construct ("KalturaPluginReplacementOptionsItem");
+		return parent::__construct ("BorhanPluginReplacementOptionsItem");
 	}
 }

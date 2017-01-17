@@ -63,26 +63,26 @@ class myMediaSourceFactory
 				/*			case entry::ENTRY_MEDIA_SOURCE_CURRENT:
 				 $result =  new myCurrentServices();
 				 break; */
-			case entry::ENTRY_MEDIA_SOURCE_KALTURA:
-				$result =  new myKalturaServices();
+			case entry::ENTRY_MEDIA_SOURCE_BORHAN:
+				$result =  new myBorhanServices();
 				break;
-			case entry::ENTRY_MEDIA_SOURCE_KALTURA_QA:
-				$result =  new myKalturaQaServices();
+			case entry::ENTRY_MEDIA_SOURCE_BORHAN_QA:
+				$result =  new myBorhanQaServices();
 				break;
-			case entry::ENTRY_MEDIA_SOURCE_KALTURA_USER_CLIPS:
-				$result =  new myKalturaUserClipsServices();
+			case entry::ENTRY_MEDIA_SOURCE_BORHAN_USER_CLIPS:
+				$result =  new myBorhanUserClipsServices();
 				break;
 			case entry::ENTRY_MEDIA_SOURCE_MEDIA_COMMONS:
 				$result =  new myMediaCommonsServices();
 				break;
-			case entry::ENTRY_MEDIA_SOURCE_KALTURA_PARTNER:
-				$result =  new myKalturaPartnerServices();
+			case entry::ENTRY_MEDIA_SOURCE_BORHAN_PARTNER:
+				$result =  new myBorhanPartnerServices();
 				break;
-			case entry::ENTRY_MEDIA_SOURCE_KALTURA_KSHOW:
-				$result =  new myKalturaKshowServices();
+			case entry::ENTRY_MEDIA_SOURCE_BORHAN_KSHOW:
+				$result =  new myBorhanKshowServices();
 				break;
-			case entry::ENTRY_MEDIA_SOURCE_KALTURA_PARTNER_KSHOW:
-				$result =  new myKalturaPartnerKshowServices();
+			case entry::ENTRY_MEDIA_SOURCE_BORHAN_PARTNER_KSHOW:
+				$result =  new myBorhanPartnerKshowServices();
 				break;
 			case entry::ENTRY_MEDIA_SOURCE_ARCHIVE_ORG:
 				$result =  new myArchiveOrgServices();
@@ -128,7 +128,7 @@ class myMediaSourceFactory
 				}
 				*/
 				throw new Exception ("Cannot create media source of type [$media_source]");
-				$result = new myKalturaServices();
+				$result = new myBorhanServices();
 		}
 
 		return $result;
@@ -172,11 +172,11 @@ class myMediaSourceFactory
 		return array (
 		entry::ENTRY_MEDIA_SOURCE_FILE ,
 		entry::ENTRY_MEDIA_SOURCE_WEBCAM ,
-		entry::ENTRY_MEDIA_SOURCE_KALTURA ,
-		entry::ENTRY_MEDIA_SOURCE_KALTURA_PARTNER ,
-		entry::ENTRY_MEDIA_SOURCE_KALTURA_KSHOW,
-		entry::ENTRY_MEDIA_SOURCE_KALTURA_PARTNER_KSHOW ,
-		//				entry::ENTRY_MEDIA_SOURCE_KALTURA_USER_CLIPS ,
+		entry::ENTRY_MEDIA_SOURCE_BORHAN ,
+		entry::ENTRY_MEDIA_SOURCE_BORHAN_PARTNER ,
+		entry::ENTRY_MEDIA_SOURCE_BORHAN_KSHOW,
+		entry::ENTRY_MEDIA_SOURCE_BORHAN_PARTNER_KSHOW ,
+		//				entry::ENTRY_MEDIA_SOURCE_BORHAN_USER_CLIPS ,
 		entry::ENTRY_MEDIA_SOURCE_FLICKR ,
 		entry::ENTRY_MEDIA_SOURCE_PHOTOBUCKET ,
 		entry::ENTRY_MEDIA_SOURCE_JAMENDO ,

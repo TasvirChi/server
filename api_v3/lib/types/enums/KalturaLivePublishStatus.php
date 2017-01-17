@@ -1,5 +1,5 @@
 <?php
-class KalturaLivePublishStatus extends KalturaEnum implements LivePublishStatus
+class BorhanLivePublishStatus extends BorhanEnum implements LivePublishStatus
 {
     
 }

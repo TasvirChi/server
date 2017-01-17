@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters.enum
  */
-class KalturaAssetOrderBy extends KalturaStringEnum
+class BorhanAssetOrderBy extends BorhanStringEnum
 {
 	const SIZE_ASC = "+size";
 	const SIZE_DESC = "-size";

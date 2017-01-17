@@ -53,7 +53,7 @@ class myBatchFlattenClient
 
 class myBatchFlattenServer extends myBatchBase
 {
-	const KALTURAS_FLATTEN_READY = 60;
+	const BORHANS_FLATTEN_READY = 60;
 	
 	public static function getBatchStatus( $args )	
 	{	
@@ -119,7 +119,7 @@ class myBatchFlattenServer extends myBatchBase
 						// close job as failed
 						$job->setStatus(BatchJob::BATCHJOB_STATUS_FAILED);
 						$job->setDescription("could not retrieve entry, probably deleted");
-						KalturaLog::debug("could not retrieve entry $entry_id , probably deleted");
+						BorhanLog::debug("could not retrieve entry $entry_id , probably deleted");
 						$job->save();
 						continue;
 					}
@@ -134,22 +134,22 @@ class myBatchFlattenServer extends myBatchBase
 					$older_files = glob($wildcardFinalPath);
 					foreach($older_files as $older_file)
 					{
-						KalturaLog::debug("removing old file: [$older_file]");
+						BorhanLog::debug("removing old file: [$older_file]");
 						@unlink($older_file);
 					}
 					
-					KalturaLog::debug("Downloading: $fullFinalPath");
+					BorhanLog::debug("Downloading: $fullFinalPath");
 					KCurlWrapper::getDataFromFile($data["serverUrl"], $fullFinalPath);
 					if (!file_exists($fullFinalPath))
 					{
-						KalturaLog::debug("file doesnt exist: ". $data["serverUrl"]);
+						BorhanLog::debug("file doesnt exist: ". $data["serverUrl"]);
 						$job->setDescription("file doesnt exist: ". $data["serverUrl"]);
 						$job->setStatus(BatchJob::BATCHJOB_STATUS_FAILED);
 					}
 					else if (filesize($fullFinalPath) < 100000)
 					{
 						@unlink($fullFinalPath);
-						KalturaLog::debug("file too small: ". $data["serverUrl"]);
+						BorhanLog::debug("file too small: ". $data["serverUrl"]);
 						$job->setDescription("file too small: ". $data["serverUrl"]);
 						$job->setStatus(BatchJob::BATCHJOB_STATUS_FAILED);
 					}
@@ -162,7 +162,7 @@ class myBatchFlattenServer extends myBatchBase
 								null, 
 								$entry_id,
 								$entry->getPartnerId(),
-								self::KALTURAS_FLATTEN_READY, 
+								self::BORHANS_FLATTEN_READY, 
 								kMailJobData::MAIL_PRIORITY_NORMAL, 
 								kConf::get ( "batch_flatten_video_sender_email" ), 
 								kConf::get ( "batch_flatten_video_sender_name" ), 
@@ -170,7 +170,7 @@ class myBatchFlattenServer extends myBatchBase
 								array($data['email'] , $downloadLink));
 						}
 						
-						KalturaLog::debug("Deleting: ".$data["deleteUrl"]);
+						BorhanLog::debug("Deleting: ".$data["deleteUrl"]);
 						kFile::downloadUrlToString($data["deleteUrl"]);
 						
 						myNotificationMgr::createNotification( kNotificationJobData::NOTIFICATION_TYPE_ENTRY_UPDATE, $entry );
@@ -186,25 +186,25 @@ class myBatchFlattenServer extends myBatchBase
 							}
 							catch(Exception $ex) // hack for the case where the file sync already exists and we re-flattened a mix
 							{
-								KalturaLog::debug ( "ignore ERROR: " . $ex->getMessage() );
+								BorhanLog::debug ( "ignore ERROR: " . $ex->getMessage() );
 							}
 						}							
 						else
-							KalturaLog::debug("The file [$fileFullPath] doesn't exists, not creating FileSync");
+							BorhanLog::debug("The file [$fileFullPath] doesn't exists, not creating FileSync");
 					}
 					$job->save();
 				}
 			}	
 			catch ( Exception $ex )
 			{
-				KalturaLog::debug ( "ERROR: " . $ex->getMessage() );
+				BorhanLog::debug ( "ERROR: " . $ex->getMessage() );
 				self::initDb( true );
 				self::failed();
 			}
 			
 			if ( $temp_count == 0 )
 			{
-				KalturaLog::debug ( "Ended conversion. sleeping for a while (" . $sleep_between_cycles .
+				BorhanLog::debug ( "Ended conversion. sleeping for a while (" . $sleep_between_cycles .
 				" seconds). Will write to the log in (" . ( $sleep_between_cycles * $number_of_times_to_skip_writing_sleeping ) . ") seconds" );
 			}
 

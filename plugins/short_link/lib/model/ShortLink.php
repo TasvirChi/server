@@ -101,7 +101,7 @@ class ShortLink extends BaseShortLink implements IBaseObject {
 			ShortLinkPeer::setUseCriteriaFilter(true);
 			
 			if ($existingObject)
-				KalturaLog::log("id [$id] already exists");
+				BorhanLog::log("id [$id] already exists");
 			else
 				return $id;
 		}

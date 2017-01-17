@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaPostConvertJobData extends KalturaConvartableJobData
+class BorhanPostConvertJobData extends BorhanConvartableJobData
 {
 	/**
 	 * @var string
@@ -76,7 +76,7 @@ class KalturaPostConvertJobData extends KalturaConvartableJobData
 	}
 	
 	/**
-	 * @param string $subType from enum KalturaMediaParserType
+	 * @param string $subType from enum BorhanMediaParserType
 	 * @return int from enum mediaParserType
 	 */
 	public function toSubType($subType)
@@ -86,7 +86,7 @@ class KalturaPostConvertJobData extends KalturaConvartableJobData
 	
 	/**
 	 * @param int $subType from enum mediaParserType
-	 * @return string from enum KalturaMediaParserType
+	 * @return string from enum BorhanMediaParserType
 	 */
 	public function fromSubType($subType)
 	{

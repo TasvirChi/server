@@ -4,7 +4,7 @@
  * @package Core
  * @subpackage events
  */
-class kObjectCreatedEvent extends KalturaEvent implements IKalturaDatabaseEvent, IKalturaObjectRelatedEvent
+class kObjectCreatedEvent extends BorhanEvent implements IBorhanDatabaseEvent, IBorhanObjectRelatedEvent
 {
 	const EVENT_CONSUMER = 'kObjectCreatedEventConsumer';
 	
@@ -24,7 +24,7 @@ class kObjectCreatedEvent extends KalturaEvent implements IKalturaDatabaseEvent,
 		if(method_exists($object, 'getId'))
 			$additionalLog .= ' id [' . $object->getId() . ']';
 			
-		KalturaLog::debug("Event [" . get_class($this) . "] object type [" . get_class($object) . "]" . $additionalLog);
+		BorhanLog::debug("Event [" . get_class($this) . "] object type [" . get_class($object) . "]" . $additionalLog);
 	}
 	
 	public function getConsumerInterface()
@@ -36,7 +36,7 @@ class kObjectCreatedEvent extends KalturaEvent implements IKalturaDatabaseEvent,
 	 * @param kObjectCreatedEventConsumer $consumer
 	 * @return bool true if should continue to the next consumer
 	 */
-	protected function doConsume(KalturaEventConsumer $consumer)
+	protected function doConsume(BorhanEventConsumer $consumer)
 	{
 		if(!$consumer->shouldConsumeCreatedEvent($this->object))
 			return true;
@@ -45,9 +45,9 @@ class kObjectCreatedEvent extends KalturaEvent implements IKalturaDatabaseEvent,
 		if(method_exists($this->object, 'getId'))
 			$additionalLog .= 'id [' . $this->object->getId() . ']';
 			
-		KalturaLog::debug('consumer [' . get_class($consumer) . '] started handling [' . get_class($this) . '] object type [' . get_class($this->object) . '] ' . $additionalLog);
+		BorhanLog::debug('consumer [' . get_class($consumer) . '] started handling [' . get_class($this) . '] object type [' . get_class($this->object) . '] ' . $additionalLog);
 		$result = $consumer->objectCreated($this->object);
-		KalturaLog::debug('consumer [' . get_class($consumer) . '] finished handling [' . get_class($this) . '] object type [' . get_class($this->object) . '] ' . $additionalLog);
+		BorhanLog::debug('consumer [' . get_class($consumer) . '] finished handling [' . get_class($this) . '] object type [' . get_class($this->object) . '] ' . $additionalLog);
 		return $result;
 	}
 	
@@ -68,7 +68,7 @@ class kObjectCreatedEvent extends KalturaEvent implements IKalturaDatabaseEvent,
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaEvent::getScope()
+	 * @see BorhanEvent::getScope()
 	 */
 	public function getScope()
 	{

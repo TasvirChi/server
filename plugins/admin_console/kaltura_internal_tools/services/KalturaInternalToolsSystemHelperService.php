@@ -3,25 +3,25 @@
  * 
  * Internal Tools Service
  * 
- * @service kalturaInternalToolsSystemHelper
- * @package plugins.KalturaInternalTools
+ * @service borhanInternalToolsSystemHelper
+ * @package plugins.BorhanInternalTools
  * @subpackage api.services
  */
-class KalturaInternalToolsSystemHelperService extends KalturaBaseService
+class BorhanInternalToolsSystemHelperService extends BorhanBaseService
 {
 
 	/**
 	 * KS from Secure String
 	 * @action fromSecureString
 	 * @param string $str
-	 * @return KalturaInternalToolsSession
+	 * @return BorhanInternalToolsSession
 	 * 
 	 */
 	public function fromSecureStringAction($str)
 	{
 		$ks =  ks::fromSecureString ( $str );
 		
-		$ksFromSecureString = new KalturaInternalToolsSession();
+		$ksFromSecureString = new BorhanInternalToolsSession();
 		$ksFromSecureString->fromObject($ks, $this->getResponseProfile());
 		
 		return $ksFromSecureString;

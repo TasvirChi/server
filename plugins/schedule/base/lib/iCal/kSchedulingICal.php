@@ -16,7 +16,7 @@ class kSchedulingICal
 
 	/**
 	 * @param string $data
-	 * @param KalturaScheduleEventType $eventsType
+	 * @param BorhanScheduleEventType $eventsType
 	 * @return kSchedulingICalCalendar
 	 */
 	public static function parse($data, $eventsType)
@@ -45,7 +45,7 @@ class kSchedulingICal
 				break;
 
 			default:
-				KalturaLog::warning("Component type [$type] is not supported. Component is ignored during schedulingICal parsing.");
+				BorhanLog::warning("Component type [$type] is not supported. Component is ignored during schedulingICal parsing.");
 
 		}
 
@@ -161,7 +161,7 @@ class kSchedulingICal
 			return new DateTimeZone(date_default_timezone_get());
 		}
 
-		KalturaLog::info("Retrieving Timezone according to timezone name: [$tzid]");
+		BorhanLog::info("Retrieving Timezone according to timezone name: [$tzid]");
 		$tzIdentifiers = DateTimeZone::listIdentifiers();
 		try
 		{
@@ -185,7 +185,7 @@ class kSchedulingICal
 		}
 
 		// If we got all the way here, we default to UTC.
-		KalturaLog::warning("No Timezone conversion was found for: [$tzid] using Default UTC timezone");
+		BorhanLog::warning("No Timezone conversion was found for: [$tzid] using Default UTC timezone");
 		return new DateTimeZone(date_default_timezone_get());
 
 	}

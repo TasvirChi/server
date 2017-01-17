@@ -3,7 +3,7 @@
  * @package plugins.eventNotification
  * @subpackage api.objects
  */
-class KalturaEventNotificationTemplate extends KalturaObject implements IFilterable
+class BorhanEventNotificationTemplate extends BorhanObject implements IFilterable
 {	
 	/**
 	 * @var int
@@ -36,14 +36,14 @@ class KalturaEventNotificationTemplate extends KalturaObject implements IFiltera
 	public $description;
 	
 	/**
-	 * @var KalturaEventNotificationTemplateType
+	 * @var BorhanEventNotificationTemplateType
 	 * @insertonly
 	 * @filter eq,in
 	 */
 	public $type;
 	
 	/**
-	 * @var KalturaEventNotificationTemplateStatus
+	 * @var BorhanEventNotificationTemplateStatus
 	 * @readonly
 	 * @filter eq,in
 	 */
@@ -82,7 +82,7 @@ class KalturaEventNotificationTemplate extends KalturaObject implements IFiltera
 	/**
 	 * Define the event that should trigger this notification
 	 * 
-	 * @var KalturaEventNotificationEventType
+	 * @var BorhanEventNotificationEventType
 	 * @requiresPermission update
 	 */
 	public $eventType;
@@ -90,28 +90,28 @@ class KalturaEventNotificationTemplate extends KalturaObject implements IFiltera
 	/**
 	 * Define the object that raied the event that should trigger this notification
 	 * 
-	 * @var KalturaEventNotificationEventObjectType
+	 * @var BorhanEventNotificationEventObjectType
 	 * @requiresPermission update
 	 */
 	public $eventObjectType;
 
 	/**
 	 * Define the conditions that cause this notification to be triggered
-	 * @var KalturaConditionArray
+	 * @var BorhanConditionArray
 	 * @requiresPermission update
 	 */
 	public $eventConditions;
 	
 	/**
 	 * Define the content dynamic parameters
-	 * @var KalturaEventNotificationParameterArray
+	 * @var BorhanEventNotificationParameterArray
 	 * @requiresPermission update
 	 */
 	public $contentParameters;
 	
 	/**
 	 * Define the content dynamic parameters
-	 * @var KalturaEventNotificationParameterArray
+	 * @var BorhanEventNotificationParameterArray
 	 */
 	public $userParameters;
 	
@@ -137,7 +137,7 @@ class KalturaEventNotificationTemplate extends KalturaObject implements IFiltera
 	);
 		 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -145,7 +145,7 @@ class KalturaEventNotificationTemplate extends KalturaObject implements IFiltera
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert()
+	 * @see BorhanObject::validateForInsert()
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{
@@ -156,7 +156,7 @@ class KalturaEventNotificationTemplate extends KalturaObject implements IFiltera
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUpdate()
+	 * @see BorhanObject::validateForUpdate()
 	 */
 	public function validateForUpdate($sourceObject, $propertiesToSkip = array())
 	{
@@ -167,7 +167,7 @@ class KalturaEventNotificationTemplate extends KalturaObject implements IFiltera
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $propertiesToSkip = array())
 	{
@@ -195,11 +195,11 @@ class KalturaEventNotificationTemplate extends KalturaObject implements IFiltera
 	
 	/**
 	 * @param int $type core enum value of EventNotificationTemplateType
-	 * @return KalturaEventNotificationTemplate
+	 * @return BorhanEventNotificationTemplate
 	 */
 	public static function getInstanceByType($type)
 	{
-		return KalturaPluginManager::loadObject('KalturaEventNotificationTemplate', $type);
+		return BorhanPluginManager::loadObject('BorhanEventNotificationTemplate', $type);
 	}
 	
 	protected function validate (EventNotificationTemplate $sourceObject = null)
@@ -214,7 +214,7 @@ class KalturaEventNotificationTemplate extends KalturaObject implements IFiltera
 		{
 			$systemNameTemplates = EventNotificationTemplatePeer::retrieveBySystemName($this->systemName, $id);
 	        if (count($systemNameTemplates))
-	            throw new KalturaAPIException(KalturaEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_DUPLICATE_SYSTEM_NAME, $this->systemName);
+	            throw new BorhanAPIException(BorhanEventNotificationErrors::EVENT_NOTIFICATION_TEMPLATE_DUPLICATE_SYSTEM_NAME, $this->systemName);
 		}
 	}
 }

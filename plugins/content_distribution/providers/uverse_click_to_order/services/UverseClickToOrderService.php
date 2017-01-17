@@ -50,7 +50,7 @@ class UverseClickToOrderService extends ContentDistributionServiceBase
 			$entryDistribution = EntryDistributionPeer::retrieveByEntryAndProfileId($entry->getId(), $this->profile->getId());
 			if (!$entryDistribution)
 			{
-				KalturaLog::err('Entry distribution was not found for entry ['.$entry->getId().'] and profile [' . $this->profile->getId() . ']');
+				BorhanLog::err('Entry distribution was not found for entry ['.$entry->getId().'] and profile [' . $this->profile->getId() . ']');
 				continue;
 			}					
 			$fields = $this->profile->getAllFieldValues($entryDistribution);
@@ -104,7 +104,7 @@ class UverseClickToOrderService extends ContentDistributionServiceBase
 			$relatedEntryObject = entryPeer::retrieveByPK($relatedEntryId);	
 			if (!$relatedEntryObject)
 			{
-				KalturaLog::err('Related Entry ['.$relatedEntryId.'] was not found');
+				BorhanLog::err('Related Entry ['.$relatedEntryId.'] was not found');
 				continue;
 			}
 			$categoryName = $relatedEntryObject->getName();
@@ -160,10 +160,10 @@ class UverseClickToOrderService extends ContentDistributionServiceBase
 		$backgroundImage = entryPeer::retrieveByPK($entryId);		
 		if (!$backgroundImage)
 		{
-			KalturaLog::err('Image entry ['.$entryId.'] was not found');
+			BorhanLog::err('Image entry ['.$entryId.'] was not found');
 			return '';
 		}
-		if ($backgroundImage->getMediaType() == KalturaMediaType::IMAGE){
+		if ($backgroundImage->getMediaType() == BorhanMediaType::IMAGE){
 			$backgroundImageUrl = $backgroundImage->getDownloadUrl();		
 		}
 		else{

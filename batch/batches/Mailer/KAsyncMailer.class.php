@@ -13,8 +13,8 @@
  */
 class KAsyncMailer extends KJobHandlerWorker
 {
-	const MAILER_DEFAULT_SENDER_EMAIL = 'notifications@kaltura.com';
-	const MAILER_DEFAULT_SENDER_NAME = 'Kaltura Notification Service';
+	const MAILER_DEFAULT_SENDER_EMAIL = 'notifications@borhan.com';
+	const MAILER_DEFAULT_SENDER_NAME = 'Borhan Notification Service';
 	const DEFAULT_LANGUAGE = 'en';
 	
 	protected $texts_array; // will hold the configuration of the ini file
@@ -30,13 +30,13 @@ class KAsyncMailer extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::MAIL;
+		return BorhanBatchJobType::MAIL;
 	}
 	
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $job;
 	}
@@ -57,11 +57,11 @@ class KAsyncMailer extends KJobHandlerWorker
 			static::getType()
 		);
 			
-		KalturaLog::info(count($jobs) . " mail jobs to perform");
+		BorhanLog::info(count($jobs) . " mail jobs to perform");
 								
 		if(!count($jobs) > 0)
 		{
-			KalturaLog::info("Queue size: 0 sent to scheduler");
+			BorhanLog::info("Queue size: 0 sent to scheduler");
 			$this->saveSchedulerQueue(self::getType());
 			return;
 		}
@@ -76,24 +76,24 @@ class KAsyncMailer extends KJobHandlerWorker
 		KBatchBase::$kClient->startMultiRequest();
 		foreach($jobs as $job)
 		{
-			KalturaLog::info("Free job[$job->id]");
+			BorhanLog::info("Free job[$job->id]");
 			$this->onFree($job);
 	 		KBatchBase::$kClient->batch->freeExclusiveJob($job->id, $this->getExclusiveLockKey(), static::getType());
 		}
 		$responses = KBatchBase::$kClient->doMultiRequest();
 		$response = end($responses);
 		
-		KalturaLog::info("Queue size: $response->queueSize sent to scheduler");
+		BorhanLog::info("Queue size: $response->queueSize sent to scheduler");
 		$this->saveSchedulerQueue(self::getType(), $response->queueSize);
 	}
 	
 	/*
-	 * Will take a single KalturaMailJob and send the mail using PHPMailer  
+	 * Will take a single BorhanMailJob and send the mail using PHPMailer  
 	 * 
-	 * @param KalturaBatchJob $job
-	 * @param KalturaMailJobData $data
+	 * @param BorhanBatchJob $job
+	 * @param BorhanMailJobData $data
 	 */
-	protected function send(KalturaBatchJob $job, KalturaMailJobData $data)
+	protected function send(BorhanBatchJob $job, BorhanMailJobData $data)
 	{
 		if (!isset($this->texts_array[$data->language]))
 		{
@@ -116,23 +116,23 @@ class KAsyncMailer extends KJobHandlerWorker
 			
 	 		if ( $result )
 	 		{
-	 			$job->status = KalturaBatchJobStatus::FINISHED;
+	 			$job->status = BorhanBatchJobStatus::FINISHED;
 	 		}
 	 		else
 	 		{
-	 			$job->status = KalturaBatchJobStatus::FAILED;
+	 			$job->status = BorhanBatchJobStatus::FAILED;
 	 		}
 	 			
-			KalturaLog::info("job[$job->id] status: $job->status");
+			BorhanLog::info("job[$job->id] status: $job->status");
 			$this->onUpdate($job);
 			
-			$updateJob = new KalturaBatchJob();
+			$updateJob = new BorhanBatchJob();
 			$updateJob->status = $job->status;
 	 		KBatchBase::$kClient->batch->updateExclusiveJob($job->id, $this->getExclusiveLockKey(), $updateJob);			
 		}
 		catch ( Exception $ex )
 		{
-			KalturaLog::crit( $ex );
+			BorhanLog::crit( $ex );
 		}
 	}
 	
@@ -179,7 +179,7 @@ class KAsyncMailer extends KJobHandlerWorker
 		{
 			$body_to_log  = " body: " . $body;
 		}
-		KalturaLog::info( 'sending email to: '. $recipientemail . " subject: " . $this->mail->Subject .  $body_to_log );
+		BorhanLog::info( 'sending email to: '. $recipientemail . " subject: " . $this->mail->Subject .  $body_to_log );
 			
 		try
 		{
@@ -187,7 +187,7 @@ class KAsyncMailer extends KJobHandlerWorker
 		} 
 		catch ( Exception $e )
 		{
-			KalturaLog::err( $e );
+			BorhanLog::err( $e );
 			return false;
 		}
 	}
@@ -228,10 +228,10 @@ class KAsyncMailer extends KJobHandlerWorker
 		$footer = vsprintf($footer, array($forumsLink, $unsubscribeLink) );
 
 		$body .= "\n" . $footer;
-		KalturaLog::debug("type [$type]");
-		KalturaLog::debug("params [" . print_r($bodyParamsArray, true) . "]");
-		KalturaLog::debug("body [$body]");
-		KalturaLog::debug("footer [$footer]");
+		BorhanLog::debug("type [$type]");
+		BorhanLog::debug("params [" . print_r($bodyParamsArray, true) . "]");
+		BorhanLog::debug("body [$body]");
+		BorhanLog::debug("footer [$footer]");
 		$body = vsprintf( $body, $bodyParamsArray );
 		if ($isHtml)
 		{
@@ -245,7 +245,7 @@ class KAsyncMailer extends KJobHandlerWorker
 		$body = str_replace( "<EQ>", "=", $body );
 		$body = str_replace( "<EM>", "!", $body ); // exclamation mark
 		
-		KalturaLog::debug("final body [$body]");
+		BorhanLog::debug("final body [$body]");
 		return $body;
 	}
 		
@@ -262,10 +262,10 @@ class KAsyncMailer extends KJobHandlerWorker
 			if (!isset($this->texts_array[$language]))
 			{
 				$filename = $rootdir."/emails_".$language.".ini";
-				KalturaLog::debug( 'ini filename = '.$filename );
+				BorhanLog::debug( 'ini filename = '.$filename );
 				if ( ! file_exists ( $filename )) 
 				{
-					KalturaLog::crit( 'Fatal:::: Cannot find file: '.$filename );
+					BorhanLog::crit( 'Fatal:::: Cannot find file: '.$filename );
 					continue;
 				}
 				$ini_array = parse_ini_file( $filename, true );

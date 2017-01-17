@@ -6,7 +6,7 @@
  * @package plugins.dropFolder
  * @subpackage api.services
  */
-class DropFolderFileService extends KalturaBaseService
+class DropFolderFileService extends BorhanBaseService
 {
 	const MYSQL_CODE_DUPLICATE_KEY = 23000;
 	
@@ -15,45 +15,45 @@ class DropFolderFileService extends KalturaBaseService
 		parent::initService($serviceId, $serviceName, $actionName);
 		
 		if (!DropFolderPlugin::isAllowedPartner($this->getPartnerId()))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, DropFolderPlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, DropFolderPlugin::PLUGIN_NAME);
 		
 		$this->applyPartnerFilterForClass('DropFolder');
 		$this->applyPartnerFilterForClass('DropFolderFile');
 	}
 		
 	/**
-	 * Allows you to add a new KalturaDropFolderFile object
+	 * Allows you to add a new BorhanDropFolderFile object
 	 * 
 	 * @action add
-	 * @param KalturaDropFolderFile $dropFolderFile
-	 * @return KalturaDropFolderFile
+	 * @param BorhanDropFolderFile $dropFolderFile
+	 * @return BorhanDropFolderFile
 	 * 
-	 * @throws KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
-	 * @throws KalturaDropFolderErrors::DROP_FOLDER_NOT_FOUND
+	 * @throws BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL
+	 * @throws BorhanDropFolderErrors::DROP_FOLDER_NOT_FOUND
 	 */
-	public function addAction(KalturaDropFolderFile $dropFolderFile)
+	public function addAction(BorhanDropFolderFile $dropFolderFile)
 	{
 		return $this->newFileAddedOrDetected($dropFolderFile, DropFolderFileStatus::UPLOADING);
 	}
 	
 	/**
-	 * Retrieve a KalturaDropFolderFile object by ID
+	 * Retrieve a BorhanDropFolderFile object by ID
 	 * 
 	 * @action get
 	 * @param int $dropFolderFileId 
-	 * @return KalturaDropFolderFile
+	 * @return BorhanDropFolderFile
 	 * 
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */		
 	public function getAction($dropFolderFileId)
 	{
 		$dbDropFolderFile = DropFolderFilePeer::retrieveByPK($dropFolderFileId);
 		
 		if (!$dbDropFolderFile) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $dropFolderFileId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $dropFolderFileId);
 		}
 			
-		$dropFolderFile = KalturaDropFolderFile::getInstanceByType($dbDropFolderFile->getType());
+		$dropFolderFile = BorhanDropFolderFile::getInstanceByType($dbDropFolderFile->getType());
 		$dropFolderFile->fromObject($dbDropFolderFile, $this->getResponseProfile());
 		
 		return $dropFolderFile;
@@ -61,21 +61,21 @@ class DropFolderFileService extends KalturaBaseService
 	
 
 	/**
-	 * Update an existing KalturaDropFolderFile object
+	 * Update an existing BorhanDropFolderFile object
 	 * 
 	 * @action update
 	 * @param int $dropFolderFileId
-	 * @param KalturaDropFolderFile $dropFolderFile
-	 * @return KalturaDropFolderFile
+	 * @param BorhanDropFolderFile $dropFolderFile
+	 * @return BorhanDropFolderFile
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */	
-	public function updateAction($dropFolderFileId, KalturaDropFolderFile $dropFolderFile)
+	public function updateAction($dropFolderFileId, BorhanDropFolderFile $dropFolderFile)
 	{
 		$dbDropFolderFile = DropFolderFilePeer::retrieveByPK($dropFolderFileId);
 		
 		if (!$dbDropFolderFile) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $dropFolderFileId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $dropFolderFileId);
 		}
 		
 		if (!is_null($dropFolderFile->fileSize)) {
@@ -85,7 +85,7 @@ class DropFolderFileService extends KalturaBaseService
 		$dbDropFolderFile = $dropFolderFile->toUpdatableObject($dbDropFolderFile);
 		$dbDropFolderFile->save();
 	
-		$dropFolderFile = new KalturaDropFolderFile();
+		$dropFolderFile = new BorhanDropFolderFile();
 		$dropFolderFile->fromObject($dbDropFolderFile, $this->getResponseProfile());
 		
 		return $dropFolderFile;
@@ -93,71 +93,71 @@ class DropFolderFileService extends KalturaBaseService
 	
 
 	/**
-	 * Update status of KalturaDropFolderFile
+	 * Update status of BorhanDropFolderFile
 	 * 
 	 * @action updateStatus
 	 * @param int $dropFolderFileId
-	 * @param KalturaDropFolderFileStatus $status
-	 * @return KalturaDropFolderFile
+	 * @param BorhanDropFolderFileStatus $status
+	 * @return BorhanDropFolderFile
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */	
 	public function updateStatusAction($dropFolderFileId, $status)
 	{
 		$dbDropFolderFile = DropFolderFilePeer::retrieveByPK($dropFolderFileId);
 		if (!$dbDropFolderFile)
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $dropFolderFileId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $dropFolderFileId);
 			
-		if ($status != KalturaDropFolderFileStatus::PURGED && $dbDropFolderFile->getStatus() == KalturaDropFolderFileStatus::DELETED)
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $dropFolderFileId);
+		if ($status != BorhanDropFolderFileStatus::PURGED && $dbDropFolderFile->getStatus() == BorhanDropFolderFileStatus::DELETED)
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $dropFolderFileId);
 		
 		$dbDropFolderFile->setStatus($status);
 		$dbDropFolderFile->save();
 	
-		$dropFolderFile = KalturaDropFolderFile::getInstanceByType($dbDropFolderFile->getType());
+		$dropFolderFile = BorhanDropFolderFile::getInstanceByType($dbDropFolderFile->getType());
 		$dropFolderFile->fromObject($dbDropFolderFile, $this->getResponseProfile());
 		
 		return $dropFolderFile;
 	}
 
 	/**
-	 * Mark the KalturaDropFolderFile object as deleted
+	 * Mark the BorhanDropFolderFile object as deleted
 	 * 
 	 * @action delete
 	 * @param int $dropFolderFileId 
-	 * @return KalturaDropFolderFile
+	 * @return BorhanDropFolderFile
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */		
 	public function deleteAction($dropFolderFileId)
 	{
 		$dbDropFolderFile = DropFolderFilePeer::retrieveByPK($dropFolderFileId);
 		
 		if (!$dbDropFolderFile) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $dropFolderFileId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $dropFolderFileId);
 		}
 		
 		$dbDropFolderFile->setStatus(DropFolderFileStatus::DELETED);
 		$dbDropFolderFile->save();
 			
-		$dropFolderFile = KalturaDropFolderFile::getInstanceByType($dbDropFolderFile->getType());
+		$dropFolderFile = BorhanDropFolderFile::getInstanceByType($dbDropFolderFile->getType());
 		$dropFolderFile->fromObject($dbDropFolderFile, $this->getResponseProfile());
 		
 		return $dropFolderFile;
 	}
 	
 	/**
-	 * List KalturaDropFolderFile objects
+	 * List BorhanDropFolderFile objects
 	 * 
 	 * @action list
-	 * @param KalturaDropFolderFileFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaDropFolderFileListResponse
+	 * @param BorhanDropFolderFileFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanDropFolderFileListResponse
 	 */
-	public function listAction(KalturaDropFolderFileFilter  $filter = null, KalturaFilterPager $pager = null)
+	public function listAction(BorhanDropFolderFileFilter  $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaDropFolderFileFilter();
+			$filter = new BorhanDropFolderFileFilter();
 			
 		$dropFolderFileFilter = $filter->toObject();
 
@@ -166,12 +166,12 @@ class DropFolderFileService extends KalturaBaseService
 		$count = DropFolderFilePeer::doCount($c);
 		
 		if (! $pager)
-			$pager = new KalturaFilterPager ();
+			$pager = new BorhanFilterPager ();
 		$pager->attachToCriteria ( $c );
 		$list = DropFolderFilePeer::doSelect($c);
 		
-		$response = new KalturaDropFolderFileListResponse();
-		$response->objects = KalturaDropFolderFileArray::fromDbArray($list, $this->getResponseProfile());
+		$response = new BorhanDropFolderFileListResponse();
+		$response->objects = BorhanDropFolderFileArray::fromDbArray($list, $this->getResponseProfile());
 		$response->totalCount = $count;
 		
 		return $response;
@@ -179,32 +179,32 @@ class DropFolderFileService extends KalturaBaseService
 	
 	
 	/**
-	 * Set the KalturaDropFolderFile status to ignore (KalturaDropFolderFileStatus::IGNORE)
+	 * Set the BorhanDropFolderFile status to ignore (BorhanDropFolderFileStatus::IGNORE)
 	 * 
 	 * @action ignore
 	 * @param int $dropFolderFileId 
-	 * @return KalturaDropFolderFile
+	 * @return BorhanDropFolderFile
 	 *
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */		
 	public function ignoreAction($dropFolderFileId)
 	{
 		$dbDropFolderFile = DropFolderFilePeer::retrieveByPK($dropFolderFileId);
 		
 		if (!$dbDropFolderFile) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $dropFolderFileId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $dropFolderFileId);
 		}
 
 		$dbDropFolderFile->setStatus(DropFolderFileStatus::IGNORE);
 		$dbDropFolderFile->save();
 			
-		$dropFolderFile = new KalturaDropFolderFile();
+		$dropFolderFile = new BorhanDropFolderFile();
 		$dropFolderFile->fromObject($dbDropFolderFile, $this->getResponseProfile());
 		
 		return $dropFolderFile;
 	}
 	
-	private function newFileAddedOrDetected(KalturaDropFolderFile $dropFolderFile, $fileStatus)
+	private function newFileAddedOrDetected(BorhanDropFolderFile $dropFolderFile, $fileStatus)
 	{
 		// check for required parameters
 		$dropFolderFile->validatePropertyNotNull('dropFolderId');
@@ -214,7 +214,7 @@ class DropFolderFileService extends KalturaBaseService
 		// check that drop folder id exists in the system
 		$dropFolder = DropFolderPeer::retrieveByPK($dropFolderFile->dropFolderId);
 		if (!$dropFolder) {
-			throw new KalturaAPIException(KalturaDropFolderErrors::DROP_FOLDER_NOT_FOUND, $dropFolderFile->dropFolderId);
+			throw new BorhanAPIException(BorhanDropFolderErrors::DROP_FOLDER_NOT_FOUND, $dropFolderFile->dropFolderId);
 		}
 				
 		// save in database
@@ -236,14 +236,14 @@ class DropFolderFileService extends KalturaBaseService
 				switch($existingDropFolderFile->getStatus())
 				{					
 					case DropFolderFileStatus::PARSED:
-						KalturaLog::info('Exisiting file status is PARSED, updating status to ['.$fileStatus.']');
+						BorhanLog::info('Exisiting file status is PARSED, updating status to ['.$fileStatus.']');
 						$existingDropFolderFile = $dropFolderFile->toUpdatableObject($existingDropFolderFile);
 						$existingDropFolderFile->setStatus($fileStatus);						
 						$existingDropFolderFile->save();
 						$dbDropFolderFile = $existingDropFolderFile;
 						break;
 					case DropFolderFileStatus::DETECTED:
-						KalturaLog::info('Exisiting file status is DETECTED, updating status to ['.$fileStatus.']');
+						BorhanLog::info('Exisiting file status is DETECTED, updating status to ['.$fileStatus.']');
 						$existingDropFolderFile = $dropFolderFile->toUpdatableObject($existingDropFolderFile);
 						if($existingDropFolderFile->getStatus() != $fileStatus)
 							$existingDropFolderFile->setStatus($fileStatus);
@@ -253,14 +253,14 @@ class DropFolderFileService extends KalturaBaseService
 					case DropFolderFileStatus::UPLOADING:
 						if($fileStatus == DropFolderFileStatus::UPLOADING)
 						{
-							KalturaLog::log('Exisiting file status is UPLOADING, updating properties');
+							BorhanLog::log('Exisiting file status is UPLOADING, updating properties');
 							$existingDropFolderFile = $dropFolderFile->toUpdatableObject($existingDropFolderFile);
 							$existingDropFolderFile->save();
 							$dbDropFolderFile = $existingDropFolderFile;
 							break;							
 						}
 					default:
-						KalturaLog::log('Setting current file to PURGED ['.$existingDropFolderFile->getId().']');
+						BorhanLog::log('Setting current file to PURGED ['.$existingDropFolderFile->getId().']');
 						$existingDropFolderFile->setStatus(DropFolderFileStatus::PURGED);				
 						$existingDropFolderFile->save();
 						
@@ -268,7 +268,7 @@ class DropFolderFileService extends KalturaBaseService
 						if(	$existingDropFolderFile->getLeadDropFolderFileId() && 
 							$existingDropFolderFile->getLeadDropFolderFileId() != $existingDropFolderFile->getId())
 						{
-							KalturaLog::info('Updating lead id ['.$existingDropFolderFile->getLeadDropFolderFileId().']');							
+							BorhanLog::info('Updating lead id ['.$existingDropFolderFile->getLeadDropFolderFileId().']');							
 							$newDropFolderFile->setLeadDropFolderFileId($existingDropFolderFile->getLeadDropFolderFileId());	
 						}
 						$newDropFolderFile->save();
@@ -281,7 +281,7 @@ class DropFolderFileService extends KalturaBaseService
 			}
 		}	
 		// return the saved object
-		$dropFolderFile = KalturaDropFolderFile::getInstanceByType($dbDropFolderFile->getType());
+		$dropFolderFile = BorhanDropFolderFile::getInstanceByType($dbDropFolderFile->getType());
 		$dropFolderFile->fromObject($dbDropFolderFile, $this->getResponseProfile());
 		return $dropFolderFile;		
 		

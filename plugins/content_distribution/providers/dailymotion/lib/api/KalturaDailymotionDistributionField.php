@@ -3,7 +3,7 @@
  * @package plugins.dailymotionDistribution
  * @subpackage api.enum
  */
-class KalturaDailymotionDistributionField extends KalturaStringEnum implements DailymotionDistributionField
+class BorhanDailymotionDistributionField extends BorhanStringEnum implements DailymotionDistributionField
 {
 	// see DailymotionDistributionField interface
 }

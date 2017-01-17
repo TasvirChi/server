@@ -7,13 +7,13 @@ class Form_GenericProviderConfiguration extends Form_DistributionConfiguration
 {
 	private $properties = null;
 
-	public function populateActions(Kaltura_Client_ContentDistribution_Type_GenericDistributionProvider $object)
+	public function populateActions(Borhan_Client_ContentDistribution_Type_GenericDistributionProvider $object)
 	{
 		$this->addProviderActions();
 		
 		$client = Infra_ClientHelper::getClient();
-		$contentDistributionPlugin = Kaltura_Client_ContentDistribution_Plugin::get($client);
-		$filter = new Kaltura_Client_ContentDistribution_Type_GenericDistributionProviderActionFilter();
+		$contentDistributionPlugin = Borhan_Client_ContentDistribution_Plugin::get($client);
+		$filter = new Borhan_Client_ContentDistribution_Type_GenericDistributionProviderActionFilter();
 		$filter->genericDistributionProviderIdEqual = $object->id;
 		
 		$actionsList = null;
@@ -45,16 +45,16 @@ class Form_GenericProviderConfiguration extends Form_DistributionConfiguration
 			$action = null;
 			switch ($actionObject->action)
 			{
-				case Kaltura_Client_ContentDistribution_Enum_DistributionAction::SUBMIT:
+				case Borhan_Client_ContentDistribution_Enum_DistributionAction::SUBMIT:
 					$action = 'submit';
 					break;
-				case Kaltura_Client_ContentDistribution_Enum_DistributionAction::UPDATE:
+				case Borhan_Client_ContentDistribution_Enum_DistributionAction::UPDATE:
 					$action = 'update';
 					break;
-				case Kaltura_Client_ContentDistribution_Enum_DistributionAction::DELETE:
+				case Borhan_Client_ContentDistribution_Enum_DistributionAction::DELETE:
 					$action = 'delete';
 					break;
-				case Kaltura_Client_ContentDistribution_Enum_DistributionAction::FETCH_REPORT:
+				case Borhan_Client_ContentDistribution_Enum_DistributionAction::FETCH_REPORT:
 					$action = 'fetchReport';
 					break;
 			}
@@ -89,12 +89,12 @@ class Form_GenericProviderConfiguration extends Form_DistributionConfiguration
 	}
 	
 	/**
-	 * @param Kaltura_Client_ContentDistribution_Type_GenericDistributionProviderAction $object
+	 * @param Borhan_Client_ContentDistribution_Type_GenericDistributionProviderAction $object
 	 * @param string $action
 	 * @param int $actionType
-	 * @return Kaltura_Client_ContentDistribution_Type_GenericDistributionProviderAction
+	 * @return Borhan_Client_ContentDistribution_Type_GenericDistributionProviderAction
 	 */
-	public function getActionObject(Kaltura_Client_ContentDistribution_Type_GenericDistributionProviderAction $object, $action, $actionType)
+	public function getActionObject(Borhan_Client_ContentDistribution_Type_GenericDistributionProviderAction $object, $action, $actionType)
 	{
 		$object->action = $actionType;
 		
@@ -162,11 +162,11 @@ class Form_GenericProviderConfiguration extends Form_DistributionConfiguration
 		));
 		
 		$element = $this->getElement("protocol-$action");
-		$element->addMultiOption(Kaltura_Client_ContentDistribution_Enum_DistributionProtocol::FTP, 'FTP');
-		$element->addMultiOption(Kaltura_Client_ContentDistribution_Enum_DistributionProtocol::SFTP, 'SFTP');
-		$element->addMultiOption(Kaltura_Client_ContentDistribution_Enum_DistributionProtocol::SCP, 'SCP');
-		$element->addMultiOption(Kaltura_Client_ContentDistribution_Enum_DistributionProtocol::HTTP, 'HTTP');
-		$element->addMultiOption(Kaltura_Client_ContentDistribution_Enum_DistributionProtocol::HTTPS, 'HTTPS');
+		$element->addMultiOption(Borhan_Client_ContentDistribution_Enum_DistributionProtocol::FTP, 'FTP');
+		$element->addMultiOption(Borhan_Client_ContentDistribution_Enum_DistributionProtocol::SFTP, 'SFTP');
+		$element->addMultiOption(Borhan_Client_ContentDistribution_Enum_DistributionProtocol::SCP, 'SCP');
+		$element->addMultiOption(Borhan_Client_ContentDistribution_Enum_DistributionProtocol::HTTP, 'HTTP');
+		$element->addMultiOption(Borhan_Client_ContentDistribution_Enum_DistributionProtocol::HTTPS, 'HTTPS');
 			
 		$this->addElement('text', "serverAddress-$action", array(
 			'label'	  =>  'Server Address',

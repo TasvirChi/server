@@ -3,7 +3,7 @@
  * @package plugins.adCuePoint
  * @subpackage lib.enum
  */
-class AdCuePointMetadataObjectType implements IKalturaPluginEnum, MetadataObjectType
+class AdCuePointMetadataObjectType implements IBorhanPluginEnum, MetadataObjectType
 {
 	const AD_CUE_POINT = 'AdCuePoint';
 	

@@ -3,7 +3,7 @@
  * @package plugins.metadata
  * @subpackage api.objects
  */
-class KalturaTransformMetadataJobData extends KalturaJobData
+class BorhanTransformMetadataJobData extends BorhanJobData
 {
 	/**
 	 * @var string

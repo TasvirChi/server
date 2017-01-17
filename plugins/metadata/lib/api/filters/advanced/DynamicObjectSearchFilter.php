@@ -51,9 +51,9 @@ class DynamicObjectSearchFilter extends AdvancedSearchFilterOperator
 	/* (non-PHPdoc)
 	 * @see AdvancedSearchFilterOperator::applyCondition()
 	 */
-	public function applyCondition(IKalturaDbQuery $query, $xPaths = null)
+	public function applyCondition(IBorhanDbQuery $query, $xPaths = null)
 	{
-		if (!($query instanceof IKalturaIndexQuery))
+		if (!($query instanceof IBorhanIndexQuery))
 			return;
 		$this->parentQuery = $query;
 
@@ -62,7 +62,7 @@ class DynamicObjectSearchFilter extends AdvancedSearchFilterOperator
 
 		if (!$this->metadataProfileId)
 		{
-			KalturaLog::err('Metadata profile id was not found on parent query, or parent query is not instance of MetadataSearchFilter/DynamicObjectSearchFilter');
+			BorhanLog::err('Metadata profile id was not found on parent query, or parent query is not instance of MetadataSearchFilter/DynamicObjectSearchFilter');
 			return;
 		}
 
@@ -70,15 +70,15 @@ class DynamicObjectSearchFilter extends AdvancedSearchFilterOperator
 		if (!isset($xPaths[$field]))
 		{
 			$this->addCondition('1 <> 1');
-			KalturaLog::ERR("Missing field: $field in xpath array: " . print_r($xPaths, true));
+			BorhanLog::ERR("Missing field: $field in xpath array: " . print_r($xPaths, true));
 			return;
 		}
 
 		/** @var MetadataProfileField $metadataProfileField */
 		$metadataProfileField = $xPaths[$field];
-		if ($metadataProfileField->getType() !== MetadataSearchFilter::KMC_FIELD_TYPE_METADATA_OBJECT)
+		if ($metadataProfileField->getType() !== MetadataSearchFilter::BMC_FIELD_TYPE_METADATA_OBJECT)
 		{
-			KalturaLog::ERR("Field $field is not set as a dynamic object type");
+			BorhanLog::ERR("Field $field is not set as a dynamic object type");
 			return;
 		}
 
@@ -103,7 +103,7 @@ class DynamicObjectSearchFilter extends AdvancedSearchFilterOperator
 				if (!isset($innerXPaths[$innerField]))
 				{
 					$this->addCondition('1 <> 1');
-					KalturaLog::ERR("Missing field: $innerField in inner xpath array: " . print_r($innerXPaths, true));
+					BorhanLog::ERR("Missing field: $innerField in inner xpath array: " . print_r($innerXPaths, true));
 					continue;
 				}
 				$innerValue = SphinxUtils::escapeString($item->getValue());
@@ -114,7 +114,7 @@ class DynamicObjectSearchFilter extends AdvancedSearchFilterOperator
 
 				$dataCondition = "\"$innerPrefix $innerValue $innerSuffix\"";
 
-				KalturaLog::debug("Inner condition: $dataCondition");
+				BorhanLog::debug("Inner condition: $dataCondition");
 				$dataConditions[] = $dataCondition;
 			}
 		}
@@ -124,13 +124,13 @@ class DynamicObjectSearchFilter extends AdvancedSearchFilterOperator
 			foreach($dataConditions as &$dataCondition)
 			{
 				$dataCondition = "( $prefix ( $dataCondition ) $suffix )";
-				KalturaLog::debug("Wrapped condition: $dataCondition");
+				BorhanLog::debug("Wrapped condition: $dataCondition");
 			}
 
 			$glue = ($this->type == MetadataSearchFilter::SEARCH_AND ? ' ' : ' | ');
 			$dataConditions = array_unique($dataConditions);
 			$value = implode($glue, $dataConditions);
-			KalturaLog::debug("Current $value");
+			BorhanLog::debug("Current $value");
 			$this->addMatch($value);
 		}
 	}

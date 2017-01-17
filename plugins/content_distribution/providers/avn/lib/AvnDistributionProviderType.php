@@ -3,7 +3,7 @@
  * @package plugins.avnDistribution
  * @subpackage lib
  */
-class AvnDistributionProviderType implements IKalturaPluginEnum, DistributionProviderType
+class AvnDistributionProviderType implements IBorhanPluginEnum, DistributionProviderType
 {
 	const AVN = 'AVN';
 	

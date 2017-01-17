@@ -3,13 +3,13 @@
  * @package api
  * @subpackage filters
  */
-class KalturaGroupUserFilter extends KalturaGroupUserBaseFilter
+class BorhanGroupUserFilter extends BorhanGroupUserBaseFilter
 {
 
 	static private $map_between_objects = array	();
 
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -25,13 +25,13 @@ class KalturaGroupUserFilter extends KalturaGroupUserBaseFilter
 	protected function validateUserIdOrGroupIdFiltered()
 	{
 		if(!$this->userIdEqual && !$this->userIdIn && !$this->groupIdEqual && !$this->groupIdIn)
-			throw new KalturaAPIException(KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, $this->getFormattedPropertyNameWithClassName('userIdEqual') . '/' . $this->getFormattedPropertyNameWithClassName('userIdIn') . '/' . $this->getFormattedPropertyNameWithClassName('groupIdEqual') . '/' . $this->getFormattedPropertyNameWithClassName('groupIdIn'));
+			throw new BorhanAPIException(BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, $this->getFormattedPropertyNameWithClassName('userIdEqual') . '/' . $this->getFormattedPropertyNameWithClassName('userIdIn') . '/' . $this->getFormattedPropertyNameWithClassName('groupIdEqual') . '/' . $this->getFormattedPropertyNameWithClassName('groupIdIn'));
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaRelatedFilter::getListResponse()
+	 * @see BorhanRelatedFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$this->validateUserIdOrGroupIdFiltered();
 		
@@ -54,8 +54,8 @@ class KalturaGroupUserFilter extends KalturaGroupUserBaseFilter
 
 			if (!$kuser)
 			{
-				$response = new KalturaGroupUserListResponse();
-				$response->objects = new KalturaGroupUserArray();
+				$response = new BorhanGroupUserListResponse();
+				$response->objects = new BorhanGroupUserArray();
 				$response->totalCount = 0;
 
 				return $response;
@@ -76,8 +76,8 @@ class KalturaGroupUserFilter extends KalturaGroupUserBaseFilter
 
 			if (!$kuser)
 			{
-				$response = new KalturaGroupUserListResponse();
-				$response->objects = new KalturaGroupUserArray();
+				$response = new BorhanGroupUserListResponse();
+				$response->objects = new BorhanGroupUserArray();
 				$response->totalCount = 0;
 
 				return $response;
@@ -99,8 +99,8 @@ class KalturaGroupUserFilter extends KalturaGroupUserBaseFilter
 
 			if (!$kusers)
 			{
-				$response = new KalturaGroupUserListResponse();
-				$response->objects = new KalturaGroupUserArray();
+				$response = new BorhanGroupUserListResponse();
+				$response->objects = new BorhanGroupUserArray();
 				$response->totalCount = 0;
 
 				return $response;
@@ -129,8 +129,8 @@ class KalturaGroupUserFilter extends KalturaGroupUserBaseFilter
 
 			if (!$kusers)
 			{
-				$response = new KalturaGroupUserListResponse();
-				$response->objects = new KalturaGroupUserArray();
+				$response = new BorhanGroupUserListResponse();
+				$response->objects = new BorhanGroupUserArray();
 				$response->totalCount = 0;
 
 				return $response;
@@ -148,23 +148,23 @@ class KalturaGroupUserFilter extends KalturaGroupUserBaseFilter
 
 		$kuserKgroupFilter = $this->toObject();
 		
-		$c = KalturaCriteria::create(KuserKgroupPeer::OM_CLASS);
+		$c = BorhanCriteria::create(KuserKgroupPeer::OM_CLASS);
 		$kuserKgroupFilter->attachToCriteria($c);
 		$pager->attachToCriteria($c);
 		$c->applyFilters();
 		
 		$list = KuserKgroupPeer::doSelect($c);
 
-		$newList = KalturaGroupUserArray::fromDbArray($list, $responseProfile);
+		$newList = BorhanGroupUserArray::fromDbArray($list, $responseProfile);
 		
-		$response = new KalturaGroupUserListResponse();
+		$response = new BorhanGroupUserListResponse();
 		$response->objects = $newList;
 		$resultCount = count($newList);
 		if ($resultCount && $resultCount < $pager->pageSize)
 			$totalCount = ($pager->pageIndex - 1) * $pager->pageSize + $resultCount;
 		else
 		{
-			KalturaFilterPager::detachFromCriteria($c);
+			BorhanFilterPager::detachFromCriteria($c);
 			$totalCount = KuserKgroupPeer::doCount($c);
 		}
 		$response->totalCount = $totalCount;

@@ -4,14 +4,14 @@
  * @subpackage system
  * @deprecated
  */
-require_once ( __DIR__ . "/kalturaSystemAction.class.php" );
+require_once ( __DIR__ . "/borhanSystemAction.class.php" );
 
 /**
  * @package    Core
  * @subpackage system
  * @deprecated
  */
-class viewWidgetsAction extends kalturaSystemAction
+class viewWidgetsAction extends borhanSystemAction
 {
 	public function execute()
 	{
@@ -30,7 +30,7 @@ class viewWidgetsAction extends kalturaSystemAction
 		}
 		
 		$c->addAnd(WidgetLogPeer::REFERER, "%diff=%", Criteria::NOT_LIKE);
-		$c->addAnd(WidgetLogPeer::REFERER, "%kaltura:%", Criteria::NOT_LIKE);
+		$c->addAnd(WidgetLogPeer::REFERER, "%borhan:%", Criteria::NOT_LIKE);
 		
 		$partner_id =  $this->getRequestParameter('partner_id', -1 );
 		if ( $partner_id >= 0 )

@@ -15,13 +15,13 @@ class MsnDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineSubmit::submit()
 	 */
-	public function submit(KalturaDistributionSubmitJobData $data)
+	public function submit(BorhanDistributionSubmitJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaMsnDistributionProfile))
-			throw new Exception("Distribution profile must be of type KalturaMsnDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanMsnDistributionProfile))
+			throw new Exception("Distribution profile must be of type BorhanMsnDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaMsnDistributionJobProviderData))
-			throw new Exception("Provider data must be of type KalturaMsnDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanMsnDistributionJobProviderData))
+			throw new Exception("Provider data must be of type BorhanMsnDistributionJobProviderData");
 		
 		$results = $this->handleSend($data, $data->distributionProfile, $data->providerData);
 		$matches = null;
@@ -40,11 +40,11 @@ class MsnDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseSubmit::closeSubmit()
 	 */
-	public function closeSubmit(KalturaDistributionSubmitJobData $data)
+	public function closeSubmit(BorhanDistributionSubmitJobData $data)
 	{
 		$errDescription = null;
 		$publishState = $this->fetchStatus($data, $errDescription);
-		KalturaLog::info("publishState [$publishState]");
+		BorhanLog::info("publishState [$publishState]");
 		switch($publishState)
 		{
 			case 'Published':
@@ -62,7 +62,7 @@ class MsnDistributionEngine extends DistributionEngine implements
 				throw new Exception('Unknows MSN error');
 				
 			default:
-				KalturaLog::err("Unknown publishState [$publishState]");
+				BorhanLog::err("Unknown publishState [$publishState]");
 				return false;
 		}
 	}
@@ -70,13 +70,13 @@ class MsnDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineUpdate::update()
 	 */
-	public function update(KalturaDistributionUpdateJobData $data)
+	public function update(BorhanDistributionUpdateJobData $data)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaMsnDistributionProfile))
-			throw new Exception("Distribution profile must be of type KalturaMsnDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanMsnDistributionProfile))
+			throw new Exception("Distribution profile must be of type BorhanMsnDistributionProfile");
 	
-		if(!$data->providerData || !($data->providerData instanceof KalturaMsnDistributionJobProviderData))
-			throw new Exception("Provider data must be of type KalturaMsnDistributionJobProviderData");
+		if(!$data->providerData || !($data->providerData instanceof BorhanMsnDistributionJobProviderData))
+			throw new Exception("Provider data must be of type BorhanMsnDistributionJobProviderData");
 		
 		$results = $this->handleSend($data, $data->distributionProfile, $data->providerData);
 		$matches = null;
@@ -95,7 +95,7 @@ class MsnDistributionEngine extends DistributionEngine implements
 	/* (non-PHPdoc)
 	 * @see IDistributionEngineCloseUpdate::closeUpdate()
 	 */
-	public function closeUpdate(KalturaDistributionUpdateJobData $data)
+	public function closeUpdate(BorhanDistributionUpdateJobData $data)
 	{
 		$errDescription = null;
 		$publishState = $this->fetchStatus($data, $errDescription);
@@ -115,19 +115,19 @@ class MsnDistributionEngine extends DistributionEngine implements
 				throw new Exception('Unknows MSN error');
 				
 			default:
-				KalturaLog::err("Unknown publishState [$publishState]");
+				BorhanLog::err("Unknown publishState [$publishState]");
 				return false;
 		}
 	}
 
 	/**
 	 * @param string $path
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaMsnDistributionProfile $distributionProfile
-	 * @param KalturaMsnDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanMsnDistributionProfile $distributionProfile
+	 * @param BorhanMsnDistributionJobProviderData $providerData
 	 * @throws Exception
 	 */
-	protected function handleSend(KalturaDistributionJobData $data, KalturaMsnDistributionProfile $distributionProfile, KalturaMsnDistributionJobProviderData $providerData)
+	protected function handleSend(BorhanDistributionJobData $data, BorhanMsnDistributionProfile $distributionProfile, BorhanMsnDistributionJobProviderData $providerData)
 	{
 		$domain = $distributionProfile->domain;
 		$username = $distributionProfile->username;
@@ -166,29 +166,29 @@ class MsnDistributionEngine extends DistributionEngine implements
 			throw new Exception("Curl error [$errDescription] number [$errNumber]", $errNumber);
 		}
 		curl_close($ch);
-		KalturaLog::log("MSN HTTP response:\n$results\n");
+		BorhanLog::log("MSN HTTP response:\n$results\n");
 		$data->sentData = $providerData->xml;
 		$data->results = $results;
 		return $results;
 	}
 	
 	/**
-	 * @param KalturaDistributionJobData $data
-	 * @param KalturaMsnDistributionProfile $distributionProfile
-	 * @param KalturaMsnDistributionJobProviderData $providerData
+	 * @param BorhanDistributionJobData $data
+	 * @param BorhanMsnDistributionProfile $distributionProfile
+	 * @param BorhanMsnDistributionJobProviderData $providerData
 	 */
-	protected function handleUpdate(KalturaDistributionJobData $data, KalturaMsnDistributionProfile $distributionProfile, KalturaMsnDistributionJobProviderData $providerData)
+	protected function handleUpdate(BorhanDistributionJobData $data, BorhanMsnDistributionProfile $distributionProfile, BorhanMsnDistributionJobProviderData $providerData)
 	{
 	}
 	
 	/**
-	 * @param KalturaDistributionJobData $data
+	 * @param BorhanDistributionJobData $data
 	 * @return string status
 	 */
-	protected function fetchStatus(KalturaDistributionJobData $data, &$errDescription)
+	protected function fetchStatus(BorhanDistributionJobData $data, &$errDescription)
 	{
-		if(!$data->distributionProfile || !($data->distributionProfile instanceof KalturaMsnDistributionProfile))
-			throw new Exception("Distribution profile must be of type KalturaMsnDistributionProfile");
+		if(!$data->distributionProfile || !($data->distributionProfile instanceof BorhanMsnDistributionProfile))
+			throw new Exception("Distribution profile must be of type BorhanMsnDistributionProfile");
 	
 		$xml = $this->fetchXML($data, $data->distributionProfile);
 	
@@ -207,11 +207,11 @@ class MsnDistributionEngine extends DistributionEngine implements
 	}
 
 	/**
-	 * @param KalturaDistributionJobData $data
+	 * @param BorhanDistributionJobData $data
 	 * @throws Exception
 	 * @return DOMDocument
 	 */
-	protected function fetchXML(KalturaDistributionJobData $data, KalturaMsnDistributionProfile $distributionProfile)
+	protected function fetchXML(BorhanDistributionJobData $data, BorhanMsnDistributionProfile $distributionProfile)
 	{
 		$domain = $distributionProfile->domain;
 		$username = $distributionProfile->username;
@@ -246,7 +246,7 @@ class MsnDistributionEngine extends DistributionEngine implements
 		}
 		curl_close($ch);
 
-		KalturaLog::info("results [$results]");
+		BorhanLog::info("results [$results]");
 		
 		$xml = new DOMDocument();
 		if($xml->loadXML($results))

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaBatchJobFilterExt extends KalturaBatchJobFilter
+class BorhanBatchJobFilterExt extends BorhanBatchJobFilter
 {
 	static private $map_between_objects = array
 	(

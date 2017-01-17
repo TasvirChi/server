@@ -1,29 +1,29 @@
-@LOG_DIR@/kaltura_admin.log {
+@LOG_DIR@/borhan_admin.log {
  rotate 5
  daily
  missingok
  compress
  dateext
  notifempty
- su root kaltura
+ su root borhan
 }
 
-@LOG_DIR@/kaltura_multi_publishers.log {
+@LOG_DIR@/borhan_multi_publishers.log {
  rotate 5
  daily
  missingok
  compress
  dateext
  notifempty
- su root kaltura
+ su root borhan
 }
 
-@LOG_DIR@/kaltura_hosted_pages.log {
+@LOG_DIR@/borhan_hosted_pages.log {
  rotate 5
  daily
  missingok
  compress
  dateext
  notifempty
- su root kaltura
+ su root borhan
 }

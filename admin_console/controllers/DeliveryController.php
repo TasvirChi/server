@@ -48,7 +48,7 @@ class DeliveryController extends Zend_Controller_Action
 			$newForm->getElement('newPartnerId')->setValue($partnerId);
 		}
 		
-		$filter = new Kaltura_Client_Type_DeliveryProfileFilter();
+		$filter = new Borhan_Client_Type_DeliveryProfileFilter();
 		$filter->partnerIdEqual = $partnerId;
 	
 		// get results and paginate
@@ -70,10 +70,10 @@ class DeliveryController extends Zend_Controller_Action
 	protected function getDeliveryProfiles($client, $partnerId, $streamerType, $dpIds = null, $deliveryType = 'VOD') {
 	
 		$options = array();
-		$deliveryProfileService = new Kaltura_Client_DeliveryProfileService($client);
+		$deliveryProfileService = new Borhan_Client_DeliveryProfileService($client);
 	
 		Infra_ClientHelper::impersonate($partnerId);
-		$filter = new Kaltura_Client_Type_DeliveryProfileFilter();
+		$filter = new Borhan_Client_Type_DeliveryProfileFilter();
 		if($dpIds) {
 			if(empty($dpIds))
 				return $options;
@@ -82,9 +82,9 @@ class DeliveryController extends Zend_Controller_Action
 		
 		$filter->streamerTypeEqual = $streamerType;
 		$filter->isLive = $deliveryType === "Live" ? true : false;
-		$filter->statusIn = Kaltura_Client_Enum_DeliveryStatus::ACTIVE . "," . Kaltura_Client_Enum_DeliveryStatus::STAGING_OUT;
+		$filter->statusIn = Borhan_Client_Enum_DeliveryStatus::ACTIVE . "," . Borhan_Client_Enum_DeliveryStatus::STAGING_OUT;
 		
-		$pager = new Kaltura_Client_Type_FilterPager();
+		$pager = new Borhan_Client_Type_FilterPager();
 		$pager->pageSize = 500;
 		
 		$dpsResponse = $deliveryProfileService->listAction($filter, $pager);
@@ -115,35 +115,35 @@ class DeliveryController extends Zend_Controller_Action
 	
 	protected function getDeliveryProfileForm($type) {
 		switch ($type) {
-			case Kaltura_Client_Enum_DeliveryProfileType::GENERIC_HLS:
-			case Kaltura_Client_Enum_DeliveryProfileType::GENERIC_HLS_MANIFEST:
+			case Borhan_Client_Enum_DeliveryProfileType::GENERIC_HLS:
+			case Borhan_Client_Enum_DeliveryProfileType::GENERIC_HLS_MANIFEST:
 				return new Form_Delivery_DeliveryProfileGenericAppleHttp();
-			case Kaltura_Client_Enum_DeliveryProfileType::GENERIC_HDS:
-			case Kaltura_Client_Enum_DeliveryProfileType::GENERIC_HDS_MANIFEST:
+			case Borhan_Client_Enum_DeliveryProfileType::GENERIC_HDS:
+			case Borhan_Client_Enum_DeliveryProfileType::GENERIC_HDS_MANIFEST:
 				return new Form_Delivery_DeliveryProfileGenericHds();
-			case Kaltura_Client_Enum_DeliveryProfileType::GENERIC_HTTP:
+			case Borhan_Client_Enum_DeliveryProfileType::GENERIC_HTTP:
 					return new Form_Delivery_DeliveryProfileGenericHttp();
-			case Kaltura_Client_Enum_DeliveryProfileType::RTMP:
-			case Kaltura_Client_Enum_DeliveryProfileType::LIVE_RTMP:
+			case Borhan_Client_Enum_DeliveryProfileType::RTMP:
+			case Borhan_Client_Enum_DeliveryProfileType::LIVE_RTMP:
 				return new Form_Delivery_DeliveryProfileRtmp();
-			case Kaltura_Client_Enum_DeliveryProfileType::AKAMAI_HTTP:
+			case Borhan_Client_Enum_DeliveryProfileType::AKAMAI_HTTP:
 				return new Form_Delivery_DeliveryProfileAkamaiHttp();
-			case Kaltura_Client_Enum_DeliveryProfileType::AKAMAI_HDS:
+			case Borhan_Client_Enum_DeliveryProfileType::AKAMAI_HDS:
 				return new Form_Delivery_DeliveryProfileAkamaiHds();
-			case Kaltura_Client_Enum_DeliveryProfileType::AKAMAI_HLS_MANIFEST:
+			case Borhan_Client_Enum_DeliveryProfileType::AKAMAI_HLS_MANIFEST:
 				return new Form_Delivery_DeliveryProfileAkamaiAppleHttpManifest();
-			case Kaltura_Client_Enum_DeliveryProfileType::LIVE_PACKAGER_HLS:
-			case Kaltura_Client_Enum_DeliveryProfileType::LIVE_HLS:
+			case Borhan_Client_Enum_DeliveryProfileType::LIVE_PACKAGER_HLS:
+			case Borhan_Client_Enum_DeliveryProfileType::LIVE_HLS:
 				return new Form_Delivery_DeliveryProfileLiveAppleHttp();
-			case Kaltura_Client_Enum_DeliveryProfileType::GENERIC_SS:
+			case Borhan_Client_Enum_DeliveryProfileType::GENERIC_SS:
 				return new Form_Delivery_DeliveryProfileGenericSilverLight();
-			case Kaltura_Client_Enum_DeliveryProfileType::GENERIC_RTMP:
+			case Borhan_Client_Enum_DeliveryProfileType::GENERIC_RTMP:
 				return new Form_Delivery_DeliveryProfileGenericRtmp();
-			case Kaltura_Client_Enum_DeliveryProfileType::VOD_PACKAGER_HLS:
+			case Borhan_Client_Enum_DeliveryProfileType::VOD_PACKAGER_HLS:
 				return new Form_Delivery_DeliveryProfileVodPackagerHls();
-			case Kaltura_Client_Enum_DeliveryProfileType::VOD_PACKAGER_DASH:
+			case Borhan_Client_Enum_DeliveryProfileType::VOD_PACKAGER_DASH:
 				return new Form_Delivery_DeliveryProfileVodPackagerPlayServer();
-			case Kaltura_Client_Enum_DeliveryProfileType::VOD_PACKAGER_MSS:
+			case Borhan_Client_Enum_DeliveryProfileType::VOD_PACKAGER_MSS:
 				return new Form_Delivery_DeliveryProfileVodPackagerPlayServer();
 			default:
 				return new Form_Delivery_DeliveryProfileConfiguration();
@@ -152,38 +152,38 @@ class DeliveryController extends Zend_Controller_Action
 	
 	protected function getDeliveryProfileClass($type) {
 		switch ($type) {
-			case Kaltura_Client_Enum_DeliveryProfileType::GENERIC_HLS:
-			case Kaltura_Client_Enum_DeliveryProfileType::GENERIC_HLS_MANIFEST:
-				return 'Kaltura_Client_Type_DeliveryProfileGenericAppleHttp';
-			case Kaltura_Client_Enum_DeliveryProfileType::GENERIC_HDS:
-			case Kaltura_Client_Enum_DeliveryProfileType::GENERIC_HDS_MANIFEST:
-				return 'Kaltura_Client_Type_DeliveryProfileGenericHds';
-			case Kaltura_Client_Enum_DeliveryProfileType::GENERIC_HTTP:
-				return 'Kaltura_Client_Type_DeliveryProfileGenericHttp';
-			case Kaltura_Client_Enum_DeliveryProfileType::RTMP:
-			case Kaltura_Client_Enum_DeliveryProfileType::LIVE_RTMP:
-				return 'Kaltura_Client_Type_DeliveryProfileRtmp';
-			case Kaltura_Client_Enum_DeliveryProfileType::AKAMAI_HTTP:
-				return 'Kaltura_Client_Type_DeliveryProfileAkamaiHttp';
-			case Kaltura_Client_Enum_DeliveryProfileType::AKAMAI_HDS:
-				return 'Kaltura_Client_Type_DeliveryProfileAkamaiHds';
-			case Kaltura_Client_Enum_DeliveryProfileType::AKAMAI_HLS_MANIFEST:
-				return 'Kaltura_Client_Type_DeliveryProfileAkamaiAppleHttpManifest';
-			case Kaltura_Client_Enum_DeliveryProfileType::LIVE_PACKAGER_HLS:
-			case Kaltura_Client_Enum_DeliveryProfileType::LIVE_HLS:
-				return 'Kaltura_Client_Type_DeliveryProfileLiveAppleHttp';
-			case Kaltura_Client_Enum_DeliveryProfileType::GENERIC_SS:
-				return 'Kaltura_Client_Type_DeliveryProfileGenericSilverLight';
-			case Kaltura_Client_Enum_DeliveryProfileType::GENERIC_RTMP:
-				return 'Kaltura_Client_Type_DeliveryProfileGenericRtmp';
-			case Kaltura_Client_Enum_DeliveryProfileType::VOD_PACKAGER_HLS:
-				return 'Kaltura_Client_Type_DeliveryProfileVodPackagerHls';
-			case Kaltura_Client_Enum_DeliveryProfileType::VOD_PACKAGER_DASH:
-				return 'Kaltura_Client_Type_DeliveryProfileVodPackagerPlayServer';
-			case Kaltura_Client_Enum_DeliveryProfileType::VOD_PACKAGER_MSS:
-				return 'Kaltura_Client_Type_DeliveryProfileVodPackagerPlayServer';
+			case Borhan_Client_Enum_DeliveryProfileType::GENERIC_HLS:
+			case Borhan_Client_Enum_DeliveryProfileType::GENERIC_HLS_MANIFEST:
+				return 'Borhan_Client_Type_DeliveryProfileGenericAppleHttp';
+			case Borhan_Client_Enum_DeliveryProfileType::GENERIC_HDS:
+			case Borhan_Client_Enum_DeliveryProfileType::GENERIC_HDS_MANIFEST:
+				return 'Borhan_Client_Type_DeliveryProfileGenericHds';
+			case Borhan_Client_Enum_DeliveryProfileType::GENERIC_HTTP:
+				return 'Borhan_Client_Type_DeliveryProfileGenericHttp';
+			case Borhan_Client_Enum_DeliveryProfileType::RTMP:
+			case Borhan_Client_Enum_DeliveryProfileType::LIVE_RTMP:
+				return 'Borhan_Client_Type_DeliveryProfileRtmp';
+			case Borhan_Client_Enum_DeliveryProfileType::AKAMAI_HTTP:
+				return 'Borhan_Client_Type_DeliveryProfileAkamaiHttp';
+			case Borhan_Client_Enum_DeliveryProfileType::AKAMAI_HDS:
+				return 'Borhan_Client_Type_DeliveryProfileAkamaiHds';
+			case Borhan_Client_Enum_DeliveryProfileType::AKAMAI_HLS_MANIFEST:
+				return 'Borhan_Client_Type_DeliveryProfileAkamaiAppleHttpManifest';
+			case Borhan_Client_Enum_DeliveryProfileType::LIVE_PACKAGER_HLS:
+			case Borhan_Client_Enum_DeliveryProfileType::LIVE_HLS:
+				return 'Borhan_Client_Type_DeliveryProfileLiveAppleHttp';
+			case Borhan_Client_Enum_DeliveryProfileType::GENERIC_SS:
+				return 'Borhan_Client_Type_DeliveryProfileGenericSilverLight';
+			case Borhan_Client_Enum_DeliveryProfileType::GENERIC_RTMP:
+				return 'Borhan_Client_Type_DeliveryProfileGenericRtmp';
+			case Borhan_Client_Enum_DeliveryProfileType::VOD_PACKAGER_HLS:
+				return 'Borhan_Client_Type_DeliveryProfileVodPackagerHls';
+			case Borhan_Client_Enum_DeliveryProfileType::VOD_PACKAGER_DASH:
+				return 'Borhan_Client_Type_DeliveryProfileVodPackagerPlayServer';
+			case Borhan_Client_Enum_DeliveryProfileType::VOD_PACKAGER_MSS:
+				return 'Borhan_Client_Type_DeliveryProfileVodPackagerPlayServer';
 			default:
-				return 'Kaltura_Client_Type_DeliveryProfile';
+				return 'Borhan_Client_Type_DeliveryProfile';
 		}
 	}
 	
@@ -191,29 +191,29 @@ class DeliveryController extends Zend_Controller_Action
 		switch($type) {
 			case 'Null':
 				return new Form_Delivery_DeliveryProfileNullTokenizer();
-			case 'Kaltura_Client_Type_UrlTokenizerAkamaiSecureHd':
+			case 'Borhan_Client_Type_UrlTokenizerAkamaiSecureHd':
 				return new Form_Delivery_UrlTokenizerAkamaiSecureHd();
-			case 'Kaltura_Client_Type_UrlTokenizerLevel3':
+			case 'Borhan_Client_Type_UrlTokenizerLevel3':
 				return new Form_Delivery_UrlTokenizerLevel3();
-			case 'Kaltura_Client_Type_UrlTokenizerLimeLight':
+			case 'Borhan_Client_Type_UrlTokenizerLimeLight':
 				return new Form_Delivery_UrlTokenizerLimeLight();
-			case 'Kaltura_Client_Type_UrlTokenizerAkamaiHttp':
+			case 'Borhan_Client_Type_UrlTokenizerAkamaiHttp':
 				return new Form_Delivery_UrlTokenizerAkamaiHttp();
-			case 'Kaltura_Client_Type_UrlTokenizerAkamaiRtmp':
+			case 'Borhan_Client_Type_UrlTokenizerAkamaiRtmp':
 				return new Form_Delivery_UrlTokenizerAkamaiRtmp();
-			case 'Kaltura_Client_Type_UrlTokenizerAkamaiRtsp':
+			case 'Borhan_Client_Type_UrlTokenizerAkamaiRtsp':
 				return new Form_Delivery_UrlTokenizerAkamaiRtsp();
-			case 'Kaltura_Client_Type_UrlTokenizerBitGravity':
+			case 'Borhan_Client_Type_UrlTokenizerBitGravity':
 				return new Form_Delivery_UrlTokenizerBitGravity();
-			case 'Kaltura_Client_Type_UrlTokenizerCloudFront':
+			case 'Borhan_Client_Type_UrlTokenizerCloudFront':
 					return new Form_Delivery_UrlTokenizerCloudFront();
-			case 'Kaltura_Client_Type_UrlTokenizerVnpt':
+			case 'Borhan_Client_Type_UrlTokenizerVnpt':
 					return new Form_Delivery_UrlTokenizerVnpt();
-			case 'Kaltura_Client_Type_UrlTokenizerCht':
+			case 'Borhan_Client_Type_UrlTokenizerCht':
 					return new Form_Delivery_UrlTokenizerLimeLight();
 				
 			default:
-				return KalturaPluginManager::loadObject('Form_Delivery_DeliveryProfileTokenizer', $type, array());
+				return BorhanPluginManager::loadObject('Form_Delivery_DeliveryProfileTokenizer', $type, array());
 		}
 	}
 	
@@ -230,20 +230,20 @@ class DeliveryController extends Zend_Controller_Action
 	
 		$tokenizer = array();
 		$tokenizer['Null'] = $this->view->translate('No Tokenizer');
-		$tokenizer['Kaltura_Client_Type_UrlTokenizerLevel3'] = $this->view->translate('Kaltura_Client_Type_UrlTokenizerLevel3');
-		$tokenizer['Kaltura_Client_Type_UrlTokenizerLimeLight'] = $this->view->translate('Kaltura_Client_Type_UrlTokenizerLimeLight');
-		$tokenizer['Kaltura_Client_Type_UrlTokenizerAkamaiHttp'] = $this->view->translate('Kaltura_Client_Type_UrlTokenizerAkamaiHttp');
-		$tokenizer['Kaltura_Client_Type_UrlTokenizerAkamaiRtmp'] = $this->view->translate('Kaltura_Client_Type_UrlTokenizerAkamaiRtmp');
-		$tokenizer['Kaltura_Client_Type_UrlTokenizerAkamaiRtsp'] = $this->view->translate('Kaltura_Client_Type_UrlTokenizerAkamaiRtsp');
-		$tokenizer['Kaltura_Client_Type_UrlTokenizerBitGravity'] = $this->view->translate('Kaltura_Client_Type_UrlTokenizerBitGravity');
-		$tokenizer['Kaltura_Client_Type_UrlTokenizerAkamaiSecureHd'] = $this->view->translate('Kaltura_Client_Type_UrlTokenizerAkamaiSecureHd');
-		$tokenizer['Kaltura_Client_Type_UrlTokenizerCloudFront'] = $this->view->translate('Kaltura_Client_Type_UrlTokenizerCloudFront');
-		$tokenizer['Kaltura_Client_Type_UrlTokenizerVnpt'] = $this->view->translate('Kaltura_Client_Type_UrlTokenizerVnpt');
-		$tokenizer['Kaltura_Client_Type_UrlTokenizerCht'] = $this->view->translate('Kaltura_Client_Type_UrlTokenizerCht');
+		$tokenizer['Borhan_Client_Type_UrlTokenizerLevel3'] = $this->view->translate('Borhan_Client_Type_UrlTokenizerLevel3');
+		$tokenizer['Borhan_Client_Type_UrlTokenizerLimeLight'] = $this->view->translate('Borhan_Client_Type_UrlTokenizerLimeLight');
+		$tokenizer['Borhan_Client_Type_UrlTokenizerAkamaiHttp'] = $this->view->translate('Borhan_Client_Type_UrlTokenizerAkamaiHttp');
+		$tokenizer['Borhan_Client_Type_UrlTokenizerAkamaiRtmp'] = $this->view->translate('Borhan_Client_Type_UrlTokenizerAkamaiRtmp');
+		$tokenizer['Borhan_Client_Type_UrlTokenizerAkamaiRtsp'] = $this->view->translate('Borhan_Client_Type_UrlTokenizerAkamaiRtsp');
+		$tokenizer['Borhan_Client_Type_UrlTokenizerBitGravity'] = $this->view->translate('Borhan_Client_Type_UrlTokenizerBitGravity');
+		$tokenizer['Borhan_Client_Type_UrlTokenizerAkamaiSecureHd'] = $this->view->translate('Borhan_Client_Type_UrlTokenizerAkamaiSecureHd');
+		$tokenizer['Borhan_Client_Type_UrlTokenizerCloudFront'] = $this->view->translate('Borhan_Client_Type_UrlTokenizerCloudFront');
+		$tokenizer['Borhan_Client_Type_UrlTokenizerVnpt'] = $this->view->translate('Borhan_Client_Type_UrlTokenizerVnpt');
+		$tokenizer['Borhan_Client_Type_UrlTokenizerCht'] = $this->view->translate('Borhan_Client_Type_UrlTokenizerCht');
 		
 		// Plugins
-		$tokenizer['Kaltura_Client_Type_UrlTokenizerUplynk'] = $this->view->translate('Kaltura_Client_Type_UrlTokenizerUplynk');
-		$tokenizer['Kaltura_Client_Type_UrlTokenizerVelocix'] = $this->view->translate('Kaltura_Client_Type_UrlTokenizerVelocix');
+		$tokenizer['Borhan_Client_Type_UrlTokenizerUplynk'] = $this->view->translate('Borhan_Client_Type_UrlTokenizerUplynk');
+		$tokenizer['Borhan_Client_Type_UrlTokenizerVelocix'] = $this->view->translate('Borhan_Client_Type_UrlTokenizerVelocix');
 		
 		return $tokenizer;
 	}
@@ -251,7 +251,7 @@ class DeliveryController extends Zend_Controller_Action
 	protected function getRecognizerClasses() {
 		$recognizer = array();
 		$recognizer['Null'] = $this->view->translate('No Recognizer');
-		$recognizer['Kaltura_Client_Type_UrlRecognizer'] = $this->view->translate('Kaltura_Client_Type_UrlRecognizer');
+		$recognizer['Borhan_Client_Type_UrlRecognizer'] = $this->view->translate('Borhan_Client_Type_UrlRecognizer');
 		return $recognizer;
 	}
 	
@@ -304,7 +304,7 @@ class DeliveryController extends Zend_Controller_Action
 	
 		$request = $this->getRequest();
 	
-		$pager = new Kaltura_Client_Type_FilterPager();
+		$pager = new Borhan_Client_Type_FilterPager();
 		$pager->pageSize = 500;
 		if (!$deliveryProfileId) //new
 		{
@@ -387,11 +387,11 @@ class DeliveryController extends Zend_Controller_Action
 		$deliveryProfileId =  $request->getParam('deliveryProfileId');
 		
 		$client = Infra_ClientHelper::getClient();
-		$deliveryProfileService = new Kaltura_Client_DeliveryProfileService($client);
+		$deliveryProfileService = new Borhan_Client_DeliveryProfileService($client);
 		
 		Infra_ClientHelper::impersonate($partnerId);
 		
-		$deliveryProfile = new Kaltura_Client_Type_DeliveryProfile();
+		$deliveryProfile = new Borhan_Client_Type_DeliveryProfile();
 		$deliveryProfile->status = $status;
 		$deliveryProfileService->update($deliveryProfileId, $deliveryProfile);
 		

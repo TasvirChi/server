@@ -15,13 +15,13 @@
 						'&subPartnerId=' . $subp_id . 
 						'&kshow_id=' . $kshow_id . 
 						'&host=' . $host . //$domain; it's an enum
-						'&afterAddentry=Kaltura.onAfterAddEntry' .
-						'&close=Kaltura.onClose' .
+						'&afterAddentry=Borhan.onAfterAddEntry' .
+						'&close=Borhan.onClose' .
 						'&lang=' . $lang . 
-						'&terms_of_use=http://www.kaltura.com/index.php/static/tandc' ;
+						'&terms_of_use=http://www.borhan.com/index.php/static/tandc' ;
 	$str = "";
 					
-    $widget = '<object id="kaltura_contribution_wizard" type="application/x-shockwave-flash" allowScriptAccess="always" allowNetworking="all" height="' . $height . '" width="' . $width . '" data="'.$domain. $swf_url . '">'.
+    $widget = '<object id="borhan_contribution_wizard" type="application/x-shockwave-flash" allowScriptAccess="always" allowNetworking="all" height="' . $height . '" width="' . $width . '" data="'.$domain. $swf_url . '">'.
 			'<param name="allowScriptAccess" value="always" />'.
 			'<param name="allowNetworking" value="all" />'.
 			'<param name="bgcolor" value=#000000 />'.
@@ -30,7 +30,7 @@
 			'</object>';
 ?>
 
-Kaltura = {
+Borhan = {
 	initModalBox: function(){
 		var objBody = document.getElementsByTagName("body").item(0);
 
@@ -38,7 +38,7 @@ Kaltura = {
 		var objOverlay = document.createElement("div");
 		objOverlay.setAttribute('id','overlay');
 		objOverlay.onclick = function(){ 
-			Kaltura.hideModalBox(); 
+			Borhan.hideModalBox(); 
 			return false; 
 		}
 		objBody.appendChild(objOverlay, objBody.firstChild);
@@ -52,7 +52,7 @@ Kaltura = {
 		objCloseBtn.setAttribute('id','mbCloseBtn');
 		objCloseBtn.setAttribute('href','#');
 		objCloseBtn.onclick = function(){ 
-			Kaltura.hideModalBox(); 
+			Borhan.hideModalBox(); 
 			return false; 
 		}
 		objModalbox.appendChild(objCloseBtn, objModalbox.firstChild);
@@ -72,11 +72,11 @@ Kaltura = {
 	},
 	
 	onAfterAddEntry: function () {
-		setTimeout('Kaltura.hideModalBox()', 0);
+		setTimeout('Borhan.hideModalBox()', 0);
 	},
 	
 	onClose: function () {
-		setTimeout('Kaltura.hideModalBox()', 0);
+		setTimeout('Borhan.hideModalBox()', 0);
 	},
 
 	loadJSCssFile: function(filename,filetype){
@@ -106,8 +106,8 @@ Kaltura = {
 	}
 };
 
-Kaltura.loadJSCssFile('/css/widget.css','css');
+Borhan.loadJSCssFile('/css/widget.css','css');
 
-setTimeout('Kaltura.initModalBox()', 0);
+setTimeout('Borhan.initModalBox()', 0);
 
 

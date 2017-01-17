@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaPlayableEntry extends KalturaBaseEntry
+class BorhanPlayableEntry extends BorhanBaseEntry
 {
 	/**
 	 * Number of plays
@@ -68,7 +68,7 @@ class KalturaPlayableEntry extends KalturaBaseEntry
 	/**
 	 * The duration type (short for 0-4 mins, medium for 4-20 mins, long for 20+ mins)
 	 * 
-	 * @var KalturaDurationType
+	 * @var BorhanDurationType
 	 * @readonly
 	 * @filter matchor
 	 */
@@ -86,7 +86,7 @@ class KalturaPlayableEntry extends KalturaBaseEntry
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseEntry::getMapBetweenObjects()
+	 * @see BorhanBaseEntry::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -94,7 +94,7 @@ class KalturaPlayableEntry extends KalturaBaseEntry
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseEntry::toObject()
+	 * @see BorhanBaseEntry::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

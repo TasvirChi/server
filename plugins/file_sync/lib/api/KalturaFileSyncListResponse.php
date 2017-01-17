@@ -3,10 +3,10 @@
  * @package plugins.fileSync
  * @subpackage api.objects
  */
-class KalturaFileSyncListResponse extends KalturaListResponse
+class BorhanFileSyncListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaFileSyncArray
+	 * @var BorhanFileSyncArray
 	 * @readonly
 	 */
 	public $objects;

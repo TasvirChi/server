@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-abstract class KalturaServerNode extends KalturaObject implements IFilterable, IApiObjectFactory
+abstract class BorhanServerNode extends BorhanObject implements IFilterable, IApiObjectFactory
 {
 	/**
 	 * @var int
@@ -70,14 +70,14 @@ abstract class KalturaServerNode extends KalturaObject implements IFilterable, I
 	public $hostName;
 	
 	/**
-	 * @var KalturaServerNodeStatus
+	 * @var BorhanServerNodeStatus
 	 * @readonly
 	 * @filter eq,in
 	 */
 	public $status;
 	
 	/**
-	 * @var KalturaServerNodeType
+	 * @var BorhanServerNodeType
 	 * @readonly
 	 * @filter eq,in
 	 */
@@ -127,7 +127,7 @@ abstract class KalturaServerNode extends KalturaObject implements IFilterable, I
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -168,7 +168,7 @@ abstract class KalturaServerNode extends KalturaObject implements IFilterable, I
 	
 	public function validateHostNameDuplication($serverNodeId = null, $type)
 	{
-		$c = KalturaCriteria::create(ServerNodePeer::OM_CLASS);
+		$c = BorhanCriteria::create(ServerNodePeer::OM_CLASS);
 		
 		if($serverNodeId)
 			$c->add(ServerNodePeer::ID, $serverNodeId, Criteria::NOT_EQUAL);
@@ -177,12 +177,12 @@ abstract class KalturaServerNode extends KalturaObject implements IFilterable, I
 		$c->add(ServerNodePeer::TYPE, $type);
 		
 		if(ServerNodePeer::doCount($c))
-			throw new KalturaAPIException(KalturaErrors::HOST_NAME_ALREADY_EXISTS, $this->hostName);
+			throw new BorhanAPIException(BorhanErrors::HOST_NAME_ALREADY_EXISTS, $this->hostName);
 	}
 	
 	public function validateSystemNameDuplication($serverNodeId = null, $type)
 	{
-		$c = KalturaCriteria::create(ServerNodePeer::OM_CLASS);
+		$c = BorhanCriteria::create(ServerNodePeer::OM_CLASS);
 	
 		if($serverNodeId)
 			$c->add(ServerNodePeer::ID, $serverNodeId, Criteria::NOT_EQUAL);
@@ -191,13 +191,13 @@ abstract class KalturaServerNode extends KalturaObject implements IFilterable, I
 		$c->add(ServerNodePeer::TYPE, $type);
 	
 		if(ServerNodePeer::doCount($c))
-			throw new KalturaAPIException(KalturaErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
+			throw new BorhanAPIException(BorhanErrors::SYSTEM_NAME_ALREADY_EXISTS, $this->systemName);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject()
+	 * @see BorhanObject::fromObject()
 	 */
-	public function doFromObject($source_object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($source_object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($source_object, $responseProfile);
 		
@@ -222,20 +222,20 @@ abstract class KalturaServerNode extends KalturaObject implements IFilterable, I
 		return array();
 	}
 	
-	public static function getInstance($sourceObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function getInstance($sourceObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$type = $sourceObject->getType();
 		
 		switch ($type)
 		{
-			case KalturaServerNodeType::EDGE:
-				$object = new KalturaEdgeServerNode();
+			case BorhanServerNodeType::EDGE:
+				$object = new BorhanEdgeServerNode();
 				break;
 		
 			default:
-				$object = KalturaPluginManager::loadObject('KalturaServerNode', $type);
+				$object = BorhanPluginManager::loadObject('BorhanServerNode', $type);
 				if(!$object)
-					$object = new KalturaServerNode();
+					$object = new BorhanServerNode();
 				break;
 		}
 		

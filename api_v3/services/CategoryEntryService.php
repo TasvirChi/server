@@ -5,7 +5,7 @@
  *
  * @service categoryEntry
  */
-class CategoryEntryService extends KalturaBaseService
+class CategoryEntryService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -18,31 +18,31 @@ class CategoryEntryService extends KalturaBaseService
 	 * Add new CategoryEntry
 	 * 
 	 * @action add
-	 * @param KalturaCategoryEntry $categoryEntry
-	 * @throws KalturaErrors::INVALID_ENTRY_ID
-	 * @throws KalturaErrors::CATEGORY_NOT_FOUND
-	 * @throws KalturaErrors::CANNOT_ASSIGN_ENTRY_TO_CATEGORY
-	 * @throws KalturaErrors::CATEGORY_ENTRY_ALREADY_EXISTS
-	 * @return KalturaCategoryEntry
+	 * @param BorhanCategoryEntry $categoryEntry
+	 * @throws BorhanErrors::INVALID_ENTRY_ID
+	 * @throws BorhanErrors::CATEGORY_NOT_FOUND
+	 * @throws BorhanErrors::CANNOT_ASSIGN_ENTRY_TO_CATEGORY
+	 * @throws BorhanErrors::CATEGORY_ENTRY_ALREADY_EXISTS
+	 * @return BorhanCategoryEntry
 	 */
-	function addAction(KalturaCategoryEntry $categoryEntry)
+	function addAction(BorhanCategoryEntry $categoryEntry)
 	{
 		$categoryEntry->validateForInsert();
 		
 		$entry = entryPeer::retrieveByPK($categoryEntry->entryId);
 		if (!$entry)
-			throw new KalturaAPIException(KalturaErrors::INVALID_ENTRY_ID, $categoryEntry->entryId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_ENTRY_ID, $categoryEntry->entryId);
 			
 		$category = categoryPeer::retrieveByPK($categoryEntry->categoryId);
 		if (!$category)
-			throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $categoryEntry->categoryId);
+			throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $categoryEntry->categoryId);
 			
 		$categoryEntries = categoryEntryPeer::retrieveActiveAndPendingByEntryId($categoryEntry->entryId);
 		
 		$maxCategoriesPerEntry = $entry->getMaxCategoriesPerEntry();
 			
 		if (count($categoryEntries) >= $maxCategoriesPerEntry)
-			throw new KalturaAPIException(KalturaErrors::MAX_CATEGORIES_FOR_ENTRY_REACHED, $maxCategoriesPerEntry);
+			throw new BorhanAPIException(BorhanErrors::MAX_CATEGORIES_FOR_ENTRY_REACHED, $maxCategoriesPerEntry);
 			
 		//validate user is entiteld to assign entry to this category 
 		if (kEntitlementUtils::getEntitlementEnforcement() && $category->getContributionPolicy() != ContributionPolicyType::ALL)
@@ -50,24 +50,24 @@ class CategoryEntryService extends KalturaBaseService
 			$categoryKuser = categoryKuserPeer::retrievePermittedKuserInCategory($categoryEntry->categoryId, kCurrentContext::getCurrentKsKuserId());
 			if(!$categoryKuser)
 			{
-				KalturaLog::err("User [" . kCurrentContext::getCurrentKsKuserId() . "] is not a member of the category [{$categoryEntry->categoryId}]");
-				throw new KalturaAPIException(KalturaErrors::CANNOT_ASSIGN_ENTRY_TO_CATEGORY);
+				BorhanLog::err("User [" . kCurrentContext::getCurrentKsKuserId() . "] is not a member of the category [{$categoryEntry->categoryId}]");
+				throw new BorhanAPIException(BorhanErrors::CANNOT_ASSIGN_ENTRY_TO_CATEGORY);
 			}
 			if($categoryKuser->getPermissionLevel() == CategoryKuserPermissionLevel::MEMBER)
 			{
-				KalturaLog::err("User [" . kCurrentContext::getCurrentKsKuserId() . "] permission level [" . $categoryKuser->getPermissionLevel() . "] on category [{$categoryEntry->categoryId}] is not member [" . CategoryKuserPermissionLevel::MEMBER . "]");
-				throw new KalturaAPIException(KalturaErrors::CANNOT_ASSIGN_ENTRY_TO_CATEGORY);
+				BorhanLog::err("User [" . kCurrentContext::getCurrentKsKuserId() . "] permission level [" . $categoryKuser->getPermissionLevel() . "] on category [{$categoryEntry->categoryId}] is not member [" . CategoryKuserPermissionLevel::MEMBER . "]");
+				throw new BorhanAPIException(BorhanErrors::CANNOT_ASSIGN_ENTRY_TO_CATEGORY);
 			}
 				
 			if(!$categoryKuser->hasPermission(PermissionName::CATEGORY_EDIT) && !$categoryKuser->hasPermission(PermissionName::CATEGORY_CONTRIBUTE) &&
 				$entry->getKuserId() != kCurrentContext::getCurrentKsKuserId() && 
 				$entry->getCreatorKuserId() != kCurrentContext::getCurrentKsKuserId())
-				throw new KalturaAPIException(KalturaErrors::CANNOT_ASSIGN_ENTRY_TO_CATEGORY);				
+				throw new BorhanAPIException(BorhanErrors::CANNOT_ASSIGN_ENTRY_TO_CATEGORY);				
 		}
 		
 		$categoryEntryExists = categoryEntryPeer::retrieveByCategoryIdAndEntryId($categoryEntry->categoryId, $categoryEntry->entryId);
 		if($categoryEntryExists && $categoryEntryExists->getStatus() == CategoryEntryStatus::ACTIVE)
-			throw new KalturaAPIException(KalturaErrors::CATEGORY_ENTRY_ALREADY_EXISTS);
+			throw new BorhanAPIException(BorhanErrors::CATEGORY_ENTRY_ALREADY_EXISTS);
 		
 		if(!$categoryEntryExists)
 		{
@@ -93,7 +93,7 @@ class CategoryEntryService extends KalturaBaseService
 		}
 		
 		if ($category->getModeration() && 
-		   (kEntitlementUtils::getCategoryModeration() || $this->getPartner()->getEnabledService(KalturaPermissionName::FEATURE_BLOCK_CATEGORY_MODERATION_SELF_APPROVE)))
+		   (kEntitlementUtils::getCategoryModeration() || $this->getPartner()->getEnabledService(BorhanPermissionName::FEATURE_BLOCK_CATEGORY_MODERATION_SELF_APPROVE)))
 		{
 			$dbCategoryEntry->setStatus(CategoryEntryStatus::PENDING);
 		}
@@ -115,7 +115,7 @@ class CategoryEntryService extends KalturaBaseService
 		$entry = entryPeer::retrieveByPK($categoryEntry->entryId);		
 		myNotificationMgr::createNotification(kNotificationJobData::NOTIFICATION_TYPE_ENTRY_UPDATE, $entry);
 		
-		$categoryEntry = new KalturaCategoryEntry();
+		$categoryEntry = new BorhanCategoryEntry();
 		$categoryEntry->fromObject($dbCategoryEntry, $this->getResponseProfile());
 
 		return $categoryEntry;
@@ -127,10 +127,10 @@ class CategoryEntryService extends KalturaBaseService
 	 * @action delete
 	 * @param string $entryId
 	 * @param int $categoryId
-	 * @throws KalturaErrors::INVALID_ENTRY_ID
-	 * @throws KalturaErrors::CATEGORY_NOT_FOUND
-	 * @throws KalturaErrors::CANNOT_REMOVE_ENTRY_FROM_CATEGORY
-	 * @throws KalturaErrors::ENTRY_IS_NOT_ASSIGNED_TO_CATEGORY
+	 * @throws BorhanErrors::INVALID_ENTRY_ID
+	 * @throws BorhanErrors::CATEGORY_NOT_FOUND
+	 * @throws BorhanErrors::CANNOT_REMOVE_ENTRY_FROM_CATEGORY
+	 * @throws BorhanErrors::ENTRY_IS_NOT_ASSIGNED_TO_CATEGORY
 	 * 
 	 */
 	function deleteAction($entryId, $categoryId)
@@ -140,12 +140,12 @@ class CategoryEntryService extends KalturaBaseService
 		if (!$entry)
 		{
 			if (kCurrentContext::$master_partner_id != Partner::BATCH_PARTNER_ID)
-				throw new KalturaAPIException(KalturaErrors::INVALID_ENTRY_ID, $entryId);
+				throw new BorhanAPIException(BorhanErrors::INVALID_ENTRY_ID, $entryId);
 		}
 			
 		$category = categoryPeer::retrieveByPK($categoryId);
 		if (!$category && kCurrentContext::$master_partner_id != Partner::BATCH_PARTNER_ID)
-			throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $categoryId);
+			throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $categoryId);
 		
 		//validate user is entiteld to remove entry from category 
 		if(kEntitlementUtils::getEntitlementEnforcement() && 
@@ -178,13 +178,13 @@ class CategoryEntryService extends KalturaBaseService
 
 			if ( ! $kuserIsEntitled )
 			{
-				throw new KalturaAPIException(KalturaErrors::CANNOT_REMOVE_ENTRY_FROM_CATEGORY);
+				throw new BorhanAPIException(BorhanErrors::CANNOT_REMOVE_ENTRY_FROM_CATEGORY);
 			}
 		}
 			
 		$dbCategoryEntry = categoryEntryPeer::retrieveByCategoryIdAndEntryId($categoryId, $entryId);
 		if(!$dbCategoryEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_IS_NOT_ASSIGNED_TO_CATEGORY);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_IS_NOT_ASSIGNED_TO_CATEGORY);
 		
 		$dbCategoryEntry->setStatus(CategoryEntryStatus::DELETED);
 		$dbCategoryEntry->save();
@@ -198,19 +198,19 @@ class CategoryEntryService extends KalturaBaseService
 	 * List all categoryEntry
 	 * 
 	 * @action list
-	 * @param KalturaCategoryEntryFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @throws KalturaErrors::MUST_FILTER_ENTRY_ID_EQUAL
-	 * @throws KalturaErrors::MUST_FILTER_ON_ENTRY_OR_CATEGORY
-	 * @return KalturaCategoryEntryListResponse
+	 * @param BorhanCategoryEntryFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @throws BorhanErrors::MUST_FILTER_ENTRY_ID_EQUAL
+	 * @throws BorhanErrors::MUST_FILTER_ON_ENTRY_OR_CATEGORY
+	 * @return BorhanCategoryEntryListResponse
 	 */
-	function listAction(KalturaCategoryEntryFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanCategoryEntryFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaCategoryEntryFilter();
+			$filter = new BorhanCategoryEntryFilter();
 			
 		if(!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 			
 		return $filter->getListResponse($pager, $this->getResponseProfile());
 	}
@@ -222,17 +222,17 @@ class CategoryEntryService extends KalturaBaseService
 	 * @param string $entryId
 	 * @param int $categoryId
 	 * @param bool $shouldUpdate
-	 * @throws KalturaErrors::ENTRY_IS_NOT_ASSIGNED_TO_CATEGORY
+	 * @throws BorhanErrors::ENTRY_IS_NOT_ASSIGNED_TO_CATEGORY
 	 * @return int
 	 */
 	function indexAction($entryId, $categoryId, $shouldUpdate = true)
 	{
 		if(kEntitlementUtils::getEntitlementEnforcement())
-			throw new KalturaAPIException(KalturaErrors::CANNOT_INDEX_OBJECT_WHEN_ENTITLEMENT_IS_ENABLE);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_INDEX_OBJECT_WHEN_ENTITLEMENT_IS_ENABLE);
 		
 		$dbCategoryEntry = categoryEntryPeer::retrieveByCategoryIdAndEntryId($categoryId, $entryId);
 		if(!$dbCategoryEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_IS_NOT_ASSIGNED_TO_CATEGORY);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_IS_NOT_ASSIGNED_TO_CATEGORY);
 			
 		if (!$shouldUpdate)
 		{
@@ -285,24 +285,24 @@ class CategoryEntryService extends KalturaBaseService
 	 * @action activate
 	 * @param string $entryId
 	 * @param int $categoryId
-	 * @throws KalturaErrors::INVALID_ENTRY_ID
-	 * @throws KalturaErrors::CATEGORY_NOT_FOUND
-	 * @throws KalturaErrors::ENTRY_IS_NOT_ASSIGNED_TO_CATEGORY
-	 * @throws KalturaErrors::CANNOT_ACTIVATE_CATEGORY_ENTRY
+	 * @throws BorhanErrors::INVALID_ENTRY_ID
+	 * @throws BorhanErrors::CATEGORY_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_IS_NOT_ASSIGNED_TO_CATEGORY
+	 * @throws BorhanErrors::CANNOT_ACTIVATE_CATEGORY_ENTRY
 	 */
 	function activateAction($entryId, $categoryId)
 	{
 		$entry = entryPeer::retrieveByPK($entryId);
 		if (!$entry)
-			throw new KalturaAPIException(KalturaErrors::INVALID_ENTRY_ID, $entryId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_ENTRY_ID, $entryId);
 			
 		$category = categoryPeer::retrieveByPK($categoryId);
 		if (!$category)
-			throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $categoryId);
+			throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $categoryId);
 		
 		$dbCategoryEntry = categoryEntryPeer::retrieveByCategoryIdAndEntryIdNotRejected($categoryId, $entryId);
 		if(!$dbCategoryEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_IS_NOT_ASSIGNED_TO_CATEGORY);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_IS_NOT_ASSIGNED_TO_CATEGORY);
 			
 		//validate user is entiteld to activate entry from category 
 		if(kEntitlementUtils::getEntitlementEnforcement())
@@ -311,18 +311,18 @@ class CategoryEntryService extends KalturaBaseService
 			if(!$categoryKuser || 
 				($categoryKuser->getPermissionLevel() != CategoryKuserPermissionLevel::MANAGER && 
 				 $categoryKuser->getPermissionLevel() != CategoryKuserPermissionLevel::MODERATOR))
-					throw new KalturaAPIException(KalturaErrors::CANNOT_ACTIVATE_CATEGORY_ENTRY);
+					throw new BorhanAPIException(BorhanErrors::CANNOT_ACTIVATE_CATEGORY_ENTRY);
 					
 		}
 		
 		if (kCurrentContext::getCurrentKsKuserId() == $dbCategoryEntry->getCreatorKuserId() &&
-			$this->getPartner()->getEnabledService(KalturaPermissionName::FEATURE_BLOCK_CATEGORY_MODERATION_SELF_APPROVE))
+			$this->getPartner()->getEnabledService(BorhanPermissionName::FEATURE_BLOCK_CATEGORY_MODERATION_SELF_APPROVE))
 		{
-			throw new KalturaAPIException(KalturaErrors::CANNOT_ACTIVATE_CATEGORY_ENTRY);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_ACTIVATE_CATEGORY_ENTRY);
 		}
 			
 		if($dbCategoryEntry->getStatus() != CategoryEntryStatus::PENDING)
-			throw new KalturaAPIException(KalturaErrors::CANNOT_ACTIVATE_CATEGORY_ENTRY_SINCE_IT_IS_NOT_PENDING);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_ACTIVATE_CATEGORY_ENTRY_SINCE_IT_IS_NOT_PENDING);
 			
 		$dbCategoryEntry->setStatus(CategoryEntryStatus::ACTIVE);
 		$dbCategoryEntry->save();
@@ -334,24 +334,24 @@ class CategoryEntryService extends KalturaBaseService
 	 * @action reject
 	 * @param string $entryId
 	 * @param int $categoryId
-	 * @throws KalturaErrors::INVALID_ENTRY_ID
-	 * @throws KalturaErrors::CATEGORY_NOT_FOUND
-	 * @throws KalturaErrors::ENTRY_IS_NOT_ASSIGNED_TO_CATEGORY
-	 * @throws KalturaErrors::CANNOT_ACTIVATE_CATEGORY_ENTRY
+	 * @throws BorhanErrors::INVALID_ENTRY_ID
+	 * @throws BorhanErrors::CATEGORY_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_IS_NOT_ASSIGNED_TO_CATEGORY
+	 * @throws BorhanErrors::CANNOT_ACTIVATE_CATEGORY_ENTRY
 	 */
 	function rejectAction($entryId, $categoryId)
 	{
 		$entry = entryPeer::retrieveByPK($entryId);
 		if (!$entry)
-			throw new KalturaAPIException(KalturaErrors::INVALID_ENTRY_ID, $entryId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_ENTRY_ID, $entryId);
 			
 		$category = categoryPeer::retrieveByPK($categoryId);
 		if (!$category)
-			throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $categoryId);
+			throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $categoryId);
 		
 		$dbCategoryEntry = categoryEntryPeer::retrieveByCategoryIdAndEntryId($categoryId, $entryId);
 		if(!$dbCategoryEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_IS_NOT_ASSIGNED_TO_CATEGORY);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_IS_NOT_ASSIGNED_TO_CATEGORY);
 			
 		//validate user is entiteld to reject entry from category 
 		if(kEntitlementUtils::getEntitlementEnforcement())
@@ -360,18 +360,18 @@ class CategoryEntryService extends KalturaBaseService
 			if(!$categoryKuser || 
 				($categoryKuser->getPermissionLevel() != CategoryKuserPermissionLevel::MANAGER && 
 				 $categoryKuser->getPermissionLevel() != CategoryKuserPermissionLevel::MODERATOR))
-					throw new KalturaAPIException(KalturaErrors::CANNOT_REJECT_CATEGORY_ENTRY);
+					throw new BorhanAPIException(BorhanErrors::CANNOT_REJECT_CATEGORY_ENTRY);
 					
 		}
 			
 		if (kCurrentContext::getCurrentKsKuserId() == $dbCategoryEntry->getCreatorKuserId() &&
-			$this->getPartner()->getEnabledService(KalturaPermissionName::FEATURE_BLOCK_CATEGORY_MODERATION_SELF_APPROVE))
+			$this->getPartner()->getEnabledService(BorhanPermissionName::FEATURE_BLOCK_CATEGORY_MODERATION_SELF_APPROVE))
 		{
-			throw new KalturaAPIException(KalturaErrors::CANNOT_REJECT_CATEGORY_ENTRY);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_REJECT_CATEGORY_ENTRY);
 		}
 		
 		if($dbCategoryEntry->getStatus() != CategoryEntryStatus::PENDING)
-			throw new KalturaAPIException(KalturaErrors::CANNOT_REJECT_CATEGORY_ENTRY_SINCE_IT_IS_NOT_PENDING);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_REJECT_CATEGORY_ENTRY_SINCE_IT_IS_NOT_PENDING);
 			
 		$dbCategoryEntry->setStatus(CategoryEntryStatus::REJECTED);
 		$dbCategoryEntry->save();
@@ -383,23 +383,23 @@ class CategoryEntryService extends KalturaBaseService
 	 * @action syncPrivacyContext
 	 * @param string $entryId
 	 * @param int $categoryId
-	 * @throws KalturaErrors::INVALID_ENTRY_ID
-	 * @throws KalturaErrors::CATEGORY_NOT_FOUND
-	 * @throws KalturaErrors::ENTRY_IS_NOT_ASSIGNED_TO_CATEGORY
+	 * @throws BorhanErrors::INVALID_ENTRY_ID
+	 * @throws BorhanErrors::CATEGORY_NOT_FOUND
+	 * @throws BorhanErrors::ENTRY_IS_NOT_ASSIGNED_TO_CATEGORY
 	 */
 	function syncPrivacyContextAction($entryId, $categoryId)
 	{
 		$entry = entryPeer::retrieveByPK($entryId);
 		if (!$entry)
-			throw new KalturaAPIException(KalturaErrors::INVALID_ENTRY_ID, $entryId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_ENTRY_ID, $entryId);
 			
 		$category = categoryPeer::retrieveByPK($categoryId);
 		if (!$category)
-			throw new KalturaAPIException(KalturaErrors::CATEGORY_NOT_FOUND, $categoryId);
+			throw new BorhanAPIException(BorhanErrors::CATEGORY_NOT_FOUND, $categoryId);
 		
 		$dbCategoryEntry = categoryEntryPeer::retrieveByCategoryIdAndEntryId($categoryId, $entryId);
 		if(!$dbCategoryEntry)
-			throw new KalturaAPIException(KalturaErrors::ENTRY_IS_NOT_ASSIGNED_TO_CATEGORY);
+			throw new BorhanAPIException(BorhanErrors::ENTRY_IS_NOT_ASSIGNED_TO_CATEGORY);
 		
 		$dbCategoryEntry->setPrivacyContext($category->getPrivacyContexts());
 		$dbCategoryEntry->save();

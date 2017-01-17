@@ -4,7 +4,7 @@
  * @subpackage filters.base
  * @abstract
  */
-abstract class KalturaPartnerBaseFilter extends KalturaFilter
+abstract class BorhanPartnerBaseFilter extends BorhanFilter
 {
 	static private $map_between_objects = array
 	(
@@ -89,7 +89,7 @@ abstract class KalturaPartnerBaseFilter extends KalturaFilter
 	public $nameEqual;
 
 	/**
-	 * @var KalturaPartnerStatus
+	 * @var BorhanPartnerStatus
 	 */
 	public $statusEqual;
 
@@ -119,7 +119,7 @@ abstract class KalturaPartnerBaseFilter extends KalturaFilter
 	public $partnerPackageIn;
 
 	/**
-	 * @var KalturaPartnerGroupType
+	 * @var BorhanPartnerGroupType
 	 */
 	public $partnerGroupTypeEqual;
 

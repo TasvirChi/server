@@ -4,7 +4,7 @@
  * @subpackage api.enum
  * @see ObjectTaskType
  */
-class KalturaObjectTaskType extends KalturaDynamicEnum implements ObjectTaskType
+class BorhanObjectTaskType extends BorhanDynamicEnum implements ObjectTaskType
 {
 	public static function getEnumClass()
 	{

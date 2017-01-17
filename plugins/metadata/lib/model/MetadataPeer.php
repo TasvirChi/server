@@ -32,7 +32,7 @@ class MetadataPeer extends BaseMetadataPeer implements IRelatedObjectPeer
 	{
 		$c = clone $criteria;
 
-		if($c instanceof KalturaCriteria)
+		if($c instanceof BorhanCriteria)
 		{
 			$c->applyFilters();
 			$criteria->setRecordsCount($c->getRecordsCount());

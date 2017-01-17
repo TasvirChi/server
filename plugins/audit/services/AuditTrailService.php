@@ -6,7 +6,7 @@
  * @package plugins.audit
  * @subpackage api.services
  */
-class AuditTrailService extends KalturaBaseService
+class AuditTrailService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -17,18 +17,18 @@ class AuditTrailService extends KalturaBaseService
 		$this->applyPartnerFilterForClass('AuditTrailConfig');
 		
 		if(!AuditPlugin::isAllowedPartner($this->getPartnerId()))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, AuditPlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, AuditPlugin::PLUGIN_NAME);
 	}
 	
 	/**
-	 * Allows you to add an audit trail object and audit trail content associated with Kaltura object
+	 * Allows you to add an audit trail object and audit trail content associated with Borhan object
 	 * 
 	 * @action add
-	 * @param KalturaAuditTrail $auditTrail
-	 * @return KalturaAuditTrail
+	 * @param BorhanAuditTrail $auditTrail
+	 * @return BorhanAuditTrail
 	 * @throws AuditTrailErrors::AUDIT_TRAIL_DISABLED
 	 */
-	function addAction(KalturaAuditTrail $auditTrail)
+	function addAction(BorhanAuditTrail $auditTrail)
 	{
 		$auditTrail->validatePropertyNotNull("auditObjectType");
 		$auditTrail->validatePropertyNotNull("objectId");
@@ -38,17 +38,17 @@ class AuditTrailService extends KalturaBaseService
 		$dbAuditTrail = $auditTrail->toInsertableObject();
 		$dbAuditTrail->setPartnerId($this->getPartnerId());
 		$dbAuditTrail->setStatus(AuditTrail::AUDIT_TRAIL_STATUS_READY);
-		$dbAuditTrail->setContext(KalturaAuditTrailContext::CLIENT);
+		$dbAuditTrail->setContext(BorhanAuditTrailContext::CLIENT);
 		
 		$enabled = kAuditTrailManager::traceEnabled($this->getPartnerId(), $dbAuditTrail);
 		if(!$enabled)
-			throw new KalturaAPIException(AuditTrailErrors::AUDIT_TRAIL_DISABLED, $this->getPartnerId(), $dbAuditTrail->getObjectType(), $dbAuditTrail->getAction());
+			throw new BorhanAPIException(AuditTrailErrors::AUDIT_TRAIL_DISABLED, $this->getPartnerId(), $dbAuditTrail->getObjectType(), $dbAuditTrail->getAction());
 			
 		$created = $dbAuditTrail->save();
 		if(!$created)
 			return null;
 		
-		$auditTrail = new KalturaAuditTrail();
+		$auditTrail = new BorhanAuditTrail();
 		$auditTrail->fromObject($dbAuditTrail, $this->getResponseProfile());
 		
 		return $auditTrail;
@@ -59,17 +59,17 @@ class AuditTrailService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param int $id 
-	 * @return KalturaAuditTrail
-	 * @throws KalturaErrors::INVALID_OBJECT_ID
+	 * @return BorhanAuditTrail
+	 * @throws BorhanErrors::INVALID_OBJECT_ID
 	 */		
 	function getAction($id)
 	{
 		$dbAuditTrail = AuditTrailPeer::retrieveByPK( $id );
 		
 		if(!$dbAuditTrail)
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $id);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $id);
 			
-		$auditTrail = new KalturaAuditTrail();
+		$auditTrail = new BorhanAuditTrail();
 		$auditTrail->fromObject($dbAuditTrail, $this->getResponseProfile());
 		
 		return $auditTrail;
@@ -79,17 +79,17 @@ class AuditTrailService extends KalturaBaseService
 	 * List audit trail objects by filter and pager
 	 * 
 	 * @action list
-	 * @param KalturaAuditTrailFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaAuditTrailListResponse
+	 * @param BorhanAuditTrailFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanAuditTrailListResponse
 	 */
-	function listAction(KalturaAuditTrailFilter $filter = null, KalturaFilterPager $pager = null)
+	function listAction(BorhanAuditTrailFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaAuditTrailFilter;
+			$filter = new BorhanAuditTrailFilter;
 			
 		if (!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 			
 		return $filter->getListResponse($pager, $this->getResponseProfile());
 	}

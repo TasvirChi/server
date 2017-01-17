@@ -5,17 +5,17 @@
  * @package plugins.httpNotification
  * @subpackage api.objects
  */
-class KalturaHttpNotificationObjectData extends KalturaHttpNotificationData
+class BorhanHttpNotificationObjectData extends BorhanHttpNotificationData
 {
 	/**
-	 * Kaltura API object type
+	 * Borhan API object type
 	 * @var string
 	 */
 	public $apiObjectType;
 	
 	/**
 	 * Data format
-	 * @var KalturaResponseType
+	 * @var BorhanResponseType
 	 */
 	public $format;
 	
@@ -33,7 +33,7 @@ class KalturaHttpNotificationObjectData extends KalturaHttpNotificationData
 	
 	/**
 	 * Serialized object, protected on purpose, used by getData
-	 * @see KalturaHttpNotificationObjectData::getData()
+	 * @see BorhanHttpNotificationObjectData::getData()
 	 * @var string
 	 */
 	protected $coreObject;
@@ -47,7 +47,7 @@ class KalturaHttpNotificationObjectData extends KalturaHttpNotificationData
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaValue::getMapBetweenObjects()
+	 * @see BorhanValue::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -55,12 +55,12 @@ class KalturaHttpNotificationObjectData extends KalturaHttpNotificationData
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{
-		if(!$this->apiObjectType || !is_subclass_of($this->apiObjectType, 'KalturaObject'))
-			throw new KalturaAPIException(KalturaHttpNotificationErrors::HTTP_NOTIFICATION_INVALID_OBJECT_TYPE);
+		if(!$this->apiObjectType || !is_subclass_of($this->apiObjectType, 'BorhanObject'))
+			throw new BorhanAPIException(BorhanHttpNotificationErrors::HTTP_NOTIFICATION_INVALID_OBJECT_TYPE);
 			
 		if(!$dbObject)
 			$dbObject = new kHttpNotificationObjectData();
@@ -69,9 +69,9 @@ class KalturaHttpNotificationObjectData extends KalturaHttpNotificationData
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::fromObject($srcObj)
+	 * @see BorhanObject::fromObject($srcObj)
 	 */
-	public function doFromObject($srcObj, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($srcObj, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		/* @var $srcObj kHttpNotificationObjectData */
 		parent::doFromObject($srcObj, $responseProfile);
@@ -79,18 +79,18 @@ class KalturaHttpNotificationObjectData extends KalturaHttpNotificationData
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaHttpNotificationData::getData()
+	 * @see BorhanHttpNotificationData::getData()
 	 */
 	public function getData(kHttpNotificationDispatchJobData $jobData = null)
 	{
 		$coreObject = unserialize($this->coreObject);
 		$apiObject = new $this->apiObjectType;
-		/* @var $apiObject KalturaObject */
+		/* @var $apiObject BorhanObject */
 		$apiObject->fromObject($coreObject);
 		
 		$httpNotificationTemplate = EventNotificationTemplatePeer::retrieveByPK($jobData->getTemplateId());
 		
-		$notification = new KalturaHttpNotification();
+		$notification = new BorhanHttpNotification();
 		$notification->object = $apiObject;
 		$notification->eventObjectType = kPluginableEnumsManager::coreToApi('EventNotificationEventObjectType', $httpNotificationTemplate->getObjectType());
 		$notification->eventNotificationJobId = $jobData->getJobId();
@@ -102,18 +102,18 @@ class KalturaHttpNotificationObjectData extends KalturaHttpNotificationData
 		$data = '';
 		switch ($this->format)
 		{
-			case KalturaResponseType::RESPONSE_TYPE_XML:
-				$serializer = new KalturaXmlSerializer($this->ignoreNull);				
+			case BorhanResponseType::RESPONSE_TYPE_XML:
+				$serializer = new BorhanXmlSerializer($this->ignoreNull);				
 				$data = '<notification>' . $serializer->serialize($notification) . '</notification>';
 				break;
 				
-			case KalturaResponseType::RESPONSE_TYPE_PHP:
-				$serializer = new KalturaPhpSerializer($this->ignoreNull);				
+			case BorhanResponseType::RESPONSE_TYPE_PHP:
+				$serializer = new BorhanPhpSerializer($this->ignoreNull);				
 				$data = $serializer->serialize($notification);
 				break;
 				
-			case KalturaResponseType::RESPONSE_TYPE_JSON:
-				$serializer = new KalturaJsonSerializer($this->ignoreNull);				
+			case BorhanResponseType::RESPONSE_TYPE_JSON:
+				$serializer = new BorhanJsonSerializer($this->ignoreNull);				
 				$data = $serializer->serialize($notification);
 				if (!$httpNotificationTemplate->getUrlEncode())
 					return $data;

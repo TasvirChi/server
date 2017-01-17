@@ -2,21 +2,21 @@
 
 class PartnerTotalLiveExporter extends LiveReportExporter {
 
-	public function __construct(KalturaLiveReportExportJobData $data) {
+	public function __construct(BorhanLiveReportExportJobData $data) {
 		parent::__construct($data, "live-now-entries-%s-%s.csv", LiveReportConstants::SECONDS_36_HOURS);
 		$this->params[LiveReportConstants::IS_LIVE] = true;
 	}
 	
-	public function init(KalturaLiveReportExportJobData $jobData) {
-		$filter = new KalturaLiveStreamEntryFilter();
-		$filter->orderBy = KalturaLiveStreamEntryOrderBy::CREATED_AT_DESC;
+	public function init(BorhanLiveReportExportJobData $jobData) {
+		$filter = new BorhanLiveStreamEntryFilter();
+		$filter->orderBy = BorhanLiveStreamEntryOrderBy::CREATED_AT_DESC;
 		$filter->isLive = true;
 	
-		$pager = new KalturaFilterPager();
+		$pager = new BorhanFilterPager();
 		$pager->pageIndex = 0;
 		$pager->pageSize = LiveReportConstants::MAX_ENTRIES;
 	
-		/** @var KalturaLiveStreamListResponse */
+		/** @var BorhanLiveStreamListResponse */
 		$response = KBatchBase::$kClient->liveStream->listAction($filter, $pager);
 		$entryIds = array();
 		foreach($response->objects as $object) {

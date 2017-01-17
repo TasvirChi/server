@@ -6,7 +6,7 @@
  * @package plugins.systemPartner
  * @subpackage api.services
  */
-class SystemPartnerService extends KalturaBaseService
+class SystemPartnerService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -15,7 +15,7 @@ class SystemPartnerService extends KalturaBaseService
 		// since plugin might be using KS impersonation, we need to validate the requesting
 		// partnerId from the KS and not with the $_POST one
 		if(!SystemPartnerPlugin::isAllowedPartner(kCurrentContext::$master_partner_id))
-			throw new KalturaAPIException(SystemPartnerErrors::FEATURE_FORBIDDEN, SystemPartnerPlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(SystemPartnerErrors::FEATURE_FORBIDDEN, SystemPartnerPlugin::PLUGIN_NAME);
 	}
 
 	
@@ -25,7 +25,7 @@ class SystemPartnerService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param int $partnerIdX
-	 * @return KalturaPartner
+	 * @return BorhanPartner
 	 *
 	 * @throws APIErrors::UNKNOWN_PARTNER_ID
 	 */		
@@ -34,9 +34,9 @@ class SystemPartnerService extends KalturaBaseService
 		$dbPartner = PartnerPeer::retrieveByPK( $partnerId );
 		
 		if ( ! $dbPartner )
-			throw new KalturaAPIException ( APIErrors::UNKNOWN_PARTNER_ID , $partnerId );
+			throw new BorhanAPIException ( APIErrors::UNKNOWN_PARTNER_ID , $partnerId );
 			
-		$partner = new KalturaPartner();
+		$partner = new BorhanPartner();
 		$partner->fromPartner( $dbPartner );
 		
 		return $partner;
@@ -44,25 +44,25 @@ class SystemPartnerService extends KalturaBaseService
 	
 	/**
 	 * @action getUsage
-	 * @param KalturaSystemPartnerUsageFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaSystemPartnerUsageListResponse
+	 * @param BorhanSystemPartnerUsageFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanSystemPartnerUsageListResponse
 	 */
-	public function getUsageAction(KalturaPartnerFilter $partnerFilter = null, KalturaSystemPartnerUsageFilter $usageFilter = null, KalturaFilterPager $pager = null)
+	public function getUsageAction(BorhanPartnerFilter $partnerFilter = null, BorhanSystemPartnerUsageFilter $usageFilter = null, BorhanFilterPager $pager = null)
 	{
 		if (is_null($partnerFilter))
-			$partnerFilter = new KalturaPartnerFilter();
+			$partnerFilter = new BorhanPartnerFilter();
 		
 		if (is_null($usageFilter))
 		{
-			$usageFilter = new KalturaSystemPartnerUsageFilter();
+			$usageFilter = new BorhanSystemPartnerUsageFilter();
 			$usageFilter->fromDate = time() - 60*60*24*30; // last 30 days
 			$usageFilter->toDate = time();
 			$usageFilter->timezoneOffset = 0;
 		}
 		
 		if (is_null($pager))
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 
 		$partnerFilterDb = new partnerFilter();
 		$partnerFilter->toObject($partnerFilterDb);
@@ -88,7 +88,7 @@ class SystemPartnerService extends KalturaBaseService
 		{
 			// no partners fit the filter - don't fetch data	
 			$totalCount = 0;
-			// the items are set to an empty KalturaSystemPartnerUsageArray
+			// the items are set to an empty BorhanSystemPartnerUsageArray
 		}
 		else
 		{
@@ -111,7 +111,7 @@ class SystemPartnerService extends KalturaBaseService
 			$unsortedItems = array();
 			foreach ( $reportData as $line )
 			{
-				$item = KalturaSystemPartnerUsageItem::fromString( $reportHeader , $line );
+				$item = BorhanSystemPartnerUsageItem::fromString( $reportHeader , $line );
 				if ( $item )	
 					$unsortedItems[$item->partnerId] = $item;	
 			}
@@ -124,11 +124,11 @@ class SystemPartnerService extends KalturaBaseService
 				else
 				{
 					// if no item for partner - get its details from the db
-					$items[] = KalturaSystemPartnerUsageItem::fromPartner(PartnerPeer::retrieveByPK($partnerId));
+					$items[] = BorhanSystemPartnerUsageItem::fromPartner(PartnerPeer::retrieveByPK($partnerId));
 				}  
 			}
 		}
-		$response = new KalturaSystemPartnerUsageListResponse();
+		$response = new BorhanSystemPartnerUsageListResponse();
 		$response->totalCount = $totalCount;
 		$response->objects = $items;
 		return $response;
@@ -138,19 +138,19 @@ class SystemPartnerService extends KalturaBaseService
 	
 	/**
 	 * @action list
-	 * @param KalturaPartnerFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaPartnerListResponse
+	 * @param BorhanPartnerFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanPartnerListResponse
 	 */
-	public function listAction(KalturaPartnerFilter $filter = null, KalturaFilterPager $pager = null)
+	public function listAction(BorhanPartnerFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 	    myDbHelper::$use_alternative_con = myDbHelper::DB_HELPER_CONN_PROPEL2;
 		
 		if (is_null($filter))
-			$filter = new KalturaPartnerFilter();
+			$filter = new BorhanPartnerFilter();
 			
 		if (is_null($pager))
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 
 		$partnerFilter = new partnerFilter();
 		$filter->toObject($partnerFilter);
@@ -162,9 +162,9 @@ class SystemPartnerService extends KalturaBaseService
 		$totalCount = PartnerPeer::doCount($c);
 		$pager->attachToCriteria($c);
 		$list = PartnerPeer::doSelect($c);
-		$newList = KalturaPartnerArray::fromPartnerArray($list);
+		$newList = BorhanPartnerArray::fromPartnerArray($list);
 		
-		$response = new KalturaPartnerListResponse();
+		$response = new BorhanPartnerListResponse();
 		$response->totalCount = $totalCount;
 		$response->objects = $newList;
 		return $response;
@@ -173,14 +173,14 @@ class SystemPartnerService extends KalturaBaseService
 	/**
 	 * @action updateStatus
 	 * @param int $id
-	 * @param KalturaPartnerStatus $status
+	 * @param BorhanPartnerStatus $status
 	 * @param string $reason
 	 */
 	public function updateStatusAction($id, $status, $reason)
 	{
 		$dbPartner = PartnerPeer::retrieveByPK($id);
 		if (!$dbPartner)
-			throw new KalturaAPIException(KalturaErrors::UNKNOWN_PARTNER_ID, $id);
+			throw new BorhanAPIException(BorhanErrors::UNKNOWN_PARTNER_ID, $id);
 			
 		$dbPartner->setStatus($status);
 		$dbPartner->setStatusChangeReason( $reason );
@@ -198,7 +198,7 @@ class SystemPartnerService extends KalturaBaseService
 	{
 		$dbPartner = PartnerPeer::retrieveByPK($partnerId);
 		if (!$dbPartner)
-			throw new KalturaAPIException(KalturaErrors::UNKNOWN_PARTNER_ID, $partnerId);
+			throw new BorhanAPIException(BorhanErrors::UNKNOWN_PARTNER_ID, $partnerId);
 		
 		if (!$userId) {
 			$userId = $dbPartner->getAdminUserId();
@@ -206,10 +206,10 @@ class SystemPartnerService extends KalturaBaseService
 		
 		$kuser = kuserPeer::getKuserByPartnerAndUid($partnerId, $userId);
 		if (!$kuser) {
-			throw new KalturaAPIException(KalturaErrors::INVALID_USER_ID, $userId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_USER_ID, $userId);
 		}
 		if (!$kuser->getIsAdmin()) {
-			throw new KalturaAPIException(KalturaErrors::USER_NOT_ADMIN, $userId);
+			throw new BorhanAPIException(BorhanErrors::USER_NOT_ADMIN, $userId);
 		}
 			
 		$ks = "";
@@ -220,13 +220,13 @@ class SystemPartnerService extends KalturaBaseService
 	/**
 	 * @action updateConfiguration
 	 * @param int $partnerId
-	 * @param KalturaSystemPartnerConfiguration $configuration
+	 * @param BorhanSystemPartnerConfiguration $configuration
 	 */
-	public function updateConfigurationAction($partnerId, KalturaSystemPartnerConfiguration $configuration)
+	public function updateConfigurationAction($partnerId, BorhanSystemPartnerConfiguration $configuration)
 	{
 		$dbPartner = PartnerPeer::retrieveByPK($partnerId);
 		if (!$dbPartner)
-			throw new KalturaAPIException(KalturaErrors::UNKNOWN_PARTNER_ID, $partnerId);
+			throw new BorhanAPIException(BorhanErrors::UNKNOWN_PARTNER_ID, $partnerId);
 		$configuration->toUpdatableObject($dbPartner);
 		$dbPartner->save();
 		PartnerPeer::removePartnerFromCache($partnerId);
@@ -235,76 +235,76 @@ class SystemPartnerService extends KalturaBaseService
 	/**
 	 * @action getConfiguration
 	 * @param int $partnerId
-	 * @return KalturaSystemPartnerConfiguration
+	 * @return BorhanSystemPartnerConfiguration
 	 */
 	public function getConfigurationAction($partnerId)
 	{
 		$dbPartner = PartnerPeer::retrieveByPK($partnerId);
 		if (!$dbPartner)
-			throw new KalturaAPIException(KalturaErrors::UNKNOWN_PARTNER_ID, $partnerId);
+			throw new BorhanAPIException(BorhanErrors::UNKNOWN_PARTNER_ID, $partnerId);
 			
-		$configuration = new KalturaSystemPartnerConfiguration();
+		$configuration = new BorhanSystemPartnerConfiguration();
 		$configuration->fromObject($dbPartner, $this->getResponseProfile());
 		return $configuration;
 	}
 	
 	/**
 	 * @action getPackages
-	 * @return KalturaSystemPartnerPackageArray
+	 * @return BorhanSystemPartnerPackageArray
 	 */
 	public function getPackagesAction()
 	{
 		$partnerPackages = new PartnerPackages();
 		$packages = $partnerPackages->listPackages();
-		$partnerPackages = new KalturaSystemPartnerPackageArray();
+		$partnerPackages = new BorhanSystemPartnerPackageArray();
 		$partnerPackages->fromArray($packages);
 		return $partnerPackages;
 	}
 	
 	/**
 	 * @action getPackagesClassOfService
-	 * @return KalturaSystemPartnerPackageArray
+	 * @return BorhanSystemPartnerPackageArray
 	 */
 	public function getPackagesClassOfServiceAction()
 	{
 		$partnerPackages = new PartnerPackages();
 		$packages = $partnerPackages->listPackagesClassOfService();
-		$partnerPackages = new KalturaSystemPartnerPackageArray();
+		$partnerPackages = new BorhanSystemPartnerPackageArray();
 		$partnerPackages->fromArray($packages);
 		return $partnerPackages;
 	}
 	
 	/**
 	 * @action getPackagesVertical
-	 * @return KalturaSystemPartnerPackageArray
+	 * @return BorhanSystemPartnerPackageArray
 	 */
 	public function getPackagesVerticalAction()
 	{
 		$partnerPackages = new PartnerPackages();
 		$packages = $partnerPackages->listPackagesVertical();
-		$partnerPackages = new KalturaSystemPartnerPackageArray();
+		$partnerPackages = new BorhanSystemPartnerPackageArray();
 		$partnerPackages->fromArray($packages);
 		return $partnerPackages;
 	}
 	
 	/**
 	 * @action getPlayerEmbedCodeTypes
-	 * @return KalturaPlayerEmbedCodeTypesArray
+	 * @return BorhanPlayerEmbedCodeTypesArray
 	 */
 	public function getPlayerEmbedCodeTypesAction()
 	{
 		$map = kConf::getMap('players');
-		return KalturaPlayerEmbedCodeTypesArray::fromDbArray($map['embed_code_types'], $this->getResponseProfile());
+		return BorhanPlayerEmbedCodeTypesArray::fromDbArray($map['embed_code_types'], $this->getResponseProfile());
 	}
 	
 	/**
 	 * @action getPlayerDeliveryTypes
-	 * @return KalturaPlayerDeliveryTypesArray
+	 * @return BorhanPlayerDeliveryTypesArray
 	 */
 	public function getPlayerDeliveryTypesAction()
 	{
 		$map = kConf::getMap('players');
-		return KalturaPlayerDeliveryTypesArray::fromDbArray($map['delivery_types'], $this->getResponseProfile());
+		return BorhanPlayerDeliveryTypesArray::fromDbArray($map['delivery_types'], $this->getResponseProfile());
 	}
 
 	/**
@@ -313,25 +313,25 @@ class SystemPartnerService extends KalturaBaseService
 	 * @param string $userId
 	 * @param int $partnerId
 	 * @param string $newPassword
-	 * @throws KalturaAPIException
+	 * @throws BorhanAPIException
 	 */
 	public function resetUserPasswordAction($userId, $partnerId, $newPassword)
 	{
 		if ($partnerId == Partner::ADMIN_CONSOLE_PARTNER_ID || $partnerId == Partner::BATCH_PARTNER_ID)
 		{
-			throw new KalturaAPIException(KalturaErrors::CANNOT_RESET_PASSWORD_FOR_SYSTEM_PARTNER);
+			throw new BorhanAPIException(BorhanErrors::CANNOT_RESET_PASSWORD_FOR_SYSTEM_PARTNER);
 		}				
 		//get loginData using userId and PartnerId 
 		$kuser = kuserPeer::getKuserByPartnerAndUid ($partnerId, $userId);
 		if (!$kuser){
-			throw new KalturaAPIException(KalturaErrors::USER_NOT_FOUND);
+			throw new BorhanAPIException(BorhanErrors::USER_NOT_FOUND);
 		}
 		$userLoginDataId = $kuser->getLoginDataId();
 		$userLoginData = UserLoginDataPeer::retrieveByPK($userLoginDataId);
 		
 		// check if login data exists
 		if (!$userLoginData) {
-			throw new KalturaAPIException(KalturaErrors::LOGIN_DATA_NOT_FOUND);
+			throw new BorhanAPIException(BorhanErrors::LOGIN_DATA_NOT_FOUND);
 		}
 		try {
 			UserLoginDataPeer::checkPasswordValidation($newPassword, $userLoginData);
@@ -342,12 +342,12 @@ class SystemPartnerService extends KalturaBaseService
 				$passwordRules = $userLoginData->getInvalidPasswordStructureMessage();
 				$passwordRules = str_replace( "\\n", "<br>", $passwordRules );
 				$passwordRules = "<br>" . $passwordRules; // Add a newline prefix
-				throw new KalturaAPIException(KalturaErrors::PASSWORD_STRUCTURE_INVALID, $passwordRules);
+				throw new BorhanAPIException(BorhanErrors::PASSWORD_STRUCTURE_INVALID, $passwordRules);
 			}
 			else if ($code == kUserException::PASSWORD_ALREADY_USED) {
-				throw new KalturaAPIException(KalturaErrors::PASSWORD_ALREADY_USED);
+				throw new BorhanAPIException(BorhanErrors::PASSWORD_ALREADY_USED);
 			}			
-			throw new KalturaAPIException(KalturaErrors::INTERNAL_SERVERL_ERROR);						
+			throw new BorhanAPIException(BorhanErrors::INTERNAL_SERVERL_ERROR);						
 		}
 		// update password if requested
 		if ($newPassword) {
@@ -359,17 +359,17 @@ class SystemPartnerService extends KalturaBaseService
 	
 	/**
 	 * @action listUserLoginData
-	 * @param KalturaUserLoginDataFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaUserLoginDataListResponse
+	 * @param BorhanUserLoginDataFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanUserLoginDataListResponse
 	 */
-	public function listUserLoginDataAction(KalturaUserLoginDataFilter $filter = null, KalturaFilterPager $pager = null)
+	public function listUserLoginDataAction(BorhanUserLoginDataFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (is_null($filter))
-			$filter = new KalturaUserLoginDataFilter();
+			$filter = new BorhanUserLoginDataFilter();
 			
 		if (is_null($pager))
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 			
 		return $filter->getListResponse($pager, $this->getResponseProfile());
 	}

@@ -4,7 +4,7 @@
  * @package plugins.scheduledTask
  * @subpackage api.objects.objectTasks
  */
-class KalturaModifyEntryObjectTask extends KalturaObjectTask
+class BorhanModifyEntryObjectTask extends BorhanObjectTask
 {
 	/**
 	 * The input metadata profile id
@@ -16,7 +16,7 @@ class KalturaModifyEntryObjectTask extends KalturaObjectTask
 	/**
 	 * array of {input metadata xpath location,entry field} objects
 	 *
-	 * @var KalturaKeyValueArray
+	 * @var BorhanKeyValueArray
 	 */
 	public $inputMetadata;
 
@@ -30,7 +30,7 @@ class KalturaModifyEntryObjectTask extends KalturaObjectTask
 	/**
 	 * array of {output metadata xpath location,entry field} objects
 	 *
-	 * @var KalturaKeyValueArray
+	 * @var BorhanKeyValueArray
 	 */
 	public $outputMetadata;
 
@@ -74,7 +74,7 @@ class KalturaModifyEntryObjectTask extends KalturaObjectTask
 		return $dbObject;
 	}
 
-	public function doFromObject($srcObj, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($srcObj, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($srcObj, $responseProfile);
 

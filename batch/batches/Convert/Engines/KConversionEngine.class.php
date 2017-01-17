@@ -42,7 +42,7 @@ abstract class KConversionEngine
 	
 	
 	/**
-	 * Will return the proper engine depending on the type (KalturaConversionEngineType)
+	 * Will return the proper engine depending on the type (BorhanConversionEngineType)
 	 *
 	 * @param int $type
 	 * @return KConversionEngine
@@ -53,25 +53,25 @@ abstract class KConversionEngine
 		
 		switch ($type )
 		{
-			case KalturaConversionEngineType::FFMPEG:
+			case BorhanConversionEngineType::FFMPEG:
 				$engine = new KConversionEngineFfmpeg();
 				break;
-			case KalturaConversionEngineType::MENCODER:
+			case BorhanConversionEngineType::MENCODER:
 				$engine = new KConversionEngineMencoder();
 				break;
-			case KalturaConversionEngineType::ON2:
+			case BorhanConversionEngineType::ON2:
 				$engine = new KConversionEngineFlix();
 				break;
-			case KalturaConversionEngineType::ENCODING_COM :
+			case BorhanConversionEngineType::ENCODING_COM :
 				$engine = new KConversionEngineEncodingCom();
 				break;
-			case KalturaConversionEngineType::FFMPEG_AUX:
+			case BorhanConversionEngineType::FFMPEG_AUX:
 				$engine = new KConversionEngineFfmpegAux();
 				break;
-			case KalturaConversionEngineType::EXPRESSION_ENCODER3:
+			case BorhanConversionEngineType::EXPRESSION_ENCODER3:
 				$engine = new KConversionEngineExpressionEncoder3();
 				break;
-			case KalturaConversionEngineType::FFMPEG_VP8:
+			case BorhanConversionEngineType::FFMPEG_VP8:
 				$engine = new KConversionEngineFfmpegVp8();
 				break;
 				
@@ -86,16 +86,16 @@ abstract class KConversionEngine
 	abstract public function getCmd();
 	abstract public function getName();
 	abstract public function getType();
-	abstract public function simulate ( KalturaConvartableJobData $data );
+	abstract public function simulate ( BorhanConvartableJobData $data );
 	
 	/**
 	 * $start_params_index - the index of the kConversionParams in the kConversionCommand from which to start from. might not start at 0
 	 * $end_params_index - the index of the kConversionParams in the kConversionCommand to which to end at. -1 - the end
 	 * 
-	 * @param KalturaConvartableJobData $data
+	 * @param BorhanConvartableJobData $data
 	 * @return array 
 	 */
-	abstract public function convert ( KalturaConvartableJobData &$data );
+	abstract public function convert ( BorhanConvartableJobData &$data );
 	
 	public function getLogData()
 	{
@@ -242,7 +242,7 @@ abstract class KConversionEngine
 	 */
 	protected function addToLogFile ( $file_name , $str )
 	{
-		KalturaLog::debug($str);
+		BorhanLog::debug($str);
 		
 		// TODO - append text to file, don't read it all and then write it again
 		if ( file_exists ( $file_name ))		$log_content = @file_get_contents( $file_name ) ;

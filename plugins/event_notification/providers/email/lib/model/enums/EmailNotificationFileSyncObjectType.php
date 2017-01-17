@@ -3,7 +3,7 @@
  * @package plugins.emailNotification
  * @subpackage model.enum
  */
-class EmailNotificationFileSyncObjectType implements IKalturaPluginEnum, FileSyncObjectType
+class EmailNotificationFileSyncObjectType implements IBorhanPluginEnum, FileSyncObjectType
 {
 	const EMAIL_NOTIFICATION_TEMPLATE = 'EmailNotificationTemplate';
 	

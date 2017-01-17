@@ -6,7 +6,7 @@
  * @package api
  * @subpackage services
  */
-class StorageProfileService extends KalturaBaseService
+class StorageProfileService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -14,29 +14,29 @@ class StorageProfileService extends KalturaBaseService
 
 		$partnerId = $this->getPartnerId();
 		if(!$this->getPartner()->getEnabledService(PermissionName::FEATURE_REMOTE_STORAGE))
-			throw new KalturaAPIException(KalturaErrors::SERVICE_FORBIDDEN, $this->serviceName.'->'.$this->actionName);
+			throw new BorhanAPIException(BorhanErrors::SERVICE_FORBIDDEN, $this->serviceName.'->'.$this->actionName);
 			
 		$this->applyPartnerFilterForClass('StorageProfile');
 	}
 	
 	/**
-	 * Adds a storage profile to the Kaltura DB.
+	 * Adds a storage profile to the Borhan DB.
 	 *
 	 * @action add
-	 * @param KalturaStorageProfile $storageProfile 
-	 * @return KalturaStorageProfile
+	 * @param BorhanStorageProfile $storageProfile 
+	 * @return BorhanStorageProfile
 	 */
-	function addAction(KalturaStorageProfile $storageProfile)
+	function addAction(BorhanStorageProfile $storageProfile)
 	{
 		if(!$storageProfile->status)
-			$storageProfile->status = KalturaStorageProfileStatus::DISABLED;
+			$storageProfile->status = BorhanStorageProfileStatus::DISABLED;
 			
 		$dbStorageProfile = $storageProfile->toInsertableObject();
 		/* @var $dbStorageProfile StorageProfile */
 		$dbStorageProfile->setPartnerId($this->impersonatedPartnerId);
 		$dbStorageProfile->save();
 		
-		$storageProfile = KalturaStorageProfile::getInstanceByType($dbStorageProfile->getProtocol());
+		$storageProfile = BorhanStorageProfile::getInstanceByType($dbStorageProfile->getProtocol());
 				
 		$storageProfile->fromObject($dbStorageProfile, $this->getResponseProfile());
 		return $storageProfile;
@@ -45,13 +45,13 @@ class StorageProfileService extends KalturaBaseService
 	/**
 	 * @action updateStatus
 	 * @param int $storageId
-	 * @param KalturaStorageProfileStatus $status
+	 * @param BorhanStorageProfileStatus $status
 	 */
 	public function updateStatusAction($storageId, $status)
 	{
 		$dbStorage = StorageProfilePeer::retrieveByPK($storageId);
 		if (!$dbStorage)
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $storageId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $storageId);
 			
 		$dbStorage->setStatus($status);
 		$dbStorage->save();
@@ -62,7 +62,7 @@ class StorageProfileService extends KalturaBaseService
 	 * 
 	 * @action get
 	 * @param int $storageProfileId
-	 * @return KalturaStorageProfile
+	 * @return BorhanStorageProfile
 	 */
 	function getAction($storageProfileId)
 	{
@@ -71,7 +71,7 @@ class StorageProfileService extends KalturaBaseService
 			return null;
 
 		$protocol = $dbStorageProfile->getProtocol();
-		$storageProfile = KalturaStorageProfile::getInstanceByType($protocol);
+		$storageProfile = BorhanStorageProfile::getInstanceByType($protocol);
 		
 		$storageProfile->fromObject($dbStorageProfile, $this->getResponseProfile());
 		return $storageProfile;
@@ -82,20 +82,20 @@ class StorageProfileService extends KalturaBaseService
 	 * 
 	 * @action update
 	 * @param int $storageProfileId
-	 * @param KalturaStorageProfile $storageProfile
-	 * @return KalturaStorageProfile
+	 * @param BorhanStorageProfile $storageProfile
+	 * @return BorhanStorageProfile
 	 */
-	function updateAction($storageProfileId, KalturaStorageProfile $storageProfile)
+	function updateAction($storageProfileId, BorhanStorageProfile $storageProfile)
 	{
 		$dbStorageProfile = StorageProfilePeer::retrieveByPK($storageProfileId);
 		if (!$dbStorageProfile)
-			throw new KalturaAPIException(KalturaErrors::INVALID_OBJECT_ID, $storageProfileId);
+			throw new BorhanAPIException(BorhanErrors::INVALID_OBJECT_ID, $storageProfileId);
 			
 		$dbStorageProfile = $storageProfile->toUpdatableObject($dbStorageProfile);
 		$dbStorageProfile->save();
 		
 		$protocol = $dbStorageProfile->getProtocol();
-		$storageProfile = KalturaStorageProfile::getInstanceByType($protocol);
+		$storageProfile = BorhanStorageProfile::getInstanceByType($protocol);
 		
 		$storageProfile->fromObject($dbStorageProfile, $this->getResponseProfile());
 		return $storageProfile;
@@ -103,16 +103,16 @@ class StorageProfileService extends KalturaBaseService
 	
 	/**	
 	 * @action list
-	 * @param KalturaStorageProfileFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaStorageProfileListResponse
+	 * @param BorhanStorageProfileFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanStorageProfileListResponse
 	 */
-	public function listAction(KalturaStorageProfileFilter $filter = null, KalturaFilterPager $pager = null)
+	public function listAction(BorhanStorageProfileFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		$c = new Criteria();
 		
 		if (!$filter)
-			$filter = new KalturaStorageProfileFilter();
+			$filter = new BorhanStorageProfileFilter();
 		
 		$storageProfileFilter = new StorageProfileFilter();
 		$filter->toObject($storageProfileFilter);
@@ -120,13 +120,13 @@ class StorageProfileService extends KalturaBaseService
 		$list = StorageProfilePeer::doSelect($c);
 			
 		if (!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 			
 		$pager->attachToCriteria($c);
 		
-		$response = new KalturaStorageProfileListResponse();
+		$response = new BorhanStorageProfileListResponse();
 		$response->totalCount = StorageProfilePeer::doCount($c);
-		$response->objects = KalturaStorageProfileArray::fromDbArray($list, $this->getResponseProfile());
+		$response->objects = BorhanStorageProfileArray::fromDbArray($list, $this->getResponseProfile());
 		return $response;
 	}
 	

@@ -9,7 +9,7 @@ class myYouTubeServices extends myBaseMediaSource implements IMediaSource
 	protected $source_name = "YouTube";
 	protected $auth_method = array ( self::AUTH_METHOD_PUBLIC , self::AUTH_METHOD_USER );
 	protected $search_in_user = false; 
-	protected $logo = "http://www.kaltura.com/images/wizard/logo_youtube.png";
+	protected $logo = "http://www.borhan.com/images/wizard/logo_youtube.png";
 	protected $id = entry::ENTRY_MEDIA_SOURCE_YOUTUBE;
 	
 	private static $NEED_MEDIA_INFO = "1";

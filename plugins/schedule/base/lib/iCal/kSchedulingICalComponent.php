@@ -23,7 +23,7 @@ abstract class kSchedulingICalComponent
 	protected $parent = null;
 
 	/**
-	 * @var KalturaScheduleEventType
+	 * @var BorhanScheduleEventType
 	 */
 	protected $eventsType = null;
 
@@ -199,23 +199,23 @@ abstract class kSchedulingICalComponent
 	}
 
 	/**
-	 * @param KalturaScheduleEventType $type
+	 * @param BorhanScheduleEventType $type
 	 */
-	protected function setKalturaType($type)
+	protected function setBorhanType($type)
 	{
 		$this->eventsType = $type;
 	}
 
 	/**
-	 * @return KalturaScheduleEventType
+	 * @return BorhanScheduleEventType
 	 */
-	protected function getKalturaType()
+	protected function getBorhanType()
 	{
 		if ($this->eventsType)
 			return $this->eventsType;
 
 		if ($this->parent)
-			return $this->parent->getKalturaType();
+			return $this->parent->getBorhanType();
 
 		return null;
 	}

@@ -18,11 +18,11 @@ foreach ($entries as $deletedEntryId){
 	/* @var $deletedEntry entry */
 	
 	if (!$deletedEntry){
-		KalturaLog::debug ('ERROR: couldn\'t find entry id ['.$deletedEntryId.']'); 
+		BorhanLog::debug ('ERROR: couldn\'t find entry id ['.$deletedEntryId.']'); 
 		continue;
 	}
 	
-	KalturaLog::debug('undeleting entry id ['. $deletedEntry->getID().']');
+	BorhanLog::debug('undeleting entry id ['. $deletedEntry->getID().']');
 	if ($deletedEntry->getStatus() == entryStatus::DELETED){		
 		$deletedEntry->setStatus(entryStatus::READY);
 	}
@@ -90,7 +90,7 @@ foreach ($entries as $deletedEntryId){
 }
 
 function restoreFileSyncByKey(FileSyncKey $fileSyncKey){
-	KalturaLog::debug("file sync key: $fileSyncKey");
+	BorhanLog::debug("file sync key: $fileSyncKey");
 	/* @var $entryFileSyncKey FileSyncKey */
 	FileSyncPeer::setUseCriteriaFilter(false);
 	$fileSyncs = FileSyncPeer::retrieveAllByFileSyncKey($fileSyncKey);

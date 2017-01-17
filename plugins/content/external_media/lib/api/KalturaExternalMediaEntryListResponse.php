@@ -3,10 +3,10 @@
  * @package plugins.externalMedia
  * @subpackage api.objects
  */
-class KalturaExternalMediaEntryListResponse extends KalturaListResponse
+class BorhanExternalMediaEntryListResponse extends BorhanListResponse
 {
 	/**
-	 * @var KalturaExternalMediaEntryArray
+	 * @var BorhanExternalMediaEntryArray
 	 * @readonly
 	 */
 	public $objects;

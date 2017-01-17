@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaGroupUser extends KalturaObject implements IRelatedFilterable
+class BorhanGroupUser extends BorhanObject implements IRelatedFilterable
 {
 
 	/**
@@ -21,7 +21,7 @@ class KalturaGroupUser extends KalturaObject implements IRelatedFilterable
 	public $groupId;
 
 	/**
-	 * @var KalturaGroupUserStatus
+	 * @var BorhanGroupUserStatus
 	 * @readonly
 	 * @filter eq,in
 	 */

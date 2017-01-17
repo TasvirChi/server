@@ -8,6 +8,6 @@ abstract class KObjectTaskEntryEngineBase extends KObjectTaskEngineBase
 {
 	function getSupportedObjectTypes()
 	{
-		return array('KalturaBaseEntry');
+		return array('BorhanBaseEntry');
 	}
 } 

@@ -86,11 +86,11 @@ class mrssAction extends defPartnerservices2Action
 		// 2460 - dorimedia
 		$partner_list = array ( 593, 2460 );
 		 
-		$c = KalturaCriteria::create(entryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(entryPeer::OM_CLASS);
 		$c->addAnd ( entryPeer::STATUS , entryStatus::READY );
 		
-		// for now display only entries that are part of the kaltura network
-//		$c->addAnd ( entryPeer::DISPLAY_IN_SEARCH , mySearchUtils::DISPLAY_IN_SEARCH_KALTURA_NETWORK );
+		// for now display only entries that are part of the borhan network
+//		$c->addAnd ( entryPeer::DISPLAY_IN_SEARCH , mySearchUtils::DISPLAY_IN_SEARCH_BORHAN_NETWORK );
 		
 		// filter
 		$filter = new entryFilter(  );
@@ -127,16 +127,16 @@ class mrssAction extends defPartnerservices2Action
 		
 $end_1 = microtime ( true );
 
-		KalturaLog::log ( "benchmark db: [" . ( $end_1 - $start_1 ) . "]" );
+		BorhanLog::log ( "benchmark db: [" . ( $end_1 - $start_1 ) . "]" );
 		
 		$result_count = count ( $list );
 $start_2 = microtime ( true );
-		$mrss_renderer = new kalturaRssRenderer ( kalturaRssRenderer::TYPE_TABOOLA ); 
+		$mrss_renderer = new borhanRssRenderer ( borhanRssRenderer::TYPE_TABOOLA ); 
 		$str = $mrss_renderer->renderMrssFeed( $list , $page , $result_count );
 $end_2 = microtime ( true );
 
 
-		KalturaLog::log ( "benchmark render: [" . ( $end_2 - $start_2 ) . "]" );
+		BorhanLog::log ( "benchmark render: [" . ( $end_2 - $start_2 ) . "]" );
 		echo $str;
 		
 		// don't return to the rest of the implementation - the base class manipulates the content.

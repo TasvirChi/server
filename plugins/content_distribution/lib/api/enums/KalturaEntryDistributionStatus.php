@@ -3,7 +3,7 @@
  * @package plugins.contentDistribution
  * @subpackage api.enum
  */
-class KalturaEntryDistributionStatus extends KalturaEnum implements EntryDistributionStatus
+class BorhanEntryDistributionStatus extends BorhanEnum implements EntryDistributionStatus
 {
 	
 }

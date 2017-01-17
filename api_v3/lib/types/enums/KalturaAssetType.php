@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaAssetType extends KalturaDynamicEnum implements assetType
+class BorhanAssetType extends BorhanDynamicEnum implements assetType
 {
 	public static function getEnumClass()
 	{

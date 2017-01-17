@@ -5,15 +5,15 @@
 abstract class KExportEngine
 {
 	/**
-	 * @var KalturaStorageExportJobData
+	 * @var BorhanStorageExportJobData
 	 */
 	protected $data;
 	
 	/**
-	 * @param KalturaStorageExportJobData $data
+	 * @param BorhanStorageExportJobData $data
 	 * @param int $jobSubType
 	 */
-	public function __construct(KalturaStorageJobData $data)
+	public function __construct(BorhanStorageJobData $data)
 	{
 		$this->data = $data;
 	}
@@ -36,22 +36,22 @@ abstract class KExportEngine
 	
 	/**
 	 * @param int $protocol
-	 * @param KalturaStorageExportJobData $data
+	 * @param BorhanStorageExportJobData $data
 	 * @return KExportEngine
 	 */
-	public static function getInstance ($protocol, $partnerId, KalturaStorageJobData $data)
+	public static function getInstance ($protocol, $partnerId, BorhanStorageJobData $data)
 	{
 		switch ($protocol)
 		{
-			case KalturaStorageProfileProtocol::FTP:
-			case KalturaStorageProfileProtocol::KALTURA_DC:
-			case KalturaStorageProfileProtocol::S3:
-			case KalturaStorageProfileProtocol::SCP:
-			case KalturaStorageProfileProtocol::SFTP:
-			case KalturaStorageProfileProtocol::LOCAL:
+			case BorhanStorageProfileProtocol::FTP:
+			case BorhanStorageProfileProtocol::BORHAN_DC:
+			case BorhanStorageProfileProtocol::S3:
+			case BorhanStorageProfileProtocol::SCP:
+			case BorhanStorageProfileProtocol::SFTP:
+			case BorhanStorageProfileProtocol::LOCAL:
 				return new KFileTransferExportEngine($data, $protocol);
 			default:
-				return KalturaPluginManager::loadObject('KExportEngine', $protocol, array($data, $partnerId));
+				return BorhanPluginManager::loadObject('KExportEngine', $protocol, array($data, $partnerId));
 		}
 	}
 }

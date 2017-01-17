@@ -5,10 +5,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaIpAddressContextField extends KalturaStringField
+class BorhanIpAddressContextField extends BorhanStringField
 {
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

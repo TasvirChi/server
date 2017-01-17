@@ -1,10 +1,10 @@
 <?php
 $service_url = requestUtils::getHost();
 $host = str_replace ( "http://" , "" , $service_url );
-if ( $host == "www.kaltura.com" ) $host = "1";
+if ( $host == "www.borhan.com" ) $host = "1";
 
 $www_host = kConf::get('www_host');
-if (kConf::get('kmc_secured_login')) {
+if (kConf::get('bmc_secured_login')) {
 	$flash_dir = 'https://';
 }
 else {
@@ -54,7 +54,7 @@ function loginF( remMe , partner_id , subp_id ,  uid  ,  ks , screen_name , emai
 		setCookie ( "vplks" , ks , exp, path);
 		setCookie ( "varscreen_name" , screen_name , exp, path);
 	}
-	url = "<?php echo $service_url ?>/index.php/kmc/varpartnerlist<?php echo $beta_str ?>?partner_id=" + partner_id + "&subp_id=" + subp_id + "&uid=" + 
+	url = "<?php echo $service_url ?>/index.php/bmc/varpartnerlist<?php echo $beta_str ?>?partner_id=" + partner_id + "&subp_id=" + subp_id + "&uid=" + 
 		uid + "&ks=" + ks + "&screen_name=" + screen_name + "&email=" + email  ;
 //	alert ( url );
 	window.location = url;
@@ -70,14 +70,14 @@ function closeLoginF()
 
 function gotoSignup()
 {
-	window.location = "<?php echo $service_url ?>/index.php/kmc/signup";
+	window.location = "<?php echo $service_url ?>/index.php/bmc/signup";
 }
 
 // -->
 </script>
 
 <style>
-#kmcHeader img { width:162px; height: 32px; }
+#bmcHeader img { width:162px; height: 32px; }
    body { background-color:#272929 !important; background-image:none !important;}
    div.loginDesc { text-align:center; font-size:16px; font-weight:bold; color:white;}
 #login { width:458px; }
@@ -90,7 +90,7 @@ body { background-image:none !important; }
  */
 </style>
 
-<form id="form1" action="<?php echo $service_url ?>/index.php/kmc/varpartnerlist<?php echo $beta_str ?>" method="post">
+<form id="form1" action="<?php echo $service_url ?>/index.php/bmc/varpartnerlist<?php echo $beta_str ?>" method="post">
 	<input type="hidden" name="_partner_id">
 	<input type="hidden" name="_subp_id">
 	<input type="hidden" name="_uid">
@@ -98,16 +98,16 @@ body { background-image:none !important; }
 </form>	
 
 <div class="login">
-	<div id="kmcHeader">
-     <img src="<?php echo $service_url; ?>/lib/images/kmc/varpages_logo.png" alt="Kaltura CMS" />
-	</div><!-- end kmcHeader -->
+	<div id="bmcHeader">
+     <img src="<?php echo $service_url; ?>/lib/images/bmc/varpages_logo.png" alt="Borhan CMS" />
+	</div><!-- end bmcHeader -->
 	<div id="login">
 		<div class="loginDesc">
 			Here you can login to your publisher management console and access your sub-publisher accounts	
 		</div>
 		
 		<div class="wrapper">
-			<div id="kaltura_flash_obj"></div>
+			<div id="borhan_flash_obj"></div>
 		</div><!-- end wrapper -->
 	</div><!-- end #login -->
 </div>	
@@ -132,10 +132,10 @@ body { background-image:none !important; }
 			bgcolor: "#272929",
 			quality: "high",
 			wmode: "window" ,
-			movie: "<?php echo $flash_dir ?>/kmc/login/<?php echo $kmc_login_version ?>/login.swf"
+			movie: "<?php echo $flash_dir ?>/bmc/login/<?php echo $bmc_login_version ?>/login.swf"
 		};
-		swfobject.embedSWF("<?php echo $flash_dir ?>/kmc/login/<?php echo $kmc_login_version ?>/login.swf", 
-			"kaltura_flash_obj", "358", "350", "9.0.0", false, flashVars , params);
+		swfobject.embedSWF("<?php echo $flash_dir ?>/bmc/login/<?php echo $bmc_login_version ?>/login.swf", 
+			"borhan_flash_obj", "358", "350", "9.0.0", false, flashVars , params);
 	}
 
 </script>

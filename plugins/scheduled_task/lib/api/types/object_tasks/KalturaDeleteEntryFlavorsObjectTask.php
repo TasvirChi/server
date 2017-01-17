@@ -4,12 +4,12 @@
  * @package plugins.scheduledTask
  * @subpackage api.objects.objectTasks
  */
-class KalturaDeleteEntryFlavorsObjectTask extends KalturaObjectTask
+class BorhanDeleteEntryFlavorsObjectTask extends BorhanObjectTask
 {
 	/**
 	 * The logic to use to choose the flavors for deletion
 	 *
-	 * @var KalturaDeleteFlavorsLogicType
+	 * @var BorhanDeleteFlavorsLogicType
 	 */
 	public $deleteType;
 
@@ -36,7 +36,7 @@ class KalturaDeleteEntryFlavorsObjectTask extends KalturaObjectTask
 		return $dbObject;
 	}
 
-	public function doFromObject($srcObj, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($srcObj, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		parent::doFromObject($srcObj, $responseProfile);
 

@@ -284,10 +284,10 @@ class entryPeer extends BaseentryPeer
 
 	public static function retrieveByPK($pk, PropelPDO $con = null)
 	{
-		KalturaCriterion::disableTags(array(KalturaCriterion::TAG_ENTITLEMENT_ENTRY, KalturaCriterion::TAG_WIDGET_SESSION));
+		BorhanCriterion::disableTags(array(BorhanCriterion::TAG_ENTITLEMENT_ENTRY, BorhanCriterion::TAG_WIDGET_SESSION));
 		self::$filterResults = true;
 		$res = parent::retrieveByPK($pk, $con);
-		KalturaCriterion::restoreTags(array(KalturaCriterion::TAG_ENTITLEMENT_ENTRY, KalturaCriterion::TAG_WIDGET_SESSION));
+		BorhanCriterion::restoreTags(array(BorhanCriterion::TAG_ENTITLEMENT_ENTRY, BorhanCriterion::TAG_WIDGET_SESSION));
 		self::$filterResults = false;
 
 		return $res;
@@ -295,25 +295,25 @@ class entryPeer extends BaseentryPeer
 
 	public static function retrieveByPKNoFilter ($pk, $con = null, $filterEntitlements = true)
 	{
-		KalturaCriterion::disableTags(array(KalturaCriterion::TAG_ENTITLEMENT_ENTRY, KalturaCriterion::TAG_WIDGET_SESSION));
+		BorhanCriterion::disableTags(array(BorhanCriterion::TAG_ENTITLEMENT_ENTRY, BorhanCriterion::TAG_WIDGET_SESSION));
 		self::$filterResults = $filterEntitlements;
 		self::setUseCriteriaFilter ( false );
 		$res = parent::retrieveByPK( $pk , $con );
 		self::setUseCriteriaFilter ( true );
 		self::$filterResults = false;
-		KalturaCriterion::restoreTags(array(KalturaCriterion::TAG_ENTITLEMENT_ENTRY, KalturaCriterion::TAG_WIDGET_SESSION));
+		BorhanCriterion::restoreTags(array(BorhanCriterion::TAG_ENTITLEMENT_ENTRY, BorhanCriterion::TAG_WIDGET_SESSION));
 		return $res;
 	}
 
 	public static function retrieveByPKsNoFilter ($pks, $con = null)
 	{
-		KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_ENTRY);
+		BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_ENTRY);
 		self::$filterResults = true;
 		self::setUseCriteriaFilter ( false );
 		$res = parent::retrieveByPKs( $pks , $con );
 		self::setUseCriteriaFilter ( true );
 		self::$filterResults = false;
-		KalturaCriterion::restoreTag(KalturaCriterion::TAG_ENTITLEMENT_ENTRY);
+		BorhanCriterion::restoreTag(BorhanCriterion::TAG_ENTITLEMENT_ENTRY);
 		return $res;
 	}
 
@@ -324,7 +324,7 @@ class entryPeer extends BaseentryPeer
 	 */
 	public static function retrieveByReferenceId ($v)
 	{
-		$c = KalturaCriteria::create(entryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(entryPeer::OM_CLASS);
 		$c->addAnd("referenceID", $v);
 		return entryPeer::doSelect($v);
 	}
@@ -345,7 +345,7 @@ class entryPeer extends BaseentryPeer
 	
 	public static function retrieveChildEntriesByEntryIdAndPartnerId ($parentId, $partnerId)
 	{
-		$c = KalturaCriteria::create(entryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(entryPeer::OM_CLASS);
 		
 		$filter = new entryFilter();
 		$filter->setParentEntryIdEqual($parentId);
@@ -373,7 +373,7 @@ class entryPeer extends BaseentryPeer
 			self::$s_criteria_filter = new criteriaFilter ();
 		}
 
-		$c = KalturaCriteria::create(entryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(entryPeer::OM_CLASS);
 		$c->addAnd ( entryPeer::STATUS, entryStatus::DELETED, Criteria::NOT_EQUAL);
 
 		$critEntitled = null;
@@ -385,15 +385,15 @@ class entryPeer extends BaseentryPeer
 		   ((kCurrentContext::$is_admin_session || !self::$userContentOnly)))
 		{
 			$privacyContexts = kEntitlementUtils::getPrivacyContextSearch();
-			$critEntitled = $c->getNewCriterion (self::PRIVACY_BY_CONTEXTS, $privacyContexts, KalturaCriteria::IN_LIKE);
-			$critEntitled->addTag(KalturaCriterion::TAG_ENTITLEMENT_ENTRY);
+			$critEntitled = $c->getNewCriterion (self::PRIVACY_BY_CONTEXTS, $privacyContexts, BorhanCriteria::IN_LIKE);
+			$critEntitled->addTag(BorhanCriterion::TAG_ENTITLEMENT_ENTRY);
 
 			if(kCurrentContext::getCurrentKsKuserId())
 			{
 				//ENTITLED_KUSERS field includes $this->entitledUserEdit, $this->entitledUserEdit, and users on work groups categories.
 				$entitledKuserByPrivacyContext = kEntitlementUtils::getEntitledKuserByPrivacyContext();
-				$critEntitledKusers = $c->getNewCriterion(self::ENTITLED_KUSERS, $entitledKuserByPrivacyContext, KalturaCriteria::IN_LIKE);
-				$critEntitledKusers->addTag(KalturaCriterion::TAG_ENTITLEMENT_ENTRY);
+				$critEntitledKusers = $c->getNewCriterion(self::ENTITLED_KUSERS, $entitledKuserByPrivacyContext, BorhanCriteria::IN_LIKE);
+				$critEntitledKusers->addTag(BorhanCriterion::TAG_ENTITLEMENT_ENTRY);
 
 				$categoriesIds = array();
 				$categoriesIds = categoryPeer::retrieveEntitledAndNonIndexedByKuser(kCurrentContext::getCurrentKsKuserId(), kConf::get('category_search_limit'));
@@ -403,8 +403,8 @@ class entryPeer extends BaseentryPeer
 				if (count($categoriesIds))
 				{
 					sort($categoriesIds); // sort categories in order to later create identical queries which enable better caching  
-					$critCategories = $c->getNewCriterion(self::CATEGORIES_IDS, $categoriesIds, KalturaCriteria::IN_LIKE);
-					$critCategories->addTag(KalturaCriterion::TAG_ENTITLEMENT_ENTRY);
+					$critCategories = $c->getNewCriterion(self::CATEGORIES_IDS, $categoriesIds, BorhanCriteria::IN_LIKE);
+					$critCategories->addTag(BorhanCriterion::TAG_ENTITLEMENT_ENTRY);
 					$critEntitled->addOr($critCategories);
 				}
 
@@ -415,20 +415,20 @@ class entryPeer extends BaseentryPeer
 			$kuser = kCurrentContext::getCurrentKsKuserId();
 			if($kuser !== 0) {
 				$critKuser = $c->getNewCriterion(entryPeer::KUSER_ID , $kuser , Criteria::EQUAL);
-				$critKuser->addTag(KalturaCriterion::TAG_ENTITLEMENT_ENTRY);
+				$critKuser->addTag(BorhanCriterion::TAG_ENTITLEMENT_ENTRY);
 				$critEntitled->addOr($critKuser);
 			}
 		}
 		elseif(self::$userContentOnly) // when session is not admin and without list:* privilege, allow access to user entries only
 		{
 			$critEntitled = $c->getNewCriterion(entryPeer::KUSER_ID , kCurrentContext::getCurrentKsKuserId(), Criteria::EQUAL);
-			$critEntitled->addTag(KalturaCriterion::TAG_WIDGET_SESSION);
+			$critEntitled->addTag(BorhanCriterion::TAG_WIDGET_SESSION);
 		}
 
 		if($ks && count($ks->getDisableEntitlementForEntry()))
 		{
 			$entryCrit = $c->getNewCriterion(entryPeer::ENTRY_ID, $ks->getDisableEntitlementForEntry(), Criteria::IN);
-			$entryCrit->addTag(KalturaCriterion::TAG_ENTITLEMENT_ENTRY);
+			$entryCrit->addTag(BorhanCriterion::TAG_ENTITLEMENT_ENTRY);
 
 			if($critEntitled)
 			{
@@ -472,7 +472,7 @@ class entryPeer extends BaseentryPeer
 
 		$criteria->setLimit( self::$s_default_count_limit );
 
-		if($criteria instanceof KalturaCriteria)
+		if($criteria instanceof BorhanCriteria)
 		{
 			$criteria->applyFilters();
 			return min(self::$s_default_count_limit,$criteria->getRecordsCount());
@@ -514,7 +514,7 @@ class entryPeer extends BaseentryPeer
 
 	public static function updateAccessControl($partnerId, $oldAccessControlId, $newAccessControlId)
 	{
-		$c = KalturaCriteria::create(entryPeer::OM_CLASS);
+		$c = BorhanCriteria::create(entryPeer::OM_CLASS);
 
 		//trying to fetch more entries than the $entryCount limit
 		$c->setMaxRecords(self::ENTRIES_PER_ACCESS_CONTROL_UPDATE_LIMIT + 1);
@@ -563,7 +563,7 @@ class entryPeer extends BaseentryPeer
 		if(isset(self::$class_types_cache[$entryType]))
 			return self::$class_types_cache[$entryType];
 
-		$extendedCls = KalturaPluginManager::getObjectClass(parent::OM_CLASS, $entryType);
+		$extendedCls = BorhanPluginManager::getObjectClass(parent::OM_CLASS, $entryType);
 		if($extendedCls)
 		{
 			self::$class_types_cache[$entryType] = $extendedCls;
@@ -614,7 +614,7 @@ class entryPeer extends BaseentryPeer
 
 		$queryResult =  parent::doSelect($c, $con);
 
-		if($c instanceof KalturaCriteria)
+		if($c instanceof BorhanCriteria)
 			$criteria->setRecordsCount($c->getRecordsCount());
 
 		self::$filterResults = false;
@@ -627,16 +627,16 @@ class entryPeer extends BaseentryPeer
 		$skipApplyFilters = false;
 
 		if(	kEntitlementUtils::getEntitlementEnforcement() &&
-			KalturaCriterion::isTagEnable(KalturaCriterion::TAG_ENTITLEMENT_ENTRY) &&
+			BorhanCriterion::isTagEnable(BorhanCriterion::TAG_ENTITLEMENT_ENTRY) &&
 			self::$kuserBlongToMoreThanMaxCategoriesForSearch &&
 			!$c->getOffset())
 		{
-			KalturaCriterion::disableTag(KalturaCriterion::TAG_ENTITLEMENT_ENTRY);
+			BorhanCriterion::disableTag(BorhanCriterion::TAG_ENTITLEMENT_ENTRY);
 
 			$entitlementCrit = clone $c;
 			$entitlementCrit->applyFilters();
 
-			KalturaCriterion::restoreTag(KalturaCriterion::TAG_ENTITLEMENT_ENTRY);
+			BorhanCriterion::restoreTag(BorhanCriterion::TAG_ENTITLEMENT_ENTRY);
 
 			if ($entitlementCrit->getRecordsCount() < $entitlementCrit->getLimit())
 			{
@@ -659,7 +659,7 @@ class entryPeer extends BaseentryPeer
 	{
 		$c = clone $criteria;
 
-		if($c instanceof KalturaCriteria)
+		if($c instanceof BorhanCriteria)
 		{
 			$skipApplyFilters = entryPeer::applyEntitlementCriteria($c);
 
@@ -750,7 +750,7 @@ class entryPeer extends BaseentryPeer
 			}
 
 			$selectResults = array_filter($selectResults, array('entryPeer', 'filterByAccessControl'));
-			if($criteria instanceof KalturaCriteria)
+			if($criteria instanceof BorhanCriteria)
 				$criteria->setRecordsCount(count($selectResults));
 		}
 
@@ -781,7 +781,7 @@ class entryPeer extends BaseentryPeer
 			}
 		}
 
-		if($criteria instanceof KalturaCriteria)
+		if($criteria instanceof BorhanCriteria)
 		{
 			$recordsCount = $criteria->getRecordsCount();
 			$criteria->setRecordsCount($recordsCount - $removedRecordsCount);
@@ -794,14 +794,14 @@ class entryPeer extends BaseentryPeer
 	/* (non-PHPdoc)
 	 * @see BaseentryPeer::retrieveByPKs()
 	 *
-	 * Override this function in order to use KalturaCriteria
+	 * Override this function in order to use BorhanCriteria
 	 */
 	public static function retrieveByPKs($pks, PropelPDO $con = null)
 	{
 		if (empty($pks))
 			return array();
 
-		$criteria = KalturaCriteria::create(self::OM_CLASS);
+		$criteria = BorhanCriteria::create(self::OM_CLASS);
 		$criteria->add(entryPeer::ID, $pks, Criteria::IN);
 		return entryPeer::doSelect($criteria, $con);
 	}
@@ -816,7 +816,7 @@ class entryPeer extends BaseentryPeer
 		self::$validatedEntries[] = $entryId;
 	}
 
-	public static function filterEntriesByPartnerOrKalturaNetwork(array $entryIds, $partnerId)
+	public static function filterEntriesByPartnerOrBorhanNetwork(array $entryIds, $partnerId)
 	{
 		$validatedEntries = array_intersect($entryIds, self::$validatedEntries);
 		$entryIds = array_diff($entryIds, self::$validatedEntries);
@@ -824,13 +824,13 @@ class entryPeer extends BaseentryPeer
 		{
 			$entryIds = array_slice($entryIds, 0, baseObjectFilter::getMaxInValues());
 			
-			$c = KalturaCriteria::create(entryPeer::OM_CLASS);
+			$c = BorhanCriteria::create(entryPeer::OM_CLASS);
 			$c->addAnd(entryPeer::ID, $entryIds, Criteria::IN);
 			
 			if($partnerId >= 0)
 			{
 				$criterionPartnerOrKn = $c->getNewCriterion(entryPeer::PARTNER_ID, $partnerId);
-				$criterionPartnerOrKn->addOr($c->getNewCriterion(entryPeer::DISPLAY_IN_SEARCH, mySearchUtils::DISPLAY_IN_SEARCH_KALTURA_NETWORK));
+				$criterionPartnerOrKn->addOr($c->getNewCriterion(entryPeer::DISPLAY_IN_SEARCH, mySearchUtils::DISPLAY_IN_SEARCH_BORHAN_NETWORK));
 				$c->addAnd($criterionPartnerOrKn);
 			}
 	

@@ -3,7 +3,7 @@
  * @package plugins.like
  * @subpackage api.objects
  */
-class KalturaLike extends KalturaObject implements IRelatedFilterable
+class BorhanLike extends BorhanObject implements IRelatedFilterable
 {
 	/**
 	 * The id of the entry that the like belongs to
@@ -42,7 +42,7 @@ class KalturaLike extends KalturaObject implements IRelatedFilterable
 	public function toObject($object_to_fill = null, $props_to_skip = array())
 	{
 		if (!$object_to_fill)
-			$object_to_fill = new KalturaLike();
+			$object_to_fill = new BorhanLike();
 	
 		return parent::toObject($object_to_fill, $props_to_skip);
 	}

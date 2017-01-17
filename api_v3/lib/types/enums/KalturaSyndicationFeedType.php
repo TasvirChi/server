@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaSyndicationFeedType extends KalturaEnum implements syndicationFeedType
+class BorhanSyndicationFeedType extends BorhanEnum implements syndicationFeedType
 {
 
 }

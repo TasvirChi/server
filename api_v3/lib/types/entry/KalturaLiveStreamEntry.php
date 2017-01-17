@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaLiveStreamEntry extends KalturaLiveEntry
+class BorhanLiveStreamEntry extends BorhanLiveEntry
 {	
 	/**
 	 * The stream id as provided by the provider
@@ -24,7 +24,7 @@ class KalturaLiveStreamEntry extends KalturaLiveEntry
 	/**
 	 * Array of supported bitrates
 	 * 
-	 * @var KalturaLiveStreamBitrateArray
+	 * @var BorhanLiveStreamBitrateArray
 	 */
 	public $bitrates;
 	
@@ -136,11 +136,11 @@ class KalturaLiveStreamEntry extends KalturaLiveEntry
 	{
 		parent::__construct();
 		
-		$this->type = KalturaEntryType::LIVE_STREAM;
+		$this->type = BorhanEntryType::LIVE_STREAM;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaMediaEntry::getMapBetweenObjects()
+	 * @see BorhanMediaEntry::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -148,9 +148,9 @@ class KalturaLiveStreamEntry extends KalturaLiveEntry
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaMediaEntry::fromObject()
+	 * @see BorhanMediaEntry::fromObject()
 	 */
-	public function doFromObject($dbObject, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($dbObject, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		if(!($dbObject instanceof LiveStreamEntry))
 			return;
@@ -171,7 +171,7 @@ class KalturaLiveStreamEntry extends KalturaLiveEntry
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaMediaEntry::toInsertableObject()
+	 * @see BorhanMediaEntry::toInsertableObject()
 	 */
 	public function toInsertableObject ( $dbObject = null , $props_to_skip = array() )
 	{
@@ -191,7 +191,7 @@ class KalturaLiveStreamEntry extends KalturaLiveEntry
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaMediaEntry::toSourceType()
+	 * @see BorhanMediaEntry::toSourceType()
 	 */
 	protected function toSourceType(entry $entry) 
 	{
@@ -206,7 +206,7 @@ class KalturaLiveStreamEntry extends KalturaLiveEntry
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaBaseEntry::validateForInsert()
+	 * @see BorhanBaseEntry::validateForInsert()
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{
@@ -216,7 +216,7 @@ class KalturaLiveStreamEntry extends KalturaLiveEntry
 		$this->validatePropertyNotNull("mediaType");
 		$this->validatePropertyNotNull("sourceType");
 		$this->validatePropertyNotNull("streamPassword");
-		if (in_array($this->sourceType, array(KalturaSourceType::AKAMAI_LIVE,KalturaSourceType::AKAMAI_UNIVERSAL_LIVE)))
+		if (in_array($this->sourceType, array(BorhanSourceType::AKAMAI_LIVE,BorhanSourceType::AKAMAI_UNIVERSAL_LIVE)))
 		{
 			$this->validatePropertyNotNull("encodingIP1");
 			$this->validatePropertyNotNull("encodingIP2");
@@ -228,10 +228,10 @@ class KalturaLiveStreamEntry extends KalturaLiveEntry
 	protected function validateEncodingIP ($ip)
 	{
 		if (!filter_var($this->encodingIP1, FILTER_VALIDATE_IP))
-			throw new KalturaAPIException(KalturaErrors::ENCODING_IP_NOT_PINGABLE);	
+			throw new BorhanAPIException(BorhanErrors::ENCODING_IP_NOT_PINGABLE);	
 		
 		@exec("ping -w " . kConf::get('ping_default_timeout') . " {$this->encodingIP1}", $output, $return);
 		if ($return)
-			throw new KalturaAPIException(KalturaErrors::ENCODING_IP_NOT_PINGABLE);
+			throw new BorhanAPIException(BorhanErrors::ENCODING_IP_NOT_PINGABLE);
 	}
 }

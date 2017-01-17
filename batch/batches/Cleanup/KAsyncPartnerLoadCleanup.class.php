@@ -17,7 +17,7 @@ class KAsyncPartnerLoadCleanup extends KPeriodicWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::CLEANUP;
+		return BorhanBatchJobType::CLEANUP;
 	}
 	
 	/* (non-PHPdoc)

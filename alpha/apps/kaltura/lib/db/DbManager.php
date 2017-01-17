@@ -19,7 +19,7 @@ class DbManager
 	/**
 	 * @var array
 	 */
-	protected static $kalturaConfig = array();
+	protected static $borhanConfig = array();
 	
 	/**
 	 * @var array
@@ -48,7 +48,7 @@ class DbManager
 	
 	public static function setConfig(array $config)
 	{
-		$reflect = new ReflectionClass('KalturaPDO');
+		$reflect = new ReflectionClass('BorhanPDO');
 		$optionAttributes = $reflect->getConstants();
 		
 		foreach ($config['datasources'] as $connectionName => & $connectionConfig) 
@@ -59,22 +59,22 @@ class DbManager
 			if(!isset($connectionConfig['connection']['options']))
 				$connectionConfig['connection']['options'] = array();
 			$connectionOptions = & $connectionConfig['connection']['options'];
-			$connectionOptions['KalturaPDO::KALTURA_ATTR_NAME'] = array('value' => $connectionName);
+			$connectionOptions['BorhanPDO::BORHAN_ATTR_NAME'] = array('value' => $connectionName);
 		
-			if(isset($connectionOptions['kaltura']))
+			if(isset($connectionOptions['borhan']))
 			{
-				self::$kalturaConfig[$connectionName] = $connectionOptions['kaltura'];
-				unset($connectionOptions['kaltura']);
+				self::$borhanConfig[$connectionName] = $connectionOptions['borhan'];
+				unset($connectionOptions['borhan']);
 			}
 		}
 		
 		self::$config = $config;
 	}
 	
-	public static function getKalturaConfig($connectionName)
+	public static function getBorhanConfig($connectionName)
 	{
-		if(isset(self::$kalturaConfig[$connectionName]))
-			return self::$kalturaConfig[$connectionName];
+		if(isset(self::$borhanConfig[$connectionName]))
+			return self::$borhanConfig[$connectionName];
 			
 		return array();
 	}
@@ -102,10 +102,10 @@ class DbManager
 		}
 			
 		$dbConfigs = array();
-		$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaDatabaseConfig');
+		$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanDatabaseConfig');
 		foreach($pluginInstances as $pluginInstance)
 		{
-			/* @var $pluginInstance IKalturaDatabaseConfig */
+			/* @var $pluginInstance IBorhanDatabaseConfig */
 			$dbConfigs[] = $pluginInstance->getDatabaseConfig();
 		}
 
@@ -124,7 +124,7 @@ class DbManager
 			self::addExtraConfiguration($dbConfig);
 		
 		Propel::setConfiguration(self::$config);
-		Propel::setLogger(KalturaLog::getInstance());
+		Propel::setLogger(BorhanLog::getInstance());
 		
 		try
 		{
@@ -132,7 +132,7 @@ class DbManager
 		}
 		catch(PropelException $pex)
 		{
-			KalturaLog::alert($pex->getMessage());
+			BorhanLog::alert($pex->getMessage());
 			throw new PropelException("Database error");
 		}
 	}
@@ -143,7 +143,7 @@ class DbManager
 	}
 	
 	/**
-	 * @return KalturaPDO
+	 * @return BorhanPDO
 	 */
 	public static function createSphinxConnection($sphinxServer, $port = 9312)
 	{
@@ -151,13 +151,13 @@ class DbManager
 		
 		try
 		{
-			$con = new KalturaPDO($dsn);
+			$con = new BorhanPDO($dsn);
 			$con->setCommentsEnabled(false);
 			return $con;
 		}
 		catch(PropelException $pex)
 		{
-			KalturaLog::alert($pex->getMessage());
+			BorhanLog::alert($pex->getMessage());
 			throw new PropelException("Database error");
 		}
 	}
@@ -197,7 +197,7 @@ class DbManager
 	}
 	
 	/**
-	 * @return KalturaPDO
+	 * @return BorhanPDO
 	 */
 	public static function getSphinxConnection($read = true)
 	{
@@ -232,7 +232,7 @@ class DbManager
 			throw new Exception("DB Config [$key] not found");
 
 		$dataSource = self::$config['datasources'][$key]['connection']['dsn'];
-		self::$sphinxConnection = new KalturaPDO($dataSource, null, null, array(PDO::ATTR_TIMEOUT => $connectTimeout, KalturaPDO::KALTURA_ATTR_NAME => $key), $key);					
+		self::$sphinxConnection = new BorhanPDO($dataSource, null, null, array(PDO::ATTR_TIMEOUT => $connectTimeout, BorhanPDO::BORHAN_ATTR_NAME => $key), $key);					
 		self::$sphinxConnection->setCommentsEnabled(false);
 		
 		return self::$sphinxConnection;
@@ -271,12 +271,12 @@ class DbManager
 				try 
 				{
 					$connection = call_user_func_array($connectCallback, $params);
-					KalturaLog::debug("connected to $key");
+					BorhanLog::debug("connected to $key");
 					return array($connection, $curIndex);
 				}
 				catch(Exception $ex)
 				{
-					KalturaLog::err("failed to connect to $key");
+					BorhanLog::err("failed to connect to $key");
 				}
 
 				if (function_exists('apc_store'))

@@ -73,7 +73,7 @@ class kCielo24FlowManager implements kBatchJobStatusEventConsumer
 			$remoteJobId = $clientHelper->getRemoteJobIdByName($entryId, $jobNameForSearch);
 			if (!$remoteJobId)
 			{
-				KalturaLog::err('remote content does not exist');
+				BorhanLog::err('remote content does not exist');
 				$transcript->setStatus(AttachmentAsset::FLAVOR_ASSET_STATUS_ERROR);
 				$transcript->save();
 				return true;     	
@@ -81,20 +81,20 @@ class kCielo24FlowManager implements kBatchJobStatusEventConsumer
 	
 			$formatsArray = explode(',',$formatsString);
 			$transcriptContent = $clientHelper->getRemoteTranscript($remoteJobId);
-			KalturaLog::debug("transcript content - $transcriptContent");
+			BorhanLog::debug("transcript content - $transcriptContent");
 			$captionsContentArray = $clientHelper->getRemoteCaptions($remoteJobId, $formatsArray);
-			KalturaLog::debug("captions content - " . print_r($captionsContentArray, true));
+			BorhanLog::debug("captions content - " . print_r($captionsContentArray, true));
 	
 			$captions = $this->getAssetsByLanguage($entryId, array(CaptionPlugin::getAssetTypeCoreValue(CaptionAssetType::CAPTION)), $spokenLanguage);
 			switch ($providerData->getFidelity())
 			{
-				case KalturaCielo24Fidelity::MECHANICAL:
+				case BorhanCielo24Fidelity::MECHANICAL:
 					$accuracyRate = self::MECHNICAL_TRANSCRIPTION_ACCURACY_VALUE;
 					break;
-				case KalturaCielo24Fidelity::PREMIUM:
+				case BorhanCielo24Fidelity::PREMIUM:
 					$accuracyRate = self::PREMIUM_TRANSCRIPTION_ACCURACY_VALUE;
 					break;
-				case KalturaCielo24Fidelity::PROFESSIONAL:
+				case BorhanCielo24Fidelity::PROFESSIONAL:
 					$accuracyRate = self::PROFESSIONAL_TRANSCRIPTION_ACCURACY_VALUE;
 					break;
 			}
@@ -103,7 +103,7 @@ class kCielo24FlowManager implements kBatchJobStatusEventConsumer
 	
 			foreach ($captionsContentArray as $format => $content)
 			{        
-				$captionFormatConst = constant("KalturaCaptionType::" . $format);
+				$captionFormatConst = constant("BorhanCaptionType::" . $format);
 				if(isset($captions[$captionFormatConst]))
 					$caption = $captions[$captionFormatConst];
 				else
@@ -116,7 +116,7 @@ class kCielo24FlowManager implements kBatchJobStatusEventConsumer
 					$caption->setStatus(CaptionAsset::ASSET_STATUS_QUEUED);
 					$caption->save();
 				}
-				if ($captionFormatConst == KalturaCaptionType::DFXP)
+				if ($captionFormatConst == BorhanCaptionType::DFXP)
 				{
 					$cielo24Options = Cielo24Plugin::getPartnerCielo24Options($partnerId);
 					if ($cielo24Options->transformDfxp)
@@ -202,7 +202,7 @@ class kCielo24FlowManager implements kBatchJobStatusEventConsumer
 		$content = preg_replace('/&(?!(?:#x?[0-9a-f]+|[a-z]+);)/i', '&amp;', $content);
 	
 		if (!$doc->loadXML($content)) {
-			KalturaLog::err('Failed to load XML');
+			BorhanLog::err('Failed to load XML');
 			return $content;
 		}
 

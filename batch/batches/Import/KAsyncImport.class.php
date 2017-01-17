@@ -23,13 +23,13 @@ class KAsyncImport extends KJobHandlerWorker
 	 */
 	public static function getType()
 	{
-		return KalturaBatchJobType::IMPORT;
+		return BorhanBatchJobType::IMPORT;
 	}
 
 	/* (non-PHPdoc)
 	 * @see KJobHandlerWorker::exec()
 	 */
-	protected function exec(KalturaBatchJob $job)
+	protected function exec(BorhanBatchJob $job)
 	{
 		return $this->fetchFile($job, $job->data);
 	}
@@ -43,9 +43,9 @@ class KAsyncImport extends KJobHandlerWorker
 	}
 
 	/*
-	 * Will take a single KalturaBatchJob and fetch the URL to the job's destFile
+	 * Will take a single BorhanBatchJob and fetch the URL to the job's destFile
 	 */
-	private function fetchFile(KalturaBatchJob $job, KalturaImportJobData $data)
+	private function fetchFile(BorhanBatchJob $job, BorhanImportJobData $data)
 	{
 		$jobSubType = $job->jobSubType;
 
@@ -64,7 +64,7 @@ class KAsyncImport extends KJobHandlerWorker
 		{
 			$sourceUrl = $data->srcFileUrl;
 
-			$this->updateJob($job, 'Downloading file header', KalturaBatchJobStatus::QUEUED);
+			$this->updateJob($job, 'Downloading file header', BorhanBatchJobStatus::QUEUED);
 			$fileSize = null;
 			$resumeOffset = 0;
 			if ($data->destFileLocalPath && file_exists($data->destFileLocalPath) )
@@ -74,14 +74,14 @@ class KAsyncImport extends KJobHandlerWorker
     			$curlHeaderResponse = $curlWrapper->getHeader($sourceUrl, $useNoBody);
     			if(!$curlHeaderResponse || !count($curlHeaderResponse->headers))
     			{
-    				$this->closeJob($job, KalturaBatchJobErrorTypes::CURL, $curlWrapper->getErrorNumber(), "Couldn't read file. Error: " . $curlWrapper->getError(), KalturaBatchJobStatus::FAILED);
+    				$this->closeJob($job, BorhanBatchJobErrorTypes::CURL, $curlWrapper->getErrorNumber(), "Couldn't read file. Error: " . $curlWrapper->getError(), BorhanBatchJobStatus::FAILED);
     				return $job;
     			}
 
     			if($curlWrapper->getError())
     			{
-    				KalturaLog::err("Headers error: " . $curlWrapper->getError());
-    				KalturaLog::err("Headers error number: " . $curlWrapper->getErrorNumber());
+    				BorhanLog::err("Headers error: " . $curlWrapper->getError());
+    				BorhanLog::err("Headers error number: " . $curlWrapper->getErrorNumber());
     				$curlWrapper->close();
 
     				$curlWrapper = new KCurlWrapper(self::$taskConfig->params);
@@ -89,7 +89,7 @@ class KAsyncImport extends KJobHandlerWorker
 
     			if(!$curlHeaderResponse->isGoodCode())
     			{
-    				$this->closeJob($job, KalturaBatchJobErrorTypes::HTTP, $curlHeaderResponse->code, "Failed while reading file. HTTP Error: " . $curlHeaderResponse->code . " " . $curlHeaderResponse->codeName, KalturaBatchJobStatus::FAILED);
+    				$this->closeJob($job, BorhanBatchJobErrorTypes::HTTP, $curlHeaderResponse->code, "Failed while reading file. HTTP Error: " . $curlHeaderResponse->code . " " . $curlHeaderResponse->codeName, BorhanBatchJobStatus::FAILED);
     				$curlWrapper->close();
     				return $job;
     			}
@@ -136,21 +136,21 @@ class KAsyncImport extends KJobHandlerWorker
 			{
 				// creates a temp file path
 				$destFile = $this->getTempFilePath($sourceUrl);
-				KalturaLog::debug("destFile [$destFile]");
+				BorhanLog::debug("destFile [$destFile]");
 				$data->destFileLocalPath = $destFile;
 				$data->fileSize = is_null($fileSize) ? -1 : $fileSize;
-				$this->updateJob($job, "Downloading file, size: $fileSize", KalturaBatchJobStatus::PROCESSING, $data);
+				$this->updateJob($job, "Downloading file, size: $fileSize", BorhanBatchJobStatus::PROCESSING, $data);
 			}
 
 			$res = $curlWrapper->exec($sourceUrl, $data->destFileLocalPath);
-			KalturaLog::debug("Curl results: $res");
+			BorhanLog::debug("Curl results: $res");
 
 			if(!$res || $curlWrapper->getError())
 			{
 				$errNumber = $curlWrapper->getErrorNumber();
 				if($errNumber != CURLE_OPERATION_TIMEOUTED)
 				{
-					$this->closeJob($job, KalturaBatchJobErrorTypes::CURL, $errNumber, "Error: " . $curlWrapper->getError(), KalturaBatchJobStatus::RETRY);
+					$this->closeJob($job, BorhanBatchJobErrorTypes::CURL, $errNumber, "Error: " . $curlWrapper->getError(), BorhanBatchJobStatus::RETRY);
 					$curlWrapper->close();
 					return $job;
 				}
@@ -160,13 +160,13 @@ class KAsyncImport extends KJobHandlerWorker
 					$actualFileSize = kFile::fileSize($data->destFileLocalPath);
 					if($actualFileSize == $resumeOffset)
 					{
-						$this->closeJob($job, KalturaBatchJobErrorTypes::CURL, $errNumber, "No new information. Error: " . $curlWrapper->getError(), KalturaBatchJobStatus::RETRY);
+						$this->closeJob($job, BorhanBatchJobErrorTypes::CURL, $errNumber, "No new information. Error: " . $curlWrapper->getError(), BorhanBatchJobStatus::RETRY);
 						$curlWrapper->close();
 						return $job;
 					}
 					if(!$fileSize)
 					{
-						$this->closeJob($job, KalturaBatchJobErrorTypes::CURL, $errNumber, "Received timeout, but no filesize available. Completed size [$actualFileSize]" . $curlWrapper->getError(), KalturaBatchJobStatus::RETRY);
+						$this->closeJob($job, BorhanBatchJobErrorTypes::CURL, $errNumber, "Received timeout, but no filesize available. Completed size [$actualFileSize]" . $curlWrapper->getError(), BorhanBatchJobStatus::RETRY);
 						$curlWrapper->close();
 						return $job;
 					}
@@ -176,7 +176,7 @@ class KAsyncImport extends KJobHandlerWorker
 
 			if(!file_exists($data->destFileLocalPath))
 			{
-				$this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::OUTPUT_FILE_DOESNT_EXIST, "Error: output file doesn't exist", KalturaBatchJobStatus::RETRY);
+				$this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::OUTPUT_FILE_DOESNT_EXIST, "Error: output file doesn't exist", BorhanBatchJobStatus::RETRY);
 				return $job;
 			}
 
@@ -189,47 +189,47 @@ class KAsyncImport extends KJobHandlerWorker
 				if($actualFileSize < $fileSize)
 				{
 					$percent = floor($actualFileSize * 100 / $fileSize);
-					$this->updateJob($job, "Downloaded size: $actualFileSize($percent%)", KalturaBatchJobStatus::PROCESSING, $data);
+					$this->updateJob($job, "Downloaded size: $actualFileSize($percent%)", BorhanBatchJobStatus::PROCESSING, $data);
 					self::$kClient->batch->resetJobExecutionAttempts($job->id, $this->getExclusiveLockKey(), $job->jobType);
-//					$this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::OUTPUT_FILE_WRONG_SIZE, "Expected file size[$fileSize] actual file size[$actualFileSize]", KalturaBatchJobStatus::RETRY);
+//					$this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::OUTPUT_FILE_WRONG_SIZE, "Expected file size[$fileSize] actual file size[$actualFileSize]", BorhanBatchJobStatus::RETRY);
 					return $job;
 				}
 				
-				KalturaLog::info("headers " . print_r($curlHeaderResponse, true));
-				$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaImportHandler');
+				BorhanLog::info("headers " . print_r($curlHeaderResponse, true));
+				$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanImportHandler');
 				foreach ($pluginInstances as $pluginInstance)
 				{
-					/* @var $pluginInstance IKalturaImportHandler */
+					/* @var $pluginInstance IBorhanImportHandler */
 					$data = $pluginInstance->handleImportContent($curlHeaderResponse, $data, KBatchBase::$taskConfig->params);
 				}
 			}
 
-			$this->updateJob($job, 'File imported, copy to shared folder', KalturaBatchJobStatus::PROCESSED);
+			$this->updateJob($job, 'File imported, copy to shared folder', BorhanBatchJobStatus::PROCESSED);
 			$job = $this->moveFile($job, $data->destFileLocalPath);
 		}
 		catch(kTemporaryException $tex)
 		{
-			$data->destFileLocalPath = KalturaClient::getKalturaNullValue();
+			$data->destFileLocalPath = BorhanClient::getBorhanNullValue();
 			$tex->setData($data);
 			throw $tex;
 		}
 		catch(Exception $ex)
 		{
-			$data->destFileLocalPath = KalturaClient::getKalturaNullValue();
+			$data->destFileLocalPath = BorhanClient::getBorhanNullValue();
 			if($ex->getMessage() == KCurlWrapper::COULD_NOT_CONNECT_TO_HOST_ERROR)
 			{
 				throw new kTemporaryException($ex->getMessage(), $ex->getCode(), $data);
 			}
-			$this->closeJob($job, KalturaBatchJobErrorTypes::RUNTIME, $ex->getCode(), "Error: " . $ex->getMessage(), KalturaBatchJobStatus::FAILED, $data);
+			$this->closeJob($job, BorhanBatchJobErrorTypes::RUNTIME, $ex->getCode(), "Error: " . $ex->getMessage(), BorhanBatchJobStatus::FAILED, $data);
 		}
 		return $job;
 	}
 
 
 	/*
-	 * Will take a single KalturaBatchJob and fetch the URL to the job's destFile
+	 * Will take a single BorhanBatchJob and fetch the URL to the job's destFile
 	 */
-	private function fetchFileSsh(KalturaBatchJob $job, KalturaSshImportJobData $data)
+	private function fetchFileSsh(BorhanBatchJob $job, BorhanSshImportJobData $data)
 	{
 		try
 		{
@@ -248,18 +248,18 @@ class KAsyncImport extends KJobHandlerWorker
 			$publicKey  = isset($data->publicKey) ? $data->publicKey : null;
 			$passPhrase = isset($data->passPhrase) ? $data->passPhrase : null;
 
-			KalturaLog::debug("host [$host] remotePath [$remotePath] username [$username] password [$password] port [$port]");
+			BorhanLog::debug("host [$host] remotePath [$remotePath] username [$username] password [$password] port [$port]");
 			if ($privateKey || $publicKey) {
-			    KalturaLog::debug("Private Key: $privateKey");
-			    KalturaLog::debug("Public Key: $publicKey");
+			    BorhanLog::debug("Private Key: $privateKey");
+			    BorhanLog::debug("Public Key: $publicKey");
 			}
 
 			if (!$host) {
-			    $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::MISSING_PARAMETERS, 'Error: missing host', KalturaBatchJobStatus::FAILED);
+			    $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::MISSING_PARAMETERS, 'Error: missing host', BorhanBatchJobStatus::FAILED);
 			    return $job;
 			}
 			if (!$remotePath) {
-			    $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::MISSING_PARAMETERS, 'Error: missing path', KalturaBatchJobStatus::FAILED);
+			    $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::MISSING_PARAMETERS, 'Error: missing path', BorhanBatchJobStatus::FAILED);
 			    return $job;
 			}
 
@@ -269,7 +269,7 @@ class KAsyncImport extends KJobHandlerWorker
 			$fileTransferMgr = kFileTransferMgr::getInstance($subType, $engineOptions);
 
 			if (!$fileTransferMgr) {
-			    $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::ENGINE_NOT_FOUND, "Error: file transfer manager not found for type [$subType]", KalturaBatchJobStatus::FAILED);
+			    $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::ENGINE_NOT_FOUND, "Error: file transfer manager not found for type [$subType]", BorhanBatchJobStatus::FAILED);
 			    return $job;
 			}
 			
@@ -287,7 +287,7 @@ class KAsyncImport extends KJobHandlerWorker
 				// check if file exists
 				$fileExists = $fileTransferMgr->fileExists($remotePath);
 				if (!$fileExists) {
-				    $this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::MISSING_PARAMETERS, "Error: remote file [$remotePath] does not exist", KalturaBatchJobStatus::FAILED);
+				    $this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::MISSING_PARAMETERS, "Error: remote file [$remotePath] does not exist", BorhanBatchJobStatus::FAILED);
 				    return $job;
 				}
 	
@@ -298,22 +298,22 @@ class KAsyncImport extends KJobHandlerWorker
 				$destFile = $this->getTempFilePath($remotePath);
 				$data->destFileLocalPath = $destFile;
 				$data->fileSize = is_null($fileSize) ? -1 : $fileSize;
-				KalturaLog::debug("destFile [$destFile]");
+				BorhanLog::debug("destFile [$destFile]");
 	
 				// download file - overwrite local if exists
-				$this->updateJob($job, "Downloading file, size: $fileSize", KalturaBatchJobStatus::PROCESSING, $data);
-				KalturaLog::info("Downloading remote file [$remotePath] to local path [$destFile]");
+				$this->updateJob($job, "Downloading file, size: $fileSize", BorhanBatchJobStatus::PROCESSING, $data);
+				BorhanLog::info("Downloading remote file [$remotePath] to local path [$destFile]");
 				$res = $fileTransferMgr->getFile($remotePath, $destFile);
 				
 			}
 			catch (kFileTransferMgrException $ex){
-				$this->closeJob($job, KalturaBatchJobErrorTypes::RUNTIME, $ex->getCode(), "Error: " . $ex->getMessage(), KalturaBatchJobStatus::RETRY);
+				$this->closeJob($job, BorhanBatchJobErrorTypes::RUNTIME, $ex->getCode(), "Error: " . $ex->getMessage(), BorhanBatchJobStatus::RETRY);
 				return $job;
 			}
 
 			if(!file_exists($data->destFileLocalPath))
 			{
-				$this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::OUTPUT_FILE_DOESNT_EXIST, "Error: output file doesn't exist", KalturaBatchJobStatus::RETRY);
+				$this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::OUTPUT_FILE_DOESNT_EXIST, "Error: output file doesn't exist", BorhanBatchJobStatus::RETRY);
 				return $job;
 			}
 
@@ -326,30 +326,30 @@ class KAsyncImport extends KJobHandlerWorker
 				if($actualFileSize < $fileSize)
 				{
 					$percent = floor($actualFileSize * 100 / $fileSize);
-					$job = $this->updateJob($job, "Downloaded size: $actualFileSize($percent%)", KalturaBatchJobStatus::PROCESSING, $data);
+					$job = $this->updateJob($job, "Downloaded size: $actualFileSize($percent%)", BorhanBatchJobStatus::PROCESSING, $data);
 					self::$kClient->batch->resetJobExecutionAttempts($job->id, $this->getExclusiveLockKey(), $job->jobType);
 					return $job;
 				}
 			}
 
-			$this->updateJob($job, 'File imported, copy to shared folder', KalturaBatchJobStatus::PROCESSED);
+			$this->updateJob($job, 'File imported, copy to shared folder', BorhanBatchJobStatus::PROCESSED);
 
 			$job = $this->moveFile($job, $data->destFileLocalPath);
 		}
 		catch(Exception $ex)
 		{
-			$this->closeJob($job, KalturaBatchJobErrorTypes::RUNTIME, $ex->getCode(), "Error: " . $ex->getMessage(), KalturaBatchJobStatus::FAILED);
+			$this->closeJob($job, BorhanBatchJobErrorTypes::RUNTIME, $ex->getCode(), "Error: " . $ex->getMessage(), BorhanBatchJobStatus::FAILED);
 		}
 		return $job;
 	}
 
 	/**
-	 * @param KalturaBatchJob $job
+	 * @param BorhanBatchJob $job
 	 * @param string $destFile
 	 * @param int $fileSize
-	 * @return KalturaBatchJob
+	 * @return BorhanBatchJob
 	 */
-	private function moveFile(KalturaBatchJob $job, $destFile)
+	private function moveFile(BorhanBatchJob $job, $destFile)
 	{
 		try
 		{
@@ -359,7 +359,7 @@ class KAsyncImport extends KJobHandlerWorker
 			$res = self::createDir( $rootPath );
 			if ( !$res )
 			{
-				KalturaLog::err( "Cannot continue import without shared directory");
+				BorhanLog::err( "Cannot continue import without shared directory");
 				die();
 			}
 			$uniqid = uniqid('import_');
@@ -369,11 +369,11 @@ class KAsyncImport extends KJobHandlerWorker
 			if(strlen($ext))
 				$sharedFile .= ".$ext";
 
-			KalturaLog::debug("rename('$destFile', '$sharedFile')");
+			BorhanLog::debug("rename('$destFile', '$sharedFile')");
 			rename($destFile, $sharedFile);
 			if(!file_exists($sharedFile))
 			{
-				KalturaLog::err("Error: renamed file doesn't exist");
+				BorhanLog::err("Error: renamed file doesn't exist");
 				die();
 			}
 
@@ -389,16 +389,16 @@ class KAsyncImport extends KJobHandlerWorker
 
 			if($this->checkFileExists($sharedFile, $fileSize))
 			{
-				$this->closeJob($job, null, null, 'Succesfully moved file', KalturaBatchJobStatus::FINISHED, $data);
+				$this->closeJob($job, null, null, 'Succesfully moved file', BorhanBatchJobStatus::FINISHED, $data);
 			}
 			else
 			{
-				$this->closeJob($job, KalturaBatchJobErrorTypes::APP, KalturaBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, 'File not moved correctly', KalturaBatchJobStatus::RETRY);
+				$this->closeJob($job, BorhanBatchJobErrorTypes::APP, BorhanBatchJobAppErrors::NFS_FILE_DOESNT_EXIST, 'File not moved correctly', BorhanBatchJobStatus::RETRY);
 			}
 		}
 		catch(Exception $ex)
 		{
-			$this->closeJob($job, KalturaBatchJobErrorTypes::RUNTIME, $ex->getCode(), "Error: " . $ex->getMessage(), KalturaBatchJobStatus::FAILED);
+			$this->closeJob($job, BorhanBatchJobErrorTypes::RUNTIME, $ex->getCode(), "Error: " . $ex->getMessage(), BorhanBatchJobStatus::FAILED);
 		}
 		return $job;
 	}
@@ -423,7 +423,7 @@ class KAsyncImport extends KJobHandlerWorker
 		$res = self::createDir( $rootPath );
 		if ( !$res )
 		{
-			KalturaLog::err( "Cannot continue import without temp directory");
+			BorhanLog::err( "Cannot continue import without temp directory");
 			die();
 		}
 

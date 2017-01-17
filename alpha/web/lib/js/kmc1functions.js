@@ -55,18 +55,18 @@ function copyToClipboard(inElementId){
 
 function onTabChange()
 {
-	kalturaCloseModalBox();
+	borhanCloseModalBox();
 	loadModule(next_module, partner_id, subpid, user_id, ks, screen_name, email);
 }
     
 $(document).ready(function(){
     $("a#dashboard").addClass('active');
-    /* KMC tabs */
-    $("#kmcHeader ul li a").click(function(){
-    	$("#kmcHeader ul li a").removeClass('active');
+    /* BMC tabs */
+    $("#bmcHeader ul li a").click(function(){
+    	$("#bmcHeader ul li a").removeClass('active');
 //    	var bolds = $("#header ul.main_tabs li").find('b');
 //    	$(bolds).remove(); 
-		kalturaCloseModalBox();
+		borhanCloseModalBox();
 		selected_uiconfId = null;
 		next_module = this.id;
     	$(this).addClass('active');
@@ -103,7 +103,7 @@ $(document).ready(function(){
     content_resize();
 /*	
 	var flashvars = {};
-	flashvars.name = "kmc";
+	flashvars.name = "bmc";
 	var params = {};
 	if (!jQuery.browser.msie)
 		params.wmode = "opaque";

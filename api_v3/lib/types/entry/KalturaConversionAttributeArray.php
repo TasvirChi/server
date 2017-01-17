@@ -3,10 +3,10 @@
  * @package api
  * @subpackage objects
  */
-class KalturaConversionAttributeArray extends KalturaTypedArray
+class BorhanConversionAttributeArray extends BorhanTypedArray
 {
 	public function __construct()
 	{
-		parent::__construct("KalturaConversionAttribute");	
+		parent::__construct("BorhanConversionAttribute");	
 	}
 }

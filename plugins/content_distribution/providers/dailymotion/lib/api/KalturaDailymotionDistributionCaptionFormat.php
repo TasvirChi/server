@@ -3,7 +3,7 @@
  * @package plugins.dailymotionDistribution
  * @subpackage lib
  */
-class KalturaDailymotionDistributionCaptionFormat extends KalturaEnum
+class BorhanDailymotionDistributionCaptionFormat extends BorhanEnum
 {
 	const SRT = 1;
 	const STL = 2;

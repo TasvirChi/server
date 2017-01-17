@@ -2,7 +2,7 @@
 /**
  * @package plugins.uverseClickToOrderDistribution
  */
-class UverseClickToOrderDistributionPlugin extends KalturaPlugin implements IKalturaPermissions, IKalturaEnumerator, IKalturaPending, IKalturaObjectLoader, IKalturaContentDistributionProvider, IKalturaEventConsumers, IKalturaServices
+class UverseClickToOrderDistributionPlugin extends BorhanPlugin implements IBorhanPermissions, IBorhanEnumerator, IBorhanPending, IBorhanObjectLoader, IBorhanContentDistributionProvider, IBorhanEventConsumers, IBorhanServices
 {
 	const PLUGIN_NAME = 'uverseClickToOrderDistribution';
 	const UVERSE_CLICK_TO_ORDER_EVENT_CONSUMER = "kUverseClickToOrderEventConsumer";
@@ -17,12 +17,12 @@ class UverseClickToOrderDistributionPlugin extends KalturaPlugin implements IKal
 	
 	public static function dependsOn()
 	{
-		$contentDistributionVersion = new KalturaVersion(
+		$contentDistributionVersion = new BorhanVersion(
 			self::CONTENT_DSTRIBUTION_VERSION_MAJOR,
 			self::CONTENT_DSTRIBUTION_VERSION_MINOR,
 			self::CONTENT_DSTRIBUTION_VERSION_BUILD);
 			
-		$dependency = new KalturaDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
+		$dependency = new BorhanDependency(ContentDistributionPlugin::getPluginName(), $contentDistributionVersion);
 		return array($dependency);
 	}
 	
@@ -83,23 +83,23 @@ class UverseClickToOrderDistributionPlugin extends KalturaPlugin implements IKal
 	public static function getObjectClass($baseClass, $enumValue)
 	{
 		// client side apps like batch and admin console
-		if (class_exists('KalturaClient') && $enumValue == KalturaDistributionProviderType::UVERSE_CLICK_TO_ORDER)
+		if (class_exists('BorhanClient') && $enumValue == BorhanDistributionProviderType::UVERSE_CLICK_TO_ORDER)
 		{
-			if($baseClass == 'KalturaDistributionProfile')
-				return 'KalturaUverseClickToOrderDistributionProfile';
+			if($baseClass == 'BorhanDistributionProfile')
+				return 'BorhanUverseClickToOrderDistributionProfile';
 		}
 		
-		if (class_exists('Kaltura_Client_Client') && $enumValue == Kaltura_Client_ContentDistribution_Enum_DistributionProviderType::UVERSE_CLICK_TO_ORDER)
+		if (class_exists('Borhan_Client_Client') && $enumValue == Borhan_Client_ContentDistribution_Enum_DistributionProviderType::UVERSE_CLICK_TO_ORDER)
 		{
 			if($baseClass == 'Form_ProviderProfileConfiguration')
 				return 'Form_UverseClickToOrderProfileConfiguration';
 				
-			if($baseClass == 'Kaltura_Client_ContentDistribution_Type_DistributionProfile')
-				return 'Kaltura_Client_UverseClickToOrderDistribution_Type_UverseClickToOrderDistributionProfile';
+			if($baseClass == 'Borhan_Client_ContentDistribution_Type_DistributionProfile')
+				return 'Borhan_Client_UverseClickToOrderDistribution_Type_UverseClickToOrderDistributionProfile';
 		}
 		
-		if($baseClass == 'KalturaDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(UverseClickToOrderDistributionProviderType::UVERSE_CLICK_TO_ORDER))
-			return 'KalturaUverseClickToOrderDistributionProfile';
+		if($baseClass == 'BorhanDistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(UverseClickToOrderDistributionProviderType::UVERSE_CLICK_TO_ORDER))
+			return 'BorhanUverseClickToOrderDistributionProfile';
 			
 		if($baseClass == 'DistributionProfile' && $enumValue == self::getDistributionProviderTypeCoreValue(UverseClickToOrderDistributionProviderType::UVERSE_CLICK_TO_ORDER))
 			return 'UverseClickToOrderDistributionProfile';
@@ -120,11 +120,11 @@ class UverseClickToOrderDistributionPlugin extends KalturaPlugin implements IKal
 	/**
 	 * Return an API distribution provider instance
 	 * 
-	 * @return KalturaDistributionProvider
+	 * @return BorhanDistributionProvider
 	 */
-	public static function getKalturaProvider()
+	public static function getBorhanProvider()
 	{
-		$distributionProvider = new KalturaUverseClickToOrderDistributionProvider();
+		$distributionProvider = new BorhanUverseClickToOrderDistributionProvider();
 		$distributionProvider->fromObject(self::getProvider());
 		return $distributionProvider;
 	}
@@ -148,7 +148,7 @@ class UverseClickToOrderDistributionPlugin extends KalturaPlugin implements IKal
 	 */
 	public static function getDistributionProviderTypeCoreValue($valueName)
 	{
-		$value = self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 		return kPluginableEnumsManager::apiToCore('DistributionProviderType', $value);
 	}
 	
@@ -157,11 +157,11 @@ class UverseClickToOrderDistributionPlugin extends KalturaPlugin implements IKal
 	 */
 	public static function getApiValue($valueName)
 	{
-		return self::getPluginName() . IKalturaEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
+		return self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . $valueName;
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaEventConsumers::getEventConsumers()
+	 * @see IBorhanEventConsumers::getEventConsumers()
 	 */
 	public static function getEventConsumers()
 	{
@@ -171,7 +171,7 @@ class UverseClickToOrderDistributionPlugin extends KalturaPlugin implements IKal
 	}
 	
 	/* (non-PHPdoc)
-	 * @see IKalturaServices::getServicesMap()
+	 * @see IBorhanServices::getServicesMap()
 	 */
 	public static function getServicesMap()
 	{

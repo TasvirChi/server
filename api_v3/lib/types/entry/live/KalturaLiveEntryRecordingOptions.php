@@ -5,26 +5,26 @@
  * @package api
  * @subpackage objects
  */
-class KalturaLiveEntryRecordingOptions extends KalturaObject
+class BorhanLiveEntryRecordingOptions extends BorhanObject
 {
 	
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $shouldCopyEntitlement;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $shouldCopyScheduling;
 	
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $shouldCopyThumbnail;
 
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $shouldMakeHidden;
 
@@ -37,7 +37,7 @@ class KalturaLiveEntryRecordingOptions extends KalturaObject
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{
@@ -45,7 +45,7 @@ class KalturaLiveEntryRecordingOptions extends KalturaObject
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($dbObject = null, $propsToSkip = array())
 	{

@@ -915,7 +915,7 @@
 		<column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="priority_group_id" type="integer" />
 		<column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="partner_group_type" type="smallint" default="1" />
 		<column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="partner_parent_id" type="integer" default="null" />
-		<column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="kmc_version" type="varchar" default="1" size="15" />
+		<column primaryKey="false" required="false" autoIncrement="false" lazyLoad="false" name="bmc_version" type="varchar" default="1" size="15" />
 		<foreign-key onDelete="none" onUpdate="none" foreignTable="kuser">
 			<reference local="anonymous_kuser_id" foreign="id" />
 		</foreign-key>

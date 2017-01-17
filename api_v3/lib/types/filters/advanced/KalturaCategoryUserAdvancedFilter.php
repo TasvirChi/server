@@ -3,7 +3,7 @@
  * @package api
  * @subpackage filters
  */
-class KalturaCategoryUserAdvancedFilter extends KalturaSearchItem
+class BorhanCategoryUserAdvancedFilter extends BorhanSearchItem
 {
 	/**
 	 * @var string
@@ -43,12 +43,12 @@ class KalturaCategoryUserAdvancedFilter extends KalturaSearchItem
 		
 		if (!$this->memberIdEq && !$this->memberIdIn)
 		{
-			throw new KalturaAPIException(KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, 'memberIdEq,memberIdIn');
+			throw new BorhanAPIException(BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, 'memberIdEq,memberIdIn');
 		}
 		
 		if (!$this->memberPermissionsMatchOr && !$this->memberPermissionsMatchAnd)
 		{
-			throw new KalturaAPIException(KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, 'memberIdEq,memberIdIn');
+			throw new BorhanAPIException(BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, 'memberIdEq,memberIdIn');
 		}
 		
 		if ($this->memberIdEq)
@@ -56,7 +56,7 @@ class KalturaCategoryUserAdvancedFilter extends KalturaSearchItem
 			$kuser = kuserPeer::getKuserByPartnerAndUid(kCurrentContext::getCurrentPartnerId(), $this->memberIdEq);
 			if (!$kuser)
 			{
-				throw new KalturaAPIException (KalturaErrors::USER_NOT_FOUND);
+				throw new BorhanAPIException (BorhanErrors::USER_NOT_FOUND);
 			}
 
 			$kuserIds = array($kuser->getId());
@@ -72,7 +72,7 @@ class KalturaCategoryUserAdvancedFilter extends KalturaSearchItem
 			$kusers = kuserPeer::getKuserByPartnerAndUids(kCurrentContext::getCurrentPartnerId(), explode(',', $this->memberIdIn));
 			$kuserIds = array();
 			if (!$kusers || !count($kusers))
-				throw new KalturaAPIException (KalturaErrors::USER_NOT_FOUND);
+				throw new BorhanAPIException (BorhanErrors::USER_NOT_FOUND);
 			
 			foreach($kusers as $kuser)
 			{

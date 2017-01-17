@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-abstract class KalturaMediaServerNode extends KalturaDeliveryServerNode
+abstract class BorhanMediaServerNode extends BorhanDeliveryServerNode
 {
 	/**
 	 * Media server application name
@@ -15,14 +15,14 @@ abstract class KalturaMediaServerNode extends KalturaDeliveryServerNode
 	/**
 	 * Media server playback port configuration by protocol and format
 	 *
-	 * @var KalturaKeyValueArray
+	 * @var BorhanKeyValueArray
 	 */
 	public $mediaServerPortConfig;
 	
 	/**
 	 * Media server playback Domain configuration by protocol and format
 	 *
-	 * @var KalturaKeyValueArray
+	 * @var BorhanKeyValueArray
 	 * @deprecated Use Delivery Profile Ids instead
 	 * 
 	 */
@@ -36,7 +36,7 @@ abstract class KalturaMediaServerNode extends KalturaDeliveryServerNode
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects()
 	{

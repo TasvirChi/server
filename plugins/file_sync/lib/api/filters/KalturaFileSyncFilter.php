@@ -3,10 +3,10 @@
  * @package plugins.fileSync
  * @subpackage api.filters
  */
-class KalturaFileSyncFilter extends KalturaFileSyncBaseFilter
+class BorhanFileSyncFilter extends BorhanFileSyncBaseFilter
 {
 	/**
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $currentDc;
 	
@@ -22,7 +22,7 @@ class KalturaFileSyncFilter extends KalturaFileSyncBaseFilter
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::getCoreFilter()
+	 * @see BorhanFilter::getCoreFilter()
 	 */
 	protected function getCoreFilter()
 	{
@@ -30,13 +30,13 @@ class KalturaFileSyncFilter extends KalturaFileSyncBaseFilter
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaFilter::toObject()
+	 * @see BorhanFilter::toObject()
 	 */
 	public function toObject ( $object_to_fill = null, $props_to_skip = array() )
 	{
 		if(!$this->isNull('currentDc'))
 		{
-			if($this->currentDc == KalturaNullableBoolean::TRUE_VALUE)
+			if($this->currentDc == BorhanNullableBoolean::TRUE_VALUE)
 				$this->dcEqual = kDataCenterMgr::getCurrentDcId();
 		}
 		

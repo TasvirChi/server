@@ -3,11 +3,11 @@
  * @package plugins.dropFolder
  * @subpackage api.objects
  */
-class KalturaDropFolderContentFileHandlerConfig extends KalturaDropFolderFileHandlerConfig
+class BorhanDropFolderContentFileHandlerConfig extends BorhanDropFolderFileHandlerConfig
 {	
 	
 	/**
-	 * @var KalturaDropFolderContentFileHandlerMatchPolicy
+	 * @var BorhanDropFolderContentFileHandlerMatchPolicy
 	 */
 	public $contentMatchPolicy;
 	
@@ -49,7 +49,7 @@ class KalturaDropFolderContentFileHandlerConfig extends KalturaDropFolderFileHan
 	public function validateForInsert($propertiesToSkip = array())
 	{
 		if (is_null($this->contentMatchPolicy)) {
-			throw new KalturaAPIException(KalturaErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, get_class($this).'::contentMatchPolicy');
+			throw new BorhanAPIException(BorhanErrors::PROPERTY_VALIDATION_CANNOT_BE_NULL, get_class($this).'::contentMatchPolicy');
 		}
 		
 		return parent::validateForInsert($propertiesToSkip);

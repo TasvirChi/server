@@ -2,11 +2,11 @@
 /**
  * A key value pair representation to return an array of key-value pairs (associative array)
  * 
- * @see KalturaKeyValueArray
+ * @see BorhanKeyValueArray
  * @package api
  * @subpackage objects
  */
-class KalturaKeyValue extends KalturaObject
+class BorhanKeyValue extends BorhanObject
 {
 	/**
 	 * @var string

@@ -4,12 +4,12 @@
  * @package infra
  * @subpackage Plugins
  */
-interface IKalturaPending extends IKalturaBase
+interface IBorhanPending extends IBorhanBase
 {
 	/**
-	 * Returns a Kaltura dependency object that defines the relationship between two plugins.
+	 * Returns a Borhan dependency object that defines the relationship between two plugins.
 	 * 
-	 * @return array<KalturaDependency> The Kaltura dependency object
+	 * @return array<BorhanDependency> The Borhan dependency object
 	 */
 	public static function dependsOn();
 }

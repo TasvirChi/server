@@ -3,11 +3,11 @@
  * @package plugins.playReady
  * @subpackage api.objects
  */
-class KalturaPlayReadyRightArray extends KalturaTypedArray
+class BorhanPlayReadyRightArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaPlayReadyRightArray();
+		$newArr = new BorhanPlayReadyRightArray();
 		if ($arr == null)
 			return $newArr;
 
@@ -26,15 +26,15 @@ class KalturaPlayReadyRightArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaPlayReadyRight");	
+		parent::__construct("BorhanPlayReadyRight");	
 	}
 	
 	private static function getInstanceByDbObject($obj)
 	{
 		if($obj instanceof PlayReadyCopyRight)
-			return new KalturaPlayReadyCopyRight();
+			return new BorhanPlayReadyCopyRight();
 		if($obj instanceof PlayReadyPlayRight)
-			return new KalturaPlayReadyPlayRight();
+			return new BorhanPlayReadyPlayRight();
 			
 		return null;
 	}

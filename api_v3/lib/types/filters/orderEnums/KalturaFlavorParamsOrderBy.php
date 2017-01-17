@@ -3,6 +3,6 @@
  * @package api
  * @subpackage enum
  */
-class KalturaFlavorParamsOrderBy extends KalturaStringEnum
+class BorhanFlavorParamsOrderBy extends BorhanStringEnum
 {
 }

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaBulkUploadAction extends KalturaDynamicEnum implements BulkUploadAction
+class BorhanBulkUploadAction extends BorhanDynamicEnum implements BulkUploadAction
 {
 	/**
 	 * @return string

@@ -3,7 +3,7 @@
  * @package plugins.caption
  * @subpackage api.filters
  */
-class KalturaCaptionAssetFilter extends KalturaCaptionAssetBaseFilter
+class BorhanCaptionAssetFilter extends BorhanCaptionAssetBaseFilter
 {
 
 	static private $map_between_objects = array
@@ -18,24 +18,24 @@ class KalturaCaptionAssetFilter extends KalturaCaptionAssetBaseFilter
 	}	
 
 	/* (non-PHPdoc)
-	 * @see KalturaAssetFilter::getTypeListResponse()
+	 * @see BorhanAssetFilter::getTypeListResponse()
 	 */
-	public function getTypeListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null, array $types = null)
+	public function getTypeListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null, array $types = null)
 	{
 		list($list, $totalCount) = $this->doGetListResponse($pager, $types);
 		
-		$response = new KalturaCaptionAssetListResponse();
-		$response->objects = KalturaCaptionAssetArray::fromDbArray($list, $responseProfile);
+		$response = new BorhanCaptionAssetListResponse();
+		$response->objects = BorhanCaptionAssetArray::fromDbArray($list, $responseProfile);
 		$response->totalCount = $totalCount;
 		return $response;  
 	}
 
 	/* (non-PHPdoc)
-	 * @see KalturaAssetFilter::getListResponse()
+	 * @see BorhanAssetFilter::getListResponse()
 	 */
-	public function getListResponse(KalturaFilterPager $pager, KalturaDetachedResponseProfile $responseProfile = null)
+	public function getListResponse(BorhanFilterPager $pager, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$types = KalturaPluginManager::getExtendedTypes(assetPeer::OM_CLASS, CaptionPlugin::getAssetTypeCoreValue(CaptionAssetType::CAPTION));
+		$types = BorhanPluginManager::getExtendedTypes(assetPeer::OM_CLASS, CaptionPlugin::getAssetTypeCoreValue(CaptionAssetType::CAPTION));
 		return $this->getTypeListResponse($pager, $responseProfile, $types);
 	}
 }

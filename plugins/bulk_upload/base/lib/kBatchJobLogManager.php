@@ -14,7 +14,7 @@ class kBatchJobLogManager implements kObjectCreatedEventConsumer, kObjectChanged
             return;
         }
         
-        KalturaLog::info("Handling batch job log object with Id [" . $batchJobLog->getId() ."]");
+        BorhanLog::info("Handling batch job log object with Id [" . $batchJobLog->getId() ."]");
                 
         $batchJobLog = $this->copyModifiedColumns($batchJobLog, $object, $modifiedColumns);
         
@@ -92,7 +92,7 @@ class kBatchJobLogManager implements kObjectCreatedEventConsumer, kObjectChanged
 	        }
 	        catch (PropelException $e)
 	        {
-	            KalturaLog::err("Could not set value for BatchJobLog field $fieldName, exception thrown: ".$e->getMessage());
+	            BorhanLog::err("Could not set value for BatchJobLog field $fieldName, exception thrown: ".$e->getMessage());
 	        }
 	        
 	        if($fieldPosLog != -1)

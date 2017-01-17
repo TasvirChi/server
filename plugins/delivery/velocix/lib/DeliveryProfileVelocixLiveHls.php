@@ -44,10 +44,10 @@ class DeliveryProfileVelocixLiveHls extends DeliveryProfileLiveAppleHttp
 		$data = $this->urlExists($url, kConf::get("hls_live_stream_content_type"));
 		if(!$data)
 		{
-			KalturaLog::Info("URL [$url] returned no valid data. Exiting.");
+			BorhanLog::Info("URL [$url] returned no valid data. Exiting.");
 			return false;
 		}
-		KalturaLog::info("url return data:[$data]");
+		BorhanLog::info("url return data:[$data]");
 		$explodedLine = explode("\n", $data);
 		$flavorsChecked = 0;
 		if (strpos($data,'#EXT-X-STREAM-INF') !== false)
@@ -104,7 +104,7 @@ class DeliveryProfileVelocixLiveHls extends DeliveryProfileLiveAppleHttp
 			$segmentUrl .= $token ? '?'.$this->getParamName()."=$token" : '' ;
 			if ($this->urlExists($segmentUrl, kConf::get("hls_live_stream_content_type"),'0-0'))
 			{
-				KalturaLog::info("is live:[$segmentUrl]");
+				BorhanLog::info("is live:[$segmentUrl]");
 				return true;
 			}
 			++$segmentsChecked;

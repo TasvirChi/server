@@ -36,22 +36,22 @@ function createSelect ( $id , $name , $default_value , $list_name )
 	
 	//global $arrays;
 	$media_type_list = array ( "1" => "Video" , "2" => "Image" , "5" => "Audio");
-	$media_source_list = array ( "20" => "Kaltura" , "21" => "MyClips" , "23" => "KalturaPartner" , "1" => "* File" , "2" => "* Webcam" , "3" => "Flickr" , "4" => "YouTube" , "5" => "* URL" , "7" => "MySpace" , "8" =>
+	$media_source_list = array ( "20" => "Borhan" , "21" => "MyClips" , "23" => "BorhanPartner" , "1" => "* File" , "2" => "* Webcam" , "3" => "Flickr" , "4" => "YouTube" , "5" => "* URL" , "7" => "MySpace" , "8" =>
 									"PhotoBucket" , "9" => "Jamendo" , "10" => "CCMixter" , "11" => "NYPL" , "12" => "Current" , "13" => "MediaCommons" , "22" => "Archive.org");
 	if( $limited )
 	{
 		$format_list = array ( "1" => "JSON" , "2" => "XML" , "3" => "PHP" );
 		if (strpos ( $host , "sandbox" ) !== false )
-			$service_url_list = array ( "sandbox.kaltura.com" => "Sandbox", "www.kaltura.com" => "Kaltura" ) ;
+			$service_url_list = array ( "sandbox.borhan.com" => "Sandbox", "www.borhan.com" => "Borhan" ) ;
 		else	
-			$service_url_list = array ( "www.kaltura.com" => "Kaltura", "sandbox.kaltura.com" => "Sandbox" ) ;
+			$service_url_list = array ( "www.borhan.com" => "Borhan", "sandbox.borhan.com" => "Sandbox" ) ;
 		$index_path_list = array ( "index.php" => "index"  ) ;
 	}
 	else
 	{
 		$format_list = array ( "1" => "JSON" , "2" => "XML" , "3" => "PHP" , "4" => "PHP_ARR" , "5" => "PHP_OBJ" );
-		$service_url_list = array ( "localhost" => "localhost" , "kaldev.kaltura.com" => "kaldev" , "www.kaltura.com" => "Kaltura", "sandbox.kaltura.com" => "Sandbox" ) ;
-		$index_path_list = array ( "index.php" => "index" , "kaltura_dev.php" => "debug" ) ;
+		$service_url_list = array ( "localhost" => "localhost" , "kaldev.borhan.com" => "kaldev" , "www.borhan.com" => "Borhan", "sandbox.borhan.com" => "Sandbox" ) ;
+		$index_path_list = array ( "index.php" => "index" , "borhan_dev.php" => "debug" ) ;
 	}
 
 	$clazz_list = array ( "kshow" => "kshow" , "kuser" => "kuser" , "entry" => "entry" , "PuserKuser" => "PuserKuser" ) ;
@@ -76,10 +76,10 @@ function createSelect ( $id , $name , $default_value , $list_name )
 		"notification_status" => $notification_status ,
 		"partner_status_int_type" => $partner_status_int_type ,
 		"partner_group_int_type" => $partner_group_int_type ,
-		"appear_in_saerch_list" => array ( "0" => "Not at all" , "1" => "Partner only" , "2" => "Kaltura network" ) ,
+		"appear_in_saerch_list" => array ( "0" => "Not at all" , "1" => "Partner only" , "2" => "Borhan network" ) ,
 		"net_storage_priority" => array ( 
-			StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_ONLY => 'Kaltura DCs only',
-			StorageProfile::STORAGE_SERVE_PRIORITY_KALTURA_FIRST => 'Kaltura first',
+			StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_ONLY => 'Borhan DCs only',
+			StorageProfile::STORAGE_SERVE_PRIORITY_BORHAN_FIRST => 'Borhan first',
 			StorageProfile::STORAGE_SERVE_PRIORITY_EXTERNAL_FIRST => 'External storages first',
 			StorageProfile::STORAGE_SERVE_PRIORITY_EXTERNAL_ONLY => 'External storages only',
 		) ,
@@ -249,8 +249,8 @@ if ( count ( $partner_list ) > 1 )
 	/*= prop ( $partner , "flvConversionString"  , "text" , "70" , ""  , ""  ) */
 ?>
 <?php echo  prop ( $partner , "defConversionProfileType"  , "text" , "15" , ""  , "" , "*DEPRECATED* should be used INSTEAD of the conversion string"  ) ?>
-<?php echo  prop ( $partner , "currentConversionProfileType"  , "text" , "15" , ""  , "" , "*DEPRECATED* the last conversion profile set for this partner from the kmc"  ) ?>
-<?php echo  prop ( $partner , "defaultConversionProfileId"  , "text" , "15" , ""  , "" , "the last conversion profile id for this partner from the kmc"  ) ?>
+<?php echo  prop ( $partner , "currentConversionProfileType"  , "text" , "15" , ""  , "" , "*DEPRECATED* the last conversion profile set for this partner from the bmc"  ) ?>
+<?php echo  prop ( $partner , "defaultConversionProfileId"  , "text" , "15" , ""  , "" , "the last conversion profile id for this partner from the bmc"  ) ?>
 <?php echo  prop ( $partner , "defThumbOffset"  , "text" , "3" , "3"  , "" , "default second from witch to take thumbnail for video"  ) ?>
 <?php
 /*
@@ -275,7 +275,7 @@ if ( count ( $partner_list ) > 1 )
 <?php echo  prop ( $partner , "serviceConfigId"  , "text" , "60" , ""  , "" , "configuration file to use for partner"  ) ?>
 <!-- ?php echo  prop ( $partner , "partnerPackage"  , "select" , "1" , "0"  , "partner_packages" , "package type of partner"  ) ?-->
 <?php echo  prop ( $partner , "monitorUsage"  , "select" , "1" , "0"  , "boolean_int_type" , "when true, partner will be included in daily usage monitoring and will get warning emails."  ) ?>
-<?php echo  prop ( $partner , "isFirstLogin"  , "select" , "1" , "0"  , "boolean_int_type" , "when true, on next login to kmc a different msg will be displayed"  ) ?>
+<?php echo  prop ( $partner , "isFirstLogin"  , "select" , "1" , "0"  , "boolean_int_type" , "when true, on next login to bmc a different msg will be displayed"  ) ?>
 <?php echo  prop ( $partner , "templatePartnerId"  , "text" , "" , ""  , "" , "partner id to fetch uiconftemplates from"  ) ?>
 <?php echo  prop ( $partner , "addEntryMaxFiles"  , "text" , "" , ""  , "" , "limit add-entry files per call"  ) ?>
 <?php echo  prop ( $partner , "partnerSpecificServices"  , "text" , "" , ""  , "" , "Class name for partner's specific services"  ) ?>
@@ -286,7 +286,7 @@ if ( count ( $partner_list ) > 1 )
 
 <tr><td style="font-weight:bold; text-" colspan="3"><hr/>Files Storage and Delivery</td></tr>
 <?php echo  prop ( $partner , "host"  , "text" , "60" , ""  , ""  , "host url for all the services"  ) ?>
-<?php echo  prop ( $partner , "storageDeleteFromKaltura"  , "select" , "1" , "0"  , "boolean_int_type" , "Indicates if file should be deleted from kaltura data centers after exporting to external storage"  ) ?>
+<?php echo  prop ( $partner , "storageDeleteFromBorhan"  , "select" , "1" , "0"  , "boolean_int_type" , "Indicates if file should be deleted from borhan data centers after exporting to external storage"  ) ?>
 <?php echo  prop ( $partner , "storageServePriority"  , "select" , "1" , "1"  , "net_storage_priority" , "Indicates what storage will be used for files delivery"  ) ?>
 <?php echo  prop ( $partner , "delivryBlockCountries"  , "text" , "" , ""  , "" , "country code to block file-serving for users from that country - to have no block at all put DONT_BLOCK"  ) ?>
 <?php echo  prop ( $partner , "deliveryProfileIds"  , "text" , "" , ""  , "" , "Set delivery profile ids for partner"  ) ?>
@@ -297,27 +297,27 @@ if ( count ( $partner_list ) > 1 )
 <?php echo  prop ( $partner , "numPrevPassToKeep"  , "text" , "60" , ""  , ""  , "number of previous passwords to keep (and not allow re-use)"  ) ?>
 <?php echo  prop ( $partner , "passReplaceFreq"  , "text" , "60" , ""  , ""  , "password replacement frequency (in seconds!)"  ) ?>
 
-<tr><td style="font-weight:bold; text-" colspan="3"><hr/>Andromeda - KMC2</td></tr>
+<tr><td style="font-weight:bold; text-" colspan="3"><hr/>Andromeda - BMC2</td></tr>
 <tr class="prop">
-	<td>kmcVersion</td>
+	<td>bmcVersion</td>
 <?php
 $version = 2;
 if($partner)
-	$version = $partner->getKmcVersion();
+	$version = $partner->getBmcVersion();
 	
-$version_text = (version_compare($version, 2, "<"))? "Old KMC": "New KMC";
+$version_text = (version_compare($version, 2, "<"))? "Old BMC": "New BMC";
 ?>
 	<td>
 		<input type="text" value="<?php echo $version; ?>" readonly="readonly" />
 		<span style="color: blue;"><?php echo $version_text; ?></span>
 	</td>
-	<td style="color:gray; font-size:11px; font-family:arial;">THIS CANNOT BE EDITED HERE, TO MIGRATE OLD PARTNER TO KMC 2 PLEASE CONTACT R&D</td>
+	<td style="color:gray; font-size:11px; font-family:arial;">THIS CANNOT BE EDITED HERE, TO MIGRATE OLD PARTNER TO BMC 2 PLEASE CONTACT R&D</td>
 </tr>
 <?php echo  prop ( $partner , "liveStreamEnabled"  , "select" , "1" , "0"  , "boolean_int_type" , "Live-Stream enabled"  ) ?>
 <?php echo  prop ( $partner , "enableAnalyticsTab"  , "select" , "1" , "0"  , "boolean_int_type" , "Reports and Analytics tab enabled"  ) ?>
 <?php echo  prop ( $partner , "enableSilverLight"  , "select" , "1" , "0"  , "boolean_int_type" , "Silver Light players enabled"  ) ?>
 <?php echo  prop ( $partner , "enableVast"  , "select" , "1" , "0"  , "boolean_int_type" , "VAST support in app-studio enabled"  ) ?>
-<?php echo  prop ( $partner , "enable508Players"  , "select" , "1" , "0"  , "boolean_int_type" , "508 players in the KMC preview&embed are available"  ) ?>
+<?php echo  prop ( $partner , "enable508Players"  , "select" , "1" , "0"  , "boolean_int_type" , "508 players in the BMC preview&embed are available"  ) ?>
 <?php 
 	if(class_exists('MetadataPlugin'))
 	{

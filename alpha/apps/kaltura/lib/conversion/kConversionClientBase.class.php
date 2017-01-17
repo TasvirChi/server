@@ -35,11 +35,11 @@ class kConversionClientBase extends myBatchBase
 		$this->server_cmd_path = realpath($server_cmd_path);	
 		$this->server_res_path = realpath($server_res_path);
 		$this->commercial_server_cmd_path = realpath ( $commercial_server_cmd_path );
-		KalturaLog::debug ( "------------------- kConversionClient [$mode]----------------------");
-		KalturaLog::debug ( "--- in_path: [" . $this->in_path . "] ---" );
-		KalturaLog::debug ( "--- server_cmd_path: [" . $this->server_cmd_path . "] ---" );
-		KalturaLog::debug ( "--- server_res_path: [" . $this->server_res_path . "] ---" );
-		KalturaLog::debug ( "--- commercial_server_cmd_path: [" . $this->commercial_server_cmd_path . "] ---" );
+		BorhanLog::debug ( "------------------- kConversionClient [$mode]----------------------");
+		BorhanLog::debug ( "--- in_path: [" . $this->in_path . "] ---" );
+		BorhanLog::debug ( "--- server_cmd_path: [" . $this->server_cmd_path . "] ---" );
+		BorhanLog::debug ( "--- server_res_path: [" . $this->server_res_path . "] ---" );
+		BorhanLog::debug ( "--- commercial_server_cmd_path: [" . $this->commercial_server_cmd_path . "] ---" );
 		
 		$this->mode = $mode;
 //echo "<br>".__METHOD__ .":[$in_path][$server_cmd_path][$server_res_path]<br>"; 		
@@ -60,12 +60,12 @@ class kConversionClientBase extends myBatchBase
 			throw new kConversionException ( "Cannot convert [$source_file] using a null ConversionProfile" );
 		}
 		
-		KalturaLog::debug ( "ConversionProfile: " . print_r ( $conv_profile , true ));
+		BorhanLog::debug ( "ConversionProfile: " . print_r ( $conv_profile , true ));
 		
 		$fallback_mode = array();
 		$conv_params_list_from_db = $conv_profile->getConversionParams( $fallback_mode );
 		
-		KalturaLog::debug ( "ConversionParams chosen by fallback_mode [" . print_r ( $fallback_mode, true ) . "]" );
+		BorhanLog::debug ( "ConversionParams chosen by fallback_mode [" . print_r ( $fallback_mode, true ) . "]" );
 		
 		if ( ! $conv_params_list_from_db || count ( $conv_params_list_from_db ) == 0 )
 		{

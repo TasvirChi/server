@@ -3,7 +3,7 @@
  * @package plugins.caption
  * @subpackage api.objects
  */
-class KalturaCaptionAsset extends KalturaAsset  
+class BorhanCaptionAsset extends BorhanAsset  
 {
 	/**
 	 * The Caption Params used to create this Caption Asset
@@ -17,14 +17,14 @@ class KalturaCaptionAsset extends KalturaAsset
 	/**
 	 * The language of the caption asset content
 	 * 
-	 * @var KalturaLanguage
+	 * @var BorhanLanguage
 	 */
 	public $language;
 	
 	/**
 	 * The language of the caption asset content
 	 * 
-	 * @var KalturaLanguageCode
+	 * @var BorhanLanguageCode
 	 * @readonly
 	 */
 	public $languageCode;
@@ -32,7 +32,7 @@ class KalturaCaptionAsset extends KalturaAsset
 	/**
 	 * Is default caption asset of the entry
 	 * 
-	 * @var KalturaNullableBoolean
+	 * @var BorhanNullableBoolean
 	 */
 	public $isDefault;
 	
@@ -46,7 +46,7 @@ class KalturaCaptionAsset extends KalturaAsset
 	/**
 	 * The caption format
 	 * 
-	 * @var KalturaCaptionType
+	 * @var BorhanCaptionType
 	 * @filter eq,in
 	 * @insertonly
 	 */
@@ -55,7 +55,7 @@ class KalturaCaptionAsset extends KalturaAsset
 	/**
 	 * The status of the asset
 	 * 
-	 * @var KalturaCaptionAssetStatus
+	 * @var BorhanCaptionAssetStatus
 	 * @readonly 
 	 * @filter eq,in,notin
 	 */
@@ -92,14 +92,14 @@ class KalturaCaptionAsset extends KalturaAsset
 		return array_merge ( parent::getMapBetweenObjects() , self::$map_between_objects );
 	}
 	
-	public function doFromObject($source_object, KalturaDetachedResponseProfile $responseProfile = null)
+	public function doFromObject($source_object, BorhanDetachedResponseProfile $responseProfile = null)
 	{
 		$ret = parent::doFromObject($source_object, $responseProfile);
 				
 		if($this->shouldGet('languageCode', $responseProfile))
 		{
-			$languageReflector = KalturaTypeReflectorCacher::get('KalturaLanguage');
-			$languageCodeReflector = KalturaTypeReflectorCacher::get('KalturaLanguageCode');
+			$languageReflector = BorhanTypeReflectorCacher::get('BorhanLanguage');
+			$languageCodeReflector = BorhanTypeReflectorCacher::get('BorhanLanguageCode');
 			if($languageReflector && $languageCodeReflector)
 			{
 				$languageCode = $languageReflector->getConstantName($this->language);
@@ -125,7 +125,7 @@ class KalturaCaptionAsset extends KalturaAsset
 		if ($this->format === null &&
 			$object_to_fill->getContainerFormat() === null)		// not already set by setFromAssetParams
 		{
-			$this->format = KalturaCaptionType::SRT;
+			$this->format = BorhanCaptionType::SRT;
 		}
 		
 		return parent::toInsertableObject ($object_to_fill, $props_to_skip);
@@ -133,7 +133,7 @@ class KalturaCaptionAsset extends KalturaAsset
 
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForInsert()
+	 * @see BorhanObject::validateForInsert()
 	 */
 	public function validateForInsert($propertiesToSkip = array())
 	{

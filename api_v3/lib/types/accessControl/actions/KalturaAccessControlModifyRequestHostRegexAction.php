@@ -3,7 +3,7 @@
  * @package api
  * @subpackage objects
  */
-class KalturaAccessControlModifyRequestHostRegexAction extends KalturaRuleAction
+class BorhanAccessControlModifyRequestHostRegexAction extends BorhanRuleAction
 {
 	/**
 	 * Request host regex pattern
@@ -46,7 +46,7 @@ class KalturaAccessControlModifyRequestHostRegexAction extends KalturaRuleAction
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject()
+	 * @see BorhanObject::toObject()
 	 */
 	public function toObject($dbObject = null, $skip = array())
 	{

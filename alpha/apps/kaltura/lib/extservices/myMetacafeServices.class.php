@@ -9,7 +9,7 @@ class myMetacafeServices extends myBaseMediaSource implements IMediaSource
 	protected $source_name = "Metacafe";
 	protected $auth_method = array ( self::AUTH_METHOD_PUBLIC );
 	protected $search_in_user = false;
-	protected $logo = "http://www.kaltura.com/images/wizard/logo_metacafe.png";
+	protected $logo = "http://www.borhan.com/images/wizard/logo_metacafe.png";
 	protected $id = entry::ENTRY_MEDIA_SOURCE_METACAFE;
 
 	private static $domain = "http://www.metacafe.com";

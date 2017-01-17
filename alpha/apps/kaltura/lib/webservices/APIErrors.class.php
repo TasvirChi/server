@@ -12,8 +12,8 @@ class APIErrors
 	 * Sample usage:
 	 *     $errorData = APIErrors::getErrorData( APIErrors::INVALID_KS, array( 'KSID', 'ERR_CODE', 'ERR_DESC' ) );
 	 *     
-	 * Sample usage from a generic function (e.g. from KalturaAPIError):
-	 *     function KalturaAPIException( $errorString )
+	 * Sample usage from a generic function (e.g. from BorhanAPIError):
+	 *     function BorhanAPIException( $errorString )
 	 *     {
 	 *         $args = func_get_args();
 	 *         array_shift( $args );

@@ -3,7 +3,7 @@
  * @package    Core
  * @subpackage kEditorServices
  */
-class defKeditorservicesAction extends kalturaAction
+class defKeditorservicesAction extends borhanAction
 {
 	//	protected $kshow_id;
 	//	protected $kshow;

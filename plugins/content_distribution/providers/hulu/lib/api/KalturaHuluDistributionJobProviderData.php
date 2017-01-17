@@ -3,7 +3,7 @@
  * @package plugins.huluDistribution
  * @subpackage api.objects
  */
-class KalturaHuluDistributionJobProviderData extends KalturaConfigurableDistributionJobProviderData
+class BorhanHuluDistributionJobProviderData extends BorhanConfigurableDistributionJobProviderData
 {
 	/**
 	 * @var string
@@ -16,7 +16,7 @@ class KalturaHuluDistributionJobProviderData extends KalturaConfigurableDistribu
 	public $thumbAssetFilePath;
 	
 	/**
-	 * @var KalturaCuePointArray
+	 * @var BorhanCuePointArray
 	 */
 	public $cuePoints;
 	
@@ -26,7 +26,7 @@ class KalturaHuluDistributionJobProviderData extends KalturaConfigurableDistribu
 	public $fileBaseName;
 	
 	/**
-	 * @var KalturaStringArray
+	 * @var BorhanStringArray
 	 */
 	public $captionLocalPaths;
 	
@@ -34,16 +34,16 @@ class KalturaHuluDistributionJobProviderData extends KalturaConfigurableDistribu
 	/**
 	 * Called on the server side and enables you to populate the object with any data from the DB
 	 * 
-	 * @param KalturaDistributionJobData $distributionJobData
+	 * @param BorhanDistributionJobData $distributionJobData
 	 */
-	public function __construct(KalturaDistributionJobData $distributionJobData = null)
+	public function __construct(BorhanDistributionJobData $distributionJobData = null)
 	{
 		parent::__construct($distributionJobData);
 		
 		if(!$distributionJobData)
 			return;
 			
-		if(!($distributionJobData->distributionProfile instanceof KalturaHuluDistributionProfile))
+		if(!($distributionJobData->distributionProfile instanceof BorhanHuluDistributionProfile))
 			return;
 			
 		
@@ -65,7 +65,7 @@ class KalturaHuluDistributionJobProviderData extends KalturaConfigurableDistribu
 		}
 		
 		$additionalAssets = assetPeer::retrieveByIds(explode(',', $distributionJobData->entryDistribution->assetIds));
-		$this->captionLocalPaths = new KalturaStringArray();
+		$this->captionLocalPaths = new BorhanStringArray();
 		if(count($additionalAssets))
 		{
 			$captionAssetFilePathArray = array();
@@ -76,7 +76,7 @@ class KalturaHuluDistributionJobProviderData extends KalturaConfigurableDistribu
 				if(kFileSyncUtils::fileSync_exists($syncKey)){
 					if (($assetType == CaptionPlugin::getAssetTypeCoreValue(CaptionAssetType::CAPTION))||
 						($assetType == AttachmentPlugin::getAssetTypeCoreValue(AttachmentAssetType::ATTACHMENT))){
-						$string = new KalturaString();
+						$string = new BorhanString();
 						$string->value = kFileSyncUtils::getLocalFilePathForKey($syncKey, false); 
 						$this->captionLocalPaths[] =  $string;
 					}
@@ -93,13 +93,13 @@ class KalturaHuluDistributionJobProviderData extends KalturaConfigurableDistribu
 		$this->fileBaseName = $seriesTitle.'-'.$seasonNumber.'-'.$videoEpisodeNumber.'-'.$videoTitle;
 		
 		// entry cue points
-		$c = KalturaCriteria::create(CuePointPeer::OM_CLASS);
+		$c = BorhanCriteria::create(CuePointPeer::OM_CLASS);
 		$c->add(CuePointPeer::PARTNER_ID, $distributionJobData->entryDistribution->partnerId);
 		$c->add(CuePointPeer::ENTRY_ID, $distributionJobData->entryDistribution->entryId);
 		$c->add(CuePointPeer::TYPE, AdCuePointPlugin::getCuePointTypeCoreValue(AdCuePointType::AD));
 		$c->addAscendingOrderByColumn(CuePointPeer::START_TIME);
 		$cuePointsDb = CuePointPeer::doSelect($c);
-		$this->cuePoints = KalturaCuePointArray::fromDbArray($cuePointsDb);
+		$this->cuePoints = BorhanCuePointArray::fromDbArray($cuePointsDb);
 	}
 		
 	/**
@@ -115,7 +115,7 @@ class KalturaHuluDistributionJobProviderData extends KalturaConfigurableDistribu
 	);
 
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{

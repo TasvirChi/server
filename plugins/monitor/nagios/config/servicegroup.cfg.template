@@ -1,35 +1,35 @@
 
 define servicegroup{
-		servicegroup_name				kaltura-batch-queue-size
-		alias							Kaltura Batch Queue Size
+		servicegroup_name				borhan-batch-queue-size
+		alias							Borhan Batch Queue Size
 }
 
 define servicegroup{
-		servicegroup_name				kaltura-batch-error-percent
-		alias							Kaltura Batch Error Percent
+		servicegroup_name				borhan-batch-error-percent
+		alias							Borhan Batch Error Percent
 }
 
 define servicegroup{
-		servicegroup_name				kaltura-batch-fatal-percent
-		alias							Kaltura Batch Fatal Percent
+		servicegroup_name				borhan-batch-fatal-percent
+		alias							Borhan Batch Fatal Percent
 }
 
 define servicegroup{
-		servicegroup_name				kaltura-host-sphinx
-		alias							Kaltura Sphinx
+		servicegroup_name				borhan-host-sphinx
+		alias							Borhan Sphinx
 }
 
 define servicegroup{
-		servicegroup_name				kaltura-host-dwh
-		alias							Kaltura DWH
+		servicegroup_name				borhan-host-dwh
+		alias							Borhan DWH
 }
 
 define servicegroup{
-		servicegroup_name				kaltura-play
-		alias							Kaltura Play
+		servicegroup_name				borhan-play
+		alias							Borhan Play
 }
 
 define servicegroup{
-		servicegroup_name				kaltura-bulk-upload
-		alias							Kaltura Bulk Upload
+		servicegroup_name				borhan-bulk-upload
+		alias							Borhan Bulk Upload
 }

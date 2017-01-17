@@ -7,7 +7,7 @@
  * @package plugins.captionSearch
  * @subpackage api.services
  */
-class CaptionAssetItemService extends KalturaBaseService
+class CaptionAssetItemService extends BorhanBaseService
 {
 
 	const SIZE_OF_ENTRIES_CHUNK = 150;
@@ -20,7 +20,7 @@ class CaptionAssetItemService extends KalturaBaseService
 		if (($actionName == 'search') &&
 		  (!$ks || (!$ks->isAdmin() && !$ks->verifyPrivileges(ks::PRIVILEGE_LIST, ks::PRIVILEGE_WILDCARD))))
 		{
-			KalturaCriterion::enableTag(KalturaCriterion::TAG_WIDGET_SESSION);
+			BorhanCriterion::enableTag(BorhanCriterion::TAG_WIDGET_SESSION);
 			entryPeer::setUserContentOnly(true);
 		}
 		
@@ -33,7 +33,7 @@ class CaptionAssetItemService extends KalturaBaseService
 		}
 		
 		if(!CaptionSearchPlugin::isAllowedPartner($this->getPartnerId()))
-			throw new KalturaAPIException(KalturaErrors::FEATURE_FORBIDDEN, CaptionSearchPlugin::PLUGIN_NAME);
+			throw new BorhanAPIException(BorhanErrors::FEATURE_FORBIDDEN, CaptionSearchPlugin::PLUGIN_NAME);
 	}
 	
     /**
@@ -41,13 +41,13 @@ class CaptionAssetItemService extends KalturaBaseService
      *
      * @action parse
      * @param string $captionAssetId
-     * @throws KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
+     * @throws BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND
      */
     function parseAction($captionAssetId)
     {
 		$captionAsset = assetPeer::retrieveById($captionAssetId);
 		if(!$captionAsset)
-			throw new KalturaAPIException(KalturaCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $captionAssetId);
+			throw new BorhanAPIException(BorhanCaptionErrors::CAPTION_ASSET_ID_NOT_FOUND, $captionAssetId);
 		
 		$captionAssetItems = CaptionAssetItemPeer::retrieveByAssetId($captionAssetId);
 		foreach($captionAssetItems as $captionAssetItem)
@@ -94,18 +94,18 @@ class CaptionAssetItemService extends KalturaBaseService
 	 * Search caption asset items by filter, pager and free text
 	 *
 	 * @action search
-	 * @param KalturaBaseEntryFilter $entryFilter
-	 * @param KalturaCaptionAssetItemFilter $captionAssetItemFilter
-	 * @param KalturaFilterPager $captionAssetItemPager
-	 * @return KalturaCaptionAssetItemListResponse
+	 * @param BorhanBaseEntryFilter $entryFilter
+	 * @param BorhanCaptionAssetItemFilter $captionAssetItemFilter
+	 * @param BorhanFilterPager $captionAssetItemPager
+	 * @return BorhanCaptionAssetItemListResponse
 	 */
-	function searchAction(KalturaBaseEntryFilter $entryFilter = null, KalturaCaptionAssetItemFilter $captionAssetItemFilter = null, KalturaFilterPager $captionAssetItemPager = null)
+	function searchAction(BorhanBaseEntryFilter $entryFilter = null, BorhanCaptionAssetItemFilter $captionAssetItemFilter = null, BorhanFilterPager $captionAssetItemPager = null)
 	{
 		if (!$captionAssetItemPager)
-			$captionAssetItemPager = new KalturaFilterPager();
+			$captionAssetItemPager = new BorhanFilterPager();
 			
 		if (!$captionAssetItemFilter)
-			$captionAssetItemFilter = new KalturaCaptionAssetItemFilter();
+			$captionAssetItemFilter = new BorhanCaptionAssetItemFilter();
 
 		$captionAssetItemFilter->validatePropertyNotNull(array("contentLike", "contentMultiLikeOr", "contentMultiLikeAnd"));
 		
@@ -120,7 +120,7 @@ class CaptionAssetItemService extends KalturaBaseService
 			$entryCoreFilter->setPartnerSearchScope($this->getPartnerId());
 			$this->addEntryAdvancedSearchFilter($captionAssetItemFilter, $entryCoreFilter);
 				
-			$entryCriteria = KalturaCriteria::create(entryPeer::OM_CLASS);
+			$entryCriteria = BorhanCriteria::create(entryPeer::OM_CLASS);
 			$entryCoreFilter->attachToCriteria($entryCriteria);
 			$entryCriteria->applyFilters();
 				
@@ -130,21 +130,21 @@ class CaptionAssetItemService extends KalturaBaseService
 				
 			$captionAssetItemCoreFilter->setEntryIdIn($entryIds);
 		}
-		$captionAssetItemCriteria = KalturaCriteria::create(CaptionAssetItemPeer::OM_CLASS);
+		$captionAssetItemCriteria = BorhanCriteria::create(CaptionAssetItemPeer::OM_CLASS);
 		
 		$captionAssetItemCoreFilter->attachToCriteria($captionAssetItemCriteria);
 		$captionAssetItemPager->attachToCriteria($captionAssetItemCriteria);
 		
 		$dbList = CaptionAssetItemPeer::doSelect($captionAssetItemCriteria);
 		
-		$list = KalturaCaptionAssetItemArray::fromDbArray($dbList, $this->getResponseProfile());
-		$response = new KalturaCaptionAssetItemListResponse();
+		$list = BorhanCaptionAssetItemArray::fromDbArray($dbList, $this->getResponseProfile());
+		$response = new BorhanCaptionAssetItemListResponse();
 		$response->objects = $list;
 		$response->totalCount = $captionAssetItemCriteria->getRecordsCount();
 		return $response;
 	}
 	
-	private function addEntryAdvancedSearchFilter(KalturaCaptionAssetItemFilter $captionAssetItemFilter, entryFilter $entryCoreFilter)
+	private function addEntryAdvancedSearchFilter(BorhanCaptionAssetItemFilter $captionAssetItemFilter, entryFilter $entryCoreFilter)
 	{
 		//create advanced filter on entry caption
 		$entryCaptionAdvancedSearch = new EntryCaptionAssetSearchFilter();
@@ -170,18 +170,18 @@ class CaptionAssetItemService extends KalturaBaseService
 	 * Search caption asset items by filter, pager and free text
 	 *
 	 * @action searchEntries
-	 * @param KalturaBaseEntryFilter $entryFilter
-	 * @param KalturaCaptionAssetItemFilter $captionAssetItemFilter
-	 * @param KalturaFilterPager $captionAssetItemPager
-	 * @return KalturaBaseEntryListResponse
+	 * @param BorhanBaseEntryFilter $entryFilter
+	 * @param BorhanCaptionAssetItemFilter $captionAssetItemFilter
+	 * @param BorhanFilterPager $captionAssetItemPager
+	 * @return BorhanBaseEntryListResponse
 	 */
-	public function searchEntriesAction (KalturaBaseEntryFilter $entryFilter = null, KalturaCaptionAssetItemFilter $captionAssetItemFilter = null, KalturaFilterPager $captionAssetItemPager = null)
+	public function searchEntriesAction (BorhanBaseEntryFilter $entryFilter = null, BorhanCaptionAssetItemFilter $captionAssetItemFilter = null, BorhanFilterPager $captionAssetItemPager = null)
 	{
 		if (!$captionAssetItemPager)
-			$captionAssetItemPager = new KalturaFilterPager();
+			$captionAssetItemPager = new BorhanFilterPager();
 			
 		if (!$captionAssetItemFilter)
-			$captionAssetItemFilter = new KalturaCaptionAssetItemFilter();
+			$captionAssetItemFilter = new BorhanCaptionAssetItemFilter();
 
 		$captionAssetItemFilter->validatePropertyNotNull(array("contentLike", "contentMultiLikeOr", "contentMultiLikeAnd"));
 		
@@ -198,7 +198,7 @@ class CaptionAssetItemService extends KalturaBaseService
 			$entryCoreFilter->setPartnerSearchScope($this->getPartnerId());
 			$this->addEntryAdvancedSearchFilter($captionAssetItemFilter, $entryCoreFilter);
 
-			$entryCriteria = KalturaCriteria::create(entryPeer::OM_CLASS);
+			$entryCriteria = BorhanCriteria::create(entryPeer::OM_CLASS);
 			$entryCoreFilter->attachToCriteria($entryCriteria);
 			$entryCriteria->setLimit(self::MAX_NUMBER_OF_ENTRIES);
 
@@ -214,7 +214,7 @@ class CaptionAssetItemService extends KalturaBaseService
 		$entries = array();
 		$counter = 0;
 		$shouldSortCaptionFiltering = $entryFilter->orderBy ? true : false;
-		$captionAssetItemCriteria = KalturaCriteria::create(CaptionAssetItemPeer::OM_CLASS);
+		$captionAssetItemCriteria = BorhanCriteria::create(CaptionAssetItemPeer::OM_CLASS);
 		$captionAssetItemCoreFilter->attachToCriteria($captionAssetItemCriteria);
 		$captionAssetItemCriteria->setGroupByColumn('str_entry_id');
 		$captionAssetItemCriteria->setSelectColumn('str_entry_id');
@@ -223,7 +223,7 @@ class CaptionAssetItemService extends KalturaBaseService
 		{
 			$currCriteria = clone ($captionAssetItemCriteria);
 			if ($chunk)
-				$currCriteria->add(CaptionAssetItemPeer::ENTRY_ID , $chunk, KalturaCriteria::IN);
+				$currCriteria->add(CaptionAssetItemPeer::ENTRY_ID , $chunk, BorhanCriteria::IN);
 			else
 				$captionAssetItemPager->attachToCriteria($currCriteria);
 			$currCriteria->applyFilters();
@@ -264,8 +264,8 @@ class CaptionAssetItemService extends KalturaBaseService
 					$dbList[] = $entriesMapping[$entryId];
 			}
 		}
-		$list = KalturaBaseEntryArray::fromDbArray($dbList, $this->getResponseProfile());
-		$response = new KalturaBaseEntryListResponse();
+		$list = BorhanBaseEntryArray::fromDbArray($dbList, $this->getResponseProfile());
+		$response = new BorhanBaseEntryListResponse();
 		$response->objects = $list;
 		$response->totalCount = $counter;
 

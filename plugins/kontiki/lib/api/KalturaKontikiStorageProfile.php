@@ -3,7 +3,7 @@
  * @package plugins.kontiki
  * @subpackage api.object
  */
-class KalturaKontikiStorageProfile extends KalturaStorageProfile
+class BorhanKontikiStorageProfile extends BorhanStorageProfile
 {
 	
 	/**
@@ -19,7 +19,7 @@ class KalturaKontikiStorageProfile extends KalturaStorageProfile
 	);
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::getMapBetweenObjects()
+	 * @see BorhanObject::getMapBetweenObjects()
 	 */
 	public function getMapBetweenObjects ( )
 	{
@@ -28,7 +28,7 @@ class KalturaKontikiStorageProfile extends KalturaStorageProfile
 	
 	public function toObject ($dbObject = null, $props_to_skip = array())
 	{
-	    /* @var $dbObject KalturaStorageProfile */
+	    /* @var $dbObject BorhanStorageProfile */
 		if (!$dbObject)
 		{
 			$dbObject = new KontikiStorageProfile();
@@ -40,7 +40,7 @@ class KalturaKontikiStorageProfile extends KalturaStorageProfile
 	}
     
     /* (non-PHPdoc)
-     * @see KalturaObject::toInsertableObject()
+     * @see BorhanObject::toInsertableObject()
      */
     public function toInsertableObject ( $object_to_fill = null , $props_to_skip = array() )
     {
@@ -51,13 +51,13 @@ class KalturaKontikiStorageProfile extends KalturaStorageProfile
     }
 	
 	/* (non-PHPdoc)
-     * @see KalturaObject::validateForInsert()
+     * @see BorhanObject::validateForInsert()
      */
 	public function validateForInsert ($propertiesToSkip = array())
 	{
 		if (!KontikiPlugin::isAllowedPartner(kCurrentContext::getCurrentPartnerId()))
 		{
-			throw new KalturaAPIException(KalturaErrors::PERMISSION_NOT_FOUND, 'Kontiki permission not found for partner');
+			throw new BorhanAPIException(BorhanErrors::PERMISSION_NOT_FOUND, 'Kontiki permission not found for partner');
 		}
 	}
 

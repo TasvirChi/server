@@ -7,7 +7,7 @@
  * @package plugins.scheduledTask
  * @subpackage api.services
  */
-class ScheduledTaskProfileService extends KalturaBaseService
+class ScheduledTaskProfileService extends BorhanBaseService
 {
 	public function initService($serviceId, $serviceName, $actionName)
 	{
@@ -15,7 +15,7 @@ class ScheduledTaskProfileService extends KalturaBaseService
 
 		$partnerId = $this->getPartnerId();
 		if (!ScheduledTaskPlugin::isAllowedPartner($partnerId))
-			throw new KalturaAPIException(KalturaErrors::SERVICE_FORBIDDEN, "{$this->serviceName}->{$this->actionName}");
+			throw new BorhanAPIException(BorhanErrors::SERVICE_FORBIDDEN, "{$this->serviceName}->{$this->actionName}");
 
 		$this->applyPartnerFilterForClass('ScheduledTaskProfile');
 	}
@@ -24,12 +24,12 @@ class ScheduledTaskProfileService extends KalturaBaseService
 	 * Add a new scheduled task profile
 	 *
 	 * @action add
-	 * @param KalturaScheduledTaskProfile $scheduledTaskProfile
-	 * @return KalturaScheduledTaskProfile
+	 * @param BorhanScheduledTaskProfile $scheduledTaskProfile
+	 * @return BorhanScheduledTaskProfile
 	 *
 	 * @disableRelativeTime $scheduledTaskProfile
 	 */
-	public function addAction(KalturaScheduledTaskProfile $scheduledTaskProfile)
+	public function addAction(BorhanScheduledTaskProfile $scheduledTaskProfile)
 	{
 		/* @var $dbScheduledTaskProfile ScheduledTaskProfile */
 		$dbScheduledTaskProfile = $scheduledTaskProfile->toInsertableObject();
@@ -37,7 +37,7 @@ class ScheduledTaskProfileService extends KalturaBaseService
 		$dbScheduledTaskProfile->save();
 
 		// return the saved object
-		$scheduledTaskProfile = new KalturaScheduledTaskProfile();
+		$scheduledTaskProfile = new BorhanScheduledTaskProfile();
 		$scheduledTaskProfile->fromObject($dbScheduledTaskProfile, $this->getResponseProfile());
 		return $scheduledTaskProfile;
 	}
@@ -47,19 +47,19 @@ class ScheduledTaskProfileService extends KalturaBaseService
 	 *
 	 * @action get
 	 * @param int $id
-	 * @return KalturaScheduledTaskProfile
+	 * @return BorhanScheduledTaskProfile
 	 *
-	 * @throws KalturaScheduledTaskErrors::SCHEDULED_TASK_PROFILE_NOT_FOUND
+	 * @throws BorhanScheduledTaskErrors::SCHEDULED_TASK_PROFILE_NOT_FOUND
 	 */
 	public function getAction($id)
 	{
 		// get the object
 		$dbScheduledTaskProfile = ScheduledTaskProfilePeer::retrieveByPK($id);
 		if (!$dbScheduledTaskProfile)
-			throw new KalturaAPIException(KalturaScheduledTaskErrors::SCHEDULED_TASK_PROFILE_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanScheduledTaskErrors::SCHEDULED_TASK_PROFILE_NOT_FOUND, $id);
 
 		// return the found object
-		$scheduledTaskProfile = new KalturaScheduledTaskProfile();
+		$scheduledTaskProfile = new BorhanScheduledTaskProfile();
 		$scheduledTaskProfile->fromObject($dbScheduledTaskProfile, $this->getResponseProfile());
 		return $scheduledTaskProfile;
 	}
@@ -69,18 +69,18 @@ class ScheduledTaskProfileService extends KalturaBaseService
 	 *
 	 * @action update
 	 * @param int $id
-	 * @param KalturaScheduledTaskProfile $scheduledTaskProfile
-	 * @return KalturaScheduledTaskProfile
+	 * @param BorhanScheduledTaskProfile $scheduledTaskProfile
+	 * @return BorhanScheduledTaskProfile
 	 *
-	 * @throws KalturaScheduledTaskErrors::SCHEDULED_TASK_PROFILE_NOT_FOUND
+	 * @throws BorhanScheduledTaskErrors::SCHEDULED_TASK_PROFILE_NOT_FOUND
 	 * @disableRelativeTime $scheduledTaskProfile
 	 */
-	public function updateAction($id, KalturaScheduledTaskProfile $scheduledTaskProfile)
+	public function updateAction($id, BorhanScheduledTaskProfile $scheduledTaskProfile)
 	{
 		// get the object
 		$dbScheduledTaskProfile = ScheduledTaskProfilePeer::retrieveByPK($id);
 		if (!$dbScheduledTaskProfile)
-			throw new KalturaAPIException(KalturaScheduledTaskErrors::SCHEDULED_TASK_PROFILE_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanScheduledTaskErrors::SCHEDULED_TASK_PROFILE_NOT_FOUND, $id);
 
 		// save the object
 		/** @var ScheduledTaskProfile $dbScheduledTaskProfile */
@@ -88,7 +88,7 @@ class ScheduledTaskProfileService extends KalturaBaseService
 		$dbScheduledTaskProfile->save();
 
 		// return the saved object
-		$scheduledTaskProfile = new KalturaScheduledTaskProfile();
+		$scheduledTaskProfile = new BorhanScheduledTaskProfile();
 		$scheduledTaskProfile->fromObject($dbScheduledTaskProfile, $this->getResponseProfile());
 		return $scheduledTaskProfile;
 	}
@@ -99,14 +99,14 @@ class ScheduledTaskProfileService extends KalturaBaseService
 	 * @action delete
 	 * @param int $id
 	 *
-	 * @throws KalturaScheduledTaskErrors::SCHEDULED_TASK_PROFILE_NOT_FOUND
+	 * @throws BorhanScheduledTaskErrors::SCHEDULED_TASK_PROFILE_NOT_FOUND
 	 */
 	public function deleteAction($id)
 	{
 		// get the object
 		$dbScheduledTaskProfile = ScheduledTaskProfilePeer::retrieveByPK($id);
 		if (!$dbScheduledTaskProfile)
-			throw new KalturaAPIException(KalturaScheduledTaskErrors::SCHEDULED_TASK_PROFILE_NOT_FOUND, $id);
+			throw new BorhanAPIException(BorhanScheduledTaskErrors::SCHEDULED_TASK_PROFILE_NOT_FOUND, $id);
 
 		// set the object status to deleted
 		$dbScheduledTaskProfile->setStatus(ScheduledTaskProfileStatus::DELETED);
@@ -117,17 +117,17 @@ class ScheduledTaskProfileService extends KalturaBaseService
 	 * List scheduled task profiles
 	 *
 	 * @action list
-	 * @param KalturaScheduledTaskProfileFilter $filter
-	 * @param KalturaFilterPager $pager
-	 * @return KalturaScheduledTaskProfileListResponse
+	 * @param BorhanScheduledTaskProfileFilter $filter
+	 * @param BorhanFilterPager $pager
+	 * @return BorhanScheduledTaskProfileListResponse
 	 */
-	public function listAction(KalturaScheduledTaskProfileFilter $filter = null, KalturaFilterPager $pager = null)
+	public function listAction(BorhanScheduledTaskProfileFilter $filter = null, BorhanFilterPager $pager = null)
 	{
 		if (!$filter)
-			$filter = new KalturaScheduledTaskProfileFilter();
+			$filter = new BorhanScheduledTaskProfileFilter();
 
 		if (!$pager)
-			$pager = new KalturaFilterPager();
+			$pager = new BorhanFilterPager();
 
 		$scheduledTaskFilter = new ScheduledTaskProfileFilter();
 		$filter->toObject($scheduledTaskFilter);
@@ -139,8 +139,8 @@ class ScheduledTaskProfileService extends KalturaBaseService
 		$pager->attachToCriteria($c);
 		$list = ScheduledTaskProfilePeer::doSelect($c);
 
-		$response = new KalturaScheduledTaskProfileListResponse();
-		$response->objects = KalturaScheduledTaskProfileArray::fromDbArray($list, $this->getResponseProfile());
+		$response = new BorhanScheduledTaskProfileListResponse();
+		$response->objects = BorhanScheduledTaskProfileArray::fromDbArray($list, $this->getResponseProfile());
 		$response->totalCount = $count;
 
 		return $response;
@@ -154,17 +154,17 @@ class ScheduledTaskProfileService extends KalturaBaseService
 	 * @param int $maxResults
 	 * @return int
 	 *
-	 * @throws KalturaScheduledTaskErrors::SCHEDULED_TASK_PROFILE_NOT_FOUND
+	 * @throws BorhanScheduledTaskErrors::SCHEDULED_TASK_PROFILE_NOT_FOUND
 	 */
 	public function requestDryRunAction($scheduledTaskProfileId, $maxResults = 500)
 	{
 		// get the object
 		$dbScheduledTaskProfile = ScheduledTaskProfilePeer::retrieveByPK($scheduledTaskProfileId);
 		if (!$dbScheduledTaskProfile)
-			throw new KalturaAPIException(KalturaScheduledTaskErrors::SCHEDULED_TASK_PROFILE_NOT_FOUND, $scheduledTaskProfileId);
+			throw new BorhanAPIException(BorhanScheduledTaskErrors::SCHEDULED_TASK_PROFILE_NOT_FOUND, $scheduledTaskProfileId);
 
-		if (!in_array($dbScheduledTaskProfile->getStatus(), array(KalturaScheduledTaskProfileStatus::ACTIVE, KalturaScheduledTaskProfileStatus::DRY_RUN_ONLY)))
-			throw new KalturaAPIException(KalturaScheduledTaskErrors::SCHEDULED_TASK_DRY_RUN_NOT_ALLOWED, $scheduledTaskProfileId);
+		if (!in_array($dbScheduledTaskProfile->getStatus(), array(BorhanScheduledTaskProfileStatus::ACTIVE, BorhanScheduledTaskProfileStatus::DRY_RUN_ONLY)))
+			throw new BorhanAPIException(BorhanScheduledTaskErrors::SCHEDULED_TASK_DRY_RUN_NOT_ALLOWED, $scheduledTaskProfileId);
 
 		$jobData = new kScheduledTaskJobData();
 		$jobData->setMaxResults($maxResults);
@@ -181,9 +181,9 @@ class ScheduledTaskProfileService extends KalturaBaseService
 	 *
 	 * @action getDryRunResults
 	 * @param int $requestId
-	 * @return KalturaObjectListResponse
+	 * @return BorhanObjectListResponse
 	 *
-	 * @throws KalturaScheduledTaskErrors::SCHEDULED_TASK_PROFILE_NOT_FOUND
+	 * @throws BorhanScheduledTaskErrors::SCHEDULED_TASK_PROFILE_NOT_FOUND
 	 */
 	public function getDryRunResultsAction($requestId)
 	{
@@ -191,13 +191,13 @@ class ScheduledTaskProfileService extends KalturaBaseService
 		$batchJob = BatchJobPeer::retrieveByPK($requestId);
 		$batchJobType = ScheduledTaskPlugin::getBatchJobTypeCoreValue(ScheduledTaskBatchType::SCHEDULED_TASK);
 		if (is_null($batchJob) || $batchJob->getJobType() != $batchJobType)
-			throw new KalturaAPIException(KalturaScheduledTaskErrors::OBJECT_NOT_FOUND);
+			throw new BorhanAPIException(BorhanScheduledTaskErrors::OBJECT_NOT_FOUND);
 
-		if (in_array($batchJob->getStatus(), array(KalturaBatchJobStatus::FAILED, KalturaBatchJobStatus::FATAL)))
-			throw new KalturaAPIException(KalturaScheduledTaskErrors::DRY_RUN_FAILED);
+		if (in_array($batchJob->getStatus(), array(BorhanBatchJobStatus::FAILED, BorhanBatchJobStatus::FATAL)))
+			throw new BorhanAPIException(BorhanScheduledTaskErrors::DRY_RUN_FAILED);
 
-		if ($batchJob->getStatus() != KalturaBatchJobStatus::FINISHED)
-			throw new KalturaAPIException(KalturaScheduledTaskErrors::DRY_RUN_NOT_READY);
+		if ($batchJob->getStatus() != BorhanBatchJobStatus::FINISHED)
+			throw new BorhanAPIException(BorhanScheduledTaskErrors::DRY_RUN_NOT_READY);
 
 		$syncKey = $batchJob->getSyncKey(BatchJob::FILE_SYNC_BATCHJOB_SUB_TYPE_BULKUPLOAD);
 		$data = kFileSyncUtils::file_get_contents($syncKey, true);
@@ -216,7 +216,7 @@ class ScheduledTaskProfileService extends KalturaBaseService
 		$jobType = ScheduledTaskPlugin::getBatchJobTypeCoreValue(ScheduledTaskBatchType::SCHEDULED_TASK);
 		$objectType = ScheduledTaskPlugin::getBatchJobObjectTypeCoreValue(ScheduledTaskBatchJobObjectType::SCHEDULED_TASK_PROFILE);
 
-		KalturaLog::log("Creating scheduled task dry run job for profile [".$scheduledTaskProfileId."]");
+		BorhanLog::log("Creating scheduled task dry run job for profile [".$scheduledTaskProfileId."]");
 		$batchJob = new BatchJob();
 		$batchJob->setPartnerId($scheduledTaskProfile->getPartnerId());
 		$batchJob->setObjectId($scheduledTaskProfileId);

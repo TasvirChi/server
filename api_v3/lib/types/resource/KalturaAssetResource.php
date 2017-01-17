@@ -1,11 +1,11 @@
 <?php
 /**
- * Used to ingest media that is already ingested to Kaltura system as a different flavor asset in the past, the new created flavor asset will be ready immediately using a file sync of link type that will point to the existing file sync of the existing flavor asset.
+ * Used to ingest media that is already ingested to Borhan system as a different flavor asset in the past, the new created flavor asset will be ready immediately using a file sync of link type that will point to the existing file sync of the existing flavor asset.
  * 
  * @package api
  * @subpackage objects
  */
-class KalturaAssetResource extends KalturaContentResource
+class BorhanAssetResource extends BorhanContentResource
 {
 	/**
 	 * ID of the source asset 
@@ -14,7 +14,7 @@ class KalturaAssetResource extends KalturaContentResource
 	public $assetId;
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::validateForUsage($sourceObject, $propertiesToSkip)
+	 * @see BorhanObject::validateForUsage($sourceObject, $propertiesToSkip)
 	 */
 	public function validateForUsage($sourceObject, $propertiesToSkip = array())
 	{
@@ -24,7 +24,7 @@ class KalturaAssetResource extends KalturaContentResource
 		
 		$srcFlavorAsset = assetPeer::retrieveById($this->assetId);
 		if(!$srcFlavorAsset)
-			throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND, $resource->assetId);
+			throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND, $resource->assetId);
 		
 		$key = $srcFlavorAsset->getSyncKey(asset::FILE_SYNC_ASSET_SUB_TYPE_ASSET);
 		$c = FileSyncPeer::getCriteriaForFileSyncKey($key);
@@ -37,11 +37,11 @@ class KalturaAssetResource extends KalturaContentResource
 			if($fileSync->getFileType() == FileSync::FILE_SYNC_FILE_TYPE_FILE)
 				return;
 		}
-		throw new KalturaAPIException(KalturaErrors::FILE_DOESNT_EXIST);
+		throw new BorhanAPIException(BorhanErrors::FILE_DOESNT_EXIST);
 	}
 	
 	/* (non-PHPdoc)
-	 * @see KalturaObject::toObject($object_to_fill, $props_to_skip)
+	 * @see BorhanObject::toObject($object_to_fill, $props_to_skip)
 	 */
 	public function toObject($object_to_fill = null, $props_to_skip = array())
 	{
@@ -52,7 +52,7 @@ class KalturaAssetResource extends KalturaContentResource
 		
 		$srcFlavorAsset = assetPeer::retrieveById($this->assetId);
 		if(!$srcFlavorAsset)
-			throw new KalturaAPIException(KalturaErrors::FLAVOR_ASSET_ID_NOT_FOUND, $resource->assetId);
+			throw new BorhanAPIException(BorhanErrors::FLAVOR_ASSET_ID_NOT_FOUND, $resource->assetId);
 		
 		$object_to_fill->setFileSyncObjectType(FileSyncObjectType::FLAVOR_ASSET);
 		$object_to_fill->setObjectSubType(asset::FILE_SYNC_FLAVOR_ASSET_SUB_TYPE_ASSET);

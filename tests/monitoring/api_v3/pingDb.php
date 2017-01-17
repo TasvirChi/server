@@ -1,10 +1,10 @@
 <?php
 $client = null;
-/* @var $client KalturaClient */
+/* @var $client BorhanClient */
 require_once __DIR__  . '/common.php';
 
 $start = microtime(true);
-$monitorResult = new KalturaMonitorResult();
+$monitorResult = new BorhanMonitorResult();
 try
 {
 	$res = $client->system->pingDatabase();
@@ -22,28 +22,28 @@ try
 		$monitorResult->description = 'Database ping failed';
 	}
 }
-catch(KalturaException $e)
+catch(BorhanException $e)
 {
 	$end = microtime(true);
 	$monitorResult->executionTime = $end - $start;
 	
-	$error = new KalturaMonitorError();
+	$error = new BorhanMonitorError();
 	$error->code = $e->getCode();
 	$error->description = $e->getMessage();
-	$error->level = KalturaMonitorError::ERR;
+	$error->level = BorhanMonitorError::ERR;
 	
 	$monitorResult->errors[] = $error;
 	$monitorResult->description = "Exception: " . get_class($e) . ", Code: " . $e->getCode() . ", Message: " . $e->getMessage();
 }
-catch(KalturaClientException $ce)
+catch(BorhanClientException $ce)
 {
 	$end = microtime(true);
 	$monitorResult->executionTime = $end - $start;
 	
-	$error = new KalturaMonitorError();
+	$error = new BorhanMonitorError();
 	$error->code = $ce->getCode();
 	$error->description = $ce->getMessage();
-	$error->level = KalturaMonitorError::CRIT;
+	$error->level = BorhanMonitorError::CRIT;
 	
 	$monitorResult->errors[] = $error;
 	$monitorResult->description = "Exception: " . get_class($ce) . ", Code: " . $ce->getCode() . ", Message: " . $ce->getMessage();

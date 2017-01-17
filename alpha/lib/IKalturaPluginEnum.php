@@ -5,7 +5,7 @@
  * @package Core
  * @subpackage enum
  */ 
-interface IKalturaPluginEnum 
+interface IBorhanPluginEnum 
 {
 	/**
 	 * @return array

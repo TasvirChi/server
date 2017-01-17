@@ -42,7 +42,7 @@ class kBatchExclusiveLock
 			
 			$affectedRows = BasePeer::doUpdate( $criteria_for_exclusive_update, $update, $con);
 			
-			KalturaLog::log("Lock update affected rows [$affectedRows] on job id [" . $object->getId() . "] lock version [$lock_version]");
+			BorhanLog::log("Lock update affected rows [$affectedRows] on job id [" . $object->getId() . "] lock version [$lock_version]");
 			
 			if ( $affectedRows == 1 )
 			{
@@ -54,7 +54,7 @@ class kBatchExclusiveLock
 				$object->setBatchIndex ( $lockKey->getBatchIndex() );
 				$object->setExpiration ( $expiration );
 				
-				KalturaLog::log("Job id [" . $object->getId() . "] locked and returned");
+				BorhanLog::log("Job id [" . $object->getId() . "] locked and returned");
 				PartnerLoadPeer::updatePartnerLoad($object->getPartnerId(), $object->getJobType(), $object->getJobSubType(), $con);
 			
 				$exclusive_objects_ids[] = $object->getId();
@@ -62,7 +62,7 @@ class kBatchExclusiveLock
 			else
 			{
 				$not_exclusive_count++;
-				KalturaLog::log ( "Object not exclusive: [" . get_class ( $object ) . "] id [" . $object->getId() . "]" );
+				BorhanLog::log ( "Object not exclusive: [" . get_class ( $object ) . "] id [" . $object->getId() . "]" );
 			}
 		}
 		

@@ -3,7 +3,7 @@
  * @package api
  * @subpackage enum
  */
-class KalturaYahooSyndicationFeedCategories extends KalturaStringEnum
+class BorhanYahooSyndicationFeedCategories extends BorhanStringEnum
 {
 	const ACTION = "Action";
 	const ART_AND_ANIMATION = "Art &amp; Animation";

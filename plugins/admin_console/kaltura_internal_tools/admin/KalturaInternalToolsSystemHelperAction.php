@@ -1,14 +1,14 @@
 <?php
 /**
- * @package plugins.KalturaInternalTools
+ * @package plugins.BorhanInternalTools
  * @subpackage admin
  */
-class KalturaInternalToolsPluginSystemHelperAction extends KalturaApplicationPlugin
+class BorhanInternalToolsPluginSystemHelperAction extends BorhanApplicationPlugin
 {
 	
 	public function __construct()
 	{
-		$this->action = 'KalturaInternalToolsPluginSystemHelper';
+		$this->action = 'BorhanInternalToolsPluginSystemHelper';
 		$this->label = 'System Helper';
 		$this->rootLabel = 'Developer';
 	}
@@ -23,7 +23,7 @@ class KalturaInternalToolsPluginSystemHelperAction extends KalturaApplicationPlu
 	
 	public function getRequiredPermissions()
 	{
-		return array(Kaltura_Client_Enum_PermissionName::SYSTEM_INTERNAL);
+		return array(Borhan_Client_Enum_PermissionName::SYSTEM_INTERNAL);
 	}
 
 	
@@ -100,14 +100,14 @@ class KalturaInternalToolsPluginSystemHelperAction extends KalturaApplicationPlu
 		{			
 			//$ks = ks::fromSecureString ( $str ); // to do ->api Extension
 			$client = Infra_ClientHelper::getClient();
-			$internalToolsPlugin = Kaltura_Client_KalturaInternalTools_Plugin::get($client);
+			$internalToolsPlugin = Borhan_Client_BorhanInternalTools_Plugin::get($client);
 			$ks = null;
 			
 			try{
-				$ks = $internalToolsPlugin->kalturaInternalToolsSystemHelper->fromSecureString($str);
+				$ks = $internalToolsPlugin->borhanInternalToolsSystemHelper->fromSecureString($str);
 				$res = print_r ( $ks , true );
 			}
-			catch(Kaltura_Client_Exception $e){
+			catch(Borhan_Client_Exception $e){
 				$res = $e->getMessage();
 			}
 			 
@@ -144,14 +144,14 @@ class KalturaInternalToolsPluginSystemHelperAction extends KalturaApplicationPlu
 		{
 			//$ip_geo = new myIPGeocoder();// to do ->api Extension
 			$client = Infra_ClientHelper::getClient();
-			$internalToolsPlugin = Kaltura_Client_KalturaInternalTools_Plugin::get($client);
+			$internalToolsPlugin = Borhan_Client_BorhanInternalTools_Plugin::get($client);
 			if ( $str )
 				$remote_addr = $str;
 			else
 			{
-				$remote_addr = $internalToolsPlugin->kalturaInternalToolsSystemHelper->getRemoteAddress();
+				$remote_addr = $internalToolsPlugin->borhanInternalToolsSystemHelper->getRemoteAddress();
 			} 
-			$res = $internalToolsPlugin->kalturaInternalToolsSystemHelper->iptocountry($remote_addr);
+			$res = $internalToolsPlugin->borhanInternalToolsSystemHelper->iptocountry($remote_addr);
 		}
 		
 				

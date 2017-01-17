@@ -17,7 +17,7 @@
 	</session>
 	<multirequest>
 		<request service="eventNotificationTemplate" action="add" plugin="eventNotification" partnerId="0">
-			<template objectType="KalturaPushNotificationTemplate">
+			<template objectType="BorhanPushNotificationTemplate">
 				<name>PUBLIC_QNA_NOTIFICATIONS</name>
 				<systemName>PUBLIC_QNA_NOTIFICATIONS</systemName>
 				<description>Push notification template to be sent when public QnA is added</description>
@@ -25,63 +25,63 @@
 				<eventType>3</eventType> <!-- EventNotificationEventType::OBJECT_CHANGED -->
 				<eventObjectType>cuePointEventNotifications.CuePoint</eventObjectType>
 				<eventConditions objectType="array">
-					<item objectType="KalturaFieldMatchCondition">
+					<item objectType="BorhanFieldMatchCondition">
 						<description>cuePoint_type_equals</description>
-						<field objectType="KalturaEvalStringField">
+						<field objectType="BorhanEvalStringField">
 							<code>$scope->getObject()->getType()</code>
 						</field>
 						<values objectType="array">
-							<item objectType="KalturaStringValue">
+							<item objectType="BorhanStringValue">
 								<value>{cue_point_type}</value>
 							</item>
 						</values>
 					</item>
-					<item objectType="KalturaFieldMatchCondition">
+					<item objectType="BorhanFieldMatchCondition">
 						<description>cuePoint_is_public</description>
-						<field objectType="KalturaEvalStringField">
+						<field objectType="BorhanEvalStringField">
 							<code>$scope->getObject()->getIsPublic()</code>
 						</field>
 						<values objectType="array">
-							<item objectType="KalturaStringValue">
+							<item objectType="BorhanStringValue">
 								<value>1</value>
 							</item>
 						</values>
 					</item>
-					<item objectType="KalturaEventFieldCondition">
+					<item objectType="BorhanEventFieldCondition">
 						<description>tags_field_modified</description>
-						<field objectType="KalturaEvalBooleanField">
+						<field objectType="BorhanEvalBooleanField">
 							<code>in_array(CuePointPeer::TAGS, $scope->getEvent()->getModifiedColumns())</code>
 						</field>
 					</item>
-					<item objectType="KalturaFieldMatchCondition">
+					<item objectType="BorhanFieldMatchCondition">
 						<description>tags_match_qna</description>
-						<field objectType="KalturaEvalStringField">
+						<field objectType="BorhanEvalStringField">
 							<code>in_array("qna", explode(",", $scope->getObject()->getTags()))</code>
 						</field>
 						<values objectType="array">
-							<item objectType="KalturaStringValue">
+							<item objectType="BorhanStringValue">
 								<value>1</value>
 							</item>
 						</values>
 					</item>
-					<item objectType="KalturaOrCondition">
+					<item objectType="BorhanOrCondition">
 						<conditions objectType="array">
-							<item objectType="KalturaMatchMetadataCondition">
+							<item objectType="BorhanMatchMetadataCondition">
 								<description>Announcement_added</description>
 								<xPath>/*[local-name()='metadata']/*[local-name()='Type']</xPath>
-								<profileSystemName>Kaltura-QnA</profileSystemName>
+								<profileSystemName>Borhan-QnA</profileSystemName>
 								<values objectType="array">
-									<item objectType="KalturaStringValue">
+									<item objectType="BorhanStringValue">
 										<value>Announcement</value>
 									</item>
 								</values>
 							</item>
-							<item objectType="KalturaMatchMetadataCondition">
+							<item objectType="BorhanMatchMetadataCondition">
 								<description>AnswerOnAir_added</description>
 								<xPath>/*[local-name()='metadata']/*[local-name()='Type']</xPath>
-								<profileSystemName>Kaltura-QnA</profileSystemName>
+								<profileSystemName>Borhan-QnA</profileSystemName>
 								<values objectType="array">
-									<item objectType="KalturaStringValue">
+									<item objectType="BorhanStringValue">
 										<value>AnswerOnAir</value>
 									</item>
 								</values>
@@ -90,19 +90,19 @@
 					</item>
 				</eventConditions>
 				<contentParameters objectType="array">
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>entryId</key>
 						<description></description>
-						<value objectType="KalturaEvalStringField">
+						<value objectType="BorhanEvalStringField">
 							<code>$scope->getObject()->getEntryId()</code>
 						</value>
 					</item>
 				</contentParameters>
 				<userParameters objectType="array">
-					<item objectType="KalturaEventNotificationParameter">
+					<item objectType="BorhanEventNotificationParameter">
 						<key>cue_point_type</key>
-						<description>Cue-point type that triggers the event - (use Annotation Type only), See:KalturaCuePointType:/api_v3/testmeDoc/enums/KalturaCuePointType.html</description>
-						<value objectType="KalturaStringValue">
+						<description>Cue-point type that triggers the event - (use Annotation Type only), See:BorhanCuePointType:/api_v3/testmeDoc/enums/BorhanCuePointType.html</description>
+						<value objectType="BorhanStringValue">
 							<value></value>
 						</value>
 					</item>

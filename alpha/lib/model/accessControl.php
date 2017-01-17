@@ -242,7 +242,7 @@ class accessControl extends BaseaccessControl implements IBaseObject
 			}
 			catch(Exception $e)
 			{
-				KalturaLog::err("Unable to unserialize [$rulesString], " . $e->getMessage());
+				BorhanLog::err("Unable to unserialize [$rulesString], " . $e->getMessage());
 				$rules = array();
 			}
 		} 

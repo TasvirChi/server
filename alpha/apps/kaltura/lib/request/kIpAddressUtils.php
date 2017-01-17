@@ -51,8 +51,8 @@ class kIpAddressUtils
 		
 		$rangeType = self::getAddressType($range);
 		if (!$rangeType) {
-			if (class_exists('KalturaLog'))
-				KalturaLog::err("Cannot identify ip address type for [$range]");
+			if (class_exists('BorhanLog'))
+				BorhanLog::err("Cannot identify ip address type for [$range]");
 			return false;
 		}
 		
@@ -91,8 +91,8 @@ class kIpAddressUtils
         		return (substr_compare($ipBinaryStr,$netBinaryStr,0,$rangeMask) === 0);
 		}
 		
-		if (class_exists('KalturaLog'))
-			KalturaLog::err("IP address type [$rangeType] for [$range] is missing implementation");
+		if (class_exists('BorhanLog'))
+			BorhanLog::err("IP address type [$rangeType] for [$range] is missing implementation");
 		return false;		
 	}
 	

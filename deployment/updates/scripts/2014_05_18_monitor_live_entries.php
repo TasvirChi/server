@@ -12,9 +12,9 @@ chdir(__DIR__);
 require_once (__DIR__ . '/../../bootstrap.php');
 
 $realRun = isset($argv[1]) && $argv[1] == 'realrun';
-KalturaStatement::setDryRun(!$realRun);
+BorhanStatement::setDryRun(!$realRun);
 
-const FEATURE_KALTURA_LIVE_MONITOR = 'FEATURE_KALTURA_LIVE_MONITOR';
+const FEATURE_BORHAN_LIVE_MONITOR = 'FEATURE_BORHAN_LIVE_MONITOR';
 
 function createMetadataProfile()
 {
@@ -25,7 +25,7 @@ function createMetadataProfile()
 	$metadataProfile->setSystemName('LiveMonitor');
 	$metadataProfile->setDescription('Email notification flag indicating a 24/7 live-entry should be monitored.');
 	$metadataProfile->setObjectType(MetadataObjectType::ENTRY);
-	$metadataProfile->setRequiredCopyTemplatePermissions(FEATURE_KALTURA_LIVE_MONITOR);
+	$metadataProfile->setRequiredCopyTemplatePermissions(FEATURE_BORHAN_LIVE_MONITOR);
 	$metadataProfile->save();
 	
 	$xsdData = '<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -84,8 +84,8 @@ function createEmailNotification()
 	$toEmailNotificationRecipients = array();
 	
 	$toEmailNotificationRecipient = new kEmailNotificationRecipient();
-	$toEmailNotificationRecipient->setEmail(new kStringValue('kalturasupport@kaltura.com'));
-	$toEmailNotificationRecipient->setName(new kStringValue('Kaltura Customer Care'));
+	$toEmailNotificationRecipient->setEmail(new kStringValue('borhansupport@borhan.com'));
+	$toEmailNotificationRecipient->setName(new kStringValue('Borhan Customer Care'));
 	$toEmailNotificationRecipients[] = $toEmailNotificationRecipient;
 	
 //	$toEmailNotificationEmail = new kEvalStringField();
@@ -153,13 +153,13 @@ function createEmailNotification()
 	$emailNotification->setObjectType(EventNotificationEventObjectType::ENTRY);
 	$emailNotification->setEventConditions($eventConditions);
 	$emailNotification->setFormat(EmailNotificationFormat::HTML);
-	$emailNotification->setSubject('[Kaltura] - Live-Entry [{partner_id}/{entry_id}] stopped broadcasting.');
+	$emailNotification->setSubject('[Borhan] - Live-Entry [{partner_id}/{entry_id}] stopped broadcasting.');
 	$emailNotification->setBody("Partner ID: {partner_id}<br/>\nEntry ID: {entry_id}<br/>\nEntry Name: {entry_name}<br/>\n");
 	$emailNotification->setFromEmail('{from_email}');
 	$emailNotification->setFromName('{from_name}');
 	$emailNotification->setTo($toEmail);
 	$emailNotification->setContentParameters($contentParameters);
-	$emailNotification->setRequiredCopyTemplatePermissions(FEATURE_KALTURA_LIVE_MONITOR);
+	$emailNotification->setRequiredCopyTemplatePermissions(FEATURE_BORHAN_LIVE_MONITOR);
 	$emailNotification->save();
 }
 	

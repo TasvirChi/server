@@ -3,7 +3,7 @@
  * @package plugins.httpNotification
  * @subpackage api.enum
  */
-class KalturaHttpNotificationAuthenticationMethod extends KalturaEnum
+class BorhanHttpNotificationAuthenticationMethod extends BorhanEnum
 {
 	const BASIC = CURLAUTH_BASIC;
 	const DIGEST = CURLAUTH_DIGEST;

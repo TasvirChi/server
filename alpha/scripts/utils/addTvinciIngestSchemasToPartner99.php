@@ -12,7 +12,7 @@ chdir(__DIR__);
 require_once (__DIR__ . '/../bootstrap.php');
 
 $realRun = isset($argv[1]) && $argv[1] == 'realrun';
-KalturaStatement::setDryRun(!$realRun);
+BorhanStatement::setDryRun(!$realRun);
 
 const FEATURE_TVINCI_INGEST_BASE = 'FEATURE_TVINCI_INGEST_V';
 

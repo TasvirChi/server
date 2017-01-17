@@ -5,7 +5,7 @@
  */
 class kEventsManager
 {
-	const BASE_CONSUMER_INTERFACE = 'KalturaEventConsumer';
+	const BASE_CONSUMER_INTERFACE = 'BorhanEventConsumer';
 	const GENERIC_CONSUMER_INTERFACE = 'kGenericEventConsumer';
 	
 	protected static $consumers = array();
@@ -46,7 +46,7 @@ class kEventsManager
 		$coreConsumers = kConf::get('event_consumers');
 		
 		$pluginConsumers = array();
-		$pluginInstances = KalturaPluginManager::getPluginInstances('IKalturaEventConsumers');
+		$pluginInstances = BorhanPluginManager::getPluginInstances('IBorhanEventConsumers');
 		foreach($pluginInstances as $pluginInstance)
 			foreach($pluginInstance->getEventConsumers() as $pluginConsumer)
 				$pluginConsumers[] = $pluginConsumer;
@@ -162,7 +162,7 @@ class kEventsManager
 		if (!self::$deferredEvents && !$flushMultiDeferred)
 			return;
 		
-		KalturaLog::log("started flushing deferred events");
+		BorhanLog::log("started flushing deferred events");
 
 		while (count(self::$deferredEvents))
 		{
@@ -179,7 +179,7 @@ class kEventsManager
 			}
 		}
 		
-		KalturaLog::log("finished flushing deferred events");
+		BorhanLog::log("finished flushing deferred events");
 	}
 	
 	private static function popNextDeferredEvent(&$events)
@@ -200,7 +200,7 @@ class kEventsManager
 		return $deferredEvent;
 	}
 	
-	public static function raiseEventDeferred(KalturaEvent $event)
+	public static function raiseEventDeferred(BorhanEvent $event)
 	{
 		$eventKey = $event->getKey();
 		
@@ -208,7 +208,7 @@ class kEventsManager
 			return self::raiseEvent($event);
 
 		$deferredEventsArray = &self::$deferredEvents;
-		if ( self::$multiDeferredEventsEnabled && ($event instanceof IKalturaMultiDeferredEvent) )
+		if ( self::$multiDeferredEventsEnabled && ($event instanceof IBorhanMultiDeferredEvent) )
 		{
 			$event->setPartnerCriteriaParams(myPartnerUtils::getAllPartnerCriteriaParams());
 			$deferredEventsArray = &self::$multiDeferredEvents;
@@ -220,7 +220,7 @@ class kEventsManager
 			$deferredEventsArray['unkeyed_'.count($deferredEventsArray)] = $event;
 	}
 	
-	public static function raiseEvent(KalturaEvent $event)
+	public static function raiseEvent(BorhanEvent $event)
 	{
 		if ( self::$deferredEventsEnabled && self::$forceDeferredEvents ) {
 			return self::raiseEventDeferred($event);
@@ -235,28 +235,28 @@ class kEventsManager
 				continue;
 
 			try{
-				if($event->consume(new $consumerClass()) || !($event instanceof IKalturaCancelableEvent))
+				if($event->consume(new $consumerClass()) || !($event instanceof IBorhanCancelableEvent))
 					continue;
 			}
 			catch (Exception $e){
-				KalturaLog::err($e);
+				BorhanLog::err($e);
 			}
 				
-			KalturaLog::notice("Event [" . get_class($event) . "] paused by consumer [$consumerClass]");
+			BorhanLog::notice("Event [" . get_class($event) . "] paused by consumer [$consumerClass]");
 			break;
 		}
 	}
 
-	public static function continueEvent(KalturaEvent $event, $lastConsumerClass)
+	public static function continueEvent(BorhanEvent $event, $lastConsumerClass)
 	{
-		if(!($event instanceof IKalturaContinualEvent))
+		if(!($event instanceof IBorhanContinualEvent))
 		{
-			KalturaLog::debug("Event [" . get_class($event) . "] is not continual event");
+			BorhanLog::debug("Event [" . get_class($event) . "] is not continual event");
 			return;
 		}
 		
 		$consumerInterface = $event->getConsumerInterface();
-		KalturaLog::debug("Event [" . get_class($event) . "] continued by [$lastConsumerClass] looking for consumers [$consumerInterface]");
+		BorhanLog::debug("Event [" . get_class($event) . "] continued by [$lastConsumerClass] looking for consumers [$consumerInterface]");
 
 		$consumers = self::getConsumers($consumerInterface);
 		
@@ -274,18 +274,18 @@ class kEventsManager
 				continue;
 			}
 			
-//			KalturaLog::debug("Event consumer [$consumerClass] called");
+//			BorhanLog::debug("Event consumer [$consumerClass] called");
 			$continue = $event->consume(new $consumerClass());
 			
 			if(!$continue)
 			{
-				if($event instanceof IKalturaCancelableEvent)
+				if($event instanceof IBorhanCancelableEvent)
 				{
 					break;
 				}
 				else
 				{
-					KalturaLog::debug("Event [" . get_class($event) . "] is not cancelable event");
+					BorhanLog::debug("Event [" . get_class($event) . "] is not cancelable event");
 				}
 			}
 		}

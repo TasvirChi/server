@@ -3,17 +3,17 @@
  * @package plugins.audit
  * @subpackage api.objects
  */
-class KalturaAuditTrailArray extends KalturaTypedArray
+class BorhanAuditTrailArray extends BorhanTypedArray
 {
-	public static function fromDbArray($arr, KalturaDetachedResponseProfile $responseProfile = null)
+	public static function fromDbArray($arr, BorhanDetachedResponseProfile $responseProfile = null)
 	{
-		$newArr = new KalturaAuditTrailArray();
+		$newArr = new BorhanAuditTrailArray();
 		if ($arr == null)
 			return $newArr;
 
 		foreach ($arr as $obj)
 		{
-    		$nObj = new KalturaAuditTrail();
+    		$nObj = new BorhanAuditTrail();
 			$nObj->fromObject($obj, $responseProfile);
 			$newArr[] = $nObj;
 		}
@@ -23,6 +23,6 @@ class KalturaAuditTrailArray extends KalturaTypedArray
 		
 	public function __construct()
 	{
-		parent::__construct("KalturaAuditTrail");	
+		parent::__construct("BorhanAuditTrail");	
 	}
 }

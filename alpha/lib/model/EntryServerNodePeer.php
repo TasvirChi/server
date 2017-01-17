@@ -30,7 +30,7 @@ class EntryServerNodePeer extends BaseEntryServerNodePeer {
 			if(isset(self::$class_types_cache[$entryServerNodeServerType]))
 				return self::$class_types_cache[$entryServerNodeServerType];
 
-			$extendedCls = KalturaPluginManager::getObjectClass(parent::OM_CLASS, $entryServerNodeServerType);
+			$extendedCls = BorhanPluginManager::getObjectClass(parent::OM_CLASS, $entryServerNodeServerType);
 			if($extendedCls)
 			{
 				self::$class_types_cache[$entryServerNodeServerType] = $extendedCls;
