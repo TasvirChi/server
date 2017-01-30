@@ -301,7 +301,7 @@ class BulkUploadCategoryUserEngineCsv extends BulkUploadEngineCsv
 	}
 	
 	
-    protected function updateObjectsResults(array $requestResults, array $bulkUploadResults)
+    protected function updateObjectsResults($requestResults, $bulkUploadResults)
 	{
 		BorhanLog::info("Updating " . count($requestResults) . " results");
 		

@@ -2,7 +2,7 @@
 
 
 /**
- * Skeleton subclass for representing a row from the 'business_process_case' table.
+ * Skeleton subclass for representing a row from the 'drm_device' table.
  *
  * 
  *
@@ -10,9 +10,9 @@
  * application requirements.  This class will only be generated as
  * long as it does not already exist in the output directory.
  *
- * @package plugins.businessProcessNotification
+ * @package plugins.drm
  * @subpackage model
  */
-class BusinessProcessCase extends BaseBusinessProcessCase {
+class DrmDevice extends BaseDrmDevice implements IBaseObject {
 
-} // BusinessProcessCase
+} // DrmDevice

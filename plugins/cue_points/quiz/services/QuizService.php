@@ -161,10 +161,7 @@ class QuizService extends BorhanBaseService
 		//create a pdf
 		$kp = new kQuizPdf($entryId);
 		$kp->createQuestionPdf();
-		$resultPdf = $kp->submitDocument();
-		$fileName = $dbEntry->getName().".pdf";
-		header('Content-Disposition: attachment; filename="'.$fileName.'"');
-		return new kRendererString($resultPdf, 'application/x-download');
+		return $kp->submitDocument();
 	}
 
 

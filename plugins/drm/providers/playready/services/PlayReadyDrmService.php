@@ -173,7 +173,25 @@ class PlayReadyDrmService extends BorhanBaseService
 		//TODO: log for BI
 		if($deviceType != 1 && $deviceType != 7) //TODO: verify how to identify the silverlight client
 		{
-			throw new BorhanAPIException(BorhanPlayReadyErrors::DRM_DEVICE_NOT_SUPPORTED, $deviceType);
+			try 
+			{
+				$drmDevice = new DrmDevice();
+				$drmDevice->setPartnerId($this->getPartnerId());
+				$drmDevice->setDeviceId($deviceId);
+				$drmDevice->setProvider(PlayReadyPlugin::getPlayReadyProviderCoreValue());				
+				$drmDevice->save();
+			}
+			catch(PropelException $e)
+			{
+				if($e->getCause() && $e->getCause()->getCode() == self::MYSQL_CODE_DUPLICATE_KEY) //unique constraint
+				{
+					BorhanLog::info("device already registered");
+				}
+				else
+				{
+					throw $e; // Rethrow the unfamiliar exception
+				}
+			}
 		}
 	}
 

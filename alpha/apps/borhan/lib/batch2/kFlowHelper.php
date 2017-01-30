@@ -302,13 +302,17 @@ class kFlowHelper
 
 		if(count($files) > 1)
 		{
-			$lockKey = "create_replacing_entry_" . $recordedEntry->getId();
-			$replacingEntry = kLock::runLocked($lockKey, array('kFlowHelper', 'getReplacingEntry'), array($recordedEntry, $asset, count($files)));
-			if(!$replacingEntry)
+			$retryCounter=5;
+			while(!$replacingEntry = self::getReplacingEntry($recordedEntry, $asset))
 			{
-				BorhanLog::err('Failed to allocate replacing entry');
-				kJobsManager::updateBatchJob($dbBatchJob, BatchJob::BATCHJOB_STATUS_FAILED);
-				return $dbBatchJob;
+				sleep(5);
+				if(!$retryCounter--)
+				{
+					kJobsManager::updateBatchJob($dbBatchJob, BatchJob::BATCHJOB_STATUS_FAILED);
+					BorhanLog::err('Failed to allocate replacing entry');
+					return $dbBatchJob;
+				}
+				BorhanLog::log("Failed to get replacing entry {$recordedEntry->getId()} asset {$asset->getId()} retrying .. {$retryCounter}");
 			}
 
 			$flavorParams = assetParamsPeer::retrieveByPKNoFilter($asset->getFlavorParamsId());
@@ -366,11 +370,10 @@ class kFlowHelper
 		return $fileIndex;
 	}
 
-	private static function createReplacigEntry($recordedEntry, $liveSegmentCount)
+	private static function createReplacigEntry($recordedEntry)
 	{
 		$advancedOptions = new kEntryReplacementOptions();
 		$advancedOptions->setKeepManualThumbnails(true);
-		$advancedOptions->setKeepOldAssets(true);
 		$recordedEntry->setReplacementOptions($advancedOptions);
 
 		$replacingEntry = new entry();
@@ -385,7 +388,6 @@ class kFlowHelper
 		$replacingEntry->setDefaultModerationStatus();
 		$replacingEntry->setDisplayInSearch(mySearchUtils::DISPLAY_IN_SEARCH_SYSTEM);
 		$replacingEntry->setReplacedEntryId($recordedEntry->getId());
-		$replacingEntry->setRecordedEntrySegmentCount($liveSegmentCount);
 		$replacingEntry->save();
 
 		$recordedEntry->setReplacingEntryId($replacingEntry->getId());
@@ -394,7 +396,7 @@ class kFlowHelper
 		return $replacingEntry;
 	}
 
-	public static function getReplacingEntry($recordedEntry, $asset, $liveSegmentCount)
+	protected static function getReplacingEntry($recordedEntry, $asset) 
 	{
 		//Reload entry before tryign to get the replacing entry id from it to avoid creating 2 different replacing entries for different flavors
 		$recordedEntry->reload();
@@ -405,29 +407,18 @@ class kFlowHelper
 				$replacingEntry = entryPeer::retrieveByPKNoFilter($replacingEntryId);
 				if ($replacingEntry)
 				{
-					/* @var $replacingEntry entry */
-					$recordedEntrySegmentCount = $replacingEntry->getRecordedEntrySegmentCount();
-					if($recordedEntrySegmentCount > $liveSegmentCount)
-					{
-						BorhanLog::debug("Entry [{$recordedEntry->getId()}] in replacment with higher segment count [$recordedEntrySegmentCount] > [$liveSegmentCount]");
-						return null;
-					}
-					else 
-					{
 						$replacingAsset = assetPeer::retrieveByEntryIdAndParams($replacingEntryId, $asset->getFlavorParamsId());
 						if($replacingAsset)
 						{
-							BorhanLog::debug("Entry in replacement, deleting - [".$replacingEntryId."]");
-							myEntryUtils::deleteReplacingEntry($recordedEntry, $replacingEntry);
-							$replacingEntry = null;
+								BorhanLog::debug("Entry in replacement with this asset type {$asset->getFlavorParamsId()}");
+								return null;
 						}
-					}
 				}
 		}
 		
 		if(is_null($replacingEntry))
 		{
-			$replacingEntry = self::createReplacigEntry($recordedEntry, $liveSegmentCount);
+			$replacingEntry = self::createReplacigEntry($recordedEntry);
 		}
 		return $replacingEntry;
 	}	
@@ -1914,7 +1905,7 @@ class kFlowHelper
 		$c->addAnd ( FileSyncPeer::VERSION , $fileSync->getVersion() );
 		$c->addAnd ( FileSyncPeer::FILE_TYPE, FileSync::FILE_SYNC_FILE_TYPE_URL);
 		$c->addAnd ( FileSyncPeer::DC, $fileSync->getDc());
-		$c->addAnd ( FileSyncPeer::STATUS, FileSync::FILE_SYNC_STATUS_PENDING);
+		$c->addAnd ( FileSyncPeer::STATUS, Filesync::FILE_SYNC_STATUS_PENDING);
 		$pendingFileSync = FileSyncPeer::doSelectOne($c);
 		if($pendingFileSync)
 			return false;

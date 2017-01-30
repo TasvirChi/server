@@ -155,14 +155,6 @@ class BorhanConversionProfile extends BorhanObject implements IRelatedFilterable
 	 */
 	public $calculateComplexity;
 	
-	/**
-	 * Defines the tags that should be used to define 'collective'/group/multi-flavor processing,
-	 * like 'mbr' or 'ism'
-	 *
-	 * @var string
-	 */
-	public $collectionTags;
-	
 	private static $map_between_objects = array
 	(
 		"id",
@@ -182,7 +174,6 @@ class BorhanConversionProfile extends BorhanObject implements IRelatedFilterable
 		"storageProfileId",
 		"mediaParserType",
 		"calculateComplexity",
-		"collectionTags",
 	);
 	
 	public function getMapBetweenObjects ( )

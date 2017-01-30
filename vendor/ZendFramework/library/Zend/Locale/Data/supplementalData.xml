@@ -5265,7 +5265,7 @@
 			<typeMap type="Europe/Bucharest" bcp47="robuh"/>
 			<typeMap type="Europe/Budapest" bcp47="hubud"/>
 			<typeMap type="Europe/Chisinau" bcp47="mdkiv"/>
-			<typeMap type="Europe/Copenhagen" bcp47="dkcph"/>
+			<typeMap type="Europe/Copenhagen" bcp47="dbcph"/>
 			<typeMap type="Europe/Dublin" bcp47="iedub"/>
 			<typeMap type="Europe/Gibraltar" bcp47="gigib"/>
 			<typeMap type="Europe/Guernsey" bcp47="gggci"/>

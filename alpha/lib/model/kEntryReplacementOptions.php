@@ -13,8 +13,6 @@ class kEntryReplacementOptions
 	
 	private $pluginOptionItems;
 	
-	private $keepOldAssets;
-	
 	/**
 	 * @return the $keepManualThumbnails
 	 */
@@ -45,21 +43,5 @@ class kEntryReplacementOptions
 	public function setPluginOptionItems($pluginOptionItems) 
 	{
 		$this->pluginOptionItems = $pluginOptionItems;
-	}
-	
-	/**
-	 * @return the $keepOldAssets
-	 */
-	public function getKeepOldAssets()
-	{
-		return $this->keepOldAssets;
-	}
-	
-	/**
-	 * @param field_type $keepOldAssets
-	 */
-	public function setKeepOldAssets($keepOldAssets)
-	{
-		$this->keepOldAssets = $keepOldAssets;
 	}
 }

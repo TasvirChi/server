@@ -200,7 +200,7 @@ abstract class BulkUploadEngineFilter extends KBulkUploadEngine
 		BorhanLog::info("job[{$this->job->id}] finished creating objects");
 	}
 	
-    protected function updateObjectsResults(array $requestResults, array $bulkUploadResults)
+    protected function updateObjectsResults($requestResults, $bulkUploadResults)
 	{
 	    KBatchBase::$kClient->startMultiRequest();
 		BorhanLog::info("Updating " . count($requestResults) . " results");

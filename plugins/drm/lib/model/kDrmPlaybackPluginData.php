@@ -3,7 +3,7 @@
 class kDrmPlaybackPluginData extends PluginData {
 
 	/**
-	 * @var int
+	 * @var string
 	 */
 	protected $scheme;
 
@@ -13,7 +13,7 @@ class kDrmPlaybackPluginData extends PluginData {
 	protected $licenseURL;
 
 	/**
-	 * @return int
+	 * @return string
 	 */
 	public function getScheme()
 	{
@@ -21,13 +21,11 @@ class kDrmPlaybackPluginData extends PluginData {
 	}
 
 	/**
-	 * @param int $scheme
+	 * @param string $scheme
 	 */
 	public function setScheme($scheme)
 	{
-		if ($scheme !== null) {
-			$this->scheme  = (int) $scheme;
-		}
+		$this->scheme = $scheme;
 	}
 
 	/**

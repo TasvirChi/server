@@ -1024,19 +1024,14 @@ class BulkUploadEngineXml extends KBulkUploadEngine
 		KBatchBase::unimpersonate();
 
 		$nonCriticalErrors = '';
-		if($requestResults)
+		foreach($requestResults as $requestResult)
 		{
-			foreach($requestResults as $requestResult)
-			{
-				if (is_array($requestResult) && isset($requestResult['code']))
-					$nonCriticalErrors .= $requestResult['message']."\n";
-				if ($requestResult instanceof Exception)
-					$nonCriticalErrors .= $requestResult->getMessage()."\n";
-			}
+			if (is_array($requestResult) && isset($requestResult['code']))
+				$nonCriticalErrors .= $requestResult['message']."\n";
+			if ($requestResult instanceof Exception)
+				$nonCriticalErrors .= $requestResult->getMessage()."\n";
 		}
-		else
-			BorhanLog::log('Failed to get response from multiRequest');
-
+		
 		return array($createdEntry, $nonCriticalErrors);
 	}
 	

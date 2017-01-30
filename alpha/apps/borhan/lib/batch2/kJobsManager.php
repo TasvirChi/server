@@ -1534,9 +1534,7 @@ class kJobsManager
 		$srcFileSyncDescriptor->setFileSyncLocalPath($inputFileSyncLocalPath);
 		$extractMediaData->setSrcFileSyncs(array($srcFileSyncDescriptor));
 		$extractMediaData->setFlavorAssetId($flavorAssetId);
-		
-		$shouldCalculateComplexity = $profile ? $profile->getCalculateComplexity() : false;
-		$extractMediaData->setCalculateComplexity($shouldCalculateComplexity);
+		$extractMediaData->setCalculateComplexity($profile->getCalculateComplexity());
 		
 		$flavorAsset = assetPeer::retrieveById($flavorAssetId);
 		$entry = $flavorAsset->getentry();

@@ -24,9 +24,6 @@ class kMetadataObjectCopiedHandler implements kObjectCopiedEventConsumer, kObjec
 		if($fromObject instanceof MetadataProfile)
 			return true;
 		
-		if($fromObject instanceof IMetadataObject)
-			return true;
-
 		return false;
 	}
 	
@@ -41,20 +38,18 @@ class kMetadataObjectCopiedHandler implements kObjectCopiedEventConsumer, kObjec
 			$this->copyMetadata(MetadataObjectType::PARTNER, $fromObject, $toObject);
 		}
 		
-		elseif($fromObject instanceof entry)
+		if($fromObject instanceof entry)
 			$this->copyMetadata(MetadataObjectType::ENTRY, $fromObject, $toObject);
 		
-		elseif($fromObject instanceof category)
+		if($fromObject instanceof category)
 			$this->copyMetadata(MetadataObjectType::CATEGORY, $fromObject, $toObject);
 		
-		elseif($fromObject instanceof kuser)
+		if($fromObject instanceof kuser)
 			$this->copyMetadata(MetadataObjectType::USER, $fromObject, $toObject);
 		
-		elseif($fromObject instanceof MetadataProfile)
+		if($fromObject instanceof MetadataProfile)
 			kObjectCopyHandler::mapIds('MetadataProfile', $fromObject->getId(), $toObject->getId());
-		
-		elseif($fromObject instanceof IMetadataObject)	
-			$this->copyMetadata($fromObject->getMetadataObjectType(), $fromObject, $toObject);
+			
 		return true;
 	}
 	

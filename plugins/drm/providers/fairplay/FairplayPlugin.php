@@ -5,7 +5,7 @@
 class FairplayPlugin extends BorhanPlugin implements IBorhanEnumerator, IBorhanObjectLoader, IBorhanEntryContextDataContributor, IBorhanPending, IBorhanPlayManifestContributor, IBorhanPlaybackContextDataContributor
 {
 	const PLUGIN_NAME = 'fairplay';
-	const URL_NAME = 'fps';
+	const SCHEME_NAME = 'fps';
 	const SEARCH_DATA_SUFFIX = 's';
 
 	/* (non-PHPdoc)
@@ -17,11 +17,11 @@ class FairplayPlugin extends BorhanPlugin implements IBorhanEnumerator, IBorhanO
 	}
 
 	/* (non-PHPdoc)
-	 * @see IBorhanPlugin::getPluginName()
+	 * @see IBorhanPlugin::getPlugin()
 	 */
-	public static function getUrlName()
+	public static function getScheme()
 	{
-		return self::URL_NAME;
+		return self::SCHEME_NAME;
 	}
 
 	/* (non-PHPdoc)
@@ -30,11 +30,9 @@ class FairplayPlugin extends BorhanPlugin implements IBorhanEnumerator, IBorhanO
 	public static function getEnums($baseEnumName = null)
 	{
 		if (is_null($baseEnumName))
-			return array('FairplayProviderType', 'FairplaySchemeName');
+			return array('FairplayProviderType');
 		if ($baseEnumName == 'DrmProviderType')
 			return array('FairplayProviderType');
-		if ($baseEnumName == 'DrmSchemeName')
-			return array('FairplaySchemeName');
 		return array();
 	}
 
@@ -201,24 +199,15 @@ class FairplayPlugin extends BorhanPlugin implements IBorhanEnumerator, IBorhanO
 					$customDataJson = DrmLicenseUtils::createCustomDataForEntry($entry->getId(), $entryPlayingDataParams->getFlavors(), $signingKey);
 					$customDataObject = reset($customDataJson);
 					$data = new kFairPlayPlaybackPluginData();
-					$data->setLicenseURL($this->constructUrl($fairplayProfile, self::getUrlName(), $customDataObject));
-					$data->setScheme($this->getDrmSchemeCoreValue());
+					$scheme = $this->getScheme();
+					$data->setLicenseURL($this->constructUrl($fairplayProfile, $scheme, $customDataObject));
+					$data->setScheme($scheme);
 					$data->setCertificate($fairplayProfile->getPublicCertificate());
-					$result->addToPluginData(self::getPluginName(), $data);
+					$result->addToPluginData($scheme, $data);
 				}
 			}
 		}
 	}
-
-	/**
-	 * @return int id of dynamic enum in the DB.
-	 */
-	public static function getDrmSchemeCoreValue()
-	{
-		$value = self::getPluginName() . IBorhanEnumerator::PLUGIN_VALUE_DELIMITER . FairplaySchemeName::FAIRPLAY;
-		return kPluginableEnumsManager::apiToCore('DrmSchemeName', $value);
-	}
-
 
 	public function isSupportStreamerTypes($streamerType)
 	{

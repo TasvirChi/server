@@ -71,9 +71,8 @@ class ClamAVScanEngine extends VirusScanEngine
 			$errorDescription = 'Unknown error - return value ['.$return_value.']';
 			return BorhanVirusScanJobResult::SCAN_ERROR;
 		}
-
-		$statusLineArr = explode(' ', $statusLine);
-		$scanStatus = trim(end($statusLineArr));
+		
+		$scanStatus = trim(end(explode(' ', $statusLine)));
 		
 		if ($scanStatus == 'OK' || strpos($statusLine , 'Empty file') != 0)
 		{

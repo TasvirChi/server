@@ -46,10 +46,9 @@ abstract class kObjectIdentifier
 	/**
 	 * Function returns the object according to the identifier
 	 * @param mixed <string|int> $value
-	 * @param string $partnerId
 	 * @throws kCoreException
 	 * @return BaseObject
 	 */
-	abstract public function retrieveByIdentifier ($value, $partnerId = null);
+	abstract public function retrieveByIdentifier ($value);
 	
 }

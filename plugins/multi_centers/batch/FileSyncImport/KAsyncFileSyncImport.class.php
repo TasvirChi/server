@@ -168,7 +168,7 @@ class KAsyncFileSyncImport extends KPeriodicWorker
 			$responseProfile->fields = '';		// don't need the response
 			self::$kClient->setResponseProfile($responseProfile);
 				
-			$fileSyncPlugin = BorhanFileSyncClientPlugin::get(self::$kClient);
+			$fileSyncPlugin = BorhanFilesyncClientPlugin::get(self::$kClient);
 			$fileSyncPlugin->fileSync->update($fileSync->id, $updateFileSync);
 		}
 		catch(BorhanException $e)

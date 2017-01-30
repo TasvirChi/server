@@ -56,12 +56,6 @@ class KFeedDropFolderEngine extends KDropFolderEngine
 			
 			/* @var $feedItem SimpleXMLElement */
 			$uniqueId = strval($this->getSingleXPathResult($this->dropFolder->feedItemInfo->itemUniqueIdentifierXPath, $feedItem));
-			if (is_null($uniqueId) || $uniqueId === '')
-			{
-				BorhanLog::err("No unique identifier for the current feed item! Skipping.");
-				continue;
-			}
-			
 			//If we already encountered this uniqueId in this run- ignore subsequent iterations.
 			if (in_array ($uniqueId, $this->handledUniqueIds))
 			{

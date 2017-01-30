@@ -443,14 +443,14 @@ class BatchService extends BorhanBatchService
 	 * @param int $numberOfJobs The maximum number of jobs to return.
 	 * @param BorhanBatchJobFilter $filter Set of rules to fetch only rartial list of jobs
 	 * @param BorhanBatchJobType $jobType The type of the job - could be a custom extended type
-	 * @param int $maxJobToPullForCache The number of job to pull to cache
+	 * @param int $maxOffset The maximum offset we accept for the distance from the best result.
 	 * @return BorhanBatchJobArray
 	 */
 	function getExclusiveJobsAction(BorhanExclusiveLockKey $lockKey, $maxExecutionTime, $numberOfJobs,
-			BorhanBatchJobFilter $filter = null, $jobType = null, $maxJobToPullForCache = 0)
+			BorhanBatchJobFilter $filter = null, $jobType = null, $maxOffset = null)
 	{
 		$jobType = kPluginableEnumsManager::apiToCore('BatchJobType', $jobType);
-		$jobs = $this->getExclusiveJobs($lockKey, $maxExecutionTime, $numberOfJobs, $filter, $jobType, $maxJobToPullForCache);
+		$jobs = $this->getExclusiveJobs($lockKey, $maxExecutionTime, $numberOfJobs, $filter, $jobType, $maxOffset);
 		return BorhanBatchJobArray::fromBatchJobArray($jobs);
 	}
 

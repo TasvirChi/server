@@ -919,8 +919,8 @@ class BaseEntryService extends BorhanEntryService
 	 * This action delivers all data relevant for player
 	 * @action getPlaybackContext
 	 * @param string $entryId
-	 * @param BorhanPlaybackContextOptions $contextDataParams
-	 * @return BorhanPlaybackContext
+	 * @param BorhanEntryContextDataParams $contextDataParams
+	 * @return BorhanPlaybackContextOptions
 	 * @throws BorhanErrors::ENTRY_ID_NOT_FOUND
 	 */
 	function getPlaybackContextAction($entryId, BorhanPlaybackContextOptions $contextDataParams)

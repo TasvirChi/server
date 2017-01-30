@@ -1212,16 +1212,6 @@ class kContentDistributionFlowManager extends kContentDistributionManager implem
 		if($metadata->getObjectType() != MetadataObjectType::ENTRY)
 			return true;
 		
-		$entryId = $metadata->getObjectId();
-		$entry = entryPeer::retrieveByPK($entryId);
-		if(!$entry)
-		{
-			BorhanLog::info("Entry [".$entryId."] not found");
-			return true;
-		}
-		if($entry->getType() == entryType::LIVE_STREAM)
-			return true;
-
 		BorhanLog::log("Metadata [" . $metadata->getId() . "] for entry [" . $metadata->getObjectId() . "] changed");
 		
 		$syncKey = $metadata->getSyncKey(Metadata::FILE_SYNC_METADATA_DATA);
@@ -1246,6 +1236,11 @@ class kContentDistributionFlowManager extends kContentDistributionManager implem
 			}
 		}
 		
+		$entry = entryPeer::retrieveByPK($metadata->getObjectId());
+		if (!$entry){
+			BorhanLog::info("Entry [".$metadata->getObjectId()."] not found");
+			return true; 
+		}
 		
 		$entryDistributions = EntryDistributionPeer::retrieveByEntryId($metadata->getObjectId());
 		foreach($entryDistributions as $entryDistribution)

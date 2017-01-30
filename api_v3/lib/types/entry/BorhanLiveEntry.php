@@ -130,15 +130,7 @@ abstract class BorhanLiveEntry extends BorhanMediaEntry
 	public function toInsertableObject($sourceObject = null, $propsToSkip = array())
 	{
 		if(is_null($this->recordStatus))
-		{
-			$this->recordStatus = BorhanRecordStatus::DISABLED;
-			if(PermissionPeer::isValidForPartner(PermissionName::FEATURE_LIVE_STREAM_RECORD, kCurrentContext::getCurrentPartnerId()) ||
-				PermissionPeer::isValidForPartner(PermissionName::FEATURE_LIVE_STREAM_BORHAN_RECORDING, kCurrentContext::getCurrentPartnerId()) )
-			{
-				$this->recordStatus = BorhanRecordStatus::APPENDED;
-			}
-		}
-			
+			$this->recordStatus = (PermissionPeer::isValidForPartner(PermissionName::FEATURE_LIVE_STREAM_RECORD, kCurrentContext::getCurrentPartnerId()) ? BorhanRecordStatus::APPENDED : BorhanRecordStatus::DISABLED);
 
 
 		if ((is_null($this->recordingOptions) || is_null($this->recordingOptions->shouldCopyEntitlement)) && PermissionPeer::isValidForPartner(PermissionName::FEATURE_LIVE_STREAM_COPY_ENTITELMENTS, kCurrentContext::getCurrentPartnerId()))

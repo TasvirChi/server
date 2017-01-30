@@ -88,17 +88,18 @@ class ScheduleEventPeer extends BaseScheduleEventPeer implements IRelatedObjectP
 	/**
 	 * Deletes entirely from the DB all occurences of event from now on
 	 * @param int $parentId
-	 * @param array $exceptForIds
+	 * @param array $exceptForDates
 	 */
-	public static function deleteByParentId($parentId, array $exceptForIds = null)
+	public static function deleteByParentId($parentId, array $exceptForDates = null)
 	{
 		$criteria = new Criteria();
 		$criteria->add(ScheduleEventPeer::PARENT_ID, $parentId);
 		$criteria->add(ScheduleEventPeer::RECURRENCE_TYPE, ScheduleEventRecurrenceType::RECURRENCE);
-
-		if($exceptForIds)
-			$criteria->add(ScheduleEventPeer::ID, $exceptForIds, Criteria::NOT_IN);
-
+		
+		if($exceptForDates)
+		{
+			$criteria->add(ScheduleEventPeer::ORIGINAL_START_DATE, $exceptForDates, Criteria::NOT_IN);
+		}
 
 		$scheduleEvents = ScheduleEventPeer::doSelect($criteria);
 		ScheduleEventPeer::doDelete($criteria);
@@ -192,23 +193,6 @@ class ScheduleEventPeer extends BaseScheduleEventPeer implements IRelatedObjectP
 	}
 
 	/**
-	 * @param int $parentId
-	 * @param array $startDates
-	 * @param array $endDates
-	 * @return array<ScheduleEvent>
-	 */
-	public static function retrieveByParentIdAndStartAndEndDates($parentId, $startDates, $endDates)
-	{
-		$criteria = new Criteria();
-		$criteria->add(ScheduleEventPeer::PARENT_ID, $parentId);
-		$criteria->add(ScheduleEventPeer::RECURRENCE_TYPE, ScheduleEventRecurrenceType::RECURRENCE);
-		$criteria->add(ScheduleEventPeer::START_DATE, $startDates, Criteria::IN);
-		$criteria->add(ScheduleEventPeer::END_DATE, $endDates, Criteria::IN);
-
-		return ScheduleEventPeer::doSelect($criteria);
-	}
-
-	/**
 	 * @param string $templateEntryId
 	 * @return array<ScheduleEvent>
 	 */
@@ -217,26 +201,6 @@ class ScheduleEventPeer extends BaseScheduleEventPeer implements IRelatedObjectP
 		$c = BorhanCriteria::create(ScheduleEventPeer::OM_CLASS);
 		$filter = new ScheduleEventFilter();
 		$filter->setTemplateEntryIdEqual($templateEntryId);
-		$filter->attachToCriteria($c);
-
-		return self::doSelect($c);
-	}
-
-	/**
-	 * @param string $resourceIds
-	 * @param date $startDate
-	 * @param date $endDate
-	 * @return array<ScheduleEvent>
-	 */
-	public static function retrieveEventsByResourceIdsAndDateWindow($resourceIds, $startDate, $endDate)
-	{
-		$c = BorhanCriteria::create(ScheduleEventPeer::OM_CLASS);
-		$c->addAnd(ScheduleEventPeer::START_DATE, $endDate, Criteria::LESS_THAN);
-		$c->addAnd(ScheduleEventPeer::END_DATE, $startDate, Criteria::GREATER_THAN);
-
-		$filter = new ScheduleEventFilter();
-		$filter->setResourceIdsIn($resourceIds);
-
 		$filter->attachToCriteria($c);
 
 		return self::doSelect($c);

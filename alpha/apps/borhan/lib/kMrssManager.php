@@ -587,7 +587,7 @@ class kMrssManager
 
 		if ($mrssParams && $mrssParams->getItemXpathsToExtend())
 		{
-			self::addExtendingItemsToMrss($mrss, $mrssParams, $entry->getPartnerId());
+			self::addExtendingItemsToMrss($mrss, $mrssParams);
 		}
 		self::addInstanceToPool($instanceKey, $mrss);
 		return $mrss;
@@ -707,7 +707,7 @@ class kMrssManager
 	 * @param kMrssParameters $mrssParams
 	 * @return SimpleXMLElement
 	 */
-	protected static function addExtendingItemsToMrss (SimpleXMLElement $mrss, kMrssParameters $mrssParams, $partnerId = null)
+	protected static function addExtendingItemsToMrss (SimpleXMLElement $mrss, kMrssParameters $mrssParams)
 	{
 		foreach($mrssParams->getItemXpathsToExtend() as $itemXPathToExtend)
 		{
@@ -717,7 +717,7 @@ class kMrssManager
 			{
 				/* @var $xmlNodeToExtend SimpleXMLElement */
 				$identifierValue = strval($xmlNodeToExtend[0]);
-				$extendingObject = $itemXPathToExtend->getIdentifier()->retrieveByIdentifier($identifierValue, $partnerId);
+				$extendingObject = $itemXPathToExtend->getIdentifier()->retrieveByIdentifier($identifierValue);
 				if ($extendingObject)
 				{
 					$mrssParams->setItemXpathsToExtend(array());

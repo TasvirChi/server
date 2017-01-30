@@ -6,7 +6,7 @@
 class BorhanDrmPlaybackPluginData extends BorhanPluginData{
 
     /**
-     * @var BorhanDrmSchemeName
+     * @var string
      */
     public $scheme;
 

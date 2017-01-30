@@ -59,10 +59,7 @@ class KConversionEngineFfmpeg  extends KJobConversionEngine
 			 *		stands for duration of 462 seconds, gop size 2 seconds
 			 */
 		foreach($cmdLines as $k=>$cmdLine){
-			if(KConversionEngineFfmpegVp8::FFMPEG_VP8==$this->getName()){
-				$exec_cmd = self::experimentalFixing($cmdLine->exec_cmd, $data->flavorParamsOutput, $this->getCmd(), $this->inFilePath, $this->outFilePath);
-			}
-			else $exec_cmd = $cmdLine->exec_cmd;
+			$exec_cmd = self::experimentalFixing($cmdLine->exec_cmd, $data->flavorParamsOutput, $this->getCmd(), $this->inFilePath, $this->outFilePath);
 			$exec_cmd = KDLOperatorFfmpeg::ExpandForcedKeyframesParams($exec_cmd);
 			
 			if(strstr($exec_cmd, "ffmpeg")==false) {
@@ -268,6 +265,14 @@ $pixFmt = "yuv420p";
 			$cmdStr = implode(" ", $cmdValsArr);
 		}
 		
+			/*
+			 * VP9 - switch to 'experimental ffmpeg'
+			 */
+		else if($flavorParamsOutput->videoCodec==KDLVideoTarget::VP9){ //video_codec ||!flavorParamsOutput->videoCodec
+			$cmdValsArr = explode(' ', $cmdStr);
+			$cmdValsArr[0] = $ffmpegExperimBin;
+			$cmdStr = implode(" ", $cmdValsArr);
+		}
 		return $cmdStr;
 	}
 	

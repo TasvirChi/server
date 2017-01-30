@@ -601,20 +601,6 @@
 							<code>$scope->getObject() instanceof entry &amp;&amp; in_array(entryPeer::STATUS, $scope->getEvent()->getModifiedColumns()) &amp;&amp; $scope->getObject()->getStatus() == entryStatus::READY</code>
 						</field>
 					</item>
-					<item objectType="BorhanOrCondition">
-						<conditions objectType="array">
-							<item objectType="BorhanEventFieldCondition">
-								<field objectType="BorhanEvalBooleanField">
-									<code>!$scope->getObject()->getReplacedEntryId()</code>
-								</field>
-							</item>
-							<item objectType="BorhanEventFieldCondition">
-								<field objectType="BorhanEvalBooleanField">
-									<code>$scope->getObject()->getReplacedEntryId() &amp;&amp; entryPeer::retrieveByPK($scope->getObject()->getReplacedEntryId())->getSourceType()!= EntrySourceType::RECORDED_LIVE</code>
-								</field>
-							</item>
-						</conditions>
-					</item>
 				</eventConditions>
 				<format>1</format>
 				<subject>[AppTitle] - Your video is ready to be played</subject>

@@ -18,11 +18,6 @@ class Cielo24Options
 	 * cielo24 base url
 	 */
         public $baseUrl;
-	
-	/**
- 	 * Should transform DFXP
- 	 */
- 	public $transformDfxp;
 
 	function __construct($username, $password, $baseUrl = null)
 	{

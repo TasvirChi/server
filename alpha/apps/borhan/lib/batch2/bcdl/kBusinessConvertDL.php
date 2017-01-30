@@ -4,14 +4,18 @@ class kBusinessConvertDL
 {
 
 
-	private static function shouldDeleteMissingAssetDuringReplacement($oldAsset)
-	{		
+private static function shouldDeleteMissingAssetDuringReplacement($oldAsset,$entry)
+{
+	if ($oldAsset instanceof flavorAsset) {
 		// In case of live recording entry Don't drop the old asset
-		if($oldAsset instanceof flavorAsset && $oldAsset->getKeepOldAssetOnEntryReplacement())
-			return false;
-	
-		return true;
+		if (!$entry->getIsRecordedEntry())
+			return true;
 	}
+	elseif ($oldAsset instanceof thumbAsset)
+		return true;
+
+	return false;
+}
 
 	/**
 	 * @param entry $entry
@@ -116,7 +120,7 @@ class kBusinessConvertDL
 						$defaultThumbAssetOld = $oldAsset;
 					}
 				}
-				elseif(self::shouldDeleteMissingAssetDuringReplacement($oldAsset))
+				elseif(self::shouldDeleteMissingAssetDuringReplacement($oldAsset,$tempEntry))
 				{
 					BorhanLog::info("Delete old asset [" . $oldAsset->getId() . "] for paramsId [" . $oldAsset->getFlavorParamsId() . "]");
 					$oldAsset->setStatus(flavorAsset::FLAVOR_ASSET_STATUS_DELETED);

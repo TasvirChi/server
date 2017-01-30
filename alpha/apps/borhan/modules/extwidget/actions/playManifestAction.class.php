@@ -677,8 +677,7 @@ class playManifestAction extends borhanAction
 			$activeStorageProfileIds = array();
 			foreach ($storageProfiles as $storageProfile)
 			{
-				if($this->shouldIncludeStorageProfile($storageProfile))
-					$activeStorageProfileIds[] = $storageProfile->getId();
+				$activeStorageProfileIds[] = $storageProfile->getId();
 			}
 			
 			foreach ($storageProfileIds as $storageProfileId)
@@ -725,17 +724,6 @@ class playManifestAction extends borhanAction
 			$flavorAssets = $this->deliveryAttributes->getFlavorAssets();
 			$this->deliveryAttributes->setFlavorAssets(array(reset($flavorAssets)));
 		}
-	}
-
-	private function shouldIncludeStorageProfile($storageProfile)
-	{
-		if($this->deliveryProfileId)
-		{
-			$deliveryIdsByStreamerType = $storageProfile->getDeliveryProfileIds();
-			return isset($deliveryIdsByStreamerType[$this->deliveryAttributes->getFormat()]) && in_array($this->deliveryProfileId, $deliveryIdsByStreamerType[$this->deliveryAttributes->getFormat()]);
-		}
-
-		return true;
 	}
 
 	/**
@@ -1164,9 +1152,6 @@ class playManifestAction extends borhanAction
 			// Note: kApiCache::hasExtraFields is checked in kManifestRenderers
 			$renderer->cachingHeadersAge = 60;
 		}
-		if ($this->deliveryProfile && $this->deliveryProfile->getAdStitchingEnabled())
-			$renderer->cachingHeadersAge = 0;
-
 		
 		if (!$this->secureEntryHelper || !$this->secureEntryHelper->shouldDisableCache())
 		{
