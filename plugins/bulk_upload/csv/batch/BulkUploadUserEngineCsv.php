@@ -300,7 +300,7 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 	}
 	
 	
-    protected function updateObjectsResults($requestResults, $bulkUploadResults)
+    protected function updateObjectsResults(array $requestResults, array $bulkUploadResults)
 	{
 		BorhanLog::info("Updating " . count($requestResults) . " results");
 		
@@ -328,7 +328,7 @@ class BulkUploadUserEngineCsv extends BulkUploadEngineCsv
 				continue;
 			}
 			
-			if ($bulkUploadResult->action != BorhanBulkUploadAction::DELETE)
+			if (($bulkUploadResult->action != BorhanBulkUploadAction::DELETE)&&($bulkUploadResult->group))
 				$bulkUploadResult = $this->handleGroupUser($bulkUploadResult);
 			$this->addBulkUploadResult($bulkUploadResult);
 		}

@@ -67,6 +67,6 @@ class BorhanBulkUploadResultScheduleResource extends BorhanBulkUploadResult
      */
     public function toInsertableObject ( $object_to_fill = null , $props_to_skip = array() )
 	{
-		return parent::toInsertableObject(new BulkUploadResultScheduleEvent(), $props_to_skip);
+		return parent::toInsertableObject(new BulkUploadResultScheduleResource(), $props_to_skip);
 	}
 }

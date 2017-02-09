@@ -69,6 +69,11 @@ class BorhanLiveEntryService extends BorhanEntryService
 	 */
 	function appendRecordingAction($entryId, $assetId, $mediaServerIndex, BorhanDataCenterContentResource $resource, $duration, $isLastChunk = false)
 	{
+		if(PermissionPeer::isValidForPartner(PermissionName::FEATURE_LIVE_STREAM_BORHAN_RECORDING, kCurrentContext::getCurrentPartnerId()))
+		{
+			throw new BorhanAPIException(BorhanErrors::BORHAN_RECORDING_ENABLED, kCurrentContext::$partner_id);
+		}
+		
 		$dbEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbEntry || !($dbEntry instanceof LiveEntry))
 			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);
@@ -428,6 +433,11 @@ class BorhanLiveEntryService extends BorhanEntryService
 	 */
 	function setRecordedContentAction($entryId, $mediaServerIndex, BorhanDataCenterContentResource $resource, $duration, $recordedEntryId = null)
 	{
+		if(!PermissionPeer::isValidForPartner(PermissionName::FEATURE_LIVE_STREAM_BORHAN_RECORDING, kCurrentContext::getCurrentPartnerId()))
+		{
+			throw new BorhanAPIException(BorhanErrors::BORHAN_RECORDING_DISABLED, kCurrentContext::$partner_id);
+		}
+		
 		$dbLiveEntry = entryPeer::retrieveByPK($entryId);
 		if (!$dbLiveEntry || !($dbLiveEntry instanceof LiveEntry))
 			throw new BorhanAPIException(BorhanErrors::ENTRY_ID_NOT_FOUND, $entryId);

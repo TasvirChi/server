@@ -20,7 +20,7 @@ class AnalyticsService extends BorhanBaseService
 	 */
 	public function queryAction($filter, BorhanFilterPager $pager = null)
 	{
-
+                kApiCache::disableConditionalCache();
 		$filter->validateForUsage($filter);
 		
 		$dimensionsArr = $this->extractDimensions($filter->dimensions);

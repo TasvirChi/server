@@ -11,7 +11,6 @@ class BorhanCategoryEntryAdvancedFilter extends BorhanSearchItem
 	public $categoriesMatchOr;
 	
 	/**
-	 * @dynamicType BorhanCategoryEntryStatus
 	 * @var string
 	 */
 	public $categoryEntryStatusIn;

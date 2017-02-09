@@ -142,30 +142,17 @@ class BusinessProcessCaseService extends BorhanBaseService
 			throw new BorhanAPIException(BorhanErrors::OBJECT_NOT_FOUND);
 		}
 		
-		$templatesIds = BusinessProcessNotificationTemplate::getCaseTemplatesIds($dbObject);
-		if(!count($templatesIds))
+		$cases = BusinessProcessCasePeer::retrieveCasesByObjectIdObjecType($objectId, $objectType);
+		if(!count($cases))
 		{
 			throw new BorhanAPIException(BorhanBusinessProcessNotificationErrors::BUSINESS_PROCESS_CASE_NOT_FOUND);
 		}
 		
 		$array = new BorhanBusinessProcessCaseArray();
-		foreach($templatesIds as $templateId)
+		foreach($cases as $case)
 		{
-			$dbTemplate = EventNotificationTemplatePeer::retrieveByPK($templateId);
-			if(!$dbTemplate || !($dbTemplate instanceof BusinessProcessStartNotificationTemplate))
-			{
-				BorhanLog::info("Template [$templateId] not found");
-				continue;
-			}
-			
-			$caseIds = $dbTemplate->getCaseIds($dbObject, false);
-			if(!count($caseIds))
-			{
-				BorhanLog::info("No cases found");
-				continue;
-			}
-			
-			$dbBusinessProcessServer = BusinessProcessServerPeer::retrieveByPK($dbTemplate->getServerId());
+			/* @var $case BusinessProcessCase */
+			$dbBusinessProcessServer = BusinessProcessServerPeer::retrieveByPK($case->getServerId());
 			if (!$dbBusinessProcessServer)
 			{
 				BorhanLog::info("Business-Process server [" . $dbTemplate->getServerId() . "] not found");
@@ -181,7 +168,7 @@ class BusinessProcessCaseService extends BorhanBaseService
 				continue;
 			}
 
-			$latestCaseId = array_pop($caseIds);
+			$latestCaseId = $case->getCaseId();
 			if($latestCaseId)
 			{
 				try {

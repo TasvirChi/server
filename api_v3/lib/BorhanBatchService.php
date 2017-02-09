@@ -32,13 +32,13 @@ class BorhanBatchService extends BorhanBaseService
 	}
 
 	protected function getExclusiveJobs(BorhanExclusiveLockKey $lockKey, $maxExecutionTime, $numberOfJobs, 
-			BorhanBatchJobFilter $filter = null, $jobType, $maxOffset = null)
+			BorhanBatchJobFilter $filter = null, $jobType, $maxJobToPullForCache = 0)
 	{
 		$dbJobType = kPluginableEnumsManager::apiToCore('BatchJobType', $jobType);
 
 		if (!is_null($filter))
 			$jobsFilter = $filter->toFilter($dbJobType);
 		
-		return kBatchExclusiveLock::getExclusiveJobs($lockKey->toObject(), $maxExecutionTime, $numberOfJobs, $dbJobType, $jobsFilter, $maxOffset);
+		return kBatchExclusiveLock::getExclusiveJobs($lockKey->toObject(), $maxExecutionTime, $numberOfJobs, $dbJobType, $jobsFilter, $maxJobToPullForCache);
 	}
 }

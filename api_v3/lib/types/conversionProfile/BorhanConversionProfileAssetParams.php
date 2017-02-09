@@ -75,6 +75,11 @@ class BorhanConversionProfileAssetParams extends BorhanObject implements IRelate
 	 */
 	public $twoPass;
 
+        /**
+         * @var string
+         */
+        public $tags;
+
 	private static $map_between_objects = array
 	(
 		'conversionProfileId',
@@ -87,6 +92,7 @@ class BorhanConversionProfileAssetParams extends BorhanObject implements IRelate
 		'isEncrypted',
 		'contentAwareness',
 		'twoPass',
+		'tags',
 	);
 	
 	/* (non-PHPdoc)

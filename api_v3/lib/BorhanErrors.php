@@ -564,6 +564,10 @@ class BorhanErrors extends APIErrors
 	
 	const CANNOT_REGENERATE_STREAM_TOKEN_FOR_EXTERNAL_LIVE_STREAMS = "CANNOT_REGENERATE_STREAM_TOKEN_FOR_EXTERNAL_LIVE_STREAMS;TYPE;Cannot regenerate stream token for external type [@TYPE@] live stream";
 	
+	const BORHAN_RECORDING_ENABLED = "BORHAN_RECORDING_ENABLED;PARTNER_ID;Borhan recording is enabled for partner [@PARTNER_ID@] use liveStream->setRecordedContent to set the live recorded content";
+	
+	const BORHAN_RECORDING_DISABLED = "BORHAN_RECORDING_DISABLED;PARTNER_ID;Borhan recording is disabled for partner [@PARTNER_ID@] use liveStream->appendRecording to set the live recorded content";
+	
 	/*
 	 * BaseEntry Service
 	 */

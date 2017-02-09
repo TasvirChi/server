@@ -149,11 +149,9 @@ class BorhanInternalToolsPluginSystemHelperAction extends BorhanApplicationPlugi
 				$remote_addr = $str;
 			else
 			{
-				//$remote_addr = requestUtils::getRemoteAddress();// to do ->api Extension
-				$remote_addr = $internalToolsPlugin->BorhanInternalToolsSystemHelper->getRemoteAddress();
+				$remote_addr = $internalToolsPlugin->borhanInternalToolsSystemHelper->getRemoteAddress();
 			} 
-			//$res = $ip_geo->iptocountry( $remote_addr );
-			$res = $internalToolsPlugin->BorhanInternalToolsSystemHelper->iptocountry($remote_addr);
+			$res = $internalToolsPlugin->borhanInternalToolsSystemHelper->iptocountry($remote_addr);
 		}
 		
 				
